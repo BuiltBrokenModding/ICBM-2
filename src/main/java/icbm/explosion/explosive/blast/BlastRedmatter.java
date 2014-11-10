@@ -40,7 +40,7 @@ public class BlastRedmatter extends Blast
     {
         if (!this.world().isRemote)
         {
-            this.world().createExplosion(this.exploder, position.x, position.y, position.z, 5.0F, true);
+            this.world().createExplosion(this.exploder, position.xf(), position.yf(), position.zf(), 5.0F, true);
         }
     }
 
@@ -93,9 +93,9 @@ public class BlastRedmatter extends Blast
                     {
                         for (int zCoord = -radius; zCoord < radius; zCoord++)
                         {
-                            currentPos.x = position.x + xCoord;
-                            currentPos.y = position.y + yCoord;
-                            currentPos.z = position.z + zCoord;
+                            currentPos.x(position.x() + xCoord);
+                            currentPos.y(position.y() + yCoord);
+                            currentPos.z(position.z() + zCoord);
 
                             dist = MathHelper.sqrt_double((xCoord * xCoord + yCoord * yCoord + zCoord * zCoord));
 
@@ -104,17 +104,17 @@ public class BlastRedmatter extends Blast
 
                             blockID = currentPos.getBlockID(this.world());
                             metadata = currentPos.getBlockMetadata(this.world());
-                            block = Block.blocksList[blockID];
+                            block = Block.getBlockById(blockID);
 
-                            if (block != null && block.getBlockHardness(this.world(), currentPos.intX(), currentPos.intY(), currentPos.intZ()) >= 0)
+                            if (block != null && block.getBlockHardness(this.world(), currentPos.xi(), currentPos.yi(), currentPos.zi()) >= 0)
                             {
                                 if (block instanceof IForceFieldBlock)
                                 {
-                                    ((IForceFieldBlock) block).weakenForceField(this.world(), currentPos.intX(), currentPos.intY(), currentPos.intZ(), 50);
+                                    ((IForceFieldBlock) block).weakenForceField(this.world(), currentPos.xi(), currentPos.yi(), currentPos.zi(), 50);
                                     continue;
                                 }
 
-                                this.world().setBlock(currentPos.intX(), currentPos.intY(), currentPos.intZ(), 0, 0, block instanceof BlockFluid ? 0 : 2);
+                                this.world().setBlock(currentPos.xi(), currentPos.yi(), currentPos.zi(), 0, 0, block instanceof BlockFluid ? 0 : 2);
                                 //TODO: render fluid streams
                                 if (block instanceof BlockFluid || block instanceof IFluidBlock)
                                     continue;
@@ -141,7 +141,7 @@ public class BlastRedmatter extends Blast
 
         /** Entity orbital removal & movement loop */
         float radius = this.getRadius() + this.getRadius() / 2;
-        AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, position.y + radius, position.z + radius);
+        AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.xf() - radius, position.yf() - radius, position.zf() - radius, position.xf() + radius, position.yf() + radius, position.zf() + radius);
         List<Entity> allEntities = this.world().getEntitiesWithinAABB(Entity.class, bounds);
         boolean doExplosion = true;
 
@@ -164,10 +164,10 @@ public class BlastRedmatter extends Blast
 
         if (this.world().rand.nextInt(8) == 0)
         {
-            this.world().playSoundEffect(position.x + (Math.random() - 0.5) * radius, position.y + (Math.random() - 0.5) * radius, position.z + (Math.random() - 0.5) * radius, Reference.PREFIX + "collapse", 6.0F - this.world().rand.nextFloat(), 1.0F - this.world().rand.nextFloat() * 0.4F);
+            this.world().playSoundEffect(position.x() + (Math.random() - 0.5) * radius, position.y() + (Math.random() - 0.5) * radius, position.z() + (Math.random() - 0.5) * radius, Reference.PREFIX + "collapse", 6.0F - this.world().rand.nextFloat(), 1.0F - this.world().rand.nextFloat() * 0.4F);
         }
 
-        this.world().playSoundEffect(position.x, position.y, position.z, Reference.PREFIX + "redmatter", 3.0F, (1.0F + (this.world().rand.nextFloat() - this.world().rand.nextFloat()) * 0.2F) * 1F);
+        this.world().playSoundEffect(position.x(), position.y(), position.z(), Reference.PREFIX + "redmatter", 3.0F, (1.0F + (this.world().rand.nextFloat() - this.world().rand.nextFloat()) * 0.2F) * 1F);
     }
 
     /** Makes an entity get affected by Red Matter.
@@ -198,9 +198,9 @@ public class BlastRedmatter extends Blast
             }
         }
 
-        double xDifference = entity.posX - position.x;
-        double yDifference = entity.posY - position.y;
-        double zDifference = entity.posZ - position.z;
+        double xDifference = entity.posX - position.x();
+        double yDifference = entity.posY - position.y();
+        double zDifference = entity.posZ - position.z();
 
         /** The percentage of the closeness of the entity. */
         double xPercentage = 1 - (xDifference / radius);
@@ -213,7 +213,7 @@ public class BlastRedmatter extends Blast
         centeredPosition.rotate(1.5 * distancePercentage * Math.random(), 1.5 * distancePercentage * Math.random(), 1.5 * distancePercentage * Math.random());
         Vector3 newPosition = Vector3.translate(this.position, centeredPosition);
         // Orbit Velocity
-        entity.addVelocity(newPosition.x - entityPosition.x, 0, newPosition.z - entityPosition.z);
+        entity.addVelocity(newPosition.x() - entityPosition.x(), 0, newPosition.z() - entityPosition.z());
         // Gravity Velocity
         entity.addVelocity(-xDifference * 0.015 * xPercentage, -yDifference * 0.015 * yPercentage, -zDifference * 0.015 * zPercentage);
 
@@ -239,9 +239,9 @@ public class BlastRedmatter extends Blast
                 /** Inject velocities to prevent this explosion to move RedMatter. */
                 Vector3 tempMotion = new Vector3(this.controller.motionX, this.controller.motionY, this.controller.motionZ);
                 this.world().createExplosion(this.exploder, entity.posX, entity.posY, entity.posZ, 3.0F, true);
-                this.controller.motionX = tempMotion.x;
-                this.controller.motionY = tempMotion.y;
-                this.controller.motionZ = tempMotion.z;
+                this.controller.motionX = tempMotion.x();
+                this.controller.motionY = tempMotion.y();
+                this.controller.motionZ = tempMotion.z();
                 explosionCreated = true;
             }
 
@@ -255,7 +255,7 @@ public class BlastRedmatter extends Blast
                 {
                     if (((EntityExplosion) entity).blast instanceof BlastAntimatter || ((EntityExplosion) entity).blast instanceof BlastRedmatter)
                     {
-                        this.world().playSoundEffect(position.x, position.y, position.z, Reference.PREFIX + "explosion", 7.0F, (1.0F + (this.world().rand.nextFloat() - this.world().rand.nextFloat()) * 0.2F) * 0.7F);
+                        this.world().playSoundEffect(position.x(), position.y(), position.z(), Reference.PREFIX + "explosion", 7.0F, (1.0F + (this.world().rand.nextFloat() - this.world().rand.nextFloat()) * 0.2F) * 0.7F);
 
                         if (this.world().rand.nextFloat() > 0.85 && !this.world().isRemote)
                         {

@@ -60,15 +60,15 @@ public class ItemBlockMachine extends Item
 
         if (BlockICBMMachine.canBePlacedAt(world, x, y, z, meta, direction))
         {
-            Block var9 = Block.blocksList[this.getBlockID()];
+            Block var9 = Block.getBlockById(this.getBlockID());
 
             if (world.setBlock(x, y, z, this.getBlockID(), meta, 3))
             {
-                if (world.getBlockId(x, y, z) == this.getBlockID())
+                if (Block.getIdFromBlock(world.getBlock(x, y, z)) == this.getBlockID())
                 {
                     if (itemStack.getItemDamage() < 9)
                     {
-                        ITier tileEntity = (ITier) world.getBlockTileEntity(x, y, z);
+                        ITier tileEntity = (ITier) world.getTileEntity(x, y, z);
 
                         if (tileEntity != null)
                         {
@@ -87,7 +87,7 @@ public class ItemBlockMachine extends Item
                         }
                     }
 
-                    Block.blocksList[this.getBlockID()].onBlockPlacedBy(world, x, y, z, entityPlayer, itemStack);
+                    Block.getBlockById(this.getBlockID()).onBlockPlacedBy(world, x, y, z, entityPlayer, itemStack);
                 }
 
                 return true;

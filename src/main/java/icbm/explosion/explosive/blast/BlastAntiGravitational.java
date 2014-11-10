@@ -52,19 +52,19 @@ public class BlastAntiGravitational extends Blast
                 if (distance > r || distance < r - 2 || blocksToTake <= 0)
                     continue;
 
-               Block block = Block.blocksList[world().getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ())];
+               Block block = Block.blocksList[world().getBlockId(targetPosition.xi(), targetPosition.yi(), targetPosition.zi())];
 
-                if (block == null || block.getBlockHardness(world(), targetPosition.intX(), targetPosition.intY(), targetPosition.intZ()) < 0)
+                if (block == null || block.getBlockHardness(world(), targetPosition.xi(), targetPosition.yi(), targetPosition.zi()) < 0)
                     continue;
 
                 if (block instanceof IForceFieldBlock)
                     continue;
 
-                int metadata = world().getBlockMetadata(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+                int metadata = world().getBlockMetadata(targetPosition.xi(), targetPosition.yi(), targetPosition.zi());
 
                 if (distance < r - 1 || world().rand.nextInt(3) > 0)
                 {
-                    this.world().setBlockToAir(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+                    this.world().setBlockToAir(targetPosition.xi(), targetPosition.yi(), targetPosition.zi());
 
                     targetPosition.translate(0.5D);
 
@@ -84,12 +84,12 @@ public class BlastAntiGravitational extends Blast
         }
 
         int radius = (int) this.getRadius();
-        AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, 100, position.z + radius);
+        AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.xi() - radius, position.yi() - radius, position.zi() - radius, position.xi() + radius, 100, position.zi() + radius);
         List<Entity> allEntities = world().getEntitiesWithinAABB(Entity.class, bounds);
 
         for (Entity entity : allEntities)
         {
-            if (!(entity instanceof EntityFlyingBlock) && entity.posY < 100 + position.y)
+            if (!(entity instanceof EntityFlyingBlock) && entity.posY < 100 + position.yi())
             {
                 if (entity.motionY < 0.4)
                 {

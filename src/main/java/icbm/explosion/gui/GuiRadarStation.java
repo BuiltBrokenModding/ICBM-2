@@ -73,15 +73,15 @@ public class GuiRadarStation extends GuiICBM
     {
         super.initGui();
 
-        this.textFieldSafetyZone = new GuiTextField(fontRenderer, 210, 67, 30, 12);
+        this.textFieldSafetyZone = new GuiTextField(fontRendererObj, 210, 67, 30, 12);
         this.textFieldSafetyZone.setMaxStringLength(3);
         this.textFieldSafetyZone.setText(this.tileEntity.safetyRange + "");
 
-        this.textFieldAlarmRange = new GuiTextField(fontRenderer, 210, 82, 30, 12);
+        this.textFieldAlarmRange = new GuiTextField(fontRendererObj, 210, 82, 30, 12);
         this.textFieldAlarmRange.setMaxStringLength(3);
         this.textFieldAlarmRange.setText(this.tileEntity.alarmRange + "");
 
-        this.textFieldFrequency = new GuiTextField(fontRenderer, 155, 112, 50, 12);
+        this.textFieldFrequency = new GuiTextField(fontRendererObj, 155, 112, 50, 12);
         this.textFieldFrequency.setMaxStringLength(6);
         this.textFieldFrequency.setText(this.tileEntity.getFrequency() + "");
 
@@ -99,25 +99,25 @@ public class GuiRadarStation extends GuiICBM
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
-        this.fontRenderer.drawString("\u00a77" + LanguageUtility.getLocal("icbm.machine.9.name"), this.xSize / 2 - 30, 6, 4210752);
+        this.fontRendererObj.drawString("\u00a77" + LanguageUtility.getLocal("icbm.machine.9.name"), this.xSize / 2 - 30, 6, 4210752);
 
-        this.fontRenderer.drawString(LanguageUtility.getLocal("gui.radar.coords"), 155, 18, 4210752);
-        this.fontRenderer.drawString(LanguageUtility.getLocal("gui.misc.x") + " " + (int) Math.round(mouseOverCoords.x) + " " + LanguageUtility.getLocal("gui.misc.z") + " " + (int) Math.round(mouseOverCoords.y), 155, 30, 4210752);
+        this.fontRendererObj.drawString(LanguageUtility.getLocal("gui.radar.coords"), 155, 18, 4210752);
+        this.fontRendererObj.drawString(LanguageUtility.getLocal("gui.misc.x") + " " + (int) Math.round(mouseOverCoords.xf()) + " " + LanguageUtility.getLocal("gui.misc.z") + " " + (int) Math.round(mouseOverCoords.yf()), 155, 30, 4210752);
 
-        this.fontRenderer.drawString("\u00a76" + this.info, 155, 42, 4210752);
-        this.fontRenderer.drawString("\u00a74" + this.info2, 155, 54, 4210752);
+        this.fontRendererObj.drawString("\u00a76" + this.info, 155, 42, 4210752);
+        this.fontRendererObj.drawString("\u00a74" + this.info2, 155, 54, 4210752);
 
-        this.fontRenderer.drawString(LanguageUtility.getLocal("gui.radar.zoneSafe"), 152, 70, 4210752);
+        this.fontRendererObj.drawString(LanguageUtility.getLocal("gui.radar.zoneSafe"), 152, 70, 4210752);
         this.textFieldSafetyZone.drawTextBox();
-        this.fontRenderer.drawString(LanguageUtility.getLocal("gui.radar.zoneAlarm"), 150, 85, 4210752);
+        this.fontRendererObj.drawString(LanguageUtility.getLocal("gui.radar.zoneAlarm"), 150, 85, 4210752);
         this.textFieldAlarmRange.drawTextBox();
 
-        this.fontRenderer.drawString(LanguageUtility.getLocal("gui.misc.freq"), 155, 100, 4210752);
+        this.fontRendererObj.drawString(LanguageUtility.getLocal("gui.misc.freq"), 155, 100, 4210752);
         this.textFieldFrequency.drawTextBox();
 
-        this.fontRenderer.drawString(UnitDisplay.getDisplay(TileRadarStation.WATTS, Unit.WATT), 155, 128, 4210752);
+        this.fontRendererObj.drawString(UnitDisplay.getDisplay(TileRadarStation.WATTS, Unit.WATT), 155, 128, 4210752);
 
-        this.fontRenderer.drawString(UnitDisplay.getDisplay(this.tileEntity.getVoltageInput(null), Unit.VOLTAGE), 155, 138, 4210752);
+        this.fontRendererObj.drawString(UnitDisplay.getDisplay(this.tileEntity.getVoltageInput(null), Unit.VOLTAGE), 155, 138, 4210752);
 
         // Shows the status of the radar
         String color = "\u00a74";
@@ -133,7 +133,7 @@ public class GuiRadarStation extends GuiICBM
             status = LanguageUtility.getLocal("gui.radar.nopower");
         }
 
-        this.fontRenderer.drawString(color + status, 155, 150, 4210752);
+        this.fontRendererObj.drawString(color + status, 155, 150, 4210752);
     }
 
     /** Call this method from you GuiScreen to process the keys into textbox. */
@@ -211,7 +211,7 @@ public class GuiRadarStation extends GuiICBM
             for (GUIEntityBase entity : this.tileEntity.entityList)
             {
             	GUIEntityMissile missile = null;
-                Vector2 position = new Vector2(radarCenter.x + (entity.pos.x - this.tileEntity.xCoord) / this.radarMapRadius, radarCenter.y - (entity.pos.y - this.tileEntity.zCoord) / this.radarMapRadius);
+                Vector2 position = new Vector2(radarCenter.x() + (entity.pos.x() - this.tileEntity.xCoord) / this.radarMapRadius, radarCenter.y() - (entity.pos.y() - this.tileEntity.zCoord) / this.radarMapRadius);
 
                 if (entity.type == this.tileEntity.EntityTypeMissile)
                 {
@@ -230,7 +230,8 @@ public class GuiRadarStation extends GuiICBM
                     FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE_YELLOW_DOT);
                 }
 
-                this.drawTexturedModalRect(position.intX(), position.intY(), 0, 0, 2, 2);
+
+                this.drawTexturedModalRect(position.xi(), position.yi(), 0, 0, 2, 2);
 
                 // Hover Detection
                 Vector2 minPosition = position.clone();
@@ -261,10 +262,10 @@ public class GuiRadarStation extends GuiICBM
 
             for (GUITile tile : this.tileEntity.tileList)
             {
-                Vector2 position = new Vector2(this.radarCenter.x + (tile.posX - this.tileEntity.xCoord) / this.radarMapRadius, this.radarCenter.y - (tile.posZ - this.tileEntity.zCoord) / this.radarMapRadius);
+                Vector2 position = new Vector2(this.radarCenter.x() + (tile.posX - this.tileEntity.xCoord) / this.radarMapRadius, this.radarCenter.y() - (tile.posZ - this.tileEntity.zCoord) / this.radarMapRadius);
                 FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE_WHITE_DOT);
 
-                this.drawTexturedModalRect(position.intX(), position.intY(), 0, 0, 2, 2);
+                this.drawTexturedModalRect(position.xi(), position.yi(), 0, 0, 2, 2);
 
                 Vector2 minPosition = position.clone();
                 minPosition.add(-range);
@@ -292,12 +293,12 @@ public class GuiRadarStation extends GuiICBM
 
                 float difference = TileRadarStation.MAX_DETECTION_RANGE / this.radarMapRadius;
 
-                if (this.mousePosition.x > this.radarCenter.x - difference && this.mousePosition.x < this.radarCenter.x + difference && this.mousePosition.y > this.radarCenter.y - difference && this.mousePosition.y < this.radarCenter.y + difference)
+                if (this.mousePosition.xf() > this.radarCenter.xf() - difference && this.mousePosition.xf() < this.radarCenter.xf() + difference && this.mousePosition.yf() > this.radarCenter.yf() - difference && this.mousePosition.yf() < this.radarCenter.yf() + difference)
                 {
                     // Calculate from the mouse position the relative position
                     // on the grid
-                    int xDifference = (int) (this.mousePosition.x - this.radarCenter.x);
-                    int yDifference = (int) (this.mousePosition.y - this.radarCenter.y);
+                    int xDifference = (int) (this.mousePosition.x() - this.radarCenter.x());
+                    int yDifference = (int) (this.mousePosition.y() - this.radarCenter.y());
                     int xBlockDistance = (int) (xDifference * this.radarMapRadius);
                     int yBlockDistance = (int) (yDifference * this.radarMapRadius);
 

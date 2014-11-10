@@ -5,6 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -28,7 +29,7 @@ public class RenderShrapnel extends Render
             GL11.glPushMatrix();
             GL11.glTranslatef((float) par2, (float) par4, (float) par6);
             RenderUtility.setTerrainTexture();
-            Block block = Block.anvil;
+            Block block = Blocks.anvil;
             World world = suiPian.worldObj;
             GL11.glDisable(GL11.GL_LIGHTING);
 

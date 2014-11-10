@@ -77,13 +77,13 @@ public class ItemSignalDisrupter extends ItemICBMElectrical implements IItemFreq
     }
 
     @Override
-    public long getVoltage(ItemStack itemStack)
+    public double getVoltage(ItemStack itemStack)
     {
         return 25;
     }
 
     @Override
-    public long getEnergyCapacity(ItemStack itemStack)
+    public double getEnergyCapacity(ItemStack itemStack)
     {
         return 1000000;
     }

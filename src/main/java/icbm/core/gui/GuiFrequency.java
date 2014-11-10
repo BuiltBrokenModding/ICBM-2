@@ -39,7 +39,7 @@ public class GuiFrequency extends GuiICBM
     {
         super.initGui();
         
-        this.textFieldFrequency = new GuiTextField(fontRenderer, 80, 50, 40, 12);
+        this.textFieldFrequency = new GuiTextField(fontRendererObj, 80, 50, 40, 12);
         this.textFieldFrequency.setMaxStringLength(4);
         
         if (itemStack != null)
@@ -83,8 +83,8 @@ public class GuiFrequency extends GuiICBM
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
-        this.fontRenderer.drawString("\u00a77" + LanguageUtility.getLocal("gui.tracker.freq"), 62, 6, 4210752);
-        this.fontRenderer.drawString(LanguageUtility.getLocal("gui.tracker.freq") + ":", 15, 52, 4210752);
+        this.fontRendererObj.drawString("\u00a77" + LanguageUtility.getLocal("gui.tracker.freq"), 62, 6, 4210752);
+        this.fontRendererObj.drawString(LanguageUtility.getLocal("gui.tracker.freq") + ":", 15, 52, 4210752);
         this.textFieldFrequency.drawTextBox();
     }
 

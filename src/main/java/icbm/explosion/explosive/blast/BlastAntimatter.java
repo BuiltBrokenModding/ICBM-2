@@ -27,7 +27,7 @@ public class BlastAntimatter extends Blast
     public void doPreExplode()
     {
         super.doPreExplode();
-        this.world().playSoundEffect(this.position.x, this.position.y, this.position.z, Reference.PREFIX + "antimatter", 7F, (float) (this.world().rand.nextFloat() * 0.1 + 0.9F));
+        this.world().playSoundEffect(this.position.x(), this.position.y(), this.position.z(), Reference.PREFIX + "antimatter", 7F, (float) (this.world().rand.nextFloat() * 0.1 + 0.9F));
         this.doDamageEntities(this.getRadius() * 2, Integer.MAX_VALUE);
     }
 

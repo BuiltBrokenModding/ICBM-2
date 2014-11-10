@@ -175,12 +175,12 @@ public class EntityFragments extends Entity implements IEntityAdditionalSpawnDat
             this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(this.motionY, var1) * 180.0D / Math.PI);
         }
 
-        int var15 = this.worldObj.getBlockId(this.xTile, this.yTile, this.zTile);
+        int var15 = Block.getIdFromBlock(this.worldObj.getBlock(this.xTile, this.yTile, this.zTile));
 
         if (var15 > 0)
         {
-            Block.blocksList[var15].setBlockBoundsBasedOnState(this.worldObj, this.xTile, this.yTile, this.zTile);
-            AxisAlignedBB var2 = Block.blocksList[var15].getCollisionBoundingBoxFromPool(this.worldObj, this.xTile, this.yTile, this.zTile);
+            Block.getBlockById(var15).setBlockBoundsBasedOnState(this.worldObj, this.xTile, this.yTile, this.zTile);
+            AxisAlignedBB var2 = Block.getBlockById(var15).getCollisionBoundingBoxFromPool(this.worldObj, this.xTile, this.yTile, this.zTile);
 
             if (var2 != null && var2.isVecInside(Vec3.createVectorHelper(this.posX, this.posY, this.posZ)))
             {
@@ -195,7 +195,7 @@ public class EntityFragments extends Entity implements IEntityAdditionalSpawnDat
 
         if (this.inGround)
         {
-            var15 = this.worldObj.getBlockId(this.xTile, this.yTile, this.zTile);
+            var15 = this.worldObj.getBlock(this.xTile, this.yTile, this.zTile);
             int var18 = this.worldObj.getBlockMetadata(this.xTile, this.yTile, this.zTile);
 
             if (var15 == this.inTile && var18 == this.inData)
@@ -333,7 +333,7 @@ public class EntityFragments extends Entity implements IEntityAdditionalSpawnDat
                     this.xTile = movingObjPos.blockX;
                     this.yTile = movingObjPos.blockY;
                     this.zTile = movingObjPos.blockZ;
-                    this.inTile = this.worldObj.getBlockId(this.xTile, this.yTile, this.zTile);
+                    this.inTile = this.worldObj.getBlock(this.xTile, this.yTile, this.zTile);
                     this.inData = this.worldObj.getBlockMetadata(this.xTile, this.yTile, this.zTile);
                     this.motionX = ((float) (movingObjPos.hitVec.xCoord - this.posX));
                     this.motionY = ((float) (movingObjPos.hitVec.yCoord - this.posY));

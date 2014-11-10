@@ -41,7 +41,7 @@ public class EntityGrenade extends Entity implements IExplosiveContainer, IEntit
     public EntityGrenade(World par1World, Vector3 position, int explosiveID)
     {
         this(par1World);
-        this.setPosition(position.x, position.y, position.z);
+        this.setPosition(position.x(), position.y(), position.z());
         this.haoMa = explosiveID;
     }
 
