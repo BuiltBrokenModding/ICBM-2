@@ -7,8 +7,6 @@ import icbm.core.entity.RenderEntityBlock;
 import icbm.core.entity.RenderShrapnel;
 import icbm.core.gui.GuiFrequency;
 import icbm.core.gui.GuiProximityDetector;
-import icbm.core.tiles.GuiBox;
-import icbm.core.tiles.TileBox;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -25,7 +23,7 @@ public class ClientProxy extends CommonProxy
     public void preInit()
     {
         super.preInit();
-        MinecraftForge.EVENT_BUS.register(SoundHandler.INSTANCE);
+        //MinecraftForge.EVENT_BUS.register(SoundHandler.INSTANCE);
     }
 
     @Override
@@ -39,13 +37,8 @@ public class ClientProxy extends CommonProxy
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer entityPlayer, World world, int x, int y, int z)
     {
-        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-
-        if (tileEntity instanceof TileBox)
-        {
-            return new GuiBox(entityPlayer, (TileBox) tileEntity);
-        }
-        else if (tileEntity instanceof TileProximityDetector)
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
+        if (tileEntity instanceof TileProximityDetector)
         {
             return new GuiProximityDetector((TileProximityDetector) tileEntity);
         }
