@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -39,7 +40,7 @@ public class RenderEntityBlock extends Render
 
         this.renderBlocks.blockAccess = world;
 
-        if (block == Block.dragonEgg || block == Block.grass || block == Block.fence || block == Block.crops || block == Block.leaves || block == Block.torchRedstoneActive || block == Block.torchWood || block == Block.torchRedstoneIdle || block == Block.tallGrass || block == Block.vine || block == Block.wood || block == Block.bookShelf || block == Block.pumpkin)
+        if (block == Blocks.dragonEgg || block == Blocks.grass || block == Blocks.fence || block == Blocks.crops || block == Blocks.leaves || block == Blocks.torchRedstoneActive || block == Blocks.torchWood || block == Blocks.torchRedstoneIdle || block == Blocks.tallGrass || block == Blocks.vine || block == Blocks.wood || block == Blocks.bookShelf || block == Blocks.pumpkin)
         {
             Tessellator tessellator = Tessellator.instance;
             tessellator.startDrawingQuads();

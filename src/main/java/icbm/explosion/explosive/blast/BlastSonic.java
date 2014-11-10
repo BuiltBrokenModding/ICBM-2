@@ -16,6 +16,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockFluid;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
@@ -59,13 +60,13 @@ public class BlastSonic extends Blast
                         for (int z = (int) (-this.getRadius() * 2); z < this.getRadius() * 2; ++z)
                         {
                             Vector3 targetPosition = Vector3.translate(position, new Vector3(x, y, z));
-                            int blockID = world().getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+                            int blockID = world().getBlockId(targetPosition.xi(), targetPosition.yi(), targetPosition.zi());
 
                             if (blockID > 0)
                             {
-                                Material material = world().getBlockMaterial(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+                                Material material = world().getBlockMaterial(targetPosition.xi(), targetPosition.yi(), targetPosition.zi());
 
-                                if (blockID != Block.bedrock.blockID && !(Block.blocksList[blockID] instanceof BlockFluid) && (Block.blocksList[blockID].getExplosionResistance(this.exploder, world(), targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), position.intX(), position.intY(), position.intZ()) > this.nengLiang || material == Material.glass))
+                                if (blockID != Blocks.bedrock.blockID && !(Block.getBlockById(blockID) instanceof BlockFluid) && (Block.blocksList[blockID].getExplosionResistance(this.exploder, world(), targetPosition.xi(), targetPosition.yi(), targetPosition.zi(), position.xi(), position.yi(), position.zi()) > this.nengLiang || material == Material.glass))
                                 {
                                     targetPosition.setBlock(world(), 0);
                                 }
@@ -88,7 +89,7 @@ public class BlastSonic extends Blast
                     }
                     else
                     {
-                        resistance = block.getExplosionResistance(source, world, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), explosionPosition.intX(), explosionPosition.intY(), explosionPosition.intZ());
+                        resistance = block.getExplosionResistance(source, world, targetPosition.xi(), targetPosition.yi(), targetPosition.zi(), explosionPosition.xi(), explosionPosition.yi(), explosionPosition.zi());
                     }
 
                     return resistance;
@@ -100,11 +101,11 @@ public class BlastSonic extends Blast
 
         if (this.hasShockWave)
         {
-            this.world().playSoundEffect(position.x, position.y, position.z, Reference.PREFIX + "hypersonic", 4.0F, (1.0F + (this.world().rand.nextFloat() - this.world().rand.nextFloat()) * 0.2F) * 0.7F);
+            this.world().playSoundEffect(position.x(), position.y(), position.z(), Reference.PREFIX + "hypersonic", 4.0F, (1.0F + (this.world().rand.nextFloat() - this.world().rand.nextFloat()) * 0.2F) * 0.7F);
         }
         else
         {
-            this.world().playSoundEffect(position.x, position.y, position.z, Reference.PREFIX + "sonicwave", 4.0F, (1.0F + (this.world().rand.nextFloat() - this.world().rand.nextFloat()) * 0.2F) * 0.7F);
+            this.world().playSoundEffect(position.x(), position.y(), position.z(), Reference.PREFIX + "sonicwave", 4.0F, (1.0F + (this.world().rand.nextFloat() - this.world().rand.nextFloat()) * 0.2F) * 0.7F);
         }
     }
 
@@ -127,25 +128,25 @@ public class BlastSonic extends Blast
                     if (distance > r || distance < r - 3)
                         continue;
 
-                    int blockID = this.world().getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+                    int blockID = this.world().getBlockId(targetPosition.xi(), targetPosition.yi(), targetPosition.zi());
 
-                    if (blockID == 0 || blockID == Block.bedrock.blockID || blockID == Block.obsidian.blockID)
+                    if (blockID == 0 || blockID == Blocks.bedrock.blockID || blockID == Blocks.obsidian.blockID)
                         continue;
 
                     if (Block.blocksList[blockID] instanceof IForceFieldBlock)
                         continue;
 
-                    int metadata = this.world().getBlockMetadata(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+                    int metadata = this.world().getBlockMetadata(targetPosition.xi(), targetPosition.yi(), targetPosition.zi());
 
                     if (distance < r - 1 || this.world().rand.nextInt(3) > 0)
                     {
                         if (blockID == ICBMExplosion.blockExplosive.blockID)
                         {
-                            BlockExplosive.yinZha(this.world(), targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), ((TileExplosive) this.world().getBlockTileEntity(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ())).haoMa, 1);
+                            BlockExplosive.yinZha(this.world(), targetPosition.xi(), targetPosition.yi(), targetPosition.zi(), ((TileExplosive) this.world().getBlockTileEntity(targetPosition.xi(), targetPosition.yi(), targetPosition.zi())).haoMa, 1);
                         }
                         else
                         {
-                            this.world().setBlockToAir(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+                            this.world().setBlockToAir(targetPosition.xi(), targetPosition.yi(), targetPosition.zi());
                         }
 
                         targetPosition.translate(0.5D);
@@ -165,7 +166,7 @@ public class BlastSonic extends Blast
         }
 
         int radius = 2 * this.callCount;
-        AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x - radius, position.y - radius, position.z - radius, position.x + radius, position.y + radius, position.z + radius);
+        AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(position.x() - radius, position.y() - radius, position.z() - radius, position.x() + radius, position.y() + radius, position.z() + radius);
         List<Entity> allEntities = this.world().getEntitiesWithinAABB(Entity.class, bounds);
 
         synchronized (allEntities)
@@ -181,8 +182,8 @@ public class BlastSonic extends Blast
                 }
                 else
                 {
-                    double xDifference = entity.posX - position.x;
-                    double zDifference = entity.posZ - position.z;
+                    double xDifference = entity.posX - position.x();
+                    double zDifference = entity.posZ - position.z();
 
                     r = (int) this.getRadius();
                     if (xDifference < 0)

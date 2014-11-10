@@ -20,7 +20,7 @@ public class BlastMine extends Blast
     {
         if (!this.world().isRemote)
         {
-            this.world().createExplosion(this.controller, position.x, position.y, position.z, 1.5f, true);
+            this.world().createExplosion(this.controller, position.x(), position.y(), position.z(), 1.5f, true);
         }
 
         this.controller.motionX = -0.125 + 0.25 * this.world().rand.nextFloat();
@@ -43,7 +43,7 @@ public class BlastMine extends Blast
 
             if (this.callCount >= 20 * 2 && this.callCount % 2 == 0)
             {
-                new BlastShrapnel(this.world(), this.exploder, this.position.x, this.position.y, this.position.z, this.getRadius(), true, true, false).doExplode();
+                new BlastShrapnel(this.world(), this.exploder, this.position.x(), this.position.y(), this.position.z(), this.getRadius(), true, true, false).doExplode();
             }
 
             if (this.callCount >= 20 * 2 + 20)

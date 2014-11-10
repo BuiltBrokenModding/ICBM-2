@@ -54,7 +54,7 @@ public class ItemTracker extends ItemICBMElectrical implements IItemTracker
 
         par3List.add(LanguageUtility.getLocal("info.tracker.tooltip"));
 
-        if (par2EntityPlayer.username.equalsIgnoreCase("Biffa2001"))
+        if (par2EntityPlayer.getGameProfile().getName().equalsIgnoreCase("Biffa2001"))
         {
             par3List.add("");
             par3List.add("psst use me biffa!!");
@@ -160,13 +160,13 @@ public class ItemTracker extends ItemICBMElectrical implements IItemTracker
     }
 
     @Override
-    public long getVoltage(ItemStack itemStack)
+    public double getVoltage(ItemStack itemStack)
     {
         return 20;
     }
 
     @Override
-    public long getEnergyCapacity(ItemStack itemStack)
+    public double getEnergyCapacity(ItemStack itemStack)
     {
         return 1000000;
     }
