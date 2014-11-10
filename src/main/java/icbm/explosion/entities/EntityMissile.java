@@ -8,7 +8,6 @@ import icbm.core.implement.IChunkLoadHandler;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.ex.Explosion;
 import icbm.explosion.explosive.ExplosiveRegistry;
-import icbm.explosion.machines.TileCruiseLauncher;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -493,21 +492,6 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
             if (launcher != null)
             {
                 launcher.setContainingMissile(this);
-
-                /** Rotate the missile to the cruise launcher's rotation. */
-                if (launcher instanceof TileCruiseLauncher)
-                {
-                    this.missileType = MissileType.CruiseMissile;
-                    this.noClip = true;
-
-                    if (this.worldObj.isRemote)
-                    {
-                        this.rotationYaw = -((TileCruiseLauncher) launcher).rotationYaw + 90;
-                        this.rotationPitch = ((TileCruiseLauncher) launcher).rotationPitch;
-                    }
-
-                    this.posY = ((TileCruiseLauncher) launcher).yCoord + 1;
-                }
             }
             else
             {

@@ -12,35 +12,39 @@ import icbm.explosion.machines.launcher.TileLauncherScreen;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumMovingObjectType;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import resonant.api.blocks.IBlockFrequency;
 import resonant.api.items.IItemFrequency;
-import resonant.lib.network.IPacketReceiver;
+import resonant.api.mffs.fortron.FrequencyGridRegistry;
+import resonant.engine.ResonantEngine;
+import resonant.engine.grid.frequency.FrequencyGrid;
+import resonant.lib.network.discriminator.PacketPlayerItem;
+import resonant.lib.network.discriminator.PacketTile;
+import resonant.lib.network.discriminator.PacketType;
+import resonant.lib.network.handle.IPacketReceiver;
+import resonant.lib.prefab.item.ItemElectric;
 import resonant.lib.transform.vector.Vector3;
 import resonant.lib.utility.LanguageUtility;
-import universalelectricity.api.item.ItemElectric;
-import resonant.api.mffs.fortron.FrequencyGrid;
 
 import com.google.common.io.ByteArrayDataInput;
-
-import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFrequency, IPacketReceiver
 {
     public static final int BAN_JING = Settings.DAO_DAN_ZUI_YUAN;
     public static final int energyCost = 1000000;
 
-    public ItemLaserDesignator(int id)
+    public ItemLaserDesignator()
     {
-        super(id, "laserDesignator");
+        super("laserDesignator");
     }
 
     /** Allows items to add custom lines of information to the mouseover description */
@@ -153,7 +157,7 @@ public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFreq
             {
                 Vector3 position = new Vector3(par3Entity.posX, par3Entity.posY, par3Entity.posZ);
 
-                for (IBlockFrequency blockFrequency : FrequencyGrid.instance().get(world, position, ItemLaserDesignator.BAN_JING, this.getFrequency(itemStack)))
+                for (IBlockFrequency blockFrequency : FrequencyGridRegistry.instance().getNodes(world, position, ItemLaserDesignator.BAN_JING, this.getFrequency(itemStack)))
                 {
                     if (blockFrequency instanceof TileLauncherPrefab)
                     {
@@ -172,14 +176,14 @@ public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFreq
             {
                 if (this.getLauncherCountDown(itemStack) % 20 == 0)
                 {
-                    ((EntityPlayer) par3Entity).addChatMessage(LanguageUtility.getLocal("message.designator.callTime") + " " + (int) Math.floor(this.getLauncherCountDown(itemStack) / 20));
+                    ((EntityPlayer) par3Entity).addChatMessage(new ChatComponentText(LanguageUtility.getLocal("message.designator.callTime") + " " + (int) Math.floor(this.getLauncherCountDown(itemStack) / 20)));
                 }
 
                 if (this.getLauncherCountDown(itemStack) == 1)
                 {
                     this.setLauncherCount(itemStack, connectedLaunchers.size());
                     this.setLauncherDelay(itemStack, 0);
-                    ((EntityPlayer) par3Entity).addChatMessage(LanguageUtility.getLocal("message.designator.blast"));
+                    ((EntityPlayer) par3Entity).addChatMessage(new ChatComponentText(LanguageUtility.getLocal("message.designator.blast")));
                 }
 
                 this.setLauncherCountDown(itemStack, this.getLauncherCountDown(itemStack) - 1);
@@ -225,11 +229,11 @@ public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFreq
                     if (missileLauncher.getFrequency() > 0)
                     {
                         this.setFrequency(missileLauncher.getFrequency(), par1ItemStack);
-                        par2EntityPlayer.addChatMessage(LanguageUtility.getLocal("message.designator.setFreq") + " " + this.getFrequency(par1ItemStack));
+                        par2EntityPlayer.addChatMessage(new ChatComponentText(LanguageUtility.getLocal("message.designator.setFreq") + " " + this.getFrequency(par1ItemStack)));
                     }
                     else
                     {
-                        par2EntityPlayer.addChatMessage(LanguageUtility.getLocal("message.designator.failFreq"));
+                        par2EntityPlayer.addChatMessage(new ChatComponentText(LanguageUtility.getLocal("message.designator.failFreq")));
                     }
                 }
             }
@@ -247,7 +251,7 @@ public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFreq
         {
             MovingObjectPosition objectMouseOver = player.rayTrace(BAN_JING * 2, 1);
 
-            if (objectMouseOver != null && objectMouseOver.typeOfHit == EnumMovingObjectType.TILE)
+            if (objectMouseOver != null && objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
             {
                 Block block = world.getBlock(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
                 int blockMetadata = world.getBlockMetadata(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
@@ -279,7 +283,7 @@ public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFreq
                             boolean doAirStrike = false;
                             int errorCount = 0;
 
-                            for (IBlockFrequency blockFrequency : FrequencyGrid.instance().get(world, position, ItemLaserDesignator.BAN_JING, airStrikeFreq))
+                            for (IBlockFrequency blockFrequency : FrequencyGridRegistry.instance().getNodes(world, position, ItemLaserDesignator.BAN_JING, airStrikeFreq))
                             {
                                 if (blockFrequency instanceof TileLauncherPrefab)
                                 {
@@ -291,13 +295,13 @@ public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFreq
                                     if (missileLauncher instanceof TileLauncherScreen)
                                     {
                                         if (missileLauncher.getTarget() != null)
-                                            yHit = missileLauncher.getTarget().y;
+                                            yHit = missileLauncher.getTarget().y();
                                         else
                                             yHit = 0;
                                     }
 
                                     missileLauncher.setTarget(new Vector3(objectMouseOver.blockX, yHit, objectMouseOver.blockZ));
-                                    PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(missileLauncher, 2, missileLauncher.getTarget().intX(), missileLauncher.getTarget().intY(), missileLauncher.getTarget().intZ()));
+                                    ResonantEngine.instance.packetHandler.sendToServer(new PacketTile(missileLauncher, 2, missileLauncher.getTarget().xi(), missileLauncher.getTarget().yi(), missileLauncher.getTarget().zi()));
 
                                     if (missileLauncher.canLaunch())
                                     {
@@ -306,25 +310,25 @@ public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFreq
                                     else
                                     {
                                         errorCount++;
-                                        player.addChatMessage("#" + errorCount + " Missile Launcher Error: " + missileLauncher.getStatus());
+                                        player.addChatMessage(new ChatComponentText("#" + errorCount + " Missile Launcher Error: " + missileLauncher.getStatus()));
                                     }
                                 }
                             }
 
                             if (doAirStrike && this.getLauncherCountDown(par1ItemStack) >= 0)
                             {
-                                PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_ITEM.getPacket(player, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
-                                player.addChatMessage(LanguageUtility.getLocal("message.designator.callBlast"));
+                                ResonantEngine.instance.packetHandler.sendToServer(new PacketPlayerItem(player, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
+                                player.addChatMessage(new ChatComponentText(LanguageUtility.getLocal("message.designator.callBlast")));
                             }
                         }
                         else
                         {
-                            player.addChatMessage(LanguageUtility.getLocal("message.designator.nopower"));
+                            player.addChatMessage(new ChatComponentText(LanguageUtility.getLocal("message.designator.nopower")));
                         }
                     }
                     else
                     {
-                        player.addChatMessage(LanguageUtility.getLocal("message.designator.noFreq"));
+                        player.addChatMessage(new ChatComponentText(LanguageUtility.getLocal("message.designator.noFreq")));
                     }
                 }
             }
@@ -334,29 +338,26 @@ public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFreq
     }
 
     @Override
-    public long getVoltage(ItemStack itemStack)
-    {
-        return 30;
-    }
-
-    @Override
-    public long getEnergyCapacity(ItemStack itemStack)
+    public double getEnergyCapacity(ItemStack itemStack)
     {
         return energyCost * 10;
     }
 
     @Override
-    public void onReceivePacket(ByteArrayDataInput data, EntityPlayer player, Object... extra)
+    public void read(ByteBuf data, EntityPlayer player, PacketType type)
     {
-        ItemStack itemStack = (ItemStack) extra[0];
-        Vector3 position = new Vector3(data.readInt(), data.readInt(), data.readInt());
+        if(type instanceof PacketPlayerItem)
+        {
+            ItemStack itemStack = player.inventory.getStackInSlot(((PacketPlayerItem)type).slotId);
+            Vector3 position = new Vector3(data.readInt(), data.readInt(), data.readInt());
 
-        ((ItemLaserDesignator) ICBMExplosion.itemLaserDesignator).setLauncherCountDown(itemStack, 119);
+            ((ItemLaserDesignator) ICBMExplosion.itemLaserDesignator).setLauncherCountDown(itemStack, 119);
 
-        player.worldObj.playSoundEffect(position.x(), player.worldObj.getHeightValue(position.x(), position.z()), position.z(), Reference.PREFIX + "airstrike", 5.0F, (1.0F + (player.worldObj.rand.nextFloat() - player.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+            player.worldObj.playSoundEffect(position.x(), player.worldObj.getHeightValue(position.xi(), position.zi()), position.z(), Reference.PREFIX + "airstrike", 5.0F, (1.0F + (player.worldObj.rand.nextFloat() - player.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 
-        player.worldObj.spawnEntityInWorld(new EntityLightBeam(player.worldObj, position, 5 * 20, 0F, 1F, 0F));
-        if (ICBMExplosion.itemRadarGun instanceof ItemElectric)
-            ((ItemElectric) ICBMExplosion.itemRadarGun).discharge(itemStack, ItemLaserDesignator.energyCost, true);
+            player.worldObj.spawnEntityInWorld(new EntityLightBeam(player.worldObj, position, 5 * 20, 0F, 1F, 0F));
+            if (ICBMExplosion.itemRadarGun instanceof ItemElectric)
+                ((ItemElectric) ICBMExplosion.itemRadarGun).discharge(itemStack, ItemLaserDesignator.energyCost, true);
+        }
     }
 }

@@ -1,14 +1,10 @@
 package icbm.explosion;
 
-import icbm.explosion.container.ContainerCruiseLauncher;
-import icbm.explosion.container.ContainerMissileCoordinator;
 import icbm.explosion.container.ContainerMissileTable;
 import icbm.explosion.entities.EntityMissile;
 import icbm.explosion.explosive.TileExplosive;
-import icbm.explosion.machines.TileCruiseLauncher;
 import icbm.explosion.machines.TileEMPTower;
 import icbm.explosion.machines.TileMissileAssembler;
-import icbm.explosion.machines.TileMissileCoordinator;
 import icbm.explosion.machines.TileRadarStation;
 import icbm.explosion.machines.launcher.TileLauncherBase;
 import icbm.explosion.machines.launcher.TileLauncherFrame;
@@ -37,13 +33,11 @@ public class CommonProxy implements IGuiHandler
 
     public void init()
     {
-        GameRegistry.registerTileEntity(TileCruiseLauncher.class, "ICBMXiaoFaSheQi");
         GameRegistry.registerTileEntity(TileLauncherBase.class, "ICBMFaSheDi");
         GameRegistry.registerTileEntity(TileLauncherScreen.class, "ICBMFaSheShiMuo");
         GameRegistry.registerTileEntity(TileLauncherFrame.class, "ICBMFaSheJia");
         GameRegistry.registerTileEntity(TileRadarStation.class, "ICBMLeiDaTai");
         GameRegistry.registerTileEntity(TileEMPTower.class, "ICBMDianCiQi");
-        GameRegistry.registerTileEntity(TileMissileCoordinator.class, "ICBMYinDaoQi");
         GameRegistry.registerTileEntity(TileExplosive.class, "ICBMZhaDan");
         GameRegistry.registerTileEntity(TileMissileAssembler.class, "ICBMMissileTable");
     }
@@ -58,20 +52,11 @@ public class CommonProxy implements IGuiHandler
     public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
     {
         TileEntity tileEntity = world.getTileEntity(x, y, z);
-
-        if (tileEntity instanceof TileCruiseLauncher)
-        {
-            return new ContainerCruiseLauncher(player.inventory, (TileCruiseLauncher) tileEntity);
-        }
-        else if (tileEntity instanceof TileMissileCoordinator)
-        {
-            return new ContainerMissileCoordinator(player.inventory, (TileMissileCoordinator) tileEntity);
-        }
-        else if (tileEntity instanceof TileMissileAssembler)
+        if (tileEntity instanceof TileMissileAssembler)
         {
             return new ContainerMissileTable(player.inventory, (TileMissileAssembler) tileEntity);
         }
-        else if (tileEntity instanceof TileLauncherScreen || tileEntity instanceof TileRadarStation || tileEntity instanceof TileEMPTower || tileEntity instanceof TileLauncherBase || tileEntity instanceof TileMissileCoordinator || tileEntity instanceof TileMissileAssembler)
+        else if (tileEntity instanceof TileLauncherScreen || tileEntity instanceof TileRadarStation || tileEntity instanceof TileEMPTower || tileEntity instanceof TileLauncherBase)
         {
             return new ContainerDummy(player, tileEntity);
         }
