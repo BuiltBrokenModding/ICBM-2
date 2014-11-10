@@ -141,21 +141,21 @@ public class ICBMExplosion
         MinecraftForge.EVENT_BUS.register(proxy);
         FlagRegistry.registerFlag("ban_ICBM");
 
-        blockExplosive = ICBMCore.contentRegistry.createBlock(BlockExplosive.class, ItemBlockExplosive.class);
-        blockMachine = ICBMCore.contentRegistry.createBlock(BlockICBMMachine.class, ItemBlockMachine.class);
+        blockExplosive = ICBMCore.contentRegistry.newBlock(BlockExplosive.class, ItemBlockExplosive.class);
+        blockMachine = ICBMCore.contentRegistry.newBlock(BlockICBMMachine.class, ItemBlockMachine.class);
         blockMissileAssembler = ICBMCore.contentRegistry.createBlock(BlockMissileAssembler.class, ItemBlockMissileAssembler.class);
         
         // ITEMS
-        itemMissile = ICBMCore.contentRegistry.createItem(ItemMissile.class);
+        itemMissile = ICBMCore.contentRegistry.newItem(ItemMissile.class);
 
-        itemDefuser = ICBMCore.contentRegistry.createItem(ItemDefuser.class);
-        itemRadarGun = ICBMCore.contentRegistry.createItem(ItemRadarGun.class);
-        itemRemoteDetonator = ICBMCore.contentRegistry.createItem(ItemRemoteDetonator.class);
-        itemLaserDesignator = ICBMCore.contentRegistry.createItem(ItemLaserDesignator.class);
-        itemRocketLauncher = ICBMCore.contentRegistry.createItem(ItemRocketLauncher.class);
+        itemDefuser = ICBMCore.contentRegistry.newItem(ItemDefuser.class);
+        itemRadarGun = ICBMCore.contentRegistry.newItem(ItemRadarGun.class);
+        itemRemoteDetonator = ICBMCore.contentRegistry.newItem(ItemRemoteDetonator.class);
+        itemLaserDesignator = ICBMCore.contentRegistry.newItem(ItemLaserDesignator.class);
+        itemRocketLauncher = ICBMCore.contentRegistry.newItem(ItemRocketLauncher.class);
 
-        itemGrenade = ICBMCore.contentRegistry.createItem(ItemGrenade.class);
-        itemBombCart = ICBMCore.contentRegistry.createItem(ItemBombCart.class);
+        itemGrenade = ICBMCore.contentRegistry.newItem(ItemGrenade.class);
+        itemBombCart = ICBMCore.contentRegistry.newItem(ItemBombCart.class);
 
         /** Potion Effects */
         PoisonToxin.INSTANCE = new PoisonToxin(PotionUtility.getNextOptimalPotId(), true, 5149489, "toxin");
