@@ -125,7 +125,7 @@ public class GuiEMPTower extends GuiICBM
         String color = "\u00a74";
         String status = LanguageUtility.getLocal("gui.misc.idle");
 
-        if (!this.tileEntity.energy().isFull())
+        if (!this.tileEntity.getEnergyStorage().checkExtract())
         {
             status = LanguageUtility.getLocal("gui.misc.nopower");
         }
