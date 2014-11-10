@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
 import resonant.api.explosion.IExplosiveIgnore;
 import resonant.lib.config.Config;
-import resonant.lib.transform.Vector3;
+import resonant.lib.transform.vector.Vector3;
 import resonant.api.mffs.IForceFieldBlock;
 
 public class BlastRedmatter extends Blast
