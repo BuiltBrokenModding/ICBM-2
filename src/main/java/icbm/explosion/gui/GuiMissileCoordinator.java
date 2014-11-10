@@ -7,7 +7,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.MathHelper;
 import resonant.lib.utility.LanguageUtility;
-import universalelectricity.api.energy.UnitDisplay;
+import resonant.lib.science.UnitDisplay;
 import resonant.lib.transform.vector.Vector2;
 import resonant.lib.transform.vector.Vector3;
 import resonant.api.mffs.card.ICoordLink;
