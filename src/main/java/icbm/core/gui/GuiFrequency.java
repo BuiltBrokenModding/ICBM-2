@@ -11,8 +11,8 @@ import org.lwjgl.opengl.GL11;
 
 import resonant.api.items.IItemFrequency;
 import resonant.lib.utility.LanguageUtility;
+import resonant.lib.network.netty.PacketManager;
 import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GuiFrequency extends GuiICBM
 {
@@ -63,7 +63,7 @@ public class GuiFrequency extends GuiICBM
             if (((IItemFrequency) this.itemStack.getItem()).getFrequency(this.itemStack) != newFrequency)
             {
                 ((IItemFrequency) this.itemStack.getItem()).setFrequency(newFrequency, this.itemStack);
-                PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_ITEM.getPacket(this.player, newFrequency));
+                PacketManager.sendPacketToServer(ICBMCore.PACKET_ITEM.getPacket(this.player, newFrequency));
             }
         }
         catch (NumberFormatException e)
