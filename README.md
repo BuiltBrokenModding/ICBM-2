@@ -6,6 +6,16 @@ Originally ICBM was owned mostly by Calclavia with the Sentry guns belonging to 
 
 That being said as far as DarkGuardsman is concerned the mod downloads are community properity. At any time the mod is no longer supported or updated anyone is welcome to take over. Given that the new maintainer understand who owns the code at the end of the day. 
 
+##Warranty
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
 ##Pull Request
 For 1.6.4 please pull request from now on to the 1.6.4 branch. 
 For all above please pull request to the master branch.
@@ -34,6 +44,7 @@ If not listed don't fear we are still compiling the credits list after it got re
 * Azanor
 * Jonathan T.
 * Scout37
+* superpatosainz
 
 
 ###Asset Creators
