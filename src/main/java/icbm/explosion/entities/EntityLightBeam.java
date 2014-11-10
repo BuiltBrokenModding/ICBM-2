@@ -1,14 +1,16 @@
 package icbm.explosion.entities;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import resonant.lib.transform.Vector3;
+
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
+import resonant.lib.transform.vector.Vector3;
 
 public class EntityLightBeam extends Entity implements IEntityAdditionalSpawnData
 {
@@ -27,21 +29,24 @@ public class EntityLightBeam extends Entity implements IEntityAdditionalSpawnDat
     public EntityLightBeam(World world, Vector3 position, int life, float red, float green, float blue)
     {
         super(world);
-        this.setPosition(position.x, position.y, position.z);
+        this.setPosition(position.x(), position.y(), position.z());
         this.red = red;
         this.green = green;
         this.blue = blue;
         this.life = life;
     }
 
-    @Override
-    public String getEntityName()
+    /**
+     * Is this method still needed?
+     * @return
+     */
+    public String getEntidyName()
     {
         return "Light Beam";
     }
 
     @Override
-    public void writeSpawnData(ByteArrayDataOutput data)
+    public void writeSpawnData(ByteBuf data)
     {
         data.writeInt(this.life);
         data.writeFloat(this.red);
@@ -50,7 +55,7 @@ public class EntityLightBeam extends Entity implements IEntityAdditionalSpawnDat
     }
 
     @Override
-    public void readSpawnData(ByteArrayDataInput data)
+    public void readSpawnData(ByteBuf data)
     {
         this.life = data.readInt();
         this.red = data.readFloat();
@@ -111,4 +116,6 @@ public class EntityLightBeam extends Entity implements IEntityAdditionalSpawnDat
     {
 
     }
+
+
 }

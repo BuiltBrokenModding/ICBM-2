@@ -12,6 +12,7 @@ import icbm.explosion.machines.launcher.TileLauncherScreen;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -23,9 +24,9 @@ import net.minecraft.world.World;
 import resonant.api.blocks.IBlockFrequency;
 import resonant.api.items.IItemFrequency;
 import resonant.lib.network.IPacketReceiver;
+import resonant.lib.transform.vector.Vector3;
 import resonant.lib.utility.LanguageUtility;
 import universalelectricity.api.item.ItemElectric;
-import resonant.lib.transform.Vector3;
 import resonant.api.mffs.fortron.FrequencyGrid;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -213,7 +214,7 @@ public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFreq
         if (!par3World.isRemote)
         {
             // SET FREQUENCY OF REMOTE
-            TileEntity tileEntity = par3World.getBlockTileEntity(x, y, z);
+            TileEntity tileEntity = par3World.getTileEntity(x, y, z);
 
             if (tileEntity != null)
             {
@@ -248,7 +249,7 @@ public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFreq
 
             if (objectMouseOver != null && objectMouseOver.typeOfHit == EnumMovingObjectType.TILE)
             {
-                int blockId = world.getBlockId(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
+                Block block = world.getBlock(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
                 int blockMetadata = world.getBlockMetadata(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
 
                 if (this.getLauncherCountDown(par1ItemStack) > 0)
@@ -260,7 +261,7 @@ public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFreq
                  * Prevents calling air strike if the user is trying to set the frequency of the
                  * remote.
                  */
-                if (blockId == ICBMExplosion.blockMachine.blockID)
+                if (block == ICBMExplosion.blockMachine)
                 {
                     return par1ItemStack;
                 }
@@ -352,7 +353,7 @@ public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFreq
 
         ((ItemLaserDesignator) ICBMExplosion.itemLaserDesignator).setLauncherCountDown(itemStack, 119);
 
-        player.worldObj.playSoundEffect(position.intX(), player.worldObj.getHeightValue(position.intX(), position.intZ()), position.intZ(), Reference.PREFIX + "airstrike", 5.0F, (1.0F + (player.worldObj.rand.nextFloat() - player.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+        player.worldObj.playSoundEffect(position.x(), player.worldObj.getHeightValue(position.x(), position.z()), position.z(), Reference.PREFIX + "airstrike", 5.0F, (1.0F + (player.worldObj.rand.nextFloat() - player.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 
         player.worldObj.spawnEntityInWorld(new EntityLightBeam(player.worldObj, position, 5 * 20, 0F, 1F, 0F));
         if (ICBMExplosion.itemRadarGun instanceof ItemElectric)

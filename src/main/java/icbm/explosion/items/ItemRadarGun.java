@@ -167,7 +167,7 @@ public class ItemRadarGun extends ItemICBMElectrical implements IPacketReceiver
             itemStack.setTagCompound(new NBTTagCompound());
         }
 
-        position.writeToNBT(itemStack.getTagCompound());
+        position.writeIntNBT(itemStack.getTagCompound());
     }
 
     public Vector3 getLink(ItemStack itemStack)
