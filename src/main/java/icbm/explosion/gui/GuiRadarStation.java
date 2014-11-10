@@ -24,8 +24,8 @@ import org.lwjgl.opengl.GL11;
 
 import resonant.lib.transform.region.Rectangle;
 import resonant.lib.utility.LanguageUtility;
-import universalelectricity.api.energy.UnitDisplay;
-import universalelectricity.api.energy.UnitDisplay.Unit;
+import resonant.lib.science.UnitDisplay;
+import resonant.lib.science.UnitDisplay.Unit;
 import resonant.lib.transform.vector.Vector2;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
