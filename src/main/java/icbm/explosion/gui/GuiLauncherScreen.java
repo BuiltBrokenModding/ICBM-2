@@ -14,7 +14,7 @@ import resonant.lib.science.UnitDisplay;
 import resonant.lib.science.UnitDisplay.Unit;
 import resonant.lib.transform.vector.Vector3;
 import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.network.PacketDispatcher;
+import resonant.lib.network.netty.PacketManager;
 
 public class GuiLauncherScreen extends GuiICBM
 {
@@ -95,7 +95,7 @@ public class GuiLauncherScreen extends GuiICBM
             Vector3 newTarget = new Vector3(Integer.parseInt(this.target_xCoord_field.getText()), Math.max(Integer.parseInt(this.target_yCoord_field.getText()), 0), Integer.parseInt(this.target_zCoord_field.getText()));
 
             this.tileEntity.setTarget(newTarget);
-            PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 2, this.tileEntity.getTarget().intX(), this.tileEntity.getTarget().intY(), this.tileEntity.getTarget().intZ()));
+            PacketManager.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 2, this.tileEntity.getTarget().intX(), this.tileEntity.getTarget().intY(), this.tileEntity.getTarget().intZ()));
         }
         catch (NumberFormatException e)
         {
@@ -107,7 +107,7 @@ public class GuiLauncherScreen extends GuiICBM
             short newFrequency = (short) Math.max(Short.parseShort(this.target_freq_field.getText()), 0);
 
             this.tileEntity.setFrequency(newFrequency);
-            PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 1, this.tileEntity.getFrequency()));
+            PacketManager.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 1, this.tileEntity.getFrequency()));
         }
         catch (NumberFormatException e)
         {
@@ -119,7 +119,7 @@ public class GuiLauncherScreen extends GuiICBM
             short newGaoDu = (short) Math.max(Math.min(Short.parseShort(this.target_height_field.getText()), Short.MAX_VALUE), 3);
 
             this.tileEntity.gaoDu = newGaoDu;
-            PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 3, this.tileEntity.gaoDu));
+            PacketManager.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 3, this.tileEntity.gaoDu));
         }
         catch (NumberFormatException e)
         {

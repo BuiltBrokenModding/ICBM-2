@@ -17,7 +17,7 @@ import resonant.lib.science.UnitDisplay;
 import resonant.lib.science.UnitDisplay.Unit;
 import resonant.lib.transform.vector.Vector3;
 import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.network.PacketDispatcher;
+import resonant.lib.network.netty.PacketManager;
 
 public class GuiCruiseLauncher extends GuiContainer
 {
@@ -80,7 +80,7 @@ public class GuiCruiseLauncher extends GuiContainer
         {
             Vector3 newTarget = new Vector3(Integer.parseInt(this.textFieldX.getText()), Integer.parseInt(this.textFieldY.getText()), Integer.parseInt(this.textFieldZ.getText()));
             this.tileEntity.setTarget(newTarget);
-            PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(tileEntity, 2, tileEntity.getTarget().intX(), this.tileEntity.getTarget().intY(), this.tileEntity.getTarget().intZ()));
+            PacketManager.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(tileEntity, 2, tileEntity.getTarget().intX(), this.tileEntity.getTarget().intY(), this.tileEntity.getTarget().intZ()));
         }
         catch (NumberFormatException e)
         {
@@ -90,7 +90,7 @@ public class GuiCruiseLauncher extends GuiContainer
         {
             short newFrequency = (short) Math.max(Short.parseShort(this.textFieldFreq.getText()), 0);
             this.tileEntity.setFrequency(newFrequency);
-            PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(tileEntity, 1, tileEntity.getFrequency()));
+            PacketManager.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(tileEntity, 1, tileEntity.getFrequency()));
         }
         catch (NumberFormatException e)
         {

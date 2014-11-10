@@ -27,8 +27,8 @@ import resonant.lib.utility.LanguageUtility;
 import resonant.lib.science.UnitDisplay;
 import resonant.lib.science.UnitDisplay.Unit;
 import resonant.lib.transform.vector.Vector2;
+import resonant.lib.network.netty.PacketManager;
 import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class GuiRadarStation extends GuiICBM
 {
@@ -85,14 +85,14 @@ public class GuiRadarStation extends GuiICBM
         this.textFieldFrequency.setMaxStringLength(6);
         this.textFieldFrequency.setText(this.tileEntity.getFrequency() + "");
 
-        PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, -1, true));
+        PacketManager.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, -1, true));
     }
 
     @Override
     public void onGuiClosed()
     {
         super.onGuiClosed();
-        PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, -1, false));
+        PacketManager.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, -1, false));
     }
 
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
@@ -149,7 +149,7 @@ public class GuiRadarStation extends GuiICBM
         {
             int newSafetyRadius = Math.min(TileRadarStation.MAX_DETECTION_RANGE, Math.max(0, Integer.parseInt(this.textFieldSafetyZone.getText())));
             this.tileEntity.safetyRange = newSafetyRadius;
-            PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 2, this.tileEntity.safetyRange));
+            PacketManager.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 2, this.tileEntity.safetyRange));
         }
         catch (NumberFormatException e)
         {
@@ -159,7 +159,7 @@ public class GuiRadarStation extends GuiICBM
         {
             int newAlarmRadius = Math.min(TileRadarStation.MAX_DETECTION_RANGE, Math.max(0, Integer.parseInt(this.textFieldAlarmRange.getText())));
             this.tileEntity.alarmRange = newAlarmRadius;
-            PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 3, this.tileEntity.alarmRange));
+            PacketManager.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 3, this.tileEntity.alarmRange));
         }
         catch (NumberFormatException e)
         {
@@ -168,7 +168,7 @@ public class GuiRadarStation extends GuiICBM
         try
         {
             this.tileEntity.setFrequency(Integer.parseInt(this.textFieldFrequency.getText()));
-            PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 4, this.tileEntity.getFrequency()));
+            PacketManager.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 4, this.tileEntity.getFrequency()));
         }
         catch (NumberFormatException e)
         {
