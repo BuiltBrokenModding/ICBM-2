@@ -109,13 +109,13 @@ public abstract class BlastBeam extends Blast
             for (EntityFlyingBlock entity : this.feiBlocks)
             {
                 Vector3 entityPosition = new Vector3(entity);
-                Vector3 centeredPosition = entityPosition.clone().translate(this.position.invert());
-                centeredPosition.rotate(2);
-                Vector3 newPosition = this.position.clone().translate(centeredPosition);
+                Vector3 centeredPosition = entityPosition.clone().subtract(this.position);
+                //TODO centeredPosition.rotate(2);
+                Vector3 newPosition = this.position.clone().add(centeredPosition);
                 entity.motionX /= 3;
                 entity.motionY /= 3;
                 entity.motionZ /= 3;
-                entity.addVelocity((newPosition.x - entityPosition.x) * 0.5 * this.proceduralInterval(), 0.09 * this.proceduralInterval(), (newPosition.z - entityPosition.z) * 0.5 * this.proceduralInterval());
+                entity.addVelocity((newPosition.x() - entityPosition.x()) * 0.5 * this.proceduralInterval(), 0.09 * this.proceduralInterval(), (newPosition.z() - entityPosition.z()) * 0.5 * this.proceduralInterval());
                 entity.yawChange += 3 * this.world().rand.nextFloat();
             }
         }
@@ -141,7 +141,7 @@ public abstract class BlastBeam extends Blast
 
     /** The interval in ticks before the next procedural call of this explosive
      * 
-     * @param return - Return -1 if this explosive does not need proceudral calls */
+     * @return - Return -1 if this explosive does not need proceudral calls */
     @Override
     public int proceduralInterval()
     {

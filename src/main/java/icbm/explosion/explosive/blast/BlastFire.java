@@ -3,6 +3,7 @@ package icbm.explosion.explosive.blast;
 import icbm.Reference;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import resonant.lib.transform.vector.Vector3;
 
@@ -36,19 +37,19 @@ public class BlastFire extends Blast
                             yStep /= diagonalDistance;
                             zStep /= diagonalDistance;
                             float var14 = radius * (0.7F + world().rand.nextFloat() * 0.6F);
-                            double var15 = position.x;
-                            double var17 = position.y;
-                            double var19 = position.z;
+                            double var15 = position.x();
+                            double var17 = position.y();
+                            double var19 = position.z();
 
                             for (float var21 = 0.3F; var14 > 0.0F; var14 -= var21 * 0.75F)
                             {
                                 Vector3 targetPosition = new Vector3(var15, var17, var19);
                                 double distanceFromCenter = position.distance(targetPosition);
-                                int var25 = world().getBlockId(targetPosition.intX(), targetPosition.intY(), targetPosition.intZ());
+                                Block var25 = world().getBlock(targetPosition.xi(), targetPosition.yi(), targetPosition.zi());
 
-                                if (var25 > 0)
+                                if (var25 != null)
                                 {
-                                    var14 -= (Block.blocksList[var25].getExplosionResistance(this.exploder, world(), targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), position.intX(), position.intY(), position.intZ()) + 0.3F) * var21;
+                                    var14 -= (var25.getExplosionResistance(this.exploder, world(), targetPosition.xi(), targetPosition.yi(), targetPosition.zi(), position.xi(), position.yi(), position.zi()) + 0.3F) * var21;
                                 }
 
                                 if (var14 > 0.0F)
@@ -62,15 +63,15 @@ public class BlastFire extends Blast
                                          * Check to see if the block is an air block and there is a
                                          * block below it to support the fire.
                                          */
-                                        int blockID = world().getBlockId((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z);
+                                        Block blockID = world().getBlock((int) targetPosition.x(), (int) targetPosition.y(), (int) targetPosition.z());
 
-                                        if ((blockID == 0 || blockID == Block.snow.blockID) && world().getBlockMaterial((int) targetPosition.x, (int) targetPosition.y - 1, (int) targetPosition.z).isSolid())
+                                        if ((blockID == null || blockID == Blocks.snow))
                                         {
-                                            world().setBlock((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, Block.fire.blockID, 0, 2);
+                                            world().setBlock((int) targetPosition.x(), (int) targetPosition.y(), (int) targetPosition.z(), Blocks.fire, 0, 2);
                                         }
-                                        else if (blockID == Block.ice.blockID)
+                                        else if (blockID == Blocks.ice)
                                         {
-                                            world().setBlock((int) targetPosition.x, (int) targetPosition.y, (int) targetPosition.z, 0, 0, 2);
+                                            world().setBlockToAir(targetPosition.xi(), targetPosition.yi(), targetPosition.zi());
                                         }
                                     }
                                 }
@@ -85,7 +86,7 @@ public class BlastFire extends Blast
             }
         }
 
-        world().playSoundEffect(position.x + 0.5D, position.y + 0.5D, position.z + 0.5D, Reference.PREFIX + "explosionfire", 4.0F, (1.0F + (world().rand.nextFloat() - world().rand.nextFloat()) * 0.2F) * 1F);
+        world().playSoundEffect(position.x() + 0.5D, position.y() + 0.5D, position.z() + 0.5D, Reference.PREFIX + "explosionfire", 4.0F, (1.0F + (world().rand.nextFloat() - world().rand.nextFloat()) * 0.2F) * 1F);
     }
 
     @Override

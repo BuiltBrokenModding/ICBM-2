@@ -84,14 +84,14 @@ public class BlastChemical extends Blast
             {
                 Vector3 diDian = new Vector3();
 
-                diDian.x = Math.random() * radius / 2 - radius / 4;
-                diDian.y = Math.random() * radius / 2 - radius / 4;
-                diDian.z = Math.random() * radius / 2 - radius / 4;
-                diDian.scale(Math.min(radius, callCount) / 10);
+                diDian.x_$eq(Math.random() * radius / 2 - radius / 4);
+                diDian.y_$eq(Math.random() * radius / 2 - radius / 4);
+                diDian.z_$eq(Math.random() * radius / 2 - radius / 4);
+                diDian.multiply(Math.min(radius, callCount) / 10);
 
                 if (diDian.magnitude() <= radius)
                 {
-                    diDian.translate(this.position);
+                    diDian.add(this.position);
                     ICBMExplosion.proxy.spawnParticle("smoke", this.world(), diDian, (Math.random() - 0.5) / 2, (Math.random() - 0.5) / 2, (Math.random() - 0.5) / 2, this.red, this.green, this.blue, 7.0F, 8);
                 }
             }
