@@ -1,15 +1,18 @@
-##Now Open Source
-Thanks to calclavia for giving over ICBM to Darkguardsman it is now visual source. Only conditions of the open source nature is to give credit, make zero profit including ads, and ask before publicly making mod releases of your version. As well we would love to see your work and fill free to submit pull requests here.
+##What is ICBM?
+ICBM is a Minecraft Mod that introduces intercontinental ballistic missiles to Minecraft. But the fun doesn't end there! This mod also features many different explosives, missiles and machines classified in three different tiers. If strategic warfare, carefully coordinated airstrikes, messing with matter and general destruction are up your alley, then this mod is for you!
 
-### Why Visual source
-ICBM is no longer being supported by the UE team after 1.6.4. This is due to most of the content being merged into a mod called Artillects. In which none of the content will remain the same. Due to this Darkguardsman has released the code allowig anyone to update and release the mod. Following the conditions above.
+##Who owns ICBM
+Originally ICBM was owned mostly by Calclavia with the Sentry guns belonging to DarkGuardsman. After a few event and lake of progress ownship was shifted fully to DarkGuardsman. This was in exchange for majority ownership of Resonant Induction to Calclavia. 
+
+That being said as far as DarkGuardsman is concerned the mod downloads are community properity. At any time the mod is no longer supported or updated anyone is welcome to take over. Given that the new maintainer understand who owns the code at the end of the day. 
 
 ##Pull Request
 For 1.6.4 please pull request from now on to the 1.6.4 branch. 
 For all above please pull request to the master branch.
 
-##What is ICBM?
-ICBM is a Minecraft Mod that introduces intercontinental ballistic missiles to Minecraft. But the fun doesn't end there! This mod also features many different explosives, missiles and machines classified in three different tiers. If strategic warfare, carefully coordinated airstrikes, messing with matter and general destruction are up your alley, then this mod is for you!
+##Contributions
+As of November 2014
+When you contribute anything to this repo you agree to no longer claim ownership to the contribution. 
 
 
 ##Credits
@@ -17,19 +20,21 @@ If not listed don't fear we are still compiling the credits list after it got re
 ###Developers
 * Calclavia(Creator)
 * Darkguardsman(Owner)
-* Tgame14(Ex-Dev)
+
 
 ###Contributors
-* Archadia
-* Maxwolf
-* gravitythief
+* Archadia          - Code, Assets
+* Maxwolf           - Code
+* Tgame14           - Code
+* gravitythief      - Code
+* CovertJaguar      - Consultation 
+* Doppelgangerous   - Concept Ideas
 * wildex999
 * Pheenixm
 * Azanor
-* CovertJaguar
 * Jonathan T.
 * Scout37
-* Doppelgangerous
+
 
 ###Asset Creators
 * Archadia
