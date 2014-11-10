@@ -60,7 +60,7 @@ public abstract class BlastBeam extends Blast
             if (this.canFocusBeam(this.world(), position))
             {
                 Vector3 currentPos;
-                Block blockID;
+                Block block;
                 int metadata;
                 double dist;
 
@@ -79,8 +79,7 @@ public abstract class BlastBeam extends Blast
                                 continue;
                             }
                             currentPos = new Vector3(position.x() + x, position.y() + y, position.z() + z);
-                            blockID = this.world().getBlock(currentPos.xi(), currentPos.yi(), currentPos.zi());
-                            Block block = Block.blocksList[blockID];
+                            block = this.world().getBlock(currentPos.xi(), currentPos.yi(), currentPos.zi());
                             if (block == null || block.isAir(this.world(), x, y, z) || block.getBlockHardness(this.world(), x, y, x) < 0)
                             {
                                 continue;
@@ -90,10 +89,10 @@ public abstract class BlastBeam extends Blast
 
                             if (this.world().rand.nextInt(2) > 0)
                             {
-                                this.world().setBlock(currentPos.xi(), currentPos.yi(), currentPos.zi(), 0, 0, 2);
+                                this.world().setBlockToAir(currentPos.xi(), currentPos.yi(), currentPos.zi());
 
-                                currentPos.translate(0.5D);
-                                EntityFlyingBlock entity = new EntityFlyingBlock(this.world(), currentPos, blockID, metadata);
+                                currentPos.add(0.5D);
+                                EntityFlyingBlock entity = new EntityFlyingBlock(this.world(), currentPos, block, metadata);
                                 this.world().spawnEntityInWorld(entity);
                                 this.feiBlocks.add(entity);
                                 entity.pitchChange = 50 * this.world().rand.nextFloat();

@@ -30,7 +30,7 @@ public class RenderEntityBlock extends Render
         GL11.glTranslatef((float) x, (float) y, (float) z);
         RenderUtility.setTerrainTexture();
 
-        Block block = Block.blocksList[entity.blockID];
+        Block block = Block.blocksList[entity.mimicBlock];
         World world = entity.worldObj;
         GL11.glDisable(GL11.GL_LIGHTING);
 

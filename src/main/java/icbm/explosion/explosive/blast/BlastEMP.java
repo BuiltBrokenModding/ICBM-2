@@ -80,7 +80,7 @@ public class BlastEMP extends Blast
                         {
                             //if (block instanceof IForceFieldBlock)
                             //{
-                            //    ((IForceFieldBlock) Block.blocksList[blockID]).weakenForceField(world(), searchPosition.intX(), searchPosition.intY(), searchPosition.intZ(), 1000);
+                            //    ((IForceFieldBlock) Block.blocksList[mimicBlock]).weakenForceField(world(), searchPosition.intX(), searchPosition.intY(), searchPosition.intZ(), 1000);
                             }
                             //else
                             if (block instanceof IEMPBlock)

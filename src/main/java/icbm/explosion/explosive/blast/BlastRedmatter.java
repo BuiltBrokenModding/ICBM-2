@@ -225,7 +225,7 @@ public class BlastRedmatter extends Blast
                 {
                     if (this.world().rand.nextInt(5) == 0)
                     {
-                        ICBMExplosion.proxy.spawnParticle("digging", this.world(), new Vector3(entity), -xDifference, -yDifference + 10, -zDifference, ((EntityFlyingBlock) entity).blockID, 0, ((EntityFlyingBlock) entity).metadata, 2, 1);
+                        ICBMExplosion.proxy.spawnParticle("digging", this.world(), new Vector3(entity), -xDifference, -yDifference + 10, -zDifference, ((EntityFlyingBlock) entity).mimicBlock, 0, ((EntityFlyingBlock) entity).metadata, 2, 1);
 
                     }
                 }

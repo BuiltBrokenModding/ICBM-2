@@ -2,24 +2,24 @@ package icbm.core.entity;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
-
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
+import net.minecraftforge.fluids.IFluidBlock;
 import resonant.lib.transform.vector.Vector3;
 
 /** @author Calclavia */
 public class EntityFlyingBlock extends Entity implements IEntityAdditionalSpawnData
 {
-    public int blockID = 0;
+    public Block mimicBlock = null;
     public int metadata = 0;
 
     public float yawChange = 0;
@@ -36,7 +36,7 @@ public class EntityFlyingBlock extends Entity implements IEntityAdditionalSpawnD
         this.setSize(1F, 1F);
     }
 
-    public EntityFlyingBlock(World world, Vector3 position, int blockID, int metadata)
+    public EntityFlyingBlock(World world, Vector3 position, Block mimicBlock, int metadata)
     {
         super(world);
         this.isImmuneToFire = true;
@@ -47,13 +47,13 @@ public class EntityFlyingBlock extends Entity implements IEntityAdditionalSpawnD
         motionX = 0D;
         motionY = 0D;
         motionZ = 0D;
-        this.blockID = blockID;
+        this.mimicBlock = mimicBlock;
         this.metadata = metadata;
     }
 
-    public EntityFlyingBlock(World world, Vector3 position, int blockID, int metadata, float gravity)
+    public EntityFlyingBlock(World world, Vector3 position, Block mimicBlock, int metadata, float gravity)
     {
-        this(world, position, blockID, metadata);
+        this(world, position, mimicBlock, metadata);
         this.gravity = gravity;
     }
 
@@ -66,7 +66,7 @@ public class EntityFlyingBlock extends Entity implements IEntityAdditionalSpawnD
     @Override
     public void writeSpawnData(ByteBuf data)
     {
-        data.writeInt(this.blockID);
+        data.writeInt(Block.getIdFromBlock(mimicBlock));
         data.writeInt(this.metadata);
         data.writeFloat(this.gravity);
         data.writeFloat(yawChange);
@@ -76,7 +76,7 @@ public class EntityFlyingBlock extends Entity implements IEntityAdditionalSpawnD
     @Override
     public void readSpawnData(ByteBuf data)
     {
-        blockID = data.readInt();
+        mimicBlock = Block.getBlockById(data.readInt());
         metadata = data.readInt();
         gravity = data.readFloat();
         yawChange = data.readFloat();
@@ -91,13 +91,13 @@ public class EntityFlyingBlock extends Entity implements IEntityAdditionalSpawnD
     @Override
     public void onUpdate()
     {
-        if (this.blockID >= Block.blockRegistry.length)
+        if (this.posY > 400 || this.mimicBlock == null)
         {
             this.setDead();
             return;
         }
 
-        if (this.posY > 400 || Block.blocksList[this.blockID] == null || this.blockID == ResonantEngine.blockMulti.blockID || this.blockID == Block.pistonExtension.blockID || this.blockID == Block.waterMoving.blockID || this.blockID == Block.lavaMoving.blockID)
+        if (this.mimicBlock == Blocks.piston_extension || this.mimicBlock instanceof BlockLiquid || this.mimicBlock instanceof IFluidBlock)
         {
             this.setDead();
             return;
@@ -107,7 +107,7 @@ public class EntityFlyingBlock extends Entity implements IEntityAdditionalSpawnD
 
         if (this.isCollided)
         {
-            this.pushOutOfBlocks(this.posX, (this.boundingBox.minY + this.boundingBox.maxY) / 2.0D, this.posZ);
+           //TODO this.applyEntityCollision().pushOutOfBlocks(this.posX, (this.boundingBox.minY + this.boundingBox.maxY) / 2.0D, this.posZ);
         }
 
         this.moveEntity(this.motionX, this.motionY, this.motionZ);
@@ -141,7 +141,7 @@ public class EntityFlyingBlock extends Entity implements IEntityAdditionalSpawnD
             int j = MathHelper.floor_double(posY);
             int k = MathHelper.floor_double(posZ);
 
-            this.worldObj.setBlock(i, j, k, this.blockID, this.metadata, 2);
+            this.worldObj.setBlock(i, j, k, this.mimicBlock, this.metadata, 2);
         }
 
         this.setDead();
@@ -155,9 +155,9 @@ public class EntityFlyingBlock extends Entity implements IEntityAdditionalSpawnD
         // Make sure the entity is not an item
         if (par1Entity instanceof EntityLiving)
         {
-            if (Block.blocksList[this.blockID] != null)
+            if (mimicBlock != null)
             {
-                if (!(Block.blocksList[this.blockID] instanceof BlockFluid) && (this.motionX > 2 || this.motionY > 2 || this.motionZ > 2))
+                if ((this.motionX > 2 || this.motionY > 2 || this.motionZ > 2))
                 {
                     int damage = (int) (1.2 * (Math.abs(this.motionX) + Math.abs(this.motionY) + Math.abs(this.motionZ)));
                     ((EntityLiving) par1Entity).attackEntityFrom(DamageSource.fallingBlock, damage);
@@ -172,7 +172,7 @@ public class EntityFlyingBlock extends Entity implements IEntityAdditionalSpawnD
     protected void writeEntityToNBT(NBTTagCompound nbttagcompound)
     {
         nbttagcompound.setInteger("metadata", this.metadata);
-        nbttagcompound.setInteger("blockID", this.blockID);
+        nbttagcompound.setInteger("mimicBlock", Block.getIdFromBlock(this.mimicBlock));
         nbttagcompound.setFloat("gravity", this.gravity);
     }
 
@@ -180,7 +180,7 @@ public class EntityFlyingBlock extends Entity implements IEntityAdditionalSpawnD
     protected void readEntityFromNBT(NBTTagCompound nbttagcompound)
     {
         this.metadata = nbttagcompound.getInteger("metadata");
-        this.blockID = nbttagcompound.getInteger("blockID");
+        this.mimicBlock = Block.getBlockById(nbttagcompound.getInteger("mimicBlock"));
         this.gravity = nbttagcompound.getFloat("gravity");
     }
 
