@@ -8,6 +8,7 @@ import icbm.explosion.explosive.TileExplosive;
 
 import java.util.List;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -16,6 +17,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import resonant.engine.ResonantEngine;
+import resonant.lib.network.discriminator.PacketPlayerItem;
+import resonant.lib.network.discriminator.PacketTile;
+import resonant.lib.network.discriminator.PacketType;
 import resonant.lib.network.handle.IPacketReceiver;
 import resonant.lib.network.netty.PacketManager;
 import resonant.lib.transform.vector.Vector3;
@@ -93,7 +98,7 @@ public class ItemRemoteDetonator extends ItemICBMElectrical implements IPacketRe
             {
                 MovingObjectPosition objectMouseOver = player.rayTrace(BAN_JING, 1);
 
-                if (objectMouseOver != null && objectMouseOver.typeOfHit == EnumMovingObjectType.TILE)
+                if (objectMouseOver != null && objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
                 {
 
                     TileEntity tileEntity = world.getTileEntity(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
@@ -113,7 +118,7 @@ public class ItemRemoteDetonator extends ItemICBMElectrical implements IPacketRe
                                 // Check for electricity
                                 if (this.getEnergy(itemStack) > ENERGY)
                                 {
-                                    PacketManager.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(tileEntity, (byte) 2));
+                                    ResonantEngine.instance.packetHandler.sendToServer(new PacketTile(tileEntity, (byte) 2));
                                     return itemStack;
                                 }
                                 else
@@ -134,9 +139,9 @@ public class ItemRemoteDetonator extends ItemICBMElectrical implements IPacketRe
                     if (this.nengZha(tileEntity))
                     {
                         // Blow it up
-                        PacketManager.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(tileEntity, (byte) 2));
+                        ResonantEngine.instance.packetHandler.sendToServer(new PacketTile(tileEntity, (byte) 2));
                         // Use Energy
-                        PacketManager.sendPacketToServer(ICBMCore.PACKET_ITEM.getPacket(player));
+                        ResonantEngine.instance.packetHandler.sendToServer(new PacketPlayerItem(player));
                     }
                 }
                 else
@@ -197,9 +202,12 @@ public class ItemRemoteDetonator extends ItemICBMElectrical implements IPacketRe
     }
 
     @Override
-    public void onReceivePacket(ByteArrayDataInput data, EntityPlayer player, Object... extra)
+    public void read(ByteBuf data, EntityPlayer player, PacketType type)
     {
-        ItemStack itemStack = (ItemStack) extra[0];
-        this.discharge(itemStack, ENERGY, true);
+        if(type instanceof PacketPlayerItem)
+        {
+            ItemStack itemStack = player.inventory.getStackInSlot(((PacketPlayerItem)type).slotId);
+            this.discharge(itemStack, ENERGY, true);
+        }
     }
 }

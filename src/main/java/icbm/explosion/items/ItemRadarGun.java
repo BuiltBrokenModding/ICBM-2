@@ -1,6 +1,5 @@
 package icbm.explosion.items;
 
-import icbm.core.ICBMCore;
 import icbm.core.prefab.item.ItemICBMElectrical;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.machines.launcher.TileLauncherPrefab;
@@ -8,6 +7,7 @@ import icbm.explosion.machines.launcher.TileLauncherScreen;
 
 import java.util.List;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -16,12 +16,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import resonant.engine.ResonantEngine;
+import resonant.lib.network.discriminator.PacketPlayerItem;
+import resonant.lib.network.discriminator.PacketTile;
+import resonant.lib.network.discriminator.PacketType;
 import resonant.lib.network.handle.IPacketReceiver;
 import resonant.lib.prefab.item.ItemElectric;
 import resonant.lib.transform.vector.Vector3;
 import resonant.lib.utility.LanguageUtility;
-
-import com.google.common.io.ByteArrayDataInput;
 
 public class ItemRadarGun extends ItemICBMElectrical implements IPacketReceiver
 {
@@ -39,8 +41,8 @@ public class ItemRadarGun extends ItemICBMElectrical implements IPacketReceiver
     {
         Vector3 coord = getLink(itemStack);
         par3List.add("\uaa74" + LanguageUtility.getLocal("info.radarGun.savedCoords"));
-        par3List.add(LanguageUtility.getLocal("gui.misc.x") + " " + (int) coord.x + ", " + LanguageUtility.getLocal("gui.misc.y") + " " + (int) coord.y + ", " + LanguageUtility.getLocal("gui.misc.z") + " " + (int) coord.z);
-        par3List.add((int) new Vector3(entityPlayer).distance(coord) + " " + LanguageUtility.getLocal("info.radarGun.meters") + " (" + (int) (new Vector3(entityPlayer).x - coord.x) + ", " + (int) (new Vector3(entityPlayer).y - coord.y) + ", " + (int) (new Vector3(entityPlayer).z - coord.z) + ")");
+        par3List.add(LanguageUtility.getLocal("gui.misc.x") + " " + (int) coord.x() + ", " + LanguageUtility.getLocal("gui.misc.y") + " " + (int) coord.y() + ", " + LanguageUtility.getLocal("gui.misc.z") + " " + (int) coord.z());
+        par3List.add((int) new Vector3(entityPlayer).distance(coord) + " " + LanguageUtility.getLocal("info.radarGun.meters") + " (" + (int) (new Vector3(entityPlayer).x() - coord.x()) + ", " + (int) (new Vector3(entityPlayer).y() - coord.y()) + ", " + (int) (new Vector3(entityPlayer).z() - coord.z()) + ")");
 
 		super.addInformation(itemStack, entityPlayer, par3List, par4);
     }
@@ -65,7 +67,7 @@ public class ItemRadarGun extends ItemICBMElectrical implements IPacketReceiver
                     // Check for electricity
                     if (this.getEnergy(itemStack) > energyCost)
                     {
-                        PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_ITEM.getPacket(entityPlayer, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
+                        ResonantEngine.instance.packetHandler.sendToServer(new PacketPlayerItem(entityPlayer, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
                         this.discharge(itemStack, energyCost, true);
                         entityPlayer.addChatComponentMessage(new ChatComponentText(LanguageUtility.getLocal("message.radarGun.scanned").replaceAll("%x", "" + objectMouseOver.blockX).replace("%y", "" + objectMouseOver.blockY).replaceAll("%z", "" + objectMouseOver.blockZ).replaceAll("%d", "" + Math.round(new Vector3(entityPlayer).distance(new Vector3(objectMouseOver))))));
                     }
@@ -109,12 +111,12 @@ public class ItemRadarGun extends ItemICBMElectrical implements IPacketReceiver
                             missileLauncher.setTarget(new Vector3());
                         }
 
-                        missileLauncher.getTarget().x = (int) savedCords.x;
-                        missileLauncher.getTarget().z = (int) savedCords.z;
+                        missileLauncher.getTarget().x_$eq((int) savedCords.x());
+                        missileLauncher.getTarget().z_$eq((int) savedCords.z());
 
                         if (par3World.isRemote)
                         {
-                            PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(missileLauncher, 2, savedCords.intX(), missileLauncher.getTarget().intY(), savedCords.intZ()));
+                            ResonantEngine.instance.packetHandler.sendToServer(new PacketTile(missileLauncher, 2, savedCords.xi(), missileLauncher.getTarget().zi(), savedCords.zi()));
                             par2EntityPlayer.addChatComponentMessage(new ChatComponentText((LanguageUtility.getLocal("message.radarGun.transfer"))));
                         }
                     }
@@ -122,35 +124,6 @@ public class ItemRadarGun extends ItemICBMElectrical implements IPacketReceiver
                     {
                         if (par3World.isRemote)
                             par2EntityPlayer.addChatComponentMessage(new ChatComponentText((LanguageUtility.getLocal("message.radarGun.noCoords"))));
-                    }
-                }
-                else if (tileEntity instanceof TileCruiseLauncher)
-                {
-                    TileCruiseLauncher missileLauncher = (TileCruiseLauncher) tileEntity;
-
-                    Vector3 savedCords = this.getLink(par1ItemStack);
-
-                    if (!savedCords.equals(new Vector3()))
-                    {
-                        if (missileLauncher.getTarget() == null)
-                        {
-                            missileLauncher.setTarget(new Vector3());
-                        }
-
-                        missileLauncher.setTarget(savedCords.clone());
-
-                        if (par3World.isRemote)
-                        {
-                            PacketDispatcher.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(missileLauncher, 2, savedCords.intX(), missileLauncher.getTarget().intY(), savedCords.intZ()));
-                            par2EntityPlayer.addChatComponentMessage(new ChatComponentText((LanguageUtility.getLocal("message.radarGun.transfer"))));
-                        }
-                    }
-                    else
-                    {
-                        if (par3World.isRemote)
-                        {
-                            par2EntityPlayer.addChatComponentMessage(new ChatComponentText((LanguageUtility.getLocal("message.radarGun.noCoords"))));
-                        }
                     }
                 }
             }
@@ -193,12 +166,18 @@ public class ItemRadarGun extends ItemICBMElectrical implements IPacketReceiver
     }
 
     @Override
-    public void onReceivePacket(ByteArrayDataInput data, EntityPlayer player, Object... extra)
+    public void read(ByteBuf data, EntityPlayer player, PacketType type)
     {
-        ItemStack itemStack = (ItemStack) extra[0];
-        this.setLink(itemStack, new Vector3(data.readInt(), data.readInt(), data.readInt()));
-        if (ICBMExplosion.itemRadarGun instanceof ItemElectric)
-            ((ItemElectric) ICBMExplosion.itemRadarGun).discharge(itemStack, ItemRadarGun.energyCost, true);
+        if(type instanceof PacketPlayerItem)
+        {
+            ItemStack itemStack = player.inventory.getStackInSlot(((PacketPlayerItem)type).slotId);
+            if(itemStack != null)
+            {
+                this.setLink(itemStack, new Vector3(data.readInt(), data.readInt(), data.readInt()));
+                if (ICBMExplosion.itemRadarGun instanceof ItemElectric)
+                    ((ItemElectric) ICBMExplosion.itemRadarGun).discharge(itemStack, ItemRadarGun.energyCost, true);
+            }
+        }
     }
 
 }
