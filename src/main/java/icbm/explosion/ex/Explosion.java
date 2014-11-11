@@ -10,6 +10,7 @@ import net.minecraftforge.client.model.IModelCustom;
 import net.minecraftforge.client.model.ModelFormatException;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import org.apache.logging.log4j.Level;
 
 public abstract class Explosion extends Explosive
 {
@@ -67,12 +68,12 @@ public abstract class Explosion extends Explosive
         try
         {
             if (this.model == null)
-                model = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.DOMAIN, Reference.MODEL_DIRECTORY + this.modelName));
+                model = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PREFIX + this.modelName));
         }
         catch (ModelFormatException e)
         {
-            System.out.println("Crash  ModelName: " + this.modelName);
-            e.printStackTrace();
+            Reference.LOGGER.error("Failed to load  missile model for " + this.modelName);
+            Reference.LOGGER.catching(Level.INFO, e);
         }
 
         return model;

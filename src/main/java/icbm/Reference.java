@@ -1,5 +1,10 @@
 package icbm;
 
+import org.apache.logging.log4j.LogManager;
+import resonant.engine.References;
+
+import java.util.logging.Logger;
+
 /** @author Calclavia */
 public class Reference
 {
@@ -27,5 +32,7 @@ public class Reference
     public static final String ITEM_PATH = TEXTURE_PATH + "items/";
     public static final String LANGUAGE_PATH = ASSETS_PATH + "languages/";
     public static final String[] LANGUAGES = new String[] { "en_US", "zh_CN", "es_ES", "de_DE", "ru_RU"};
+
+    public static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(NAME);
 
 }
