@@ -24,7 +24,7 @@ public class ItemSignalDisrupter extends ItemICBMElectrical implements IItemFreq
 {
 	private long energyCost = 250;
 	
-    public ItemSignalDisrupter(int id)
+    public ItemSignalDisrupter()
     {
         super("signalDisrupter");
     }

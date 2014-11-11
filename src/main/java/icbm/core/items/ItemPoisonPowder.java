@@ -6,7 +6,7 @@ import icbm.core.prefab.item.ItemICBMBase;
 
 public class ItemPoisonPowder extends ItemICBMBase
 {
-    public ItemPoisonPowder(int id)
+    public ItemPoisonPowder()
     {
         super("poisonPowder");
     }

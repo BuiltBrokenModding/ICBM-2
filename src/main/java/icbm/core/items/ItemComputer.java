@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 
 public class ItemComputer extends ItemICBMBase
 {
-    public ItemComputer(int id)
+    public ItemComputer()
     {
         super("hackingComputer");
     }

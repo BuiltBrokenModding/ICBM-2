@@ -23,7 +23,7 @@ public class ItemTracker extends ItemICBMElectrical implements IItemTracker
 {
     private static final long ENERGY_PER_TICK = 10;
 
-    public ItemTracker(int id)
+    public ItemTracker()
     {
         super("tracker");
         //FlagRegistry.registerFlag("ban_Tracker");

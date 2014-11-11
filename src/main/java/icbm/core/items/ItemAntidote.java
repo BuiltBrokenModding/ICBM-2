@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 
 public class ItemAntidote extends ItemICBMBase
 {
-    public ItemAntidote(int id)
+    public ItemAntidote()
     {
         super("antidote");
     }

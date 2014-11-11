@@ -20,7 +20,7 @@ public class ItemSulfurDust extends ItemICBMBase
     @SideOnly(Side.CLIENT)
     IIcon salt_icon;
 
-    public ItemSulfurDust(int id)
+    public ItemSulfurDust()
     {
         // Base name that we return.
         super("sulfur");
