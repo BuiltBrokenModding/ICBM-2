@@ -10,6 +10,8 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import resonant.api.items.IItemFrequency;
+import resonant.engine.ResonantEngine;
+import resonant.lib.network.discriminator.PacketPlayerItem;
 import resonant.lib.utility.LanguageUtility;
 import resonant.lib.network.netty.PacketManager;
 import cpw.mods.fml.client.FMLClientHandler;
@@ -63,7 +65,7 @@ public class GuiFrequency extends GuiICBM
             if (((IItemFrequency) this.itemStack.getItem()).getFrequency(this.itemStack) != newFrequency)
             {
                 ((IItemFrequency) this.itemStack.getItem()).setFrequency(newFrequency, this.itemStack);
-                PacketManager.sendPacketToServer(ICBMCore.PACKET_ITEM.getPacket(this.player, newFrequency));
+                ResonantEngine.instance.packetHandler.sendToServer(new PacketPlayerItem(this.player, newFrequency));
             }
         }
         catch (NumberFormatException e)

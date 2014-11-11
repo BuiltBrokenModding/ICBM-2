@@ -31,27 +31,27 @@ public class RenderEntityBlock extends Render
         GL11.glTranslatef((float) x, (float) y, (float) z);
         RenderUtility.setTerrainTexture();
 
-        Block block = Block.blocksList[entity.mimicBlock];
+        Block block = entity.mimicBlock;
         World world = entity.worldObj;
         GL11.glDisable(GL11.GL_LIGHTING);
 
         GL11.glRotatef(entity.rotationPitch, 0.0F, 0.0F, 1.0F);
         GL11.glRotatef(entity.rotationYaw, 0.0F, 1.0F, 0.0F);
 
-        this.renderBlocks.blockAccess = world;
+        this.field_147909_c.blockAccess = world;
 
-        if (block == Blocks.dragonEgg || block == Blocks.grass || block == Blocks.fence || block == Blocks.crops || block == Blocks.leaves || block == Blocks.torchRedstoneActive || block == Blocks.torchWood || block == Blocks.torchRedstoneIdle || block == Blocks.tallGrass || block == Blocks.vine || block == Blocks.wood || block == Blocks.bookShelf || block == Blocks.pumpkin)
+        if (block == Blocks.dragon_egg || block == Blocks.grass || block == Blocks.fence || block == Blocks.wheat || block == Blocks.leaves || block == Blocks.redstone_torch || block == Blocks.torch || block == Blocks.redstone_torch || block == Blocks.tallgrass || block == Blocks.vine || block == Blocks.planks || block == Blocks.bookshelf || block == Blocks.pumpkin)
         {
             Tessellator tessellator = Tessellator.instance;
             tessellator.startDrawingQuads();
             tessellator.setTranslation((-MathHelper.floor_double(entity.posX)) - 0.5F, (-MathHelper.floor_double(entity.posY)) - 0.5F, (-MathHelper.floor_double(entity.posZ)) - 0.5F);
-            this.renderBlocks.renderBlockByRenderType(block, MathHelper.floor_double(entity.posX), MathHelper.floor_double(entity.posY), MathHelper.floor_double(entity.posZ));
+            this.field_147909_c.renderBlockByRenderType(block, MathHelper.floor_double(entity.posX), MathHelper.floor_double(entity.posY), MathHelper.floor_double(entity.posZ));
             tessellator.setTranslation(0.0D, 0.0D, 0.0D);
             tessellator.draw();
         }
         else
         {
-            this.renderBlockGravity(block, entity.metadata, this.renderBlocks);
+            this.renderBlockGravity(block, entity.metadata, this.field_147909_c);
         }
 
         GL11.glEnable(GL11.GL_LIGHTING);

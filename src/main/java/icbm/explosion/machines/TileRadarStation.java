@@ -44,6 +44,7 @@ import resonant.engine.grid.frequency.FrequencyGrid;
 import resonant.lib.network.discriminator.PacketTile;
 import resonant.lib.network.discriminator.PacketType;
 import resonant.lib.network.handle.IPacketReceiver;
+import resonant.lib.transform.vector.IVector3;
 import resonant.lib.transform.vector.Vector2;
 import resonant.lib.transform.vector.Vector3;
 import resonant.lib.utility.LanguageUtility;
@@ -119,7 +120,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
             if (this.ticket == null && ticket != null)
             {
                 this.ticket = ticket;
-                new Vector3(this).writeNBT(this.ticket.getModData());
+                new Vector3((IVector3)this).writeNBT(this.ticket.getModData());
                 ForgeChunkManager.forceChunk(this.ticket, new ChunkCoordIntPair(this.xCoord >> 4, this.zCoord >> 4));
             }
         }
@@ -135,7 +136,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
             //Update client every 2 seconds
             if (this.ticks() % 40 == 0)
             {
-                ResonantEngine.instance.packetHandler.sendToAllAround(this.getDescPacket(), this.worldObj, new Vector3(this), 35);
+                ResonantEngine.instance.packetHandler.sendToAllAround(this.getDescPacket(), this.worldObj, new Vector3((IVector3)this), 35);
             }//Send packets to users with the gui open
             else if (this.ticks() % 3 == 0)
             {
@@ -184,7 +185,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
 	                    {
 	                        TileLauncherPrefab launcher = (TileLauncherPrefab) blockFrequency;
 	
-	                        if (new Vector3(this).distance(new Vector3(launcher)) < this.alarmRange && launcher.getFrequency() == this.getFrequency())
+	                        if (new Vector3((IVector3)this).distance(new Vector3((IVector3)launcher)) < this.alarmRange && launcher.getFrequency() == this.getFrequency())
 	                        {
 	                            if (launcher instanceof TileLauncherScreen)
 	                            {
@@ -232,7 +233,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
         this.detectedEntities.clear();
         this.detectedTiles.clear();
 
-        List<Entity> entities = RadarRegistry.getEntitiesWithinRadius(new Vector3(this).toVector2(), MAX_DETECTION_RANGE);
+        List<Entity> entities = RadarRegistry.getEntitiesWithinRadius(new Vector3((IVector3)this).toVector2(), MAX_DETECTION_RANGE);
 
         for (Entity entity : entities)
         {
@@ -250,13 +251,13 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
                         if (this.incomingMissiles.size() > 0)
                         {
                             /** Sort in order of distance */
-                            double dist = new Vector3(this).distance(new Vector3(entity));
+                            double dist = new Vector3((IVector3)this).distance(new Vector3(entity));
 
                             for (int i = 0; i < this.incomingMissiles.size(); i++)
                             {
                                 EntityMissile daoDan = this.incomingMissiles.get(i);
 
-                                if (dist < new Vector3(this).distance(new Vector3(daoDan)))
+                                if (dist < new Vector3((IVector3)this).distance(new Vector3(daoDan)))
                                 {
                                     this.incomingMissiles.add(i, (EntityMissile) entity);
                                     break;
@@ -489,7 +490,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
             {
                 if (data.readBoolean())
                 {
-                    ResonantEngine.instance.packetHandler.sendToAllAround(this.getDescriptionPacket2(), this.worldObj, new Vector3(this), 15);
+                    ResonantEngine.instance.packetHandler.sendToAllAround(this.getDescriptionPacket2(), this.worldObj, new Vector3((IVector3)this), 15);
                     this.playersUsing.add(player);
                 }
                 else

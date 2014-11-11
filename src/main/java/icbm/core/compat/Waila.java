@@ -28,10 +28,4 @@ public class Waila implements ILoadable
 	{
 
 	}
-
-	@Override
-	public String modId()
-	{
-		return Mods.WAILA();
-	}
 }

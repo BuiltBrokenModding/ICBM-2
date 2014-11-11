@@ -34,7 +34,7 @@ public class ItemBlockMachine extends Item
         return "icbm.machine";
     }
 
-    @Override
+    /**
     public boolean placeBlockAt(ItemStack itemStack, EntityPlayer entityPlayer, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata)
     {
         int meta;
@@ -95,5 +95,5 @@ public class ItemBlockMachine extends Item
         }
 
         return false;
-    }
+    } */
 }

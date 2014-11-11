@@ -198,7 +198,7 @@ public class GuiProximityDetector extends GuiICBM
         String color = "\u00a74";
         String status = LanguageUtility.getLocal("gui.misc.idle");
 
-        if (!this.tileEntity.energy().checkExtract())
+        if (!this.tileEntity.getEnergyStorage().checkExtract())
         {
             status = LanguageUtility.getLocal("gui.misc.nopower");
         }

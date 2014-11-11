@@ -8,6 +8,7 @@ import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
 /**
@@ -20,7 +21,7 @@ public class WailaCamoDataProvider implements IWailaDataProvider
 	public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config)
 	{
 		TileCamouflage tile = (TileCamouflage) accessor.getTileEntity();
-		return tile.getMimicBlockID() != 0 && config.getConfig(WailaRegistrar.wailaCamoBlockHide) ? new ItemStack(Block.blocksList[tile.getMimicBlockID()], 0, tile.getMimicBlockMeta()) : null;
+		return tile.block != Blocks.air && config.getConfig(WailaRegistrar.wailaCamoBlockHide) ? new ItemStack(tile.block, 0, tile.blockMeta) : null;
 	}
 
 	@Override

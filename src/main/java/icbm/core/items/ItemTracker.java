@@ -10,6 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import resonant.api.items.IItemTracker;
 import resonant.lib.transform.vector.Vector3;
@@ -25,7 +26,7 @@ public class ItemTracker extends ItemICBMElectrical implements IItemTracker
     public ItemTracker(int id)
     {
         super("tracker");
-        FlagRegistry.registerFlag("ban_Tracker");
+        //FlagRegistry.registerFlag("ban_Tracker");
     }
 
     @SideOnly(Side.CLIENT)
@@ -49,7 +50,7 @@ public class ItemTracker extends ItemICBMElectrical implements IItemTracker
 
         if (trackingEntity != null)
         {
-            par3List.add(LanguageUtility.getLocal("info.tracker.tracking") + " " + trackingEntity.getEntityName());
+            par3List.add(LanguageUtility.getLocal("info.tracker.tracking") + " " + trackingEntity.getCommandSenderName());
         }
 
         par3List.add(LanguageUtility.getLocal("info.tracker.tooltip"));
@@ -136,23 +137,23 @@ public class ItemTracker extends ItemICBMElectrical implements IItemTracker
     {
         if (!player.worldObj.isRemote)
         {
-            boolean flag_ban = FlagRegistry.getModFlag().getFlagWorld(player.worldObj).containsValue("ban_Tracker", "true", new Vector3(entity));
+            boolean flag_ban = false; // FlagRegistry.getModFlag().getFlagWorld(player.worldObj).containsValue("ban_Tracker", "true", new Vector3(entity));
             if (!flag_ban)
             {
                 if (this.getEnergy(itemStack) > ENERGY_PER_TICK)
                 {
                     setTrackingEntity(itemStack, entity);
-                    player.addChatMessage(LanguageUtility.getLocal("message.tracker.nowtrack") + " " + entity.getEntityName());
+                    player.addChatMessage(new ChatComponentText(LanguageUtility.getLocal("message.tracker.nowtrack") + " " + entity.getCommandSenderName()));
                     return true;
                 }
                 else
                 {
-                    player.addChatComponentMessage(LanguageUtility.getLocal("message.tracker.nopower"));
+                    player.addChatComponentMessage(new ChatComponentText(LanguageUtility.getLocal("message.tracker.nopower")));
                 }
             }
             else
             {
-                player.addChatMessage(LanguageUtility.getLocal("message.tracker.banned"));
+                player.addChatMessage(new ChatComponentText(LanguageUtility.getLocal("message.tracker.banned")));
             }
         }
 

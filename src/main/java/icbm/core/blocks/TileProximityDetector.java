@@ -68,7 +68,7 @@ public class TileProximityDetector extends TileFrequency implements IRedstonePro
 
                 boolean isDetectThisCheck = false;
 
-                if (this.energy().checkExtract())
+                if (this.getEnergyStorage().checkExtract())
                 {
                     AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(this.xCoord - minCoord.x(), this.yCoord - minCoord.y(), this.zCoord - minCoord.z(), this.xCoord + maxCoord.x() + 1D, this.yCoord + maxCoord.y() + 1D, this.zCoord + maxCoord.z() + 1D);
                     List<EntityLivingBase> entitiesNearby = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, bounds);
@@ -117,7 +117,7 @@ public class TileProximityDetector extends TileFrequency implements IRedstonePro
                         }
                     }
 
-                    this.energy().extractEnergy();
+                    this.getEnergyStorage().extractEnergy();
                 }
 
                 if (isDetectThisCheck != this.isDetect)
@@ -152,7 +152,7 @@ public class TileProximityDetector extends TileFrequency implements IRedstonePro
     @Override
     public PacketTile getDescPacket()
     {
-        return new PacketTile(this, 0, this.energy().getEnergy(), getFrequency(), this.mode, this.isInverted, this.minCoord.xi(), this.minCoord.yi(), this.minCoord.zi(), this.maxCoord.xi(), this.maxCoord.yi(), this.maxCoord.zi());
+        return new PacketTile(this, 0, this.getEnergyStorage().getEnergy(), getFrequency(), this.mode, this.isInverted, this.minCoord.xi(), this.minCoord.yi(), this.minCoord.zi(), this.maxCoord.xi(), this.maxCoord.yi(), this.maxCoord.zi());
     }
 
     @Override
@@ -164,7 +164,7 @@ public class TileProximityDetector extends TileFrequency implements IRedstonePro
             {
                 case 0:
                 {
-                    this.energy().setEnergy(data.readDouble());
+                    this.getEnergyStorage().setEnergy(data.readDouble());
                     this.setFrequency(data.readInt());
                     this.mode = data.readByte();
                     this.isInverted = data.readBoolean();

@@ -81,7 +81,7 @@ public class BlastNuclear extends Blast
 
                         if (r > distance && r - 3 < distance)
                         {
-                            Vector3 spawnPosition = Vector3.translate(position, new Vector3(x * 2, (y - 2) * 2, z * 2));
+                            Vector3 spawnPosition = position.add(new Vector3(x * 2, (y - 2) * 2, z * 2));
                             float xDiff = (float) (spawnPosition.x() - position.x());
                             float zDiff = (float) (spawnPosition.z() - position.z());
                             ICBMExplosion.proxy.spawnParticle("smoke", world(), spawnPosition, xDiff * 0.3 * world().rand.nextFloat(), -world().rand.nextFloat(), zDiff * 0.3 * world().rand.nextFloat(), (float) (distance / this.getRadius()) * world().rand.nextFloat(), 0, 0, 8F, 1.2F);
@@ -113,7 +113,7 @@ public class BlastNuclear extends Blast
 
                         if (distance < r && distance > r - 1)
                         {
-                            Vector3 targetPosition = Vector3.translate(this.position, new Vector3(x, 0, z));
+                            Vector3 targetPosition = this.position.add(new Vector3(x, 0, z));
 
                             if (this.world().rand.nextFloat() < Math.max(0.001 * r, 0.05))
                             {
@@ -173,7 +173,7 @@ public class BlastNuclear extends Blast
 
             if (this.world().rand.nextInt(3) == 0)
             {
-                world().toggleRain();
+                //world().toggleRain();
             }
         }
 
@@ -182,7 +182,7 @@ public class BlastNuclear extends Blast
 
     /** The interval in ticks before the next procedural call of this explosive
      * 
-     * @param return - Return -1 if this explosive does not need procedural calls */
+     * @return - Return -1 if this explosive does not need procedural calls */
     @Override
     public int proceduralInterval()
     {

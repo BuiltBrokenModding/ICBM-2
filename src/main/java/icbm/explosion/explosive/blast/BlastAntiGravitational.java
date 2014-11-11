@@ -47,18 +47,18 @@ public class BlastAntiGravitational extends Blast
 
             for (Vector3 targetPosition : this.thread.results)
             {
-                double distance = Vector3.distance(targetPosition, position);
+                double distance = targetPosition.add(position).magnitude();
 
                 if (distance > r || distance < r - 2 || blocksToTake <= 0)
                     continue;
 
-               Block block = Block.blocksList[world().getBlockId(targetPosition.xi(), targetPosition.yi(), targetPosition.zi())];
+               Block block = world().getBlock(targetPosition.xi(), targetPosition.yi(), targetPosition.zi());
 
                 if (block == null || block.getBlockHardness(world(), targetPosition.xi(), targetPosition.yi(), targetPosition.zi()) < 0)
                     continue;
 
-                if (block instanceof IForceFieldBlock)
-                    continue;
+                //if (block instanceof IForceFieldBlock)
+                //    continue;
 
                 int metadata = world().getBlockMetadata(targetPosition.xi(), targetPosition.yi(), targetPosition.zi());
 
@@ -66,11 +66,11 @@ public class BlastAntiGravitational extends Blast
                 {
                     this.world().setBlockToAir(targetPosition.xi(), targetPosition.yi(), targetPosition.zi());
 
-                    targetPosition.translate(0.5D);
+                    targetPosition.add(0.5D);
 
                     if (world().rand.nextFloat() < 0.3 * (this.getRadius() - r))
                     {
-                        EntityFlyingBlock entity = new EntityFlyingBlock(world(), targetPosition, block.blockID, metadata, 0);
+                        EntityFlyingBlock entity = new EntityFlyingBlock(world(), targetPosition, block, metadata, 0);
                         world().spawnEntityInWorld(entity);
                         flyingBlocks.add(entity);
                         entity.yawChange = 50 * world().rand.nextFloat();

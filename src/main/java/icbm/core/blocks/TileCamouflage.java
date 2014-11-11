@@ -27,9 +27,9 @@ import resonant.lib.transform.vector.Vector3;
 public class TileCamouflage extends TileAdvanced implements IPacketReceiver
 {
     // The block Id this block is trying to mimick
-    private Block block = null;
-    private int blockMeta = 0;
-    private boolean isSolid = true;
+    public Block block = null;
+    public int blockMeta = 0;
+    public boolean isSolid = true;
 
     /** Bitmask **/
     private byte renderSides = 0;

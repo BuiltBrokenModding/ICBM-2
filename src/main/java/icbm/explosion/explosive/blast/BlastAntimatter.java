@@ -42,16 +42,15 @@ public class BlastAntimatter extends Blast
                 {
                     for (int z = (int) -this.getRadius(); z < this.getRadius(); z++)
                     {
-                        Vector3 targetPosition = this.position.clone().translate(new Vector3(x, y, z));
+                        Vector3 targetPosition = this.position.clone().add(new Vector3(x, y, z));
 
                         double dist = position.distance(targetPosition);
 
                         if (dist < this.getRadius())
                         {
-                            int blockID = targetPosition.getBlockID(world());
-                            Block block = Block.blocksList[blockID];
+                            Block block = position.getBlock();
 
-                            if (block != null && !block.isAirBlock(this.world(), x, y, x))
+                            if (block != null && !block.isAir(this.world(), x, y, x))
                             {
                                 if (!this.destroyBedrock && block.getBlockHardness(this.world(), x, y, x) < 0)
                                 {
@@ -60,7 +59,7 @@ public class BlastAntimatter extends Blast
 
                                 if (dist < this.getRadius() - 1 || world().rand.nextFloat() > 0.7)
                                 {
-                                    targetPosition.setBlock(world(), 0);
+                                    targetPosition.setBlockToAir(world());
                                 }
                             }
                         }

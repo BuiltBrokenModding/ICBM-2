@@ -5,6 +5,7 @@ import icbm.core.prefab.item.ItemICBMElectrical;
 
 import java.util.List;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -12,6 +13,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import resonant.api.items.IItemFrequency;
+import resonant.lib.network.discriminator.PacketPlayerItem;
+import resonant.lib.network.discriminator.PacketType;
 import resonant.lib.network.handle.IPacketReceiver;
 import resonant.lib.utility.LanguageUtility;
 
@@ -94,19 +97,15 @@ public class ItemSignalDisrupter extends ItemICBMElectrical implements IItemFreq
     }
 
     @Override
-    public void onReceivePacket(ByteArrayDataInput data, EntityPlayer player, Object... extra)
+    public void read(ByteBuf data, EntityPlayer player, PacketType type)
     {
-        if (extra == null)
-        {
-            return;
-        }
         
         if (data == null)
         {
             return;
         }
         
-        ItemStack itemStack = (ItemStack) extra[0];
+        ItemStack itemStack = player.inventory.getStackInSlot(((PacketPlayerItem)type).slotId);
         int frequency = data.readInt();
         
         if (itemStack != null)

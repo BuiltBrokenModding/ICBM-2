@@ -9,6 +9,8 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import resonant.engine.ResonantEngine;
+import resonant.lib.network.discriminator.PacketTile;
 import resonant.lib.utility.LanguageUtility;
 import resonant.lib.science.UnitDisplay;
 import resonant.lib.science.UnitDisplay.Unit;
@@ -95,7 +97,7 @@ public class GuiLauncherScreen extends GuiICBM
             Vector3 newTarget = new Vector3(Integer.parseInt(this.target_xCoord_field.getText()), Math.max(Integer.parseInt(this.target_yCoord_field.getText()), 0), Integer.parseInt(this.target_zCoord_field.getText()));
 
             this.tileEntity.setTarget(newTarget);
-            PacketManager.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 2, this.tileEntity.getTarget().xi(), this.tileEntity.getTarget().yi(), this.tileEntity.getTarget().zi()));
+            ResonantEngine.instance.packetHandler.sendToServer(new PacketTile(this.tileEntity, 2, this.tileEntity.getTarget().xi(), this.tileEntity.getTarget().yi(), this.tileEntity.getTarget().zi()));
         }
         catch (NumberFormatException e)
         {
@@ -107,7 +109,7 @@ public class GuiLauncherScreen extends GuiICBM
             short newFrequency = (short) Math.max(Short.parseShort(this.target_freq_field.getText()), 0);
 
             this.tileEntity.setFrequency(newFrequency);
-            PacketManager.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 1, this.tileEntity.getFrequency()));
+            ResonantEngine.instance.packetHandler.sendToServer(new PacketTile(this.tileEntity, 1, this.tileEntity.getFrequency()));
         }
         catch (NumberFormatException e)
         {
@@ -119,7 +121,7 @@ public class GuiLauncherScreen extends GuiICBM
             short newGaoDu = (short) Math.max(Math.min(Short.parseShort(this.target_height_field.getText()), Short.MAX_VALUE), 3);
 
             this.tileEntity.gaoDu = newGaoDu;
-            PacketManager.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 3, this.tileEntity.gaoDu));
+            ResonantEngine.instance.packetHandler.sendToServer(new PacketTile(this.tileEntity, 3, this.tileEntity.gaoDu));
         }
         catch (NumberFormatException e)
         {
@@ -192,8 +194,8 @@ public class GuiLauncherScreen extends GuiICBM
 
         // Shows the status of the missile launcher
         this.fontRendererObj.drawString(LanguageUtility.getLocal("gui.misc.status") + " " + this.tileEntity.getStatus(), 12, 125, 4210752);
-        this.fontRendererObj.drawString(LanguageUtility.getLocal("gui.misc.voltage") + " " + this.tileEntity.getVoltageInput(null) + "v", 12, 137, 4210752);
-        this.fontRendererObj.drawString(UnitDisplay.getDisplayShort(this.tileEntity.getEnergyHandler().getEnergy(), Unit.JOULES) + "/" + UnitDisplay.getDisplay(this.tileEntity.getEnergyHandler().getEnergyCapacity(), Unit.JOULES), 12, 150, 4210752);
+        //this.fontRendererObj.drawString(LanguageUtility.getLocal("gui.misc.voltage") + " " + this.tileEntity.getVoltageInput(null) + "v", 12, 137, 4210752);
+        this.fontRendererObj.drawString(new UnitDisplay(Unit.JOULES, this.tileEntity.getEnergyStorage().getEnergy()) + "/" + new UnitDisplay(Unit.JOULES, this.tileEntity.getEnergyStorage().getEnergyCapacity()), 12, 150, 4210752);
     }
 
     @Override

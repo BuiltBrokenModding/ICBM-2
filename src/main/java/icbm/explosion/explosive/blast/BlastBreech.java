@@ -33,20 +33,20 @@ public class BlastBreech extends BlastRepulsive
 
             if (this.exploder instanceof IRotatable)
             {
-                difference.translate(((IRotatable) this.exploder).getDirection());
+                difference.add(((IRotatable) this.exploder).getDirection());
             }
             else
             {
-                difference.translate(ForgeDirection.DOWN);
+                difference.add(ForgeDirection.DOWN);
             }
 
             this.world().playSoundEffect(position.x(), position.y(), position.z(), "random.explode", 5.0F, (1.0F + (world().rand.nextFloat() - world().rand.nextFloat()) * 0.2F) * 0.7F);
 
             for (int i = 0; i < this.depth; i++)
             {
-                if (Block.blocksList[position.getBlockID(world())] != null)
+                if (position.getBlock(world()) != null)
                 {
-                    if (Block.blocksList[position.getBlockID(world())].getExplosionResistance(this.exploder, world(), position.xi(), position.yi(), position.zi(), position.x(), position.y(), position.z()) > Blocks.obsidian.getExplosionResistance(this.exploder) || Block.blocksList[position.getBlockID(world())] instanceof IForceFieldBlock)
+                    if (position.getBlock(world()).getExplosionResistance(this.exploder, world(), position.xi(), position.yi(), position.zi(), position.x(), position.y(), position.z()) > Blocks.obsidian.getExplosionResistance(this.exploder))
                     {
                         break;
                     }

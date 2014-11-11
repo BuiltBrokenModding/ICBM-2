@@ -109,9 +109,9 @@ public class BlockRenderHandler implements ISimpleBlockRenderingHandler
                 GL11.glRotatef(180f, 0f, 0f, 1f);
                 GL11.glRotatef(180f, 0, 1, 0);
 
-                FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderRadarStation.TEXTURE_FILE);
+                //FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderRadarStation.TEXTURE_FILE);
 
-                RenderRadarStation.MODEL.render(0.0625f, 0, 1.2f);
+                //RenderRadarStation.MODEL.render(0.0625f, 0, 1.2f);
             }
             else if (metadata == MachineData.EmpTower.ordinal() + 6)
             {
@@ -122,27 +122,6 @@ public class BlockRenderHandler implements ISimpleBlockRenderingHandler
                 FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderEmpTower.TEXTURE_FILE);
 
                 RenderEmpTower.MODEL.render(0, 0.0625F);
-            }
-            else if (metadata == MachineData.CruiseLauncher.ordinal() + 6)
-            {
-                GL11.glTranslatef(0f, 0.4f, 0f);
-                GL11.glRotatef(180f, 0f, 0f, 1f);
-                GL11.glScalef(0.55f, 0.5f, 0.55f);
-
-                FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderCruiseLauncher.TEXTURE_FILE);
-
-                RenderCruiseLauncher.MODEL0.render(0.0625F);
-                RenderCruiseLauncher.MODEL1.render(0.0625F);
-            }
-            else if (metadata == MachineData.MissileCoordinator.ordinal() + 6)
-            {
-                GL11.glTranslatef(0f, 1.1f, 0f);
-                GL11.glRotatef(180f, 0f, 0f, 1f);
-                GL11.glRotatef(180f, 0f, 1f, 0f);
-
-                FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderMissileCoordinator.TEXTURE_FILE);
-
-                RenderMissileCoordinator.MODEL.render(0, 0.0625F);
             }
 
             GL11.glPopMatrix();

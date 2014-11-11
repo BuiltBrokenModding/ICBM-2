@@ -61,7 +61,7 @@ public class BlastSky extends BlastBeam
 
                 for (Vector3 targetPosition : this.thread.results)
                 {
-                    double distance = Vector3.distance(targetPosition, position);
+                    double distance = targetPosition.add(position).magnitude();
 
                     double distanceFromCenter = position.distance(targetPosition);
 
@@ -78,15 +78,15 @@ public class BlastSky extends BlastBeam
                         /*
                          * Place down ice blocks.
                          */
-                        int blockID = this.world().getBlockId(targetPosition.xi(), targetPosition.yi(), targetPosition.zi());
+                        Block blockID = this.world().getBlock(targetPosition.xi(), targetPosition.yi(), targetPosition.zi());
 
-                        if (blockID == Blocks.fire.blockID || blockID == Blocks.lavaMoving.blockID || blockID == Blocks.lavaStill.blockID)
+                        if (blockID == Blocks.fire || blockID == Blocks.flowing_lava || blockID == Blocks.lava)
                         {
-                            this.world().setBlock(targetPosition.xi(), targetPosition.yi(), targetPosition.zi(), Blocks.snow.blockID, 0, 2);
+                            this.world().setBlock(targetPosition.xi(), targetPosition.yi(), targetPosition.zi(), Blocks.snow, 0, 2);
                         }
-                        else if (blockID == 0 && this.world().getBlockId(targetPosition.xi(), targetPosition.yi() - 1, targetPosition.zi()) != Blocks.ice.blockID && world().getBlockId(targetPosition.xi(), targetPosition.yi() - 1, targetPosition.zi()) != 0)
+                        else if (blockID != Blocks.air && this.world().getBlock(targetPosition.xi(), targetPosition.yi() - 1, targetPosition.zi()) != Blocks.ice && world().getBlock(targetPosition.xi(), targetPosition.yi() - 1, targetPosition.zi()) != Blocks.air)
                         {
-                            this.world().setBlock(targetPosition.xi(), targetPosition.yi(), targetPosition.zi(), Blocks.ice.blockID, 0, 2);
+                            this.world().setBlock(targetPosition.xi(), targetPosition.yi(), targetPosition.zi(), Blocks.ice, 0, 2);
                         }
                     }
                 }
