@@ -33,7 +33,7 @@ public class ItemRemoteDetonator extends ItemICBMElectrical implements IPacketRe
     public static final int BAN_JING = 100;
     public static final int ENERGY = 1500;
 
-    public ItemRemoteDetonator(int id)
+    public ItemRemoteDetonator()
     {
         super("remoteDetonator");
     }

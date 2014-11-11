@@ -53,9 +53,9 @@ public class TileMissileAssembler extends TileInventory implements IMultiBlock, 
     }
 
     @Override
-    public void onInstantiate()
+    public void start()
     {
-        super.onInstantiate();
+        super.start();
         this.onInventoryChanged();
     }
 

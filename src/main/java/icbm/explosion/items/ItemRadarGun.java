@@ -30,7 +30,7 @@ public class ItemRadarGun extends ItemICBMElectrical implements IPacketReceiver
     public static final int energyCost = 12500;
     public static final int raycastDistance = 1000;
 
-    public ItemRadarGun(int id)
+    public ItemRadarGun()
     {
         super("radarGun");
     }

@@ -11,6 +11,7 @@ import java.util.HashMap;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 
+import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
@@ -97,8 +98,9 @@ public class RenderItemMissile implements IItemRenderer
                 {
                     RenderMissile.cache.put(missile, missile.getMissileModel());
                 }
-
-                RenderMissile.cache.get(missile).renderAll();
+                IModelCustom model = RenderMissile.cache.get(missile);
+                if(model != null)
+                    model.renderAll();
             }
         }
     }
