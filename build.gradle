@@ -55,11 +55,6 @@ processResources {
 	from 'build.properties'
 }
 
-task copyBuildXml(type: Copy) {
-    from 'build.properties'
-    into 'output'
-}
-
 task apiZip(type: Zip) {
     classifier = 'api'
     from sourceSets*.allSource
@@ -72,7 +67,6 @@ artifacts {
 }
 
 jar {
-    dependsOn copyBuildXml
     classifier = ''
     destinationDir = file 'output'
 }
