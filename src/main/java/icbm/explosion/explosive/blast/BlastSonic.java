@@ -13,7 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFluid;
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
@@ -21,7 +21,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
 import resonant.lib.transform.vector.Vector3;
-import resonant.api.mffs.IForceFieldBlock;
+import resonant.lib.transform.vector.VectorWorld;
 
 public class BlastSonic extends Blast
 {
@@ -59,16 +59,16 @@ public class BlastSonic extends Blast
                     {
                         for (int z = (int) (-this.getRadius() * 2); z < this.getRadius() * 2; ++z)
                         {
-                            Vector3 targetPosition = Vector3.translate(position, new Vector3(x, y, z));
-                            int blockID = world().getBlockId(targetPosition.xi(), targetPosition.yi(), targetPosition.zi());
+                            VectorWorld targetPosition = position.add(new Vector3(x, y, z));
+                            Block blockID = targetPosition.getBlock();
 
-                            if (blockID > 0)
+                            if (blockID != null)
                             {
-                                Material material = world().getBlockMaterial(targetPosition.xi(), targetPosition.yi(), targetPosition.zi());
+                                Material material = blockID.getMaterial();
 
-                                if (blockID != Blocks.bedrock.blockID && !(Block.getBlockById(blockID) instanceof BlockFluid) && (Block.blocksList[blockID].getExplosionResistance(this.exploder, world(), targetPosition.xi(), targetPosition.yi(), targetPosition.zi(), position.xi(), position.yi(), position.zi()) > this.nengLiang || material == Material.glass))
+                                if (targetPosition.getHardness() >= 0 && !(blockID instanceof BlockLiquid) && (blockID.getExplosionResistance(this.exploder, world(), targetPosition.xi(), targetPosition.yi(), targetPosition.zi(), position.xi(), position.yi(), position.zi()) > this.nengLiang || material == Material.glass))
                                 {
-                                    targetPosition.setBlock(world(), 0);
+                                    targetPosition.setBlockToAir();
                                 }
                             }
                         }
@@ -83,7 +83,7 @@ public class BlastSonic extends Blast
                 {
                     float resistance = 0;
 
-                    if (block instanceof BlockFluid || block instanceof IFluidBlock)
+                    if (block instanceof BlockLiquid || block instanceof IFluidBlock)
                     {
                         resistance = 1f;
                     }
@@ -123,33 +123,34 @@ public class BlastSonic extends Blast
                 while (it.hasNext())
                 {
                     Vector3 targetPosition = it.next();
-                    double distance = Vector3.distance(targetPosition, position);
+                    double distance = targetPosition.add(position).magnitude();
 
                     if (distance > r || distance < r - 3)
                         continue;
 
-                    int blockID = this.world().getBlockId(targetPosition.xi(), targetPosition.yi(), targetPosition.zi());
+                    Block blockID = targetPosition.getBlock(world());
+                    double hardness = targetPosition.getHardness(world());
 
-                    if (blockID == 0 || blockID == Blocks.bedrock.blockID || blockID == Blocks.obsidian.blockID)
+                    if (hardness < 0 || hardness > 10000)
                         continue;
 
-                    if (Block.blocksList[blockID] instanceof IForceFieldBlock)
-                        continue;
+                    //if (Block.blocksList[blockID] instanceof IForceFieldBlock)
+                    //    continue;
 
                     int metadata = this.world().getBlockMetadata(targetPosition.xi(), targetPosition.yi(), targetPosition.zi());
 
                     if (distance < r - 1 || this.world().rand.nextInt(3) > 0)
                     {
-                        if (blockID == ICBMExplosion.blockExplosive.blockID)
+                        if (blockID == ICBMExplosion.blockExplosive)
                         {
-                            BlockExplosive.yinZha(this.world(), targetPosition.xi(), targetPosition.yi(), targetPosition.zi(), ((TileExplosive) this.world().getBlockTileEntity(targetPosition.xi(), targetPosition.yi(), targetPosition.zi())).haoMa, 1);
+                            BlockExplosive.yinZha(this.world(), targetPosition.xi(), targetPosition.yi(), targetPosition.zi(), ((TileExplosive) this.world().getTileEntity(targetPosition.xi(), targetPosition.yi(), targetPosition.zi())).haoMa, 1);
                         }
                         else
                         {
                             this.world().setBlockToAir(targetPosition.xi(), targetPosition.yi(), targetPosition.zi());
                         }
 
-                        targetPosition.translate(0.5D);
+                        targetPosition.add(0.5D);
 
                         if (this.world().rand.nextFloat() < 0.3 * (this.getRadius() - r))
                         {
