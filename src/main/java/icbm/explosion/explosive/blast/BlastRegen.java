@@ -45,7 +45,7 @@ public class BlastRegen extends Blast
 
                                 worldServer.setBlock(x + oldChunk.xPosition * 16, y, z + oldChunk.zPosition * 16, blockID, metadata, 2);
 
-                                TileEntity tileEntity = newChunk.getChunkBlockTileEntity(x, y, z);
+                                TileEntity tileEntity = newChunk.getTileEntityUnsafe(x, y, z);
 
                                 if (tileEntity != null)
                                 {

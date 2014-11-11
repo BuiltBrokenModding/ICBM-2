@@ -53,7 +53,7 @@ public class MissileCluster extends Missile
                     clusterMissile.missileType = MissileType.CruiseMissile;
                     clusterMissile.protectionTime = 20 + missileObj.targetHeight - 1;
 
-                    clusterMissile.launch(Vector3.translate(missileObj.targetVector, new Vector3(x, y, z)));
+                    clusterMissile.launch(missileObj.targetVector.add(new Vector3(x, y, z)));
                     missileObj.worldObj.spawnEntityInWorld(clusterMissile);
                 }
                 missileObj.protectionTime = 20;

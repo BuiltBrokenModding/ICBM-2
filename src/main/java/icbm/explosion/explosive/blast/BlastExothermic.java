@@ -39,7 +39,7 @@ public class BlastExothermic extends BlastBeam
             {
                 for (Vector3 targetPosition : this.thread.results)
                 {
-                    double distance = Vector3.distance(targetPosition, position);
+                    double distance = targetPosition.subtract(position).magnitude();
 
                     double distanceFromCenter = position.distance(targetPosition);
 
@@ -64,7 +64,7 @@ public class BlastExothermic extends BlastBeam
                             this.world().setBlockToAir(targetPosition.xi(), targetPosition.yi(), targetPosition.zi());
                         }
 
-                        if ((blockID != null || blockID == Blocks.snow) && this.world().func_149688_o(targetPosition.xi(), targetPosition.yi() - 1, targetPosition.zi()).isSolid())
+                        if ((blockID != null || blockID == Blocks.snow))
                         // getBlockMaterial has been [de]obfuscated and is now known as func_149688_o
                         {
                             if (this.world().rand.nextFloat() > 0.999)

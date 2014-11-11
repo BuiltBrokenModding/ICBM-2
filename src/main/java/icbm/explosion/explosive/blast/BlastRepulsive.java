@@ -70,11 +70,11 @@ public class BlastRepulsive extends Blast
                                 int var22 = MathHelper.floor_double(var15);
                                 int var23 = MathHelper.floor_double(var17);
                                 int var24 = MathHelper.floor_double(var19);
-                                int var25 = this.world().getBlock(var22, var23, var24);
+                                Block var25 = this.world().getBlock(var22, var23, var24);
 
-                                if (var25 > 0)
+                                if (var25 != null)
                                 {
-                                    var14 -= (Block.blocksList[var25].getExplosionResistance(this.exploder, this.world(), var22, var23, var24, this.position.xi(), this.position.yi(), this.position.zi()) + 0.3F) * var21;
+                                    var14 -= (var25.getExplosionResistance(this.exploder, this.world(), var22, var23, var24, this.position.xi(), this.position.yi(), this.position.zi()) + 0.3F) * var21;
                                 }
 
                                 if (var14 > 0.0F)
@@ -146,7 +146,7 @@ public class BlastRepulsive extends Blast
                 {
                     try
                     {
-                        Block block = Block.blocksList[blockID];
+                        Block block = blockID;
 
                         if (block.canDropFromExplosion(null))
                         {
