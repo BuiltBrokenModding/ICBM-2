@@ -9,18 +9,19 @@ import icbm.explosion.entities.EntityExplosive;
 import java.util.List;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFluid;
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
 import resonant.api.explosion.IExplosiveIgnore;
 import resonant.lib.config.Config;
+import resonant.lib.transform.rotation.EulerAngle;
 import resonant.lib.transform.vector.Vector3;
-import resonant.api.mffs.IForceFieldBlock;
 
 public class BlastRedmatter extends Blast
 {
@@ -77,7 +78,7 @@ public class BlastRedmatter extends Blast
         if (!this.world().isRemote)
         {
             Vector3 currentPos = new Vector3();
-            int blockID = -1;
+            Block blockID = null;
             int metadata = -1;
             double dist = -1;
             int takenBlocks = 0;
@@ -102,21 +103,21 @@ public class BlastRedmatter extends Blast
                             if (dist > radius || dist < radius - 2)
                                 continue;
 
-                            blockID = currentPos.getBlockID(this.world());
+                            blockID = currentPos.getBlock(this.world());
                             metadata = currentPos.getBlockMetadata(this.world());
-                            block = Block.getBlockById(blockID);
+                            block = blockID;
 
                             if (block != null && block.getBlockHardness(this.world(), currentPos.xi(), currentPos.yi(), currentPos.zi()) >= 0)
                             {
-                                if (block instanceof IForceFieldBlock)
-                                {
-                                    ((IForceFieldBlock) block).weakenForceField(this.world(), currentPos.xi(), currentPos.yi(), currentPos.zi(), 50);
-                                    continue;
-                                }
+                                //if (block instanceof IForceFieldBlock)
+                                //{
+                                //    ((IForceFieldBlock) block).weakenForceField(this.world(), currentPos.xi(), currentPos.yi(), currentPos.zi(), 50);
+                                //    continue;
+                                //}
 
-                                this.world().setBlock(currentPos.xi(), currentPos.yi(), currentPos.zi(), 0, 0, block instanceof BlockFluid ? 0 : 2);
+                                this.world().setBlock(currentPos.xi(), currentPos.yi(), currentPos.zi(), Blocks.air, 0, block instanceof BlockLiquid ? 0 : 2);
                                 //TODO: render fluid streams
-                                if (block instanceof BlockFluid || block instanceof IFluidBlock)
+                                if (block instanceof BlockLiquid || block instanceof IFluidBlock)
                                     continue;
 
                                 currentPos.add(0.5D);
@@ -210,8 +211,9 @@ public class BlastRedmatter extends Blast
 
         Vector3 entityPosition = new Vector3(entity);
         Vector3 centeredPosition = entityPosition.clone().subtract(this.position);
-        centeredPosition.rotate(1.5 * distancePercentage * Math.random(), 1.5 * distancePercentage * Math.random(), 1.5 * distancePercentage * Math.random());
-        Vector3 newPosition = Vector3.translate(this.position, centeredPosition);
+        EulerAngle angle = new EulerAngle(1.5 * distancePercentage * Math.random(), 1.5 * distancePercentage * Math.random(), 1.5 * distancePercentage * Math.random());
+        centeredPosition.transform(angle);
+        Vector3 newPosition = this.position.add(centeredPosition);
         // Orbit Velocity
         entity.addVelocity(newPosition.x() - entityPosition.x(), 0, newPosition.z() - entityPosition.z());
         // Gravity Velocity
@@ -225,14 +227,14 @@ public class BlastRedmatter extends Blast
                 {
                     if (this.world().rand.nextInt(5) == 0)
                     {
-                        ICBMExplosion.proxy.spawnParticle("digging", this.world(), new Vector3(entity), -xDifference, -yDifference + 10, -zDifference, ((EntityFlyingBlock) entity).mimicBlock, 0, ((EntityFlyingBlock) entity).metadata, 2, 1);
+                        ICBMExplosion.proxy.spawnParticle("digging", this.world(), new Vector3(entity), -xDifference, -yDifference + 10, -zDifference, Block.getIdFromBlock(((EntityFlyingBlock) entity).mimicBlock), 0, ((EntityFlyingBlock) entity).metadata, 2, 1);
 
                     }
                 }
             }
         }
 
-        if (Vector3.distance(new Vector3(entity.posX, entity.posY, entity.posZ), position) < 4)
+        if (new Vector3(entity.posX, entity.posY, entity.posZ).add(position).magnitude() < 4)
         {
             if (doExplosion && !explosionCreated && callCount % 5 == 0)
             {
