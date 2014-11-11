@@ -30,7 +30,7 @@ buildProps.withReader {
 
 version = "${config.version.mod.major}.${config.version.mod.minor}.${config.version.mod.revis}"
 group = "icbm"
-archivesBaseName = "${System.getenv().JOB_NAME}"
+archivesBaseName = "ICBM"
 
 minecraft {
     version = "${config.version.minecraft}-${config.version.forge}"
