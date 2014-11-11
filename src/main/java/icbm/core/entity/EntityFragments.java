@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -26,7 +27,7 @@ public class EntityFragments extends Entity implements IEntityAdditionalSpawnDat
     private int xTile = -1;
     private int yTile = -1;
     private int zTile = -1;
-    private int inTile = 0;
+    private Block inTile = null;
     private int inData = 0;
     private boolean inGround = false;
     public boolean doesArrowBelongToPlayer = false;
@@ -72,14 +73,14 @@ public class EntityFragments extends Entity implements IEntityAdditionalSpawnDat
     }
 
     @Override
-    public void writeSpawnData(ByteArrayDataOutput data)
+    public void writeSpawnData(ByteBuf data)
     {
         data.writeBoolean(this.isExplosive);
         data.writeBoolean(this.isAnvil);
     }
 
     @Override
-    public void readSpawnData(ByteArrayDataInput data)
+    public void readSpawnData(ByteBuf data)
     {
         this.isExplosive = data.readBoolean();
         this.isAnvil = data.readBoolean();
@@ -91,7 +92,7 @@ public class EntityFragments extends Entity implements IEntityAdditionalSpawnDat
     }
 
     @Override
-    public String getEntityName()
+    public String getCommandSenderName()
     {
         return "Fragments";
     }
@@ -175,12 +176,12 @@ public class EntityFragments extends Entity implements IEntityAdditionalSpawnDat
             this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(this.motionY, var1) * 180.0D / Math.PI);
         }
 
-        int var15 = Block.getIdFromBlock(this.worldObj.getBlock(this.xTile, this.yTile, this.zTile));
+        Block var15 = this.worldObj.getBlock(this.xTile, this.yTile, this.zTile);
 
-        if (var15 > 0)
+        if (var15 != null)
         {
-            Block.getBlockById(var15).setBlockBoundsBasedOnState(this.worldObj, this.xTile, this.yTile, this.zTile);
-            AxisAlignedBB var2 = Block.getBlockById(var15).getCollisionBoundingBoxFromPool(this.worldObj, this.xTile, this.yTile, this.zTile);
+            var15.setBlockBoundsBasedOnState(this.worldObj, this.xTile, this.yTile, this.zTile);
+            AxisAlignedBB var2 = var15.getCollisionBoundingBoxFromPool(this.worldObj, this.xTile, this.yTile, this.zTile);
 
             if (var2 != null && var2.isVecInside(Vec3.createVectorHelper(this.posX, this.posY, this.posZ)))
             {
@@ -229,7 +230,7 @@ public class EntityFragments extends Entity implements IEntityAdditionalSpawnDat
             ++this.ticksInAir;
             Vec3 var16 = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
             Vec3 var17 = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-            MovingObjectPosition movingObjPos = this.worldObj.rayTraceBlocks_do_do(var16, var17, false, true);
+            MovingObjectPosition movingObjPos = this.worldObj.rayTraceBlocks(var16, var17, false);
             var16 = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
             var17 = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
 
@@ -414,7 +415,7 @@ public class EntityFragments extends Entity implements IEntityAdditionalSpawnDat
         par1NBTTagCompound.setShort("xTile", (short) this.xTile);
         par1NBTTagCompound.setShort("yTile", (short) this.yTile);
         par1NBTTagCompound.setShort("zTile", (short) this.zTile);
-        par1NBTTagCompound.setByte("inTile", (byte) this.inTile);
+        par1NBTTagCompound.setInteger("inTile",  Block.getIdFromBlock(this.inTile));
         par1NBTTagCompound.setByte("inData", (byte) this.inData);
         par1NBTTagCompound.setByte("shake", (byte) this.arrowShake);
         par1NBTTagCompound.setByte("inGround", (byte) (this.inGround ? 1 : 0));
@@ -429,7 +430,7 @@ public class EntityFragments extends Entity implements IEntityAdditionalSpawnDat
         this.xTile = par1NBTTagCompound.getShort("xTile");
         this.yTile = par1NBTTagCompound.getShort("yTile");
         this.zTile = par1NBTTagCompound.getShort("zTile");
-        this.inTile = par1NBTTagCompound.getByte("inTile") & 255;
+        this.inTile = Block.getBlockById(par1NBTTagCompound.getByte("inTile"));
         this.inData = par1NBTTagCompound.getByte("inData") & 255;
         this.arrowShake = par1NBTTagCompound.getByte("shake") & 255;
         this.inGround = par1NBTTagCompound.getByte("inGround") == 1;

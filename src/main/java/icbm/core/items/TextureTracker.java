@@ -94,7 +94,7 @@ public class TextureTracker extends TextureAtlasSprite
         if (i != this.frameCounter)
         {
             this.frameCounter = i;
-            TextureUtil.uploadTextureSub((int[]) this.framesTextureData.get(this.frameCounter), this.width, this.height, this.originX, this.originY, false, false);
+            //TextureUtil.uploadTextureSub(0, (int[]) this.framesTextureData.get(this.frameCounter), this.width, this.height, this.originX, this.originY, false, false, false);
         }
     }
 }

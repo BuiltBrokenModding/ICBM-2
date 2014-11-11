@@ -26,9 +26,8 @@ import icbm.explosion.items.ItemRemoteDetonator;
 import icbm.explosion.items.ItemRocketLauncher;
 import icbm.explosion.machines.BlockICBMMachine;
 import icbm.explosion.machines.BlockICBMMachine.MachineData;
-import icbm.explosion.machines.BlockMissileAssembler;
 import icbm.explosion.machines.ItemBlockMachine;
-import icbm.explosion.machines.ItemBlockMissileAssembler;
+import icbm.explosion.machines.TileMissileAssembler;
 import icbm.explosion.potion.ContagiousPoison;
 import icbm.explosion.potion.PoisonContagion;
 import icbm.explosion.potion.PoisonFrostBite;
@@ -139,11 +138,11 @@ public class ICBMExplosion
         NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(proxy);
-        FlagRegistry.registerFlag("ban_ICBM");
+        //FlagRegistry.registerFlag("ban_ICBM");
 
         blockExplosive = ICBMCore.contentRegistry.newBlock(BlockExplosive.class, ItemBlockExplosive.class);
-        blockMachine = ICBMCore.contentRegistry.newBlock(BlockICBMMachine.class, ItemBlockMachine.class);
-        blockMissileAssembler = ICBMCore.contentRegistry.createBlock(BlockMissileAssembler.class, ItemBlockMissileAssembler.class);
+        //blockMachine = ICBMCore.contentRegistry.newBlock(BlockICBMMachine.class, ItemBlockMachine.class);
+        blockMissileAssembler = ICBMCore.contentRegistry.newBlock(TileMissileAssembler.class);
         
         // ITEMS
         itemMissile = ICBMCore.contentRegistry.newItem(ItemMissile.class);
@@ -303,7 +302,7 @@ public class ICBMExplosion
     {
         /** Add all Recipes */
         // Rocket Launcher
-        GameRegistry.addRecipe(new ShapedOreRecipe(itemRocketLauncher, new Object[] { "SCR", "SB ", 'R', itemRadarGun, 'C', new ItemStack(blockMachine, 1, MachineData.CruiseLauncher.ordinal() + 6), 'B', Blocks.stone_button, 'S', UniversalRecipe.PRIMARY_METAL.get() }));
+        //GameRegistry.addRecipe(new ShapedOreRecipe(itemRocketLauncher, new Object[] { "SCR", "SB ", 'R', itemRadarGun, 'C', new ItemStack(blockMachine, 1, MachineData.CruiseLauncher.ordinal() + 6), 'B', Blocks.stone_button, 'S', UniversalRecipe.PRIMARY_METAL.get() }));
         // Radar Gun
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemRadarGun), new Object[] { "@#!", " $!", "  !", '@', Blocks.glass, '!', UniversalRecipe.PRIMARY_METAL.get(), '#', UniversalRecipe.CIRCUIT_T1.get(), '$', Blocks.stone_button }));
         // Remote
@@ -325,7 +324,7 @@ public class ICBMExplosion
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 7), new Object[] { "! !", "!@!", "! !", '!', UniversalRecipe.PRIMARY_METAL.get(), '@', new ItemStack(blockMachine, 1, 6) }));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 8), new Object[] { "! !", "!@!", "! !", '!', UniversalRecipe.PRIMARY_PLATE.get(), '@', new ItemStack(blockMachine, 1, 7) }));
         // Radar Station
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 9), new Object[] { "?@?", " ! ", "!#!", '@', CompatibilityModule.getItemWithCharge(new ItemStack(itemRadarGun), 0), '!', UniversalRecipe.PRIMARY_PLATE.get(), '#', UniversalRecipe.CIRCUIT_T1.get(), '?', Items.gold_ingot }));
+        //GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 9), new Object[] { "?@?", " ! ", "!#!", '@', CompatibilityModule.getItemWithCharge(new ItemStack(itemRadarGun), 0), '!', UniversalRecipe.PRIMARY_PLATE.get(), '#', UniversalRecipe.CIRCUIT_T1.get(), '?', Items.gold_ingot }));
         // EMP Tower
         RecipeUtility.addRecipe(new ShapedOreRecipe(new ItemStack(blockMachine, 1, 10), new Object[] { "?W?", "@!@", "?#?", '?', UniversalRecipe.PRIMARY_PLATE.get(), '!', UniversalRecipe.CIRCUIT_T3.get(), '@', UniversalRecipe.BATTERY_BOX.get(), '#', UniversalRecipe.MOTOR.get(), 'W', UniversalRecipe.WIRE.get() }), "EMP Tower", Settings.CONFIGURATION, true);
         // Cruise Launcher
@@ -344,8 +343,8 @@ public class ICBMExplosion
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemMissile, 1, Explosive.nuclearCluster.getID()), new Object[] { " N ", "NCN", 'C', new ItemStack(itemMissile, 1, Explosive.cluster.getID()), 'N', Explosive.nuclear.getItemStack() }));
 
         // Add all explosive recipes.
-        if (!Loader.isModLoaded("ResonantInduction|Atomic")) //TODO ? static id
-            OreDictionary.registerOre("strangeMatter", new ItemStack(397, 1, 1));
+        //if (!Loader.isModLoaded("ResonantInduction|Atomic")) //TODO ? static id
+            //OreDictionary.registerOre("strangeMatter", new ItemStack(397, 1, 1));
 
         for (Explosive explosive : ExplosiveRegistry.getExplosives())
         {
@@ -415,40 +414,40 @@ public class ICBMExplosion
     @SubscribeEvent
     public void preDetonationEvent(ExplosivePreDetonationEvent evt)
     {
-        if (FlagRegistry.getModFlag() != null && evt.explosion instanceof Explosive)
+        /** if (FlagRegistry.getModFlag() != null && evt.explosion instanceof Explosive)
         {
             if (((Explosive) evt.explosion).isBannedInRegion(evt.world, evt.x, evt.y, evt.z))
             {
                 ICBMCore.LOGGER.fine("ICBM prevented explosive:" + evt.x + ", " + evt.y + "," + evt.z);
                 evt.setCanceled(true);
             }
-        }
+        } */
     }
 
     @SubscribeEvent
     public void preConstructionEvent(ExplosionConstructionEvent evt)
     {
-        if (FlagRegistry.getModFlag() != null && evt.iExplosion instanceof Explosive)
+        /** if (FlagRegistry.getModFlag() != null && evt.iExplosion instanceof Explosive)
         {
             if (((Explosive) evt.iExplosion).isBannedInRegion(evt.world, evt.x, evt.y, evt.z))
             {
                 ICBMCore.LOGGER.fine("ICBM prevented explosive:" + evt.x + ", " + evt.y + "," + evt.z);
                 evt.setCanceled(true);
             }
-        }
+        } */
     }
 
     @SubscribeEvent
     public void preExplosionEvent(PreExplosionEvent evt)
     {
-        if (FlagRegistry.getModFlag() != null && evt.iExplosion instanceof Explosive)
+        /** if (FlagRegistry.getModFlag() != null && evt.iExplosion instanceof Explosive)
         {
             if (((Explosive) evt.iExplosion).isBannedInRegion(evt.world, evt.x, evt.y, evt.z))
             {
                 ICBMCore.LOGGER.fine("ICBM prevented explosive:" + evt.x + ", " + evt.y + "," + evt.z);
                 evt.setCanceled(true);
             }
-        }
+        } */
     }
 
     @EventHandler

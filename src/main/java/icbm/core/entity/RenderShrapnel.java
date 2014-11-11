@@ -33,11 +33,11 @@ public class RenderShrapnel extends Render
             World world = suiPian.worldObj;
             GL11.glDisable(GL11.GL_LIGHTING);
 
-            this.renderBlocks.blockAccess = world;
+            this.field_147909_c.blockAccess = world;
             Tessellator var12 = Tessellator.instance;
             var12.startDrawingQuads();
             var12.setTranslation((-MathHelper.floor_double(suiPian.posX)) - 0.5F, (-MathHelper.floor_double(suiPian.posY)) - 0.5F, (-MathHelper.floor_double(suiPian.posZ)) - 0.5F);
-            this.renderBlocks.renderBlockByRenderType(block, MathHelper.floor_double(suiPian.posX), MathHelper.floor_double(suiPian.posY), MathHelper.floor_double(suiPian.posZ));
+            this.field_147909_c.renderBlockByRenderType(block, MathHelper.floor_double(suiPian.posX), MathHelper.floor_double(suiPian.posY), MathHelper.floor_double(suiPian.posZ));
             var12.setTranslation(0.0D, 0.0D, 0.0D);
             var12.draw();
 

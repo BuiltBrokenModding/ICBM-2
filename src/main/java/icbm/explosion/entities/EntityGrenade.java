@@ -3,6 +3,7 @@ package icbm.explosion.entities;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.explosive.Explosive;
 import icbm.explosion.explosive.ExplosiveRegistry;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -65,7 +66,7 @@ public class EntityGrenade extends Entity implements IExplosiveContainer, IEntit
     }
 
     @Override
-    public String getEntityName()
+    public String getCommandSenderName()
     {
         if (ExplosiveRegistry.get(this.haoMa) != null)
         {
@@ -76,13 +77,13 @@ public class EntityGrenade extends Entity implements IExplosiveContainer, IEntit
     }
 
     @Override
-    public void writeSpawnData(ByteArrayDataOutput data)
+    public void writeSpawnData(ByteBuf data)
     {
         data.writeInt(this.haoMa);
     }
 
     @Override
-    public void readSpawnData(ByteArrayDataInput data)
+    public void readSpawnData(ByteBuf data)
     {
         this.haoMa = data.readInt();
     }
@@ -218,7 +219,7 @@ public class EntityGrenade extends Entity implements IExplosiveContainer, IEntit
         else
         {
             this.motionY -= gravity;
-            this.pushOutOfBlocks(this.posX, (this.boundingBox.minY + this.boundingBox.maxY) / 2.0D, this.posZ);
+            //this.pushOutOfBlocks(this.posX, (this.boundingBox.minY + this.boundingBox.maxY) / 2.0D, this.posZ);
         }
 
         if (this.ticksExisted > Math.max(60, ((Explosive) this.getExplosiveType()).getYinXin()))

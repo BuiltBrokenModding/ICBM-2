@@ -2,9 +2,11 @@ package icbm.explosion.entities;
 
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.explosive.ExplosiveRegistry;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityMinecartTNT;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -35,13 +37,13 @@ public class EntityBombCart extends EntityMinecartTNT implements IExplosiveConta
     }
 
     @Override
-    public void writeSpawnData(ByteArrayDataOutput data)
+    public void writeSpawnData(ByteBuf data)
     {
         data.writeInt(this.explosiveID);
     }
 
     @Override
-    public void readSpawnData(ByteArrayDataInput data)
+    public void readSpawnData(ByteBuf data)
     {
         this.explosiveID = data.readInt();
     }
@@ -59,7 +61,7 @@ public class EntityBombCart extends EntityMinecartTNT implements IExplosiveConta
     {
         if (player.getCurrentEquippedItem() != null)
         {
-            if (player.getCurrentEquippedItem().itemID == Item.flintAndSteel.itemID)
+            if (player.getCurrentEquippedItem().getItem() == Items.flint_and_steel)
             {
                 this.ignite();
                 return true;
@@ -72,12 +74,7 @@ public class EntityBombCart extends EntityMinecartTNT implements IExplosiveConta
     public void killMinecart(DamageSource par1DamageSource)
     {
         this.setDead();
-        ItemStack itemstack = new ItemStack(Item.minecartEmpty, 1);
-
-        if (this.entityName != null)
-        {
-            itemstack.setItemName(this.entityName);
-        }
+        ItemStack itemstack = new ItemStack(Items.minecart, 1);
 
         this.entityDropItem(itemstack, 0.0F);
 
@@ -125,7 +122,7 @@ public class EntityBombCart extends EntityMinecartTNT implements IExplosiveConta
     }
 
     @Override
-    public Block getDefaultDisplayTile()
+    public Block func_145817_o()
     {
         return ICBMExplosion.blockExplosive;
     }

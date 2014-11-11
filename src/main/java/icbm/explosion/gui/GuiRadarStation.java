@@ -22,6 +22,8 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import resonant.engine.ResonantEngine;
+import resonant.lib.network.discriminator.PacketTile;
 import resonant.lib.transform.region.Rectangle;
 import resonant.lib.utility.LanguageUtility;
 import resonant.lib.science.UnitDisplay;
@@ -85,14 +87,14 @@ public class GuiRadarStation extends GuiICBM
         this.textFieldFrequency.setMaxStringLength(6);
         this.textFieldFrequency.setText(this.tileEntity.getFrequency() + "");
 
-        PacketManager.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, -1, true));
+        ResonantEngine.instance.packetHandler.sendToServer(new PacketTile(this.tileEntity, -1, true));
     }
 
     @Override
     public void onGuiClosed()
     {
         super.onGuiClosed();
-        PacketManager.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, -1, false));
+        ResonantEngine.instance.packetHandler.sendToServer(new PacketTile(this.tileEntity, -1, false));
     }
 
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
@@ -115,15 +117,15 @@ public class GuiRadarStation extends GuiICBM
         this.fontRendererObj.drawString(LanguageUtility.getLocal("gui.misc.freq"), 155, 100, 4210752);
         this.textFieldFrequency.drawTextBox();
 
-        this.fontRendererObj.drawString(UnitDisplay.getDisplay(TileRadarStation.WATTS, Unit.WATT), 155, 128, 4210752);
+        this.fontRendererObj.drawString(new UnitDisplay(Unit.WATT, TileRadarStation.WATTS).toString(), 155, 128, 4210752);
 
-        this.fontRendererObj.drawString(UnitDisplay.getDisplay(this.tileEntity.getVoltageInput(null), Unit.VOLTAGE), 155, 138, 4210752);
+        //this.fontRendererObj.drawString(new UnitDisplay(this.tileEntity.getVoltageInput(null), Unit.VOLTAGE), 155, 138, 4210752);
 
         // Shows the status of the radar
         String color = "\u00a74";
         String status = LanguageUtility.getLocal("gui.misc.idle");
 
-        if (this.tileEntity.getEnergyHandler().checkExtract())
+        if (this.tileEntity.getEnergyStorage().checkExtract())
         {
             color = "\u00a72";
             status = LanguageUtility.getLocal("gui.radar.on");
@@ -149,7 +151,7 @@ public class GuiRadarStation extends GuiICBM
         {
             int newSafetyRadius = Math.min(TileRadarStation.MAX_DETECTION_RANGE, Math.max(0, Integer.parseInt(this.textFieldSafetyZone.getText())));
             this.tileEntity.safetyRange = newSafetyRadius;
-            PacketManager.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 2, this.tileEntity.safetyRange));
+            ResonantEngine.instance.packetHandler.sendToServer(new PacketTile(this.tileEntity, 2, this.tileEntity.safetyRange));
         }
         catch (NumberFormatException e)
         {
@@ -159,7 +161,7 @@ public class GuiRadarStation extends GuiICBM
         {
             int newAlarmRadius = Math.min(TileRadarStation.MAX_DETECTION_RANGE, Math.max(0, Integer.parseInt(this.textFieldAlarmRange.getText())));
             this.tileEntity.alarmRange = newAlarmRadius;
-            PacketManager.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 3, this.tileEntity.alarmRange));
+            ResonantEngine.instance.packetHandler.sendToServer(new PacketTile(this.tileEntity, 3, this.tileEntity.alarmRange));
         }
         catch (NumberFormatException e)
         {
@@ -168,7 +170,7 @@ public class GuiRadarStation extends GuiICBM
         try
         {
             this.tileEntity.setFrequency(Integer.parseInt(this.textFieldFrequency.getText()));
-            PacketManager.sendPacketToServer(ICBMCore.PACKET_TILE.getPacket(this.tileEntity, 4, this.tileEntity.getFrequency()));
+            ResonantEngine.instance.packetHandler.sendToServer(new PacketTile(this.tileEntity, 4, this.tileEntity.getFrequency()));
         }
         catch (NumberFormatException e)
         {
@@ -204,7 +206,7 @@ public class GuiRadarStation extends GuiICBM
         this.info = "";
         this.info2 = "";
 
-        if (this.tileEntity.getEnergyHandler().checkExtract())
+        if (this.tileEntity.getEnergyStorage().checkExtract())
         {
             int range = 4;
 
@@ -239,7 +241,7 @@ public class GuiRadarStation extends GuiICBM
                 Vector2 maxPosition = position.clone();
                 maxPosition.add(range);
 
-                if (new Rectangle(minPosition, maxPosition).isIn(this.mousePosition))
+                if (new Rectangle(minPosition, maxPosition).intersects(this.mousePosition))
                 {
                     this.info = entity.name;
 
@@ -272,7 +274,7 @@ public class GuiRadarStation extends GuiICBM
                 Vector2 maxPosition = position.clone();
                 maxPosition.add(range);
 
-                if (new Rectangle(minPosition, maxPosition).isIn(this.mousePosition))
+                if (new Rectangle(minPosition, maxPosition).intersects(this.mousePosition))
                 {
                 	this.info = tile.name;
                 }
