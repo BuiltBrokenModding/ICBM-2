@@ -4,7 +4,6 @@ import icbm.Reference;
 import icbm.core.entity.EntityFlyingBlock;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.entities.EntityMissile;
-import icbm.explosion.explosive.BlockExplosive;
 import icbm.explosion.explosive.TileExplosive;
 import icbm.explosion.explosive.thread.ThreadLargeExplosion;
 import icbm.explosion.explosive.thread.ThreadLargeExplosion.IThreadCallBack;
@@ -16,6 +15,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
@@ -128,6 +128,7 @@ public class BlastSonic extends Blast
                         continue;
 
                     Block blockID = targetPosition.getBlock(world());
+                    TileEntity ent = targetPosition.getTileEntity(world());
                     double hardness = targetPosition.getHardness(world());
 
                     if (hardness < 0 || hardness > 10000)
@@ -140,9 +141,9 @@ public class BlastSonic extends Blast
 
                     if (distance < r - 1 || this.world().rand.nextInt(3) > 0)
                     {
-                        if (blockID == ICBMExplosion.blockExplosive)
+                        if (ent instanceof TileExplosive)
                         {
-                            BlockExplosive.yinZha(this.world(), targetPosition.xi(), targetPosition.yi(), targetPosition.zi(), ((TileExplosive) this.world().getTileEntity(targetPosition.xi(), targetPosition.yi(), targetPosition.zi())).explosiveID, 1);
+                            ((TileExplosive)ent).explode(1);
                         }
                         else
                         {

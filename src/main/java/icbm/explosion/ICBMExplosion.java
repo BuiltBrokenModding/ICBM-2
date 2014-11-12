@@ -12,10 +12,10 @@ import icbm.explosion.entities.EntityExplosive;
 import icbm.explosion.entities.EntityGrenade;
 import icbm.explosion.entities.EntityLightBeam;
 import icbm.explosion.entities.EntityMissile;
-import icbm.explosion.explosive.BlockExplosive;
 import icbm.explosion.explosive.Explosive;
 import icbm.explosion.explosive.ExplosiveRegistry;
 import icbm.explosion.explosive.ItemBlockExplosive;
+import icbm.explosion.explosive.TileExplosive;
 import icbm.explosion.items.ItemBombCart;
 import icbm.explosion.items.ItemDefuser;
 import icbm.explosion.items.ItemGrenade;
@@ -140,7 +140,7 @@ public class ICBMExplosion
         MinecraftForge.EVENT_BUS.register(proxy);
         //FlagRegistry.registerFlag("ban_ICBM");
 
-        blockExplosive = ICBMCore.contentRegistry.newBlock(BlockExplosive.class, ItemBlockExplosive.class);
+        blockExplosive = ICBMCore.contentRegistry.newBlock(TileExplosive.class);
         //blockMachine = ICBMCore.contentRegistry.newBlock(BlockICBMMachine.class, ItemBlockMachine.class);
         blockMissileAssembler = ICBMCore.contentRegistry.newBlock(TileMissileAssembler.class);
         
