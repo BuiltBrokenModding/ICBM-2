@@ -259,7 +259,7 @@ public class EntityGrenade extends Entity implements IExplosiveContainer, IEntit
     @Override
     protected void readEntityFromNBT(NBTTagCompound nbt)
     {
-        this.haoMa = nbt.getInteger("haoMa");
+        this.haoMa = nbt.getInteger("explosiveID");
         this.nbtData = nbt.getCompoundTag("data");
 
     }
@@ -267,7 +267,7 @@ public class EntityGrenade extends Entity implements IExplosiveContainer, IEntit
     @Override
     protected void writeEntityToNBT(NBTTagCompound nbt)
     {
-        nbt.setInteger("haoMa", this.haoMa);
+        nbt.setInteger("explosiveID", this.haoMa);
         nbt.setTag("data", this.nbtData);
 
     }

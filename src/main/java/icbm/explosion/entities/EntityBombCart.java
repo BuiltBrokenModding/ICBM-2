@@ -101,7 +101,7 @@ public class EntityBombCart extends EntityMinecartTNT implements IExplosiveConta
     protected void writeEntityToNBT(NBTTagCompound nbt)
     {
         super.writeEntityToNBT(nbt);
-        nbt.setInteger("haoMa", this.explosiveID);
+        nbt.setInteger("explosiveID", this.explosiveID);
         this.nbtData = nbt.getCompoundTag("data");
 
     }
@@ -110,7 +110,7 @@ public class EntityBombCart extends EntityMinecartTNT implements IExplosiveConta
     protected void readEntityFromNBT(NBTTagCompound nbt)
     {
         super.readEntityFromNBT(nbt);
-        this.explosiveID = nbt.getInteger("haoMa");
+        this.explosiveID = nbt.getInteger("explosiveID");
         nbt.setTag("data", this.nbtData);
 
     }

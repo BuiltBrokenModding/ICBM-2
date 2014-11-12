@@ -16,7 +16,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
@@ -143,7 +142,7 @@ public class BlastSonic extends Blast
                     {
                         if (blockID == ICBMExplosion.blockExplosive)
                         {
-                            BlockExplosive.yinZha(this.world(), targetPosition.xi(), targetPosition.yi(), targetPosition.zi(), ((TileExplosive) this.world().getTileEntity(targetPosition.xi(), targetPosition.yi(), targetPosition.zi())).haoMa, 1);
+                            BlockExplosive.yinZha(this.world(), targetPosition.xi(), targetPosition.yi(), targetPosition.zi(), ((TileExplosive) this.world().getTileEntity(targetPosition.xi(), targetPosition.yi(), targetPosition.zi())).explosiveID, 1);
                         }
                         else
                         {

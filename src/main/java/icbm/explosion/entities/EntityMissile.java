@@ -743,7 +743,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         this.launcherPos = new Vector3(nbt.getCompoundTag("faSheQi"));
         this.acceleration = nbt.getFloat("jiaSu");
         this.targetHeight = nbt.getInteger("baoZhaGaoDu");
-        this.explosiveID = nbt.getInteger("haoMa");
+        this.explosiveID = nbt.getInteger("explosiveID");
         this.feiXingTick = nbt.getInteger("feiXingTick");
         this.qiFeiGaoDu = nbt.getDouble("qiFeiGaoDu");
         this.missileType = MissileType.values()[nbt.getInteger("xingShi")];
@@ -769,7 +769,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         }
 
         nbt.setFloat("jiaSu", this.acceleration);
-        nbt.setInteger("haoMa", this.explosiveID);
+        nbt.setInteger("explosiveID", this.explosiveID);
         nbt.setInteger("baoZhaGaoDu", this.targetHeight);
         nbt.setInteger("feiXingTick", this.feiXingTick);
         nbt.setDouble("qiFeiGaoDu", this.qiFeiGaoDu);

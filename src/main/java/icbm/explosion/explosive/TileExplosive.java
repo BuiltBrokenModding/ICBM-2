@@ -1,31 +1,268 @@
 package icbm.explosion.explosive;
 
-import icbm.core.ICBMCore;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import icbm.Reference;
 import icbm.explosion.ICBMExplosion;
+import icbm.explosion.entities.EntityExplosive;
 import icbm.explosion.items.ItemRemoteDetonator;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.Explosion;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 import resonant.api.IRotatable;
+import resonant.api.explosion.ExplosionEvent;
+import resonant.api.explosion.ExplosiveType;
 import resonant.api.explosion.IExplosive;
 import resonant.api.explosion.IExplosiveContainer;
 
-import com.google.common.io.ByteArrayDataInput;
+import resonant.content.prefab.java.TileAdvanced;
 import resonant.engine.ResonantEngine;
 import resonant.lib.network.discriminator.PacketTile;
 import resonant.lib.network.discriminator.PacketType;
 import resonant.lib.network.handle.IPacketReceiver;
-import resonant.lib.network.netty.ResonantPacketHandler;
+import resonant.lib.transform.vector.Vector3;
+import resonant.lib.transform.vector.VectorWorld;
+import resonant.lib.utility.WrenchUtility;
+import resonant.lib.utility.inventory.InventoryUtility;
 
-public class TileExplosive extends TileEntity implements IExplosiveContainer, IPacketReceiver, IRotatable
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.InputStream;
+import java.util.List;
+
+public class TileExplosive extends TileAdvanced implements IExplosiveContainer, IPacketReceiver, IRotatable
 {
     public boolean exploding = false;
-    public int haoMa = 0;
+    public int explosiveID = 0;
     public NBTTagCompound nbtData = new NBTTagCompound();
+
+    public final IIcon[] ICON_TOP = new IIcon[100];
+    public final IIcon[] ICON_SIDE = new IIcon[100];
+    public final IIcon[] ICON_BOTTOM = new IIcon[100];
+
+    public TileExplosive()
+    {
+        super(Material.cloth);
+        this.blockHardness(0);
+    }
+
+    @Override
+    public boolean activate(EntityPlayer entityPlayer, int side, Vector3 hit)
+    {
+        if (entityPlayer.getCurrentEquippedItem() != null)
+        {
+            if (entityPlayer.getCurrentEquippedItem().getItem() == Items.flint_and_steel)
+            {
+                explode(0);
+                return true;
+            }
+            else if (WrenchUtility.isUsableWrench(entityPlayer, entityPlayer.getCurrentEquippedItem(), xi(), yi(), zi()))
+            {
+                byte change = 3;
+
+                // Reorient the block
+                switch (getBlockMetadata())
+                {
+                    case 0:
+                        change = 2;
+                        break;
+                    case 2:
+                        change = 5;
+                        break;
+                    case 5:
+                        change = 3;
+                        break;
+                    case 3:
+                        change = 4;
+                        break;
+                    case 4:
+                        change = 1;
+                        break;
+                    case 1:
+                        change = 0;
+                        break;
+                }
+
+                setMeta(ForgeDirection.getOrientation(change).ordinal());
+
+                world().notifyBlockChange(xi(), yi(), zi(), this.getBlockType());
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void onPlaced(EntityLivingBase entityLiving,ItemStack itemStack)
+    {
+        super.onPlaced(entityLiving, itemStack);
+        if (!world().isRemote)
+        {
+            ExplosionEvent.ExplosivePreDetonationEvent evt = new ExplosionEvent.ExplosivePreDetonationEvent(world(), xi(), yi(), zi(), ExplosiveType.BLOCK, ExplosiveRegistry.get(explosiveID));
+            MinecraftForge.EVENT_BUS.post(evt);
+
+            if (evt.isCanceled())
+            {
+                InventoryUtility.dropItemStack(world(), x(), y(), z(), getPickBlock(null), 20, 0f);
+                world().setBlockToAir(xi(), yi(), zi());
+                return;
+            }
+
+            setMeta(determineOrientation(entityLiving));
+
+            if (world().isBlockIndirectlyGettingPowered(xi(), yi(), zi()))
+            {
+                explode(0);
+            }
+
+            // Check to see if there is fire nearby.
+            // If so, then detonate.
+            for (byte i = 0; i < 6; i++)
+            {
+                VectorWorld position = toVectorWorld();
+                position.add(ForgeDirection.getOrientation(i));
+
+                Block b = position.getBlock();
+
+                if (b == Blocks.fire || b == Blocks.lava || b == Blocks.flowing_lava)
+                {
+                    explode(2);
+                }
+            }
+
+            if (entityLiving != null)
+            {
+                Reference.LOGGER.info(entityLiving.getCommandSenderName() + " placed " + ExplosiveRegistry.get(explosiveID).getExplosiveName() + " in: " + xi() + ", " + yi() + ", " + zi() + ".");
+            }
+        }
+    }
+
+    @Override
+    public void onWorldJoin()
+    {
+        super.onWorldJoin();
+        world().markBlockForUpdate(xi(), yi(), zi());
+    }
+
+    @Override
+    public void onNeighborChanged(Block block)
+    {
+        super.onNeighborChanged(block);
+        if (world().isBlockIndirectlyGettingPowered(xi(), yi(), zi()))
+        {
+            explode(0);
+        }
+        else if (block == Blocks.fire || block == Blocks.lava || block == Blocks.flowing_lava)
+        {
+            explode(2);
+        }
+    }
+
+    /*
+     * Called to detonate the TNT. Args: world, x, y, z, metaData, CauseOfExplosion (0, intentional,
+     * 1, exploded, 2 burned)
+     */
+    public void explode(int causeOfExplosion)
+    {
+        ExplosionEvent.ExplosivePreDetonationEvent evt = new ExplosionEvent.ExplosivePreDetonationEvent(world(), xi(), yi(), zi(), ExplosiveType.BLOCK, ExplosiveRegistry.get(explosiveID));
+        MinecraftForge.EVENT_BUS.post(evt);
+
+        if (!evt.isCanceled())
+        {
+            exploding = true;
+            EntityExplosive eZhaDan = new EntityExplosive(world(), toVector3().add(0.5), explosiveID, (byte) getBlockMetadata(), nbtData);
+
+            switch (causeOfExplosion)
+            {
+                case 2:
+                    eZhaDan.setFire(100);
+                    break;
+            }
+
+            world().spawnEntityInWorld(eZhaDan);
+            world().setBlockToAir(xi(), yi(), zi());
+        }
+    }
+
+    @Override
+    public void onDestroyedByExplosion(Explosion explosion)
+    {
+        explode(1);
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public IIcon getSideIcon(int meta, int side)
+    {
+        if (side == 0)
+        {
+            return ICON_BOTTOM[meta];
+        }
+        else if (side == 1)
+        {
+            return ICON_TOP[meta];
+        }
+        return ICON_SIDE[meta];
+    }
+
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void registerIcons(IIconRegister iconRegister)
+    {
+        /** Register every single texture for all explosives. */
+        for (Explosive zhaPin : ExplosiveRegistry.getExplosives())
+        {
+            ICON_TOP[zhaPin.getID()] = this.getIcon(iconRegister, zhaPin, "_top");
+            ICON_SIDE[zhaPin.getID()] = this.getIcon(iconRegister, zhaPin, "_side");
+            ICON_BOTTOM[zhaPin.getID()] = this.getIcon(iconRegister, zhaPin, "_bottom");
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    public IIcon getIcon(IIconRegister iconRegister, Explosive zhaPin, String suffix)
+    {
+        String iconName = "explosive_" + zhaPin.getUnlocalizedName() + suffix;
+
+        try
+        {
+            ResourceLocation resourcelocation = new ResourceLocation(Reference.DOMAIN, Reference.BLOCK_PATH + iconName + ".png");
+            InputStream inputstream = Minecraft.getMinecraft().getResourceManager().getResource(resourcelocation).getInputStream();
+            BufferedImage bufferedimage = ImageIO.read(inputstream);
+
+            if (bufferedimage != null)
+            {
+                return iconRegister.registerIcon(Reference.PREFIX + iconName);
+            }
+        }
+        catch (Exception e)
+        {
+        }
+
+        if (suffix.equals("_bottom"))
+        {
+            return iconRegister.registerIcon(Reference.PREFIX + "explosive_bottom_" + zhaPin.getTier());
+        }
+
+        return iconRegister.registerIcon(Reference.PREFIX + "explosive_base_" + zhaPin.getTier());
+    }
 
     @Override
     public boolean canUpdate()
@@ -38,7 +275,7 @@ public class TileExplosive extends TileEntity implements IExplosiveContainer, IP
     public void readFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.readFromNBT(par1NBTTagCompound);
-        this.haoMa = par1NBTTagCompound.getInteger("explosiveID");
+        this.explosiveID = par1NBTTagCompound.getInteger("explosiveID");
         this.nbtData = par1NBTTagCompound.getCompoundTag("data");
     }
 
@@ -47,7 +284,7 @@ public class TileExplosive extends TileEntity implements IExplosiveContainer, IP
     public void writeToNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.writeToNBT(par1NBTTagCompound);
-        par1NBTTagCompound.setInteger("explosiveID", this.haoMa);
+        par1NBTTagCompound.setInteger("explosiveID", this.explosiveID);
         par1NBTTagCompound.setTag("data", this.nbtData);
     }
 
@@ -58,7 +295,7 @@ public class TileExplosive extends TileEntity implements IExplosiveContainer, IP
 
         if (ID == 1)
         {
-            haoMa = data.readInt();
+            explosiveID = data.readInt();
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         }
         else if (ID == 2 && !this.worldObj.isRemote)
@@ -67,7 +304,7 @@ public class TileExplosive extends TileEntity implements IExplosiveContainer, IP
             if (player.inventory.getCurrentItem().getItem() instanceof ItemRemoteDetonator)
             {
                 ItemStack itemStack = player.inventory.getCurrentItem();
-                BlockExplosive.yinZha(this.worldObj, this.xCoord, this.yCoord, this.zCoord, this.haoMa, 0);
+                explode(0);
                 ((ItemRemoteDetonator) ICBMExplosion.itemRemoteDetonator).discharge(itemStack, ItemRemoteDetonator.ENERGY, true);
             }
         }
@@ -77,7 +314,7 @@ public class TileExplosive extends TileEntity implements IExplosiveContainer, IP
     @Override
     public Packet getDescriptionPacket()
     {
-        return ResonantEngine.instance.packetHandler.toMCPacket(new PacketTile(this, (byte) 1, this.haoMa));
+        return ResonantEngine.instance.packetHandler.toMCPacket(new PacketTile(this, (byte) 1, this.explosiveID));
     }
 
     @Override
@@ -95,12 +332,30 @@ public class TileExplosive extends TileEntity implements IExplosiveContainer, IP
     @Override
     public IExplosive getExplosiveType()
     {
-        return ExplosiveRegistry.get(this.haoMa);
+        return ExplosiveRegistry.get(this.explosiveID);
     }
 
     @Override
     public NBTTagCompound getTagCompound()
     {
         return this.nbtData;
+    }
+
+    @Override
+    public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List)
+    {
+        for (Explosive zhaPin : ExplosiveRegistry.getExplosives())
+        {
+            if (zhaPin.hasBlockForm())
+            {
+                par3List.add(new ItemStack(par1, 1, zhaPin.getID()));
+            }
+        }
+    }
+
+    @Override
+    public ItemStack getPickBlock(MovingObjectPosition target)
+    {
+        return new ItemStack(this.getBlockType(), 1, explosiveID);
     }
 }

@@ -67,7 +67,7 @@ public class RenderBombBlock extends TileEntitySpecialRenderer implements ISimpl
 
             if (tileEntity instanceof TileExplosive)
             {
-                Explosive explosive = ExplosiveRegistry.get(((TileExplosive) tileEntity).haoMa);
+                Explosive explosive = ExplosiveRegistry.get(((TileExplosive) tileEntity).explosiveID);
 
                 if (!(explosive.getBlockModel() != null && explosive.getBlockResource() != null))
                 {
@@ -85,7 +85,7 @@ public class RenderBombBlock extends TileEntitySpecialRenderer implements ISimpl
     {
         if (tileEntity instanceof TileExplosive)
         {
-            Explosive explosive = ExplosiveRegistry.get(((TileExplosive) tileEntity).haoMa);
+            Explosive explosive = ExplosiveRegistry.get(((TileExplosive) tileEntity).explosiveID);
 
             if (explosive != null && explosive.getBlockModel() != null && explosive.getBlockResource() != null)
             {

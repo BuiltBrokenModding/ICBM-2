@@ -1,6 +1,5 @@
 package icbm.explosion.items;
 
-import icbm.core.ICBMCore;
 import icbm.core.prefab.item.ItemICBMElectrical;
 import icbm.explosion.ICBMExplosion;
 import icbm.explosion.explosive.Explosive;
@@ -22,11 +21,8 @@ import resonant.lib.network.discriminator.PacketPlayerItem;
 import resonant.lib.network.discriminator.PacketTile;
 import resonant.lib.network.discriminator.PacketType;
 import resonant.lib.network.handle.IPacketReceiver;
-import resonant.lib.network.netty.PacketManager;
 import resonant.lib.transform.vector.Vector3;
 import resonant.lib.utility.LanguageUtility;
-
-import com.google.common.io.ByteArrayDataInput;
 
 public class ItemRemoteDetonator extends ItemICBMElectrical implements IPacketReceiver
 {
@@ -160,7 +156,7 @@ public class ItemRemoteDetonator extends ItemICBMElectrical implements IPacketRe
         {
             if (tileEntity instanceof TileExplosive)
             {
-                return ((TileExplosive) tileEntity).haoMa == Explosive.condensed.getID() || ((TileExplosive) tileEntity).haoMa == Explosive.breaching.getID() || ((TileExplosive) tileEntity).haoMa == Explosive.sMine.getID();
+                return ((TileExplosive) tileEntity).explosiveID == Explosive.condensed.getID() || ((TileExplosive) tileEntity).explosiveID == Explosive.breaching.getID() || ((TileExplosive) tileEntity).explosiveID == Explosive.sMine.getID();
             }
         }
 
