@@ -1,3 +1,4 @@
+println "blah"
 buildscript {
     repositories {
         mavenCentral()
