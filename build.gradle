@@ -19,6 +19,9 @@ buildscript {
 apply plugin: 'forge'
 apply plugin: 'maven-publish'
 
+task makePretty(type: Delete) {
+  delete 'output'
+}
 
 def ENV = System.getenv()
 
