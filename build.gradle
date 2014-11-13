@@ -47,6 +47,7 @@ minecraft {
 	}
 }
 
+println hello
 if (System.getenv("BUILD_NUMBER") != null)
     version += ".${System.getenv("BUILD_NUMBER")}"
 
