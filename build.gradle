@@ -93,6 +93,7 @@ dependencies {
 task deobfJar(type: Jar) {
     from sourceSets.main.output
     classifier = 'deobf'
+    destinationDir = file 'output'
 }
 
 publishing {
