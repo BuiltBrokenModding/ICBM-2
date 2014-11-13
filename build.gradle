@@ -97,7 +97,6 @@ publishing {
         {
             artifact jar
             artifact deobfJar
-//            artifact javadocJar
         }
     }
 
