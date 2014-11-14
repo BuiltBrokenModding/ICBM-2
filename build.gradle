@@ -83,6 +83,11 @@ jar {
     destinationDir = file 'output'
 }
 
+task copyBuildXml(type: Copy) {
+    from 'build.properties'
+    into 'output'
+}
+
 repositories {
     maven {
 		name 'Calclavia Maven'
@@ -106,6 +111,10 @@ publishing {
             artifact jar
             artifact deobfJar
             artifactId 'ICBM'
+            artifact("output/build.properties") {
+                classifier "build"
+                extension "properties"
+            }
         }
     }
 
