@@ -105,6 +105,7 @@ publishing {
         {
             artifact jar
             artifact deobfJar
+            artifactId 'ICBM'
         }
     }
 
@@ -114,6 +115,7 @@ publishing {
         }
     }
 }
+
 
 repositories {
     maven {
