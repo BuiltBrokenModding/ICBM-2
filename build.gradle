@@ -78,16 +78,18 @@ artifacts {
     archives apiZip
 }
 
+task copyBuildXml(type: Copy) {
+    from 'build.properties'
+    into 'output'
+}
+
 jar {
     dependsOn copyBuildXml
     classifier = ''
     destinationDir = file 'output'
 }
 
-task copyBuildXml(type: Copy) {
-    from 'build.properties'
-    into 'output'
-}
+
 
 repositories {
     maven {
