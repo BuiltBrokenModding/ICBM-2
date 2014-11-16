@@ -1,5 +1,6 @@
 package icbm.explosion.machines;
 
+import cpw.mods.fml.common.Optional;
 import icbm.Reference;
 import icbm.core.ICBMCore;
 import icbm.core.prefab.TileICBM;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.netty.buffer.ByteBuf;
+import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,6 +31,7 @@ import resonant.lib.network.discriminator.PacketType;
 import resonant.lib.network.handle.IPacketIDReceiver;
 import resonant.lib.transform.vector.Vector3;
 
+@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")
 public class TileEMPTower extends TileElectric implements IMultiBlock, IRedstoneReceptor, SimpleComponent, IRadarDetectable, IPacketIDReceiver
 {
     // The maximum possible radius for the EMP to strike
@@ -108,19 +111,22 @@ public class TileEMPTower extends TileElectric implements IMultiBlock, IRedstone
 
     }
 
-    //@Callback
+    @Callback
+    @Optional.Method(modid = "OpenComputers")
     public boolean isReady()
     {
         return getCooldown() <= 0;
     }
 
-    //@Callback
+    @Callback
+    @Optional.Method(modid = "OpenComputers")
     public int getCooldown()
     {
         return cooldownTicks;
     }
 
-    //@Callback
+    @Callback
+    @Optional.Method(modid = "OpenComputers")
     public int getMaxCooldown()
     {
         return 120;
@@ -159,7 +165,8 @@ public class TileEMPTower extends TileElectric implements IMultiBlock, IRedstone
         par1NBTTagCompound.setByte("muoShi", this.empMode);
     }
 
-    //@Callback(limit = 1)
+    @Callback(limit = 1)
+    @Optional.Method(modid = "OpenComputers")
     public boolean fire()
     {
         if (this.getEnergyStorage().checkExtract())
@@ -225,50 +232,58 @@ public class TileEMPTower extends TileElectric implements IMultiBlock, IRedstone
         return "emptower";
     }
 
-    //@Callback
+    @Callback
+    @Optional.Method(modid = "OpenComputers")
     public byte getEmpMode()
     {
         return empMode;
     }
 
-    //@Callback
+    @Callback
+    @Optional.Method(modid = "OpenComputers")
     public void setEmpMode(byte empMode)
     {
         if (empMode >= 0 && empMode <= 2)
             this.empMode = empMode;
     }
 
-    //@Callback
+    @Callback
+    @Optional.Method(modid = "OpenComputers")
     public void empMissiles()
     {
         this.empMode = 1;
     }
 
-    //@Callback
+    @Callback
+    @Optional.Method(modid = "OpenComputers")
     public void empAll()
     {
         this.empMode = 0;
     }
 
-    //@Callback
+    @Callback
+    @Optional.Method(modid = "OpenComputers")
     public void empElectronics()
     {
         this.empMode = 2;
     }
 
-    //@Callback
+    @Callback
+    @Optional.Method(modid = "OpenComputers")
     public int getEmpRadius()
     {
         return empRadius;
     }
 
-    //@Callback
+    @Callback
+    @Optional.Method(modid = "OpenComputers")
     public int getMaxEmpRadius()
     {
         return MAX_RADIUS;
     }
 
-    //@Callback
+    @Callback
+    @Optional.Method(modid = "OpenComputers")
     public void setEmpRadius(int empRadius)
     {
         int prev = getEmpRadius();
@@ -277,7 +292,8 @@ public class TileEMPTower extends TileElectric implements IMultiBlock, IRedstone
             updateCapacity();
     }
 
-    //@Callback
+    @Callback
+    @Optional.Method(modid = "OpenComputers")
     public static int getMaxRadius()
     {
         return MAX_RADIUS;
