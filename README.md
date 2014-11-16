@@ -67,7 +67,7 @@ If not listed don't fear we are still compiling the credits list after it got re
 * Freesound.org
 
 ## Download Locations
-* http://calclavia.com/icbm/downloads/
+* http://builtbroken.com/icbm-downloads/
 
 ##Installing
 * Install Minecraft Forge.
