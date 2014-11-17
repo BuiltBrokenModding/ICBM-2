@@ -12,7 +12,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockReinforcedGlass extends BlockICBM implements IAntiPoisonBlock
 {
-    public BlockReinforcedGlass(int id)
+    public BlockReinforcedGlass()
     {
         super("glassReinforced", Material.glass);
         this.setResistance(48);
