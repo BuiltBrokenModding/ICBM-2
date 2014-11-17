@@ -62,6 +62,7 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
         super(Material.cloth);
         this.blockHardness(0);
         this.normalRender(true);
+        this.itemBlock(ItemBlockExplosive.class);
     }
 
     @Override
