@@ -209,7 +209,7 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
 
     @SideOnly(Side.CLIENT)
     @Override
-    public IIcon getSideIcon(int meta, int side)
+    public IIcon getIcon(int meta, int side)
     {
         if (side == 0)
         {
