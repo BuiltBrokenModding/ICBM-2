@@ -53,14 +53,15 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
     public int explosiveID = 0;
     public NBTTagCompound nbtData = new NBTTagCompound();
 
-    public final IIcon[] ICON_TOP = new IIcon[100];
-    public final IIcon[] ICON_SIDE = new IIcon[100];
-    public final IIcon[] ICON_BOTTOM = new IIcon[100];
+    public static final IIcon[] ICON_TOP = new IIcon[100];
+    public static final IIcon[] ICON_SIDE = new IIcon[100];
+    public static final IIcon[] ICON_BOTTOM = new IIcon[100];
 
     public TileExplosive()
     {
         super(Material.cloth);
         this.blockHardness(0);
+        this.normalRender(true);
     }
 
     @Override
@@ -110,14 +111,19 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
     }
 
     @Override
-    public void onPlaced(EntityLivingBase entityLiving,ItemStack itemStack)
+    public void onPlaced(EntityLivingBase entityLiving, ItemStack itemStack)
     {
         super.onPlaced(entityLiving, itemStack);
         if (!world().isRemote)
         {
+            //Set explosive id
+            this.explosiveID = itemStack.getItemDamage();
+
+            //Allow things to cancle the placement
             ExplosionEvent.ExplosivePreDetonationEvent evt = new ExplosionEvent.ExplosivePreDetonationEvent(world(), xi(), yi(), zi(), ExplosiveType.BLOCK, ExplosiveRegistry.get(explosiveID));
             MinecraftForge.EVENT_BUS.post(evt);
 
+            //If canceled drop the item TODO return to inventory
             if (evt.isCanceled())
             {
                 InventoryUtility.dropItemStack(world(), x(), y(), z(), getPickBlock(null), 20, 0f);
@@ -125,15 +131,16 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
                 return;
             }
 
+            //Set rotation for direction based explosives
             setMeta(determineOrientation(entityLiving));
 
+            //If powered blow up
             if (world().isBlockIndirectlyGettingPowered(xi(), yi(), zi()))
             {
                 explode(0);
             }
 
-            // Check to see if there is fire nearby.
-            // If so, then detonate.
+            // If anything can set it on fire blow up
             for (byte i = 0; i < 6; i++)
             {
                 VectorWorld position = toVectorWorld();
@@ -147,6 +154,7 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
                 }
             }
 
+            //Log the placement for Anti-Grief TODO add config to reduce console spam, add support for Anti-Grief mods/plugins
             if (entityLiving != null)
             {
                 Reference.LOGGER.info(entityLiving.getCommandSenderName() + " placed " + ExplosiveRegistry.get(explosiveID).getExplosiveName() + " in: " + xi() + ", " + yi() + ", " + zi() + ".");
