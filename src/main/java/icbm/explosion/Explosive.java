@@ -56,7 +56,6 @@ public abstract class Explosive implements IExplosive
     public static final Explosive contagious;
     public static final Explosive sonic;
     public static final Explosive breaching;
-    public static final Explosive rejuvenation;
     public static final Explosive thermobaric;
 
     public static final Explosive nuclear;
@@ -96,7 +95,6 @@ public abstract class Explosive implements IExplosive
         contagious = ExplosiveRegistry.register(new ExChemical("contagious", 2));
         sonic = ExplosiveRegistry.register(new ExSonic("sonic", 2));
         breaching = ExplosiveRegistry.register(new ExBreaching());
-        rejuvenation = ExplosiveRegistry.register(new ExRejuvenation());
         thermobaric = ExplosiveRegistry.register(new ExNuclear("thermobaric", 2));
 
         nuclear = ExplosiveRegistry.register(new ExNuclear("nuclear", 3));
