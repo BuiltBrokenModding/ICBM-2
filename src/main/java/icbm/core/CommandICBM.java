@@ -1,4 +1,4 @@
-package icbm.explosion;
+package icbm.core;
 
 import icbm.core.entity.EntityFlyingBlock;
 import icbm.explosion.entities.EntityExplosion;

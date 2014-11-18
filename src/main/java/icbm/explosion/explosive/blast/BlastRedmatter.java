@@ -1,8 +1,8 @@
 package icbm.explosion.explosive.blast;
 
 import icbm.Reference;
+import icbm.core.ICBMCore;
 import icbm.core.entity.EntityFlyingBlock;
-import icbm.explosion.ICBMExplosion;
 import icbm.explosion.entities.EntityExplosion;
 import icbm.explosion.entities.EntityExplosive;
 
@@ -223,11 +223,11 @@ public class BlastRedmatter extends Blast
         {
             if (entity instanceof EntityFlyingBlock)
             {
-                if (ICBMExplosion.proxy.getParticleSetting() == 0)
+                if (ICBMCore.proxy.getParticleSetting() == 0)
                 {
                     if (this.world().rand.nextInt(5) == 0)
                     {
-                        ICBMExplosion.proxy.spawnParticle("digging", this.world(), new Vector3(entity), -xDifference, -yDifference + 10, -zDifference, Block.getIdFromBlock(((EntityFlyingBlock) entity).mimicBlock), 0, ((EntityFlyingBlock) entity).metadata, 2, 1);
+                        ICBMCore.proxy.spawnParticle("digging", this.world(), new Vector3(entity), -xDifference, -yDifference + 10, -zDifference, Block.getIdFromBlock(((EntityFlyingBlock) entity).mimicBlock), 0, ((EntityFlyingBlock) entity).metadata, 2, 1);
 
                     }
                 }

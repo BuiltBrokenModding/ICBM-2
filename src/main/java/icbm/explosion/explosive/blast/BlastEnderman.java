@@ -1,7 +1,7 @@
 package icbm.explosion.explosive.blast;
 
+import icbm.Reference;
 import icbm.core.ICBMCore;
-import icbm.explosion.ICBMExplosion;
 
 import java.util.List;
 
@@ -57,7 +57,7 @@ public class BlastEnderman extends Blast
                                 float velY = (float) ((targetPosition.y() - position.y()) * 0.6);
                                 float velZ = (float) ((targetPosition.z() - position.z()) * 0.6);
 
-                                ICBMExplosion.proxy.spawnParticle("portal", world(), targetPosition, velX, velY, velZ, 5f, 1);
+                                ICBMCore.proxy.spawnParticle("portal", world(), targetPosition, velX, velY, velZ, 5f, 1);
                             }
                         }
                     }
@@ -136,7 +136,7 @@ public class BlastEnderman extends Blast
                     }
                     catch (Exception e)
                     {
-                        ICBMCore.LOGGER.severe("Failed to teleport entity to the End.");
+                        Reference.LOGGER.severe("Failed to teleport entity to the End.");
                         e.printStackTrace();
                     }
                 }

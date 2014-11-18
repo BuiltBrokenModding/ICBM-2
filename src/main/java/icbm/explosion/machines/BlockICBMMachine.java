@@ -1,7 +1,7 @@
 package icbm.explosion.machines;
 
+import icbm.core.ICBMCore;
 import icbm.core.prefab.BlockICBM;
-import icbm.explosion.ICBMExplosion;
 import icbm.explosion.machines.launcher.TileLauncherBase;
 import icbm.explosion.machines.launcher.TileLauncherFrame;
 import icbm.explosion.machines.launcher.TileLauncherScreen;
@@ -186,7 +186,7 @@ public class BlockICBMMachine extends BlockICBM
                 itemMetadata = 9 + metadata - 3;
             }
 
-            this.dropBlockAsItem(world, x, y, z, new ItemStack(ICBMExplosion.blockMachine, 1, itemMetadata));
+            this.dropBlockAsItem(world, x, y, z, new ItemStack(ICBMCore.blockMachine, 1, itemMetadata));
 
             if (tileEntity instanceof IMultiBlock)
             {
@@ -253,7 +253,7 @@ public class BlockICBMMachine extends BlockICBM
     public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
     {
         TileEntity tileEntity = world.getTileEntity(x, y, z);
-        return new ItemStack(ICBMExplosion.blockMachine, 1, getJiQiID(tileEntity));
+        return new ItemStack(ICBMCore.blockMachine, 1, getJiQiID(tileEntity));
     }
 
     @Override

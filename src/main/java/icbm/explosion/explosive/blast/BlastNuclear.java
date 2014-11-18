@@ -3,7 +3,6 @@ package icbm.explosion.explosive.blast;
 import icbm.Reference;
 import icbm.Settings;
 import icbm.core.ICBMCore;
-import icbm.explosion.ICBMExplosion;
 import icbm.explosion.explosive.thread.ThreadLargeExplosion;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -57,7 +56,7 @@ public class BlastNuclear extends Blast
             this.thread.start();
 
         }
-        else if (this.spawnMoreParticles && ICBMExplosion.proxy.isGaoQing())
+        else if (this.spawnMoreParticles && ICBMCore.proxy.isGaoQing())
         {
             // Spawn nuclear cloud.
             for (int y = 0; y < 26; y++)
@@ -84,7 +83,7 @@ public class BlastNuclear extends Blast
                             Vector3 spawnPosition = position.add(new Vector3(x * 2, (y - 2) * 2, z * 2));
                             float xDiff = (float) (spawnPosition.x() - position.x());
                             float zDiff = (float) (spawnPosition.z() - position.z());
-                            ICBMExplosion.proxy.spawnParticle("smoke", world(), spawnPosition, xDiff * 0.3 * world().rand.nextFloat(), -world().rand.nextFloat(), zDiff * 0.3 * world().rand.nextFloat(), (float) (distance / this.getRadius()) * world().rand.nextFloat(), 0, 0, 8F, 1.2F);
+                            ICBMCore.proxy.spawnParticle("smoke", world(), spawnPosition, xDiff * 0.3 * world().rand.nextFloat(), -world().rand.nextFloat(), zDiff * 0.3 * world().rand.nextFloat(), (float) (distance / this.getRadius()) * world().rand.nextFloat(), 0, 0, 8F, 1.2F);
                         }
                     }
                 }
@@ -103,7 +102,7 @@ public class BlastNuclear extends Blast
 
         if (this.world().isRemote)
         {
-            if (ICBMExplosion.proxy.isGaoQing())
+            if (ICBMCore.proxy.isGaoQing())
             {
                 for (int x = -r; x < r; x++)
                 {
@@ -117,7 +116,7 @@ public class BlastNuclear extends Blast
 
                             if (this.world().rand.nextFloat() < Math.max(0.001 * r, 0.05))
                             {
-                                ICBMExplosion.proxy.spawnParticle("smoke", this.world(), targetPosition, 5F, 1F);
+                                ICBMCore.proxy.spawnParticle("smoke", this.world(), targetPosition, 5F, 1F);
                             }
                         }
                     }
@@ -137,7 +136,7 @@ public class BlastNuclear extends Blast
             else
             {
                 this.controller.endExplosion();
-                ICBMCore.LOGGER.severe("Something went wrong with multi-threading while detonating the nuclear explosive.");
+                Reference.LOGGER.severe("Something went wrong with multi-threading while detonating the nuclear explosive.");
             }
         }
     }
@@ -160,7 +159,7 @@ public class BlastNuclear extends Blast
         }
         catch (Exception e)
         {
-            ICBMCore.LOGGER.severe("Nuclear-type detonation Failed!");
+            Reference.LOGGER.severe("Nuclear-type detonation Failed!");
             e.printStackTrace();
         }
 

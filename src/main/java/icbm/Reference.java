@@ -33,6 +33,6 @@ public class Reference
     public static final String LANGUAGE_PATH = ASSETS_PATH + "languages/";
     public static final String[] LANGUAGES = new String[] { "en_US", "zh_CN", "es_ES", "de_DE", "ru_RU"};
 
-    public static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(NAME);
+    public static final Logger LOGGER = Logger.getLogger(Reference.NAME);
 
 }

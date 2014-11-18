@@ -3,7 +3,7 @@ package icbm.explosion.explosive;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import icbm.Reference;
-import icbm.explosion.ICBMExplosion;
+import icbm.core.ICBMCore;
 import icbm.explosion.entities.EntityExplosive;
 import icbm.explosion.items.ItemRemoteDetonator;
 import io.netty.buffer.ByteBuf;
@@ -314,7 +314,7 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
             {
                 ItemStack itemStack = player.inventory.getCurrentItem();
                 explode(0);
-                ((ItemRemoteDetonator) ICBMExplosion.itemRemoteDetonator).discharge(itemStack, ItemRemoteDetonator.ENERGY, true);
+                ((ItemRemoteDetonator) ICBMCore.itemRemoteDetonator).discharge(itemStack, ItemRemoteDetonator.ENERGY, true);
             }
         }
 

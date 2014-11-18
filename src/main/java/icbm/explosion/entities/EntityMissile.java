@@ -5,7 +5,6 @@ import icbm.Settings;
 import icbm.core.DamageUtility;
 import icbm.core.ICBMCore;
 import icbm.core.implement.IChunkLoadHandler;
-import icbm.explosion.ICBMExplosion;
 import icbm.explosion.ex.Explosion;
 import icbm.explosion.explosive.ExplosiveRegistry;
 
@@ -122,7 +121,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         this.renderDistanceWeight = 3;
         this.isImmuneToFire = true;
         this.ignoreFrustumCheck = true;
-        this.shengYin = this.worldObj != null ? ICBMExplosion.proxy.getDaoDanShengYin(this) : null;
+        this.shengYin = this.worldObj != null ? ICBMCore.proxy.getDaoDanShengYin(this) : null;
     }
 
     /** Spawns a traditional missile and cruise missiles
@@ -221,7 +220,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         this.worldObj.playSoundAtEntity(this, Reference.PREFIX + "missilelaunch", 4F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
         // TODO add an event system here
         RadarRegistry.register(this);
-        ICBMCore.LOGGER.info("Launching " + this.getEntityName() + " (" + this.getEntityId() + ") from " + startPos.xi() + ", " + startPos.yi() + ", " + startPos.zi() + " to " + targetVector.xi() + ", " + targetVector.yi() + ", " + targetVector.zi());
+        Reference.LOGGER.info("Launching " + this.getEntityName() + " (" + this.getEntityId() + ") from " + startPos.xi() + ", " + startPos.yi() + ", " + startPos.zi() + " to " + targetVector.xi() + ", " + targetVector.yi() + ", " + targetVector.zi());
     }
 
     @Override
@@ -265,7 +264,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
     {
         this.dataWatcher.addObject(16, -1);
         this.dataWatcher.addObject(17, 0);
-        this.chunkLoaderInit(ForgeChunkManager.requestTicket(ICBMExplosion.instance, this.worldObj, Type.ENTITY));
+        this.chunkLoaderInit(ForgeChunkManager.requestTicket(ICBMCore.INSTANCE, this.worldObj, Type.ENTITY));
     }
 
     @Override
@@ -576,13 +575,13 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
 
             position.add(delta);
             this.worldObj.spawnParticle("flame", position.x(), position.y(), position.z(), 0, 0, 0);
-            ICBMExplosion.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
+            ICBMCore.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
             position.multiply(1 - 0.001 * Math.random());
-            ICBMExplosion.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
+            ICBMCore.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
             position.multiply(1 - 0.001 * Math.random());
-            ICBMExplosion.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
+            ICBMCore.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
             position.multiply(1 - 0.001 * Math.random());
-            ICBMExplosion.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
+            ICBMCore.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
         }
     }
 
@@ -687,7 +686,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
 
                 this.isExpoding = true;
 
-                ICBMCore.LOGGER.info(this.getEntityName() + " (" + this.getEntityId() + ") exploded in " + (int) this.posX + ", " + (int) this.posY + ", " + (int) this.posZ);
+                Reference.LOGGER.info(this.getEntityName() + " (" + this.getEntityId() + ") exploded in " + (int) this.posX + ", " + (int) this.posY + ", " + (int) this.posZ);
             }
 
             setDead();
@@ -695,7 +694,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         }
         catch (Exception e)
         {
-            ICBMCore.LOGGER.severe("Missile failed to explode properly. Report this to the developers.");
+            Reference.LOGGER.severe("Missile failed to explode properly. Report this to the developers.");
             e.printStackTrace();
         }
     }
@@ -721,7 +720,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
     {
         if (!this.isExpoding && !this.worldObj.isRemote)
         {
-            EntityItem entityItem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(ICBMExplosion.itemMissile, 1, this.explosiveID));
+            EntityItem entityItem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(ICBMCore.itemMissile, 1, this.explosiveID));
 
             float var13 = 0.05F;
             Random random = new Random();

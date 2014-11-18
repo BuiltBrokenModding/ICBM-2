@@ -1,6 +1,6 @@
 package icbm.explosion.machines;
 
-import icbm.explosion.ICBMExplosion;
+import icbm.core.ICBMCore;
 import icbm.explosion.entities.EntityMissile;
 import icbm.explosion.items.ItemMissile;
 import io.netty.buffer.ByteBuf;
@@ -212,7 +212,7 @@ public class TileMissileAssembler extends TileInventory implements IMultiBlock, 
         }
 
         if (!this.worldObj.isRemote)
-            entityPlayer.openGui(ICBMExplosion.instance, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+            entityPlayer.openGui(ICBMCore.INSTANCE, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
         return true;
     }
 
@@ -396,7 +396,7 @@ public class TileMissileAssembler extends TileInventory implements IMultiBlock, 
     public boolean canPlaceBlockAt(ForgeDirection placeSide, int rot)
     {
         VectorWorld pos = toVectorWorld();
-        if (pos.isAirBlock() || pos.isBlockEqual(ICBMExplosion.blockMissileAssembler))
+        if (pos.isAirBlock() || pos.isBlockEqual(ICBMCore.blockMissileAssembler))
         {
             List<Vector3> vecs = TileMissileAssembler.getMultiBlockVectors(placeSide, (byte) rot);
 

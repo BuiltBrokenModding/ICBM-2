@@ -4,7 +4,6 @@ import icbm.Reference;
 import icbm.Settings;
 import icbm.core.ICBMCore;
 import icbm.core.prefab.item.ItemICBMElectrical;
-import icbm.explosion.ICBMExplosion;
 import icbm.explosion.entities.EntityLightBeam;
 import icbm.explosion.machines.launcher.TileLauncherPrefab;
 import icbm.explosion.machines.launcher.TileLauncherScreen;
@@ -265,7 +264,7 @@ public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFreq
                  * Prevents calling air strike if the user is trying to set the frequency of the
                  * remote.
                  */
-                if (block == ICBMExplosion.blockMachine)
+                if (block == ICBMCore.blockMachine)
                 {
                     return par1ItemStack;
                 }
@@ -351,13 +350,13 @@ public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFreq
             ItemStack itemStack = player.inventory.getStackInSlot(((PacketPlayerItem)type).slotId);
             Vector3 position = new Vector3(data.readInt(), data.readInt(), data.readInt());
 
-            ((ItemLaserDesignator) ICBMExplosion.itemLaserDesignator).setLauncherCountDown(itemStack, 119);
+            ((ItemLaserDesignator) ICBMCore.itemLaserDesignator).setLauncherCountDown(itemStack, 119);
 
             player.worldObj.playSoundEffect(position.x(), player.worldObj.getHeightValue(position.xi(), position.zi()), position.z(), Reference.PREFIX + "airstrike", 5.0F, (1.0F + (player.worldObj.rand.nextFloat() - player.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 
             player.worldObj.spawnEntityInWorld(new EntityLightBeam(player.worldObj, position, 5 * 20, 0F, 1F, 0F));
-            if (ICBMExplosion.itemRadarGun instanceof ItemElectric)
-                ((ItemElectric) ICBMExplosion.itemRadarGun).discharge(itemStack, ItemLaserDesignator.energyCost, true);
+            if (ICBMCore.itemLaserDesignator instanceof ItemElectric)
+                ((ItemElectric) ICBMCore.itemLaserDesignator).discharge(itemStack, ItemLaserDesignator.energyCost, true);
         }
     }
 }

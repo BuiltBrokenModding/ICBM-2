@@ -4,7 +4,6 @@ import cpw.mods.fml.common.Optional;
 import icbm.Reference;
 import icbm.core.ICBMCore;
 import icbm.core.prefab.TileICBM;
-import icbm.explosion.ICBMExplosion;
 import icbm.explosion.explosive.blast.BlastEMP;
 
 import java.io.IOException;
@@ -208,7 +207,7 @@ public class TileEMPTower extends TileElectric implements IMultiBlock, IRedstone
     public boolean use(EntityPlayer entityPlayer, int side, Vector3 hit)
     {
         if(!this.worldObj.isRemote)
-        	entityPlayer.openGui(ICBMExplosion.instance, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+        	entityPlayer.openGui(ICBMCore.INSTANCE, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
         return true;
     }
 

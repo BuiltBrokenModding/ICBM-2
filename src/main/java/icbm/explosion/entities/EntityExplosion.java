@@ -1,6 +1,7 @@
 package icbm.explosion.entities;
 
 import cpw.mods.fml.common.network.ByteBufUtils;
+import icbm.Reference;
 import icbm.core.ICBMCore;
 import icbm.explosion.explosive.blast.Blast;
 
@@ -93,7 +94,7 @@ public class EntityExplosion extends Entity implements IEntityAdditionalSpawnDat
         if (this.blast == null)
         {
             this.setDead();
-            ICBMCore.LOGGER.severe("Procedural explosion ended due to null! This is a bug!");
+            Reference.LOGGER.severe("Procedural explosion ended due to null! This is a bug!");
             return;
         }
 
@@ -148,7 +149,7 @@ public class EntityExplosion extends Entity implements IEntityAdditionalSpawnDat
         }
         catch (Exception e)
         {
-            ICBMCore.LOGGER.severe("ICBM error in loading an explosion!");
+            Reference.LOGGER.severe("ICBM error in loading an explosion!");
             e.printStackTrace();
         }
     }

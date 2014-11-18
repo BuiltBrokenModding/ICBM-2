@@ -1,7 +1,6 @@
 package icbm.explosion.machines.launcher;
 
 import icbm.core.ICBMCore;
-import icbm.explosion.ICBMExplosion;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -307,7 +306,7 @@ public class TileLauncherScreen extends TileLauncherPrefab implements ITier, IRo
     public boolean use(EntityPlayer entityPlayer, int side, Vector3 hit)
     {
         if(!this.worldObj.isRemote)
-        	entityPlayer.openGui(ICBMExplosion.instance, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+        	entityPlayer.openGui(ICBMCore.INSTANCE, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
         return true;
     }
 

@@ -1,6 +1,6 @@
 package icbm.explosion.potion;
 
-import icbm.explosion.ICBMExplosion;
+import icbm.core.ICBMCore;
 import icbm.explosion.explosive.Explosive;
 
 import java.util.List;
@@ -76,7 +76,7 @@ public class PoisonContagion extends CustomPotion
                             entity.setDead();
                         }
 
-                        ICBMExplosion.contagios_potion.poisonEntity(new Vector3(entity), entity);
+                        ICBMCore.contagios_potion.poisonEntity(new Vector3(entity), entity);
                     }
                 }
             }

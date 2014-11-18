@@ -51,7 +51,7 @@ public class RenderBombBlock extends TileEntitySpecialRenderer implements ISimpl
                 }
                 catch (Exception e)
                 {
-                    ICBMCore.LOGGER.severe("ICBM Explosive Rendering Crash with: " + block + " and metadata: " + metadata);
+                    Reference.LOGGER.severe("ICBM Explosive Rendering Crash with: " + block + " and metadata: " + metadata);
                     e.printStackTrace();
                 }
             }

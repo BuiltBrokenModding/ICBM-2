@@ -5,7 +5,6 @@ import icbm.core.ICBMCore;
 import icbm.core.implement.IChunkLoadHandler;
 import icbm.core.items.ItemSignalDisrupter;
 import icbm.core.prefab.TileFrequency;
-import icbm.explosion.ICBMExplosion;
 import icbm.explosion.entities.EntityMissile;
 import icbm.explosion.machines.launcher.TileLauncherPrefab;
 import icbm.explosion.machines.launcher.TileLauncherScreen;
@@ -109,7 +108,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
     {
         super.onInstantiate();
         this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
-        this.chunkLoaderInit(ForgeChunkManager.requestTicket(ICBMExplosion.instance, this.worldObj, Type.NORMAL));
+        this.chunkLoaderInit(ForgeChunkManager.requestTicket(ICBMCore.INSTANCE, this.worldObj, Type.NORMAL));
     }
 
     @Override
@@ -676,7 +675,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
         }
 
         if(!this.worldObj.isRemote)
-        	entityPlayer.openGui(ICBMExplosion.instance, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+        	entityPlayer.openGui(ICBMCore.INSTANCE, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
         return true;
     }
 

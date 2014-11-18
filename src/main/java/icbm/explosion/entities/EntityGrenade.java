@@ -1,6 +1,6 @@
 package icbm.explosion.entities;
 
-import icbm.explosion.ICBMExplosion;
+import icbm.core.ICBMCore;
 import icbm.explosion.explosive.Explosive;
 import icbm.explosion.explosive.ExplosiveRegistry;
 import io.netty.buffer.ByteBuf;
@@ -153,7 +153,7 @@ public class EntityGrenade extends Entity implements IExplosiveContainer, IEntit
                 double var7 = this.worldObj.rand.nextFloat() * var6 + (1.0F - var6) * 0.5D;
                 double var9 = this.worldObj.rand.nextFloat() * var6 + (1.0F - var6) * 0.5D;
                 double var11 = this.worldObj.rand.nextFloat() * var6 + (1.0F - var6) * 0.5D;
-                EntityItem var13 = new EntityItem(this.worldObj, this.posX + var7, this.posY + var9, this.posZ + var11, new ItemStack(ICBMExplosion.itemGrenade, this.haoMa, 1));
+                EntityItem var13 = new EntityItem(this.worldObj, this.posX + var7, this.posY + var9, this.posZ + var11, new ItemStack(ICBMCore.itemGrenade, this.haoMa, 1));
                 var13.delayBeforeCanPickup = 10;
                 this.worldObj.spawnEntityInWorld(var13);
                 this.setDead();

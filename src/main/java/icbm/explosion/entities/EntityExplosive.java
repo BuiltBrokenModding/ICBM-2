@@ -1,6 +1,6 @@
 package icbm.explosion.entities;
 
-import icbm.explosion.ICBMExplosion;
+import icbm.core.ICBMCore;
 import icbm.explosion.explosive.ExplosiveRegistry;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
@@ -82,7 +82,7 @@ public class EntityExplosive extends Entity implements IRotatable, IEntityAdditi
 
             if (evt.isCanceled())
             {
-                ICBMExplosion.blockExplosive.dropBlockAsItem(this.worldObj, (int) this.posX, (int) this.posY, (int) this.posZ, this.explosiveID, 0);
+                ICBMCore.blockExplosive.dropBlockAsItem(this.worldObj, (int) this.posX, (int) this.posY, (int) this.posZ, this.explosiveID, 0);
                 this.setDead();
                 return;
             }

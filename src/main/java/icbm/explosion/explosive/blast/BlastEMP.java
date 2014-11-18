@@ -3,7 +3,7 @@ package icbm.explosion.explosive.blast;
 import ic2.api.item.ISpecialElectricItem;
 import ic2.api.tile.IEnergyStorage;
 import icbm.Reference;
-import icbm.explosion.ICBMExplosion;
+import icbm.core.ICBMCore;
 import icbm.explosion.entities.EntityExplosive;
 
 import java.util.List;
@@ -134,7 +134,7 @@ public class BlastEMP extends Blast
                 {
                     if (this.world().isRemote && maxFx > 0)
                     {
-                        ICBMExplosion.proxy.spawnShock(this.world(), this.position, new Vector3(entity), 20);
+                        ICBMCore.proxy.spawnShock(this.world(), this.position, new Vector3(entity), 20);
                         maxFx--;
                     }
 
@@ -185,7 +185,7 @@ public class BlastEMP extends Blast
             }
         }
 
-        ICBMExplosion.proxy.spawnParticle("shockwave", world(), position, 0, 0, 0, 0, 0, 255, 10, 3);
+        ICBMCore.proxy.spawnParticle("shockwave", world(), position, 0, 0, 0, 0, 0, 255, 10, 3);
         this.world().playSoundEffect(position.x(), position.y(), position.z(), Reference.PREFIX + "emp", 4.0F, (1.0F + (world().rand.nextFloat() - world().rand.nextFloat()) * 0.2F) * 0.7F);
     }
 

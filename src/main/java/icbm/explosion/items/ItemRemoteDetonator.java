@@ -1,7 +1,7 @@
 package icbm.explosion.items;
 
+import icbm.core.ICBMCore;
 import icbm.core.prefab.item.ItemICBMElectrical;
-import icbm.explosion.ICBMExplosion;
 import icbm.explosion.explosive.Explosive;
 import icbm.explosion.explosive.TileExplosive;
 
@@ -105,7 +105,7 @@ public class ItemRemoteDetonator extends ItemICBMElectrical implements IPacketRe
                     {
                         if (tile instanceof TileExplosive)
                         {
-                            if (blockID == ICBMExplosion.blockMachine)
+                            if (blockID == ICBMCore.blockMachine)
                             {
                                 return itemStack;
                             }

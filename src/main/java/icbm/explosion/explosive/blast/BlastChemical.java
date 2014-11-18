@@ -1,10 +1,10 @@
 package icbm.explosion.explosive.blast;
 
 import icbm.Reference;
-import icbm.explosion.ICBMExplosion;
 
 import java.util.List;
 
+import icbm.core.ICBMCore;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -92,7 +92,7 @@ public class BlastChemical extends Blast
                 if (diDian.magnitude() <= radius)
                 {
                     diDian.add(this.position);
-                    ICBMExplosion.proxy.spawnParticle("smoke", this.world(), diDian, (Math.random() - 0.5) / 2, (Math.random() - 0.5) / 2, (Math.random() - 0.5) / 2, this.red, this.green, this.blue, 7.0F, 8);
+                    ICBMCore.proxy.spawnParticle("smoke", this.world(), diDian, (Math.random() - 0.5) / 2, (Math.random() - 0.5) / 2, (Math.random() - 0.5) / 2, this.red, this.green, this.blue, 7.0F, 8);
                 }
             }
         }
@@ -104,12 +104,12 @@ public class BlastChemical extends Blast
         {
             if (this.isContagious)
             {
-                ICBMExplosion.contagios_potion.poisonEntity(position, entity);
+                ICBMCore.contagios_potion.poisonEntity(position, entity);
             }
 
             if (this.isPoisonous)
             {
-                ICBMExplosion.poisonous_potion.poisonEntity(position, entity);
+                ICBMCore.poisonous_potion.poisonEntity(position, entity);
             }
 
             if (this.isConfuse)
