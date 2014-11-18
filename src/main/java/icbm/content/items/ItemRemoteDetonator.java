@@ -150,13 +150,14 @@ public class ItemRemoteDetonator extends ItemICBMElectrical implements IPacketRe
         return itemStack;
     }
 
+    //TODO replace with IRmoteDetonatable to allow more explosives to be detonated
     public boolean nengZha(TileEntity tileEntity)
     {
         if (tileEntity != null)
         {
             if (tileEntity instanceof TileExplosive)
             {
-                return ((TileExplosive) tileEntity).explosiveID == Explosive.condensed.getID() || ((TileExplosive) tileEntity).explosiveID == Explosive.breaching.getID() || ((TileExplosive) tileEntity).explosiveID == Explosive.sMine.getID();
+                return ((TileExplosive) tileEntity).explosiveID == Explosive.condensed.getID() || ((TileExplosive) tileEntity).explosiveID == Explosive.breaching.getID();
             }
         }
 

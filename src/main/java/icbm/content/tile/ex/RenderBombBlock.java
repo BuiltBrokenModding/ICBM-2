@@ -31,17 +31,17 @@ public class RenderBombBlock extends TileEntitySpecialRenderer implements ISimpl
     {
         if (modelID == ID)
         {
-            if (metadata == Explosive.sMine.getID())
-            {
-                GL11.glPushMatrix();
-                GL11.glTranslatef(0.0F, 1.5F, 0.0F);
-                GL11.glRotatef(180f, 0f, 0f, 1f);
-                FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE_FILE);
-                MDiLei.INSTANCE.render(0.0625F);
-                GL11.glPopMatrix();
-            }
-            else
-            {
+            //if (metadata == Explosive.sMine.getID())
+            //{
+                //GL11.glPushMatrix();
+                //GL11.glTranslatef(0.0F, 1.5F, 0.0F);
+                //GL11.glRotatef(180f, 0f, 0f, 1f);
+                //FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE_FILE);
+                //MDiLei.INSTANCE.render(0.0625F);
+                //GL11.glPopMatrix();
+           // }
+            //else
+            //{
                 try
                 {
 
@@ -52,7 +52,7 @@ public class RenderBombBlock extends TileEntitySpecialRenderer implements ISimpl
                     Reference.LOGGER.severe("ICBM Explosive Rendering Crash with: " + block + " and metadata: " + metadata);
                     e.printStackTrace();
                 }
-            }
+           //}
         }
     }
 

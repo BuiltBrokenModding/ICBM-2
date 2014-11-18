@@ -87,12 +87,13 @@ public class ExEnder extends Explosion
         RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "PPP", "PTP", "PPP", 'P', Items.ender_pearl, 'T', Explosive.attractive.getItemStack() }), this.getUnlocalizedName(), Settings.CONFIGURATION, true);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
         Vector3 teleportTarget = null;
 
+        //TODO fix what ever this is doing by getting NBT for teleportation location
+        //TODO add an event trigger so teleport can be canceled
         if (entity instanceof IExplosiveContainer)
         {
             if (((IExplosiveContainer) entity).getTagCompound().hasKey("x") && ((IExplosiveContainer) entity).getTagCompound().hasKey("y") && ((IExplosiveContainer) entity).getTagCompound().hasKey("z"))

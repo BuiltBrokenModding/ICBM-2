@@ -19,7 +19,6 @@ import icbm.explosion.ex.ExNuclear;
 import icbm.explosion.ex.ExRedMatter;
 import icbm.explosion.ex.ExRejuvenation;
 import icbm.explosion.ex.ExRepulsive;
-import icbm.explosion.ex.ExSMine;
 import icbm.explosion.ex.ExShrapnel;
 import icbm.explosion.ex.ExSonic;
 import icbm.explosion.ex.missiles.MissileAnti;
@@ -59,7 +58,6 @@ public abstract class Explosive implements IExplosive
     public static final Explosive breaching;
     public static final Explosive rejuvenation;
     public static final Explosive thermobaric;
-    public static final Explosive sMine;
 
     public static final Explosive nuclear;
     public static final Explosive emp;
@@ -100,7 +98,6 @@ public abstract class Explosive implements IExplosive
         breaching = ExplosiveRegistry.register(new ExBreaching());
         rejuvenation = ExplosiveRegistry.register(new ExRejuvenation());
         thermobaric = ExplosiveRegistry.register(new ExNuclear("thermobaric", 2));
-        sMine = ExplosiveRegistry.register(new ExSMine("sMine", 2));
 
         nuclear = ExplosiveRegistry.register(new ExNuclear("nuclear", 3));
         emp = ExplosiveRegistry.register(new ExEMP());
