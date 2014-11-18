@@ -1,7 +1,6 @@
 package icbm.explosion.gui;
 
 import icbm.Reference;
-import icbm.core.ICBMCore;
 import icbm.core.gui.GuiICBM;
 import icbm.explosion.machines.launcher.TileLauncherScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -16,7 +15,6 @@ import resonant.lib.science.UnitDisplay;
 import resonant.lib.science.UnitDisplay.Unit;
 import resonant.lib.transform.vector.Vector3;
 import cpw.mods.fml.client.FMLClientHandler;
-import resonant.lib.network.netty.PacketManager;
 
 public class GuiLauncherScreen extends GuiICBM
 {

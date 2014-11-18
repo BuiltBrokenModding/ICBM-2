@@ -1,6 +1,6 @@
 package icbm.explosion.render.tile;
 
-import icbm.core.ICBMCore;
+import icbm.ICBM;
 import icbm.explosion.machines.BlockICBMMachine.MachineData;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -26,7 +26,7 @@ public class BlockRenderHandler implements ISimpleBlockRenderingHandler
         {
             GL11.glPushMatrix();
 
-            if (block == ICBMCore.blockMissileAssembler)
+            if (block == ICBM.blockMissileAssembler)
             {
                 GL11.glTranslatef(0f, 0.5f, 0f);
                 GL11.glScalef(0.5f, 0.5f, 0.5f);

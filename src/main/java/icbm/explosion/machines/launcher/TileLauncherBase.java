@@ -1,7 +1,6 @@
 package icbm.explosion.machines.launcher;
 
 import icbm.Settings;
-import icbm.core.ICBMCore;
 import icbm.explosion.entities.EntityMissile;
 import icbm.explosion.ex.Explosion;
 import icbm.explosion.explosive.ExplosiveRegistry;
@@ -32,7 +31,6 @@ import resonant.lib.transform.vector.IVectorWorld;
 import resonant.lib.transform.vector.Vector3;
 import resonant.lib.utility.LanguageUtility;
 import resonant.lib.content.prefab.java.TileInventory;
-import com.google.common.io.ByteArrayDataInput;
 
 import java.util.ArrayList;
 import java.util.List;

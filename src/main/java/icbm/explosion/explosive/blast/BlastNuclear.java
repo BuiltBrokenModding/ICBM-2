@@ -2,7 +2,7 @@ package icbm.explosion.explosive.blast;
 
 import icbm.Reference;
 import icbm.Settings;
-import icbm.core.ICBMCore;
+import icbm.ICBM;
 import icbm.explosion.explosive.thread.ThreadLargeExplosion;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -56,7 +56,7 @@ public class BlastNuclear extends Blast
             this.thread.start();
 
         }
-        else if (this.spawnMoreParticles && ICBMCore.proxy.isGaoQing())
+        else if (this.spawnMoreParticles && ICBM.proxy.isGaoQing())
         {
             // Spawn nuclear cloud.
             for (int y = 0; y < 26; y++)
@@ -83,7 +83,7 @@ public class BlastNuclear extends Blast
                             Vector3 spawnPosition = position.add(new Vector3(x * 2, (y - 2) * 2, z * 2));
                             float xDiff = (float) (spawnPosition.x() - position.x());
                             float zDiff = (float) (spawnPosition.z() - position.z());
-                            ICBMCore.proxy.spawnParticle("smoke", world(), spawnPosition, xDiff * 0.3 * world().rand.nextFloat(), -world().rand.nextFloat(), zDiff * 0.3 * world().rand.nextFloat(), (float) (distance / this.getRadius()) * world().rand.nextFloat(), 0, 0, 8F, 1.2F);
+                            ICBM.proxy.spawnParticle("smoke", world(), spawnPosition, xDiff * 0.3 * world().rand.nextFloat(), -world().rand.nextFloat(), zDiff * 0.3 * world().rand.nextFloat(), (float) (distance / this.getRadius()) * world().rand.nextFloat(), 0, 0, 8F, 1.2F);
                         }
                     }
                 }
@@ -102,7 +102,7 @@ public class BlastNuclear extends Blast
 
         if (this.world().isRemote)
         {
-            if (ICBMCore.proxy.isGaoQing())
+            if (ICBM.proxy.isGaoQing())
             {
                 for (int x = -r; x < r; x++)
                 {
@@ -116,7 +116,7 @@ public class BlastNuclear extends Blast
 
                             if (this.world().rand.nextFloat() < Math.max(0.001 * r, 0.05))
                             {
-                                ICBMCore.proxy.spawnParticle("smoke", this.world(), targetPosition, 5F, 1F);
+                                ICBM.proxy.spawnParticle("smoke", this.world(), targetPosition, 5F, 1F);
                             }
                         }
                     }

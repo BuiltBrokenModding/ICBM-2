@@ -1,6 +1,6 @@
 package icbm.explosion.entities;
 
-import icbm.core.ICBMCore;
+import icbm.ICBM;
 import icbm.explosion.explosive.ExplosiveRegistry;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
@@ -13,9 +13,6 @@ import resonant.api.explosion.ExplosiveType;
 import resonant.api.explosion.IExplosive;
 import resonant.api.explosion.IExplosiveContainer;
 import resonant.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
-
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
 
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import resonant.lib.transform.vector.Vector3;
@@ -82,7 +79,7 @@ public class EntityExplosive extends Entity implements IRotatable, IEntityAdditi
 
             if (evt.isCanceled())
             {
-                ICBMCore.blockExplosive.dropBlockAsItem(this.worldObj, (int) this.posX, (int) this.posY, (int) this.posZ, this.explosiveID, 0);
+                ICBM.blockExplosive.dropBlockAsItem(this.worldObj, (int) this.posX, (int) this.posY, (int) this.posZ, this.explosiveID, 0);
                 this.setDead();
                 return;
             }

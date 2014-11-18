@@ -1,6 +1,6 @@
 package icbm.explosion.items;
 
-import icbm.core.ICBMCore;
+import icbm.ICBM;
 import icbm.core.prefab.item.ItemICBMElectrical;
 import icbm.explosion.machines.launcher.TileLauncherPrefab;
 import icbm.explosion.machines.launcher.TileLauncherScreen;
@@ -91,7 +91,7 @@ public class ItemRadarGun extends ItemICBMElectrical implements IPacketReceiver
         Block blockId = par3World.getBlock(x, y, z);
         int blockMetadata = par3World.getBlockMetadata(x, y, z);
 
-        if (blockId == ICBMCore.blockMachine)
+        if (blockId == ICBM.blockMachine)
         {
             TileEntity tileEntity = par3World.getTileEntity(x, y, z);
 
@@ -174,8 +174,8 @@ public class ItemRadarGun extends ItemICBMElectrical implements IPacketReceiver
             if(itemStack != null)
             {
                 this.setLink(itemStack, new Vector3(data.readInt(), data.readInt(), data.readInt()));
-                if (ICBMCore.itemRadarGun instanceof ItemElectric)
-                    ((ItemElectric) ICBMCore.itemRadarGun).discharge(itemStack, ItemRadarGun.energyCost, true);
+                if (ICBM.itemRadarGun instanceof ItemElectric)
+                    ((ItemElectric) ICBM.itemRadarGun).discharge(itemStack, ItemRadarGun.energyCost, true);
             }
         }
     }

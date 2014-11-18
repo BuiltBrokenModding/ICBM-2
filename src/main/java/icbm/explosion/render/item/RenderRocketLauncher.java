@@ -1,7 +1,7 @@
 package icbm.explosion.render.item;
 
 import icbm.Reference;
-import icbm.core.ICBMCore;
+import icbm.ICBM;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
@@ -23,13 +23,13 @@ public class RenderRocketLauncher implements IItemRenderer
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type)
     {
-        return item.getItem() == ICBMCore.itemRocketLauncher;
+        return item.getItem() == ICBM.itemRocketLauncher;
     }
 
     @Override
     public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
     {
-        return item.getItem() == ICBMCore.itemRocketLauncher;
+        return item.getItem() == ICBM.itemRocketLauncher;
     }
 
     @Override

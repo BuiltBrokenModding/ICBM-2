@@ -1,7 +1,6 @@
 package icbm.core.gui;
 
 import icbm.Reference;
-import icbm.core.ICBMCore;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -13,7 +12,6 @@ import resonant.api.items.IItemFrequency;
 import resonant.engine.ResonantEngine;
 import resonant.lib.network.discriminator.PacketPlayerItem;
 import resonant.lib.utility.LanguageUtility;
-import resonant.lib.network.netty.PacketManager;
 import cpw.mods.fml.client.FMLClientHandler;
 
 public class GuiFrequency extends GuiICBM

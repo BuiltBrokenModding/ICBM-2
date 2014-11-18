@@ -1,14 +1,13 @@
 package icbm.explosion.explosive.blast;
 
 import icbm.Reference;
-import icbm.core.ICBMCore;
+import icbm.ICBM;
 
 import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import resonant.lib.transform.vector.Vector3;
@@ -57,7 +56,7 @@ public class BlastEnderman extends Blast
                                 float velY = (float) ((targetPosition.y() - position.y()) * 0.6);
                                 float velZ = (float) ((targetPosition.z() - position.z()) * 0.6);
 
-                                ICBMCore.proxy.spawnParticle("portal", world(), targetPosition, velX, velY, velZ, 5f, 1);
+                                ICBM.proxy.spawnParticle("portal", world(), targetPosition, velX, velY, velZ, 5f, 1);
                             }
                         }
                     }

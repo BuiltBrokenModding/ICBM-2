@@ -1,6 +1,6 @@
 package icbm.explosion.render.entity;
 
-import icbm.core.ICBMCore;
+import icbm.ICBM;
 import icbm.explosion.entities.EntityGrenade;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
@@ -23,13 +23,13 @@ public class RenderGrenade extends Render
     public void doRender(Entity entity, double x, double y, double z, float par8, float par9)
     {
         /** Renders the grenade based on the explosive ID. */
-        IIcon icon = ICBMCore.itemGrenade.getIconFromDamage(((EntityGrenade) entity).haoMa);
+        IIcon icon = ICBM.itemGrenade.getIconFromDamage(((EntityGrenade) entity).haoMa);
 
         GL11.glPushMatrix();
         GL11.glTranslatef((float) x, (float) y + 0.4f, (float) z);
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         GL11.glScalef(0.6F, 0.6F, 0.6F);
-        RenderUtility.setSpriteTexture(new ItemStack(ICBMCore.itemGrenade));
+        RenderUtility.setSpriteTexture(new ItemStack(ICBM.itemGrenade));
         Tessellator tessellator = Tessellator.instance;
         this.renderIcon(tessellator, icon);
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);

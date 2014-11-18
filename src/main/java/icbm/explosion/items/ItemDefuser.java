@@ -1,6 +1,6 @@
 package icbm.explosion.items;
 
-import icbm.core.ICBMCore;
+import icbm.ICBM;
 import icbm.core.prefab.item.ItemICBMElectrical;
 import icbm.explosion.entities.EntityBombCart;
 import icbm.explosion.entities.EntityExplosive;
@@ -45,7 +45,7 @@ public class ItemDefuser extends ItemICBMElectrical
                 if (!entity.worldObj.isRemote)
                 {
                     EntityExplosive entityTNT = (EntityExplosive) entity;
-                    EntityItem entityItem = new EntityItem(entity.worldObj, entity.posX, entity.posY, entity.posZ, new ItemStack(ICBMCore.blockExplosive, 1, entityTNT.explosiveID));
+                    EntityItem entityItem = new EntityItem(entity.worldObj, entity.posX, entity.posY, entity.posZ, new ItemStack(ICBM.blockExplosive, 1, entityTNT.explosiveID));
                     float var13 = 0.05F;
                     Random random = new Random();
                     entityItem.motionX = ((float) random.nextGaussian() * var13);

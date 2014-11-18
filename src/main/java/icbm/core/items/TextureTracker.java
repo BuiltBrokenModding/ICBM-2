@@ -1,9 +1,8 @@
 package icbm.core.items;
 
-import icbm.core.ICBMCore;
+import icbm.ICBM;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -21,7 +20,7 @@ public class TextureTracker extends TextureAtlasSprite
 
     public TextureTracker()
     {
-        super(ICBMCore.itemTracker.getUnlocalizedName().replace("item.", ""));
+        super(ICBM.itemTracker.getUnlocalizedName().replace("item.", ""));
     }
 
     @Override

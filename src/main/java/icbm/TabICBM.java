@@ -1,6 +1,5 @@
 package icbm;
 
-import icbm.core.ICBMCore;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -31,7 +30,7 @@ public class TabICBM extends CreativeTabs
 	@Override
 	public Item getTabIconItem() {
 		// TODO Auto-generated method stub
-		return ICBMCore.itemRocketLauncher;
+		return ICBM.itemRocketLauncher;
 	}
 
 }

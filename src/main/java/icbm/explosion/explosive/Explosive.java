@@ -2,7 +2,7 @@ package icbm.explosion.explosive;
 
 import icbm.ModelICBM;
 import icbm.Settings;
-import icbm.core.ICBMCore;
+import icbm.ICBM;
 import icbm.explosion.ex.Explosion;
 import icbm.explosion.ex.ExAntiGravitational;
 import icbm.explosion.ex.ExAntimatter;
@@ -306,7 +306,7 @@ public abstract class Explosive implements IExplosive
 
     public ItemStack getItemStack(int amount)
     {
-        return new ItemStack(ICBMCore.blockExplosive, amount, this.getID());
+        return new ItemStack(ICBM.blockExplosive, amount, this.getID());
     }
 
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int par6, float par7, float par8, float par9)

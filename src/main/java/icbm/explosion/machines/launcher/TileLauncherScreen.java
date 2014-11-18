@@ -1,8 +1,7 @@
 package icbm.explosion.machines.launcher;
 
-import icbm.core.ICBMCore;
+import icbm.ICBM;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,13 +18,10 @@ import resonant.api.explosion.LauncherType;
 import resonant.lib.network.discriminator.PacketTile;
 import resonant.lib.network.discriminator.PacketType;
 import resonant.lib.network.handle.IPacketIDReceiver;
-import resonant.lib.network.handle.IPacketReceiver;
 import resonant.lib.network.netty.AbstractPacket;
 import resonant.lib.transform.vector.VectorWorld;
 import resonant.lib.utility.LanguageUtility;
 import resonant.lib.transform.vector.Vector3;
-
-import com.google.common.io.ByteArrayDataInput;
 
 /** This tile entity is for the screen of the missile launcher
  * 
@@ -306,7 +302,7 @@ public class TileLauncherScreen extends TileLauncherPrefab implements ITier, IRo
     public boolean use(EntityPlayer entityPlayer, int side, Vector3 hit)
     {
         if(!this.worldObj.isRemote)
-        	entityPlayer.openGui(ICBMCore.INSTANCE, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+        	entityPlayer.openGui(ICBM.INSTANCE, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
         return true;
     }
 

@@ -1,6 +1,6 @@
 package icbm.explosion.ex.missiles;
 
-import icbm.core.ICBMCore;
+import icbm.ICBM;
 import icbm.explosion.ex.Explosion;
 import net.minecraft.item.ItemStack;
 
@@ -20,6 +20,6 @@ public abstract class Missile extends Explosion
     @Override
     public ItemStack getItemStack()
     {
-        return new ItemStack(ICBMCore.itemMissile, 1, this.getID());
+        return new ItemStack(ICBM.itemMissile, 1, this.getID());
     }
 }

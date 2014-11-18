@@ -1,10 +1,8 @@
 package icbm.core.gui;
 
-import icbm.core.ICBMCore;
 import icbm.core.blocks.TileProximityDetector;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraftforge.common.util.ForgeDirection;
 import resonant.engine.ResonantEngine;
 import resonant.lib.network.discriminator.PacketTile;
 import resonant.lib.transform.vector.Vector3;

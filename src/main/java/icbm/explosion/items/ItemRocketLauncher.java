@@ -3,8 +3,8 @@ package icbm.explosion.items;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import icbm.Settings;
+import icbm.ICBM;
 import icbm.core.prefab.item.ItemICBMElectrical;
-import icbm.core.ICBMCore;
 import icbm.explosion.entities.EntityMissile;
 import icbm.explosion.ex.Explosion;
 import icbm.explosion.explosive.Explosive;
@@ -151,7 +151,7 @@ public class ItemRocketLauncher extends ItemICBMElectrical
 
         if (currentItem != null && (event.player != Minecraft.getMinecraft().renderViewEntity || Minecraft.getMinecraft().gameSettings.thirdPersonView != 0))
         {
-            if (currentItem.getItem() == ICBMCore.itemRocketLauncher)
+            if (currentItem.getItem() == ICBM.itemRocketLauncher)
             {
                 if (event.player.getItemInUseCount() <= 0)
                 {

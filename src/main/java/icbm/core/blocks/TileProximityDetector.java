@@ -1,6 +1,6 @@
 package icbm.core.blocks;
 
-import icbm.core.ICBMCore;
+import icbm.ICBM;
 import icbm.core.items.ItemSignalDisrupter;
 import icbm.core.prefab.TileFrequency;
 
@@ -20,7 +20,6 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.util.ForgeDirection;
 import resonant.api.IRedstoneProvider;
 
-import com.google.common.io.ByteArrayDataInput;
 import resonant.engine.ResonantEngine;
 import resonant.lib.network.discriminator.PacketTile;
 import resonant.lib.network.discriminator.PacketType;
@@ -134,7 +133,7 @@ public class TileProximityDetector extends TileFrequency implements IRedstonePro
     public boolean use(EntityPlayer player, int side, Vector3 hit)
     {
         if(!world().isRemote)
-            player.openGui(ICBMCore.INSTANCE, 0, world(), hit.xi(), hit.yi(), hit.zi());
+            player.openGui(ICBM.INSTANCE, 0, world(), hit.xi(), hit.yi(), hit.zi());
         return false;
     }
 

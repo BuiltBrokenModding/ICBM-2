@@ -3,7 +3,7 @@ package icbm.explosion.entities;
 import icbm.Reference;
 import icbm.Settings;
 import icbm.core.DamageUtility;
-import icbm.core.ICBMCore;
+import icbm.ICBM;
 import icbm.core.implement.IChunkLoadHandler;
 import icbm.explosion.ex.Explosion;
 import icbm.explosion.explosive.ExplosiveRegistry;
@@ -39,9 +39,6 @@ import resonant.api.explosion.ILauncherContainer;
 import resonant.api.explosion.IMissile;
 import resonant.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import resonant.api.map.RadarRegistry;
-
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
 
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import resonant.lib.transform.vector.Vector3;
@@ -121,7 +118,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         this.renderDistanceWeight = 3;
         this.isImmuneToFire = true;
         this.ignoreFrustumCheck = true;
-        this.shengYin = this.worldObj != null ? ICBMCore.proxy.getDaoDanShengYin(this) : null;
+        this.shengYin = this.worldObj != null ? ICBM.proxy.getDaoDanShengYin(this) : null;
     }
 
     /** Spawns a traditional missile and cruise missiles
@@ -264,7 +261,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
     {
         this.dataWatcher.addObject(16, -1);
         this.dataWatcher.addObject(17, 0);
-        this.chunkLoaderInit(ForgeChunkManager.requestTicket(ICBMCore.INSTANCE, this.worldObj, Type.ENTITY));
+        this.chunkLoaderInit(ForgeChunkManager.requestTicket(ICBM.INSTANCE, this.worldObj, Type.ENTITY));
     }
 
     @Override
@@ -575,13 +572,13 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
 
             position.add(delta);
             this.worldObj.spawnParticle("flame", position.x(), position.y(), position.z(), 0, 0, 0);
-            ICBMCore.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
+            ICBM.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
             position.multiply(1 - 0.001 * Math.random());
-            ICBMCore.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
+            ICBM.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
             position.multiply(1 - 0.001 * Math.random());
-            ICBMCore.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
+            ICBM.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
             position.multiply(1 - 0.001 * Math.random());
-            ICBMCore.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
+            ICBM.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
         }
     }
 
@@ -720,7 +717,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
     {
         if (!this.isExpoding && !this.worldObj.isRemote)
         {
-            EntityItem entityItem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(ICBMCore.itemMissile, 1, this.explosiveID));
+            EntityItem entityItem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(ICBM.itemMissile, 1, this.explosiveID));
 
             float var13 = 0.05F;
             Random random = new Random();

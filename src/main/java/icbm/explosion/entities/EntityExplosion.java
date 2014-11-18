@@ -2,7 +2,6 @@ package icbm.explosion.entities;
 
 import cpw.mods.fml.common.network.ByteBufUtils;
 import icbm.Reference;
-import icbm.core.ICBMCore;
 import icbm.explosion.explosive.blast.Blast;
 
 import java.lang.reflect.Constructor;
@@ -12,9 +11,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import resonant.api.explosion.IEntityExplosion;
-
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
 
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import resonant.lib.transform.vector.IVectorWorld;

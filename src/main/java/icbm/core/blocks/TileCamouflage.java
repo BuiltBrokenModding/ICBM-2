@@ -1,22 +1,16 @@
 package icbm.core.blocks;
 
-import icbm.core.ICBMCore;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import resonant.api.blocks.ICamouflageMaterial;
 import resonant.content.prefab.java.TileAdvanced;
 
-import com.google.common.io.ByteArrayDataInput;
 import resonant.engine.ResonantEngine;
 import resonant.lib.network.discriminator.PacketTile;
 import resonant.lib.network.discriminator.PacketType;

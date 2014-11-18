@@ -1,16 +1,14 @@
 package icbm.explosion.machines;
 
-import icbm.core.ICBMCore;
+import icbm.ICBM;
 import icbm.explosion.entities.EntityMissile;
 import icbm.explosion.items.ItemMissile;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import resonant.api.IRotatable;
 import resonant.api.ITier;
@@ -212,7 +210,7 @@ public class TileMissileAssembler extends TileInventory implements IMultiBlock, 
         }
 
         if (!this.worldObj.isRemote)
-            entityPlayer.openGui(ICBMCore.INSTANCE, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+            entityPlayer.openGui(ICBM.INSTANCE, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
         return true;
     }
 
@@ -396,7 +394,7 @@ public class TileMissileAssembler extends TileInventory implements IMultiBlock, 
     public boolean canPlaceBlockAt(ForgeDirection placeSide, int rot)
     {
         VectorWorld pos = toVectorWorld();
-        if (pos.isAirBlock() || pos.isBlockEqual(ICBMCore.blockMissileAssembler))
+        if (pos.isAirBlock() || pos.isBlockEqual(ICBM.blockMissileAssembler))
         {
             List<Vector3> vecs = TileMissileAssembler.getMultiBlockVectors(placeSide, (byte) rot);
 

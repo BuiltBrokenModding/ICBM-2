@@ -6,6 +6,7 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import icbm.ICBM;
 import icbm.Reference;
 import icbm.core.blocks.TileProximityDetector;
 import icbm.core.entity.EntityFlyingBlock;
@@ -53,7 +54,6 @@ import resonant.lib.render.RenderUtility;
 import resonant.lib.render.fx.*;
 import resonant.lib.transform.vector.Vector3;
 
-import java.sql.Ref;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
@@ -67,8 +67,8 @@ public class ClientProxy extends CommonProxy
         super.init();
         RenderingRegistry.registerEntityRenderingHandler(EntityFlyingBlock.class, new RenderEntityBlock());
         RenderingRegistry.registerEntityRenderingHandler(EntityFragments.class, new RenderShrapnel());
-        MinecraftForgeClient.registerItemRenderer(ICBMCore.itemRocketLauncher, new RenderRocketLauncher());
-        MinecraftForgeClient.registerItemRenderer(ICBMCore.itemMissile, new RenderItemMissile());
+        MinecraftForgeClient.registerItemRenderer(ICBM.itemRocketLauncher, new RenderRocketLauncher());
+        MinecraftForgeClient.registerItemRenderer(ICBM.itemMissile, new RenderItemMissile());
 
         RenderingRegistry.registerBlockHandler(new RenderBombBlock());
         RenderingRegistry.registerBlockHandler(new BlockRenderHandler());

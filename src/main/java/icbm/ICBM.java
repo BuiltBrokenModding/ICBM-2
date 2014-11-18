@@ -1,11 +1,12 @@
-package icbm.core;
+package icbm;
 
 import cpw.mods.fml.common.*;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import icbm.Reference;
-import icbm.Settings;
-import icbm.TabICBM;
+import icbm.core.CommandICBM;
+import icbm.core.CommonProxy;
+import icbm.core.DispenseBehaviorBombCart;
+import icbm.core.DispenseBehaviorGrenade;
 import icbm.core.blocks.*;
 import icbm.core.compat.Waila;
 import icbm.core.entity.EntityFlyingBlock;
@@ -82,10 +83,10 @@ import resonant.lib.utility.PotionUtility;
  * @author Calclavia */
 @Mod(modid = Reference.NAME, name = Reference.NAME, version = Reference.VERSION, dependencies = "after:ResonantInduction|Atomic;required-after:ResonantEngine")
 @ModstatInfo(prefix = "icbm", name = Reference.NAME, version = Reference.VERSION)
-public final class ICBMCore
+public final class ICBM
 {
     @Instance(Reference.NAME)
-    public static ICBMCore INSTANCE;
+    public static ICBM INSTANCE;
 
     @Metadata(Reference.NAME)
     public static ModMetadata metadata;
@@ -416,7 +417,7 @@ public final class ICBMCore
         {
             if (CREEPER_DROP_SULFER)
             {
-                evt.entityLiving.dropItem(ICBMCore.itemSulfurDust, 1 + evt.entityLiving.worldObj.rand.nextInt(6));
+                evt.entityLiving.dropItem(ICBM.itemSulfurDust, 1 + evt.entityLiving.worldObj.rand.nextInt(6));
             }
         }
     }

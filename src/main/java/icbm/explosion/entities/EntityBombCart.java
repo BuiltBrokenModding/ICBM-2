@@ -1,22 +1,18 @@
 package icbm.explosion.entities;
 
-import icbm.core.ICBMCore;
+import icbm.ICBM;
 import icbm.explosion.explosive.ExplosiveRegistry;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityMinecartTNT;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import resonant.api.explosion.IExplosive;
 import resonant.api.explosion.IExplosiveContainer;
-
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
 
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
@@ -82,7 +78,7 @@ public class EntityBombCart extends EntityMinecartTNT implements IExplosiveConta
 
         if (!par1DamageSource.isExplosion())
         {
-            this.entityDropItem(new ItemStack(ICBMCore.blockExplosive, 1, this.explosiveID), 0.0F);
+            this.entityDropItem(new ItemStack(ICBM.blockExplosive, 1, this.explosiveID), 0.0F);
         }
 
         if (par1DamageSource.isFireDamage() || par1DamageSource.isExplosion() || d0 >= 0.009999999776482582D)
@@ -94,7 +90,7 @@ public class EntityBombCart extends EntityMinecartTNT implements IExplosiveConta
     @Override
     public ItemStack getCartItem()
     {
-        return new ItemStack(ICBMCore.itemBombCart, 1, this.explosiveID);
+        return new ItemStack(ICBM.itemBombCart, 1, this.explosiveID);
     }
 
     @Override
@@ -124,7 +120,7 @@ public class EntityBombCart extends EntityMinecartTNT implements IExplosiveConta
     @Override
     public Block func_145817_o()
     {
-        return ICBMCore.blockExplosive;
+        return ICBM.blockExplosive;
     }
 
     @Override

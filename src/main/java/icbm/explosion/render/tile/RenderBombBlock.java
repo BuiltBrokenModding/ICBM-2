@@ -1,7 +1,6 @@
 package icbm.explosion.render.tile;
 
 import icbm.Reference;
-import icbm.core.ICBMCore;
 import icbm.explosion.explosive.Explosive;
 import icbm.explosion.explosive.ExplosiveRegistry;
 import icbm.explosion.explosive.TileExplosive;

@@ -1,7 +1,7 @@
 package icbm.explosion.ex;
 
 import icbm.Settings;
-import icbm.core.ICBMCore;
+import icbm.ICBM;
 import icbm.explosion.explosive.blast.BlastChemical;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Items;
@@ -30,7 +30,7 @@ public class ExChemical extends Explosion
     {
         if (this.getTier() == 1)
         {
-            RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@@@", '@', ICBMCore.itemPoisonPowder, '?', debilitation.getItemStack() }), "Chemical", Settings.CONFIGURATION, true);
+            RecipeUtility.addRecipe(new ShapedOreRecipe(this.getItemStack(), new Object[] { "@@@", "@?@", "@@@", '@', ICBM.itemPoisonPowder, '?', debilitation.getItemStack() }), "Chemical", Settings.CONFIGURATION, true);
         }
         else if (this.getTier() == 2)
         {

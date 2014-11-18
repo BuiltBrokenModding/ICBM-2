@@ -1,6 +1,6 @@
 package icbm.explosion.machines;
 
-import icbm.core.ICBMCore;
+import icbm.ICBM;
 import icbm.core.prefab.BlockICBM;
 import icbm.explosion.machines.launcher.TileLauncherBase;
 import icbm.explosion.machines.launcher.TileLauncherFrame;
@@ -14,7 +14,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -25,7 +24,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 import resonant.api.IRedstoneReceptor;
 import resonant.api.IRotatable;
 import resonant.api.ITier;
-import resonant.engine.ResonantEngine;
 import resonant.lib.multiblock.reference.IMultiBlock;
 import resonant.lib.utility.LanguageUtility;
 import cpw.mods.fml.relauncher.Side;
@@ -186,7 +184,7 @@ public class BlockICBMMachine extends BlockICBM
                 itemMetadata = 9 + metadata - 3;
             }
 
-            this.dropBlockAsItem(world, x, y, z, new ItemStack(ICBMCore.blockMachine, 1, itemMetadata));
+            this.dropBlockAsItem(world, x, y, z, new ItemStack(ICBM.blockMachine, 1, itemMetadata));
 
             if (tileEntity instanceof IMultiBlock)
             {
@@ -253,7 +251,7 @@ public class BlockICBMMachine extends BlockICBM
     public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
     {
         TileEntity tileEntity = world.getTileEntity(x, y, z);
-        return new ItemStack(ICBMCore.blockMachine, 1, getJiQiID(tileEntity));
+        return new ItemStack(ICBM.blockMachine, 1, getJiQiID(tileEntity));
     }
 
     @Override

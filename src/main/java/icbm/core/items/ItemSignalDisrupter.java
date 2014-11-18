@@ -1,6 +1,6 @@
 package icbm.core.items;
 
-import icbm.core.ICBMCore;
+import icbm.ICBM;
 import icbm.core.prefab.item.ItemICBMElectrical;
 
 import java.util.List;
@@ -17,8 +17,6 @@ import resonant.lib.network.discriminator.PacketPlayerItem;
 import resonant.lib.network.discriminator.PacketType;
 import resonant.lib.network.handle.IPacketReceiver;
 import resonant.lib.utility.LanguageUtility;
-
-import com.google.common.io.ByteArrayDataInput;
 
 public class ItemSignalDisrupter extends ItemICBMElectrical implements IItemFrequency, IPacketReceiver
 {
@@ -75,7 +73,7 @@ public class ItemSignalDisrupter extends ItemICBMElectrical implements IItemFreq
     public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {        
         if(!par2World.isRemote)
-        	par3EntityPlayer.openGui(ICBMCore.INSTANCE, 0, par2World, (int) par3EntityPlayer.posX, (int) par3EntityPlayer.posY, (int) par3EntityPlayer.posZ);
+        	par3EntityPlayer.openGui(ICBM.INSTANCE, 0, par2World, (int) par3EntityPlayer.posX, (int) par3EntityPlayer.posY, (int) par3EntityPlayer.posZ);
         return par1ItemStack;
     }
 

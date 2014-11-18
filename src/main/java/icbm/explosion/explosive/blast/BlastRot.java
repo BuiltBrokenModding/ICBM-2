@@ -1,6 +1,6 @@
 package icbm.explosion.explosive.blast;
 
-import icbm.core.ICBMCore;
+import icbm.ICBM;
 import icbm.explosion.explosive.thread.ThreadLargeExplosion;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -56,7 +56,7 @@ public class BlastRot extends Blast
                         {
                             if (this.world().rand.nextFloat() > 0.96)
                             {
-                                targetPosition.setBlock(this.world(), ICBMCore.blockRadioactive);
+                                targetPosition.setBlock(this.world(), ICBM.blockRadioactive);
                             }
                         }
 
@@ -64,13 +64,13 @@ public class BlastRot extends Blast
                         {
                             if (this.world().rand.nextFloat() > 0.99)
                             {
-                                targetPosition.setBlock(this.world(), ICBMCore.blockRadioactive);
+                                targetPosition.setBlock(this.world(), ICBM.blockRadioactive);
                             }
                         }
 
                         else if (blockID == Blocks.leaves)
                         {
-                            targetPosition.setBlock(this.world(), ICBMCore.blockRadioactive, 0);
+                            targetPosition.setBlock(this.world(), ICBM.blockRadioactive, 0);
                         }
                         else if (blockID == Blocks.tallgrass)
                         {
@@ -80,12 +80,12 @@ public class BlastRot extends Blast
                             }
                             else 
                             {
-                                targetPosition.setBlock(this.world(),ICBMCore.blockRadioactive, 0);
+                                targetPosition.setBlock(this.world(), ICBM.blockRadioactive, 0);
                             }
                         }
                         else if (blockID == Blocks.farmland)
                         {
-                            targetPosition.setBlock(this.world(), ICBMCore.blockRadioactive);
+                            targetPosition.setBlock(this.world(), ICBM.blockRadioactive);
                         }
                         else if (blockID == Blocks.water || blockID == Blocks.flowing_water)
                         {

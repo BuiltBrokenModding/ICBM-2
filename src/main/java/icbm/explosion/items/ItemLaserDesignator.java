@@ -2,7 +2,7 @@ package icbm.explosion.items;
 
 import icbm.Reference;
 import icbm.Settings;
-import icbm.core.ICBMCore;
+import icbm.ICBM;
 import icbm.core.prefab.item.ItemICBMElectrical;
 import icbm.explosion.entities.EntityLightBeam;
 import icbm.explosion.machines.launcher.TileLauncherPrefab;
@@ -25,7 +25,6 @@ import resonant.api.blocks.IBlockFrequency;
 import resonant.api.items.IItemFrequency;
 import resonant.api.mffs.fortron.FrequencyGridRegistry;
 import resonant.engine.ResonantEngine;
-import resonant.engine.grid.frequency.FrequencyGrid;
 import resonant.lib.network.discriminator.PacketPlayerItem;
 import resonant.lib.network.discriminator.PacketTile;
 import resonant.lib.network.discriminator.PacketType;
@@ -33,8 +32,6 @@ import resonant.lib.network.handle.IPacketReceiver;
 import resonant.lib.prefab.item.ItemElectric;
 import resonant.lib.transform.vector.Vector3;
 import resonant.lib.utility.LanguageUtility;
-
-import com.google.common.io.ByteArrayDataInput;
 
 public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFrequency, IPacketReceiver
 {
@@ -264,7 +261,7 @@ public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFreq
                  * Prevents calling air strike if the user is trying to set the frequency of the
                  * remote.
                  */
-                if (block == ICBMCore.blockMachine)
+                if (block == ICBM.blockMachine)
                 {
                     return par1ItemStack;
                 }
@@ -350,13 +347,13 @@ public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFreq
             ItemStack itemStack = player.inventory.getStackInSlot(((PacketPlayerItem)type).slotId);
             Vector3 position = new Vector3(data.readInt(), data.readInt(), data.readInt());
 
-            ((ItemLaserDesignator) ICBMCore.itemLaserDesignator).setLauncherCountDown(itemStack, 119);
+            ((ItemLaserDesignator) ICBM.itemLaserDesignator).setLauncherCountDown(itemStack, 119);
 
             player.worldObj.playSoundEffect(position.x(), player.worldObj.getHeightValue(position.xi(), position.zi()), position.z(), Reference.PREFIX + "airstrike", 5.0F, (1.0F + (player.worldObj.rand.nextFloat() - player.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 
             player.worldObj.spawnEntityInWorld(new EntityLightBeam(player.worldObj, position, 5 * 20, 0F, 1F, 0F));
-            if (ICBMCore.itemLaserDesignator instanceof ItemElectric)
-                ((ItemElectric) ICBMCore.itemLaserDesignator).discharge(itemStack, ItemLaserDesignator.energyCost, true);
+            if (ICBM.itemLaserDesignator instanceof ItemElectric)
+                ((ItemElectric) ICBM.itemLaserDesignator).discharge(itemStack, ItemLaserDesignator.energyCost, true);
         }
     }
 }

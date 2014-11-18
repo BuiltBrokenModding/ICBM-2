@@ -2,11 +2,9 @@ package icbm.explosion.machines;
 
 import cpw.mods.fml.common.Optional;
 import icbm.Reference;
-import icbm.core.ICBMCore;
-import icbm.core.prefab.TileICBM;
+import icbm.ICBM;
 import icbm.explosion.explosive.blast.BlastEMP;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +20,6 @@ import resonant.api.IRedstoneReceptor;
 import resonant.api.map.IRadarDetectable;
 import resonant.api.map.RadarRegistry;
 
-import com.google.common.io.ByteArrayDataInput;
 import resonant.lib.content.prefab.java.TileElectric;
 import resonant.lib.multiblock.reference.IMultiBlock;
 import resonant.lib.network.discriminator.PacketTile;
@@ -207,7 +204,7 @@ public class TileEMPTower extends TileElectric implements IMultiBlock, IRedstone
     public boolean use(EntityPlayer entityPlayer, int side, Vector3 hit)
     {
         if(!this.worldObj.isRemote)
-        	entityPlayer.openGui(ICBMCore.INSTANCE, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+        	entityPlayer.openGui(ICBM.INSTANCE, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
         return true;
     }
 

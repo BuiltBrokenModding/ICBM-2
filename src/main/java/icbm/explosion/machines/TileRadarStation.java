@@ -1,7 +1,7 @@
 package icbm.explosion.machines;
 
 import cpw.mods.fml.common.network.ByteBufUtils;
-import icbm.core.ICBMCore;
+import icbm.ICBM;
 import icbm.core.implement.IChunkLoadHandler;
 import icbm.core.items.ItemSignalDisrupter;
 import icbm.core.prefab.TileFrequency;
@@ -10,7 +10,6 @@ import icbm.explosion.machines.launcher.TileLauncherPrefab;
 import icbm.explosion.machines.launcher.TileLauncherScreen;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,12 +33,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 import resonant.api.IRedstoneProvider;
 import resonant.api.IRotatable;
 import resonant.api.blocks.IBlockFrequency;
-import resonant.api.items.IItemFrequency;
 import resonant.api.map.IRadarDetectable;
 import resonant.api.map.RadarRegistry;
 import resonant.api.mffs.fortron.FrequencyGridRegistry;
 import resonant.engine.ResonantEngine;
-import resonant.engine.grid.frequency.FrequencyGrid;
 import resonant.lib.network.discriminator.PacketTile;
 import resonant.lib.network.discriminator.PacketType;
 import resonant.lib.network.handle.IPacketReceiver;
@@ -48,8 +45,6 @@ import resonant.lib.transform.vector.Vector2;
 import resonant.lib.transform.vector.Vector3;
 import resonant.lib.utility.LanguageUtility;
 import resonant.lib.utility.WrenchUtility;
-
-import com.google.common.io.ByteArrayDataInput;
 
 public class TileRadarStation extends TileFrequency implements IChunkLoadHandler, IPacketReceiver, IRedstoneProvider, IBlockFrequency, IRotatable
 {
@@ -108,7 +103,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
     {
         super.onInstantiate();
         this.worldObj.notifyBlocksOfNeighborChange(this.xCoord, this.yCoord, this.zCoord, this.worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord));
-        this.chunkLoaderInit(ForgeChunkManager.requestTicket(ICBMCore.INSTANCE, this.worldObj, Type.NORMAL));
+        this.chunkLoaderInit(ForgeChunkManager.requestTicket(ICBM.INSTANCE, this.worldObj, Type.NORMAL));
     }
 
     @Override
@@ -675,7 +670,7 @@ public class TileRadarStation extends TileFrequency implements IChunkLoadHandler
         }
 
         if(!this.worldObj.isRemote)
-        	entityPlayer.openGui(ICBMCore.INSTANCE, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+        	entityPlayer.openGui(ICBM.INSTANCE, 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
         return true;
     }
 

@@ -1,6 +1,5 @@
 package icbm.explosion.machines.launcher;
 
-import icbm.core.ICBMCore;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,13 +9,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 import resonant.api.IRotatable;
 import resonant.api.ITier;
 
-import com.google.common.io.ByteArrayDataInput;
 import resonant.content.prefab.java.TileAdvanced;
 import resonant.lib.multiblock.reference.IMultiBlock;
 import resonant.lib.network.discriminator.PacketTile;
 import resonant.lib.network.discriminator.PacketType;
 import resonant.lib.network.handle.IPacketReceiver;
-import resonant.lib.network.netty.AbstractPacket;
 import resonant.lib.transform.vector.Vector3;
 
 import java.util.ArrayList;

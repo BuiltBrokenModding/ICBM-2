@@ -1,6 +1,6 @@
 package icbm.explosion.container;
 
-import icbm.core.ICBMCore;
+import icbm.ICBM;
 import icbm.core.prefab.ContainerBase;
 import icbm.explosion.machines.TileMissileAssembler;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,7 +17,7 @@ public class ContainerMissileTable extends ContainerBase
     {
         super(tileEntity);
         this.missileLauncher = tileEntity;
-        this.addSlotToContainer(new SlotSpecific(tileEntity, 0, 84, 47, new ItemStack(ICBMCore.itemMissile)));
+        this.addSlotToContainer(new SlotSpecific(tileEntity, 0, 84, 47, new ItemStack(ICBM.itemMissile)));
         int var3;
 
         for (var3 = 0; var3 < 3; ++var3)

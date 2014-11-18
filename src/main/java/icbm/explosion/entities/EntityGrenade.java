@@ -1,6 +1,6 @@
 package icbm.explosion.entities;
 
-import icbm.core.ICBMCore;
+import icbm.ICBM;
 import icbm.explosion.explosive.Explosive;
 import icbm.explosion.explosive.ExplosiveRegistry;
 import io.netty.buffer.ByteBuf;
@@ -18,9 +18,6 @@ import resonant.api.explosion.IExplosive;
 import resonant.api.explosion.IExplosiveContainer;
 import resonant.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import resonant.lib.transform.vector.Vector3;
-
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
 
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 
@@ -153,7 +150,7 @@ public class EntityGrenade extends Entity implements IExplosiveContainer, IEntit
                 double var7 = this.worldObj.rand.nextFloat() * var6 + (1.0F - var6) * 0.5D;
                 double var9 = this.worldObj.rand.nextFloat() * var6 + (1.0F - var6) * 0.5D;
                 double var11 = this.worldObj.rand.nextFloat() * var6 + (1.0F - var6) * 0.5D;
-                EntityItem var13 = new EntityItem(this.worldObj, this.posX + var7, this.posY + var9, this.posZ + var11, new ItemStack(ICBMCore.itemGrenade, this.haoMa, 1));
+                EntityItem var13 = new EntityItem(this.worldObj, this.posX + var7, this.posY + var9, this.posZ + var11, new ItemStack(ICBM.itemGrenade, this.haoMa, 1));
                 var13.delayBeforeCanPickup = 10;
                 this.worldObj.spawnEntityInWorld(var13);
                 this.setDead();
