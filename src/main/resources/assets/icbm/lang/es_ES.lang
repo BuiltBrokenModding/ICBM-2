@@ -1,0 +1,136 @@
+
+itemGroup.ICBM=ICBM
+
+children=es_AR,es_MX,es_UY,es_VE
+
+## Items
+item.icbm\:sulfur.name=Sulfuro
+item.icbm\:poisonPowder.name=Polvo Venenoso
+item.icbm\:antidote.name=Ant\u00EDdoto
+item.icbm\:radarGun.name=Pistola Radar
+item.icbm\:remoteDetonator.name=Detonador Remoto
+item.icbm\:defuser.name=Desactivador
+item.icbm\:laserDesignator.name=Designador L\u00E1ser
+item.icbm\:tracker.name=Rastreador
+item.icbm\:signalDisrupter.name=Disruptor de Se\u00F1al
+
+item.icbm\:bullet.0.name=Bala Convencional
+item.icbm\:bullet.1.name=Bala Antimateria
+item.icbm\:launcher.name=Lanzacohetes
+
+## ICBM Machines
+icbm.machine.0.name=Plataforma de Lanzacohetes T1
+icbm.machine.1.name=Plataforma de Lanzacohetes T2
+icbm.machine.2.name=Plataforma de Lanzacohetes T3
+icbm.machine.3.name=Panel de Control de Lanzacohetes T1
+icbm.machine.4.name=Panel de Control de Lanzacohetes T2
+icbm.machine.5.name=Panel de Control de Lanzacohetes T3
+icbm.machine.6.name=Marco de Soporte para Lanzacohetes T1
+icbm.machine.7.name=Marco de Soporte para Lanzacohetes T2
+icbm.machine.8.name=Marco de Soporte para Lanzacohetes T3
+icbm.machine.9.name=Estaci\u00F3n de Radar
+icbm.machine.10.name=Torre PEM
+icbm.machine.12.name=Lanzacohetes Crucero
+
+## ICBM Explosives
+
+## Block Form
+icbm.explosive.condensed.name=Explosivo Condensado
+icbm.explosive.shrapnel.name=Explosivo de Esquirlas
+icbm.explosive.incendiary.name=Explosivo Incendiario
+icbm.explosive.chemical.name=Explosivo Qu\u00EDmico
+icbm.explosive.anvil.name=Explosivo de Yunques
+icbm.explosive.repulsive.name=Explosivo Repulsivo
+icbm.explosive.attractive.name=Explosivo Atractivo
+
+icbm.explosive.fragmentation.name=Explosivo de Fragmentaci\u00F3n
+icbm.explosive.contagious.name=Explosivo Contagioso
+icbm.explosive.sonic.name=Explosivo S\u00F3nico
+icbm.explosive.breaching.name=Explosivo Penetrante
+icbm.explosive.rejuvenation.name=Explosivo Rejuvenecedor
+icbm.explosive.thermobaric.name=Explosivo Termob\u00E1rico
+
+icbm.explosive.nuclear.name=Explosivo Nuclear
+icbm.explosive.emp.name=Explosivo PEM
+icbm.explosive.conflagration.name=Explosivo de Conflagraci\u00F3n
+icbm.explosive.endothermic.name=Explosivo Endot\u00E9rmico
+icbm.explosive.antiGravitational.name=Explosivo Anti-Gravitacional
+icbm.explosive.ender.name=Explosivo Ender
+icbm.explosive.hypersonic.name=Explosivo Hipers\u00F3nico
+
+icbm.explosive.antimatter.name=Explosivo de Antimateria
+icbm.explosive.redMatter.name=Explosivo de Materia Roja
+
+icbm.explosive.sMine.name=Mina-S
+
+## Missile Form
+icbm.missile.condensed.name=Misil Convencional
+icbm.missile.shrapnel.name=Misil de Esquirlas
+icbm.missile.incendiary.name=Misil Incendiario
+icbm.missile.chemical.name=Misil Qu\u00EDmico
+icbm.missile.anvil.name=Misil de Yunques
+icbm.missile.repulsive.name=Misil Repulsivo
+icbm.missile.attractive.name=Misil Atractivo
+
+icbm.missile.fragmentation.name=Misil de Fragmentaci\u00F3n
+icbm.missile.contagious.name=Misil Contagioso
+icbm.missile.sonic.name=Misil S\u00F3nico
+icbm.missile.breaching.name=Misil Penetrante
+icbm.missile.rejuvenation.name=Misil Rejuvenecedor
+icbm.missile.thermobaric.name=Misil Termob\u00E1rico
+
+icbm.missile.nuclear.name=Misil Nuclear
+icbm.missile.emp.name=Misil PEM
+icbm.missile.conflagration.name=Misil de Conflagraci\u00F3n
+icbm.missile.endothermic.name=Misil Endot\u00E9rmico
+icbm.missile.antiGravitational.name=Misil Anti-Gravitacional
+icbm.missile.ender.name=Misil Ender
+icbm.missile.hypersonic.name=Misil Hipers\u00F3nico
+
+icbm.missile.antimatter.name=Misil de Antimateria
+icbm.missile.redMatter.name=Misil de Materia Roja
+
+## Special Missiles
+icbm.missile.missileModule.name=Modulo para Misiles
+icbm.missile.antiBallistic.name=Misil Anti-Bal\u00EDstico
+icbm.missile.cluster.name=Misil de Racimos
+icbm.missile.nuclearCluster.name=Misil Nuclear de Racimos
+icbm.missile.homing.name=Misil Rastreador
+
+## Grenades
+icbm.grenade.condensed.name=Granada Convencional
+icbm.grenade.shrapnel.name=Granada de Esquirlas
+icbm.grenade.incendiary.name=Granada Incendiaria
+icbm.grenade.chemical.name=Granada Qu\u00EDmica
+icbm.grenade.anvil.name=Granada de Yunques
+icbm.grenade.repulsive.name=Granada Repulsiva
+icbm.grenade.attractive.name=Granada Atractiva
+
+## Explosive Minecarts
+icbm.minecart.condensed.name=Carro Explosivo
+icbm.minecart.shrapnel.name=Carro Minero de Esquirlas
+icbm.minecart.incendiary.name=Carro Minero Incendiario
+icbm.minecart.chemical.name=Carro Minero Qu\u00EDmico
+icbm.minecart.anvil.name=Carro Minero de Yunques
+icbm.minecart.repulsive.name=Carro Minero Repulsivo
+icbm.minecart.attractive.name=Carro Minero Atractivo
+
+icbm.minecart.fragmentation.name=Carro Minero de Fragmentacion
+icbm.minecart.contagious.name=Carro Minero Contagioso
+icbm.minecart.sonic.name=Carro Minero S\u00F3nico
+icbm.minecart.breaching.name=Carro Minero Penetrante
+icbm.minecart.rejuvenation.name=Carro Minero Rejuvenecedor
+icbm.minecart.thermobaric.name=Carro Minero Termob\u00E1rico
+
+## ICBM Misc Blocks
+tile.icbm\:sulfurOre.name=Mineral de Sulfuro
+tile.icbm\:glassPressurePlate.name=Placa a Presi\u00F3n de Vidrio
+tile.icbm\:glassButton.name=Bot\u00F3n de Vidrio
+tile.icbm\:camouflage.name=Camuflaje
+tile.icbm\:proximityDetector.name=Detector de Proximidad
+tile.icbm\:spike.0.name=Pinchos
+tile.icbm\:spike.1.name=Pinchos Venenosos
+tile.icbm\:spike.2.name=Pinchos Inflamables
+
+## Tooltips
+info.misc.tier=Nivel Explosivo

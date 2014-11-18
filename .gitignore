@@ -15,3 +15,5 @@ eclipse/
 *.idea/
 output/
 *.bat
+
+!*.lang
