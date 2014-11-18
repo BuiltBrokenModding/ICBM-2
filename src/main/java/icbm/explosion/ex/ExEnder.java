@@ -1,14 +1,13 @@
 package icbm.explosion.ex;
 
 import icbm.Settings;
-import icbm.explosion.entities.EntityMissile;
-import icbm.explosion.explosive.Explosive;
-import icbm.explosion.explosive.TileExplosive;
-import icbm.explosion.explosive.blast.BlastEnderman;
+import icbm.content.entity.EntityMissile;
+import icbm.explosion.Explosive;
+import icbm.content.tile.ex.TileExplosive;
+import icbm.explosion.blast.BlastEnderman;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;

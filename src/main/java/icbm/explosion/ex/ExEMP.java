@@ -1,7 +1,7 @@
 package icbm.explosion.ex;
 
 import icbm.Settings;
-import icbm.explosion.explosive.blast.BlastEMP;
+import icbm.explosion.blast.BlastEMP;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;

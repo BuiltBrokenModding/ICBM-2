@@ -2,7 +2,7 @@ package icbm.explosion.ex;
 
 import icbm.Settings;
 import icbm.ICBM;
-import icbm.explosion.explosive.blast.BlastChemical;
+import icbm.explosion.blast.BlastChemical;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Items;
 import net.minecraft.world.World;

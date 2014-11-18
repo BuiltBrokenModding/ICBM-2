@@ -1,8 +1,8 @@
 package icbm.explosion.ex;
 
 import icbm.Settings;
-import icbm.explosion.explosive.Explosive;
-import icbm.explosion.explosive.blast.BlastBreech;
+import icbm.explosion.Explosive;
+import icbm.explosion.blast.BlastBreech;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Items;
 import net.minecraft.world.World;

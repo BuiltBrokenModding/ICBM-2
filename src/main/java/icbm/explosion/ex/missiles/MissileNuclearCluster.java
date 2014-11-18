@@ -1,9 +1,9 @@
 package icbm.explosion.ex.missiles;
 
-import icbm.explosion.entities.EntityMissile;
-import icbm.explosion.entities.EntityMissile.MissileType;
-import icbm.explosion.explosive.Explosive;
-import icbm.explosion.explosive.blast.BlastNuclear;
+import icbm.content.entity.EntityMissile;
+import icbm.content.entity.EntityMissile.MissileType;
+import icbm.explosion.Explosive;
+import icbm.explosion.blast.BlastNuclear;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import resonant.lib.transform.vector.Vector3;

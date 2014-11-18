@@ -1,8 +1,8 @@
 package icbm.explosion.ex.missiles;
 
 import icbm.Reference;
-import icbm.explosion.entities.EntityMissile;
-import icbm.explosion.explosive.blast.BlastRepulsive;
+import icbm.content.entity.EntityMissile;
+import icbm.explosion.blast.BlastRepulsive;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;

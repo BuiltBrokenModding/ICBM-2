@@ -1,7 +1,7 @@
 package icbm.explosion.ex;
 
 import icbm.Settings;
-import icbm.explosion.explosive.blast.BlastRegen;
+import icbm.explosion.blast.BlastRegen;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;

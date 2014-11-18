@@ -1,8 +1,8 @@
 package icbm.explosion.ex;
 
 import icbm.Reference;
-import icbm.explosion.entities.EntityMissile;
-import icbm.explosion.explosive.Explosive;
+import icbm.content.entity.EntityMissile;
+import icbm.explosion.Explosive;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;

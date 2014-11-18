@@ -2,8 +2,8 @@ package icbm.explosion.ex;
 
 import icbm.Reference;
 import icbm.Settings;
-import icbm.explosion.explosive.Explosive;
-import icbm.explosion.explosive.blast.BlastAntimatter;
+import icbm.explosion.Explosive;
+import icbm.explosion.blast.BlastAntimatter;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;

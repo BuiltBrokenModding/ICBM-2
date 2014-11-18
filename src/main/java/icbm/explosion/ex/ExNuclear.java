@@ -1,8 +1,8 @@
 package icbm.explosion.ex;
 
 import icbm.Settings;
-import icbm.explosion.explosive.Explosive;
-import icbm.explosion.explosive.blast.BlastNuclear;
+import icbm.explosion.Explosive;
+import icbm.explosion.blast.BlastNuclear;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;

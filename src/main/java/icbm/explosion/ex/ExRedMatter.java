@@ -1,7 +1,7 @@
 package icbm.explosion.ex;
 
 import icbm.Settings;
-import icbm.explosion.explosive.blast.BlastRedmatter;
+import icbm.explosion.blast.BlastRedmatter;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;

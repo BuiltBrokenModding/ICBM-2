@@ -1,15 +1,14 @@
 package icbm.explosion.ex.missiles;
 
-import icbm.explosion.entities.EntityMissile;
-import icbm.explosion.entities.EntityMissile.MissileType;
-import icbm.explosion.explosive.blast.BlastRepulsive;
+import icbm.content.entity.EntityMissile;
+import icbm.content.entity.EntityMissile.MissileType;
+import icbm.explosion.blast.BlastRepulsive;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import resonant.api.items.IItemTracker;
-import resonant.lib.transform.vector.Vector2;
 import resonant.lib.transform.vector.Vector3;
 
 public class MissileHoming extends Missile
