@@ -235,21 +235,21 @@ public class TileLauncherBase extends TileInventory implements IPacketReceiver, 
         // Checks if it is greater than the maximum range for the launcher base
         if (this.tier == 0)
         {
-            if (distance < Settings.DAO_DAN_ZUI_YUAN / 10)
+            if (distance < Settings.MAX_MISSILE_RANGE / 10)
             {
                 return false;
             }
         }
         else if (this.tier == 1)
         {
-            if (distance < Settings.DAO_DAN_ZUI_YUAN / 5)
+            if (distance < Settings.MAX_MISSILE_RANGE / 5)
             {
                 return false;
             }
         }
         else if (this.tier == 2)
         {
-            if (distance < Settings.DAO_DAN_ZUI_YUAN)
+            if (distance < Settings.MAX_MISSILE_RANGE)
             {
                 return false;
             }

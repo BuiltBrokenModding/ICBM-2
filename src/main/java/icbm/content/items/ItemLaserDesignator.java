@@ -35,7 +35,7 @@ import resonant.lib.utility.LanguageUtility;
 
 public class ItemLaserDesignator extends ItemICBMElectrical implements IItemFrequency, IPacketReceiver
 {
-    public static final int BAN_JING = Settings.DAO_DAN_ZUI_YUAN;
+    public static final int BAN_JING = Settings.MAX_MISSILE_RANGE;
     public static final int energyCost = 1000000;
 
     public ItemLaserDesignator()
