@@ -122,7 +122,7 @@ public class BlastChemical extends Blast
 
         if (this.isMutate)
         {
-            new BlastMutation(world(), this.exploder, position.x(), position.y(), position.z(), this.getRadius()).explode();
+            //new BlastMutation(world(), this.exploder, position.x(), position.y(), position.z(), this.getRadius()).explode();
         }
 
         if (this.playShortSoundFX)

@@ -168,7 +168,7 @@ public class BlastNuclear extends Blast
         if (this.isRadioactive)
         {
             new BlastRot(world(), this.exploder, position.x(), position.y(), position.z(), this.getRadius(), this.energy).explode();
-            new BlastMutation(world(), this.exploder, position.x(), position.y(), position.z(), this.getRadius()).explode();
+            //new BlastMutation(world(), this.exploder, position.x(), position.y(), position.z(), this.getRadius()).explode();
 
             if (this.world().rand.nextInt(3) == 0)
             {
