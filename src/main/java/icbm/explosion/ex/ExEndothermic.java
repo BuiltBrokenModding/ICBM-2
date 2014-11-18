@@ -1,7 +1,7 @@
 package icbm.explosion.ex;
 
 import icbm.Settings;
-import icbm.explosion.blast.BlastSky;
+import icbm.explosion.blast.BlastEndothermic;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
@@ -25,6 +25,6 @@ public class ExEndothermic extends Explosion
     @Override
     public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
     {
-        new BlastSky(world, entity, x, y, z, 50).explode();
+        new BlastEndothermic(world, entity, x, y, z, 50).explode();
     }
 }

@@ -17,9 +17,9 @@ import net.minecraft.world.World;
 import resonant.lib.prefab.potion.CustomPotionEffect;
 import resonant.lib.transform.vector.Vector3;
 
-public class BlastSky extends BlastBeam
+public class BlastEndothermic extends BlastBeam
 {
-    public BlastSky(World world, Entity entity, double x, double y, double z, float size)
+    public BlastEndothermic(World world, Entity entity, double x, double y, double z, float size)
     {
         super(world, entity, x, y, z, size);
         this.red = 0f;
