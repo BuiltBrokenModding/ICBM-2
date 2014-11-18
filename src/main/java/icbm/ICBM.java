@@ -81,7 +81,7 @@ public final class ICBM
     @Metadata(Reference.NAME)
     public static ModMetadata metadata;
 
-    @SidedProxy(clientSide = "icbm.core.ClientProxy", serverSide = "icbm.core.CommonProxy")
+    @SidedProxy(clientSide = "icbm.ClientProxy", serverSide = "icbm.CommonProxy")
     public static CommonProxy proxy;
 
     @Config(key = "Creepers_Drop_Sulfur", category = "Extras")
