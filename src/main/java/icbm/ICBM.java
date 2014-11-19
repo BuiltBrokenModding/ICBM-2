@@ -9,8 +9,11 @@ import java.util.List;
 
 import icbm.content.missile.EntityMissile;
 import icbm.content.missile.ItemMissile;
+import icbm.content.missile.MissileChunkLoaderManager;
 import icbm.content.rocketlauncher.ItemRocketLauncher;
 import icbm.content.warhead.TileExplosive;
+import icbm.explosion.ExplosiveRegistry;
+import icbm.explosion.explosive.Explosive;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
@@ -95,67 +98,27 @@ public final class ICBM
         MinecraftForge.EVENT_BUS.register(INSTANCE);
         MinecraftForge.EVENT_BUS.register(proxy);
 
+        /** Chunk loading handler. */
+        ForgeChunkManager.setForcedChunkLoadingCallback(this, new MissileChunkLoaderManager());
+
         // MODULES TO LOAD INTO MOD PHASE
         //modproxies.applyModule(Waila.class, true);
 
         Settings.CONFIGURATION.load();
 
-        //ResonantEngine.blockMulti.setTextureName(Reference.PREFIX + "machine");
-
         // Blocks
         blockExplosive = contentRegistry.newBlock(TileExplosive.class);
-        //TODO blockMachine = ICBMCore.contentRegistry.newBlock(BlockICBMMachine.class, ItemBlockMachine.class);
 
         // ITEMS
         itemMissile = contentRegistry.newItem(ItemMissile.class);
         itemRocketLauncher = contentRegistry.newItem(ItemRocketLauncher.class);
 
-        //OreDictionary.registerOre("dustSulfur", new ItemStack(itemSulfurDust, 1, 0));
-       // OreDictionary.registerOre("dustSaltpeter", new ItemStack(itemSulfurDust, 1, 1));
-
-        /** Check for existence of radioactive block. If it does not exist, then create it.
-        if (OreDictionary.getOres("blockRadioactive").size() > 0)
-        {
-            blockRadioactive = Block.getBlockFromItem(OreDictionary.getOres("blockRadioactive").get(0).getItem());
-            Reference.LOGGER.fine("Detected radioative block from another mod, utilizing it.");
-        }
-        else
-        {
-            blockRadioactive = Blocks.mycelium;
-        }*/
+        //Explosives
+        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test"));
 
         /** Decrease Obsidian Resistance */
         Blocks.obsidian.setResistance(Settings.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Reduce Obsidian Resistance", 45).getInt(45));
         Reference.LOGGER.fine("Changed obsidian explosive resistance to: " + Blocks.obsidian.getExplosionResistance(null));
-
-        /** Chunk loading handler. */
-        ForgeChunkManager.setForcedChunkLoadingCallback(this, new ForgeChunkManager.LoadingCallback()
-        {
-            @Override
-            public void ticketsLoaded(List<ForgeChunkManager.Ticket> tickets, World world)
-            {
-                for (ForgeChunkManager.Ticket ticket : tickets)
-                {
-                    if (ticket.getEntity() instanceof IChunkLoadHandler)
-                    {
-                        ((IChunkLoadHandler) ticket.getEntity()).chunkLoaderInit(ticket);
-                    } else
-                    {
-                        if (ticket.getModData() != null)
-                        {
-                            Vector3 position = new Vector3(ticket.getModData());
-
-                            TileEntity tileEntity = position.getTileEntity(ticket.world);
-
-                            if (tileEntity instanceof IChunkLoadHandler)
-                            {
-                                ((IChunkLoadHandler) tileEntity).chunkLoaderInit(ticket);
-                            }
-                        }
-                    }
-                }
-            }
-        });
 
         proxy.preInit();
         modproxies.preInit();

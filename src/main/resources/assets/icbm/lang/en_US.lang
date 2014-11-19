@@ -292,6 +292,8 @@ info.misc.tier=Explosive Tier
 info.rocketlauncher.tooltip=This rocket launcher can fire up to Tier %s rockets
 info.tracker.tooltip=Left Click on a mob (players aswell), and I Will point to it.
 
+info.explosive=Explosive
+
 info.upgrade.range=Upgrades the targeting range of the sentry gun.
 info.upgrade.collect=Allows the sentry to collect ejected shell casings.
 info.upgrade.sentry=A modification for sentry guns

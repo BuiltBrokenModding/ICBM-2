@@ -14,13 +14,15 @@ public abstract class Blast implements IExplosiveBlast, IVectorWorld
 {
     public World world;
     public int x, y, z;
+    public int size = 1;
 
-    public Blast(World world, int x, int y, int z)
+    public Blast(World world, int x, int y, int z, int size)
     {
         this.world = world;
         this.x = x;
         this.y = y;
         this.z = z;
+        this.size = size;
     }
 
     @Override

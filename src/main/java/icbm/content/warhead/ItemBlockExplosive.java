@@ -1,6 +1,7 @@
 package icbm.content.warhead;
 
 import icbm.content.ItemSaveUtil;
+import icbm.explosion.explosive.Explosive;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
@@ -45,6 +46,8 @@ public class ItemBlockExplosive extends ItemBlock
     public void addInformation(ItemStack stack, EntityPlayer player, List lines, boolean b)
     {
         super.addInformation(stack, player, lines, b);
-        lines.add(LanguageUtility.getLocal(getUnlocalizedName() + ".explosive") + ": " + getExplosive(stack));
+        IExplosive ex = getExplosive(stack);
+        if(ex != null)
+            lines.add(LanguageUtility.getLocal("info.explosive") + ": " + getExplosive(stack).getUnlocalizedName());
     }
 }

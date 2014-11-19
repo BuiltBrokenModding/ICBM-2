@@ -100,12 +100,6 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
             //Set rotation for direction based explosives
             setMeta(determineOrientation(entityLiving));
 
-            //Log the placement for Anti-Grief TODO add config to reduce console spam, add support for Anti-Grief mods/plugins
-            if (entityLiving != null)
-            {
-                Reference.LOGGER.info(entityLiving.getCommandSenderName() + " placed " + ExplosiveRegistry.get(explosiveID) + " in: " + xi() + ", " + yi() + ", " + zi() + ".");
-            }
-
             int power_side = -1;
             int powerMax = 0;
             // If anything can set it on fire blow up

@@ -49,7 +49,6 @@ public final class ExplosiveRegistry
             if(!event.isCanceled())
             {
                 blast.doEffectOther(world, x, y, z, triggerCause);
-                Collection<Vector3> effectedBlocks = null;
                 if(blast.shouldThreadExplosion(triggerCause))
                 {
                     //TODO create thread for calculations and have it que to effect world
@@ -57,10 +56,10 @@ public final class ExplosiveRegistry
                 }
                 else
                 {
-                    effectedBlocks = blast.getEffectedBlocks(triggerCause);
+                    Collection<Vector3> effectedBlocks = blast.getEffectedBlocks(triggerCause);
                     event = new ExplosiveEvent.BlocksEffectedExplosiveEvent(world, new Vector3(x, y, z), ex, triggerCause, blast, effectedBlocks);
                     MinecraftForge.EVENT_BUS.post(event);
-                    if(effectedBlocks != null && effectedBlocks.isEmpty())
+                    if(effectedBlocks != null && !effectedBlocks.isEmpty())
                     {
                         blast.doEffectBlocks(effectedBlocks, triggerCause);
                     }
