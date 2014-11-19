@@ -18,9 +18,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.Explosion;
 import net.minecraftforge.common.util.ForgeDirection;
-import resonant.api.explosion.IExplosive;
-import resonant.api.explosion.IExplosiveContainer;
-import resonant.api.explosion.Trigger;
+import icbm.api.explosion.IExplosive;
+import icbm.api.explosion.IExplosiveContainer;
+import icbm.api.explosion.TriggerCause;
 import resonant.content.prefab.java.TileAdvanced;
 import resonant.lib.network.discriminator.PacketTile;
 import resonant.lib.network.discriminator.PacketType;
@@ -49,7 +49,7 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
         {
             if (entityPlayer.getCurrentEquippedItem().getItem() == Items.flint_and_steel)
             {
-                explode(new Trigger.TriggerFire(ForgeDirection.getOrientation(side)));
+                explode(new TriggerCause.TriggerCauseFire(ForgeDirection.getOrientation(side)));
                 return true;
             }
             else if (WrenchUtility.isUsableWrench(entityPlayer, entityPlayer.getCurrentEquippedItem(), xi(), yi(), zi()))
@@ -124,13 +124,13 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
 
                 if (b == Blocks.fire || b == Blocks.lava || b == Blocks.flowing_lava)
                 {
-                    explode(new Trigger.TriggerFire(ForgeDirection.getOrientation(i)));
+                    explode(new TriggerCause.TriggerCauseFire(ForgeDirection.getOrientation(i)));
                     return;
                 }
             }
 
             if(power_side != -1)
-                explode(new Trigger.TriggerRedstone(ForgeDirection.UNKNOWN, powerMax));
+                explode(new TriggerCause.TriggerCauseRedstone(ForgeDirection.UNKNOWN, powerMax));
         }
     }
 
@@ -163,23 +163,23 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
 
             if (b == Blocks.fire || b == Blocks.lava || b == Blocks.flowing_lava)
             {
-                explode(new Trigger.TriggerFire(ForgeDirection.getOrientation(i)));
+                explode(new TriggerCause.TriggerCauseFire(ForgeDirection.getOrientation(i)));
                 return;
             }
         }
 
         if(power_side != -1)
-            explode(new Trigger.TriggerRedstone(ForgeDirection.UNKNOWN, powerMax));
+            explode(new TriggerCause.TriggerCauseRedstone(ForgeDirection.UNKNOWN, powerMax));
     }
 
     /*
      * Called to detonate the TNT. Args: world, x, y, z, metaData, CauseOfExplosion (0, intentional,
      * 1, exploded, 2 burned)
      */
-    public void explode(Trigger trigger)
+    public void explode(TriggerCause triggerCause)
     {
         //TODO add tier
-        ExplosiveRegistry.TriggerResult result = ExplosiveRegistry.triggerExplosive(world(), x(), y(), z(), ExplosiveRegistry.get(explosiveID), trigger, 1);
+        ExplosiveRegistry.TriggerResult result = ExplosiveRegistry.triggerExplosive(world(), x(), y(), z(), ExplosiveRegistry.get(explosiveID), triggerCause, 1);
         if (result == ExplosiveRegistry.TriggerResult.TRIGGERED)
             world().setBlockToAir(xi(), yi(), zi());
     }
@@ -187,7 +187,7 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
     @Override
     public void onDestroyedByExplosion(Explosion explosion)
     {
-        explode(new Trigger.TriggerExplosion(explosion));
+        explode(new TriggerCause.TriggerCauseExplosion(explosion));
     }
 
     @Override

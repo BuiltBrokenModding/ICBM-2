@@ -6,17 +6,17 @@ import icbm.ICBM;
 import icbm.IChunkLoadHandler;
 import icbm.Reference;
 import icbm.Settings;
+import icbm.api.IMissile;
 import icbm.explosion.DamageUtility;
 import icbm.explosion.ExplosiveRegistry;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.ChunkCoordIntPair;
@@ -25,9 +25,7 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.fluids.IFluidBlock;
-import resonant.api.ITier;
-import resonant.api.ai.ITarget;
-import resonant.api.explosion.*;
+import icbm.api.explosion.*;
 import resonant.api.map.RadarRegistry;
 import resonant.lib.transform.vector.Vector3;
 
@@ -39,14 +37,12 @@ import java.util.Random;
 /**
  * @Author - Calclavia
  */
-public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosiveContainer, IEntityAdditionalSpawnData, IMissile, ITarget, ITier
+public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosiveContainer, IEntityAdditionalSpawnData, IMissile
 {
-
     public enum MissileType
     {
-        MISSILE,
-        CruiseMissile,
-        LAUNCHER
+        GUIDED,
+        DUMMY;
     }
 
     public static final float SPEED = 0.012F;
@@ -56,10 +52,9 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
     public Vector3 targetVector = null;
     public Vector3 startPos = null;
     public Vector3 launcherPos = null;
-    public boolean isExpoding = false;
 
     public int targetHeight = 0;
-    public int feiXingTick = -1;
+    public int ticksInAir = -1;
     // Difference
     public double deltaPathX;
     public double deltaPathY;
@@ -73,37 +68,21 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
     // Hp
     public float damage = 0;
     public float max_damage = 10;
-    // Protection Time
-    public int protectionTime = 2;
 
     private Ticket chunkTicket;
 
-    // For anti-ballistic missile
-    public Entity lockedTarget;
-    // Has this missile lock it's target before?
-    public boolean didTargetLockBefore = false;
-    // Tracking
-    public int trackingVar = -1;
-    // For cluster missile
-    public int missileCount = 0;
-
     public double daoDanGaoDu = 2;
 
-    private boolean setExplode;
-    private boolean setNormalExplode;
-
     // Missile Type
-    public MissileType missileType = MissileType.MISSILE;
+    public MissileType missileType = MissileType.DUMMY;
 
-    public Vector3 xiaoDanMotion = new Vector3();
+    public Vector3 motionVector = new Vector3();
 
-    private double qiFeiGaoDu = 3;
+    private double missileLockVertTicks = 3;
 
     // Used for the rocket launcher preventing the players from killing themselves.
     private final HashSet<Entity> ignoreEntity = new HashSet<Entity>();
 
-    // Client side
-    protected final IUpdatePlayerListBox shengYin;
 
     public NBTTagCompound nbtData = new NBTTagCompound();
 
@@ -114,7 +93,6 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         this.renderDistanceWeight = 3;
         this.isImmuneToFire = true;
         this.ignoreFrustumCheck = true;
-        this.shengYin = this.worldObj != null ? ICBM.proxy.getDaoDanShengYin(this) : null;
     }
 
     /**
@@ -148,8 +126,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         this(world);
         this.explosiveID = explosiveId;
         this.launcherPos = this.startPos = startPos;
-        this.missileType = MissileType.LAUNCHER;
-        this.protectionTime = 0;
+        this.missileType = MissileType.GUIDED;
 
         this.setPosition(this.startPos.x(), this.startPos.y(), this.startPos.z());
         this.setRotation(yaw, pitch);
@@ -203,13 +180,12 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         }
     }
 
-    @Override
     public void launch(Vector3 target)
     {
         this.startPos = new Vector3(this);
         this.targetVector = target;
         this.targetHeight = this.targetVector.yi();
-        this.feiXingTick = 0;
+        this.ticksInAir = 0;
         this.recalculatePath();
         this.worldObj.playSoundAtEntity(this, Reference.PREFIX + "missilelaunch", 4F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
         // TODO add an event system here
@@ -217,10 +193,9 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         Reference.LOGGER.info("Launching " + this.getEntityName() + " (" + this.getEntityId() + ") from " + startPos.xi() + ", " + startPos.yi() + ", " + startPos.zi() + " to " + targetVector.xi() + ", " + targetVector.yi() + ", " + targetVector.zi());
     }
 
-    @Override
     public void launch(Vector3 target, int height)
     {
-        this.qiFeiGaoDu = height;
+        this.missileLockVertTicks = height;
         this.launch(target);
     }
 
@@ -249,7 +224,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
             // Parabolic Height
             this.maxHeight = 160 + (int) (this.flatDistance * 3);
             // Flight time
-            this.missileFlightTime = (float) Math.max(100, 2 * this.flatDistance) - this.feiXingTick;
+            this.missileFlightTime = (float) Math.max(100, 2 * this.flatDistance) - this.ticksInAir;
             // Acceleration
             this.acceleration = (float) this.maxHeight * 2 / (this.missileFlightTime * this.missileFlightTime);
         }
@@ -320,174 +295,90 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
     @Override
     public void onUpdate()
     {
-        if (this.shengYin != null)
+        if (this.worldObj.isRemote)
         {
-            this.shengYin.update();
+            this.ticksInAir = this.dataWatcher.getWatchableObjectInt(16);
+        }
+        else
+        {
+            this.dataWatcher.updateObject(16, ticksInAir);
         }
 
-        try
-        {
-            if (this.worldObj.isRemote)
-            {
-                this.feiXingTick = this.dataWatcher.getWatchableObjectInt(16);
-                int status = this.dataWatcher.getWatchableObjectInt(17);
-
-                switch (status)
-                {
-                    case 1:
-                        setNormalExplode = true;
-                        break;
-                    case 2:
-                        setExplode = true;
-                        break;
-                }
-            } else
-            {
-                this.dataWatcher.updateObject(16, feiXingTick);
-            }
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-        if (setNormalExplode)
-        {
-            normalExplode();
-            return;
-        }
-
-        if (setExplode)
-        {
-            explode();
-            return;
-        }
-
-        if (this.feiXingTick >= 0)
+        if (this.ticksInAir >= 0)
         {
             RadarRegistry.register(this);
 
             if (!this.worldObj.isRemote)
             {
-                if (this.missileType == MissileType.CruiseMissile || this.missileType == MissileType.LAUNCHER)
+                if (this.missileType == MissileType.DUMMY)
                 {
-                    if (this.feiXingTick == 0 && this.xiaoDanMotion != null)
+                    //Move the missile
+                    if (this.ticksInAir == 0 && this.motionVector != null)
                     {
-                        this.xiaoDanMotion = new Vector3(this.deltaPathX / (missileFlightTime * 0.3), this.deltaPathY / (missileFlightTime * 0.3), this.deltaPathZ / (missileFlightTime * 0.3));
-                        this.motionX = this.xiaoDanMotion.x();
-                        this.motionY = this.xiaoDanMotion.y();
-                        this.motionZ = this.xiaoDanMotion.z();
+                        this.motionVector = new Vector3(this.deltaPathX / (missileFlightTime * 0.3), this.deltaPathY / (missileFlightTime * 0.3), this.deltaPathZ / (missileFlightTime * 0.3));
+                        this.motionX = this.motionVector.x();
+                        this.motionY = this.motionVector.y();
+                        this.motionZ = this.motionVector.z();
                     }
-
-                    this.rotationPitch = (float) (Math.atan(this.motionY / (Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ))) * 180 / Math.PI);
-
-                    // Look at the next point
-                    this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
-
-                    Block block = this.worldObj.getBlock((int) this.posX, (int) this.posY, (int) this.posZ);
-
-                    if (this.protectionTime <= 0 && ((block != null && !(block instanceof IFluidBlock)) || this.posY > 1000 || this.isCollided || this.feiXingTick > 20 * Settings.ShortRangeMissileLifetimeSeconds || (this.motionX == 0 && this.motionY == 0 && this.motionZ == 0)))
-                    {
-                        setExplode();
-                        return;
-                    }
-
-                    this.moveEntity(this.motionX, this.motionY, this.motionZ);
-                } else
+                }
+                else
                 {
-                    // Start the launch
-                    if (this.qiFeiGaoDu > 0)
+                    // Locks the change in X & Z until the min Y has been achieved
+                    if (this.missileLockVertTicks > 0)
                     {
-                        this.motionY = SPEED * this.feiXingTick * (this.feiXingTick / 2);
-                        this.motionX = 0;
-                        this.motionZ = 0;
-                        this.qiFeiGaoDu -= this.motionY;
-                        this.moveEntity(this.motionX, this.motionY, this.motionZ);
-
-                        if (this.qiFeiGaoDu <= 0)
-                        {
-                            this.motionY = this.acceleration * (this.missileFlightTime / 2);
-                            this.motionX = this.deltaPathX / missileFlightTime;
-                            this.motionZ = this.deltaPathZ / missileFlightTime;
-                        }
-                    } else
+                        this.motionY = SPEED * this.ticksInAir * (this.ticksInAir / 2);
+                        this.missileLockVertTicks -= this.motionY;
+                    }
+                    else
                     {
+                        this.motionY = this.acceleration * (this.missileFlightTime / 2);
+                        this.motionX = this.deltaPathX / missileFlightTime;
+                        this.motionZ = this.deltaPathZ / missileFlightTime;
                         this.motionY -= this.acceleration;
 
-                        this.rotationPitch = (float) (Math.atan(this.motionY / (Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ))) * 180 / Math.PI);
-
-                        // Look at the next point
-                        this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
-
-                        this.moveEntity(this.motionX, this.motionY, this.motionZ);
-
-                        // If the missile contacts anything, it will explode.
-                        if (this.isCollided)
-                        {
-                            this.explode();
-                        }
-
-                        // If the missile is commanded to explode before impact
-                        if (this.targetHeight > 0 && this.motionY < 0)
-                        {
-                            // Check the block below it.
-                            Block blockBelow = worldObj.getBlock((int) this.posX, (int) this.posY - targetHeight, (int) this.posZ);
-
-                            if (blockBelow != null && !blockBelow.isAir(worldObj, (int) this.posX, (int) this.posY - targetHeight, (int) this.posZ))
-                            {
-                                this.targetHeight = 0;
-                                this.explode();
-                            }
-                        }
-                    } // end else
+                    }
                 }
-            } else
-            {
-                this.rotationPitch = (float) (Math.atan(this.motionY / (Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ))) * 180 / Math.PI);
-                // Look at the next point
-                this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
+
+                boolean stopped = false;
+                //Handle collision with blocks
+                Block block = this.worldObj.getBlock((int) this.posX, (int) this.posY, (int) this.posZ);
+                if(block != null && !block.isAir(worldObj, (int) posX, (int) posY, (int) posZ) && !(block instanceof  IFluidBlock || block instanceof BlockLiquid))
+                {
+                    stopped = onCollideWithBlock(block, (int) posX, (int) posY, (int) posZ);
+                }
+
+                //Missile stopped moving
+                if (this.motionX <= 0.001 && this.motionY <= 0.001 && this.motionZ <= 0.001)
+                {
+                  stopped = true;
+                }
+
+                // If the missile contacts anything, it will explode.
+                if (this.isCollided)
+                {
+                    stopped = true;
+                }
+
+                if(!stopped)
+                    this.moveEntity(this.motionX, this.motionY, this.motionZ);
+                else
+                    onStopped();
+
             }
+
+            // Set rotation to face motion vector
+            this.rotationPitch = (float) (Math.atan(this.motionY / (Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ))) * 180 / Math.PI);
+            this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
 
             this.lastTickPosX = this.posX;
             this.lastTickPosY = this.posY;
             this.lastTickPosZ = this.posZ;
 
             this.spawnMissileSmoke();
-            this.protectionTime--;
-            this.feiXingTick++;
-        } else if (this.missileType != MissileType.LAUNCHER)
-        {
-            // Check to find the launcher in which this missile belongs in.
-            ILauncherContainer launcher = this.getLauncher();
-
-            if (launcher != null)
-            {
-                launcher.setContainingMissile(this);
-            } else
-            {
-                this.setDead();
-            }
+            this.ticksInAir++;
         }
 
         super.onUpdate();
-    }
-
-    @Override
-    public ILauncherContainer getLauncher()
-    {
-        if (this.launcherPos != null)
-        {
-            TileEntity tileEntity = this.launcherPos.getTileEntity(this.worldObj);
-
-            if (tileEntity != null && tileEntity instanceof ILauncherContainer)
-            {
-                if (!tileEntity.isInvalid())
-                {
-                    return (ILauncherContainer) tileEntity;
-                }
-            }
-        }
-
-        return null;
     }
 
     @Override
@@ -505,14 +396,6 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
     @Override
     public double getMountedYOffset()
     {
-        if (this.missileFlightTime <= 0 && this.missileType == MissileType.MISSILE)
-        {
-            return height;
-        } else if (this.missileType == MissileType.CruiseMissile)
-        {
-            return height / 10;
-        }
-
         return height / 2 + motionY;
     }
 
@@ -555,57 +438,33 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         if (ignoreEntity.contains(entity))
             return null;
 
-        // Make sure the entity is not an item
-        if (!(entity instanceof EntityItem) && entity != this.riddenByEntity && this.protectionTime <= 0)
-        {
-            if (entity instanceof EntityMissile)
-            {
-                ((EntityMissile) entity).setNormalExplode();
-            }
-
-            this.setExplode();
-        }
-
-        return null;
+        return super.getCollisionBox(entity);
     }
 
-    @Override
+
     public Vector3 getPredictedPosition(int t)
     {
-        Vector3 guJiDiDian = new Vector3(this);
+        Vector3 newPos = new Vector3(this);
         double tempMotionY = this.motionY;
 
-        if (this.feiXingTick > 20)
+        if (this.ticksInAir > 20)
         {
             for (int i = 0; i < t; i++)
             {
-                if (this.missileType == MissileType.CruiseMissile || this.missileType == MissileType.LAUNCHER)
+                if (this.missileType == MissileType.DUMMY)
                 {
-                    guJiDiDian.addEquals(xiaoDanMotion);
-                } else
+                    newPos.addEquals(motionVector);
+                }
+                else
                 {
-                    guJiDiDian.addEquals(this.motionX, tempMotionY, this.motionZ);
+                    newPos.addEquals(this.motionX, tempMotionY, this.motionZ);
 
                     tempMotionY -= this.acceleration;
                 }
             }
         }
 
-        return guJiDiDian;
-    }
-
-    @Override
-    public void setNormalExplode()
-    {
-        setNormalExplode = true;
-        dataWatcher.updateObject(17, 1);
-    }
-
-    @Override
-    public void setExplode()
-    {
-        setExplode = true;
-        dataWatcher.updateObject(17, 2);
+        return newPos;
     }
 
     @Override
@@ -619,61 +478,12 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         }
 
         super.setDead();
-
-        if (this.shengYin != null)
-        {
-            this.shengYin.update();
-        }
     }
 
-    @Override
-    public void explode()
-    {
-        try
-        {
-            // Make sure the missile is not already exploding
-            if (!this.isExpoding)
-            {
-                if (explosiveID != null)
-                {
-                    ExplosiveRegistry.triggerExplosive(worldObj, posX, posY, posZ, ExplosiveRegistry.get(explosiveID), new Trigger.TriggerEntity(this), getTier());
-                }
-
-                this.isExpoding = true;
-
-                Reference.LOGGER.info(this.getEntityName() + " (" + this.getEntityId() + ") exploded in " + (int) this.posX + ", " + (int) this.posY + ", " + (int) this.posZ);
-            }
-
-            setDead();
-
-        } catch (Exception e)
-        {
-            Reference.LOGGER.severe("Missile failed to explode properly. Report this to the developers.");
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void normalExplode()
-    {
-        if (!this.isExpoding)
-        {
-            isExpoding = true;
-
-            if (!this.worldObj.isRemote)
-            {
-                worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 5F, true);
-            }
-
-            setDead();
-        }
-    }
-
-    @Override
     public void dropMissileAsItem()
     {
         ItemStack stack = ((ItemMissile) ICBM.itemMissile).getStackFor(explosiveID);
-        if (!this.isExpoding && !this.worldObj.isRemote && stack != null)
+        if (!this.worldObj.isRemote && stack != null)
         {
             EntityItem entityItem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, stack);
 
@@ -694,15 +504,15 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
     @Override
     protected void readEntityFromNBT(NBTTagCompound nbt)
     {
-        this.startPos = new Vector3(nbt.getCompoundTag("kaiShi"));
-        this.targetVector = new Vector3(nbt.getCompoundTag("muBiao"));
-        this.launcherPos = new Vector3(nbt.getCompoundTag("faSheQi"));
-        this.acceleration = nbt.getFloat("jiaSu");
-        this.targetHeight = nbt.getInteger("baoZhaGaoDu");
+        this.startPos = new Vector3(nbt.getCompoundTag("startPos"));
+        this.targetVector = new Vector3(nbt.getCompoundTag("targetPos"));
+        this.launcherPos = new Vector3(nbt.getCompoundTag("launcherPos"));
+        this.acceleration = nbt.getFloat("acceleration");
+        this.targetHeight = nbt.getInteger("targetHeight");
         this.explosiveID = nbt.getString("explosiveString");
-        this.feiXingTick = nbt.getInteger("feiXingTick");
-        this.qiFeiGaoDu = nbt.getDouble("qiFeiGaoDu");
-        this.missileType = MissileType.values()[nbt.getInteger("xingShi")];
+        this.ticksInAir = nbt.getInteger("ticksInAir");
+        this.missileLockVertTicks = nbt.getDouble("missileLockVertTicks");
+        this.missileType = MissileType.values()[nbt.getInteger("missileType")];
         this.nbtData = nbt.getCompoundTag("data");
     }
 
@@ -714,24 +524,24 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
     {
         if (this.startPos != null)
         {
-            nbt.setTag("kaiShi", this.startPos.writeNBT(new NBTTagCompound()));
+            nbt.setTag("startPos", this.startPos.writeNBT(new NBTTagCompound()));
         }
         if (this.targetVector != null)
         {
-            nbt.setTag("muBiao", this.targetVector.writeNBT(new NBTTagCompound()));
+            nbt.setTag("targetPos", this.targetVector.writeNBT(new NBTTagCompound()));
         }
 
         if (this.launcherPos != null)
         {
-            nbt.setTag("faSheQi", this.launcherPos.writeNBT(new NBTTagCompound()));
+            nbt.setTag("launcherPos", this.launcherPos.writeNBT(new NBTTagCompound()));
         }
 
-        nbt.setFloat("jiaSu", this.acceleration);
+        nbt.setFloat("acceleration", this.acceleration);
         nbt.setString("explosiveString", this.explosiveID);
-        nbt.setInteger("baoZhaGaoDu", this.targetHeight);
-        nbt.setInteger("feiXingTick", this.feiXingTick);
-        nbt.setDouble("qiFeiGaoDu", this.qiFeiGaoDu);
-        nbt.setInteger("xingShi", this.missileType.ordinal());
+        nbt.setInteger("targetHeight", this.targetHeight);
+        nbt.setInteger("ticksInAir", this.ticksInAir);
+        nbt.setDouble("missileLockVertTicks", this.missileLockVertTicks);
+        nbt.setInteger("missileType", this.missileType.ordinal());
         nbt.setTag("data", this.nbtData);
     }
 
@@ -739,12 +549,6 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
     public float getShadowSize()
     {
         return 1.0F;
-    }
-
-    @Override
-    public int getTicksInAir()
-    {
-        return this.feiXingTick;
     }
 
     @Override
@@ -761,6 +565,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
             this.damage += damage;
             if (this.damage >= this.max_damage)
             {
+                onMissileDestroyedByDamage(source, damage);
                 this.setDead();
             }
             return true;
@@ -768,28 +573,44 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         return false;
     }
 
-    @Override
-    public boolean canBeTargeted(Object turret)
-    {
-        return this.getTicksInAir() > 0;
-    }
-
-    @Override
-    public TargetType getType()
-    {
-        return TargetType.MISSILE;
-    }
-
-    @Override
-    public int getTier()
-    {
-        return 0;
-    }
-
-    @Override
-    public void setTier(int tier)
+    /**
+     * Called when he missile is killed from a damage source
+     * @param source
+     * @param damage
+     */
+    public void onMissileDestroyedByDamage(DamageSource source, float damage)
     {
 
     }
 
+    public void onCollideWith()
+    {
+
+    }
+
+    /** Called when the missile hits a block
+     *
+     * @param block - block hit
+     * @param x - xCoord of block
+     * @param y - xCoord of block
+     * @param z  - xCoord of block
+     * @return true if the missile should stop
+     */
+    public boolean onCollideWithBlock(Block block, int x, int y, int z)
+    {
+        triggerImpact();
+        return true;
+    }
+
+    /** Called when the missile hit something and stopped */
+    public void triggerImpact()
+    {
+
+    }
+
+    /** Called when the missile has stopped moving */
+    public void onStopped()
+    {
+        triggerImpact();
+    }
 }

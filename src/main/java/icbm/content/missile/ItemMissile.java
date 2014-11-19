@@ -9,7 +9,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import resonant.api.explosion.IExplosive;
+import icbm.api.explosion.IExplosive;
 import resonant.lib.utility.LanguageUtility;
 
 public class ItemMissile extends Item

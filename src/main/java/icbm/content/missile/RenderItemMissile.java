@@ -1,7 +1,5 @@
 package icbm.content.missile;
 
-import icbm.explosion.ExplosiveRegistry;
-
 import java.util.HashMap;
 
 import net.minecraft.item.ItemStack;
@@ -10,10 +8,9 @@ import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import resonant.api.explosion.IExplosive;
+import icbm.api.explosion.IExplosive;
 
 @SideOnly(Side.CLIENT)
 public class RenderItemMissile implements IItemRenderer

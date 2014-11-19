@@ -1,13 +1,11 @@
 package icbm.content.warhead;
 
 import icbm.content.ItemSaveUtil;
-import icbm.explosion.ExplosiveRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import resonant.api.explosion.IExplosive;
-import resonant.content.prefab.itemblock.ItemBlockTooltip;
+import icbm.api.explosion.IExplosive;
 import resonant.lib.utility.LanguageUtility;
 
 import java.util.List;

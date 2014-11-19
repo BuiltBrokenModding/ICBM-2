@@ -3,7 +3,7 @@ package icbm.explosion;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
-import resonant.api.explosion.IMissile;
+import icbm.api.IMissile;
 
 /** Utility that handles how damage is applied to entities
  * 

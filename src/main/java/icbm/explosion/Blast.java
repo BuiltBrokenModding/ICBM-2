@@ -1,8 +1,8 @@
 package icbm.explosion;
 
 import net.minecraft.world.World;
-import resonant.api.explosion.IExplosiveBlast;
-import resonant.api.explosion.Trigger;
+import icbm.api.explosion.IExplosiveBlast;
+import icbm.api.explosion.TriggerCause;
 import resonant.lib.transform.vector.IVectorWorld;
 import resonant.lib.transform.vector.Vector3;
 
@@ -24,32 +24,32 @@ public abstract class Blast implements IExplosiveBlast, IVectorWorld
     }
 
     @Override
-    public boolean shouldThreadExplosion(Trigger trigger)
+    public boolean shouldThreadExplosion(TriggerCause triggerCause)
     {
         return false;
     }
 
     @Override
-    public final Collection<Vector3> getEffectedBlocks(Trigger trigger)
+    public final Collection<Vector3> getEffectedBlocks(TriggerCause triggerCause)
     {
         List<Vector3> list = new LinkedList<Vector3>();
-        getEffectedBlocks(trigger, list);
+        getEffectedBlocks(triggerCause, list);
         return list;
     }
 
-    public void getEffectedBlocks(Trigger trigger, List<Vector3> list)
+    public void getEffectedBlocks(TriggerCause triggerCause, List<Vector3> list)
     {
 
     }
 
     @Override
-    public void doEffectBlocks(Collection<Vector3> blocks, Trigger trigger)
+    public void doEffectBlocks(Collection<Vector3> blocks, TriggerCause triggerCause)
     {
 
     }
 
     @Override
-    public void doEffectOther(World world, double x, double y, double z, Trigger trigger)
+    public void doEffectOther(World world, double x, double y, double z, TriggerCause triggerCause)
     {
 
     }
