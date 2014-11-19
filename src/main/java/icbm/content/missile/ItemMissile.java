@@ -9,7 +9,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import resonant.api.explosion.IExplosive;
 import resonant.lib.utility.LanguageUtility;
 
@@ -39,6 +38,7 @@ public class ItemMissile extends Item
     {
         return getStackFor(ExplosiveRegistry.get(ex));
     }
+
     public ItemStack getStackFor(IExplosive ex)
     {
         if(ex != null && ExplosiveRegistry.isRegistered(ex))

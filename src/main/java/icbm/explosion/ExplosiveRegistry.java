@@ -39,9 +39,9 @@ public final class ExplosiveRegistry
         }
     }
 
-    public static TriggerResult triggerExplosive(World world, double x, double y, double z, IExplosive ex, Trigger trigger)
+    public static TriggerResult triggerExplosive(World world, double x, double y, double z, IExplosive ex, Trigger trigger, int multi)
     {
-        IExplosiveBlast blast = tryToTriggerExplosion(world, x, y, z, ex, trigger);
+        IExplosiveBlast blast = tryToTriggerExplosion(world, x, y, z, ex, trigger, multi);
         if(blast != null)
         {
             Event event = new ExplosiveEvent.OnBlastCreatedEvent(world, new Vector3(x, y, z), ex, trigger, blast);
@@ -73,7 +73,7 @@ public final class ExplosiveRegistry
         return TriggerResult.NO_BLAST;
     }
 
-    public static IExplosiveBlast tryToTriggerExplosion(World world, double x, double y, double z, IExplosive ex, Trigger trigger)
+    public static IExplosiveBlast tryToTriggerExplosion(World world, double x, double y, double z, IExplosive ex, Trigger trigger, int multi)
     {
         if(isRegistered(ex))
         {
@@ -81,7 +81,7 @@ public final class ExplosiveRegistry
             MinecraftForge.EVENT_BUS.post(event);
             if(!event.isCanceled())
             {
-                return ex.tryToTriggerExplosion(world, x, y, z, trigger);
+                return ex.tryToTriggerExplosion(world, x, y, z, trigger, multi);
             }
         }
         return null;

@@ -177,7 +177,8 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
      */
     public void explode(Trigger trigger)
     {
-        ExplosiveRegistry.TriggerResult result = ExplosiveRegistry.triggerExplosive(world(), x(), y(), z(), ExplosiveRegistry.get(explosiveID), trigger);
+        //TODO add tier
+        ExplosiveRegistry.TriggerResult result = ExplosiveRegistry.triggerExplosive(world(), x(), y(), z(), ExplosiveRegistry.get(explosiveID), trigger, 1);
         if (result == ExplosiveRegistry.TriggerResult.TRIGGERED)
             world().setBlockToAir(xi(), yi(), zi());
     }

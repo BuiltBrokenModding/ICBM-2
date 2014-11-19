@@ -25,6 +25,7 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.fluids.IFluidBlock;
+import resonant.api.ITier;
 import resonant.api.ai.ITarget;
 import resonant.api.explosion.*;
 import resonant.api.map.RadarRegistry;
@@ -38,8 +39,9 @@ import java.util.Random;
 /**
  * @Author - Calclavia
  */
-public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosiveContainer, IEntityAdditionalSpawnData, IMissile, ITarget
+public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosiveContainer, IEntityAdditionalSpawnData, IMissile, ITarget, ITier
 {
+
     public enum MissileType
     {
         MISSILE,
@@ -634,7 +636,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
             {
                 if (explosiveID != null)
                 {
-                    ExplosiveRegistry.triggerExplosive(worldObj, posX, posY, posZ, ExplosiveRegistry.get(explosiveID), new Trigger.TriggerEntity(this));
+                    ExplosiveRegistry.triggerExplosive(worldObj, posX, posY, posZ, ExplosiveRegistry.get(explosiveID), new Trigger.TriggerEntity(this), getTier());
                 }
 
                 this.isExpoding = true;
@@ -776,6 +778,18 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
     public TargetType getType()
     {
         return TargetType.MISSILE;
+    }
+
+    @Override
+    public int getTier()
+    {
+        return 0;
+    }
+
+    @Override
+    public void setTier(int tier)
+    {
+
     }
 
 }
