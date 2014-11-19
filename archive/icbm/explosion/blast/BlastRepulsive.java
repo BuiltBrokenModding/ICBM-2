@@ -3,6 +3,7 @@ package icbm.explosion.blast;
 import java.util.ArrayList;
 import java.util.List;
 
+import icbm.explosion.Blast;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

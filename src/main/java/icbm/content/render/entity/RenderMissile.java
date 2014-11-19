@@ -2,7 +2,7 @@ package icbm.content.render.entity;
 
 import icbm.content.entity.EntityMissile;
 import icbm.content.entity.EntityMissile.MissileType;
-import icbm.explosion.ex.Explosion;
+import icbm.explosion.Explosion;
 
 import java.util.HashMap;
 

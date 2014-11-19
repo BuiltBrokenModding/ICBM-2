@@ -3,8 +3,6 @@ package icbm;
 import cpw.mods.fml.common.*;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import icbm.content.tile.*;
-import icbm.compat.waila.Waila;
 import icbm.content.entity.*;
 import icbm.content.items.*;
 
@@ -12,9 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import icbm.content.tile.ex.TileExplosive;
-import icbm.content.tile.assembler.TileMissileAssembler;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -39,12 +35,9 @@ import org.modstats.ModstatInfo;
 import org.modstats.Modstats;
 import resonant.api.explosion.ExplosionEvent;
 import resonant.content.loader.ModManager;
-import resonant.content.prefab.itemblock.ItemBlockMetadata;
 import resonant.lib.config.Config;
 import resonant.lib.config.ConfigHandler;
 import resonant.lib.loadable.LoadableHandler;
-import resonant.lib.recipe.RecipeUtility;
-import resonant.lib.recipe.UniversalRecipe;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.Metadata;
@@ -55,7 +48,6 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import resonant.lib.transform.vector.Vector3;
-import resonant.lib.utility.PotionUtility;
 
 /** Main class for ICBM core to run on. The core will need to be initialized by each ICBM module.
  * 
@@ -81,14 +73,9 @@ public final class ICBM
     public static int ENTITY_ID_PREFIX = 50;
 
     // Blocks
-    public static Block blockCamo;
-    public static Block blockRadioactive;
     public static Block blockExplosive;
-    public static Block blockMissileAssembler;
 
     // Items
-    public static Item itemAntidote;
-    public static Item itemPoisonPowder;
     public static Item itemMissile;
     public static Item itemRocketLauncher;
 
@@ -109,27 +96,24 @@ public final class ICBM
         MinecraftForge.EVENT_BUS.register(proxy);
 
         // MODULES TO LOAD INTO MOD PHASE
-        modproxies.applyModule(Waila.class, true);
+        //modproxies.applyModule(Waila.class, true);
 
         Settings.CONFIGURATION.load();
 
         //ResonantEngine.blockMulti.setTextureName(Reference.PREFIX + "machine");
 
         // Blocks
-        blockCamo = contentRegistry.newBlock(TileCamouflage.class);
         blockExplosive = contentRegistry.newBlock(TileExplosive.class);
         //TODO blockMachine = ICBMCore.contentRegistry.newBlock(BlockICBMMachine.class, ItemBlockMachine.class);
-        blockMissileAssembler = contentRegistry.newBlock(TileMissileAssembler.class);
 
         // ITEMS
-        itemPoisonPowder = contentRegistry.newItem(ItemPoisonPowder.class);
         itemMissile = contentRegistry.newItem(ItemMissile.class);
         itemRocketLauncher = contentRegistry.newItem(ItemRocketLauncher.class);
 
         //OreDictionary.registerOre("dustSulfur", new ItemStack(itemSulfurDust, 1, 0));
        // OreDictionary.registerOre("dustSaltpeter", new ItemStack(itemSulfurDust, 1, 1));
 
-        /** Check for existence of radioactive block. If it does not exist, then create it. */
+        /** Check for existence of radioactive block. If it does not exist, then create it.
         if (OreDictionary.getOres("blockRadioactive").size() > 0)
         {
             blockRadioactive = Block.getBlockFromItem(OreDictionary.getOres("blockRadioactive").get(0).getItem());
@@ -138,7 +122,7 @@ public final class ICBM
         else
         {
             blockRadioactive = Blocks.mycelium;
-        }
+        }*/
 
         /** Decrease Obsidian Resistance */
         Blocks.obsidian.setResistance(Settings.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Reduce Obsidian Resistance", 45).getInt(45));
@@ -182,17 +166,17 @@ public final class ICBM
     {
         Settings.setModMetadata(Reference.NAME, Reference.NAME, metadata);
 
-        EntityRegistry.registerGlobalEntityID(EntityFlyingBlock.class, "ICBMGravityBlock", EntityRegistry.findGlobalUniqueEntityId());
-        EntityRegistry.registerGlobalEntityID(EntityFragments.class, "ICBMFragment", EntityRegistry.findGlobalUniqueEntityId());
+        //EntityRegistry.registerGlobalEntityID(EntityFlyingBlock.class, "ICBMGravityBlock", EntityRegistry.findGlobalUniqueEntityId());
+        //EntityRegistry.registerGlobalEntityID(EntityFragments.class, "ICBMFragment", EntityRegistry.findGlobalUniqueEntityId());
         EntityRegistry.registerGlobalEntityID(EntityMissile.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());
-        EntityRegistry.registerGlobalEntityID(EntityExplosion.class, "ICBMProceduralExplosion", EntityRegistry.findGlobalUniqueEntityId());
-        EntityRegistry.registerGlobalEntityID(EntityLightBeam.class, "ICBMLightBeam", EntityRegistry.findGlobalUniqueEntityId());
+        //EntityRegistry.registerGlobalEntityID(EntityExplosion.class, "ICBMProceduralExplosion", EntityRegistry.findGlobalUniqueEntityId());
+        //EntityRegistry.registerGlobalEntityID(EntityLightBeam.class, "ICBMLightBeam", EntityRegistry.findGlobalUniqueEntityId());
 
-        EntityRegistry.registerModEntity(EntityFlyingBlock.class, "ICBMGravityBlock", ENTITY_ID_PREFIX, this, 50, 15, true);
-        EntityRegistry.registerModEntity(EntityFragments.class, "ICBMFragment", ENTITY_ID_PREFIX + 1, this, 40, 8, true);
+        //EntityRegistry.registerModEntity(EntityFlyingBlock.class, "ICBMGravityBlock", ENTITY_ID_PREFIX, this, 50, 15, true);
+        //EntityRegistry.registerModEntity(EntityFragments.class, "ICBMFragment", ENTITY_ID_PREFIX + 1, this, 40, 8, true);
         EntityRegistry.registerModEntity(EntityMissile.class, "ICBMMissile", ENTITY_ID_PREFIX + 3, this, 500, 1, true);
-        EntityRegistry.registerModEntity(EntityExplosion.class, "ICBMProceduralExplosion", ENTITY_ID_PREFIX + 4, this, 100, 5, true);
-        EntityRegistry.registerModEntity(EntityLightBeam.class, "ICBMLightBeam", ENTITY_ID_PREFIX + 5, this, 80, 5, true);
+        //EntityRegistry.registerModEntity(EntityExplosion.class, "ICBMProceduralExplosion", ENTITY_ID_PREFIX + 4, this, 100, 5, true);
+        //EntityRegistry.registerModEntity(EntityLightBeam.class, "ICBMLightBeam", ENTITY_ID_PREFIX + 5, this, 80, 5, true);
 
         proxy.init();
         modproxies.init();
@@ -220,7 +204,7 @@ public final class ICBM
         GameRegistry.addRecipe(new ShapedOreRecipe(Blocks.tnt, new Object[] { "@@@", "@R@", "@@@", '@', Items.gunpowder, 'R', Items.redstone }));
 
         // Poison Powder
-        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(itemPoisonPowder, 3), new Object[] { Items.spider_eye, Items.rotten_flesh }));
+        //GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(itemPoisonPowder, 3), new Object[] { Items.spider_eye, Items.rotten_flesh }));
         /** Add all Recipes */
         // Spikes
         //GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSpikes, 6), new Object[] { "CCC", "BBB", 'C', Blocks.cactus, 'B', Items.iron_ingot }));
@@ -228,7 +212,7 @@ public final class ICBM
         //GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSpikes, 1, 2), new Object[] { "E", "S", 'E', itemSulfurDust, 'S', blockSpikes }));
 
         // Camouflage
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockCamo, 12), new Object[] { "WGW", "G G", "WGW", 'G', Blocks.vine, 'W', Blocks.wool }));
+        //GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockCamo, 12), new Object[] { "WGW", "G G", "WGW", 'G', Blocks.vine, 'W', Blocks.wool }));
 
         // Tracker
         //GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemTracker), new Object[] { " Z ", "SBS", "SCS", 'Z', Items.compass, 'C', UniversalRecipe.CIRCUIT_T1.get(), 'B', UniversalRecipe.BATTERY.get(), 'S', Items.iron_ingot }));
@@ -247,8 +231,8 @@ public final class ICBM
         //GameRegistry.addRecipe(new ShapedOreRecipe(itemSignalDisrupter, new Object[] { "WWW", "SCS", "SSS", 'S', Items.iron_ingot, 'C', UniversalRecipe.CIRCUIT_T1.get(), 'W', UniversalRecipe.WIRE.get() }));
 
         // Antidote
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAntidote, 6), new Object[] { "@@@", "@@@", "@@@", '@', Items.pumpkin_seeds }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAntidote), new Object[] { "@@@", "@@@", "@@@", '@', Items.wheat_seeds}));
+        //GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAntidote, 6), new Object[] { "@@@", "@@@", "@@@", '@', Items.pumpkin_seeds }));
+        //GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemAntidote), new Object[] { "@@@", "@@@", "@@@", '@', Items.wheat_seeds}));
 
         // Concrete
         //GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockConcrete, 8, 0), new Object[] { "SGS", "GWG", "SGS", 'G', Blocks.gravel, 'S', Blocks.sand, 'W', Items.water_bucket }));

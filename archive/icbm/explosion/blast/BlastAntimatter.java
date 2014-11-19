@@ -2,6 +2,7 @@ package icbm.explosion.blast;
 
 import icbm.Reference;
 import icbm.content.entity.EntityExplosion;
+import icbm.explosion.Blast;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;

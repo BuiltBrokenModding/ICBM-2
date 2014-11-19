@@ -2,7 +2,7 @@ package icbm.content.entity;
 
 import cpw.mods.fml.common.network.ByteBufUtils;
 import icbm.Reference;
-import icbm.explosion.blast.Blast;
+import icbm.explosion.Blast;
 
 import java.lang.reflect.Constructor;
 

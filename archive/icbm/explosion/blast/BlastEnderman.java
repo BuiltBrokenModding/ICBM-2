@@ -5,6 +5,7 @@ import icbm.ICBM;
 
 import java.util.List;
 
+import icbm.explosion.Blast;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayerMP;

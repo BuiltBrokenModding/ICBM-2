@@ -7,6 +7,7 @@ import icbm.ICBM;
 
 import java.util.List;
 
+import icbm.explosion.Blast;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;

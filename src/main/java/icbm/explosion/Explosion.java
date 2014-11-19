@@ -1,4 +1,4 @@
-package icbm.explosion.ex;
+package icbm.explosion;
 
 import icbm.Reference;
 import icbm.content.entity.EntityMissile;

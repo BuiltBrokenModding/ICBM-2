@@ -4,6 +4,7 @@ import icbm.Reference;
 import icbm.content.entity.EntityFlyingBlock;
 import icbm.content.entity.EntityMissile;
 import icbm.content.tile.ex.TileExplosive;
+import icbm.explosion.Blast;
 import icbm.explosion.thread.ThreadLargeExplosion;
 import icbm.explosion.thread.ThreadLargeExplosion.IThreadCallBack;
 

@@ -1,7 +1,7 @@
 package icbm.content.tile.assembler;
 
 import icbm.Reference;
-import icbm.explosion.ex.Explosion;
+import icbm.explosion.Explosion;
 import icbm.explosion.ExplosiveRegistry;
 import icbm.content.render.models.ModelMissileAssemblerClaw;
 import icbm.content.render.models.ModelMissileAssemblerPanel;

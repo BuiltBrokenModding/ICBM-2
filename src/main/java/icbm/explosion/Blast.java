@@ -1,7 +1,5 @@
-package icbm.explosion.blast;
+package icbm.explosion;
 
-import icbm.content.render.models.ModelICBM;
-import icbm.content.entity.EntityExplosion;
 import icbm.content.entity.EntityMissile;
 
 import java.util.List;
@@ -31,7 +29,6 @@ import resonant.lib.transform.vector.VectorWorld;
 public abstract class Blast extends Explosion implements IExplosion, IVectorWorld
 {
     public VectorWorld position;
-    public EntityExplosion controller = null;
 
     /** The amount of times the explosion has been called */
     protected int callCount = 0;
@@ -125,7 +122,7 @@ public abstract class Blast extends Explosion implements IExplosion, IVectorWorl
             {
                 if (!this.world().isRemote)
                 {
-                    this.world().spawnEntityInWorld(new EntityExplosion(this));
+                    //this.world().spawnEntityInWorld(new EntityExplosion(this));
                 }
             }
             else
@@ -241,23 +238,6 @@ public abstract class Blast extends Explosion implements IExplosion, IVectorWorl
     {
         nbt.setInteger("callCount", this.callCount);
         nbt.setFloat("explosionSize", this.explosionSize);
-    }
-
-    public boolean isMovable()
-    {
-        return false;
-    }
-
-    @SideOnly(Side.CLIENT)
-    public ModelICBM getRenderModel()
-    {
-        return null;
-    }
-
-    @SideOnly(Side.CLIENT)
-    public ResourceLocation getRenderResource()
-    {
-        return null;
     }
 
     @Override

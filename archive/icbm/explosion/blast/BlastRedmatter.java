@@ -7,6 +7,7 @@ import icbm.content.entity.EntityExplosion;
 
 import java.util.List;
 
+import icbm.explosion.Blast;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.entity.Entity;

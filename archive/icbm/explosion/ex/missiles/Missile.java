@@ -1,8 +1,6 @@
 package icbm.explosion.ex.missiles;
 
-import icbm.ICBM;
-import icbm.explosion.ex.Explosion;
-import net.minecraft.item.ItemStack;
+import icbm.explosion.Explosion;
 
 /** Ex object that are only defined as missiles
  * 

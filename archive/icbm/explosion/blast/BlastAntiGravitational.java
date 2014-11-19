@@ -2,6 +2,7 @@ package icbm.explosion.blast;
 
 import icbm.Reference;
 import icbm.content.entity.EntityFlyingBlock;
+import icbm.explosion.Blast;
 import icbm.explosion.thread.ThreadSmallExplosion;
 
 import java.util.HashSet;

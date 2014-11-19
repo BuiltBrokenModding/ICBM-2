@@ -1,7 +1,6 @@
 package icbm.content.render.item;
 
-import icbm.content.render.models.ModelICBM;
-import icbm.explosion.ex.Explosion;
+import icbm.explosion.Explosion;
 import icbm.explosion.ExplosiveRegistry;
 import icbm.content.items.ItemMissile;
 import icbm.content.render.entity.RenderMissile;
@@ -21,7 +20,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderItemMissile implements IItemRenderer
 {
-    HashMap<Explosion, ModelICBM> cache = new HashMap<Explosion, ModelICBM>();
+    HashMap<Explosion, IModelCustom> cache = new HashMap<Explosion, IModelCustom>();
 
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type)

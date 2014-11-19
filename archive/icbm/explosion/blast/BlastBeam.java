@@ -2,6 +2,7 @@ package icbm.explosion.blast;
 
 import icbm.content.entity.EntityFlyingBlock;
 import icbm.content.entity.EntityLightBeam;
+import icbm.explosion.Blast;
 import icbm.explosion.thread.ThreadExplosion;
 import icbm.explosion.thread.ThreadSky;
 

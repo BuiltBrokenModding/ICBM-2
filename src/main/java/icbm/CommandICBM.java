@@ -1,9 +1,5 @@
 package icbm;
-
-import icbm.content.entity.EntityFlyingBlock;
-import icbm.content.entity.EntityExplosion;
 import icbm.content.entity.EntityMissile;
-import icbm.explosion.blast.BlastEMP;
 
 import java.util.List;
 
@@ -57,18 +53,20 @@ public class CommandICBM extends CommandBase
 
                     for (Entity entity : entitiesNearby)
                     {
+                        /**
                         if (entity instanceof EntityFlyingBlock)
                         {
                             ((EntityFlyingBlock) entity).setBlock();
-                        }
-                        else if (entity instanceof EntityMissile)
+                        } */
+                         if (entity instanceof EntityMissile)
                         {
                             entity.setDead();
                         }
-                        else if (entity instanceof EntityExplosion)
+                        /**
+                         if (entity instanceof EntityExplosion)
                         {
                             entity.setDead();
-                        }
+                        } */
                     }
 
                     ((EntityPlayer) sender).addChatComponentMessage(new ChatComponentText("Removed all ICBM lag sources within " + radius + " radius."));
@@ -104,18 +102,20 @@ public class CommandICBM extends CommandBase
 
                     for (Entity entity : entitiesNearby)
                     {
+                        if ((all || missile) && entity instanceof EntityMissile)
+                        {
+                            entity.setDead();
+                        }
+                        /**
                         if ((all || explosion) && entity instanceof EntityFlyingBlock)
                         {
                             ((EntityFlyingBlock) entity).setBlock();
                         }
-                        else if ((all || missile) && entity instanceof EntityMissile)
-                        {
-                            entity.setDead();
-                        }
+                        else
                         else if ((all || explosion) && entity instanceof EntityExplosion)
                         {
                             entity.setDead();
-                        }
+                        } */
                     }
 
                     ((EntityPlayer) sender).addChatComponentMessage(new ChatComponentText("Removed all ICBM " + str + " within " + radius + " radius."));
@@ -131,7 +131,7 @@ public class CommandICBM extends CommandBase
                 int radius = parseInt(sender, args[1]);
                 if (radius > 0)
                 {
-                    new BlastEMP(entityPlayer.worldObj, null, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, radius).setEffectBlocks().setEffectEntities().doExplode();
+                    //new BlastEMP(entityPlayer.worldObj, null, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, radius).setEffectBlocks().setEffectEntities().doExplode();
                     switch (entityPlayer.worldObj.rand.nextInt(20))
                     {
                         case 0:

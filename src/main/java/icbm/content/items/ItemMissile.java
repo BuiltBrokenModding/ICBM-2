@@ -1,6 +1,5 @@
 package icbm.content.items;
 
-import icbm.content.prefab.item.ItemICBMBase;
 import icbm.explosion.Explosive;
 import icbm.explosion.ExplosiveRegistry;
 
@@ -10,13 +9,12 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import resonant.lib.utility.LanguageUtility;
 
-public class ItemMissile extends ItemICBMBase
+public class ItemMissile extends Item
 {
     public ItemMissile()
     {
-        super("missile");
+        this.setUnlocalizedName("missile");
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
         this.setMaxStackSize(1);

@@ -4,9 +4,8 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import icbm.Settings;
 import icbm.ICBM;
-import icbm.content.prefab.item.ItemICBMElectrical;
 import icbm.content.entity.EntityMissile;
-import icbm.explosion.ex.Explosion;
+import icbm.explosion.Explosion;
 import icbm.explosion.Explosive;
 import icbm.explosion.ExplosiveRegistry;
 
@@ -21,6 +20,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import resonant.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
+import resonant.lib.prefab.item.ItemElectric;
 import resonant.lib.transform.vector.Vector3;
 import resonant.lib.utility.LanguageUtility;
 
@@ -28,7 +28,7 @@ import resonant.lib.utility.LanguageUtility;
  * 
  * @author Calclavia */
 
-public class ItemRocketLauncher extends ItemICBMElectrical
+public class ItemRocketLauncher extends ItemElectric
 {
     private static final int ENERGY = 1000000;
     private static final int firingDelay = 1000;
@@ -36,7 +36,8 @@ public class ItemRocketLauncher extends ItemICBMElectrical
 
     public ItemRocketLauncher()
     {
-        super("rocketLauncher");
+        super();
+        this.setUnlocalizedName("rocketLauncher");
     }
 
     @Override

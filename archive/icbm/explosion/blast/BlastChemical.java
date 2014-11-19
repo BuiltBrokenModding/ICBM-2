@@ -5,6 +5,7 @@ import icbm.Reference;
 import java.util.List;
 
 import icbm.ICBM;
+import icbm.explosion.Blast;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;

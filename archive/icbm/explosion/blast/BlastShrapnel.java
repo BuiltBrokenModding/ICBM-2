@@ -1,6 +1,7 @@
 package icbm.explosion.blast;
 
 import icbm.content.entity.EntityFragments;
+import icbm.explosion.Blast;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;

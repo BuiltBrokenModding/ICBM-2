@@ -6,15 +6,7 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import icbm.content.render.BlockRenderHandler;
-import icbm.content.tile.assembler.RenderMissileAssembler;
 import icbm.content.entity.*;
-import icbm.content.tile.emptower.RenderEmpTower;
-import icbm.explosion.FXAntimatterPartical;
-import icbm.content.tile.emptower.GuiEMPTower;
-import icbm.content.tile.assembler.GuiMissileTable;
-import icbm.content.tile.emptower.TileEMPTower;
-import icbm.content.tile.assembler.TileMissileAssembler;
 import icbm.content.render.entity.*;
 import icbm.content.render.item.RenderItemMissile;
 import icbm.content.render.item.RenderRocketLauncher;
@@ -49,44 +41,22 @@ public class ClientProxy extends CommonProxy
     public void init()
     {
         super.init();
-        RenderingRegistry.registerEntityRenderingHandler(EntityFlyingBlock.class, new RenderEntityBlock());
-        RenderingRegistry.registerEntityRenderingHandler(EntityFragments.class, new RenderShrapnel());
+        //RenderingRegistry.registerEntityRenderingHandler(EntityFlyingBlock.class, new RenderEntityBlock());
+        //RenderingRegistry.registerEntityRenderingHandler(EntityFragments.class, new RenderShrapnel());
         MinecraftForgeClient.registerItemRenderer(ICBM.itemRocketLauncher, new RenderRocketLauncher());
         MinecraftForgeClient.registerItemRenderer(ICBM.itemMissile, new RenderItemMissile());
 
-        RenderingRegistry.registerBlockHandler(new BlockRenderHandler());
+        //RenderingRegistry.registerBlockHandler(new BlockRenderHandler());
 
         RenderingRegistry.registerEntityRenderingHandler(EntityMissile.class, new RenderMissile(0.5F));
-        RenderingRegistry.registerEntityRenderingHandler(EntityExplosion.class, new RenderExplosion());
-        RenderingRegistry.registerEntityRenderingHandler(EntityLightBeam.class, new RenderLightBeam());
+        //RenderingRegistry.registerEntityRenderingHandler(EntityExplosion.class, new RenderExplosion());
+        //RenderingRegistry.registerEntityRenderingHandler(EntityLightBeam.class, new RenderLightBeam());
 
         //ClientRegistry.bindTileEntitySpecialRenderer(TileLauncherBase.class, new RenderLauncherBase());
         //ClientRegistry.bindTileEntitySpecialRenderer(TileLauncherScreen.class, new RenderLauncherScreen());
         //ClientRegistry.bindTileEntitySpecialRenderer(TileLauncherFrame.class, new RenderLauncherFrame());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEMPTower.class, new RenderEmpTower());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileMissileAssembler.class, new RenderMissileAssembler());
-    }
-
-    @Override
-    public Object getClientGuiElement(int ID, EntityPlayer entityPlayer, World world, int x, int y, int z)
-    {
-        TileEntity tileEntity = world.getTileEntity(x, y, z);
-        if (tileEntity instanceof TileEMPTower)
-        {
-            return new GuiEMPTower((TileEMPTower) tileEntity);
-        }
-        else if (tileEntity instanceof TileMissileAssembler)
-        {
-            return new GuiMissileTable(entityPlayer.inventory, ((TileMissileAssembler) tileEntity));
-        }
-
-        return null;
-    }
-
-    @Override
-    public boolean isGaoQing()
-    {
-        return Minecraft.getMinecraft().gameSettings.fancyGraphics;
+        //ClientRegistry.bindTileEntitySpecialRenderer(TileEMPTower.class, new RenderEmpTower());
+        //ClientRegistry.bindTileEntitySpecialRenderer(TileMissileAssembler.class, new RenderMissileAssembler());
     }
 
     @Override
@@ -114,7 +84,7 @@ public class ClientProxy extends CommonProxy
         }
         else if (name.equals("antimatter"))
         {
-            fx = new FXAntimatterPartical(world, position, red, green, blue, scale, distance);
+            //fx = new FXAntimatterPartical(world, position, red, green, blue, scale, distance);
         }
         else if (name.equals("digging"))
         {

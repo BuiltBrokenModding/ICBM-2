@@ -6,7 +6,7 @@ import icbm.content.DamageUtility;
 import icbm.ICBM;
 import icbm.IChunkLoadHandler;
 import icbm.explosion.Explosive;
-import icbm.explosion.ex.Explosion;
+import icbm.explosion.Explosion;
 import icbm.explosion.ExplosiveRegistry;
 
 import java.util.ArrayList;

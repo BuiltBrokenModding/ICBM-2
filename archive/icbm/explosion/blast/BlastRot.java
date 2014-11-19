@@ -1,6 +1,7 @@
 package icbm.explosion.blast;
 
 import icbm.ICBM;
+import icbm.explosion.Blast;
 import icbm.explosion.thread.ThreadLargeExplosion;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
