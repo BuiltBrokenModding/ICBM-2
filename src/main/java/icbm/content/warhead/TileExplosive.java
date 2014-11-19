@@ -2,6 +2,7 @@ package icbm.content.warhead;
 
 import cpw.mods.fml.common.network.ByteBufUtils;
 import icbm.Reference;
+import icbm.content.ItemSaveUtil;
 import icbm.explosion.ExplosiveRegistry;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
@@ -91,10 +92,10 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
     public void onPlaced(EntityLivingBase entityLiving, ItemStack itemStack)
     {
         super.onPlaced(entityLiving, itemStack);
-        if (!world().isRemote)
+        if (!world().isRemote && ItemSaveUtil.getExplosive(itemStack) != null)
         {
             //Set explosive id
-            this.explosiveID = ExplosiveRegistry.get(itemStack.getTagCompound().getString("explosiveString")).getUnlocalizedName();
+            this.explosiveID = ItemSaveUtil.getExplosive(itemStack).getUnlocalizedName();
 
             //Set rotation for direction based explosives
             setMeta(determineOrientation(entityLiving));
@@ -242,7 +243,12 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
     @Override
     public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List)
     {
-
+        for(IExplosive ex : ExplosiveRegistry.getExplosives())
+        {
+            ItemStack stack = new ItemStack(this.getBlockType());
+            ItemSaveUtil.setExplosive(stack, ex);
+            par3List.add(stack);
+        }
     }
 
     @Override
@@ -251,10 +257,8 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
         if(explosiveID != null)
         {
             ItemStack stack = new ItemStack(this.getBlockType());
-            if(stack.getTagCompound() == null)
-                stack.setTagCompound(new NBTTagCompound());
-
-            stack.getTagCompound().setString("explosiveString", explosiveID);
+            ItemSaveUtil.setExplosive(stack, explosiveID);
+            return stack;
         }
         return null;
     }

@@ -19,11 +19,19 @@ public class ItemSaveUtil
         return null;
     }
 
+    public static void setExplosive(ItemStack itemStack, String ex)
+    {
+        setExplosive(itemStack, ExplosiveRegistry.get(ex));
+    }
+
     public static void setExplosive(ItemStack itemStack, IExplosive ex)
     {
-        if(itemStack.getTagCompound() == null)
-            itemStack.setTagCompound(new NBTTagCompound());
+        if(ex != null)
+        {
+            if (itemStack.getTagCompound() == null)
+                itemStack.setTagCompound(new NBTTagCompound());
 
-        itemStack.getTagCompound().setString("explosiveString", ex.getUnlocalizedName());
+            itemStack.getTagCompound().setString("explosiveString", ex.getUnlocalizedName());
+        }
     }
 }
