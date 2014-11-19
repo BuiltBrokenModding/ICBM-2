@@ -45,18 +45,18 @@ public class ItemMissile extends ItemICBMBase
     {
         for (Explosive zhaPin : ExplosiveRegistry.getAllMissles())
         {
-            if (zhaPin.hasMissileForm())
-            {
-                par3List.add(new ItemStack(par1, 1, zhaPin.getID()));
-            }
+           // if (zhaPin.hasMissileForm())
+            //{
+            //    par3List.add(new ItemStack(par1, 1, zhaPin.getID()));
+            //}
         }
     }
 
     @Override
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
     {
-        int tierdata = ExplosiveRegistry.get(stack.getItemDamage()).getTier();
-        list.add(LanguageUtility.getLocal("info.misc.tier") + ": " + tierdata);
+        //int tierdata = ExplosiveRegistry.get(stack.getItemDamage()).getTier();
+        //list.add(LanguageUtility.getLocal("info.misc.tier") + ": " + tierdata);
 
 		super.addInformation(stack, player, list, bool);
 

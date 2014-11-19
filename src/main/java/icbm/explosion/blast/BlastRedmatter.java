@@ -4,7 +4,6 @@ import icbm.Reference;
 import icbm.ICBM;
 import icbm.content.entity.EntityFlyingBlock;
 import icbm.content.entity.EntityExplosion;
-import icbm.content.entity.EntityExplosive;
 
 import java.util.List;
 
@@ -265,10 +264,6 @@ public class BlastRedmatter extends Blast
                             return explosionCreated;
                         }
                     }
-                }
-                else if (entity instanceof EntityExplosive)
-                {
-                    ((EntityExplosive) entity).explode();
                 }
                 else
                 {

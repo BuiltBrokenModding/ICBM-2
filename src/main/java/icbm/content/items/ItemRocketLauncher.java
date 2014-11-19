@@ -20,7 +20,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import resonant.api.explosion.ExplosiveType;
 import resonant.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import resonant.lib.transform.vector.Vector3;
 import resonant.lib.utility.LanguageUtility;
@@ -76,43 +75,39 @@ public class ItemRocketLauncher extends ItemICBMElectrical
 
                             if (ex instanceof Explosion)
                             {
-                                ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(world, player.posX, player.posY, player.posZ, ExplosiveType.AIR, ExplosiveRegistry.get(meta));
+                                ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(world, player.posX, player.posY, player.posZ, ExplosiveRegistry.get(meta));
                                 MinecraftForge.EVENT_BUS.post(evt);
 
                                 if (((Explosion) ex) != null && !evt.isCanceled())
                                 {
-                                    // Limit the missile to tier two.
-                                    if (((Explosion) ex).getTier() <= Settings.MAX_ROCKET_LAUCNHER_TIER && ((Explosion) ex).isCruise())
+                                    Vector3 launcher = new Vector3(player).add(new Vector3(0, 0.5, 0));
+                                    Vector3 playerAim = new Vector3(player.getLook(1));
+                                    Vector3 start = launcher.add(playerAim.multiply(1.1));
+                                    Vector3 target = launcher.add(playerAim.multiply(100));
+
+                                    //TOD: Fix this rotation when we use the proper model loader.
+                                    EntityMissile entityMissile = new EntityMissile(world, start, ((Explosion) ex), -player.rotationYaw, -player.rotationPitch);
+                                    world.spawnEntityInWorld(entityMissile);
+
+                                    if (player.isSneaking())
                                     {
-                                        Vector3 launcher = new Vector3(player).add(new Vector3(0, 0.5, 0));
-                                        Vector3 playerAim = new Vector3(player.getLook(1));
-                                        Vector3 start = launcher.add(playerAim.multiply(1.1));
-                                        Vector3 target = launcher.add(playerAim.multiply(100));
-
-                                        //TOD: Fix this rotation when we use the proper model loader.
-                                        EntityMissile entityMissile = new EntityMissile(world, start, ((Explosion) ex).getID(), -player.rotationYaw, -player.rotationPitch);
-                                        world.spawnEntityInWorld(entityMissile);
-
-                                        if (player.isSneaking())
-                                        {
-                                            player.mountEntity(entityMissile);
-                                            player.setSneaking(false);
-                                        }
-
-                                        entityMissile.ignore(player);
-                                        entityMissile.launch(target);
-
-                                        if (!player.capabilities.isCreativeMode)
-                                        {
-                                            player.inventory.setInventorySlotContents(slot, null);
-                                            this.discharge(itemStack, ENERGY, true);
-                                        }
-                                        
-                                        //Store last time player launched a rocket
-                                        clickTimePlayer.put(player.getDisplayName(), clickMs);
-                                        
-                                        return itemStack;
+                                        player.mountEntity(entityMissile);
+                                        player.setSneaking(false);
                                     }
+
+                                    entityMissile.ignore(player);
+                                    entityMissile.launch(target);
+
+                                    if (!player.capabilities.isCreativeMode)
+                                    {
+                                        player.inventory.setInventorySlotContents(slot, null);
+                                        this.discharge(itemStack, ENERGY, true);
+                                    }
+
+                                    //Store last time player launched a rocket
+                                    clickTimePlayer.put(player.getDisplayName(), clickMs);
+
+                                    return itemStack;
                                 }
                                 else
                                 {

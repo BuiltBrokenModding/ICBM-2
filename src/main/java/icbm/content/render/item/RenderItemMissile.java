@@ -50,20 +50,20 @@ public class RenderItemMissile implements IItemRenderer
                 scale = 0.4f;
                 right = -0.5f;
 
-                if (missile.getTier() == 2 || !missile.hasBlockForm())
-                {
-                    scale = scale / 1.5f;
-                }
-                else if (missile.getTier() == 3)
-                {
-                    scale = scale / 1.7f;
-                    right = -0.65f;
-                }
-                else if (missile.getTier() == 4)
-                {
-                    scale = scale / 1.4f;
-                    right = -0.45f;
-                }
+                //if (missile.getTier() == 2 || !missile.hasBlockForm())
+                //{
+                //    scale = scale / 1.5f;
+                //}
+                //else if (missile.getTier() == 3)
+                //{
+                //    scale = scale / 1.7f;
+                //    right = -0.65f;
+                //}
+                //else if (missile.getTier() == 4)
+                //{
+                //    scale = scale / 1.4f;
+                //    right = -0.45f;
+                //}
 
                 GL11.glTranslatef(right, 0f, 0f);
             }

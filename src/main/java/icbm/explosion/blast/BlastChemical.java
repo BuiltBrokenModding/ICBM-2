@@ -104,12 +104,12 @@ public class BlastChemical extends Blast
         {
             if (this.isContagious)
             {
-                ICBM.contagios_potion.poisonEntity(position, entity);
+                //ICBM.contagios_potion.poisonEntity(position, entity);
             }
 
             if (this.isPoisonous)
             {
-                ICBM.poisonous_potion.poisonEntity(position, entity);
+                //ICBM.poisonous_potion.poisonEntity(position, entity);
             }
 
             if (this.isConfuse)

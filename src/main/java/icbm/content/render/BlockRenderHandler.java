@@ -2,11 +2,6 @@ package icbm.content.render;
 
 import icbm.ICBM;
 import icbm.content.tile.assembler.RenderMissileAssembler;
-import icbm.content.tile.emptower.RenderEmpTower;
-import icbm.content.tile.launcher.BlockICBMMachine.MachineData;
-import icbm.content.tile.launcher.RenderLauncherBase;
-import icbm.content.tile.launcher.RenderLauncherFrame;
-import icbm.content.tile.launcher.RenderLauncherScreen;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.IBlockAccess;
@@ -42,91 +37,6 @@ public class BlockRenderHandler implements ISimpleBlockRenderingHandler
                 RenderMissileAssembler.MODEL_CLAW1.render(0.0625F);
                 RenderMissileAssembler.MODEL_CLAW2.render(0.0625F);
                 RenderMissileAssembler.MODEL_CLAW3.render(0.0625F);
-            }
-            else if (metadata < MachineData.LauncherBase.ordinal() * 3 + 3)
-            {
-                int tier = metadata;
-
-                GL11.glRotatef(180f, 0f, 0f, 1f);
-                GL11.glScalef(0.4f, 0.4f, 0.4f);
-
-                if (tier == 0)
-                {
-                    FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderLauncherBase.TEXTURE_FILE_0);
-                    RenderLauncherBase.modelBase0.render(0.0625F);
-                    RenderLauncherBase.modelRail0.render(0.0625F);
-                }
-                else if (tier == 1)
-                {
-                    FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderLauncherBase.TEXTURE_FILE_1);
-
-                    RenderLauncherBase.modelBase1.render(0.0625F);
-                    RenderLauncherBase.modelRail1.render(0.0625F);
-                    GL11.glRotatef(180F, 0F, 180F, 1.0F);
-                    RenderLauncherBase.modelRail1.render(0.0625F);
-                }
-                else if (tier == 2)
-                {
-                    FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderLauncherBase.TEXTURE_FILE_2);
-                    RenderLauncherBase.modelBase2.render(0.0625F);
-                    RenderLauncherBase.modelRail2.render(0.0625F);
-                    GL11.glRotatef(180F, 0F, 180F, 1.0F);
-                    RenderLauncherBase.modelRail2.render(0.0625F);
-                }
-            }
-            else if (metadata < MachineData.LauncherScreen.ordinal() * 3 + 3)
-            {
-                int tier = metadata - 3;
-                GL11.glTranslatef(0f, 0.9f, 0f);
-                GL11.glRotatef(180f, 0f, 0f, 1f);
-                GL11.glRotatef(180f, 0f, 180f, 1f);
-
-                if (tier == 0)
-                {
-                    FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderLauncherScreen.TEXTURE_FILE_0);
-                    RenderLauncherScreen.model0.render(0.0625F);
-                }
-                else if (tier == 1)
-                {
-                    FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderLauncherScreen.TEXTURE_FILE_1);
-                    RenderLauncherScreen.model1.render(0.0625F);
-                }
-                else if (tier == 2)
-                {
-                    FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderLauncherScreen.TEXTURE_FILE_2);
-                    RenderLauncherScreen.model2.render(0.0625F);
-                }
-            }
-            else if (metadata < MachineData.LauncherFrame.ordinal() * 3 + 3)
-            {
-                int tier = metadata - 6;
-                GL11.glTranslatef(0f, -0.1f, 0f);
-                GL11.glRotatef(180f, 0f, 0f, 1f);
-                GL11.glScalef(0.8f, 0.4f, 0.8f);
-
-                FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderLauncherFrame.TEXTURE_FILE);
-
-                RenderLauncherFrame.MODEL.render(0.0625F);
-            }
-            else if (metadata == MachineData.RadarStation.ordinal() + 6)
-            {
-                GL11.glTranslatef(0f, 1f, 0f);
-                GL11.glRotatef(180f, 0f, 0f, 1f);
-                GL11.glRotatef(180f, 0, 1, 0);
-
-                //FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderRadarStation.TEXTURE_FILE);
-
-                //RenderRadarStation.MODEL.render(0.0625f, 0, 1.2f);
-            }
-            else if (metadata == MachineData.EmpTower.ordinal() + 6)
-            {
-                GL11.glTranslatef(0f, 0.3f, 0f);
-                GL11.glRotatef(180f, 0f, 0f, 1f);
-                GL11.glScalef(0.6f, 0.6f, 0.6f);
-
-                FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderEmpTower.TEXTURE_FILE);
-
-                RenderEmpTower.MODEL.render(0, 0.0625F);
             }
 
             GL11.glPopMatrix();

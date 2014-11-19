@@ -8,22 +8,13 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import icbm.content.render.BlockRenderHandler;
 import icbm.content.tile.assembler.RenderMissileAssembler;
-import icbm.content.tile.detector.TileProximityDetector;
 import icbm.content.entity.*;
-import icbm.content.items.GuiFrequency;
-import icbm.content.tile.detector.GuiProximityDetector;
 import icbm.content.tile.emptower.RenderEmpTower;
-import icbm.content.tile.ex.RenderBombBlock;
-import icbm.content.tile.launcher.*;
-import icbm.content.tile.ex.TileExplosive;
 import icbm.explosion.FXAntimatterPartical;
 import icbm.content.tile.emptower.GuiEMPTower;
 import icbm.content.tile.assembler.GuiMissileTable;
-import icbm.content.tile.radar.GuiRadarStation;
 import icbm.content.tile.emptower.TileEMPTower;
 import icbm.content.tile.assembler.TileMissileAssembler;
-import icbm.content.tile.radar.TileRadarStation;
-import icbm.content.potion.PoisonFrostBite;
 import icbm.content.render.entity.*;
 import icbm.content.render.item.RenderItemMissile;
 import icbm.content.render.item.RenderRocketLauncher;
@@ -33,7 +24,6 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.client.particle.EntityFX;
-import net.minecraft.client.renderer.entity.RenderMinecart;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -64,24 +54,16 @@ public class ClientProxy extends CommonProxy
         MinecraftForgeClient.registerItemRenderer(ICBM.itemRocketLauncher, new RenderRocketLauncher());
         MinecraftForgeClient.registerItemRenderer(ICBM.itemMissile, new RenderItemMissile());
 
-        RenderingRegistry.registerBlockHandler(new RenderBombBlock());
         RenderingRegistry.registerBlockHandler(new BlockRenderHandler());
 
-        RenderingRegistry.registerEntityRenderingHandler(EntityExplosive.class, new RenderEntityExplosive());
         RenderingRegistry.registerEntityRenderingHandler(EntityMissile.class, new RenderMissile(0.5F));
         RenderingRegistry.registerEntityRenderingHandler(EntityExplosion.class, new RenderExplosion());
         RenderingRegistry.registerEntityRenderingHandler(EntityLightBeam.class, new RenderLightBeam());
-        RenderingRegistry.registerEntityRenderingHandler(EntityGrenade.class, new RenderGrenade());
-        RenderingRegistry.registerEntityRenderingHandler(EntityBombCart.class, new RenderMinecart());
 
-        //ClientRegistry.bindTileEntitySpecialRenderer(TileCruiseLauncher.class, new RenderCruiseLauncher());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileLauncherBase.class, new RenderLauncherBase());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileLauncherScreen.class, new RenderLauncherScreen());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileLauncherFrame.class, new RenderLauncherFrame());
-        //ClientRegistry.bindTileEntitySpecialRenderer(TileRadarStation.class, new RenderRadarStation());
+        //ClientRegistry.bindTileEntitySpecialRenderer(TileLauncherBase.class, new RenderLauncherBase());
+        //ClientRegistry.bindTileEntitySpecialRenderer(TileLauncherScreen.class, new RenderLauncherScreen());
+        //ClientRegistry.bindTileEntitySpecialRenderer(TileLauncherFrame.class, new RenderLauncherFrame());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEMPTower.class, new RenderEmpTower());
-        //ClientRegistry.bindTileEntitySpecialRenderer(TileMissileCoordinator.class, new RenderMissileCoordinator());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileExplosive.class, new RenderBombBlock());
         ClientRegistry.bindTileEntitySpecialRenderer(TileMissileAssembler.class, new RenderMissileAssembler());
     }
 
@@ -89,23 +71,7 @@ public class ClientProxy extends CommonProxy
     public Object getClientGuiElement(int ID, EntityPlayer entityPlayer, World world, int x, int y, int z)
     {
         TileEntity tileEntity = world.getTileEntity(x, y, z);
-        if (tileEntity instanceof TileProximityDetector)
-        {
-            return new GuiProximityDetector((TileProximityDetector) tileEntity);
-        }
-        else if (entityPlayer.inventory.getCurrentItem() != null && entityPlayer.inventory.getCurrentItem().getItem() instanceof IItemFrequency)
-        {
-            return new GuiFrequency(entityPlayer, entityPlayer.inventory.getCurrentItem());
-        }
-        else if (tileEntity instanceof TileLauncherScreen)
-        {
-            return new GuiLauncherScreen(((TileLauncherScreen) tileEntity));
-        }
-        else if (tileEntity instanceof TileRadarStation)
-        {
-            return new GuiRadarStation(((TileRadarStation) tileEntity));
-        }
-        else if (tileEntity instanceof TileEMPTower)
+        if (tileEntity instanceof TileEMPTower)
         {
             return new GuiEMPTower((TileEMPTower) tileEntity);
         }
@@ -201,61 +167,5 @@ public class ClientProxy extends CommonProxy
             }
         }
         return null;
-    }
-
-    // TODO: Work on this!
-    // @ForgeSubscribe
-    public void renderingLivingEvent(RenderLivingEvent.Specials.Pre evt)
-    {
-        if (evt.entity instanceof EntityLivingBase)
-        {
-            if (evt.entity.getActivePotionEffect(PoisonFrostBite.INSTANCE) != null)
-            {
-                try
-                {
-                    ModelBase modelBase = (ModelBase) ReflectionHelper.getPrivateValue(RendererLivingEntity.class, evt.renderer, 2);
-
-                    if (modelBase != null)
-                    {
-                        if (evt.entity.isInvisible())
-                        {
-                            GL11.glDepthMask(false);
-                        }
-                        else
-                        {
-                            GL11.glDepthMask(true);
-                        }
-
-                        float f1 = evt.entity.ticksExisted;
-                        // this.bindTexture(evt.renderer.func_110829_a);
-                        RenderUtility.setTerrainTexture();
-                        GL11.glMatrixMode(GL11.GL_TEXTURE);
-                        GL11.glLoadIdentity();
-                        float f2 = f1 * 0.01F;
-                        float f3 = f1 * 0.01F;
-                        GL11.glTranslatef(f2, f3, 0.0F);
-                        GL11.glScalef(2, 2, 2);
-                        evt.renderer.setRenderPassModel(modelBase);
-                        GL11.glMatrixMode(GL11.GL_MODELVIEW);
-                        GL11.glEnable(GL11.GL_BLEND);
-                        float f4 = 0.5F;
-                        GL11.glColor4f(f4, f4, f4, 1.0F);
-                        GL11.glDisable(GL11.GL_LIGHTING);
-                        GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
-                        modelBase.render(evt.entity, (float) evt.entity.posX, (float) evt.entity.posY, (float) evt.entity.posZ, evt.entity.rotationPitch, evt.entity.rotationYaw, 0.0625F);
-                        GL11.glMatrixMode(GL11.GL_TEXTURE);
-                        GL11.glLoadIdentity();
-                        GL11.glMatrixMode(GL11.GL_MODELVIEW);
-                        GL11.glEnable(GL11.GL_LIGHTING);
-                        GL11.glDisable(GL11.GL_BLEND);
-                    }
-                }
-                catch (Exception e)
-                {
-                    Reference.LOGGER.severe("Failed to render entity layer object");
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 }

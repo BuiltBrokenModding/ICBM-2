@@ -3,9 +3,6 @@ package icbm.content.tile.ex;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import icbm.Reference;
-import icbm.ICBM;
-import icbm.content.entity.EntityExplosive;
-import icbm.content.items.ItemRemoteDetonator;
 import icbm.explosion.Explosive;
 import icbm.explosion.ExplosiveRegistry;
 import io.netty.buffer.ByteBuf;
@@ -30,7 +27,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 import resonant.api.IRotatable;
 import resonant.api.explosion.ExplosionEvent;
-import resonant.api.explosion.ExplosiveType;
 import resonant.api.explosion.IExplosive;
 import resonant.api.explosion.IExplosiveContainer;
 
@@ -123,7 +119,7 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
             this.explosiveID = itemStack.getItemDamage();
 
             //Allow things to cancle the placement
-            ExplosionEvent.ExplosivePreDetonationEvent evt = new ExplosionEvent.ExplosivePreDetonationEvent(world(), xi(), yi(), zi(), ExplosiveType.BLOCK, ExplosiveRegistry.get(explosiveID));
+            ExplosionEvent.ExplosivePreDetonationEvent evt = new ExplosionEvent.ExplosivePreDetonationEvent(world(), xi(), yi(), zi(), ExplosiveRegistry.get(explosiveID));
             MinecraftForge.EVENT_BUS.post(evt);
 
             //If canceled drop the item TODO return to inventory
@@ -160,7 +156,7 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
             //Log the placement for Anti-Grief TODO add config to reduce console spam, add support for Anti-Grief mods/plugins
             if (entityLiving != null)
             {
-                Reference.LOGGER.info(entityLiving.getCommandSenderName() + " placed " + ExplosiveRegistry.get(explosiveID).getExplosiveName() + " in: " + xi() + ", " + yi() + ", " + zi() + ".");
+                Reference.LOGGER.info(entityLiving.getCommandSenderName() + " placed " + ExplosiveRegistry.get(explosiveID) + " in: " + xi() + ", " + yi() + ", " + zi() + ".");
             }
         }
     }
@@ -192,22 +188,22 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
      */
     public void explode(int causeOfExplosion)
     {
-        ExplosionEvent.ExplosivePreDetonationEvent evt = new ExplosionEvent.ExplosivePreDetonationEvent(world(), xi(), yi(), zi(), ExplosiveType.BLOCK, ExplosiveRegistry.get(explosiveID));
+        ExplosionEvent.ExplosivePreDetonationEvent evt = new ExplosionEvent.ExplosivePreDetonationEvent(world(), xi(), yi(), zi(), ExplosiveRegistry.get(explosiveID));
         MinecraftForge.EVENT_BUS.post(evt);
 
         if (!evt.isCanceled())
         {
-            exploding = true;
-            EntityExplosive eZhaDan = new EntityExplosive(world(), toVector3().add(0.5), explosiveID, (byte) getBlockMetadata(), nbtData);
+            //exploding = true;
+           // EntityExplosive eZhaDan = new EntityExplosive(world(), toVector3().add(0.5), explosiveID, (byte) getBlockMetadata(), nbtData);
 
-            switch (causeOfExplosion)
-            {
-                case 2:
-                    eZhaDan.setFire(100);
-                    break;
-            }
+            //switch (causeOfExplosion)
+            //{
+                //case 2:
+                    //eZhaDan.setFire(100);
+                    //break;
+            //}
 
-            world().spawnEntityInWorld(eZhaDan);
+            //world().spawnEntityInWorld(eZhaDan);
             world().setBlockToAir(xi(), yi(), zi());
         }
     }
@@ -241,9 +237,9 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
         /** Register every single texture for all explosives. */
         for (Explosive zhaPin : ExplosiveRegistry.getExplosives())
         {
-            ICON_TOP[zhaPin.getID()] = this.getIcon(iconRegister, zhaPin, "_top");
-            ICON_SIDE[zhaPin.getID()] = this.getIcon(iconRegister, zhaPin, "_side");
-            ICON_BOTTOM[zhaPin.getID()] = this.getIcon(iconRegister, zhaPin, "_bottom");
+            //ICON_TOP[zhaPin.getID()] = this.getIcon(iconRegister, zhaPin, "_top");
+            //ICON_SIDE[zhaPin.getID()] = this.getIcon(iconRegister, zhaPin, "_side");
+            //ICON_BOTTOM[zhaPin.getID()] = this.getIcon(iconRegister, zhaPin, "_bottom");
         }
     }
 
@@ -269,10 +265,11 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
 
         if (suffix.equals("_bottom"))
         {
-            return iconRegister.registerIcon(Reference.PREFIX + "explosive_bottom_" + zhaPin.getTier());
+            //return iconRegister.registerIcon(Reference.PREFIX + "explosive_bottom_" + zhaPin.getTier());
         }
 
-        return iconRegister.registerIcon(Reference.PREFIX + "explosive_base_" + zhaPin.getTier());
+        //return iconRegister.registerIcon(Reference.PREFIX + "explosive_base_" + zhaPin.getTier());
+        return null;
     }
 
     @Override
@@ -309,17 +306,6 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
             explosiveID = data.readInt();
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         }
-        else if (ID == 2 && !this.worldObj.isRemote)
-        {
-            // Packet explode command
-            if (player.inventory.getCurrentItem().getItem() instanceof ItemRemoteDetonator)
-            {
-                ItemStack itemStack = player.inventory.getCurrentItem();
-                explode(0);
-                ((ItemRemoteDetonator) ICBM.itemRemoteDetonator).discharge(itemStack, ItemRemoteDetonator.ENERGY, true);
-            }
-        }
-
     }
 
     @Override
@@ -357,10 +343,10 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
     {
         for (Explosive zhaPin : ExplosiveRegistry.getExplosives())
         {
-            if (zhaPin.hasBlockForm())
-            {
-                par3List.add(new ItemStack(par1, 1, zhaPin.getID()));
-            }
+            //if (zhaPin.hasBlockForm())
+            //{
+            //    par3List.add(new ItemStack(par1, 1, zhaPin.getID()));
+            //}
         }
     }
 

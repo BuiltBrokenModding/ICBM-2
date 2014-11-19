@@ -1,8 +1,6 @@
 package icbm.explosion.blast;
 
 import icbm.Reference;
-import icbm.explosion.ex.ExExothermic;
-import icbm.explosion.Explosive;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
@@ -77,7 +75,7 @@ public class BlastExothermic extends BlastBeam
 
                                 blockID = this.world().getBlock(targetPosition.xi(), targetPosition.yi() - 1, targetPosition.zi());
 
-                                if (((ExExothermic) Explosive.exothermic).createNetherrack && (blockID == Blocks.stone || blockID == Blocks.grass || blockID == Blocks.dirt) && this.world().rand.nextFloat() > 0.75)
+                                if (/*((ExExothermic) Explosive.exothermic).createNetherrack && */ (blockID == Blocks.stone || blockID == Blocks.grass || blockID == Blocks.dirt) && this.world().rand.nextFloat() > 0.75)
                                 {
                                     this.world().setBlock(targetPosition.xi(), targetPosition.yi() - 1, targetPosition.zi(), Blocks.netherrack, 0, 2);
                                 }

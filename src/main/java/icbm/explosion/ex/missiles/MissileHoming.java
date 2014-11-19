@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import resonant.api.explosion.Trigger;
 import resonant.api.items.IItemTracker;
 import resonant.lib.transform.vector.Vector3;
 
@@ -16,7 +17,6 @@ public class MissileHoming extends Missile
     public MissileHoming()
     {
         super("homing", 1);
-        this.hasBlock = false;
         this.modelName = "missile_homing.tcn";
     }
 
@@ -122,8 +122,11 @@ public class MissileHoming extends Missile
     }
 
     @Override
-    public void doCreateExplosion(World world, double x, double y, double z, Entity entity)
+    public void doCreateExplosion(World world, double x, double y, double z, Trigger trigger)
     {
-        new BlastRepulsive(world, entity, x, y, z, 4).setDestroyItems().explode();
+        if(trigger instanceof Trigger.TriggerEntity)
+        {
+            new BlastRepulsive(world, ((Trigger.TriggerEntity) trigger).source, x, y, z, 4).setDestroyItems().explode();
+        }
     }
 }

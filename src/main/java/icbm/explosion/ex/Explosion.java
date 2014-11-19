@@ -62,7 +62,6 @@ public abstract class Explosion extends Explosive
     }
 
     @SideOnly(Side.CLIENT)
-    @Override
     public IModelCustom getMissileModel()
     {
         try

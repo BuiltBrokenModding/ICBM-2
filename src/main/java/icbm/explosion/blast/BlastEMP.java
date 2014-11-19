@@ -4,7 +4,6 @@ import ic2.api.item.ISpecialElectricItem;
 import ic2.api.tile.IEnergyStorage;
 import icbm.Reference;
 import icbm.ICBM;
-import icbm.content.entity.EntityExplosive;
 
 import java.util.List;
 
@@ -177,10 +176,6 @@ public class BlastEMP extends Blast
                             }
                         }
                     }
-                }
-                else if (entity instanceof EntityExplosive)
-                {
-                    entity.setDead();
                 }
             }
         }

@@ -5,6 +5,7 @@ import icbm.Settings;
 import icbm.content.DamageUtility;
 import icbm.ICBM;
 import icbm.IChunkLoadHandler;
+import icbm.explosion.Explosive;
 import icbm.explosion.ex.Explosion;
 import icbm.explosion.ExplosiveRegistry;
 
@@ -32,11 +33,7 @@ import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.IFluidBlock;
 import resonant.api.ai.ITarget;
-import resonant.api.explosion.ExplosiveType;
-import resonant.api.explosion.IExplosive;
-import resonant.api.explosion.IExplosiveContainer;
-import resonant.api.explosion.ILauncherContainer;
-import resonant.api.explosion.IMissile;
+import resonant.api.explosion.*;
 import resonant.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import resonant.api.map.RadarRegistry;
 
@@ -137,6 +134,11 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         this.setRotation(0, 90);
     }
 
+    public EntityMissile(World world, Vector3 startPos, Explosive explosiveId, float yaw, float pitch)
+    {
+        this(world);
+    }
+
     /** For rocket launchers
      * 
      * @param explosiveId - Explosive ID
@@ -158,7 +160,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
 
     public String getEntityName()
     {
-        return ExplosiveRegistry.get(this.explosiveID).getMissileName();
+        return ExplosiveRegistry.get(this.explosiveID).toString();
     }
 
     @Override
@@ -326,7 +328,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
 
         if (!this.worldObj.isRemote)
         {
-            ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(worldObj, posX, posY, posZ, ExplosiveType.AIR, ExplosiveRegistry.get(explosiveID));
+            ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(worldObj, posX, posY, posZ, ExplosiveRegistry.get(explosiveID));
             MinecraftForge.EVENT_BUS.post(evt);
 
             if (evt.isCanceled())
@@ -678,7 +680,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
                 }
                 else
                 {
-                    ((Explosion) ExplosiveRegistry.get(this.explosiveID)).createExplosion(this.worldObj, this.posX, this.posY, this.posZ, this);
+                    ((Explosion) ExplosiveRegistry.get(this.explosiveID)).createExplosion(this.worldObj, this.posX, this.posY, this.posZ, new Trigger.TriggerEntity("homing_missile", this));
                 }
 
                 this.isExpoding = true;
