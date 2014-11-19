@@ -7,7 +7,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import icbm.content.missile.EntityMissile;
 import icbm.content.missile.RenderMissile;
-import icbm.content.missile.RenderItemMissile;
 import icbm.content.rocketlauncher.RenderRocketLauncher;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -31,10 +30,12 @@ public class ClientProxy extends CommonProxy
     public void init()
     {
         super.init();
-        MinecraftForgeClient.registerItemRenderer(ICBM.itemRocketLauncher, new RenderRocketLauncher());
-        MinecraftForgeClient.registerItemRenderer(ICBM.itemMissile, new RenderItemMissile());
 
-        RenderingRegistry.registerEntityRenderingHandler(EntityMissile.class, new RenderMissile(0.5F));
+        MinecraftForgeClient.registerItemRenderer(ICBM.itemRocketLauncher, new RenderRocketLauncher());
+
+        RenderMissile render = new RenderMissile(0.5F);
+        MinecraftForgeClient.registerItemRenderer(ICBM.itemMissile, render);
+        RenderingRegistry.registerEntityRenderingHandler(EntityMissile.class, render);
     }
 
     @Override
