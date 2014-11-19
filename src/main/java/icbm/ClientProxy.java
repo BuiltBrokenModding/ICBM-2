@@ -1,32 +1,22 @@
 package icbm;
 
 import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import icbm.content.entity.*;
-import icbm.content.render.entity.*;
-import icbm.content.render.item.RenderItemMissile;
-import icbm.content.render.item.RenderRocketLauncher;
+import icbm.content.missile.EntityMissile;
+import icbm.content.missile.RenderMissile;
+import icbm.content.missile.RenderItemMissile;
+import icbm.content.rocketlauncher.RenderRocketLauncher;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.client.particle.EntityFX;
-import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
-import net.minecraftforge.client.event.RenderLivingEvent;
-import org.lwjgl.opengl.GL11;
-import resonant.api.items.IItemFrequency;
-import resonant.lib.render.RenderUtility;
 import resonant.lib.render.fx.*;
 import resonant.lib.transform.vector.Vector3;
 
@@ -41,22 +31,10 @@ public class ClientProxy extends CommonProxy
     public void init()
     {
         super.init();
-        //RenderingRegistry.registerEntityRenderingHandler(EntityFlyingBlock.class, new RenderEntityBlock());
-        //RenderingRegistry.registerEntityRenderingHandler(EntityFragments.class, new RenderShrapnel());
         MinecraftForgeClient.registerItemRenderer(ICBM.itemRocketLauncher, new RenderRocketLauncher());
         MinecraftForgeClient.registerItemRenderer(ICBM.itemMissile, new RenderItemMissile());
 
-        //RenderingRegistry.registerBlockHandler(new BlockRenderHandler());
-
         RenderingRegistry.registerEntityRenderingHandler(EntityMissile.class, new RenderMissile(0.5F));
-        //RenderingRegistry.registerEntityRenderingHandler(EntityExplosion.class, new RenderExplosion());
-        //RenderingRegistry.registerEntityRenderingHandler(EntityLightBeam.class, new RenderLightBeam());
-
-        //ClientRegistry.bindTileEntitySpecialRenderer(TileLauncherBase.class, new RenderLauncherBase());
-        //ClientRegistry.bindTileEntitySpecialRenderer(TileLauncherScreen.class, new RenderLauncherScreen());
-        //ClientRegistry.bindTileEntitySpecialRenderer(TileLauncherFrame.class, new RenderLauncherFrame());
-        //ClientRegistry.bindTileEntitySpecialRenderer(TileEMPTower.class, new RenderEmpTower());
-        //ClientRegistry.bindTileEntitySpecialRenderer(TileMissileAssembler.class, new RenderMissileAssembler());
     }
 
     @Override

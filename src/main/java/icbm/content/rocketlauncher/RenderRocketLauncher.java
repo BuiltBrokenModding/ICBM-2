@@ -1,4 +1,4 @@
-package icbm.content.render.item;
+package icbm.content.rocketlauncher;
 
 import icbm.Reference;
 import icbm.ICBM;

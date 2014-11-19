@@ -1,9 +1,6 @@
-package icbm.content.render.item;
+package icbm.content.missile;
 
-import icbm.explosion.Explosion;
 import icbm.explosion.ExplosiveRegistry;
-import icbm.content.items.ItemMissile;
-import icbm.content.render.entity.RenderMissile;
 
 import java.util.HashMap;
 
@@ -16,11 +13,12 @@ import org.lwjgl.opengl.GL11;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import resonant.api.explosion.IExplosive;
 
 @SideOnly(Side.CLIENT)
 public class RenderItemMissile implements IItemRenderer
 {
-    HashMap<Explosion, IModelCustom> cache = new HashMap<Explosion, IModelCustom>();
+    HashMap<IExplosive, IModelCustom> cache = new HashMap<IExplosive, IModelCustom>();
 
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type)
@@ -39,7 +37,7 @@ public class RenderItemMissile implements IItemRenderer
     {
         if (this.shouldUseRenderHelper(type, item, null))
         {
-            Explosion missile = (Explosion) ExplosiveRegistry.get(item.getItemDamage());
+            IExplosive missile = ((ItemMissile)item.getItem()).getExplosive(item);
 
             float scale = 0.7f;
             float right = 0f;
@@ -89,13 +87,13 @@ public class RenderItemMissile implements IItemRenderer
 
             GL11.glScalef(scale, scale, scale);
 
-            FMLClientHandler.instance().getClient().renderEngine.bindTexture(missile.getMissileResource());
+            //FMLClientHandler.instance().getClient().renderEngine.bindTexture(missile.getMissileResource());
 
             synchronized (RenderMissile.cache)
             {
                 if (!RenderMissile.cache.containsKey(missile))
                 {
-                    RenderMissile.cache.put(missile, missile.getMissileModel());
+                    //RenderMissile.cache.put(missile, missile.getMissileModel());
                 }
                 IModelCustom model = RenderMissile.cache.get(missile);
                 if(model != null)

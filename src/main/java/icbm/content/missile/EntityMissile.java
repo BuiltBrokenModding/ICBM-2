@@ -1,19 +1,13 @@
-package icbm.content.entity;
+package icbm.content.missile;
 
-import icbm.Reference;
-import icbm.Settings;
-import icbm.content.DamageUtility;
+import cpw.mods.fml.common.network.ByteBufUtils;
+import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import icbm.ICBM;
 import icbm.IChunkLoadHandler;
-import icbm.explosion.Explosive;
-import icbm.explosion.Explosion;
+import icbm.Reference;
+import icbm.Settings;
+import icbm.explosion.DamageUtility;
 import icbm.explosion.ExplosiveRegistry;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -30,17 +24,20 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.IFluidBlock;
 import resonant.api.ai.ITarget;
 import resonant.api.explosion.*;
-import resonant.api.explosion.ExplosionEvent.ExplosivePreDetonationEvent;
 import resonant.api.map.RadarRegistry;
-
-import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import resonant.lib.transform.vector.Vector3;
 
-/** @Author - Calclavia */
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+
+/**
+ * @Author - Calclavia
+ */
 public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosiveContainer, IEntityAdditionalSpawnData, IMissile, ITarget
 {
     public enum MissileType
@@ -52,7 +49,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
 
     public static final float SPEED = 0.012F;
 
-    public int explosiveID = 0;
+    public String explosiveID = null;
     public int maxHeight = 200;
     public Vector3 targetVector = null;
     public Vector3 startPos = null;
@@ -118,12 +115,14 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         this.shengYin = this.worldObj != null ? ICBM.proxy.getDaoDanShengYin(this) : null;
     }
 
-    /** Spawns a traditional missile and cruise missiles
-     * 
+    /**
+     * Spawns a traditional missile and cruise missiles
+     *
      * @param explosiveId - Explosive ID
-     * @param startPos - Starting Position
-     * @param launcherPos - Missile Launcher Position */
-    public EntityMissile(World world, Vector3 startPos, Vector3 launcherPos, int explosiveId)
+     * @param startPos    - Starting Position
+     * @param launcherPos - Missile Launcher Position
+     */
+    public EntityMissile(World world, Vector3 startPos, Vector3 launcherPos, String explosiveId)
     {
         this(world);
         this.explosiveID = explosiveId;
@@ -134,18 +133,15 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         this.setRotation(0, 90);
     }
 
-    public EntityMissile(World world, Vector3 startPos, Explosive explosiveId, float yaw, float pitch)
-    {
-        this(world);
-    }
-
-    /** For rocket launchers
-     * 
+    /**
+     * For rocket launchers
+     *
      * @param explosiveId - Explosive ID
-     * @param startPos - Starting Position
-     * @param yaw - The yaw of the missle
-     * @param pitch - the pitch of the missle */
-    public EntityMissile(World world, Vector3 startPos, int explosiveId, float yaw, float pitch)
+     * @param startPos    - Starting Position
+     * @param yaw         - The yaw of the missle
+     * @param pitch       - the pitch of the missle
+     */
+    public EntityMissile(World world, Vector3 startPos, String explosiveId, float yaw, float pitch)
     {
         this(world);
         this.explosiveID = explosiveId;
@@ -168,7 +164,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
     {
         try
         {
-            data.writeInt(this.explosiveID);
+            ByteBufUtils.writeUTF8String(data, this.explosiveID);
             data.writeInt(this.missileType.ordinal());
 
             data.writeDouble(this.startPos.x());
@@ -181,8 +177,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
 
             data.writeFloat(rotationYaw);
             data.writeFloat(rotationPitch);
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -193,15 +188,14 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
     {
         try
         {
-            this.explosiveID = data.readInt();
+            this.explosiveID = ByteBufUtils.readUTF8String(data);
             this.missileType = MissileType.values()[data.readInt()];
             this.startPos = new Vector3(data.readDouble(), data.readDouble(), data.readDouble());
             this.launcherPos = new Vector3(data.readInt(), data.readInt(), data.readInt());
 
             rotationYaw = data.readFloat();
             rotationPitch = data.readFloat();
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -213,7 +207,6 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         this.startPos = new Vector3(this);
         this.targetVector = target;
         this.targetHeight = this.targetVector.yi();
-        ((Explosion) ExplosiveRegistry.get(this.explosiveID)).launch(this);
         this.feiXingTick = 0;
         this.recalculatePath();
         this.worldObj.playSoundAtEntity(this, Reference.PREFIX + "missilelaunch", 4F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
@@ -235,7 +228,9 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         return this;
     }
 
-    /** Recalculates required parabolic path for the missile Registry */
+    /**
+     * Recalculates required parabolic path for the missile Registry
+     */
     public void recalculatePath()
     {
         if (this.targetVector != null)
@@ -317,30 +312,15 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         return true;
     }
 
-    /** Called to update the entity's position/logic. */
+    /**
+     * Called to update the entity's position/logic.
+     */
     @Override
     public void onUpdate()
     {
         if (this.shengYin != null)
         {
             this.shengYin.update();
-        }
-
-        if (!this.worldObj.isRemote)
-        {
-            ExplosivePreDetonationEvent evt = new ExplosivePreDetonationEvent(worldObj, posX, posY, posZ, ExplosiveRegistry.get(explosiveID));
-            MinecraftForge.EVENT_BUS.post(evt);
-
-            if (evt.isCanceled())
-            {
-                if (this.feiXingTick >= 0)
-                {
-                    this.dropMissileAsItem();
-                }
-
-                this.setDead();
-                return;
-            }
         }
 
         try
@@ -359,13 +339,11 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
                         setExplode = true;
                         break;
                 }
-            }
-            else
+            } else
             {
                 this.dataWatcher.updateObject(16, feiXingTick);
             }
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -403,8 +381,6 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
                     // Look at the next point
                     this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
 
-                    ((Explosion) ExplosiveRegistry.get(this.explosiveID)).update(this);
-
                     Block block = this.worldObj.getBlock((int) this.posX, (int) this.posY, (int) this.posZ);
 
                     if (this.protectionTime <= 0 && ((block != null && !(block instanceof IFluidBlock)) || this.posY > 1000 || this.isCollided || this.feiXingTick > 20 * Settings.ShortRangeMissileLifetimeSeconds || (this.motionX == 0 && this.motionY == 0 && this.motionZ == 0)))
@@ -414,8 +390,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
                     }
 
                     this.moveEntity(this.motionX, this.motionY, this.motionZ);
-                }
-                else
+                } else
                 {
                     // Start the launch
                     if (this.qiFeiGaoDu > 0)
@@ -432,8 +407,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
                             this.motionX = this.deltaPathX / missileFlightTime;
                             this.motionZ = this.deltaPathZ / missileFlightTime;
                         }
-                    }
-                    else
+                    } else
                     {
                         this.motionY -= this.acceleration;
 
@@ -441,8 +415,6 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
 
                         // Look at the next point
                         this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
-
-                        ((Explosion) ExplosiveRegistry.get(this.explosiveID)).update(this);
 
                         this.moveEntity(this.motionX, this.motionY, this.motionZ);
 
@@ -458,7 +430,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
                             // Check the block below it.
                             Block blockBelow = worldObj.getBlock((int) this.posX, (int) this.posY - targetHeight, (int) this.posZ);
 
-                            if (blockBelow  != null && !blockBelow.isAir(worldObj, (int) this.posX, (int) this.posY - targetHeight, (int) this.posZ))
+                            if (blockBelow != null && !blockBelow.isAir(worldObj, (int) this.posX, (int) this.posY - targetHeight, (int) this.posZ))
                             {
                                 this.targetHeight = 0;
                                 this.explode();
@@ -466,8 +438,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
                         }
                     } // end else
                 }
-            }
-            else
+            } else
             {
                 this.rotationPitch = (float) (Math.atan(this.motionY / (Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ))) * 180 / Math.PI);
                 // Look at the next point
@@ -481,8 +452,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
             this.spawnMissileSmoke();
             this.protectionTime--;
             this.feiXingTick++;
-        }
-        else if (this.missileType != MissileType.LAUNCHER)
+        } else if (this.missileType != MissileType.LAUNCHER)
         {
             // Check to find the launcher in which this missile belongs in.
             ILauncherContainer launcher = this.getLauncher();
@@ -490,8 +460,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
             if (launcher != null)
             {
                 launcher.setContainingMissile(this);
-            }
-            else
+            } else
             {
                 this.setDead();
             }
@@ -522,14 +491,6 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
     @Override
     public boolean interactFirst(EntityPlayer entityPlayer)
     {
-        if (((Explosion) ExplosiveRegistry.get(this.explosiveID)) != null)
-        {
-            if (((Explosion) ExplosiveRegistry.get(this.explosiveID)).onInteract(this, entityPlayer))
-            {
-                return true;
-            }
-        }
-
         if (!this.worldObj.isRemote && (this.riddenByEntity == null || this.riddenByEntity == entityPlayer))
         {
             entityPlayer.mountEntity(this);
@@ -545,8 +506,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         if (this.missileFlightTime <= 0 && this.missileType == MissileType.MISSILE)
         {
             return height;
-        }
-        else if (this.missileType == MissileType.CruiseMissile)
+        } else if (this.missileType == MissileType.CruiseMissile)
         {
             return height / 10;
         }
@@ -584,7 +544,9 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         }
     }
 
-    /** Checks to see if and entity is touching the missile. If so, blow up! */
+    /**
+     * Checks to see if and entity is touching the missile. If so, blow up!
+     */
     @Override
     public AxisAlignedBB getCollisionBox(Entity entity)
     {
@@ -618,8 +580,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
                 if (this.missileType == MissileType.CruiseMissile || this.missileType == MissileType.LAUNCHER)
                 {
                     guJiDiDian.addEquals(xiaoDanMotion);
-                }
-                else
+                } else
                 {
                     guJiDiDian.addEquals(this.motionX, tempMotionY, this.motionZ);
 
@@ -671,16 +632,9 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
             // Make sure the missile is not already exploding
             if (!this.isExpoding)
             {
-                if (this.explosiveID == 0)
+                if (explosiveID != null)
                 {
-                    if (!this.worldObj.isRemote)
-                    {
-                        this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 5F, true);
-                    }
-                }
-                else
-                {
-                    ((Explosion) ExplosiveRegistry.get(this.explosiveID)).createExplosion(this.worldObj, this.posX, this.posY, this.posZ, new Trigger.TriggerEntity("homing_missile", this));
+                    ExplosiveRegistry.triggerExplosive(worldObj, posX, posY, posZ, ExplosiveRegistry.get(explosiveID), new Trigger.TriggerEntity(this));
                 }
 
                 this.isExpoding = true;
@@ -690,8 +644,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
 
             setDead();
 
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             Reference.LOGGER.severe("Missile failed to explode properly. Report this to the developers.");
             e.printStackTrace();
@@ -717,9 +670,10 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
     @Override
     public void dropMissileAsItem()
     {
-        if (!this.isExpoding && !this.worldObj.isRemote)
+        ItemStack stack = ((ItemMissile) ICBM.itemMissile).getStackFor(explosiveID);
+        if (!this.isExpoding && !this.worldObj.isRemote && stack != null)
         {
-            EntityItem entityItem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(ICBM.itemMissile, 1, this.explosiveID));
+            EntityItem entityItem = new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, stack);
 
             float var13 = 0.05F;
             Random random = new Random();
@@ -732,7 +686,9 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         this.setDead();
     }
 
-    /** (abstract) Protected helper method to read subclass entity data from NBT. */
+    /**
+     * (abstract) Protected helper method to read subclass entity data from NBT.
+     */
     @Override
     protected void readEntityFromNBT(NBTTagCompound nbt)
     {
@@ -741,14 +697,16 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         this.launcherPos = new Vector3(nbt.getCompoundTag("faSheQi"));
         this.acceleration = nbt.getFloat("jiaSu");
         this.targetHeight = nbt.getInteger("baoZhaGaoDu");
-        this.explosiveID = nbt.getInteger("explosiveID");
+        this.explosiveID = nbt.getString("explosiveString");
         this.feiXingTick = nbt.getInteger("feiXingTick");
         this.qiFeiGaoDu = nbt.getDouble("qiFeiGaoDu");
         this.missileType = MissileType.values()[nbt.getInteger("xingShi")];
         this.nbtData = nbt.getCompoundTag("data");
     }
 
-    /** (abstract) Protected helper method to write subclass entity data to NBT. */
+    /**
+     * (abstract) Protected helper method to write subclass entity data to NBT.
+     */
     @Override
     protected void writeEntityToNBT(NBTTagCompound nbt)
     {
@@ -767,7 +725,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         }
 
         nbt.setFloat("jiaSu", this.acceleration);
-        nbt.setInteger("explosiveID", this.explosiveID);
+        nbt.setString("explosiveString", this.explosiveID);
         nbt.setInteger("baoZhaGaoDu", this.targetHeight);
         nbt.setInteger("feiXingTick", this.feiXingTick);
         nbt.setDouble("qiFeiGaoDu", this.qiFeiGaoDu);
@@ -788,7 +746,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
     }
 
     @Override
-    public IExplosive getExplosiveType()
+    public IExplosive getExplosive()
     {
         return ExplosiveRegistry.get(this.explosiveID);
     }
@@ -818,12 +776,6 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
     public TargetType getType()
     {
         return TargetType.MISSILE;
-    }
-
-    @Override
-    public NBTTagCompound getTagCompound()
-    {
-        return this.nbtData;
     }
 
 }

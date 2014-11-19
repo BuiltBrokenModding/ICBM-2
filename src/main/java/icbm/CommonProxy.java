@@ -1,15 +1,9 @@
 package icbm;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import icbm.content.entity.EntityMissile;
-import icbm.content.tile.ex.TileExplosive;
+import icbm.content.missile.EntityMissile;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import resonant.api.items.IItemFrequency;
-import resonant.lib.gui.ContainerDummy;
 import resonant.lib.prefab.AbstractProxy;
 import resonant.lib.transform.vector.Vector3;
 

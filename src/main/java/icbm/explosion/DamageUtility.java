@@ -1,4 +1,4 @@
-package icbm.content;
+package icbm.explosion;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

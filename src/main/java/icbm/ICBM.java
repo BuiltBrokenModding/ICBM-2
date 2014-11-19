@@ -3,13 +3,14 @@ package icbm;
 import cpw.mods.fml.common.*;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import icbm.content.entity.*;
-import icbm.content.items.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import icbm.content.tile.ex.TileExplosive;
+import icbm.content.missile.EntityMissile;
+import icbm.content.missile.ItemMissile;
+import icbm.content.rocketlauncher.ItemRocketLauncher;
+import icbm.content.warhead.TileExplosive;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
@@ -33,7 +34,6 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 import org.modstats.ModstatInfo;
 import org.modstats.Modstats;
-import resonant.api.explosion.ExplosionEvent;
 import resonant.content.loader.ModManager;
 import resonant.lib.config.Config;
 import resonant.lib.config.ConfigHandler;
@@ -321,45 +321,6 @@ public final class ICBM
                 //evt.entityLiving.dropItem(ICBM.itemSulfurDust, 1 + evt.entityLiving.worldObj.rand.nextInt(6));
             }
         }
-    }
-
-    @SubscribeEvent
-    public void preDetonationEvent(ExplosionEvent.ExplosivePreDetonationEvent evt)
-    {
-        /** if (FlagRegistry.getModFlag() != null && evt.explosion instanceof Explosive)
-         {
-         if (((Explosive) evt.explosion).isBannedInRegion(evt.world, evt.x, evt.y, evt.z))
-         {
-         ICBMCore.LOGGER.fine("ICBM prevented explosive:" + evt.x + ", " + evt.y + "," + evt.z);
-         evt.setCanceled(true);
-         }
-         } */
-    }
-
-    @SubscribeEvent
-    public void preConstructionEvent(ExplosionEvent.ExplosionConstructionEvent evt)
-    {
-        /** if (FlagRegistry.getModFlag() != null && evt.iExplosion instanceof Explosive)
-         {
-         if (((Explosive) evt.iExplosion).isBannedInRegion(evt.world, evt.x, evt.y, evt.z))
-         {
-         ICBMCore.LOGGER.fine("ICBM prevented explosive:" + evt.x + ", " + evt.y + "," + evt.z);
-         evt.setCanceled(true);
-         }
-         } */
-    }
-
-    @SubscribeEvent
-    public void preExplosionEvent(ExplosionEvent.PreExplosionEvent evt)
-    {
-        /** if (FlagRegistry.getModFlag() != null && evt.iExplosion instanceof Explosive)
-         {
-         if (((Explosive) evt.iExplosion).isBannedInRegion(evt.world, evt.x, evt.y, evt.z))
-         {
-         ICBMCore.LOGGER.fine("ICBM prevented explosive:" + evt.x + ", " + evt.y + "," + evt.z);
-         evt.setCanceled(true);
-         }
-         } */
     }
 
     @SubscribeEvent

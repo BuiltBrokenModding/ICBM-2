@@ -1,5 +1,5 @@
 package icbm;
-import icbm.content.entity.EntityMissile;
+import icbm.content.missile.EntityMissile;
 
 import java.util.List;
 
