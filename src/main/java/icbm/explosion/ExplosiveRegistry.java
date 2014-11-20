@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import cpw.mods.fml.common.eventhandler.Event;
+import icbm.explosion.thread.ThreadExplosion;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import icbm.api.event.ExplosiveEvent;
@@ -12,6 +13,7 @@ import icbm.api.explosion.IExplosiveBlast;
 import icbm.api.explosion.TriggerCause;
 import resonant.engine.References;
 import resonant.lib.transform.vector.Vector3;
+import resonant.lib.transform.vector.VectorWorld;
 
 /** Registry for all explosive which create blasts for anything from bombs to missiles */
 public final class ExplosiveRegistry
@@ -51,8 +53,8 @@ public final class ExplosiveRegistry
                 blast.doEffectOther(world, x, y, z, triggerCause);
                 if(blast.shouldThreadExplosion(triggerCause))
                 {
-                    //TODO create thread for calculations and have it que to effect world
-                    //Make sure thread handles its own event calls
+                    ThreadExplosion thread = new ThreadExplosion(new VectorWorld(world, x, y, z), blast, ex, triggerCause);
+                    thread.start();
                 }
                 else
                 {

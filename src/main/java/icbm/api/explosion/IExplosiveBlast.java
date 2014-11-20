@@ -15,7 +15,9 @@ import java.util.Collection;
 public interface IExplosiveBlast
 {
     /**
-     * Should the result of the blast be threaded to reduce impact on server preformance
+     * Should the result of the blast be threaded to reduce impact on server performance. Only
+     * thread an explosive if its rather larger as creating threads for a single small explosives
+     * is wasteful.
      * @param triggerCause
      * @return true if it should be threaded, false if the explosion doesn't effect blocks or is very small
      */
