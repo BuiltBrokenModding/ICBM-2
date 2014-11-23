@@ -23,6 +23,10 @@ task makePretty(type: Delete) {
   delete 'output'
 }
 
+clean{
+   dependsOn makePretty
+}
+
 def ENV = System.getenv()
 
 ext.buildProps = file "build.properties"
