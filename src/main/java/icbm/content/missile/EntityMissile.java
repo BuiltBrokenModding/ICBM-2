@@ -7,12 +7,14 @@ import icbm.IChunkLoadHandler;
 import icbm.Reference;
 import icbm.Settings;
 import icbm.api.IMissile;
+import icbm.content.ItemSaveUtil;
 import icbm.explosion.DamageUtility;
 import icbm.explosion.ExplosiveRegistry;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -46,6 +48,7 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
     }
 
     public static final float SPEED = 0.012F;
+    public final List<ChunkCoordIntPair> loadedChunks = new ArrayList<ChunkCoordIntPair>();
 
     public String explosiveID = null;
     public int maxHeight = 200;
@@ -132,8 +135,39 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         this.setRotation(yaw, pitch);
     }
 
+    /** Fires a missile from the entity using its facing direction and location. For more
+     * complex launching options create your own implementation.
+     *
+     * @param entity - entity that is firing the missile, most likely a player with a launcher
+     * @param missile - item stack that represents the missile plus explosive settings to fire
+     */
+    public static void fireMissileByEntity(EntityLivingBase entity, ItemStack missile)
+    {
+        World world = entity.worldObj;
+        Vector3 launcher = new Vector3(entity).add(new Vector3(0, 0.5, 0));
+        Vector3 playerAim = new Vector3(entity.getLook(1));
+        Vector3 start = launcher.add(playerAim.multiply(1.1));
+        Vector3 target = launcher.add(playerAim.multiply(100));
 
-    public String getEntityName()
+        EntityMissile entityMissile = new EntityMissile(world, start, ItemSaveUtil.getExplosive(missile).getUnlocalizedName(), -entity.rotationYaw, -entity.rotationPitch);
+        entity.worldObj.spawnEntityInWorld(entityMissile);
+
+        if (entity instanceof EntityPlayer && entity.isSneaking())
+        {
+            entity.mountEntity(entityMissile);
+            entity.setSneaking(false);
+        }
+
+        entityMissile.ignore(entity);
+        entityMissile.launch(target);
+
+        //Player audio effect
+        world.playSoundAtEntity(entityMissile, Reference.PREFIX + "missilelaunch", 4F, (1.0F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F) * 0.7F);
+
+    }
+
+    @Override
+    public String getCommandSenderName()
     {
         return ExplosiveRegistry.get(this.explosiveID).toString();
     }
@@ -180,17 +214,21 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
         }
     }
 
+    /** Tells the missile to launch at the location
+     * @param target - location to aim for, ignored for Dumb fired missiles */
     public void launch(Vector3 target)
     {
         this.startPos = new Vector3(this);
         this.targetVector = target;
         this.targetHeight = this.targetVector.yi();
         this.ticksInAir = 0;
-        this.recalculatePath();
-        this.worldObj.playSoundAtEntity(this, Reference.PREFIX + "missilelaunch", 4F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+
+        if(missileType == MissileType.GUIDED)
+            this.recalculatePath();
         // TODO add an event system here
-        RadarRegistry.register(this);
-        Reference.LOGGER.info("Launching " + this.getEntityName() + " (" + this.getEntityId() + ") from " + startPos.xi() + ", " + startPos.yi() + ", " + startPos.zi() + " to " + targetVector.xi() + ", " + targetVector.yi() + ", " + targetVector.zi());
+
+        //TODO RadarRegistry.register(this);
+        //TODO Reference.LOGGER.info("Launching " + this.getEntityName() + " (" + this.getEntityId() + ") from " + startPos.xi() + ", " + startPos.yi() + ", " + startPos.zi() + " to " + targetVector.xi() + ", " + targetVector.yi() + ", " + targetVector.zi());
     }
 
     public void launch(Vector3 target, int height)
@@ -256,8 +294,6 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
             }
         }
     }
-
-    final List<ChunkCoordIntPair> loadedChunks = new ArrayList<ChunkCoordIntPair>();
 
     public void updateLoadChunk(int newChunkX, int newChunkZ)
     {
