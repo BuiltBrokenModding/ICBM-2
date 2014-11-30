@@ -75,6 +75,6 @@ public class ItemMissile extends Item
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
     {
         super.addInformation(stack, player, list, bool);
-        list.add(LanguageUtility.getLocal(getUnlocalizedName() + ".explosive") + ": " + getExplosive(stack));
+        list.add(LanguageUtility.getLocal("info.icbm:warhead.loaded") + ": " + getExplosive(stack));
     }
 }

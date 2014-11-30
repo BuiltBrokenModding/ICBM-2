@@ -28,7 +28,7 @@ public class RenderMissile extends Render implements IItemRenderer
     public static final HashMap<IExplosive, IModelCustom> cache = new HashMap<IExplosive, IModelCustom>();
 
     public static final IModelCustom defaultMissile = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PREFIX + "missile_conventional.tcn"));
-    public final static ResourceLocation TEXTURE = new ResourceLocation(References.DOMAIN, Reference.MODEL_TEXTURE_PATH + "missile_condensed.png");
+    public final static ResourceLocation TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_TEXTURE_PATH + "missile_condensed.png");
 
     public RenderMissile(float f)
     {

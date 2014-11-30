@@ -55,7 +55,7 @@ import resonant.lib.transform.vector.Vector3;
 /** Main class for ICBM core to run on. The core will need to be initialized by each ICBM module.
  * 
  * @author Calclavia */
-@Mod(modid = Reference.NAME, name = Reference.NAME, version = Reference.VERSION, dependencies = "after:ResonantInduction|Atomic;required-after:ResonantEngine")
+@Mod(modid = Reference.NAME, name = Reference.NAME, version = Reference.VERSION, dependencies = "required-after:ResonantEngine")
 @ModstatInfo(prefix = "icbm", name = Reference.NAME, version = Reference.VERSION)
 public final class ICBM
 {

@@ -48,6 +48,6 @@ public class ItemBlockExplosive extends ItemBlock
         super.addInformation(stack, player, lines, b);
         IExplosive ex = getExplosive(stack);
         if(ex != null)
-            lines.add(LanguageUtility.getLocal("info.explosive") + ": " + getExplosive(stack).getUnlocalizedName());
+            lines.add(LanguageUtility.getLocal("info.icbm:warhead.loaded") + ": " + getExplosive(stack).getUnlocalizedName());
     }
 }
