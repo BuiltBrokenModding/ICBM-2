@@ -30,8 +30,6 @@ public class Reference
     public static final String MODEL_TEXTURE_PATH = TEXTURE_PATH + MODEL_PREFIX;
     public static final String BLOCK_PATH = TEXTURE_PATH + "blocks/";
     public static final String ITEM_PATH = TEXTURE_PATH + "items/";
-    public static final String LANGUAGE_PATH = ASSETS_PATH + "languages/";
-    public static final String[] LANGUAGES = new String[] { "en_US", "zh_CN", "es_ES", "de_DE", "ru_RU"};
 
     public static final Logger LOGGER = Logger.getLogger(Reference.NAME);
 

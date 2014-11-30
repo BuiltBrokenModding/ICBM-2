@@ -1,5 +1,7 @@
 package icbm.content.missile;
 
+import cpw.mods.fml.client.FMLClientHandler;
+import icbm.Reference;
 import icbm.content.missile.EntityMissile.MissileType;
 
 import java.util.HashMap;
@@ -9,6 +11,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
+import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
@@ -16,12 +19,16 @@ import org.lwjgl.opengl.GL11;
 import icbm.api.explosion.IExplosive;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import resonant.engine.References;
 
 @SideOnly(Side.CLIENT)
 /** @author Calclavia */
 public class RenderMissile extends Render implements IItemRenderer
 {
     public static final HashMap<IExplosive, IModelCustom> cache = new HashMap<IExplosive, IModelCustom>();
+
+    public static final IModelCustom defaultMissile = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PREFIX + "missile_conventional.tcn"));
+    public final static ResourceLocation TEXTURE = new ResourceLocation(References.DOMAIN, Reference.MODEL_TEXTURE_PATH + "missile_condensed.png");
 
     public RenderMissile(float f)
     {
@@ -45,19 +52,9 @@ public class RenderMissile extends Render implements IItemRenderer
             GL11.glScalef(0.5f, 0.5f, 0.5f);
             GL11.glTranslated(-2, 0, 0);
         }
-        /**
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(missile.getMissileResource());
-        synchronized (cache)
-        {
-            if (!RenderMissile.cache.containsKey(missile))
-            {
 
-                RenderMissile.cache.put(missile, missile.getMissileModel());
-
-            }
-            RenderMissile.cache.get(missile).renderAll();
-        }
-        */
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
+        defaultMissile.renderAll();
         GL11.glPopMatrix();
     }
 
@@ -134,18 +131,8 @@ public class RenderMissile extends Render implements IItemRenderer
 
             GL11.glScalef(scale, scale, scale);
 
-            //FMLClientHandler.instance().getClient().renderEngine.bindTexture(missile.getMissileResource());
-
-            synchronized (RenderMissile.cache)
-            {
-                if (!RenderMissile.cache.containsKey(missile))
-                {
-                    //RenderMissile.cache.put(missile, missile.getMissileModel());
-                }
-                IModelCustom model = RenderMissile.cache.get(missile);
-                if(model != null)
-                    model.renderAll();
-            }
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
+            defaultMissile.renderAll();
         }
     }
 }
