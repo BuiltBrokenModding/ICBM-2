@@ -17,3 +17,4 @@ output/
 *.bat
 
 !*.lang
+run/

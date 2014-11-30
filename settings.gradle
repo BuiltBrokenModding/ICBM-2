@@ -1,2 +1,0 @@
-rootProject.name = 'ICBM Core'
-include 'explosion', 'sentry'
