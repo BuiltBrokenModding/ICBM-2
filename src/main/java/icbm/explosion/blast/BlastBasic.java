@@ -20,7 +20,7 @@ public class BlastBasic extends Blast
     public BlastBasic(World world, int x, int y, int z, int size)
     {
         super(world, x, y, z, size);
-        float e = ((size * 2) + 1) * 50;
+        float e = (((size * 2) + 1) * 2) / 5;
         e = e * e * e;
 
         for(int i = 0; i < 6; i++)
