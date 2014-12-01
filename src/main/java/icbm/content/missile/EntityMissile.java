@@ -374,32 +374,6 @@ public class EntityMissile extends Entity implements IChunkLoadHandler, IExplosi
 
                     }
                 }
-
-                boolean stopped = false;
-                //Handle collision with blocks
-                Block block = this.worldObj.getBlock((int) this.posX, (int) this.posY, (int) this.posZ);
-                if(block != null && !block.isAir(worldObj, (int) posX, (int) posY, (int) posZ) && !(block instanceof  IFluidBlock || block instanceof BlockLiquid))
-                {
-                    stopped = onCollideWithBlock(block, (int) posX, (int) posY, (int) posZ);
-                }
-
-                //Missile stopped moving
-                if (this.motionX <= 0.001 && this.motionY <= 0.001 && this.motionZ <= 0.001)
-                {
-                  stopped = true;
-                }
-
-                // If the missile contacts anything, it will explode.
-                if (this.isCollided)
-                {
-                    stopped = true;
-                }
-
-                if(!stopped)
-                    this.moveEntity(this.motionX, this.motionY, this.motionZ);
-                else
-                    onStopped();
-
             }
 
             // Set rotation to face motion vector
