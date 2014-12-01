@@ -5,6 +5,9 @@ import icbm.explosion.Blast;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.apache.logging.log4j.Level;
+import resonant.engine.References;
+import resonant.lib.transform.vector.IVector3;
 import resonant.lib.transform.vector.Vector3;
 
 import java.util.Collection;
@@ -16,11 +19,13 @@ import java.util.List;
 public class BlastBasic extends Blast
 {
     protected float[] energy = new float[6];
+    protected double radius = 0;
 
     public BlastBasic(World world, int x, int y, int z, int size)
     {
         super(world, x, y, z, size);
-        float e = (((size * 2) + 1) * 2) / 5;
+        radius = size * 1.5;
+        float e = (float)radius + 1;
         e = e * e * e;
 
         for(int i = 0; i < 6; i++)
@@ -46,20 +51,14 @@ public class BlastBasic extends Blast
                 }
             }
         } */
+        list.add(new Vector3(x, y, z));
         for(int i = 0; i <= size; i++)
         {
-            if(i == 0)
+            for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
             {
-                list.add(new Vector3(x, y, z));
-            }
-            else
-            {
-                for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
+                if (energy[dir.ordinal()] >= 1)
                 {
-                    if (energy[dir.ordinal()] >= 1)
-                    {
-                        expand(triggerCause, list, dir, i);
-                    }
+                    expand(triggerCause, list, dir, i + 1);
                 }
             }
         }
@@ -71,6 +70,7 @@ public class BlastBasic extends Blast
         {
             for(int b = -d; b <= d; b++)
             {
+                References.LOGGER.log(Level.INFO,"F:" + side + " A:" + a +"  B:" + b +" D:" +d);
                 Vector3 v = null;
                 switch (side)
                 {
@@ -80,14 +80,12 @@ public class BlastBasic extends Blast
                     case SOUTH:
                         v = new Vector3(x + a, y + b, z + d);
                         break;
-
                     case EAST:
                         v = new Vector3(x + d, y + b, z + a);
                         break;
                     case WEST:
                         v = new Vector3(x - d, y + b, z + a);
                         break;
-
                     case DOWN:
                         v = new Vector3(x + a, y - d, z + b);
                         break;
@@ -102,7 +100,7 @@ public class BlastBasic extends Blast
 
     protected void effectBlock(Vector3 vec, TriggerCause triggerCause, List<Vector3> list, ForgeDirection side)
     {
-        if(!list.contains(vec))
+        if(!list.contains(vec) && vec.distance(this) < radius)
         {
             Block block = vec.getBlock(world);
             if (block != null)

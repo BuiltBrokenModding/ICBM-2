@@ -7,12 +7,16 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import icbm.api.explosion.IExplosiveBlast;
+import icbm.api.explosion.TriggerCause;
 import icbm.content.missile.EntityMissile;
 import icbm.content.missile.ItemMissile;
 import icbm.content.missile.MissileChunkLoaderManager;
 import icbm.content.rocketlauncher.ItemRocketLauncher;
 import icbm.content.warhead.TileExplosive;
 import icbm.explosion.ExplosiveRegistry;
+import icbm.explosion.blast.BlastBasic;
+import icbm.explosion.blast.BlastInvert;
 import icbm.explosion.explosive.Explosive;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
@@ -115,6 +119,14 @@ public final class ICBM
 
         //Explosives
         ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test"));
+        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test_inverted")
+        {
+            @Override
+            public IExplosiveBlast tryToTriggerExplosion(World world, double x, double y, double z, TriggerCause triggerCause, int yieldMultiplier)
+            {
+                return new BlastInvert(world, (int)x, (int)y, (int)z, 5 * yieldMultiplier);
+            }
+        });
 
         /** Decrease Obsidian Resistance */
         Blocks.obsidian.setResistance(Settings.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Reduce Obsidian Resistance", 45).getInt(45));

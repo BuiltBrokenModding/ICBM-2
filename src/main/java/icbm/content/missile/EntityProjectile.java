@@ -226,7 +226,7 @@ public class EntityProjectile extends Entity implements IProjectile
     protected boolean ignoreCollisionForEntity(Entity entity)
     {
         //Prevent collision with firing entity for first few ticks
-        if(entity == firedByEntity && getTicksInAir() <= 5)
+        if(entity == firedByEntity && getTicksInAir() <= 50)
         {
             return true;
         }

@@ -29,7 +29,7 @@ import resonant.lib.transform.vector.Vector3;
  */
 public class EntityMissile extends EntityProjectile implements IExplosiveContainer, IMissile
 {
-
+    /** String ID for the explosive this missile carries */
     public String explosiveID = null;
 
     public EntityMissile(World w)
@@ -45,7 +45,6 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     public EntityMissile(World w, Vector3 startAndSource)
     {
         super(w, startAndSource);
-        this.onStoppedMoving();
     }
 
     /**
@@ -71,7 +70,7 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     @Override
     public String getCommandSenderName()
     {
-        return ExplosiveRegistry.get(this.explosiveID).toString();
+        return ExplosiveRegistry.get(this.explosiveID) == null ? "Missile Module" : "Missile with " + ExplosiveRegistry.get(this.explosiveID).toString() + " warhead";
     }
 
     /**
@@ -116,9 +115,6 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
         }
     }
 
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
     @Override
     protected void readEntityFromNBT(NBTTagCompound nbt)
     {
@@ -126,9 +122,6 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
         this.explosiveID = nbt.getString("explosiveString");
     }
 
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
     @Override
     protected void writeEntityToNBT(NBTTagCompound nbt)
     {
@@ -157,6 +150,6 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     protected void onImpact()
     {
         super.onImpact();
-        ExplosiveRegistry.triggerExplosive(worldObj, posX, posY, posZ, getExplosive(), new TriggerCause.TriggerCauseEntity(this), 1);
+        ExplosiveRegistry.triggerExplosive(worldObj, posX, posY, posZ, getExplosive(), new TriggerCause.TriggerCauseEntity(this), 5);
     }
 }
