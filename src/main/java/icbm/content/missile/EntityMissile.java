@@ -59,8 +59,8 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
 
         EntityMissile entityMissile = new EntityMissile(entity);
         entityMissile.setExplosive(missile);
-        entityMissile.setTicksInAir(1);
-        entityMissile.setMotion(1);
+        //entityMissile.setTicksInAir(1);
+        //entityMissile.setMotion(1);
         entityMissile.worldObj.spawnEntityInWorld(entityMissile);
 
 
@@ -152,7 +152,7 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     @Override
     protected void onStoppedMoving()
     {
-        onImpact();
+        //onImpact();
     }
 
     @Override

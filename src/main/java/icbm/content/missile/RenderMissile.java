@@ -38,19 +38,14 @@ public class RenderMissile extends Render implements IItemRenderer
     public void doRender(Entity entity, double x, double y, double z, float f, float f1)
     {
         EntityMissile entityMissile = (EntityMissile) entity;
-        IExplosive e = entityMissile.getExplosive();
-
 
         GL11.glPushMatrix();
+        GL11.glScalef(0.5f, 0.5f, 0.5f);
         GL11.glTranslated(x, y - 1, z);
-        GL11.glRotatef(entityMissile.prevRotationYaw + (entityMissile.rotationYaw - entityMissile.prevRotationYaw) * f1 - 90.0F, 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(entityMissile.prevRotationPitch + (entityMissile.rotationPitch - entityMissile.prevRotationPitch) * f1 - 90, 0.0F, 0.0F, 1.0F);
-
-        //if (entityMissile.missileType == MissileType.DUMMY)
-        //{
-            GL11.glScalef(0.5f, 0.5f, 0.5f);
-            GL11.glTranslated(-2, 0, 0);
-        //}
+        float yaw = interpolateRotation(-entity.prevRotationYaw  + 90, -entity.rotationYaw  + 90, f1);
+       
+        GL11.glRotatef(yaw, 0.0F, 1.0F, 0.0F);
+        GL11.glRotatef(interpolateRotation(entity.prevRotationPitch, entity.rotationPitch, f1) + 90, 0.0F, 0.0F, 1.0F);
 
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
         defaultMissile.renderAll();
@@ -90,21 +85,6 @@ public class RenderMissile extends Render implements IItemRenderer
                 scale = 0.4f;
                 right = -0.5f;
 
-                //if (missile.getTier() == 2 || !missile.hasBlockForm())
-                //{
-                //    scale = scale / 1.5f;
-                //}
-                //else if (missile.getTier() == 3)
-                //{
-                //    scale = scale / 1.7f;
-                //    right = -0.65f;
-                //}
-                //else if (missile.getTier() == 4)
-                //{
-                //    scale = scale / 1.4f;
-                //    right = -0.45f;
-                //}
-
                 GL11.glTranslatef(right, 0f, 0f);
             }
 
@@ -133,5 +113,22 @@ public class RenderMissile extends Render implements IItemRenderer
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
             defaultMissile.renderAll();
         }
+    }
+
+    private float interpolateRotation(float prev, float rotation, float f)
+    {
+        float f3 = rotation - prev;
+
+        while(f3 < - 180.0F)
+        {
+            f3 += 360.0F;
+        }
+
+        while (f3 >= 180.0F)
+        {
+            f3 -= 360.0F;
+        }
+
+        return prev + f * f3;
     }
 }
