@@ -9,6 +9,7 @@ import icbm.api.explosion.TriggerCause;
 import icbm.content.ItemSaveUtil;
 import icbm.explosion.DamageUtility;
 import icbm.explosion.ExplosiveRegistry;
+import icbm.explosion.explosive.Explosive;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -56,14 +57,11 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
      */
     public static void fireMissileByEntity(EntityLivingBase entity, ItemStack missile)
     {
-
         EntityMissile entityMissile = new EntityMissile(entity);
         entityMissile.setExplosive(missile);
         entityMissile.setTicksInAir(1);
         entityMissile.setMotion(1);
         entityMissile.worldObj.spawnEntityInWorld(entityMissile);
-
-
 
         //Player audio effect
         entityMissile.worldObj.playSoundAtEntity(entityMissile, Reference.PREFIX + "missilelaunch", 4F, (1.0F + (entityMissile.worldObj.rand.nextFloat() - entityMissile.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
@@ -159,6 +157,6 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     protected void onImpact()
     {
         super.onImpact();
-        getExplosive().tryToTriggerExplosion(worldObj, posX, posY, posZ,  new TriggerCause.TriggerCauseEntity(this), 1);
+        ExplosiveRegistry.triggerExplosive(worldObj, posX, posY, posZ, getExplosive(), new TriggerCause.TriggerCauseEntity(this), 1);
     }
 }
