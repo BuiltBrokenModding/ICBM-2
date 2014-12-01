@@ -43,7 +43,7 @@ public class RenderMissile extends Render implements IItemRenderer
         GL11.glScalef(0.5f, 0.5f, 0.5f);
         GL11.glTranslated(x, y - 1, z);
         float yaw = interpolateRotation(-entity.prevRotationYaw  + 90, -entity.rotationYaw  + 90, f1);
-       
+
         GL11.glRotatef(yaw, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(interpolateRotation(entity.prevRotationPitch, entity.rotationPitch, f1) + 90, 0.0F, 0.0F, 1.0F);
 
