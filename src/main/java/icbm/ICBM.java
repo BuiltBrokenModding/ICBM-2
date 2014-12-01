@@ -291,7 +291,7 @@ public final class ICBM
     {
         if (evt.entity instanceof EntityMissile)
         {
-            ((EntityMissile) evt.entity).updateLoadChunk(evt.newChunkX, evt.newChunkZ);
+            //((EntityMissile) evt.entity).updateLoadChunk(evt.newChunkX, evt.newChunkZ);
         }
     }
 

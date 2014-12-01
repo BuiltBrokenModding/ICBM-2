@@ -1,12 +1,17 @@
 package icbm.content.missile;
 
+import cpw.mods.fml.common.network.ByteBufUtils;
+import icbm.explosion.DamageUtility;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
@@ -21,18 +26,40 @@ import resonant.lib.transform.vector.Vector3;
 public class EntityProjectile extends Entity implements IProjectile
 {
     protected Vector3 sourceOfProjectile = null;
+    protected Entity firedByEntity = null;
 
-    protected int _ticksInAir = -1;
-    protected int _ticksInGround = -1;
+    protected boolean canDamage = false;
+
+    private int _ticksInAir = -1;
+    private int _ticksInGround = -1;
+    private float _health = -1;
 
     public EntityProjectile(World w)
     {
         super(w);
+        this.setSize(1F, 1F);
+        this.renderDistanceWeight = 3;
+        this.isImmuneToFire = true;
+        this.ignoreFrustumCheck = true;
+    }
+
+    public EntityProjectile(EntityLivingBase entity)
+    {
+        this(entity.worldObj);
+        Vector3 launcher = new Vector3(entity).add(new Vector3(0, 0.5, 0));
+        Vector3 playerAim = new Vector3(entity.getLook(1));
+        Vector3 start = launcher.add(playerAim.multiply(1.1));
+
+        this.firedByEntity = entity;
+        this.sourceOfProjectile = start;
+        this.setPosition(start.x(), start.y(), start.z());
+        this.rotationYaw = entity.rotationYaw;
+        this.rotationPitch = entity.rotationPitch;
     }
 
     public EntityProjectile(World w, Vector3 startAndSource)
     {
-        super(w);
+        this(w);
         this.sourceOfProjectile = startAndSource;
         this.setPosition(startAndSource.x(), startAndSource.y(), startAndSource.z());
     }
@@ -40,7 +67,9 @@ public class EntityProjectile extends Entity implements IProjectile
     @Override
     protected void entityInit()
     {
-        this.dataWatcher.addObject(16, -1);
+        this.dataWatcher.addObject(6, _health);
+        this.dataWatcher.addObject(17, _ticksInAir);
+        this.dataWatcher.addObject(16, _ticksInGround);
     }
 
     @Override
@@ -125,6 +154,8 @@ public class EntityProjectile extends Entity implements IProjectile
     /** Called each tick to update motion and angles of the entity */
     protected void updateMotion()
     {
+        this.rotationPitch = (float) (Math.atan(this.motionY / (Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ))) * 180 / Math.PI);
+        this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180 / Math.PI);
         if(isCollided)
         {
             motionX = 0;
@@ -194,6 +225,11 @@ public class EntityProjectile extends Entity implements IProjectile
      */
     protected boolean ignoreCollisionForEntity(Entity entity)
     {
+        //Prevent collision with firing entity for first few ticks
+        if(entity == firedByEntity && getTicksInAir() <= 5)
+        {
+            return true;
+        }
         return false;
     }
 
@@ -202,8 +238,9 @@ public class EntityProjectile extends Entity implements IProjectile
     {
         if(nbt.hasKey("startPos"))
             sourceOfProjectile = new Vector3(nbt.getCompoundTag("startPos"));
-        this._ticksInAir = nbt.getInteger("ticksInAir");
-        this._ticksInGround = nbt.getInteger("ticksInGround");
+        _ticksInAir = nbt.getInteger("ticksInAir");
+        _ticksInGround = nbt.getInteger("ticksInGround");
+        _health = nbt.getFloat("health");
     }
 
     @Override
@@ -211,8 +248,9 @@ public class EntityProjectile extends Entity implements IProjectile
     {
         if(sourceOfProjectile != null)
             nbt.setTag("startPos", sourceOfProjectile.writeNBT(new NBTTagCompound()));
-        nbt.setInteger("ticksInAir", this._ticksInAir);
-        nbt.setInteger("ticksInGround", this._ticksInGround);
+        nbt.setInteger("ticksInAir", this.getTicksInAir());
+        nbt.setInteger("ticksInGround", this.getTicksInGround());
+        nbt.setFloat("health", this.getHealth());
     }
 
     @Override
@@ -247,6 +285,42 @@ public class EntityProjectile extends Entity implements IProjectile
         this.setTicksInAir(0);
     }
 
+    public void setMotion(int power)
+    {
+        motionX = (double)(-MathHelper.sin(rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(rotationPitch / 180.0F * (float)Math.PI));
+        motionZ = (double)(MathHelper.cos(rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(rotationPitch / 180.0F * (float)Math.PI));
+        motionY = (double)(-MathHelper.sin(rotationPitch / 180.0F * (float)Math.PI));
+
+        motionX *= power;
+        motionY *= power;
+        motionZ *= power;
+    }
+
+    @Override
+    public boolean attackEntityFrom(DamageSource source, float damage)
+    {
+        if (canDamage && DamageUtility.canHarm(this, source, damage))
+        {
+            this.setHealth(Math.max(getHealth() - damage, 0));
+            if (getHealth() <= 0)
+            {
+                onDestroyedBy(source, damage);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Called when the projectile is destroyed by damage source
+     * @param source - source of damage
+     * @param damage - amount of damage
+     */
+    protected void onDestroyedBy(DamageSource source, float damage)
+    {
+        this.setDead();
+    }
+
     @Override
     public boolean canBeCollidedWith()
     {
@@ -255,6 +329,10 @@ public class EntityProjectile extends Entity implements IProjectile
 
     public int getTicksInGround()
     {
+        if(worldObj == null || !worldObj.isRemote)
+        {
+            return _ticksInGround;
+        }
         return this.dataWatcher.getWatchableObjectInt(16);
     }
 
@@ -262,12 +340,17 @@ public class EntityProjectile extends Entity implements IProjectile
     {
         if (!this.worldObj.isRemote)
         {
+            _ticksInGround = ticks;
             this.dataWatcher.updateObject(16, ticks);
         }
     }
 
     public int getTicksInAir()
     {
+        if(worldObj == null || !worldObj.isRemote)
+        {
+            return _ticksInAir;
+        }
         return this.dataWatcher.getWatchableObjectInt(17);
     }
 
@@ -275,7 +358,28 @@ public class EntityProjectile extends Entity implements IProjectile
     {
         if (!this.worldObj.isRemote)
         {
+            _ticksInAir = ticks;
             this.dataWatcher.updateObject(17, ticks);
         }
+    }
+
+    public final float getHealth()
+    {
+        if(worldObj == null || !worldObj.isRemote)
+        {
+            return _health;
+        }
+        return this.dataWatcher.getWatchableObjectFloat(6);
+    }
+
+    public void setHealth(float p_70606_1_)
+    {
+        _health = p_70606_1_;
+        this.dataWatcher.updateObject(6, Float.valueOf(MathHelper.clamp_float(p_70606_1_, 0.0F, this.getMaxHealth())));
+    }
+
+    public float getMaxHealth()
+    {
+        return 5;
     }
 }

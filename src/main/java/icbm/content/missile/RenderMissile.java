@@ -2,7 +2,6 @@ package icbm.content.missile;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import icbm.Reference;
-import icbm.content.missile.EntityMissile.MissileType;
 
 import java.util.HashMap;
 
@@ -47,11 +46,11 @@ public class RenderMissile extends Render implements IItemRenderer
         GL11.glRotatef(entityMissile.prevRotationYaw + (entityMissile.rotationYaw - entityMissile.prevRotationYaw) * f1 - 90.0F, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(entityMissile.prevRotationPitch + (entityMissile.rotationPitch - entityMissile.prevRotationPitch) * f1 - 90, 0.0F, 0.0F, 1.0F);
 
-        if (entityMissile.missileType == MissileType.DUMMY)
-        {
+        //if (entityMissile.missileType == MissileType.DUMMY)
+        //{
             GL11.glScalef(0.5f, 0.5f, 0.5f);
             GL11.glTranslated(-2, 0, 0);
-        }
+        //}
 
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
         defaultMissile.renderAll();
