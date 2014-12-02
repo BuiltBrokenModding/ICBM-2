@@ -26,6 +26,12 @@ public class BlastBasic extends Blast
     public BlastBasic(World world, int x, int y, int z, int size)
     {
         super(world, x, y, z, size);
+    }
+
+    @Override
+    public BlastBasic setYield(int size)
+    {
+        super.setYield(size);
         radius = size * 1.5;
         float e = (float)radius + 1;
         e = e * e * e;
@@ -34,6 +40,7 @@ public class BlastBasic extends Blast
         {
             energy[i] = e / 6;
         }
+        return this;
     }
 
     @Override
@@ -72,7 +79,6 @@ public class BlastBasic extends Blast
         {
             for(int b = -d; b <= d; b++)
             {
-                References.LOGGER.log(Level.INFO,"F:" + side + " A:" + a +"  B:" + b +" D:" +d);
                 Vector3 v = null;
                 switch (side)
                 {

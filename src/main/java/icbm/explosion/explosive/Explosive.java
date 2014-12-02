@@ -24,21 +24,22 @@ public class Explosive implements IExplosive
     }
 
     @Override
-    public IExplosiveBlast tryToTriggerExplosion(World world, double x, double y, double z, TriggerCause triggerCause, int yieldMultiplier)
+    public IExplosiveBlast createBlastForTrigger(World world, double x, double y, double z, TriggerCause triggerCause, int yieldMultiplier)
     {
+        System.out.println("Creating explosive");
         try
         {
-            return blastClass.newInstance();
+            return blastClass.newInstance().setLocation(world, (int)x, (int)y, (int)z).setYield(yieldMultiplier);
         }
         catch (InstantiationException e)
         {
             Reference.LOGGER.log(Level.ERROR, "Failed to create blast object");
-            Reference.LOGGER.catching(Level.ERROR, e);
+            e.printStackTrace();
         }
         catch (IllegalAccessException e)
         {
             Reference.LOGGER.log(Level.ERROR, "Failed to create blast object");
-            Reference.LOGGER.catching(Level.ERROR, e);
+            e.printStackTrace();
         }
         return null;
     }

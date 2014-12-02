@@ -23,7 +23,7 @@ public interface IExplosive
      * @param yieldMultiplier - multiplier the size of the explosive
      * @return
 	 */
-	public IExplosiveBlast tryToTriggerExplosion(World world, double x, double y, double z, TriggerCause triggerCause, int yieldMultiplier);
+	public IExplosiveBlast createBlastForTrigger(World world, double x, double y, double z, TriggerCause triggerCause, int yieldMultiplier);
 
     /**
      * Called when the explosive is registered
