@@ -2,10 +2,9 @@ package icbm.explosion.explosive;
 
 import icbm.Reference;
 import icbm.api.explosion.IExplosive;
-import icbm.api.explosion.IExplosiveBlast;
+import resonant.lib.world.IWorldChangeAction;
 import icbm.api.explosion.TriggerCause;
 import icbm.explosion.Blast;
-import icbm.explosion.blast.BlastBasic;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
 
@@ -24,7 +23,7 @@ public class Explosive implements IExplosive
     }
 
     @Override
-    public IExplosiveBlast createBlastForTrigger(World world, double x, double y, double z, TriggerCause triggerCause, int yieldMultiplier)
+    public IWorldChangeAction createBlastForTrigger(World world, double x, double y, double z, TriggerCause triggerCause, int yieldMultiplier)
     {
         System.out.println("Creating explosive");
         try

@@ -28,6 +28,7 @@ import resonant.lib.network.handle.IPacketReceiver;
 import resonant.lib.transform.vector.Vector3;
 import resonant.lib.transform.vector.VectorWorld;
 import resonant.lib.utility.WrenchUtility;
+import resonant.lib.world.WorldChangeHelper;
 
 import java.util.List;
 
@@ -173,8 +174,8 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
     public void explode(TriggerCause triggerCause)
     {
         //TODO add tier
-        ExplosiveRegistry.TriggerResult result = ExplosiveRegistry.triggerExplosive(world(), x(), y(), z(), ExplosiveRegistry.get(explosiveID), triggerCause, 1);
-        if (result == ExplosiveRegistry.TriggerResult.TRIGGERED)
+        WorldChangeHelper.ChangeResult result = ExplosiveRegistry.triggerExplosive(world(), x(), y(), z(), ExplosiveRegistry.get(explosiveID), triggerCause, 1);
+        if (result == WorldChangeHelper.ChangeResult.COMPLETED)
             world().setBlockToAir(xi(), yi(), zi());
     }
 

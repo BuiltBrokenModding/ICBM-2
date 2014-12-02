@@ -1,6 +1,7 @@
 package icbm.api.explosion;
 
 import net.minecraft.world.World;
+import resonant.lib.world.IWorldChangeAction;
 
 /**
  * Applied to any explosive handler that created a blast. Should only create
@@ -21,9 +22,9 @@ public interface IExplosive
 	 * @param z      The Z-Coord
 	 * @param triggerCause - object that describes what caused the explosion to try
      * @param yieldMultiplier - multiplier the size of the explosive
-     * @return
+     * @return instanceof IWorldChangeAction that tells what blocks and entities are to be effected
 	 */
-	public IExplosiveBlast createBlastForTrigger(World world, double x, double y, double z, TriggerCause triggerCause, int yieldMultiplier);
+	public IWorldChangeAction createBlastForTrigger(World world, double x, double y, double z, TriggerCause triggerCause, int yieldMultiplier);
 
     /**
      * Called when the explosive is registered

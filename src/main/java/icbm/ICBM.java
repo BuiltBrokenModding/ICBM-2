@@ -5,19 +5,14 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import icbm.api.explosion.IExplosiveBlast;
-import icbm.api.explosion.TriggerCause;
 import icbm.content.missile.EntityMissile;
 import icbm.content.missile.ItemMissile;
-import icbm.content.missile.MissileChunkLoaderManager;
 import icbm.content.rocketlauncher.ItemRocketLauncher;
 import icbm.content.warhead.TileExplosive;
 import icbm.explosion.ExplosiveRegistry;
 import icbm.explosion.blast.BlastBasic;
 import icbm.explosion.blast.BlastInvert;
-import icbm.explosion.blast.BlastThreadTest;
 import icbm.explosion.explosive.Explosive;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
@@ -27,9 +22,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
@@ -56,7 +49,6 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import resonant.lib.transform.vector.Vector3;
 
 /** Main class for ICBM core to run on. The core will need to be initialized by each ICBM module.
  * 
@@ -105,7 +97,7 @@ public final class ICBM
         MinecraftForge.EVENT_BUS.register(proxy);
 
         /** Chunk loading handler. */
-        ForgeChunkManager.setForcedChunkLoadingCallback(this, new MissileChunkLoaderManager());
+        //ForgeChunkManager.setForcedChunkLoadingCallback(this, new MissileChunkLoaderManager());
 
         // MODULES TO LOAD INTO MOD PHASE
         //modproxies.applyModule(Waila.class, true);
@@ -122,7 +114,7 @@ public final class ICBM
         //Explosives
         ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test", BlastBasic.class));
         ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test_inverted", BlastInvert.class));
-        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test_thread", BlastThreadTest.class));
+        //ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test_thread", BlastThreadTest.class));
 
         /** Decrease Obsidian Resistance */
         Blocks.obsidian.setResistance(Settings.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Reduce Obsidian Resistance", 45).getInt(45));

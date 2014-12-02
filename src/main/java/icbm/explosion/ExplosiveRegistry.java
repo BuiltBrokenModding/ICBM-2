@@ -1,19 +1,21 @@
 package icbm.explosion;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
 import cpw.mods.fml.common.eventhandler.Event;
-import icbm.explosion.thread.ThreadExplosion;
+import resonant.lib.world.IWorldChangeAction;
+import resonant.lib.world.ThreadWorldChangeAction;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import icbm.api.event.ExplosiveEvent;
 import icbm.api.explosion.IExplosive;
-import icbm.api.explosion.IExplosiveBlast;
 import icbm.api.explosion.TriggerCause;
 import resonant.engine.References;
-import resonant.lib.transform.vector.Vector3;
 import resonant.lib.transform.vector.VectorWorld;
+import resonant.lib.world.Vector3Change;
+import resonant.lib.world.WorldChangeHelper;
+import resonant.lib.world.event.WorldChangeActionEvent;
 
 /** Registry for all explosive which create blasts for anything from bombs to missiles */
 public final class ExplosiveRegistry
@@ -41,61 +43,34 @@ public final class ExplosiveRegistry
         }
     }
 
-    public static TriggerResult triggerExplosive(World world, double x, double y, double z, IExplosive ex, TriggerCause triggerCause, int multi)
+    /** Called to trigger an explosion at the location
+     *
+     * @param ex - explosive handler, used to create the IWorldChangeAction instance
+     * @param triggerCause - cause of the trigger
+     * @param multi - size of the action
+     * @return if the result completed, was blocked, or failed
+     */
+    public static WorldChangeHelper.ChangeResult triggerExplosive(World world, double x, double y, double z, IExplosive ex, TriggerCause triggerCause, int multi)
     {
-        IExplosiveBlast blast = createBlastForTrigger(world, x, y, z, ex, triggerCause, multi);
-        VectorWorld loc = new VectorWorld(world, x, y, z);
-        if(blast != null)
-        {
-            Event event = new ExplosiveEvent.OnBlastCreatedEvent(world, loc, ex, triggerCause, blast);
-            MinecraftForge.EVENT_BUS.post(event);
-            if(!event.isCanceled())
-            {
-                blast.doEffectOther(world, x, y, z, triggerCause);
-                if(blast.shouldThreadExplosion(triggerCause))
-                {
-                    ThreadExplosion thread = new ThreadExplosion(loc, blast, ex, triggerCause);
-                    thread.start();
-                }
-                else
-                {
-                   _doBlast(loc, ex, triggerCause, blast);
-                }
-
-                return TriggerResult.TRIGGERED;
-            }
-            return TriggerResult.BLAST_BLOCKED;
-        }
-        return TriggerResult.NO_BLAST;
+        return triggerExplosive(new VectorWorld(world, x, y, z), ex, triggerCause, multi);
     }
 
-    public static TriggerResult _doBlast(VectorWorld vec, IExplosive ex, TriggerCause triggerCause, IExplosiveBlast blast)
-    {
-        Collection<Vector3> effectedBlocks = blast.getEffectedBlocks(triggerCause);
-        Event event = new ExplosiveEvent.BlocksEffectedExplosiveEvent(vec, ex, triggerCause, blast, effectedBlocks);
-        MinecraftForge.EVENT_BUS.post(event);
-        if(effectedBlocks != null && !effectedBlocks.isEmpty())
-        {
-            for(Vector3 v : effectedBlocks)
-            {
-                blast.doEffectBlock(v, triggerCause);
-            }
-        }
-        return TriggerResult.TRIGGERED;
-    }
-
-    public static IExplosiveBlast createBlastForTrigger(World world, double x, double y, double z, IExplosive ex, TriggerCause triggerCause, int multi)
+    /** Called to trigger an explosion at the location
+     *
+     * @param loc - location in the world
+     * @param ex - explosive handler, used to create the IWorldChangeAction instance
+     * @param triggerCause - cause of the trigger
+     * @param multi - size of the action
+     * @return if the result completed, was blocked, or failed
+     */
+    public static WorldChangeHelper.ChangeResult triggerExplosive(VectorWorld loc, IExplosive ex, TriggerCause triggerCause, int multi)
     {
         if(isRegistered(ex))
         {
-            ExplosiveEvent.OnExplosiveTriggeredEvent event = new ExplosiveEvent.OnExplosiveTriggeredEvent(world, new Vector3(x, y, z), ex, triggerCause);
-            MinecraftForge.EVENT_BUS.post(event);
-            if(!event.isCanceled())
-            {
-                return ex.createBlastForTrigger(world, x, y, z, triggerCause, multi);
-            }
+            IWorldChangeAction blast = ex.createBlastForTrigger(loc.world(), loc.x(), loc.y(), loc.z(), triggerCause, multi);
+            return WorldChangeHelper.doAction(loc, blast, triggerCause);
         }
-        return null;
+        return WorldChangeHelper.ChangeResult.FAILED;
     }
 
     public static boolean isRegistered(IExplosive explosive)
@@ -118,11 +93,5 @@ public final class ExplosiveRegistry
         return idToExplosiveMap;
     }
 
-    public enum TriggerResult
-    {
-        TRIGGERED,
-        NO_BLAST,
-        BLAST_BLOCKED;
-    }
 
 }

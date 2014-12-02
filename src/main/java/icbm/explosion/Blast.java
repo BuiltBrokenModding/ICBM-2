@@ -1,16 +1,17 @@
 package icbm.explosion;
 
+import resonant.lib.world.IWorldChangeAction;
 import net.minecraft.world.World;
-import icbm.api.explosion.IExplosiveBlast;
 import icbm.api.explosion.TriggerCause;
 import resonant.lib.transform.vector.IVectorWorld;
 import resonant.lib.transform.vector.Vector3;
+import resonant.lib.world.Vector3Change;
 
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class Blast implements IExplosiveBlast, IVectorWorld
+public abstract class Blast implements IWorldChangeAction, IVectorWorld
 {
     public World world;
     public int x, y, z;
@@ -40,32 +41,32 @@ public abstract class Blast implements IExplosiveBlast, IVectorWorld
     }
 
     @Override
-    public boolean shouldThreadExplosion(TriggerCause triggerCause)
+    public int shouldThreadAction()
     {
-        return false;
+        return size > 4 ? 20 : -1;
     }
 
     @Override
-    public final Collection<Vector3> getEffectedBlocks(TriggerCause triggerCause)
+    public final Collection<Vector3Change> getEffectedBlocks()
     {
-        List<Vector3> list = new LinkedList<Vector3>();
-        getEffectedBlocks(triggerCause, list);
+        List<Vector3Change> list = new LinkedList<Vector3Change>();
+        getEffectedBlocks(list);
         return list;
     }
 
-    public void getEffectedBlocks(TriggerCause triggerCause, List<Vector3> list)
+    public void getEffectedBlocks(List<Vector3Change> list)
     {
 
     }
 
     @Override
-    public void doEffectBlock(Vector3 blocks, TriggerCause triggerCause)
+    public void doEffectBlock(Vector3Change vec)
     {
-
+        vec.setBlock(world);
     }
 
     @Override
-    public void doEffectOther(World world, double x, double y, double z, TriggerCause triggerCause)
+    public void doEffectOther(boolean beforeBlocksPlaced)
     {
 
     }

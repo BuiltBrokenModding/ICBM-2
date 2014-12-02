@@ -7,21 +7,12 @@ import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.IExplosiveContainer;
 import icbm.api.explosion.TriggerCause;
 import icbm.content.ItemSaveUtil;
-import icbm.explosion.DamageUtility;
 import icbm.explosion.ExplosiveRegistry;
-import icbm.explosion.explosive.Explosive;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeChunkManager;
-import resonant.api.map.RadarRegistry;
+import resonant.lib.prefab.EntityProjectile;
 import resonant.lib.transform.vector.Vector3;
 
 /**
