@@ -16,6 +16,7 @@ import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
+import org.apache.logging.log4j.Level;
 import resonant.lib.render.fx.*;
 import resonant.lib.transform.vector.Vector3;
 
@@ -104,13 +105,13 @@ public class ClientProxy extends CommonProxy
             try
             {
                 EffectRenderer renderer = Minecraft.getMinecraft().effectRenderer;
-                List[] fxLayers = (List[]) ReflectionHelper.getPrivateValue(EffectRenderer.class, renderer, 2);
+                List[] fxLayers = ReflectionHelper.getPrivateValue(EffectRenderer.class, renderer, 2);
 
                 return fxLayers[0];
             }
             catch (Exception e)
             {
-                Reference.LOGGER.severe("Failed to use reflection on entity effects.");
+                Reference.LOGGER.log(Level.ERROR, "Failed to use reflection on entity effects.");
                 e.printStackTrace();
                 this.disableReflectionFX = true;
             }

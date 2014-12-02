@@ -39,6 +39,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
+import org.apache.logging.log4j.Level;
 import org.modstats.ModstatInfo;
 import org.modstats.Modstats;
 import resonant.content.loader.ModManager;
@@ -118,19 +119,12 @@ public final class ICBM
         itemRocketLauncher = contentRegistry.newItem(ItemRocketLauncher.class);
 
         //Explosives
-        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test"));
-        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test_inverted")
-        {
-            @Override
-            public IExplosiveBlast tryToTriggerExplosion(World world, double x, double y, double z, TriggerCause triggerCause, int yieldMultiplier)
-            {
-                return new BlastInvert(world, (int)x, (int)y, (int)z, 5 * yieldMultiplier);
-            }
-        });
+        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test", BlastBasic.class));
+        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test_inverted", BlastInvert.class));
 
         /** Decrease Obsidian Resistance */
         Blocks.obsidian.setResistance(Settings.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Reduce Obsidian Resistance", 45).getInt(45));
-        Reference.LOGGER.fine("Changed obsidian explosive resistance to: " + Blocks.obsidian.getExplosionResistance(null));
+        Reference.LOGGER.log(Level.INFO, "Changed obsidian explosive resistance to: " + Blocks.obsidian.getExplosionResistance(null));
 
         proxy.preInit();
         modproxies.preInit();

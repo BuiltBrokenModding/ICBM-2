@@ -15,6 +15,8 @@ import java.util.List;
  */
 public class BlastInvert extends BlastBasic
 {
+    public BlastInvert(){}
+
     public BlastInvert(World world, int x, int y, int z, int size)
     {
         super(world, x, y, z, size);

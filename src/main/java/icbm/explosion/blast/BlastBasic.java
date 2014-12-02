@@ -21,6 +21,8 @@ public class BlastBasic extends Blast
     protected float[] energy = new float[6];
     protected double radius = 0;
 
+    public BlastBasic(){}
+
     public BlastBasic(World world, int x, int y, int z, int size)
     {
         super(world, x, y, z, size);

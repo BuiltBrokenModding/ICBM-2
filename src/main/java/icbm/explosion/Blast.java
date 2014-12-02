@@ -16,13 +16,27 @@ public abstract class Blast implements IExplosiveBlast, IVectorWorld
     public int x, y, z;
     public int size = 1;
 
+    public Blast(){}
+
     public Blast(World world, int x, int y, int z, int size)
+    {
+        setLocation(world, x, y, z);
+        setYield(size);
+    }
+
+    public Blast setLocation(World world, int x, int y, int z)
     {
         this.world = world;
         this.x = x;
         this.y = y;
         this.z = z;
+        return this;
+    }
+
+    public Blast setYield(int size)
+    {
         this.size = size;
+        return this;
     }
 
     @Override

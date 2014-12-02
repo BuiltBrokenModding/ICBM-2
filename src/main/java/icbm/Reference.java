@@ -1,9 +1,7 @@
 package icbm;
 
 import org.apache.logging.log4j.LogManager;
-import resonant.engine.References;
-
-import java.util.logging.Logger;
+import org.apache.logging.log4j.Logger;
 
 /** @author Calclavia */
 public class Reference
@@ -11,6 +9,9 @@ public class Reference
 
     /** Name of the channel and mod ID. */
     public static final String NAME = "ICBM";
+    public static final String DOMAIN = "icbm";
+    public static final String PREFIX = DOMAIN + ":";
+
     /** The version of ICBM. */
     public static final String MAJOR_VERSION = "@MAJOR@";
     public static final String MINOR_VERSION = "@MINOR@";
@@ -18,9 +19,6 @@ public class Reference
     public static final String BUILD_VERSION = "@BUILD@";
     public static final String VERSION = MAJOR_VERSION + "." + MINOR_VERSION + "." + REVISION_VERSION + "." + BUILD_VERSION;
 
-    public static final String CHANNEL = NAME;
-    public static final String DOMAIN = "icbm";
-    public static final String PREFIX = DOMAIN + ":";
     public static final String ASSETS_PATH = "/assets/icbm/";
     public static final String TEXTURE_PATH = "textures/";
     public static final String GUI_PATH = TEXTURE_PATH + "gui/";
@@ -31,6 +29,6 @@ public class Reference
     public static final String BLOCK_PATH = TEXTURE_PATH + "blocks/";
     public static final String ITEM_PATH = TEXTURE_PATH + "items/";
 
-    public static final Logger LOGGER = Logger.getLogger(Reference.NAME);
+    public static final Logger LOGGER = LogManager.getLogger(NAME);
 
 }
