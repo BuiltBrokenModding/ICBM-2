@@ -34,10 +34,10 @@ public interface IExplosiveBlast
     public Collection<Vector3> getEffectedBlocks(TriggerCause triggerCause);
 
     /** Called to actually effect blocks from the list return by getEffectedBlocks.
-     * @param blocks - list of blocks to edit
+     * @param blocks - block to change
      * @param triggerCause - cause of the blast
      */
-    public void doEffectBlocks(Collection<Vector3> blocks, TriggerCause triggerCause);
+    public void doEffectBlock(Vector3 blocks, TriggerCause triggerCause);
 
     /**
      * Called to effect other things than blocks like entities. This is normally called right after

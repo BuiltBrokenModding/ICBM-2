@@ -59,7 +59,7 @@ public abstract class Blast implements IExplosiveBlast, IVectorWorld
     }
 
     @Override
-    public void doEffectBlocks(Collection<Vector3> blocks, TriggerCause triggerCause)
+    public void doEffectBlock(Vector3 blocks, TriggerCause triggerCause)
     {
 
     }

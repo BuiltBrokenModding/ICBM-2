@@ -44,27 +44,22 @@ public final class ExplosiveRegistry
     public static TriggerResult triggerExplosive(World world, double x, double y, double z, IExplosive ex, TriggerCause triggerCause, int multi)
     {
         IExplosiveBlast blast = createBlastForTrigger(world, x, y, z, ex, triggerCause, multi);
+        VectorWorld loc = new VectorWorld(world, x, y, z);
         if(blast != null)
         {
-            Event event = new ExplosiveEvent.OnBlastCreatedEvent(world, new Vector3(x, y, z), ex, triggerCause, blast);
+            Event event = new ExplosiveEvent.OnBlastCreatedEvent(world, loc, ex, triggerCause, blast);
             MinecraftForge.EVENT_BUS.post(event);
             if(!event.isCanceled())
             {
                 blast.doEffectOther(world, x, y, z, triggerCause);
                 if(blast.shouldThreadExplosion(triggerCause))
                 {
-                    ThreadExplosion thread = new ThreadExplosion(new VectorWorld(world, x, y, z), blast, ex, triggerCause);
+                    ThreadExplosion thread = new ThreadExplosion(loc, blast, ex, triggerCause);
                     thread.start();
                 }
                 else
                 {
-                    Collection<Vector3> effectedBlocks = blast.getEffectedBlocks(triggerCause);
-                    event = new ExplosiveEvent.BlocksEffectedExplosiveEvent(world, new Vector3(x, y, z), ex, triggerCause, blast, effectedBlocks);
-                    MinecraftForge.EVENT_BUS.post(event);
-                    if(effectedBlocks != null && !effectedBlocks.isEmpty())
-                    {
-                        blast.doEffectBlocks(effectedBlocks, triggerCause);
-                    }
+                   _doBlast(loc, ex, triggerCause, blast);
                 }
 
                 return TriggerResult.TRIGGERED;
@@ -72,6 +67,21 @@ public final class ExplosiveRegistry
             return TriggerResult.BLAST_BLOCKED;
         }
         return TriggerResult.NO_BLAST;
+    }
+
+    public static TriggerResult _doBlast(VectorWorld vec, IExplosive ex, TriggerCause triggerCause, IExplosiveBlast blast)
+    {
+        Collection<Vector3> effectedBlocks = blast.getEffectedBlocks(triggerCause);
+        Event event = new ExplosiveEvent.BlocksEffectedExplosiveEvent(vec, ex, triggerCause, blast, effectedBlocks);
+        MinecraftForge.EVENT_BUS.post(event);
+        if(effectedBlocks != null && !effectedBlocks.isEmpty())
+        {
+            for(Vector3 v : effectedBlocks)
+            {
+                blast.doEffectBlock(v, triggerCause);
+            }
+        }
+        return TriggerResult.TRIGGERED;
     }
 
     public static IExplosiveBlast createBlastForTrigger(World world, double x, double y, double z, IExplosive ex, TriggerCause triggerCause, int multi)

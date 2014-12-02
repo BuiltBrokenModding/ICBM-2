@@ -17,6 +17,7 @@ import icbm.content.warhead.TileExplosive;
 import icbm.explosion.ExplosiveRegistry;
 import icbm.explosion.blast.BlastBasic;
 import icbm.explosion.blast.BlastInvert;
+import icbm.explosion.blast.BlastThreadTest;
 import icbm.explosion.explosive.Explosive;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
@@ -121,6 +122,7 @@ public final class ICBM
         //Explosives
         ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test", BlastBasic.class));
         ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test_inverted", BlastInvert.class));
+        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test_thread", BlastThreadTest.class));
 
         /** Decrease Obsidian Resistance */
         Blocks.obsidian.setResistance(Settings.CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Reduce Obsidian Resistance", 45).getInt(45));

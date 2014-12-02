@@ -7,6 +7,7 @@ import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.IExplosiveBlast;
 import icbm.api.explosion.TriggerCause;
 import resonant.lib.transform.vector.Vector3;
+import resonant.lib.transform.vector.VectorWorld;
 
 import java.util.Collection;
 
@@ -69,6 +70,11 @@ public class ExplosiveEvent extends WorldEvent
         public final TriggerCause triggerCause;
         public final IExplosiveBlast blast;
         public final Collection<Vector3> list;
+
+        public BlocksEffectedExplosiveEvent(VectorWorld vec, IExplosive ex, TriggerCause triggerCause, IExplosiveBlast blast, Collection<Vector3> list)
+        {
+            this(vec.world(), vec, ex, triggerCause, blast, list);
+        }
 
         public BlocksEffectedExplosiveEvent(World world, Vector3 vec, IExplosive ex, TriggerCause triggerCause, IExplosiveBlast blast, Collection<Vector3> list)
         {

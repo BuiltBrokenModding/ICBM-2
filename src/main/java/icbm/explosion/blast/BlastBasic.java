@@ -125,12 +125,9 @@ public class BlastBasic extends Blast
     }
 
     @Override
-    public void doEffectBlocks(Collection<Vector3> blocks, TriggerCause triggerCause)
+    public void doEffectBlock(Vector3 vec, TriggerCause triggerCause)
     {
-        for(Vector3 vec : blocks)
-        {
-            vec.setBlockToAir(world);
-        }
+        vec.setBlockToAir(world);
     }
 
     @Override

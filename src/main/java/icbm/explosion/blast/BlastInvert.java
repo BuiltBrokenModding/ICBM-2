@@ -30,11 +30,8 @@ public class BlastInvert extends BlastBasic
         }
     }
     @Override
-    public void doEffectBlocks(Collection<Vector3> blocks, TriggerCause triggerCause)
+    public void doEffectBlock(Vector3 vec, TriggerCause triggerCause)
     {
-        for(Vector3 vec : blocks)
-        {
-            vec.setBlock(world, Blocks.glass);
-        }
+        vec.setBlock(world, Blocks.glass);
     }
 }
