@@ -24,15 +24,13 @@ public class BlastInvert extends BlastBasic
     }
 
     @Override
-    protected void effectBlock(Vector3Change vec, List<Vector3Change> list, ForgeDirection side)
+    public float effectBlock(Vector3 vec, float energy)
     {
-        if(!list.contains(vec) && vec.distance(this) < radius)
-        {
-            list.add(vec);
-        }
+       return energy - 1;
     }
 
-    protected Vector3Change changeBlockTo(Vector3Change change)
+    @Override
+    protected Vector3Change changeBlockTo(Vector3Change change,  float e)
     {
         change.block_$eq(Blocks.glass);
         return change;

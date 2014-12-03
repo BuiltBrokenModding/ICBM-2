@@ -35,6 +35,7 @@ import java.util.List;
 public class TileExplosive extends TileAdvanced implements IExplosiveContainer, IPacketReceiver
 {
     public String explosiveID = null;
+    public boolean exploding = false;
 
     public TileExplosive()
     {
@@ -173,10 +174,14 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
      */
     public void explode(TriggerCause triggerCause)
     {
-        //TODO add tier
-        WorldChangeHelper.ChangeResult result = ExplosiveRegistry.triggerExplosive(world(), x(), y(), z(), ExplosiveRegistry.get(explosiveID), triggerCause, 1);
-        if (result == WorldChangeHelper.ChangeResult.COMPLETED)
-            world().setBlockToAir(xi(), yi(), zi());
+        if(!exploding)
+        {
+            exploding = true;
+            //TODO add tier
+            WorldChangeHelper.ChangeResult result = ExplosiveRegistry.triggerExplosive(world(), x(), y(), z(), ExplosiveRegistry.get(explosiveID), triggerCause, 1);
+            if (result == WorldChangeHelper.ChangeResult.COMPLETED)
+                world().setBlockToAir(xi(), yi(), zi());
+        }
     }
 
     @Override

@@ -1,5 +1,6 @@
 package icbm.explosion;
 
+import net.minecraftforge.common.util.ForgeDirection;
 import resonant.lib.world.IWorldChangeAction;
 import net.minecraft.world.World;
 import icbm.api.explosion.TriggerCause;
@@ -16,6 +17,9 @@ public abstract class Blast implements IWorldChangeAction, IVectorWorld
     public World world;
     public int x, y, z;
     public int size = 1;
+    public float eUnitPerBlock = 5F;
+
+    public TriggerCause cause = new TriggerCause.TriggerCauseRedstone(ForgeDirection.UNKNOWN, 15);
 
     public Blast(){}
 
@@ -37,6 +41,18 @@ public abstract class Blast implements IWorldChangeAction, IVectorWorld
     public Blast setYield(int size)
     {
         this.size = size;
+        return this;
+    }
+
+    public Blast setEnergyPerBlock(float f)
+    {
+        this.eUnitPerBlock = f;
+        return this;
+    }
+
+    public Blast setCause(TriggerCause cause)
+    {
+        this.cause = cause;
         return this;
     }
 
