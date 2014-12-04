@@ -28,12 +28,12 @@ public interface IWorldChangeAction
      * be feed back into the doEffect method.
      * @return list of vectors containing the block to set at that location
      */
-    public Collection<Placement> getEffectedBlocks();
+    public Collection<BlockEdit> getEffectedBlocks();
 
     /** Called to actually effect blocks from the list return by getEffectedBlocks.
      * @param blocks - block to change
      */
-    public void handleBlockPlacement(Placement blocks);
+    public void handleBlockPlacement(BlockEdit blocks);
 
     /** Called to effect other things than blocks like entities.
      * Called before and after blocks have been placed into the world.

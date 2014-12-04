@@ -14,7 +14,7 @@ import resonant.lib.prefab.EntityProjectile;
 import resonant.lib.transform.sorting.Vector3DistanceComparator;
 import resonant.lib.transform.vector.Vector3;
 import resonant.lib.utility.DamageUtility;
-import resonant.lib.world.Placement;
+import resonant.lib.world.BlockEdit;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -40,6 +40,7 @@ public class BlastBasic extends Blast
     private int tilesPathed = 0;
     private int airBlocksPathed = 0;
     private int blocksRemoved = 0;
+    private List<Long> blockIterationTimes = new ArrayList<Long>();
 
     public BlastBasic()
     {
@@ -62,7 +63,7 @@ public class BlastBasic extends Blast
     }
 
     @Override
-    public void getEffectedBlocks(List<Placement> list)
+    public void getEffectedBlocks(List<BlockEdit> list)
     {
         //Log time it takes to do each part to gauge performance
         long start = System.nanoTime();
@@ -71,7 +72,7 @@ public class BlastBasic extends Blast
         long timeStartSort;
         long end;
 
-        HashMap<Placement, Float> map = new HashMap();
+        HashMap<BlockEdit, Float> map = new HashMap();
 
         //Create entity to check for blast resistance values on blocks
         if (cause instanceof TriggerCause.TriggerCauseEntity)
@@ -104,6 +105,13 @@ public class BlastBasic extends Blast
         //Generate debug info
         if (ResonantEngine.runningAsDev)
         {
+            long averageBlockIterationTime = 0;
+            for(Long n : blockIterationTimes)
+            {
+                averageBlockIterationTime += n;
+            }
+            averageBlockIterationTime /= blockIterationTimes.size();
+
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("\n===== Debug Explosive Calculations =====");
             stringBuilder.append("\nCenter: " + new Vector3(this));
@@ -114,6 +122,7 @@ public class BlastBasic extends Blast
             stringBuilder.append("\nPath Time:  " + getTime(timeEndPath - timeStartPath));
             stringBuilder.append("\nSort Time:  " + getTime(end - timeStartSort));
             stringBuilder.append("\nTotal Time: " + getTime(end - start));
+            stringBuilder.append("\nAvg B Time: " + getTime(averageBlockIterationTime));
             stringBuilder.append("\n");
 
             stringBuilder.append("\nChanges:    " + snum(list.size(), 5));
@@ -179,52 +188,56 @@ public class BlastBasic extends Blast
         return string;
     }
 
-    protected void triggerPathFinder(HashMap<Placement, Float> map, Vector3 vec, float energy)
+    protected void triggerPathFinder(HashMap<BlockEdit, Float> map, Vector3 vec, float energy)
     {
         //Start pathfinder
-        expand(map, vec, energy, null, 0);
+        expand(map, new BlockEdit(world, vec.x(), vec.y(), vec.z()), energy, null, 0);
     }
 
-    protected void expand(HashMap<Placement, Float> map, Vector3 vec, float energy, EnumFacing side, int iteration)
+    protected void expand(HashMap<BlockEdit, Float> map, BlockEdit vec, float energy, EnumFacing side, int iteration)
     {
+        long timeStart = System.nanoTime();
         if (iteration < size * 2)
         {
             float e = getEnergyCostOfTile(vec, energy);
+            tilesPathed++;
             if (e >= 0)
             {
-                tilesPathed++;
                 //Add block to effect list
-                Placement c = new Placement(vec.x(), vec.y(), vec.z());
-                onBlockMapped(c, energy - e);
-                map.put(c, energy - e);
+                vec.energy_$eq(energy);
+                onBlockMapped(vec, e, energy - e);
+                map.put(vec, energy - e);
 
                 //Only iterate threw sides if we have more energy
                 if (e > 1)
                 {
                     //Get valid sides to iterate threw
-                    List<Placement> sides = new ArrayList();
+                    List<BlockEdit> sides = new ArrayList();
                     for (EnumFacing dir : EnumFacing.values())
                     {
                         if (dir != side)
                         {
-                            Placement v = new Placement(vec.x(), vec.y(), vec.z());
+                            BlockEdit v = new BlockEdit(world, vec.x(), vec.y(), vec.z());
                             v.addEquals(dir);
-                            v.setFace(dir);
+                            v.face_$eq(dir);
+                            v.logPrevBlock();
                             sides.add(v);
                         }
                     }
 
                     Collections.sort(sides, new Vector3DistanceComparator(new Vector3(this)));
+
+                    blockIterationTimes.add(System.nanoTime() - timeStart);
                     //Iterate threw sides expending energy outwards
-                    for (Placement f : sides)
+                    for (BlockEdit f : sides)
                     {
                         float eToSpend = (e / sides.size()) + (e % sides.size());
                         e -= eToSpend;
-                        EnumFacing face = side == null ? getOpposite(f.getFace()) : side;
+                        EnumFacing face = side == null ? getOpposite(f.face()) : side;
                         if (!map.containsKey(f) || map.get(f) < eToSpend)
                         {
+                            f.face_$eq(face);
                             expand(map, f, eToSpend, face, iteration + 1);
-                            f.setFace(face);
                         }
                     }
                 }
@@ -281,16 +294,15 @@ public class BlastBasic extends Blast
     }
 
     @Override
-    public void handleBlockPlacement(Placement vec)
+    public void handleBlockPlacement(BlockEdit vec)
     {
         Block block = vec.getBlock(world);
+        //Trigger break event so blocks can do X action
         if (block != null)
-        {
-            //If you need to modify the items dropped use the forge events fired by ForgeEventFactory.fireBlockHarvesting
             block.onBlockDestroyedByExplosion(world, vec.xi(), vec.yi(), vec.zi(), wrapperExplosion);
-            block.dropBlockAsItem(world, vec.xi(), vec.yi(), vec.zi(), vec.getBlockMetadata(world), 0);
-        }
-        vec.setBlock(world);
+
+        //Handle item drops if the block still exists
+        vec.place();
     }
 
     /**
@@ -305,8 +317,10 @@ public class BlastBasic extends Blast
      * @return new placement info, never change the location or you will
      * create a duplication issue as the original block will not be removed
      */
-    protected Placement onBlockMapped(Placement change, float energyExpended)
+    protected BlockEdit onBlockMapped(BlockEdit change, float energyExpended, float energyLeft)
     {
+        if(energyExpended > energyLeft)
+            change.doItemDrop_$eq(true);
         return change;
     }
 

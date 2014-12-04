@@ -6,7 +6,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.world.WorldEvent;
 import resonant.lib.transform.vector.VectorWorld;
 import resonant.lib.world.IWorldChangeAction;
-import resonant.lib.world.Placement;
+import resonant.lib.world.BlockEdit;
 
 import java.util.Collection;
 
@@ -61,8 +61,8 @@ public abstract class WorldChangeActionEvent extends WorldEvent
     public static class FinishedCalculatingEffectEvent extends WorldChangeActionEvent
     {
         public final VectorWorld startingPoint;
-        public final Collection<Placement> blocks;
-        public FinishedCalculatingEffectEvent(VectorWorld v, Collection<Placement> blocks, IWorldChangeAction worldChangeAction, TriggerCause triggerCause)
+        public final Collection<BlockEdit> blocks;
+        public FinishedCalculatingEffectEvent(VectorWorld v, Collection<BlockEdit> blocks, IWorldChangeAction worldChangeAction, TriggerCause triggerCause)
         {
             super(v.world(), worldChangeAction, triggerCause);
             this.startingPoint = v;

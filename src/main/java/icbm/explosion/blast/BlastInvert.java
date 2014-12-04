@@ -1,10 +1,9 @@
 package icbm.explosion.blast;
 
 import icbm.ICBM;
-import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import resonant.lib.transform.vector.Vector3;
-import resonant.lib.world.Placement;
+import resonant.lib.world.BlockEdit;
 
 /**
  * Created by robert on 12/1/2014.
@@ -25,7 +24,7 @@ public class BlastInvert extends BlastBasic
     }
 
     @Override
-    protected Placement onBlockMapped(Placement change, float e)
+    protected BlockEdit onBlockMapped(BlockEdit change, float e)
     {
         change.block_$eq(ICBM.blockExplosiveMarker);
         change.meta_$eq(change.face() != null ? change.face().ordinal() : 0);
