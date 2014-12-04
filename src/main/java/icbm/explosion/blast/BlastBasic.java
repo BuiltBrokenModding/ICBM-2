@@ -83,6 +83,9 @@ public class BlastBasic extends Blast
 
 
         stringBuilder.append("\n===== Starting explosive calculations =====");
+        stringBuilder.append("\nCenter: " + new Vector3(this));
+        stringBuilder.append("\nEnergy: " + energy);
+        stringBuilder.append("\nSize:   " + radius);
         triggerPathFinder(map, new Vector3(this), energy);
         stringBuilder.append("Path Time:  " + getTimeDifference(t));
 
@@ -96,11 +99,10 @@ public class BlastBasic extends Blast
         {
             stringBuilder.append("\nSort Time:  " + getTimeDifference(t));
             stringBuilder.append("\nTotal Time: " + getTimeDifference(start));
-            stringBuilder.append("\nIterated over");
-            stringBuilder.append("\n            " + snum(tilesPathed, 5) + " locations");
-            stringBuilder.append("\n            " + snum(airBlocksPathed, 5) + " air blocks");
-            stringBuilder.append("\n           " + snum(blocksRemoved, 5) + " Blocks Changed");
-            stringBuilder.append("\n           " + snum(list.size(), 5) + " changes in total");
+            stringBuilder.append("\nChanges:    " + snum(list.size(), 5));
+            stringBuilder.append("\nIterations: " + snum(tilesPathed, 5));
+            stringBuilder.append("\n\tAir:        " + snum(airBlocksPathed, 5));
+            stringBuilder.append("\n\tBlocks:     " + snum(blocksRemoved, 5));
             stringBuilder.append("\n=====  Ending explosive calculations  =====\n");
             System.out.println(stringBuilder);
 
@@ -113,7 +115,7 @@ public class BlastBasic extends Blast
                 if (ent instanceof EntityProjectile && ((EntityProjectile) ent).firedByEntity instanceof EntityPlayer)
                     player = (EntityPlayer) ((EntityProjectile) ent).firedByEntity;
                 if (player != null)
-                    ((EntityPlayer) ((TriggerCause.TriggerCauseEntity) cause).source).addChatComponentMessage(new ChatComponentText("Explosive went off in " + getTimeDifference(start)));
+                    player.addChatComponentMessage(new ChatComponentText("Explosive went off in " + getTimeDifference(start)));
             }
         }
     }
