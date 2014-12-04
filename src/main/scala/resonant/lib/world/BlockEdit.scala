@@ -46,13 +46,13 @@ class BlockEdit(w: World, x: Double, y: Double, z: Double) extends VectorWorld(w
 
   def this() = this(null, 0, 0, 0)
 
-  def set(block: Block, meta: Int, doDrops: Boolean, checkEquals: Boolean)
+  def set(block: Block, meta: Int, doDrops: Boolean, checkEquals: Boolean) : BlockEdit =
   {
     this.block = block;
     this.meta = meta;
     doItemDrop = doDrops
     logPrevBlock()
-
+    return this
   }
 
   def logPrevBlock()
