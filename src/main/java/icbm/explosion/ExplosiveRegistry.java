@@ -1,21 +1,15 @@
 package icbm.explosion;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-import cpw.mods.fml.common.eventhandler.Event;
+import icbm.Reference;
 import resonant.lib.world.IWorldChangeAction;
-import resonant.lib.world.ThreadWorldChangeAction;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.TriggerCause;
-import resonant.engine.References;
 import resonant.lib.transform.vector.VectorWorld;
-import resonant.lib.world.Vector3Change;
 import resonant.lib.world.WorldChangeHelper;
-import resonant.lib.world.event.WorldChangeActionEvent;
 
 /** Registry for all explosive which create blasts for anything from bombs to missiles */
 public final class ExplosiveRegistry
@@ -34,7 +28,7 @@ public final class ExplosiveRegistry
         {
             idToExplosiveMap.put(ex.getUnlocalizedName(), ex);
             ex.onRegistered();
-            References.LOGGER.info("ExplosiveRegistry> Mod: " + modID + "  Registered explosive instance " + ex);
+            Reference.LOGGER.info("ExplosiveRegistry> Mod: " + modID + "  Registered explosive instance " + ex);
             return ex;
         }
         else

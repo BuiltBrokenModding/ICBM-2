@@ -5,8 +5,7 @@ import resonant.lib.world.IWorldChangeAction;
 import net.minecraft.world.World;
 import icbm.api.explosion.TriggerCause;
 import resonant.lib.transform.vector.IVectorWorld;
-import resonant.lib.transform.vector.Vector3;
-import resonant.lib.world.Vector3Change;
+import resonant.lib.world.Placement;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -63,20 +62,20 @@ public abstract class Blast implements IWorldChangeAction, IVectorWorld
     }
 
     @Override
-    public final Collection<Vector3Change> getEffectedBlocks()
+    public final Collection<Placement> getEffectedBlocks()
     {
-        List<Vector3Change> list = new LinkedList<Vector3Change>();
+        List<Placement> list = new LinkedList<Placement>();
         getEffectedBlocks(list);
         return list;
     }
 
-    public void getEffectedBlocks(List<Vector3Change> list)
+    public void getEffectedBlocks(List<Placement> list)
     {
 
     }
 
     @Override
-    public void doEffectBlock(Vector3Change vec)
+    public void handleBlockPlacement(Placement vec)
     {
         vec.setBlock(world);
     }

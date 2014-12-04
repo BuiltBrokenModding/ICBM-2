@@ -49,12 +49,12 @@ public class WorldChangeHelper
                 }
                 else
                 {
-                    Collection<Vector3Change> effectedBlocks = getEffectedBlocks(loc, triggerCause, action);
+                    Collection<Placement> effectedBlocks = getEffectedBlocks(loc, triggerCause, action);
                     if (effectedBlocks != null && !effectedBlocks.isEmpty()) ;
                     {
-                        for (Vector3Change v : effectedBlocks)
+                        for (Placement v : effectedBlocks)
                         {
-                            action.doEffectBlock(v);
+                            action.handleBlockPlacement(v);
                         }
                     }
                 }
@@ -73,16 +73,16 @@ public class WorldChangeHelper
      * @param blast - action instance
      * @return list of block locations changes
      */
-    public static Collection<Vector3Change> getEffectedBlocks(VectorWorld vec, TriggerCause triggerCause, IWorldChangeAction blast)
+    public static Collection<Placement> getEffectedBlocks(VectorWorld vec, TriggerCause triggerCause, IWorldChangeAction blast)
     {
-        Collection<Vector3Change> effectedBlocks = blast.getEffectedBlocks();
+        Collection<Placement> effectedBlocks = blast.getEffectedBlocks();
         //Triggers an event allowing other mods to edit the block list
         MinecraftForge.EVENT_BUS.post(new WorldChangeActionEvent.FinishedCalculatingEffectEvent(vec, effectedBlocks, blast, triggerCause));
 
         //If we have blocks to edit then register with the event handler
         if (effectedBlocks == null)
         {
-            return new ArrayList<Vector3Change>();
+            return new ArrayList<Placement>();
         }
         return effectedBlocks;
     }

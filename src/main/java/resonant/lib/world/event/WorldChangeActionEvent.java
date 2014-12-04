@@ -4,10 +4,9 @@ import cpw.mods.fml.common.eventhandler.Cancelable;
 import icbm.api.explosion.TriggerCause;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.WorldEvent;
-import resonant.lib.transform.vector.Vector3;
 import resonant.lib.transform.vector.VectorWorld;
 import resonant.lib.world.IWorldChangeAction;
-import resonant.lib.world.Vector3Change;
+import resonant.lib.world.Placement;
 
 import java.util.Collection;
 
@@ -62,8 +61,8 @@ public abstract class WorldChangeActionEvent extends WorldEvent
     public static class FinishedCalculatingEffectEvent extends WorldChangeActionEvent
     {
         public final VectorWorld startingPoint;
-        public final Collection<Vector3Change> blocks;
-        public FinishedCalculatingEffectEvent(VectorWorld v, Collection<Vector3Change> blocks, IWorldChangeAction worldChangeAction, TriggerCause triggerCause)
+        public final Collection<Placement> blocks;
+        public FinishedCalculatingEffectEvent(VectorWorld v, Collection<Placement> blocks, IWorldChangeAction worldChangeAction, TriggerCause triggerCause)
         {
             super(v.world(), worldChangeAction, triggerCause);
             this.startingPoint = v;

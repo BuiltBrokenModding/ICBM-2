@@ -5,33 +5,41 @@ import icbm.explosion.Blast;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.*;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+import resonant.engine.ResonantEngine;
+import resonant.lib.prefab.EntityProjectile;
+import resonant.lib.transform.sorting.Vector3DistanceComparator;
 import resonant.lib.transform.vector.Vector3;
 import resonant.lib.utility.DamageUtility;
-import resonant.lib.world.Vector3Change;
+import resonant.lib.world.Placement;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by robert on 11/19/2014.
  */
+//TODO use pathfinder for emp to allow for EMP shielding
 public class BlastBasic extends Blast
 {
     static DamageSource source = new DamageSource("blast").setExplosion();
+    static DecimalFormat numFormatter = new DecimalFormat("#,###");
+
     protected float energy = 0;
     protected double radius = 0;
 
-    protected List<Vector3> pathedBlocks = new ArrayList<Vector3>();
     protected Entity explosionBlameEntity;
     protected Explosion wrapperExplosion;
+
+    private int tilesPathed = 0;
+    private int airBlocksPathed = 0;
+    private int blocksRemoved = 0;
 
     public BlastBasic()
     {
@@ -47,15 +55,20 @@ public class BlastBasic extends Blast
     {
         super.setYield(size);
         radius = size;
-        float e = (size * 2 + 1) * eUnitPerBlock;
-        energy = e * e * e;
+        double volume = (4 * Math.PI * (radius * radius * radius)) / 3;
+        energy = (float) (volume * eUnitPerBlock);
 
         return this;
     }
 
     @Override
-    public void getEffectedBlocks(List<Vector3Change> list)
+    public void getEffectedBlocks(List<Placement> list)
     {
+        long start = System.nanoTime();
+        long t = start;
+        StringBuilder stringBuilder = new StringBuilder();
+        HashMap<Placement, Float> map = new HashMap();
+
         //Create entity to check for blast resistance values on blocks
         if (cause instanceof TriggerCause.TriggerCauseEntity)
         {
@@ -68,56 +81,137 @@ public class BlastBasic extends Blast
         }
         wrapperExplosion = new WrapperExplosion(this);
 
-        System.out.println("===== Starting explosive pathfinder =====");
-        //Start pathfinder
-        expand(list, new Vector3(this), energy, null, 0);
-        System.out.println("=====  Ending explosive pathfinder  =====\n");
-    }
 
-    protected void expand(List<Vector3Change> list, Vector3 vec, float energy, EnumFacing side, int iteration)
-    {
-        String s = iteration + "\t";
-        for (int i = 0; i < iteration; i++)
-        {
-            s += "  ";
-        }
-        s += "Expanding to location " + vec + " with " + energy + " energy from " + side + " side";
-        System.out.println(s);
-        float e = effectBlock(vec, energy);
-        if (e >= 0)
-        {
-            //Add block to effect list
-            Vector3Change c = new Vector3Change(vec.x(), vec.y(), vec.z());
-            changeBlockTo(c, energy - e);
-            list.add(c);
+        stringBuilder.append("\n===== Starting explosive calculations =====");
+        triggerPathFinder(map, new Vector3(this), energy);
+        stringBuilder.append("Path Time:  " + getTimeDifference(t));
 
-            //Only iterate threw sides if we have more energy
-            if (e > 1)
+        //Add map keys to block list and sort by closest to center
+        t = System.nanoTime();
+        list.addAll(map.keySet());
+        Collections.sort(list, new Vector3DistanceComparator(new Vector3(this)));
+
+        //Generate debug info
+        if(ResonantEngine.runningAsDev)
+        {
+            stringBuilder.append("\nSort Time:  " + getTimeDifference(t));
+            stringBuilder.append("\nTotal Time: " + getTimeDifference(start));
+            stringBuilder.append("\nIterated over");
+            stringBuilder.append("\n            " + snum(tilesPathed, 5) + " locations");
+            stringBuilder.append("\n            " + snum(airBlocksPathed, 5) + " air blocks");
+            stringBuilder.append("\n           " + snum(blocksRemoved, 5) + " Blocks Changed");
+            stringBuilder.append("\n           " + snum(list.size(), 5) + " changes in total");
+            stringBuilder.append("\n=====  Ending explosive calculations  =====\n");
+            System.out.println(stringBuilder);
+
+            if (cause instanceof TriggerCause.TriggerCauseEntity)
             {
-                //Get valid sides to iterate threw
-                List<FacingVector> sides = new ArrayList();
-                for (EnumFacing dir : EnumFacing.values())
-                {
-                    FacingVector v = new FacingVector(vec.x() + dir.getFrontOffsetX(), vec.y() + dir.getFrontOffsetY(), vec.z() + dir.getFrontOffsetZ(), dir);
-                    if (dir != side)
-                    {
-                        sides.add(v);
-                    }
-                }
-
-                Collections.sort(sides, new Vector3ClosestComparator(new Vector3(this)));
-
-                //Iterate threw sides expending energy outwards
-                for (FacingVector f : sides)
-                {
-                    float eToSpend = (e / sides.size()) + (e % sides.size());
-                    e -= eToSpend;
-                    expand(list, f, eToSpend, getOpposite(f.face), iteration + 1);
-                }
+                Entity ent = ((TriggerCause.TriggerCauseEntity) cause).source;
+                EntityPlayer player = null;
+                if (ent instanceof EntityPlayer)
+                    player = (EntityPlayer) ent;
+                if (ent instanceof EntityProjectile && ((EntityProjectile) ent).firedByEntity instanceof EntityPlayer)
+                    player = (EntityPlayer) ((EntityProjectile) ent).firedByEntity;
+                if (player != null)
+                    ((EntityPlayer) ((TriggerCause.TriggerCauseEntity) cause).source).addChatComponentMessage(new ChatComponentText("Explosive went off in " + getTimeDifference(start)));
             }
         }
     }
 
+    /**
+     * Formats a number to fit into so many spaces, and to contain ,
+     *
+     * @param num    - number to format
+     * @param spaces - spaces to pad the front with
+     * @return formated string
+     */
+    protected String snum(long num, int spaces)
+    {
+        return String.format("%" + spaces + "s", numFormatter.format(num));
+    }
+
+    protected void outputTimeDifference(String prefix, long start)
+    {
+        outputTime(prefix, System.nanoTime() - start);
+    }
+
+    protected String getTimeDifference(long start)
+    {
+        return getTime(System.nanoTime() - start);
+    }
+
+    protected void outputTime(String prefix, long nano)
+    {
+        System.out.println(prefix + " Time: " + getTime(nano));
+    }
+
+    protected String getTime(long nano)
+    {
+        long s = nano / 1000000000;
+        long ms = (nano % 1000000000) / 1000000;
+        long us = ((nano % 1000000000) % 1000000) / 1000;
+        long ns = ((nano % 1000000000) % 1000000) % 1000;
+        String string = "";
+        string += snum(s, 3) + "s  ";
+        string += snum(ms, 3) + "ms  ";
+        string += snum(us, 3) + "us  ";
+        string += snum(ns, 3) + "ns  ";
+
+        return string;
+    }
+
+    protected void triggerPathFinder(HashMap<Placement, Float> map, Vector3 vec, float energy)
+    {
+        //Start pathfinder
+        expand(map, vec, energy, null, 0);
+    }
+
+    protected void expand(HashMap<Placement, Float> map, Vector3 vec, float energy, EnumFacing side, int iteration)
+    {
+        if (iteration < size * 2)
+        {
+            float e = getEnergyCostOfTile(vec, energy);
+            if (e >= 0)
+            {
+                tilesPathed++;
+                //Add block to effect list
+                Placement c = new Placement(vec.x(), vec.y(), vec.z());
+                onBlockMapped(c, energy - e);
+                map.put(c, energy - e);
+
+                //Only iterate threw sides if we have more energy
+                if (e > 1)
+                {
+                    //Get valid sides to iterate threw
+                    List<Placement> sides = new ArrayList();
+                    for (EnumFacing dir : EnumFacing.values())
+                    {
+                        if (dir != side)
+                        {
+                            Placement v = new Placement(vec.x(), vec.y(), vec.z());
+                            v.addEquals(dir);
+                            v.setFace(dir);
+                            sides.add(v);
+                        }
+                    }
+
+                    Collections.sort(sides, new Vector3DistanceComparator(new Vector3(this)));
+                    //Iterate threw sides expending energy outwards
+                    for (Placement f : sides)
+                    {
+                        float eToSpend = (e / sides.size()) + (e % sides.size());
+                        e -= eToSpend;
+                        EnumFacing face = side == null ? getOpposite(f.getFace()) : side;
+                        if (!map.containsKey(f) || map.get(f) < eToSpend)
+                        {
+                            expand(map, f, eToSpend, face, iteration + 1);
+                            f.setFace(face);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     private EnumFacing getOpposite(EnumFacing face)
     {
@@ -128,13 +222,13 @@ public class BlastBasic extends Blast
             case DOWN:
                 return EnumFacing.UP;
             case NORTH:
-                return EnumFacing.NORTH;
-            case SOUTH:
                 return EnumFacing.SOUTH;
+            case SOUTH:
+                return EnumFacing.NORTH;
             case EAST:
-                return EnumFacing.EAST;
-            case WEST:
                 return EnumFacing.WEST;
+            case WEST:
+                return EnumFacing.EAST;
             default:
                 return null;
         }
@@ -147,7 +241,7 @@ public class BlastBasic extends Blast
      * @param energy - energy to expend on the location
      * @return energy left over after effecting the block
      */
-    protected float effectBlock(Vector3 vec, float energy)
+    protected float getEnergyCostOfTile(Vector3 vec, float energy)
     {
         Block block = vec.getBlock(world);
         if (block != null)
@@ -156,14 +250,19 @@ public class BlastBasic extends Blast
             float hardness = vec.getHardness(world);
             if (!vec.isAirBlock(world) && hardness >= 0)
             {
-                return energy - resistance;
+                blocksRemoved++;
+                return energy - (float) Math.max(resistance, 0.5);
+            }
+            else if (!vec.isAirBlock(world))
+            {
+                airBlocksPathed++;
             }
         }
         return energy - 0.5F;
     }
 
     @Override
-    public void doEffectBlock(Vector3Change vec)
+    public void handleBlockPlacement(Placement vec)
     {
         Block block = vec.getBlock(world);
         if (block != null)
@@ -187,7 +286,7 @@ public class BlastBasic extends Blast
      * @return new placement info, never change the location or you will
      * create a duplication issue as the original block will not be removed
      */
-    protected Vector3Change changeBlockTo(Vector3Change change, float energyExpended)
+    protected Placement onBlockMapped(Placement change, float energyExpended)
     {
         return change;
     }
@@ -219,16 +318,17 @@ public class BlastBasic extends Blast
      */
     protected void effectEntity(Entity entity)
     {
-        Vector3 eVec = new Vector3(entity);
-        MovingObjectPosition hit = eVec.rayTrace(world, new Vector3(this));
-        if (hit == null || hit.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK)
+        if (DamageUtility.canDamage(entity))
         {
-            float e = ((float) radius + 1 * 5) / (float) eVec.distance(this);
-            if (DamageUtility.canDamage(entity))
+            Vector3 eVec = new Vector3(entity);
+            MovingObjectPosition hit = eVec.rayTrace(world, new Vector3(this));
+            if (hit == null || hit.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK)
             {
+                float e = ((float) radius + 1 * 5) / (float) eVec.distance(this);
+
                 entity.attackEntityFrom(source, e);
+                applyMotion(entity, eVec, e);
             }
-            applyMotion(entity, eVec, e);
         }
     }
 
@@ -251,35 +351,6 @@ public class BlastBasic extends Blast
         {
             super(blast.world(), blast.explosionBlameEntity, blast.x(), blast.y(), blast.z(), blast.size);
             this.blast = blast;
-        }
-    }
-
-    public static class Vector3ClosestComparator implements Comparator<Vector3>
-    {
-        final Vector3 center;
-
-        public Vector3ClosestComparator(Vector3 center)
-        {
-            this.center = center;
-        }
-
-        @Override
-        public int compare(Vector3 o1, Vector3 o2)
-        {
-            double d = o1.distance(center);
-            double d2 = o2.distance(center);
-            return d > d2 ? 1 : d == d2 ? 0 : -1;
-        }
-    }
-
-    public static class FacingVector extends Vector3
-    {
-        EnumFacing face;
-
-        public FacingVector(double x, double y, double z, EnumFacing face)
-        {
-            super(x, y, z);
-            this.face = face;
         }
     }
 }

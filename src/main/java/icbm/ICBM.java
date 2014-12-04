@@ -6,6 +6,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
 
+import icbm.content.BlockExplosiveMarker;
 import icbm.content.missile.EntityMissile;
 import icbm.content.missile.ItemMissile;
 import icbm.content.rocketlauncher.ItemRocketLauncher;
@@ -13,7 +14,9 @@ import icbm.content.warhead.TileExplosive;
 import icbm.explosion.ExplosiveRegistry;
 import icbm.explosion.blast.BlastBasic;
 import icbm.explosion.blast.BlastInvert;
+import icbm.explosion.blast.BlastSided;
 import icbm.explosion.explosive.Explosive;
+import icbm.explosion.explosive.ExplosiveSided;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
@@ -23,6 +26,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
@@ -37,6 +41,8 @@ import org.apache.logging.log4j.Level;
 import org.modstats.ModstatInfo;
 import org.modstats.Modstats;
 import resonant.content.loader.ModManager;
+import resonant.content.prefab.itemblock.ItemBlockMetadata;
+import resonant.engine.ResonantEngine;
 import resonant.lib.config.Config;
 import resonant.lib.config.ConfigHandler;
 import resonant.lib.loadable.LoadableHandler;
@@ -75,6 +81,7 @@ public final class ICBM
 
     // Blocks
     public static Block blockExplosive;
+    public static Block blockExplosiveMarker;
 
     // Items
     public static Item itemMissile;
@@ -106,14 +113,33 @@ public final class ICBM
 
         // Blocks
         blockExplosive = contentRegistry.newBlock(TileExplosive.class);
+        if(ResonantEngine.runningAsDev)
+            blockExplosiveMarker = contentRegistry.newBlock(BlockExplosiveMarker.class, ItemBlockMetadata.class);
 
         // ITEMS
         itemMissile = contentRegistry.newItem(ItemMissile.class);
         itemRocketLauncher = contentRegistry.newItem(ItemRocketLauncher.class);
 
         //Explosives
+        for(EnumFacing face : EnumFacing.values())
+        {
+            ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new ExplosiveSided("test_sided_"+face, face));
+        }
         ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test", BlastBasic.class));
+        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("testx2", BlastBasic.class, 2));
+        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("testx3", BlastBasic.class, 3));
+        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("testx4", BlastBasic.class, 4));
+        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("testx5", BlastBasic.class, 5));
+        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("testx10", BlastBasic.class, 10));
+        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("testx50", BlastBasic.class, 50));
+
         ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test_inverted", BlastInvert.class));
+        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test_invertedx2", BlastInvert.class, 2));
+        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test_invertedx3", BlastInvert.class, 3));
+        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test_invertedx4", BlastInvert.class, 4));
+        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test_invertedx5", BlastInvert.class, 5));
+        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test_invertedx10", BlastInvert.class, 10));
+        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test_invertedx50", BlastInvert.class, 50));
         //ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test_thread", BlastThreadTest.class));
 
         /** Decrease Obsidian Resistance */

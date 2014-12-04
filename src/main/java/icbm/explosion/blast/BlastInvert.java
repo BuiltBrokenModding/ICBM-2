@@ -1,15 +1,10 @@
 package icbm.explosion.blast;
 
-import icbm.api.explosion.TriggerCause;
-import net.minecraft.block.Block;
+import icbm.ICBM;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import resonant.lib.transform.vector.Vector3;
-import resonant.lib.world.Vector3Change;
-
-import java.util.Collection;
-import java.util.List;
+import resonant.lib.world.Placement;
 
 /**
  * Created by robert on 12/1/2014.
@@ -24,15 +19,16 @@ public class BlastInvert extends BlastBasic
     }
 
     @Override
-    public float effectBlock(Vector3 vec, float energy)
+    public float getEnergyCostOfTile(Vector3 vec, float energy)
     {
        return energy - 1;
     }
 
     @Override
-    protected Vector3Change changeBlockTo(Vector3Change change,  float e)
+    protected Placement onBlockMapped(Placement change, float e)
     {
-        change.block_$eq(Blocks.glass);
+        change.block_$eq(ICBM.blockExplosiveMarker);
+        change.meta_$eq(change.face() != null ? change.face().ordinal() : 0);
         return change;
     }
 }

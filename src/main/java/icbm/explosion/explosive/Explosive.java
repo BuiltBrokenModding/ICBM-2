@@ -15,20 +15,31 @@ public class Explosive implements IExplosive
 {
     protected String unlocalizedName;
     protected Class<? extends Blast> blastClass;
+    int multiplier = 1;
+
+    public Explosive(Class<? extends Blast> blastClass)
+    {
+        this(blastClass.getSimpleName(), blastClass, 1);
+    }
 
     public Explosive(String name, Class<? extends Blast> blastClass)
     {
+        this(name, blastClass, 1);
+    }
+
+    public Explosive(String name, Class<? extends Blast> blastClass, int multiplier)
+    {
         this.unlocalizedName = name;
         this.blastClass = blastClass;
+        this.multiplier = multiplier;
     }
 
     @Override
     public IWorldChangeAction createBlastForTrigger(World world, double x, double y, double z, TriggerCause triggerCause, int yieldMultiplier)
     {
-        System.out.println("Creating explosive");
         try
         {
-            return blastClass.newInstance().setLocation(world, (int)x, (int)y, (int)z).setYield(yieldMultiplier);
+            return blastClass.newInstance().setLocation(world, (int)x, (int)y, (int)z).setYield(yieldMultiplier * multiplier).setCause(triggerCause);
         }
         catch (InstantiationException e)
         {

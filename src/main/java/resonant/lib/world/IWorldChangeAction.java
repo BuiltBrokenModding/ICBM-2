@@ -1,9 +1,5 @@
 package resonant.lib.world;
 
-import icbm.api.explosion.TriggerCause;
-import net.minecraft.world.World;
-import resonant.lib.transform.vector.Vector3;
-
 import java.util.Collection;
 
 /** Handler for any action that change the world.
@@ -32,12 +28,12 @@ public interface IWorldChangeAction
      * be feed back into the doEffect method.
      * @return list of vectors containing the block to set at that location
      */
-    public Collection<Vector3Change> getEffectedBlocks();
+    public Collection<Placement> getEffectedBlocks();
 
     /** Called to actually effect blocks from the list return by getEffectedBlocks.
      * @param blocks - block to change
      */
-    public void doEffectBlock(Vector3Change blocks);
+    public void handleBlockPlacement(Placement blocks);
 
     /** Called to effect other things than blocks like entities.
      * Called before and after blocks have been placed into the world.

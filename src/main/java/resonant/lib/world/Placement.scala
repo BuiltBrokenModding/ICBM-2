@@ -3,7 +3,7 @@ package resonant.lib.world
 import net.minecraft.block.Block
 import net.minecraft.entity.Entity
 import net.minecraft.init.Blocks
-import net.minecraft.util.Vec3
+import net.minecraft.util.{EnumFacing, Vec3}
 import net.minecraft.world.World
 import resonant.lib.transform.vector.{IVector3, Vector3}
 
@@ -14,12 +14,16 @@ import scala.beans.BeanProperty
   *
  * Created by robert on 12/2/2014.
  */
-class Vector3Change(x :Double,y :Double,z :Double) extends Vector3(x,y,z)
+class Placement(x :Double,y :Double,z :Double) extends Vector3(x,y,z)
 {
-  @BeanProperty
+  @BeanProperty /** Block to place */
   var block : Block = Blocks.air
-  @BeanProperty
+  @BeanProperty /** 0-15 meta value to place */
   var meta : Int = 0;
+  @BeanProperty /** Force energy used to place it */
+  var energy: Int = 0;
+  @BeanProperty /** direction placed from */
+  var face: EnumFacing = null
 
   def this() = this(0, 0, 0)
 
