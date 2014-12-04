@@ -1,11 +1,14 @@
 package icbm.explosion.blast;
 
 import icbm.api.explosion.TriggerCause;
+import icbm.content.warhead.TileExplosive;
 import icbm.explosion.Blast;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockTNT;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.*;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
@@ -36,6 +39,7 @@ public class BlastBasic extends Blast
 
     protected Entity explosionBlameEntity;
     protected Explosion wrapperExplosion;
+    protected List<BlockEdit> postCallDestroyMethod = new ArrayList<BlockEdit>();
 
     private int tilesPathed = 0;
     private int airBlocksPathed = 0;
@@ -106,7 +110,7 @@ public class BlastBasic extends Blast
         if (ResonantEngine.runningAsDev)
         {
             long averageBlockIterationTime = 0;
-            for(Long n : blockIterationTimes)
+            for (Long n : blockIterationTimes)
             {
                 averageBlockIterationTime += n;
             }
@@ -297,9 +301,18 @@ public class BlastBasic extends Blast
     public void handleBlockPlacement(BlockEdit vec)
     {
         Block block = vec.getBlock(world);
-        //Trigger break event so blocks can do X action
-        if (block != null)
-            block.onBlockDestroyedByExplosion(world, vec.xi(), vec.yi(), vec.zi(), wrapperExplosion);
+        if(block != null && (vec.block() == Blocks.air || vec.block() == Blocks.fire))
+        {
+            //Trigger break event so blocks can do X action
+            if (!(block instanceof BlockTNT) && !(vec.getTileEntity() instanceof TileExplosive))
+            {
+                block.onBlockDestroyedByExplosion(world, vec.xi(), vec.yi(), vec.zi(), wrapperExplosion);
+            }
+            else
+            {
+                postCallDestroyMethod.add(vec);
+            }
+        }
 
         //Handle item drops if the block still exists
         vec.place();
@@ -319,7 +332,7 @@ public class BlastBasic extends Blast
      */
     protected BlockEdit onBlockMapped(BlockEdit change, float energyExpended, float energyLeft)
     {
-        if(energyExpended > energyLeft)
+        if (energyExpended > energyLeft)
             change.doItemDrop_$eq(true);
         return change;
     }
