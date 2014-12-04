@@ -64,9 +64,13 @@ public class BlastBasic extends Blast
     @Override
     public void getEffectedBlocks(List<Placement> list)
     {
+        //Log time it takes to do each part to gauge performance
         long start = System.nanoTime();
-        long t = start;
-        StringBuilder stringBuilder = new StringBuilder();
+        long timeStartPath;
+        long timeEndPath;
+        long timeStartSort;
+        long end;
+
         HashMap<Placement, Float> map = new HashMap();
 
         //Create entity to check for blast resistance values on blocks
@@ -82,28 +86,41 @@ public class BlastBasic extends Blast
         wrapperExplosion = new WrapperExplosion(this);
 
 
-        stringBuilder.append("\n===== Starting explosive calculations =====");
-        stringBuilder.append("\nCenter: " + new Vector3(this));
-        stringBuilder.append("\nEnergy: " + energy);
-        stringBuilder.append("\nSize:   " + radius);
+        //Start path finder
+        timeStartPath = System.nanoTime();
         triggerPathFinder(map, new Vector3(this), energy);
-        stringBuilder.append("Path Time:  " + getTimeDifference(t));
+        timeEndPath = System.nanoTime();
 
-        //Add map keys to block list and sort by closest to center
-        t = System.nanoTime();
+        //Add map keys to block list
         list.addAll(map.keySet());
+
+        //Sort results so blocks are placed in the center first
+        timeStartSort = System.nanoTime();
         Collections.sort(list, new Vector3DistanceComparator(new Vector3(this)));
 
+        //Log end time
+        end = System.nanoTime();
+
         //Generate debug info
-        if(ResonantEngine.runningAsDev)
+        if (ResonantEngine.runningAsDev)
         {
-            stringBuilder.append("\nSort Time:  " + getTimeDifference(t));
-            stringBuilder.append("\nTotal Time: " + getTimeDifference(start));
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("\n===== Debug Explosive Calculations =====");
+            stringBuilder.append("\nCenter: " + new Vector3(this));
+            stringBuilder.append("\nEnergy: " + energy);
+            stringBuilder.append("\nSize:   " + radius);
+            stringBuilder.append("\n");
+
+            stringBuilder.append("\nPath Time:  " + getTime(timeEndPath - timeStartPath));
+            stringBuilder.append("\nSort Time:  " + getTime(end - timeStartSort));
+            stringBuilder.append("\nTotal Time: " + getTime(end - start));
+            stringBuilder.append("\n");
+
             stringBuilder.append("\nChanges:    " + snum(list.size(), 5));
             stringBuilder.append("\nIterations: " + snum(tilesPathed, 5));
-            stringBuilder.append("\n\tAir:        " + snum(airBlocksPathed, 5));
-            stringBuilder.append("\n\tBlocks:     " + snum(blocksRemoved, 5));
-            stringBuilder.append("\n=====  Ending explosive calculations  =====\n");
+            stringBuilder.append("\nAir:        " + snum(airBlocksPathed, 5));
+            stringBuilder.append("\nBlocks:     " + snum(blocksRemoved, 5));
+            stringBuilder.append("\n======================================\n");
             System.out.println(stringBuilder);
 
             if (cause instanceof TriggerCause.TriggerCauseEntity)
