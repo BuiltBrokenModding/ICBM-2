@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import icbm.api.explosion.IExplosive;
+import resonant.lib.type.Pair;
 import resonant.lib.utility.LanguageUtility;
 
 import java.util.List;
@@ -47,7 +48,11 @@ public class ItemBlockExplosive extends ItemBlock
     {
         super.addInformation(stack, player, lines, b);
         IExplosive ex = getExplosive(stack);
-        if(ex != null)
+        if (ex != null)
+        {
+            Pair<Integer, Integer> ranges = getExplosive(stack).getEstimatedRange(null, ItemSaveUtil.getSize(stack));
             lines.add(LanguageUtility.getLocal("info.icbm:warhead.loaded") + ": " + getExplosive(stack).getUnlocalizedName());
+            lines.add(LanguageUtility.getLocal("info.icbm:warhead.size") + ": " + ranges.left() +" - " + ranges.right() +" blocks");
+        }
     }
 }

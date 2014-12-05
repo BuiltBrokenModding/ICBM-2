@@ -303,6 +303,8 @@ public class BlastBasic extends Blast
         Block block = vec.getBlock(world);
         if(block != null && (vec.block() == Blocks.air || vec.block() == Blocks.fire))
         {
+            //TODO add energy value of explosion to this explosion if it is smaller
+            //TODO maybe trigger explosion inside this thread allowing for controlled over lap
             //Trigger break event so blocks can do X action
             if (!(block instanceof BlockTNT) && !(vec.getTileEntity() instanceof TileExplosive))
             {

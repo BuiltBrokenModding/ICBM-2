@@ -51,4 +51,31 @@ public class ItemSaveUtil
             tag.setString("explosiveString", ex.getUnlocalizedName());
         }
     }
+
+    public static int getSize(ItemStack itemStack)
+    {
+        if (itemStack.getTagCompound() == null)
+            itemStack.setTagCompound(new NBTTagCompound());
+
+        return getSize(itemStack.getTagCompound());
+    }
+
+    public static int getSize(NBTTagCompound tag)
+    {
+        return tag.getInteger("exSize");
+    }
+
+    public static NBTTagCompound setSize(ItemStack itemStack, int size)
+    {
+        if (itemStack.getTagCompound() == null)
+            itemStack.setTagCompound(new NBTTagCompound());
+
+        return setSize(itemStack.getTagCompound(), size);
+    }
+
+    public static NBTTagCompound setSize(NBTTagCompound tag, int size)
+    {
+        tag.setInteger("exSize", size);
+        return tag;
+    }
 }

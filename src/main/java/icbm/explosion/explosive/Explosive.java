@@ -2,6 +2,8 @@ package icbm.explosion.explosive;
 
 import icbm.Reference;
 import icbm.api.explosion.IExplosive;
+import icbm.explosion.blast.BlastBasic;
+import resonant.lib.type.Pair;
 import resonant.lib.world.IWorldChangeAction;
 import icbm.api.explosion.TriggerCause;
 import icbm.explosion.Blast;
@@ -50,6 +52,17 @@ public class Explosive implements IExplosive
         {
             Reference.LOGGER.log(Level.ERROR, "Failed to create blast object");
             e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Pair<Integer, Integer> getEstimatedRange(TriggerCause triggerCause, int yieldMultiplier)
+    {
+        IWorldChangeAction action = createBlastForTrigger(null, 0, 0, 0, triggerCause, yieldMultiplier);
+        if(action instanceof BlastBasic)
+        {
+            return new Pair<Integer, Integer>(((BlastBasic)action).size, ((BlastBasic)action).size * 2);
         }
         return null;
     }
