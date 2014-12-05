@@ -8,6 +8,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -25,6 +26,7 @@ import resonant.content.prefab.java.TileAdvanced;
 import resonant.lib.network.discriminator.PacketTile;
 import resonant.lib.network.discriminator.PacketType;
 import resonant.lib.network.handle.IPacketReceiver;
+import resonant.lib.transform.region.Cuboid;
 import resonant.lib.transform.vector.Vector3;
 import resonant.lib.transform.vector.VectorWorld;
 import resonant.lib.utility.WrenchUtility;
@@ -42,6 +44,17 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
         super(Material.cloth);
         this.normalRender(true);
         this.itemBlock(ItemBlockExplosive.class);
+        this.bounds_$eq(new Cuboid(0.2, 0, 0.2, 0.8, 0.5, 0.8));
+        this.isOpaqueCube(false);
+    }
+
+    @Override
+    public void collide(Entity entity)
+    {
+        if(entity != null && entity.isBurning())
+        {
+            explode(new TriggerCause.TriggerCauseEntity(entity));
+        }
     }
 
     @Override
