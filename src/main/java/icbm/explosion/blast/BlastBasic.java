@@ -93,7 +93,7 @@ public class BlastBasic extends Blast
 
         //Start path finder
         timeStartPath = System.nanoTime();
-        triggerPathFinder(map, new Vector3(this), energy);
+        triggerPathFinder(map, new BlockEdit(this.world, this.x, this.y, this.z), energy);
         timeEndPath = System.nanoTime();
 
         //Add map keys to block list
@@ -192,10 +192,10 @@ public class BlastBasic extends Blast
         return string;
     }
 
-    protected void triggerPathFinder(HashMap<BlockEdit, Float> map, Vector3 vec, float energy)
+    protected void triggerPathFinder(HashMap<BlockEdit, Float> map, BlockEdit vec, float energy)
     {
         //Start pathfinder
-        expand(map, new BlockEdit(world, vec.x(), vec.y(), vec.z()), energy, null, 0);
+        expand(map, vec, energy, null, 0);
     }
 
     protected void expand(HashMap<BlockEdit, Float> map, BlockEdit vec, float energy, EnumFacing side, int iteration)

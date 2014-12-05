@@ -14,7 +14,7 @@ public class BlastSided extends BlastInvert
     EnumFacing facing = EnumFacing.NORTH;
 
     @Override
-    protected void triggerPathFinder(HashMap<BlockEdit, Float> map, Vector3 vec, float energy)
+    protected void triggerPathFinder(HashMap<BlockEdit, Float> map, BlockEdit vec, float energy)
     {
         //Start pathfinder
         expand(map, vec, energy, facing, 0);

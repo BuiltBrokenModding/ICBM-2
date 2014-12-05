@@ -243,12 +243,7 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
     @Override
     public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List)
     {
-        for(IExplosive ex : ExplosiveRegistry.getExplosives())
-        {
-            ItemStack stack = new ItemStack(this.getBlockType());
-            ItemSaveUtil.setExplosive(stack, ex);
-            par3List.add(stack);
-        }
+        ItemSaveUtil.getSubItems(par1, par3List);
     }
 
     @Override

@@ -59,12 +59,7 @@ public class Explosive implements IExplosive
     @Override
     public Pair<Integer, Integer> getEstimatedRange(TriggerCause triggerCause, int yieldMultiplier)
     {
-        IWorldChangeAction action = createBlastForTrigger(null, 0, 0, 0, triggerCause, yieldMultiplier);
-        if(action instanceof BlastBasic)
-        {
-            return new Pair<Integer, Integer>(((BlastBasic)action).size, ((BlastBasic)action).size * 2);
-        }
-        return null;
+        return new Pair<Integer, Integer>(yieldMultiplier * multiplier, (yieldMultiplier * multiplier) * 2);
     }
 
     @Override

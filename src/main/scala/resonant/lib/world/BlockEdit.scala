@@ -65,11 +65,12 @@ class BlockEdit(w: World, x: Double, y: Double, z: Double) extends VectorWorld(w
     }
   }
 
-  override def set(x: Double, y: Double, z: Double)
+  override def set(x: Double, y: Double, z: Double) : BlockEdit =
   {
     super.set(x, y, z)
     if(_bounds != null)
       AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1)
+    return this
   }
   
   def getBounds : AxisAlignedBB =

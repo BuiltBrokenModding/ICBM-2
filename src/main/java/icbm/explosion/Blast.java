@@ -77,7 +77,7 @@ public abstract class Blast implements IWorldChangeAction, IVectorWorld
     @Override
     public void handleBlockPlacement(BlockEdit vec)
     {
-        vec.place(world);
+        vec.place();
     }
 
     @Override

@@ -24,7 +24,7 @@ public class BlastInvert extends BlastBasic
     }
 
     @Override
-    protected BlockEdit onBlockMapped(BlockEdit change, float e)
+    protected BlockEdit onBlockMapped(BlockEdit change, float e, float e2)
     {
         change.block_$eq(ICBM.blockExplosiveMarker);
         change.meta_$eq(change.face() != null ? change.face().ordinal() : 0);

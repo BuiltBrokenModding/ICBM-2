@@ -1,5 +1,6 @@
 package icbm.content.warhead;
 
+import icbm.api.explosion.IExplosiveItem;
 import icbm.content.ItemSaveUtil;
 import icbm.explosion.explosive.Explosive;
 import net.minecraft.block.Block;
@@ -12,7 +13,7 @@ import resonant.lib.utility.LanguageUtility;
 
 import java.util.List;
 
-public class ItemBlockExplosive extends ItemBlock
+public class ItemBlockExplosive extends ItemBlock implements IExplosiveItem
 {
     public ItemBlockExplosive(Block block)
     {
@@ -33,6 +34,7 @@ public class ItemBlockExplosive extends ItemBlock
         return "icbm.explosive";
     }
 
+    @Override
     public IExplosive getExplosive(ItemStack itemStack)
     {
         return ItemSaveUtil.getExplosive(itemStack);
@@ -47,12 +49,6 @@ public class ItemBlockExplosive extends ItemBlock
     public void addInformation(ItemStack stack, EntityPlayer player, List lines, boolean b)
     {
         super.addInformation(stack, player, lines, b);
-        IExplosive ex = getExplosive(stack);
-        if (ex != null)
-        {
-            Pair<Integer, Integer> ranges = getExplosive(stack).getEstimatedRange(null, ItemSaveUtil.getSize(stack));
-            lines.add(LanguageUtility.getLocal("info.icbm:warhead.loaded") + ": " + getExplosive(stack).getUnlocalizedName());
-            lines.add(LanguageUtility.getLocal("info.icbm:warhead.size") + ": " + ranges.left() +" - " + ranges.right() +" blocks");
-        }
+        ItemSaveUtil.addInformation(stack, player, lines, b);
     }
 }

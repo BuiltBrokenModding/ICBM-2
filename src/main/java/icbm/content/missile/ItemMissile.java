@@ -1,5 +1,6 @@
 package icbm.content.missile;
 
+import icbm.api.explosion.IExplosiveItem;
 import icbm.content.ItemSaveUtil;
 import icbm.explosion.ExplosiveRegistry;
 
@@ -12,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import icbm.api.explosion.IExplosive;
 import resonant.lib.utility.LanguageUtility;
 
-public class ItemMissile extends Item
+public class ItemMissile extends Item implements IExplosiveItem
 {
     public ItemMissile()
     {
@@ -50,6 +51,7 @@ public class ItemMissile extends Item
         return null;
     }
 
+    @Override
     public IExplosive getExplosive(ItemStack itemStack)
     {
        return ItemSaveUtil.getExplosive(itemStack);
@@ -63,18 +65,13 @@ public class ItemMissile extends Item
     @Override
     public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List)
     {
-        for(IExplosive ex : ExplosiveRegistry.getExplosives())
-        {
-            ItemStack stack = new ItemStack(this);
-            ItemSaveUtil.setExplosive(stack, ex);
-            par3List.add(stack);
-        }
+       ItemSaveUtil.getSubItems(par1, par3List);
     }
 
     @Override
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
     {
         super.addInformation(stack, player, list, bool);
-        list.add(LanguageUtility.getLocal("info.icbm:warhead.loaded") + ": " + getExplosive(stack));
+        ItemSaveUtil.addInformation(stack, player, list, bool);
     }
 }
