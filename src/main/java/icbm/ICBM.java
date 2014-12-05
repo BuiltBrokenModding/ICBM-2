@@ -6,7 +6,9 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
 
+import icbm.api.explosion.IExplosive;
 import icbm.content.BlockExplosiveMarker;
+import icbm.content.ItemSaveUtil;
 import icbm.content.missile.EntityMissile;
 import icbm.content.missile.ItemMissile;
 import icbm.content.rocketlauncher.ItemRocketLauncher;
@@ -55,6 +57,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import resonant.lib.prefab.ModCreativeTab;
 
 /** Main class for ICBM core to run on. The core will need to be initialized by each ICBM module.
  * 
@@ -89,14 +92,27 @@ public final class ICBM
 
 
     //Content loader, and manager
-    private ModManager contentRegistry = new ModManager().setPrefix(Reference.PREFIX).setTab(TabICBM.INSTANCE);
+    public ModManager contentRegistry = new ModManager().setPrefix(Reference.PREFIX).setTab(new ModCreativeTab("ICBM"));
 
     //Handler for loadable objects
-    private LoadableHandler modproxies = new LoadableHandler();
+    public LoadableHandler modproxies = new LoadableHandler();
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
+        ((ModCreativeTab)contentRegistry.defaultTab).itemSorter = new ModCreativeTab.NameSorter()
+        {
+            @Override
+            public String getLabel(ItemStack stack)
+            {
+                IExplosive ex = ItemSaveUtil.getExplosive(stack);
+                if(ex != null)
+                {
+                    return stack.getDisplayName() + ex.getUnlocalizedName();
+                }
+                return stack.getDisplayName();
+            }
+        };
         NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
 
         Modstats.instance().getReporter().registerMod(INSTANCE);
@@ -125,19 +141,19 @@ public final class ICBM
         {
             ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new ExplosiveSided("test_sided_"+face, face));
         }
-        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test", BlastBasic.class));
-        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("testx2", BlastBasic.class, 2));
-        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("testx3", BlastBasic.class, 3));
-        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("testx4", BlastBasic.class, 4));
-        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("testx5", BlastBasic.class, 5));
+        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("testx01", BlastBasic.class));
+        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("testx02", BlastBasic.class, 2));
+        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("testx03", BlastBasic.class, 3));
+        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("testx04", BlastBasic.class, 4));
+        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("testx05", BlastBasic.class, 5));
         ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("testx10", BlastBasic.class, 10));
         ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("testx50", BlastBasic.class, 50));
 
-        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test_inverted", BlastInvert.class));
-        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test_invertedx2", BlastInvert.class, 2));
-        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test_invertedx3", BlastInvert.class, 3));
-        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test_invertedx4", BlastInvert.class, 4));
-        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test_invertedx5", BlastInvert.class, 5));
+        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test_invertedx01", BlastInvert.class));
+        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test_invertedx02", BlastInvert.class, 2));
+        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test_invertedx03", BlastInvert.class, 3));
+        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test_invertedx04", BlastInvert.class, 4));
+        ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test_invertedx05", BlastInvert.class, 5));
         ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test_invertedx10", BlastInvert.class, 10));
         ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test_invertedx50", BlastInvert.class, 50));
         //ExplosiveRegistry.registerOrGetExplosive(Reference.NAME, new Explosive("test_thread", BlastThreadTest.class));
