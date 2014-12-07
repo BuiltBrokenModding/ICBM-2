@@ -126,7 +126,11 @@ public class BlastBasic extends Blast
             stringBuilder.append("\nPath Time:  " + getTime(timeEndPath - timeStartPath));
             stringBuilder.append("\nSort Time:  " + getTime(end - timeStartSort));
             stringBuilder.append("\nTotal Time: " + getTime(end - start));
+
+            Collections.sort(blockIterationTimes);
             stringBuilder.append("\nAvg B Time: " + getTime(averageBlockIterationTime));
+            stringBuilder.append("\nMin B Time: " + getTime(blockIterationTimes.get(0)));
+            stringBuilder.append("\nMax B Time: " + getTime(blockIterationTimes.get(blockIterationTimes.size() - 1)));
             stringBuilder.append("\n");
 
             stringBuilder.append("\nChanges:    " + snum(list.size(), 5));
@@ -344,6 +348,7 @@ public class BlastBasic extends Blast
     {
         if (!beforeBlocksPlaced)
         {
+            //TODO wright own version of getEntitiesWithinAABB that takes a filter and cuboid(or Vector3 to Vector3)
             AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(x - size - 1, y - size - 1, z - size - 1, x + size + 1, y + size + 1, z + size + 1);
             List list = world.getEntitiesWithinAABB(Entity.class, bounds);
             if (list != null && !list.isEmpty())
