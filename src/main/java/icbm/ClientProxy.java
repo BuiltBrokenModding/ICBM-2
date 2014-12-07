@@ -154,7 +154,7 @@ public class ClientProxy extends CommonProxy
                 if(f != null)
                 {
                     int index = f.getInt(null);
-                    if(index == ICBM.INSTANCE.contentRegistry.defaultTab.getTabPage())
+                    if(index == ICBM.INSTANCE.contentRegistry.defaultTab.getTabIndex())
                     {
 
                     }

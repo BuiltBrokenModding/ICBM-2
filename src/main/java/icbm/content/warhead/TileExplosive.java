@@ -1,7 +1,6 @@
 package icbm.content.warhead;
 
 import cpw.mods.fml.common.network.ByteBufUtils;
-import icbm.Reference;
 import icbm.content.ItemSaveUtil;
 import icbm.explosion.ExplosiveRegistry;
 import io.netty.buffer.ByteBuf;
@@ -23,9 +22,9 @@ import icbm.api.explosion.IExplosive;
 import icbm.api.explosion.IExplosiveContainer;
 import icbm.api.explosion.TriggerCause;
 import resonant.content.prefab.java.TileAdvanced;
-import resonant.lib.network.discriminator.PacketTile;
-import resonant.lib.network.discriminator.PacketType;
-import resonant.lib.network.handle.IPacketReceiver;
+import resonant.engine.network.discriminator.PacketTile;
+import resonant.engine.network.discriminator.PacketType;
+import resonant.engine.network.handle.IPacketReceiver;
 import resonant.lib.transform.region.Cuboid;
 import resonant.lib.transform.vector.Vector3;
 import resonant.lib.transform.vector.VectorWorld;
