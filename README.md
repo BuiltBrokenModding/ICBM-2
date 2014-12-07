@@ -23,8 +23,8 @@ For 1.6.4 please pull request from now on to the 1.6.4 branch.
 For all above please pull request to the master branch.
 
 ##Contributions
-As of November 2014
-When you contribute anything to this repo you agree to no longer claim ownership to the contribution. 
+By submitting anything to the repo you agree to the provided CLA and everything it applies
+https://docs.google.com/document/d/105N6q63OJnzrWjMbydFYFUlHmK6spc8P8da8qkduFRs/edit?usp=sharing
 
 
 ##Credits
