@@ -1,10 +1,10 @@
 package icbm.content.missile;
 
 import cpw.mods.fml.client.FMLClientHandler;
-import icbm.Reference;
 
 import java.util.HashMap;
 
+import icbm.ICBM;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
@@ -25,8 +25,8 @@ public class RenderMissile extends Render implements IItemRenderer
 {
     public static final HashMap<IExplosive, IModelCustom> cache = new HashMap<IExplosive, IModelCustom>();
 
-    public static final IModelCustom defaultMissile = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.DOMAIN, Reference.MODEL_PREFIX + "missile_conventional.tcn"));
-    public final static ResourceLocation TEXTURE = new ResourceLocation(Reference.DOMAIN, Reference.MODEL_TEXTURE_PATH + "missile_condensed.png");
+    public static final IModelCustom defaultMissile = AdvancedModelLoader.loadModel(new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_PREFIX + "missile_conventional.tcn"));
+    public final static ResourceLocation TEXTURE = new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_TEXTURE_PATH + "missile_condensed.png");
 
     public RenderMissile(float f)
     {

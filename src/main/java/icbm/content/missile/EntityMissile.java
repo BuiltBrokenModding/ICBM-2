@@ -1,7 +1,6 @@
 package icbm.content.missile;
 
 import icbm.ICBM;
-import icbm.Reference;
 import icbm.api.IMissile;
 import resonant.api.explosive.IExplosive;
 import resonant.api.explosive.IExplosiveContainer;
@@ -54,7 +53,7 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
         entityMissile.worldObj.spawnEntityInWorld(entityMissile);
 
         //Player audio effect
-        entityMissile.worldObj.playSoundAtEntity(entityMissile, Reference.PREFIX + "missilelaunch", 4F, (1.0F + (entityMissile.worldObj.rand.nextFloat() - entityMissile.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+        entityMissile.worldObj.playSoundAtEntity(entityMissile, ICBM.PREFIX + "missilelaunch", 4F, (1.0F + (entityMissile.worldObj.rand.nextFloat() - entityMissile.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 
     }
 
