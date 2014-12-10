@@ -15,10 +15,9 @@ import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
 
-import icbm.api.explosion.IExplosive;
+import resonant.api.explosive.IExplosive;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import resonant.engine.References;
 
 @SideOnly(Side.CLIENT)
 /** @author Calclavia */

@@ -1,11 +1,11 @@
 package icbm.explosion;
 
 import net.minecraftforge.common.util.ForgeDirection;
-import resonant.lib.world.IWorldChangeAction;
+import resonant.lib.world.edit.IWorldChangeAction;
 import net.minecraft.world.World;
-import icbm.api.explosion.TriggerCause;
+import resonant.api.TriggerCause;
 import resonant.lib.transform.vector.IVectorWorld;
-import resonant.lib.world.BlockEdit;
+import resonant.lib.world.edit.BlockEdit;
 
 import java.util.Collection;
 import java.util.LinkedList;

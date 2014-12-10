@@ -1,6 +1,6 @@
 package icbm.explosion.blast;
 
-import icbm.api.explosion.TriggerCause;
+import resonant.api.TriggerCause;
 import icbm.content.warhead.TileExplosive;
 import icbm.explosion.Blast;
 import net.minecraft.block.Block;
@@ -17,7 +17,7 @@ import resonant.lib.prefab.EntityProjectile;
 import resonant.lib.transform.sorting.Vector3DistanceComparator;
 import resonant.lib.transform.vector.Vector3;
 import resonant.lib.utility.DamageUtility;
-import resonant.lib.world.BlockEdit;
+import resonant.lib.world.edit.BlockEdit;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -390,9 +390,9 @@ public class BlastBasic extends Blast
         if (!entity.isRiding())
         {
             Vector3 motion = eVec.toEulerAngle(new Vector3(this)).toVector().multiply(energyAppliedNearEntity);
-            entity.motionX += motion.xi() % 1;
-            entity.motionY += motion.xi() % 1;
-            entity.motionZ += motion.xi() % 1;
+            entity.motionX += motion.xi() & 1;
+            entity.motionY += motion.xi() & 1;
+            entity.motionZ += motion.xi() & 1;
         }
     }
 

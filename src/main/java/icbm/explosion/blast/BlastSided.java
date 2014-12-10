@@ -1,8 +1,7 @@
 package icbm.explosion.blast;
 
 import net.minecraft.util.EnumFacing;
-import resonant.lib.transform.vector.Vector3;
-import resonant.lib.world.BlockEdit;
+import resonant.lib.world.edit.BlockEdit;
 
 import java.util.HashMap;
 

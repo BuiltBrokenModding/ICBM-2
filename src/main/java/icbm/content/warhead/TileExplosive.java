@@ -18,9 +18,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.Explosion;
 import net.minecraftforge.common.util.ForgeDirection;
-import icbm.api.explosion.IExplosive;
-import icbm.api.explosion.IExplosiveContainer;
-import icbm.api.explosion.TriggerCause;
+import resonant.api.explosive.IExplosive;
+import resonant.api.explosive.IExplosiveContainer;
+import resonant.api.TriggerCause;
 import resonant.content.prefab.java.TileAdvanced;
 import resonant.engine.network.discriminator.PacketTile;
 import resonant.engine.network.discriminator.PacketType;
@@ -29,7 +29,7 @@ import resonant.lib.transform.region.Cuboid;
 import resonant.lib.transform.vector.Vector3;
 import resonant.lib.transform.vector.VectorWorld;
 import resonant.lib.utility.WrenchUtility;
-import resonant.lib.world.WorldChangeHelper;
+import resonant.lib.world.edit.WorldChangeHelper;
 
 import java.util.List;
 

@@ -3,7 +3,7 @@ package icbm.content.rocketlauncher;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import icbm.ICBM;
-import icbm.api.explosion.IExplosive;
+import resonant.api.explosive.IExplosive;
 import icbm.content.missile.EntityMissile;
 import icbm.content.missile.ItemMissile;
 import net.minecraft.client.Minecraft;
@@ -12,7 +12,6 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import resonant.lib.transform.vector.Vector3;
 import resonant.lib.utility.LanguageUtility;
 
 import java.util.HashMap;

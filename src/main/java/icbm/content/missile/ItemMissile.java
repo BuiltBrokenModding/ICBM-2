@@ -1,6 +1,6 @@
 package icbm.content.missile;
 
-import icbm.api.explosion.IExplosiveItem;
+import resonant.api.items.IExplosiveItem;
 import icbm.content.ItemSaveUtil;
 import icbm.explosion.ExplosiveRegistry;
 
@@ -10,8 +10,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import icbm.api.explosion.IExplosive;
-import resonant.lib.utility.LanguageUtility;
+import resonant.api.explosive.IExplosive;
 
 public class ItemMissile extends Item implements IExplosiveItem
 {

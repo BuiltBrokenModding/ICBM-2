@@ -1,11 +1,10 @@
 package icbm.explosion.explosive;
 
-import icbm.api.explosion.TriggerCause;
-import icbm.explosion.Blast;
+import resonant.api.TriggerCause;
 import icbm.explosion.blast.BlastSided;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import resonant.lib.world.IWorldChangeAction;
+import resonant.lib.world.edit.IWorldChangeAction;
 
 /**
  * Created by robert on 12/3/2014.

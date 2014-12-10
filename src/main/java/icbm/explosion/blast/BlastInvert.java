@@ -3,7 +3,7 @@ package icbm.explosion.blast;
 import icbm.ICBM;
 import net.minecraft.world.World;
 import resonant.lib.transform.vector.Vector3;
-import resonant.lib.world.BlockEdit;
+import resonant.lib.world.edit.BlockEdit;
 
 /**
  * Created by robert on 12/1/2014.

@@ -1,13 +1,12 @@
 package icbm.content;
 
-import icbm.api.explosion.IExplosiveItem;
+import resonant.api.items.IExplosiveItem;
 import icbm.explosion.ExplosiveRegistry;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import icbm.api.explosion.IExplosive;
+import resonant.api.explosive.IExplosive;
 import resonant.lib.type.Pair;
 import resonant.lib.utility.LanguageUtility;
 

@@ -1,11 +1,10 @@
 package icbm.explosion.explosive;
 
-import icbm.Reference;
-import icbm.api.explosion.IExplosive;
-import icbm.explosion.blast.BlastBasic;
+import resonant.api.explosive.IExplosive;
+import resonant.engine.References;
 import resonant.lib.type.Pair;
-import resonant.lib.world.IWorldChangeAction;
-import icbm.api.explosion.TriggerCause;
+import resonant.lib.world.edit.IWorldChangeAction;
+import resonant.api.TriggerCause;
 import icbm.explosion.Blast;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
@@ -45,12 +44,12 @@ public class Explosive implements IExplosive
         }
         catch (InstantiationException e)
         {
-            Reference.LOGGER.log(Level.ERROR, "Failed to create blast object");
+            References.LOGGER.log(Level.ERROR, "Failed to create blast object");
             e.printStackTrace();
         }
         catch (IllegalAccessException e)
         {
-            Reference.LOGGER.log(Level.ERROR, "Failed to create blast object");
+            References.LOGGER.log(Level.ERROR, "Failed to create blast object");
             e.printStackTrace();
         }
         return null;
