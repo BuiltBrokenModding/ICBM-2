@@ -1,6 +1,5 @@
 package icbm.explosion.blast;
 
-import resonant.api.TriggerCause;
 import icbm.content.warhead.TileExplosive;
 import icbm.explosion.Blast;
 import net.minecraft.block.Block;
@@ -9,9 +8,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+import resonant.api.TriggerCause;
+import resonant.api.mffs.machine.IForceField;
 import resonant.engine.ResonantEngine;
 import resonant.lib.prefab.EntityProjectile;
 import resonant.lib.transform.sorting.Vector3DistanceComparator;
@@ -281,47 +283,49 @@ public class BlastBasic extends Blast
      * @param energy - energy to expend on the location
      * @return energy left over after effecting the block
      */
-    protected float getEnergyCostOfTile(Vector3 vec, float energy)
+    protected float getEnergyCostOfTile(BlockEdit vec, float energy)
     {
-        Block block = vec.getBlock(world);
-        if (block != null)
-        {
-            float resistance = block.getExplosionResistance(explosionBlameEntity, world, vec.xi(), vec.yi(), vec.zi(), x, y, z);
-            float hardness = vec.getHardness(world);
-            if (!vec.isAirBlock(world) && hardness >= 0)
-            {
-                blocksRemoved++;
-                return energy - (float) Math.max(resistance, 0.5);
-            }
-            else if (!vec.isAirBlock(world))
-            {
-                airBlocksPathed++;
-            }
-        }
-        return energy - 0.5F;
+        //Update debug info
+        if (vec.isAirBlock(world)) airBlocksPathed++; else blocksRemoved++;
+        //Get cost
+        return  (vec.getHardness() >= 0 ? energy - (float) Math.max(vec.getResistance(explosionBlameEntity, x, y, z), 0.5) : -1);
+
     }
 
     @Override
     public void handleBlockPlacement(BlockEdit vec)
     {
-        Block block = vec.getBlock(world);
-        if(block != null && (vec.block() == Blocks.air || vec.block() == Blocks.fire))
-        {
-            //TODO add energy value of explosion to this explosion if it is smaller
-            //TODO maybe trigger explosion inside this thread allowing for controlled over lap
-            //Trigger break event so blocks can do X action
-            if (!(block instanceof BlockTNT) && !(vec.getTileEntity() instanceof TileExplosive))
-            {
-                block.onBlockDestroyedByExplosion(world, vec.xi(), vec.yi(), vec.zi(), wrapperExplosion);
-            }
-            else
-            {
-                postCallDestroyMethod.add(vec);
-            }
-        }
+        Block block = vec.getBlock();
+        TileEntity tile = vec.getTileEntity();
 
-        //Handle item drops if the block still exists
-        vec.place();
+        //MFFS support
+        if (tile instanceof IForceField)
+        {
+            ((IForceField) tile).weakenForceField((int) vec.energy() * 100);
+        }
+        else
+        {
+            if (vec.block() == Blocks.air || vec.block() == Blocks.fire)
+            {
+                //TODO add energy value of explosion to this explosion if it is small
+                //TODO maybe trigger explosion inside this thread allowing for controlled over lap
+                //TODO if we trigger the explosive move most of the energy in the same direction
+                //the current explosion is running in with a little bit in the opposite direction
+
+                //Trigger break event so blocks can do X action
+                if (!(block instanceof BlockTNT) && !(vec.getTileEntity() instanceof TileExplosive))
+                {
+                    block.onBlockDestroyedByExplosion(world, vec.xi(), vec.yi(), vec.zi(), wrapperExplosion);
+                }
+                else
+                {
+                    //Add explosives to post call to allow the thread to finish before generating more explosions
+                    postCallDestroyMethod.add(vec);
+                }
+            }
+
+            vec.place();
+        }
     }
 
     /**
