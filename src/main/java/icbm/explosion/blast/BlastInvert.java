@@ -20,7 +20,7 @@ public class BlastInvert extends BlastBasic
     @Override
     public float getEnergyCostOfTile(BlockEdit vec, float energy)
     {
-       return energy - 1;
+       return energy - eUnitPerBlock;
     }
 
     @Override
