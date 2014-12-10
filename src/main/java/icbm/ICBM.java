@@ -50,7 +50,7 @@ import resonant.lib.mod.config.Config;
 import java.util.ArrayList;
 
 /**
- * Main class for ICBM core to run on. The core will need to be initialized by each ICBM module.
+ * Main class for ICBM core to profile on. The core will need to be initialized by each ICBM module.
  *
  * @author Calclavia
  */

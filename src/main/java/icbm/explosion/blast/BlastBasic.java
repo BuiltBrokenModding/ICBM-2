@@ -1,5 +1,6 @@
 package icbm.explosion.blast;
 
+import icbm.ICBM;
 import icbm.content.warhead.TileExplosive;
 import icbm.explosion.Blast;
 import net.minecraft.block.Block;
@@ -11,17 +12,16 @@ import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.world.Explosion;
-import net.minecraft.world.World;
 import resonant.api.TriggerCause;
 import resonant.api.mffs.machine.IForceField;
 import resonant.engine.ResonantEngine;
-import resonant.lib.prefab.EntityProjectile;
 import resonant.lib.transform.sorting.Vector3DistanceComparator;
 import resonant.lib.transform.vector.Vector3;
 import resonant.lib.utility.DamageUtility;
+import resonant.lib.utility.MathUtility;
+import resonant.lib.utility.TextUtility;
 import resonant.lib.world.edit.BlockEdit;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -33,184 +33,97 @@ import java.util.List;
 //TODO use pathfinder for emp to allow for EMP shielding
 public class BlastBasic extends Blast
 {
+    /**
+     * DamageSourse to attack entities with
+     */
     static DamageSource source = new DamageSource("blast").setExplosion();
-    static DecimalFormat numFormatter = new DecimalFormat("#,###");
+    static BlastProfiler profiler = new BlastProfiler();
 
+    /**
+     * Energy to start the explosion with
+     */
     protected float energy = 0;
+    /**
+     * Median size of the explosion from center, max size is x2, min size is 0
+     */
     protected double radius = 0;
 
+    /**
+     * Entity to pass into methods when destroying blocks or attacking entities
+     */
     protected Entity explosionBlameEntity;
+    /**
+     * Explosion wrapper for block methods
+     */
     protected Explosion wrapperExplosion;
-    protected List<BlockEdit> postCallDestroyMethod = new ArrayList<BlockEdit>();
-
-    private int tilesPathed = 0;
-    private int airBlocksPathed = 0;
-    private int blocksRemoved = 0;
-    private List<Long> blockIterationTimes = new ArrayList<Long>();
+    /**
+     * Blocks to call after all blocks are removed in case they do updates when destroyed
+     */
+    protected List<BlockEdit> postCallDestroyMethod = new ArrayList();
+    /**
+     * Profilier for the blast
+     */
+    protected BlastRunProfile profile;
 
     public BlastBasic()
     {
+        profile = profiler.run(this);
     }
 
-    public BlastBasic(World world, int x, int y, int z, int size)
-    {
-        super(world, x, y, z, size);
-    }
-
-    @Override
-    public BlastBasic setYield(int size)
-    {
-        super.setYield(size);
-        radius = size;
-        double volume = (4 * Math.PI * (radius * radius * radius)) / 3;
-        energy = (float) (volume * eUnitPerBlock);
-
-        return this;
-    }
 
     @Override
     public void getEffectedBlocks(List<BlockEdit> list)
     {
-        //Log time it takes to do each part to gauge performance
-        long start = System.nanoTime();
-        long timeStartPath;
-        long timeEndPath;
-        long timeStartSort;
-        long end;
-
         HashMap<BlockEdit, Float> map = new HashMap();
-
-        //Create entity to check for blast resistance values on blocks
-        if (cause instanceof TriggerCause.TriggerCauseEntity)
-        {
-            explosionBlameEntity = ((TriggerCause.TriggerCauseEntity) cause).source;
-        }
-        if (explosionBlameEntity == null)
-        {
-            explosionBlameEntity = new EntityTNTPrimed(world);
-            explosionBlameEntity.setPosition(x, y, z);
-        }
-        wrapperExplosion = new WrapperExplosion(this);
-
+        profile.startSection("getEffectedBlocks");
 
         //Start path finder
-        timeStartPath = System.nanoTime();
+        profile.startSection("Pathfinder");
         triggerPathFinder(map, new BlockEdit(this.world, this.x, this.y, this.z), energy);
-        timeEndPath = System.nanoTime();
+        profile.endSection("Pathfinder");
 
         //Add map keys to block list
         list.addAll(map.keySet());
 
         //Sort results so blocks are placed in the center first
-        timeStartSort = System.nanoTime();
+        profile.startSection("Sorter");
         Collections.sort(list, new Vector3DistanceComparator(new Vector3(this)));
+        profile.endSection("Sorter");
 
-        //Log end time
-        end = System.nanoTime();
-
+        profile.endSection("getEffectedBlocks");
         //Generate debug info
         if (ResonantEngine.runningAsDev)
         {
-            long averageBlockIterationTime = 0;
-            for (Long n : blockIterationTimes)
-            {
-                averageBlockIterationTime += n;
-            }
-            averageBlockIterationTime /= blockIterationTimes.size();
-
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("\n===== Debug Explosive Calculations =====");
-            stringBuilder.append("\nCenter: " + new Vector3(this));
-            stringBuilder.append("\nEnergy: " + energy);
-            stringBuilder.append("\nSize:   " + radius);
-            stringBuilder.append("\n");
-
-            stringBuilder.append("\nPath Time:  " + getTime(timeEndPath - timeStartPath));
-            stringBuilder.append("\nSort Time:  " + getTime(end - timeStartSort));
-            stringBuilder.append("\nTotal Time: " + getTime(end - start));
-
-            Collections.sort(blockIterationTimes);
-            stringBuilder.append("\nAvg B Time: " + getTime(averageBlockIterationTime));
-            stringBuilder.append("\nMin B Time: " + getTime(blockIterationTimes.get(0)));
-            stringBuilder.append("\nMax B Time: " + getTime(blockIterationTimes.get(blockIterationTimes.size() - 1)));
-            stringBuilder.append("\n");
-
-            stringBuilder.append("\nChanges:    " + snum(list.size(), 5));
-            stringBuilder.append("\nIterations: " + snum(tilesPathed, 5));
-            stringBuilder.append("\nAir:        " + snum(airBlocksPathed, 5));
-            stringBuilder.append("\nBlocks:     " + snum(blocksRemoved, 5));
-            stringBuilder.append("\n======================================\n");
-            System.out.println(stringBuilder);
-
-            if (cause instanceof TriggerCause.TriggerCauseEntity)
-            {
-                Entity ent = ((TriggerCause.TriggerCauseEntity) cause).source;
-                EntityPlayer player = null;
-                if (ent instanceof EntityPlayer)
-                    player = (EntityPlayer) ent;
-                if (ent instanceof EntityProjectile && ((EntityProjectile) ent).firedByEntity instanceof EntityPlayer)
-                    player = (EntityPlayer) ((EntityProjectile) ent).firedByEntity;
-                if (player != null)
-                    player.addChatComponentMessage(new ChatComponentText("Explosive went off in " + getTimeDifference(start)));
-            }
+            ICBM.LOGGER.info(profile.getOutputSimple());
         }
     }
 
-    /**
-     * Formats a number to fit into so many spaces, and to contain ,
-     *
-     * @param num    - number to format
-     * @param spaces - spaces to pad the front with
-     * @return formated string
+    /** Called to trigger the blast pathfinder
+     * @param map - hash map to store data for block placement to energy used
+     * @param vec - starting block
+     * @param energy - starting energy
      */
-    protected String snum(long num, int spaces)
-    {
-        return String.format("%" + spaces + "s", numFormatter.format(num));
-    }
-
-    protected void outputTimeDifference(String prefix, long start)
-    {
-        outputTime(prefix, System.nanoTime() - start);
-    }
-
-    protected String getTimeDifference(long start)
-    {
-        return getTime(System.nanoTime() - start);
-    }
-
-    protected void outputTime(String prefix, long nano)
-    {
-        System.out.println(prefix + " Time: " + getTime(nano));
-    }
-
-    protected String getTime(long nano)
-    {
-        long s = nano / 1000000000;
-        long ms = (nano % 1000000000) / 1000000;
-        long us = ((nano % 1000000000) % 1000000) / 1000;
-        long ns = ((nano % 1000000000) % 1000000) % 1000;
-        String string = "";
-        string += snum(s, 3) + "s  ";
-        string += snum(ms, 3) + "ms  ";
-        string += snum(us, 3) + "us  ";
-        string += snum(ns, 3) + "ns  ";
-
-        return string;
-    }
-
     protected void triggerPathFinder(HashMap<BlockEdit, Float> map, BlockEdit vec, float energy)
     {
         //Start pathfinder
         expand(map, vec, energy, null, 0);
     }
 
+    /** Called to map another iteration to expand outwards from the center of the explosion
+     *
+     * @param map - hash map to store data for block placement to energy used
+     * @param vec - next block to expand from, and to log to map
+     * @param energy - current energy at block
+     * @param side - side not to expand in, and direction we came from
+     * @param iteration - current iteration count from center, use this to stop the iteration if they get too far from center
+     */
     protected void expand(HashMap<BlockEdit, Float> map, BlockEdit vec, float energy, EnumFacing side, int iteration)
     {
         long timeStart = System.nanoTime();
         if (iteration < size * 2)
         {
             float e = getEnergyCostOfTile(vec, energy);
-            tilesPathed++;
+            profile.tilesPathed++;
             if (e >= 0)
             {
                 //Add block to effect list
@@ -237,7 +150,7 @@ public class BlastBasic extends Blast
 
                     Collections.sort(sides, new Vector3DistanceComparator(new Vector3(this)));
 
-                    blockIterationTimes.add(System.nanoTime() - timeStart);
+                    profile.blockIterationTimes.add(System.nanoTime() - timeStart);
                     //Iterate threw sides expending energy outwards
                     for (BlockEdit f : sides)
                     {
@@ -255,6 +168,7 @@ public class BlastBasic extends Blast
         }
     }
 
+    //TODO move to helper class later, and PR into forge if its not already there
     private EnumFacing getOpposite(EnumFacing face)
     {
         switch (face)
@@ -286,9 +200,12 @@ public class BlastBasic extends Blast
     protected float getEnergyCostOfTile(BlockEdit vec, float energy)
     {
         //Update debug info
-        if (vec.isAirBlock(world)) airBlocksPathed++; else blocksRemoved++;
+        if (vec.isAirBlock(world))
+            profile.airBlocksPathed++;
+        else
+            profile.blocksRemoved++;
         //Get cost
-        return  (vec.getHardness() >= 0 ? energy - (float) Math.max(vec.getResistance(explosionBlameEntity, x, y, z), 0.5) : -1);
+        return (vec.getHardness() >= 0 ? energy - (float) Math.max(vec.getResistance(explosionBlameEntity, x, y, z), 0.5) : -1);
 
     }
 
@@ -399,6 +316,44 @@ public class BlastBasic extends Blast
             entity.motionZ += motion.xi() & 1;
         }
     }
+
+    @Override
+    public Blast setCause(TriggerCause cause)
+    {
+        super.setCause(cause);
+        //Create entity to check for blast resistance values on blocks
+        if (cause instanceof TriggerCause.TriggerCauseEntity)
+        {
+            explosionBlameEntity = ((TriggerCause.TriggerCauseEntity) cause).source;
+        }
+        if (explosionBlameEntity == null)
+        {
+            explosionBlameEntity = new EntityTNTPrimed(world);
+            explosionBlameEntity.setPosition(x, y, z);
+        }
+        wrapperExplosion = new WrapperExplosion(this);
+        return this;
+    }
+
+
+    @Override
+    public BlastBasic setYield(int size)
+    {
+        super.setYield(size);
+        //Most of the time radius equals size of the explosion
+        radius = size;
+        calcStartingEnergy();
+        return this;
+    }
+
+    /**
+     * Calculates the starting energy based on the size of the explosion
+     */
+    protected void calcStartingEnergy()
+    {
+        energy = (float) (MathUtility.getSphereVolume(radius) * eUnitPerBlock);
+    }
+
 
     public static class WrapperExplosion extends Explosion
     {
