@@ -1,4 +1,4 @@
-package icbm.explosion.blast;
+package icbm.content.blast;
 
 import resonant.lib.debug.profiler.Profiler;
 

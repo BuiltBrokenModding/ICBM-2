@@ -1,7 +1,7 @@
 package icbm.content.warhead;
 
+import resonant.lib.world.explosive.ExplosiveItemUtility;
 import resonant.api.items.IExplosiveItem;
-import icbm.content.ItemSaveUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
@@ -34,18 +34,18 @@ public class ItemBlockExplosive extends ItemBlock implements IExplosiveItem
     @Override
     public IExplosive getExplosive(ItemStack itemStack)
     {
-        return ItemSaveUtil.getExplosive(itemStack);
+        return ExplosiveItemUtility.getExplosive(itemStack);
     }
 
     public void setExplosive(ItemStack itemStack, IExplosive ex)
     {
-        ItemSaveUtil.setExplosive(itemStack, ex);
+        ExplosiveItemUtility.setExplosive(itemStack, ex);
     }
 
     @Override
     public void addInformation(ItemStack stack, EntityPlayer player, List lines, boolean b)
     {
         super.addInformation(stack, player, lines, b);
-        ItemSaveUtil.addInformation(stack, player, lines, b);
+        ExplosiveItemUtility.addInformation(stack, player, lines, b);
     }
 }

@@ -2,11 +2,11 @@ package icbm.content.missile;
 
 import icbm.ICBM;
 import icbm.api.IMissile;
+import resonant.lib.world.explosive.ExplosiveItemUtility;
 import resonant.api.explosive.IExplosive;
 import resonant.api.explosive.IExplosiveContainer;
 import resonant.api.TriggerCause;
-import icbm.content.ItemSaveUtil;
-import icbm.explosion.ExplosiveRegistry;
+import resonant.lib.world.explosive.ExplosiveRegistry;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -127,7 +127,7 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
 
     public void setExplosive(ItemStack stack)
     {
-        this.explosiveID = ItemSaveUtil.getExplosive(stack).getUnlocalizedName();
+        this.explosiveID = ExplosiveItemUtility.getExplosive(stack).getUnlocalizedName();
     }
 
     @Override

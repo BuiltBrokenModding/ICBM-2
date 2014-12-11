@@ -15,15 +15,15 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import icbm.content.BlockExplosiveMarker;
-import icbm.content.ItemSaveUtil;
+import resonant.lib.world.explosive.ExplosiveItemUtility;
 import icbm.content.missile.EntityMissile;
 import icbm.content.missile.ItemMissile;
 import icbm.content.rocketlauncher.ItemRocketLauncher;
 import icbm.content.warhead.TileExplosive;
-import icbm.explosion.ExplosiveRegistry;
-import icbm.explosion.blast.BlastBasic;
-import icbm.explosion.blast.BlastInvert;
-import icbm.explosion.explosive.Explosive;
+import resonant.lib.world.explosive.ExplosiveRegistry;
+import icbm.content.blast.BlastBasic;
+import icbm.content.blast.BlastInvert;
+import resonant.lib.world.explosive.Explosive;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
@@ -117,7 +117,7 @@ public final class ICBM extends AbstractMod
             @Override
             public String getLabel(ItemStack stack)
             {
-                IExplosive ex = ItemSaveUtil.getExplosive(stack);
+                IExplosive ex = ExplosiveItemUtility.getExplosive(stack);
                 if (ex != null)
                 {
                     return stack.getDisplayName() + ex.getUnlocalizedName();

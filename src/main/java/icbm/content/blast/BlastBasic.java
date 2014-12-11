@@ -1,13 +1,12 @@
-package icbm.explosion.blast;
+package icbm.content.blast;
 
 import icbm.ICBM;
 import icbm.content.warhead.TileExplosive;
-import icbm.explosion.Blast;
+import resonant.lib.world.explosive.Blast;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockTNT;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
@@ -19,7 +18,6 @@ import resonant.lib.transform.sorting.Vector3DistanceComparator;
 import resonant.lib.transform.vector.Vector3;
 import resonant.lib.utility.DamageUtility;
 import resonant.lib.utility.MathUtility;
-import resonant.lib.utility.TextUtility;
 import resonant.lib.world.edit.BlockEdit;
 
 import java.util.ArrayList;

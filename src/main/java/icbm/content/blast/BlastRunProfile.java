@@ -1,4 +1,4 @@
-package icbm.explosion.blast;
+package icbm.content.blast;
 
 import resonant.lib.debug.profiler.RunProfile;
 import resonant.lib.transform.vector.Vector3;
@@ -41,7 +41,7 @@ public class BlastRunProfile extends RunProfile
         stringBuilder.append("\nAir:        " + TextUtility.fitIntoSpaces(airBlocksPathed, 5));
         stringBuilder.append("\nBlocks:     " + TextUtility.fitIntoSpaces(blocksRemoved, 5));
         stringBuilder.append("\n");
-        
+
         long averageBlockIterationTime = 0;
         for (Long n : blockIterationTimes)
         {

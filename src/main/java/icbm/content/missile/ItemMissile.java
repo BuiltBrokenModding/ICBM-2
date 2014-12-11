@@ -1,8 +1,8 @@
 package icbm.content.missile;
 
+import resonant.lib.world.explosive.ExplosiveItemUtility;
 import resonant.api.items.IExplosiveItem;
-import icbm.content.ItemSaveUtil;
-import icbm.explosion.ExplosiveRegistry;
+import resonant.lib.world.explosive.ExplosiveRegistry;
 
 import java.util.List;
 
@@ -53,24 +53,24 @@ public class ItemMissile extends Item implements IExplosiveItem
     @Override
     public IExplosive getExplosive(ItemStack itemStack)
     {
-       return ItemSaveUtil.getExplosive(itemStack);
+       return ExplosiveItemUtility.getExplosive(itemStack);
     }
 
     public void setExplosive(ItemStack itemStack, IExplosive ex)
     {
-        ItemSaveUtil.setExplosive(itemStack, ex);
+        ExplosiveItemUtility.setExplosive(itemStack, ex);
     }
 
     @Override
     public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List)
     {
-       ItemSaveUtil.getSubItems(par1, par3List);
+       ExplosiveItemUtility.getSubItems(par1, par3List);
     }
 
     @Override
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
     {
         super.addInformation(stack, player, list, bool);
-        ItemSaveUtil.addInformation(stack, player, list, bool);
+        ExplosiveItemUtility.addInformation(stack, player, list, bool);
     }
 }

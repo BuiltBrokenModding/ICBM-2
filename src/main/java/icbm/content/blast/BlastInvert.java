@@ -1,8 +1,6 @@
-package icbm.explosion.blast;
+package icbm.content.blast;
 
 import icbm.ICBM;
-import net.minecraft.world.World;
-import resonant.lib.transform.vector.Vector3;
 import resonant.lib.world.edit.BlockEdit;
 
 /**
