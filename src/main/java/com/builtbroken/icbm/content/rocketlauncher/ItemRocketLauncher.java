@@ -1,11 +1,11 @@
-package icbm.content.rocketlauncher;
+package com.builtbroken.icbm.content.rocketlauncher;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import icbm.ICBM;
+import com.builtbroken.icbm.ICBM;
 import resonant.api.explosive.IExplosive;
-import icbm.content.missile.EntityMissile;
-import icbm.content.missile.ItemMissile;
+import com.builtbroken.icbm.content.missile.EntityMissile;
+import com.builtbroken.icbm.content.missile.ItemMissile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;

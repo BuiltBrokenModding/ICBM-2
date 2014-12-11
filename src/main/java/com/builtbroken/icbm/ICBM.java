@@ -1,4 +1,4 @@
-package icbm;
+package com.builtbroken.icbm;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -14,15 +14,15 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import icbm.content.BlockExplosiveMarker;
+import com.builtbroken.icbm.content.BlockExplosiveMarker;
 import resonant.lib.world.explosive.ExplosiveItemUtility;
-import icbm.content.missile.EntityMissile;
-import icbm.content.missile.ItemMissile;
-import icbm.content.rocketlauncher.ItemRocketLauncher;
-import icbm.content.warhead.TileExplosive;
+import com.builtbroken.icbm.content.missile.EntityMissile;
+import com.builtbroken.icbm.content.missile.ItemMissile;
+import com.builtbroken.icbm.content.rocketlauncher.ItemRocketLauncher;
+import com.builtbroken.icbm.content.warhead.TileExplosive;
 import resonant.lib.world.explosive.ExplosiveRegistry;
-import icbm.content.blast.BlastBasic;
-import icbm.content.blast.BlastInvert;
+import com.builtbroken.icbm.content.blast.BlastBasic;
+import com.builtbroken.icbm.content.blast.BlastInvert;
 import resonant.lib.world.explosive.Explosive;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
@@ -55,12 +55,12 @@ import java.util.ArrayList;
  * @author Calclavia
  */
 @Mod(modid = ICBM.DOMAIN, name = ICBM.NAME, version = ICBM.VERSION, dependencies = "required-after:ResonantEngine")
-@ModstatInfo(prefix = "icbm", name = ICBM.NAME, version = ICBM.VERSION)
+@ModstatInfo(prefix = "com/builtbroken/icbm", name = ICBM.NAME, version = ICBM.VERSION)
 public final class ICBM extends AbstractMod
 {
     /** Name of the channel and mod ID. */
     public static final String NAME = "ICBM";
-    public static final String DOMAIN = "icbm";
+    public static final String DOMAIN = "com/builtbroken/icbm";
     public static final String PREFIX = DOMAIN + ":";
 
     /** The version of ICBM. */
@@ -88,7 +88,7 @@ public final class ICBM extends AbstractMod
     @Metadata(DOMAIN)
     public static ModMetadata metadata;
 
-    @SidedProxy(clientSide = "icbm.ClientProxy", serverSide = "icbm.CommonProxy")
+    @SidedProxy(clientSide = "com.builtbroken.icbm.ClientProxy", serverSide = "com.builtbroken.icbm.CommonProxy")
     public static CommonProxy proxy;
 
     @Config(key = "Creepers_Drop_Sulfur", category = "Extras")

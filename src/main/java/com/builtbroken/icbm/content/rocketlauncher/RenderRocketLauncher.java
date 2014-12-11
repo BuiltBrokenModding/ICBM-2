@@ -1,6 +1,6 @@
-package icbm.content.rocketlauncher;
+package com.builtbroken.icbm.content.rocketlauncher;
 
-import icbm.ICBM;
+import com.builtbroken.icbm.ICBM;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;

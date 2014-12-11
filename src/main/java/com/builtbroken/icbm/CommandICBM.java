@@ -1,5 +1,5 @@
-package icbm;
-import icbm.content.missile.EntityMissile;
+package com.builtbroken.icbm;
+import com.builtbroken.icbm.content.missile.EntityMissile;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class CommandICBM extends CommandBase
     @Override
     public String getCommandName()
     {
-        return "icbm";
+        return "com/builtbroken/icbm";
     }
 
     @Override

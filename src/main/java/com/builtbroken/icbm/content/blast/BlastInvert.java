@@ -1,6 +1,6 @@
-package icbm.content.blast;
+package com.builtbroken.icbm.content.blast;
 
-import icbm.ICBM;
+import com.builtbroken.icbm.ICBM;
 import resonant.lib.world.edit.BlockEdit;
 
 /**

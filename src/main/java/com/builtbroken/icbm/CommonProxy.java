@@ -1,6 +1,6 @@
-package icbm;
+package com.builtbroken.icbm;
 
-import icbm.content.missile.EntityMissile;
+import com.builtbroken.icbm.content.missile.EntityMissile;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.world.World;

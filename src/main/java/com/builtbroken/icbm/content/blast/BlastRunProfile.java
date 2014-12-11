@@ -1,4 +1,4 @@
-package icbm.content.blast;
+package com.builtbroken.icbm.content.blast;
 
 import resonant.lib.debug.profiler.RunProfile;
 import resonant.lib.transform.vector.Vector3;

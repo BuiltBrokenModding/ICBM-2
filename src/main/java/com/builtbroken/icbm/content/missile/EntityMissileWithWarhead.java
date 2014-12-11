@@ -1,4 +1,4 @@
-package icbm.content.missile;
+package com.builtbroken.icbm.content.missile;
 
 import net.minecraft.world.World;
 

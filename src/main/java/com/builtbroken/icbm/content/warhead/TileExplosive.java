@@ -1,4 +1,4 @@
-package icbm.content.warhead;
+package com.builtbroken.icbm.content.warhead;
 
 import cpw.mods.fml.common.network.ByteBufUtils;
 import resonant.lib.world.explosive.ExplosiveItemUtility;

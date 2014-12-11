@@ -1,4 +1,4 @@
-package icbm.content.warhead;
+package com.builtbroken.icbm.content.warhead;
 
 import resonant.lib.world.explosive.ExplosiveItemUtility;
 import resonant.api.items.IExplosiveItem;

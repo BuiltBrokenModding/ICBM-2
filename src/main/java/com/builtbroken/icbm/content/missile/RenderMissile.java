@@ -1,10 +1,10 @@
-package icbm.content.missile;
+package com.builtbroken.icbm.content.missile;
 
 import cpw.mods.fml.client.FMLClientHandler;
 
 import java.util.HashMap;
 
-import icbm.ICBM;
+import com.builtbroken.icbm.ICBM;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;

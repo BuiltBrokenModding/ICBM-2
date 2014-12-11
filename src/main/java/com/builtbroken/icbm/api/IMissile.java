@@ -1,4 +1,4 @@
-package icbm.api;
+package com.builtbroken.icbm.api;
 
 /**
  * Created by robert on 11/19/2014.

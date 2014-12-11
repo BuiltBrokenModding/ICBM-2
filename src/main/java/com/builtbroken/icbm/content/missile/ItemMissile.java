@@ -1,4 +1,4 @@
-package icbm.content.missile;
+package com.builtbroken.icbm.content.missile;
 
 import resonant.lib.world.explosive.ExplosiveItemUtility;
 import resonant.api.items.IExplosiveItem;

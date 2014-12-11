@@ -1,7 +1,6 @@
-package icbm.content;
+package com.builtbroken.icbm.content;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockAir;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;

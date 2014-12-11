@@ -1,7 +1,7 @@
-package icbm.content.blast;
+package com.builtbroken.icbm.content.blast;
 
-import icbm.ICBM;
-import icbm.content.warhead.TileExplosive;
+import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.content.warhead.TileExplosive;
 import resonant.lib.world.explosive.Blast;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockTNT;
