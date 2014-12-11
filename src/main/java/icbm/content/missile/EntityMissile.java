@@ -127,7 +127,7 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
 
     public void setExplosive(ItemStack stack)
     {
-        this.explosiveID = ExplosiveItemUtility.getExplosive(stack).getUnlocalizedName();
+        this.explosiveID = ExplosiveItemUtility.getExplosive(stack).getID();
     }
 
     @Override

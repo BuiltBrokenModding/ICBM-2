@@ -120,7 +120,7 @@ public final class ICBM extends AbstractMod
                 IExplosive ex = ExplosiveItemUtility.getExplosive(stack);
                 if (ex != null)
                 {
-                    return stack.getDisplayName() + ex.getUnlocalizedName();
+                    return stack.getDisplayName() + ex.getID();
                 }
                 return stack.getDisplayName();
             }
@@ -149,15 +149,13 @@ public final class ICBM extends AbstractMod
         itemRocketLauncher = manager.newItem(ItemRocketLauncher.class);
 
         //Explosives
-        ExplosiveRegistry.registerOrGetExplosive(NAME, new Explosive("testx01", BlastBasic.class));
-        ExplosiveRegistry.registerOrGetExplosive(NAME, new Explosive("testx05", BlastBasic.class, 5));
-        ExplosiveRegistry.registerOrGetExplosive(NAME, new Explosive("testx10", BlastBasic.class, 10));
-        ExplosiveRegistry.registerOrGetExplosive(NAME, new Explosive("testx50", BlastBasic.class, 50));
+        ExplosiveRegistry.registerOrGetExplosive(NAME,"testx01", new Explosive("testx01", BlastBasic.class));
+        ExplosiveRegistry.registerOrGetExplosive(NAME, "testx05", new Explosive("testx05", BlastBasic.class, 5));
+        ExplosiveRegistry.registerOrGetExplosive(NAME, "testx10", new Explosive("testx10", BlastBasic.class, 10));
+        ExplosiveRegistry.registerOrGetExplosive(NAME, "testx50", new Explosive("testx50", BlastBasic.class, 50));
 
-        ExplosiveRegistry.registerOrGetExplosive(NAME, new Explosive("test_invertedx01", BlastInvert.class));
-        ExplosiveRegistry.registerOrGetExplosive(NAME, new Explosive("test_invertedx05", BlastInvert.class, 5));
-        ExplosiveRegistry.registerOrGetExplosive(NAME, new Explosive("test_invertedx10", BlastInvert.class, 10));
-        ExplosiveRegistry.registerOrGetExplosive(NAME, new Explosive("test_invertedx50", BlastInvert.class, 50));
+        ExplosiveRegistry.registerOrGetExplosive(NAME," test_invertedx01", new Explosive("test_invertedx01", BlastInvert.class));
+
     }
 
     @EventHandler

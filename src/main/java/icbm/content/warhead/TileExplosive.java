@@ -109,7 +109,7 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
         if (!world().isRemote && ExplosiveItemUtility.getExplosive(itemStack) != null)
         {
             //Set explosive id
-            this.explosiveID = ExplosiveItemUtility.getExplosive(itemStack).getUnlocalizedName();
+            this.explosiveID = ExplosiveItemUtility.getExplosive(itemStack).getID();
 
             //Set rotation for direction based explosives
             setMeta(determineOrientation(entityLiving));
