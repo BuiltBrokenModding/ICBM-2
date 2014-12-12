@@ -148,6 +148,7 @@ public final class ICBM extends AbstractMod
         itemMissile = manager.newItem(ItemMissile.class);
         itemRocketLauncher = manager.newItem(ItemRocketLauncher.class);
 
+        CREATIVE_TAB.itemStack = new ItemStack(itemMissile);
         //Explosives
         ExplosiveRegistry.registerOrGetExplosive(NAME,"testx01", new Explosive("testx01", BlastBasic.class));
         ExplosiveRegistry.registerOrGetExplosive(NAME, "testx05", new Explosive("testx05", BlastBasic.class, 5));
