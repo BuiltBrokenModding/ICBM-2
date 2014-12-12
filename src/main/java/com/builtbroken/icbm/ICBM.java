@@ -60,7 +60,7 @@ public final class ICBM extends AbstractMod
 {
     /** Name of the channel and mod ID. */
     public static final String NAME = "ICBM";
-    public static final String DOMAIN = "com/builtbroken/icbm";
+    public static final String DOMAIN = "icbm";
     public static final String PREFIX = DOMAIN + ":";
 
     /** The version of ICBM. */
