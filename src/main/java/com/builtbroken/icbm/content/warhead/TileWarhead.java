@@ -5,7 +5,6 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
 import resonant.api.items.ISimpleItemRenderer;
@@ -57,7 +56,7 @@ public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IP
         super(Material.iron);
         this.setBlockHardness(100);
         this.normalRender(false);
-        this.itemBlock(ItemBlockExplosive.class);
+        this.itemBlock(ItemBlockWarhead.class);
         this.bounds_$eq(new Cuboid(0.2, 0, 0.2, 0.8, 0.5, 0.8));
         this.isOpaqueCube(false);
     }
@@ -309,7 +308,7 @@ public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IP
         GL11.glPopMatrix();
     }
 
-    @Override
+    @Override @SideOnly(Side.CLIENT)
     public void renderInventoryItem(IItemRenderer.ItemRenderType type, ItemStack itemStack, Object... data)
     {
         //Translate and rotate
