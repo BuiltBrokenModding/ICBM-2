@@ -34,31 +34,10 @@ public class ItemMissile extends Item implements IExplosiveItem
         return "icbm.missile";
     }
 
-    public ItemStack getStackFor(String ex)
-    {
-        return getStackFor(ExplosiveRegistry.get(ex));
-    }
-
-    public ItemStack getStackFor(IExplosive ex)
-    {
-        if(ex != null && ExplosiveRegistry.isRegistered(ex))
-        {
-            ItemStack stack = new ItemStack(this);
-            setExplosive(stack, ex);
-            return stack;
-        }
-        return null;
-    }
-
     @Override
     public IExplosive getExplosive(ItemStack itemStack)
     {
        return ExplosiveItemUtility.getExplosive(itemStack);
-    }
-
-    public void setExplosive(ItemStack itemStack, IExplosive ex)
-    {
-        ExplosiveItemUtility.setExplosive(itemStack, ex);
     }
 
     @Override

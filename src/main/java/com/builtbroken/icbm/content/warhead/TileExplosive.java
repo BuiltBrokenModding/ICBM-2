@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.warhead;
 
 import cpw.mods.fml.common.network.ByteBufUtils;
+import resonant.api.tile.IRemovable;
 import resonant.lib.world.explosive.ExplosiveItemUtility;
 import resonant.lib.world.explosive.ExplosiveRegistry;
 import io.netty.buffer.ByteBuf;
@@ -31,9 +32,10 @@ import resonant.lib.transform.vector.VectorWorld;
 import resonant.lib.utility.WrenchUtility;
 import resonant.lib.world.edit.WorldChangeHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class TileExplosive extends TileAdvanced implements IExplosiveContainer, IPacketReceiver
+public class TileExplosive extends TileAdvanced implements IExplosiveContainer, IPacketReceiver, IRemovable.ISneakPickup
 {
     public String explosiveID = null;
     public boolean exploding = false;
@@ -268,5 +270,17 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
             return stack;
         }
         return null;
+    }
+
+    @Override
+    public List<ItemStack> getRemovedItems(EntityPlayer entity)
+    {
+        List<ItemStack> list = new ArrayList();
+
+        ItemStack stack = new ItemStack(this.getBlockType());
+        ExplosiveItemUtility.setExplosive(stack, explosiveID);
+        list.add(stack);
+
+        return list;
     }
 }
