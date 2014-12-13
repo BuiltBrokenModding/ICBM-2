@@ -54,10 +54,10 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem
     }
 
     @Override
-    public ItemStack onEaten(ItemStack p_77654_1_, World p_77654_2_, EntityPlayer p_77654_3_)
+    public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player)
     {
-        //TODO evil laugh
-        return p_77654_1_;
+        //TODO evil laugh, allow the player to eat the bomb
+        return stack;
     }
 
     @Override
