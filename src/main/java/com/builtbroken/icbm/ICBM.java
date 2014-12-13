@@ -1,5 +1,6 @@
 package com.builtbroken.icbm;
 
+import com.builtbroken.icbm.content.warhead.TileWarhead;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -19,7 +20,6 @@ import resonant.lib.world.explosive.ExplosiveItemUtility;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.ItemMissile;
 import com.builtbroken.icbm.content.rocketlauncher.ItemRocketLauncher;
-import com.builtbroken.icbm.content.warhead.TileExplosive;
 import resonant.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.icbm.content.blast.BlastBasic;
 import com.builtbroken.icbm.content.blast.BlastInvert;
@@ -140,7 +140,7 @@ public final class ICBM extends AbstractMod
         MinecraftForge.EVENT_BUS.register(proxy);
 
         // Blocks
-        blockExplosive = manager.newBlock(TileExplosive.class);
+        blockExplosive = manager.newBlock(TileWarhead.class);
         if (ResonantEngine.runningAsDev)
             blockExplosiveMarker = manager.newBlock(BlockExplosiveMarker.class, ItemBlockMetadata.class);
 

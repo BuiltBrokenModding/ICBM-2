@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.blast;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.warhead.TileExplosive;
+import com.builtbroken.icbm.content.warhead.TileWarhead;
 import resonant.lib.world.explosive.Blast;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockTNT;
@@ -228,7 +228,7 @@ public class BlastBasic extends Blast
                 //the current explosion is running in with a little bit in the opposite direction
 
                 //Trigger break event so blocks can do X action
-                if (!(block instanceof BlockTNT) && !(vec.getTileEntity() instanceof TileExplosive))
+                if (!(block instanceof BlockTNT) && !(vec.getTileEntity() instanceof TileWarhead))
                 {
                     block.onBlockDestroyedByExplosion(world, vec.xi(), vec.yi(), vec.zi(), wrapperExplosion);
                 }

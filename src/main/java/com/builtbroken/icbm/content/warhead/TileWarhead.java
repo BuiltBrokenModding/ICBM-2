@@ -1,6 +1,14 @@
 package com.builtbroken.icbm.content.warhead;
 
+import com.builtbroken.icbm.content.missile.RenderMissile;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.ByteBufUtils;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraftforge.client.IItemRenderer;
+import org.lwjgl.opengl.GL11;
+import resonant.api.items.ISimpleItemRenderer;
 import resonant.api.tile.IRemovable;
 import resonant.lib.world.explosive.ExplosiveItemUtility;
 import resonant.lib.world.explosive.ExplosiveRegistry;
@@ -35,15 +43,20 @@ import resonant.lib.world.edit.WorldChangeHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TileExplosive extends TileAdvanced implements IExplosiveContainer, IPacketReceiver, IRemovable.ISneakPickup
+/**
+ * Block version of the warhead placed at the end of a missile
+ * @author Darkguardsman
+ */
+public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IPacketReceiver, IRemovable.ISneakPickup, ISimpleItemRenderer
 {
     public String explosiveID = null;
     public boolean exploding = false;
 
-    public TileExplosive()
+    public TileWarhead()
     {
-        super(Material.cloth);
-        this.normalRender(true);
+        super(Material.iron);
+        this.setBlockHardness(100);
+        this.normalRender(false);
         this.itemBlock(ItemBlockExplosive.class);
         this.bounds_$eq(new Cuboid(0.2, 0, 0.2, 0.8, 0.5, 0.8));
         this.isOpaqueCube(false);
@@ -195,6 +208,8 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
             WorldChangeHelper.ChangeResult result = ExplosiveRegistry.triggerExplosive(world(), x(), y(), z(), ExplosiveRegistry.get(explosiveID), triggerCause, 1);
             if (result == WorldChangeHelper.ChangeResult.COMPLETED)
                 world().setBlockToAir(xi(), yi(), zi());
+            else
+                exploding = false;
         }
     }
 
@@ -282,5 +297,37 @@ public class TileExplosive extends TileAdvanced implements IExplosiveContainer, 
         list.add(stack);
 
         return list;
+    }
+
+    @SideOnly(Side.CLIENT) @Override
+    public void renderDynamic(Vector3 position, float frame, int pass)
+    {
+        GL11.glPushMatrix();
+        GL11.glTranslatef(position.xf() + 0.5f, position.yf() - 2.5f, position.zf() + 0.5f);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderMissile.TEXTURE);
+        RenderMissile.defaultMissile.renderOnly("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
+        GL11.glPopMatrix();
+    }
+
+    @Override
+    public void renderInventoryItem(IItemRenderer.ItemRenderType type, ItemStack itemStack, Object... data)
+    {
+        //Translate and rotate
+        if (type == IItemRenderer.ItemRenderType.EQUIPPED)
+        {
+            GL11.glTranslatef(1f, 0.3f, 0.5f);
+        }
+        else if (type == IItemRenderer.ItemRenderType.EQUIPPED_FIRST_PERSON)
+        {
+            GL11.glTranslatef(1.15f, 1f, 0.5f);
+        }
+
+        //Scale
+        if (type == IItemRenderer.ItemRenderType.ENTITY)
+        {
+            GL11.glScalef(0.5f, 0.5f, 0.5f);
+        }
+
+        renderDynamic(new Vector3(), 0, 0);
     }
 }

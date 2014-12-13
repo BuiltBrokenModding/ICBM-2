@@ -9,7 +9,7 @@ item.icbm:rocketLauncher.name=Handheld Launcher
 info.icbm:rocketlauncher.tooltip=Fires small missiles
 
 ## Warhead
-tile.icbm:explosive.name=Warhead
+tile.icbm:warhead.name=Warhead
 
 ## Info
 info.icbm:warhead.loaded=Type
