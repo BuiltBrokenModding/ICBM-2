@@ -25,16 +25,13 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     public EntityMissile(World w)
     {
         super(w);
+        this.setSize(.5F, .5F);
     }
 
     public EntityMissile(EntityLivingBase entity)
     {
         super(entity);
-    }
-
-    public EntityMissile(World w, Vector3 startAndSource)
-    {
-        super(w, startAndSource);
+        this.setSize(.5F, .5F);
     }
 
     /**
