@@ -1,5 +1,6 @@
-package com.builtbroken.icbm.content.blast;
+package com.builtbroken.icbm.content.blast.explosive;
 
+import com.builtbroken.icbm.content.blast.explosive.BlastBasic;
 import resonant.lib.debug.profiler.RunProfile;
 import resonant.lib.transform.vector.Vector3;
 import resonant.lib.utility.TextUtility;

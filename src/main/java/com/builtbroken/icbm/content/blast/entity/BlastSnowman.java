@@ -1,5 +1,6 @@
-package com.builtbroken.icbm.content.blast;
+package com.builtbroken.icbm.content.blast.entity;
 
+import com.builtbroken.icbm.content.blast.BlastSpawn;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntitySnowman;
 import net.minecraft.world.World;

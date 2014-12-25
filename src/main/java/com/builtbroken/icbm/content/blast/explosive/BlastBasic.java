@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.blast;
+package com.builtbroken.icbm.content.blast.explosive;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.warhead.TileWarhead;

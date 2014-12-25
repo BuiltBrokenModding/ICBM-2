@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.blast;
+package com.builtbroken.icbm.content.blast.explosive;
 
 import resonant.lib.debug.profiler.Profiler;
 

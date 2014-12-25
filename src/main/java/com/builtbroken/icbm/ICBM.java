@@ -1,6 +1,6 @@
 package com.builtbroken.icbm;
 
-import com.builtbroken.icbm.content.blast.BlastSnowman;
+import com.builtbroken.icbm.content.blast.entity.BlastSnowman;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -22,8 +22,8 @@ import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.ItemMissile;
 import com.builtbroken.icbm.content.rocketlauncher.ItemRocketLauncher;
 import resonant.lib.world.explosive.ExplosiveRegistry;
-import com.builtbroken.icbm.content.blast.BlastBasic;
-import com.builtbroken.icbm.content.blast.BlastInvert;
+import com.builtbroken.icbm.content.blast.explosive.BlastBasic;
+import com.builtbroken.icbm.content.blast.explosive.BlastInvert;
 import resonant.lib.world.explosive.Explosive;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
@@ -152,6 +152,9 @@ public final class ICBM extends AbstractMod
         CREATIVE_TAB.itemStack = new ItemStack(itemMissile);
         //Explosives
         ExplosiveRegistry.registerOrGetExplosive(NAME, "Snowmen", new Explosive("snowmen", BlastSnowman.class, 1));
+        ExplosiveRegistry.registerOrGetExplosive(NAME, "TNT", new Explosive("tnt", BlastBasic.class, 1));
+
+        //Debug missiles TODO remove when done testing
         ExplosiveRegistry.registerOrGetExplosive(NAME, "testx05", new Explosive("testx05", BlastBasic.class, 5));
         ExplosiveRegistry.registerOrGetExplosive(NAME, "testx50", new Explosive("testx50", BlastBasic.class, 50));
         ExplosiveRegistry.registerOrGetExplosive(NAME," test_invertedx01", new Explosive("test_invertedx01", BlastInvert.class));
