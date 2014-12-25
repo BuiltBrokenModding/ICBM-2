@@ -1,5 +1,6 @@
 package com.builtbroken.icbm;
 
+import com.builtbroken.icbm.content.blast.BlastSnowman;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -150,11 +151,9 @@ public final class ICBM extends AbstractMod
 
         CREATIVE_TAB.itemStack = new ItemStack(itemMissile);
         //Explosives
-        ExplosiveRegistry.registerOrGetExplosive(NAME,"testx01", new Explosive("testx01", BlastBasic.class));
+        ExplosiveRegistry.registerOrGetExplosive(NAME, "Snowmen", new Explosive("snowmen", BlastSnowman.class, 1));
         ExplosiveRegistry.registerOrGetExplosive(NAME, "testx05", new Explosive("testx05", BlastBasic.class, 5));
-        ExplosiveRegistry.registerOrGetExplosive(NAME, "testx10", new Explosive("testx10", BlastBasic.class, 10));
         ExplosiveRegistry.registerOrGetExplosive(NAME, "testx50", new Explosive("testx50", BlastBasic.class, 50));
-
         ExplosiveRegistry.registerOrGetExplosive(NAME," test_invertedx01", new Explosive("test_invertedx01", BlastInvert.class));
 
     }
