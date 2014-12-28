@@ -2,6 +2,7 @@ package com.builtbroken.icbm.content.missile;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.IMissile;
+import com.builtbroken.icbm.content.warhead.Warhead;
 import resonant.lib.world.explosive.ExplosiveItemUtility;
 import resonant.api.explosive.IExplosive;
 import resonant.api.explosive.IExplosiveContainer;
@@ -19,8 +20,8 @@ import resonant.lib.transform.vector.Vector3;
  */
 public class EntityMissile extends EntityProjectile implements IExplosiveContainer, IMissile
 {
-    /** String ID for the explosive this missile carries */
-    public String explosiveID = null;
+
+    protected Warhead warhead;
 
     public EntityMissile(World w)
     {
@@ -44,7 +45,7 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     public static void fireMissileByEntity(EntityLivingBase entity, ItemStack missile)
     {
         EntityMissile entityMissile = new EntityMissile(entity);
-        entityMissile.setExplosive(missile);
+        entityMissile.warhead = new Warhead(missile.getTagCompound());
         entityMissile.setTicksInAir(1);
         entityMissile.setMotion(1);
         entityMissile.worldObj.spawnEntityInWorld(entityMissile);
@@ -57,7 +58,7 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     @Override
     public String getCommandSenderName()
     {
-        return ExplosiveRegistry.get(this.explosiveID) == null ? "Missile Module" : "Missile with " + ExplosiveRegistry.get(this.explosiveID).toString() + " warhead";
+        return warhead == null ? "Missile Module" : "Missile with " + warhead.ex.toString() + " warhead";
     }
 
     /**
@@ -106,25 +107,20 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     protected void readEntityFromNBT(NBTTagCompound nbt)
     {
         super.readEntityFromNBT(nbt);
-        this.explosiveID = nbt.getString("explosiveString");
+        warhead.load(nbt);
     }
 
     @Override
     protected void writeEntityToNBT(NBTTagCompound nbt)
     {
         super.writeEntityToNBT(nbt);
-        nbt.setString("explosiveString", this.explosiveID);
+        warhead.save(nbt);
     }
 
     @Override
     public IExplosive getExplosive()
     {
-        return ExplosiveRegistry.get(this.explosiveID);
-    }
-
-    public void setExplosive(ItemStack stack)
-    {
-        this.explosiveID = ExplosiveItemUtility.getExplosive(stack).getID();
+        return warhead != null ? warhead.ex : null;
     }
 
     @Override
@@ -137,6 +133,8 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     protected void onImpact()
     {
         super.onImpact();
-        ExplosiveRegistry.triggerExplosive(worldObj, posX, posY, posZ, getExplosive(), new TriggerCause.TriggerCauseEntity(this), 5);
+        NBTTagCompound tag = new NBTTagCompound();
+        writeEntityToNBT(tag);
+        ExplosiveRegistry.triggerExplosive(worldObj, posX, posY, posZ, getExplosive(), new TriggerCause.TriggerCauseEntity(this), 5, tag);
     }
 }

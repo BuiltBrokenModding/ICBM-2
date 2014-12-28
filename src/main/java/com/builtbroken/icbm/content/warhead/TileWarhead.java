@@ -48,8 +48,9 @@ import java.util.List;
  */
 public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IPacketReceiver, IRemovable.ISneakPickup, ISimpleItemRenderer
 {
-    public String explosiveID = null;
     public boolean exploding = false;
+
+    protected Warhead warhead;
 
     public TileWarhead()
     {
@@ -123,7 +124,7 @@ public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IP
         if (!world().isRemote && ExplosiveItemUtility.getExplosive(itemStack) != null)
         {
             //Set explosive id
-            this.explosiveID = ExplosiveItemUtility.getExplosive(itemStack).getID();
+            warhead = new Warhead(itemStack.getTagCompound());
 
             //Set rotation for direction based explosives
             setMeta(determineOrientation(entityLiving));
@@ -203,9 +204,7 @@ public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IP
         if(!exploding)
         {
             exploding = true;
-            //TODO add tier
-            WorldChangeHelper.ChangeResult result = ExplosiveRegistry.triggerExplosive(world(), x(), y(), z(), ExplosiveRegistry.get(explosiveID), triggerCause, 1);
-            if (result == WorldChangeHelper.ChangeResult.COMPLETED)
+            if (warhead.trigger(triggerCause, world(), x(), y(), z()) == WorldChangeHelper.ChangeResult.COMPLETED)
                 world().setBlockToAir(xi(), yi(), zi());
             else
                 exploding = false;
@@ -228,20 +227,20 @@ public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IP
      * Reads a tile entity from NBT.
      */
     @Override
-    public void readFromNBT(NBTTagCompound par1NBTTagCompound)
+    public void readFromNBT(NBTTagCompound nbt)
     {
-        super.readFromNBT(par1NBTTagCompound);
-        this.explosiveID = par1NBTTagCompound.getString("explosiveString");
+        super.readFromNBT(nbt);
+        warhead.load(nbt);
     }
 
     /**
      * Writes a tile entity to NBT.
      */
     @Override
-    public void writeToNBT(NBTTagCompound par1NBTTagCompound)
+    public void writeToNBT(NBTTagCompound nbt)
     {
-        super.writeToNBT(par1NBTTagCompound);
-        par1NBTTagCompound.setString("explosiveString", this.explosiveID);
+        super.writeToNBT(nbt);
+        warhead.save(nbt);
     }
 
     @Override
@@ -251,7 +250,11 @@ public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IP
 
         if (ID == 1)
         {
-            explosiveID = ByteBufUtils.readUTF8String(data);
+            NBTTagCompound tag = ByteBufUtils.readTag(data);
+            if(warhead == null)
+                warhead = new Warhead(tag);
+            else
+                warhead.load(tag);
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         }
     }
@@ -259,13 +262,13 @@ public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IP
     @Override
     public PacketTile getDescPacket()
     {
-        return new PacketTile(this, (byte) 1, this.explosiveID);
+        return new PacketTile(this, 1, warhead);
     }
 
     @Override
     public IExplosive getExplosive()
     {
-        return ExplosiveRegistry.get(this.explosiveID);
+        return warhead.ex;
     }
 
     @Override
@@ -277,10 +280,12 @@ public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IP
     @Override
     public ItemStack getPickBlock(MovingObjectPosition target)
     {
-        if(explosiveID != null)
+        if(warhead != null)
         {
             ItemStack stack = new ItemStack(this.getBlockType());
-            ExplosiveItemUtility.setExplosive(stack, explosiveID);
+            NBTTagCompound tag = new NBTTagCompound();
+            warhead.save(tag);
+            stack.setTagCompound(tag);
             return stack;
         }
         return null;
@@ -290,11 +295,7 @@ public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IP
     public List<ItemStack> getRemovedItems(EntityPlayer entity)
     {
         List<ItemStack> list = new ArrayList();
-
-        ItemStack stack = new ItemStack(this.getBlockType());
-        ExplosiveItemUtility.setExplosive(stack, explosiveID);
-        list.add(stack);
-
+        list.add(getPickBlock(null));
         return list;
     }
 
