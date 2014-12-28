@@ -74,7 +74,7 @@ public class RenderMissile extends Render implements IItemRenderer
     {
         if (this.shouldUseRenderHelper(type, item, null))
         {
-            IExplosive missile = ((ItemMissile)item.getItem()).getExplosive(item);
+            IExplosive ex = ((ItemMissile)item.getItem()).getExplosive(item);
 
             float scale = 0.7f;
             float right = 0f;
@@ -110,7 +110,11 @@ public class RenderMissile extends Render implements IItemRenderer
             GL11.glScalef(scale, scale, scale);
 
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
-            defaultMissile.renderAll();
+            if(ex != null)
+            {
+                defaultMissile.renderOnly("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
+            }
+            defaultMissile.renderAllExcept("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
         }
     }
 

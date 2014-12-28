@@ -1,5 +1,7 @@
 package com.builtbroken.icbm.content.rocketlauncher;
 
+import com.builtbroken.icbm.api.IAmmoType;
+import com.builtbroken.icbm.api.IWeapon;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import com.builtbroken.icbm.ICBM;
@@ -23,7 +25,7 @@ import java.util.List;
  * @author Calclavia
  */
 
-public class ItemRocketLauncher extends Item
+public class ItemRocketLauncher extends Item implements IWeapon
 {
     private static final int firingDelay = 1000;
     private HashMap<String, Long> clickTimePlayer = new HashMap<String, Long>();
@@ -111,5 +113,17 @@ public class ItemRocketLauncher extends Item
                 }
             }
         }
+    }
+
+    @Override
+    public ItemStack loadAmmo(ItemStack weapon, ItemStack ammo, IAmmoType type, boolean isClip)
+    {
+        return null;
+    }
+
+    @Override
+    public boolean canContainAmmo(ItemStack weapon)
+    {
+        return false;
     }
 }

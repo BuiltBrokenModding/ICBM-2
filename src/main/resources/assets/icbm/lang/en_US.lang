@@ -3,6 +3,7 @@ itemGroup.ICBM=ICBM
 
 ## Missile
 item.icbm:missile.name=Missile
+item.icbm:missile.empty.name=Missile Module
 
 ## Launcher
 item.icbm:rocketLauncher.name=Handheld Launcher

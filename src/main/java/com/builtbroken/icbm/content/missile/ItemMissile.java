@@ -1,18 +1,27 @@
 package com.builtbroken.icbm.content.missile;
 
-import resonant.lib.world.explosive.ExplosiveItemUtility;
-import resonant.api.items.IExplosiveItem;
-import resonant.lib.world.explosive.ExplosiveRegistry;
-
-import java.util.List;
-
+import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.IAmmo;
+import com.builtbroken.icbm.api.IAmmoType;
+import com.builtbroken.icbm.api.IWeapon;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import resonant.api.explosive.IExplosive;
+import resonant.api.items.IExplosiveItem;
+import resonant.lib.world.explosive.ExplosiveItemUtility;
 
-public class ItemMissile extends Item implements IExplosiveItem
+import java.util.List;
+
+/**
+ * Item version of the missile
+ *
+ * @author Darkguardsman
+ */
+public class ItemMissile extends Item implements IExplosiveItem, IAmmo
 {
     public ItemMissile()
     {
@@ -31,19 +40,30 @@ public class ItemMissile extends Item implements IExplosiveItem
     @Override
     public String getUnlocalizedName()
     {
-        return "icbm.missile";
+        return "item." + ICBM.PREFIX + "missile";
+    }
+
+    @Override
+    public String getUnlocalizedName(ItemStack item)
+    {
+        if(getExplosive(item) == null)
+        {
+            return getUnlocalizedName() + ".empty";
+        }
+        return getUnlocalizedName();
     }
 
     @Override
     public IExplosive getExplosive(ItemStack itemStack)
     {
-       return ExplosiveItemUtility.getExplosive(itemStack);
+        return ExplosiveItemUtility.getExplosive(itemStack);
     }
 
     @Override
-    public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List)
+    public void getSubItems(Item item, CreativeTabs tab, List list)
     {
-       ExplosiveItemUtility.getSubItems(par1, par3List);
+        list.add(new ItemStack(item, 1, 1));
+        ExplosiveItemUtility.getSubItems(item, list);
     }
 
     @Override
@@ -51,5 +71,48 @@ public class ItemMissile extends Item implements IExplosiveItem
     {
         super.addInformation(stack, player, list, bool);
         ExplosiveItemUtility.addInformation(stack, player, list, bool);
+    }
+
+    @Override
+    public boolean isAmmo(ItemStack stack)
+    {
+        return getExplosive(stack) != null;
+    }
+
+    @Override
+    public boolean isClip(ItemStack stack)
+    {
+        return false;
+    }
+
+    @Override
+    public IAmmoType getAmmoType(ItemStack stack)
+    {
+        return AmmoTypeMissile.INSTANCE;
+    }
+
+    @Override
+    public int getAmmoCount(ItemStack ammoStack)
+    {
+        return ammoStack.stackSize;
+    }
+
+    @Override
+    public void fireAmmo(IWeapon weapon, ItemStack ammoStack, Entity firingEntity)
+    {
+        if (firingEntity instanceof EntityLivingBase)
+        {
+            EntityMissile.fireMissileByEntity((EntityLivingBase) firingEntity, ammoStack);
+        }
+        else
+        {
+            ICBM.LOGGER.error("Item Missile can't be fired using \n fireAmmo(" + weapon + ", " + ammoStack + ", " + firingEntity + ") \n when the entity is not an instanceof EntityLivingBase");
+        }
+    }
+
+    @Override
+    public void consumeAmmo(IWeapon weapon, ItemStack ammoStack, int shotsFired)
+    {
+        ammoStack.stackSize -= shotsFired;
     }
 }
