@@ -1,0 +1,47 @@
+## Russian language file
+itemGroup.ICBM=ICBM
+
+## Missile
+item.icbm:missile.name=Реактивный снаряд
+item.icbm:missile.empty.name=Корпус реактивного снаряда
+
+item.icbm:missile.micro.name=Ракета
+item.icbm:missile.micro.empty.name=Корпус ракеты
+
+item.icbm:missile.small.name=Малый реактивный снаряд
+item.icbm:missile.small.empty.name=Корпус малого реактивного снаряда
+
+item.icbm:missile.standard.name=Реактивный снаряд
+item.icbm:missile.standard.empty.name=Корпус реактивного снаряда
+
+item.icbm:missile.medium.name=Большой реактивный снаряд
+item.icbm:missile.medium.empty.name=Корпус большого реактивного снаряда
+
+item.icbm:missile.large.name=ICBM
+item.icbm:missile.large.empty.name=Корпус ICBM
+
+## Explosives
+explosive.icbm:tnt.name=Динамит
+explosive.icbm:snowmen.name=Пускай пойдёт снег!
+
+## Launcher
+item.icbm:rocketLauncher.name=Ручной гранатомёт
+info.icbm:rocketlauncher.tooltip=Запускает малые реактивные снаряды
+
+## Warhead
+tile.icbm:warhead.name=Заряженная боеголовка
+tile.icbm:warhead.casing.name=Корпус боеголовки
+
+## Info
+info.icbm:engine.name=Двигатель
+info.icbm:warhead.name=Боеголовка
+info.icbm:guidance.name=Руководство
+info.icbm:trigger.name=Спусковой механизм
+
+## Triggers
+trigger.icbm:impact.name=Воздействие
+trigger.icbm:gps.name=Расположение
+trigger.icbm:time.name=Таймер
+
+## Modules
+module.icbm:engine.creative.name=Пустотный двигатель
