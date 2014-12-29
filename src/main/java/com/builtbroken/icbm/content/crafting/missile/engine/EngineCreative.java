@@ -10,7 +10,7 @@ public class EngineCreative extends Engine
 {
     public EngineCreative(ItemStack item)
     {
-        super(item);
+        super(item, "engine.creative");
     }
 
     @Override

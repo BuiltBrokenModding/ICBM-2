@@ -4,7 +4,9 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.IAmmo;
 import com.builtbroken.icbm.api.IAmmoType;
 import com.builtbroken.icbm.api.IWeapon;
+import com.builtbroken.icbm.content.crafting.MissileSizes;
 import com.builtbroken.icbm.content.crafting.missile.EnumModule;
+import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engine;
 import net.minecraft.creativetab.CreativeTabs;
@@ -15,9 +17,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import resonant.api.explosive.IExplosive;
 import resonant.api.items.IExplosiveItem;
+import resonant.engine.References;
+import resonant.lib.utility.LanguageUtility;
 import resonant.lib.world.explosive.ExplosiveItemUtility;
 import resonant.lib.world.explosive.ExplosiveRegistry;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,9 +55,14 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo
     @Override
     public String getUnlocalizedName(ItemStack item)
     {
-        if(getExplosive(item) == null)
+        if(item.getItemDamage() < MissileSizes.values().length)
         {
-            return getUnlocalizedName() + ".empty";
+            MissileSizes size = MissileSizes.values()[item.getItemDamage()];
+            if (getExplosive(item) == null)
+            {
+                return getUnlocalizedName() + "." + size.toString().toLowerCase() + ".empty";
+            }
+            return getUnlocalizedName() + "." + size.toString().toLowerCase();
         }
         return getUnlocalizedName();
     }
@@ -60,25 +70,19 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo
     @Override
     public IExplosive getExplosive(ItemStack itemStack)
     {
-        return ExplosiveItemUtility.getExplosive(itemStack);
+        Missile missile = MissileSizes.loadMissile(itemStack);
+        return missile.getWarhead() != null ? missile.getWarhead().ex : null;
     }
 
     @Override
     public void getSubItems(Item item, CreativeTabs tab, List list)
     {
-        for(int i =0; i < 4; i++)
+        for(MissileSizes size : MissileSizes.values())
         {
-            list.add(new ItemStack(item, 1, i));
+            list.add(new ItemStack(item, 1, size.ordinal()));
             for(IExplosive ex: ExplosiveRegistry.getExplosives())
             {
-                ItemStack stack = new ItemStack(item, 1, i);
-                //Build Missile to save
-                Missile missile = new Missile(stack);
-                //Engine
-                missile.setEngine((Engine)EnumModule.CREATIVE_ENGINE.newModule());
-                //Warhead
-
-                list.add(stack);
+                list.add(MissileModuleBuilder.INSTANCE.buildMissile(size, ex).toStack());
             }
         }
     }
@@ -87,7 +91,38 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
     {
         super.addInformation(stack, player, list, bool);
-        ExplosiveItemUtility.addInformation(stack, player, list, bool);
+        Missile missile = MissileSizes.loadMissile(stack);
+        IExplosive ex = missile.getWarhead() != null ? missile.getWarhead().ex : null;
+        String ex_translation = LanguageUtility.getLocal("info." + ICBM.PREFIX + "warhead.name") + ": ";
+        if(ex != null)
+        {
+            ex_translation += LanguageUtility.getLocal(getExplosive(stack).getTranslationKey());
+            list.add(ex_translation);
+
+            List<String> l = new ArrayList();
+            ex.addInfoToItem(stack, l);
+            for(String s : l)
+                list.add(s);
+        }
+        else
+        {
+            ex_translation += "----";
+            list.add(ex_translation);
+        }
+
+        String engine_translation = LanguageUtility.getLocal("info." + ICBM.PREFIX + "engine.name") +": ";
+        if(missile.getEngine() != null)
+        {
+            engine_translation += LanguageUtility.getLocal(missile.getEngine().getUnlocaizedName());
+        }
+        else
+        {
+            engine_translation += "----";
+        }
+
+        list.add(engine_translation);
+
+
     }
 
     @Override

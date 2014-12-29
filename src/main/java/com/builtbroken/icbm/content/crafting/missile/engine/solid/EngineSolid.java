@@ -15,9 +15,9 @@ public class EngineSolid extends Engine implements IInventoryProvider
     private ExternalInventory inventory;
     protected int inventory_size = 1;
 
-    public EngineSolid(ItemStack item)
+    public EngineSolid(ItemStack item, String name)
     {
-        super(item);
+        super(item, name);
     }
 
     @Override

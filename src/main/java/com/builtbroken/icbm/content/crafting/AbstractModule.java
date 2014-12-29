@@ -1,6 +1,8 @@
 package com.builtbroken.icbm.content.crafting;
 
+import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.IModuleContainer;
+import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -17,10 +19,17 @@ public class AbstractModule implements ISave
 {
     /** ItemStack that represents this module */
     protected ItemStack item;
+    protected String name;
 
-    public AbstractModule(ItemStack item)
+    public AbstractModule(ItemStack item, String name)
     {
         this.item = item;
+        this.name = name;
+    }
+
+    public String getUnlocaizedName()
+    {
+        return "module." + ICBM.PREFIX + name + ".name";
     }
 
     /** Loads from the item's NBT */
@@ -49,6 +58,8 @@ public class AbstractModule implements ISave
         if(stack.getTagCompound() == null)
             stack.setTagCompound(new NBTTagCompound());
         save(stack.getTagCompound());
+
+        stack.getTagCompound().setString(ModuleBuilder.SAVE_ID, MissileModuleBuilder.INSTANCE.getID(this));
     }
 
     public ItemStack toStack()

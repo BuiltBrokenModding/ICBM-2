@@ -110,7 +110,7 @@ public class MissileModuleBuilder extends ModuleBuilder
 
     public Missile buildMissile(MissileSizes missileSize, IExplosive ex, Engine engine, Guidance guidance)
     {
-        Missile missile = new Missile(new ItemStack(ICBM.itemMissile, 1, missileSize.ordinal()));
+        Missile missile = missileSize.getMissile();
         //Engine
         missile.setEngine(engine);
 
@@ -118,28 +118,10 @@ public class MissileModuleBuilder extends ModuleBuilder
         missile.setGuidance(guidance);
 
         //Warhead
-        Warhead warhead = null;
-        ItemStack warheadStack = new ItemStack(ICBM.blockExplosive, 1, missileSize.ordinal());
-        switch (missileSize)
+        if(ex != null)
         {
-            case MICRO:
-                warhead = new WarheadMicro(warheadStack);
-                break;
-            case SMALL:
-                warhead = new WarheadSmall(warheadStack);
-                break;
-            case STANDARD:
-                warhead = new WarheadStandard(warheadStack);
-                break;
-            case MEDIUM:
-                warhead = new WarheadMedium(warheadStack);
-                break;
-            case LARGE:
-                warhead = new WarheadLarge(warheadStack);
-                break;
+            missile.setWarhead(missileSize.getWarhead(ex));
         }
-        warhead.ex = ex;
-        missile.setWarhead(warhead);
 
         return missile;
     }

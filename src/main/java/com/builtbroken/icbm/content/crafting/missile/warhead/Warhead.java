@@ -22,7 +22,7 @@ public abstract class Warhead extends AbstractModule
 
     public Warhead(ItemStack warhead)
     {
-        super(warhead);
+        super(warhead, "warhead");
     }
 
     @Override

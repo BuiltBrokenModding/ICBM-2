@@ -13,9 +13,9 @@ import net.minecraftforge.fluids.IFluidTank;
  */
 public abstract class Engine extends MissileModule
 {
-    public Engine(ItemStack item)
+    public Engine(ItemStack item, String name)
     {
-        super(item);
+        super(item, name);
     }
 
 

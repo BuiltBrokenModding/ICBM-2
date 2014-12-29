@@ -19,8 +19,8 @@ public enum MissileSizes
     MEDIUM(WarheadMedium.class, MissileMedium.class),
     LARGE(WarheadLarge.class, MissileLarge.class);
 
-    private Class< ? extends Warhead> warhead_clazz;
-    private Class< ? extends Missile> missile_clazz;
+    public final Class< ? extends Warhead> warhead_clazz;
+    public final Class< ? extends Missile> missile_clazz;
 
     private MissileSizes(Class< ? extends Warhead> warhead_clazz, Class< ? extends Missile> missile_clazz)
     {
@@ -114,7 +114,8 @@ public enum MissileSizes
         try
         {
             return warhead_clazz.getConstructor(ItemStack.class).newInstance(stack);
-        } catch (InstantiationException e)
+        }
+        catch (InstantiationException e)
         {
             e.printStackTrace();
         }

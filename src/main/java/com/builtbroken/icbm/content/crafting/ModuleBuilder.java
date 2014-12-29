@@ -1,6 +1,8 @@
 package com.builtbroken.icbm.content.crafting;
 
 import com.builtbroken.icbm.ICBM;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import net.minecraft.item.ItemStack;
 import resonant.engine.ResonantEngine;
 
@@ -16,7 +18,7 @@ import java.util.Set;
 public class ModuleBuilder
 {
     public static final String SAVE_ID = "moduleID";
-    HashMap<String, Class<? extends AbstractModule>> idToCLassMap = new HashMap();
+    HashBiMap<String, Class<? extends AbstractModule>> idToCLassMap = HashBiMap.create();
     HashMap<String, List<String>> modToModules = new HashMap();
 
     protected boolean register(String mod_id, String name, Class<? extends AbstractModule> clazz)
@@ -71,6 +73,16 @@ public class ModuleBuilder
     public Set<String> getIDs()
     {
         return idToCLassMap.keySet();
+    }
+
+    public String getID(AbstractModule module)
+    {
+        Class<? extends AbstractModule> clazz = module.getClass();
+        if(idToCLassMap.inverse().containsKey(clazz))
+        {
+            return idToCLassMap.inverse().get(clazz);
+        }
+        return module.getClass().getSimpleName();
     }
 
     /**

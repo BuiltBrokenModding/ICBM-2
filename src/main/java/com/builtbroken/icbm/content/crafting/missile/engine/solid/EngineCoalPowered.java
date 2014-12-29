@@ -14,7 +14,7 @@ public class EngineCoalPowered extends EngineSolid
 {
     public EngineCoalPowered(ItemStack item)
     {
-        super(item);
+        super(item, "engine.coal");
     }
 
     @Override

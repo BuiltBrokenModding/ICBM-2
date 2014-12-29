@@ -5,6 +5,25 @@ itemGroup.ICBM=ICBM
 item.icbm:missile.name=Missile
 item.icbm:missile.empty.name=Missile Casing
 
+item.icbm:missile.micro.name=Rocket
+item.icbm:missile.micro.empty.name=Rocket Casing
+
+item.icbm:missile.small.name=Small Missile
+item.icbm:missile.small.empty.name=Small Missile Casing
+
+item.icbm:missile.standard.name=Missile
+item.icbm:missile.standard.empty.name=Missile Casing
+
+item.icbm:missile.medium.name=Large Missile
+item.icbm:missile.medium.empty.name=Large Missile Casing
+
+item.icbm:missile.large.name=ICBM
+item.icbm:missile.large.empty.name=ICBM Casing
+
+## Explosives
+explosive.icbm:tnt.name=TNT
+explosive.icbm:snowmen.name=Let it Snow!
+
 ## Launcher
 item.icbm:rocketLauncher.name=Handheld Launcher
 info.icbm:rocketlauncher.tooltip=Fires small missiles
@@ -14,5 +33,15 @@ tile.icbm:warhead.name=Loaded Warhead
 tile.icbm:warhead.casing.name=Warhead Casing
 
 ## Info
-info.icbm:warhead.loaded=Type
-info.icbm:warhead.size=Size
+info.icbm:engine.name=Engine
+info.icbm:warhead.name=Warhead
+info.icbm:guidance.name=Guidance
+info.icbm:trigger.name=Trigger
+
+## Triggers
+trigger.icbm:impact.name=Impact
+trigger.icbm:gps.name=Location
+trigger.icbm:time.name=Timer
+
+## Modules
+module.icbm:engine.creative.name=Void Thruster

@@ -9,8 +9,8 @@ import net.minecraft.item.ItemStack;
  */
 public class Guidance extends MissileModule
 {
-    public Guidance(ItemStack item)
+    public Guidance(ItemStack item, String name)
     {
-        super(item);
+        super(item, name);
     }
 }

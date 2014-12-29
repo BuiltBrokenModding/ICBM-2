@@ -2,7 +2,9 @@ package com.builtbroken.icbm;
 
 import com.builtbroken.icbm.content.blast.entity.BlastSnowman;
 import com.builtbroken.icbm.content.crafting.ItemMissileModules;
+import com.builtbroken.icbm.content.crafting.MissileSizes;
 import com.builtbroken.icbm.content.crafting.missile.EnumModule;
+import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -154,6 +156,11 @@ public final class ICBM extends AbstractMod
         itemRocketLauncher = manager.newItem(ItemRocketLauncher.class);
         itemMissileModules = manager.newItem(ItemMissileModules.class);
 
+        for(MissileSizes size : MissileSizes.values())
+        {
+            MissileModuleBuilder.INSTANCE.register(DOMAIN, "warhead_"+size.name().toLowerCase(), size.warhead_clazz);
+        }
+
         EnumModule.register();
 
         CREATIVE_TAB.itemStack = new ItemStack(itemMissile);
@@ -166,8 +173,8 @@ public final class ICBM extends AbstractMod
     {
         super.init(event);
         //Explosives
-        ExplosiveRegistry.registerOrGetExplosive(NAME, "Snowmen", new Explosive("snowmen", BlastSnowman.class, 1));
-        ExplosiveRegistry.registerOrGetExplosive(NAME, "TNT", new Explosive("tnt", BlastBasic.class, 1));
+        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Snowmen", new Explosive("snowmen", BlastSnowman.class, 1));
+        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "TNT", new Explosive("tnt", BlastBasic.class, 1));
 
         //Entities
         EntityRegistry.registerGlobalEntityID(EntityMissile.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());

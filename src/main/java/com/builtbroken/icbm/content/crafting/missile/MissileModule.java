@@ -10,9 +10,9 @@ import resonant.api.IUpdate;
  */
 public class MissileModule extends AbstractModule
 {
-    public MissileModule(ItemStack item)
+    public MissileModule(ItemStack item, String name)
     {
-        super(item);
+        super(item, name);
     }
 
     public void update(EntityMissile missile)

@@ -14,9 +14,9 @@ public class EngineFluid extends Engine implements IFluidTank
 {
     protected FluidTank tank = new FluidTank(1);
 
-    public EngineFluid(ItemStack item)
+    public EngineFluid(ItemStack item, String name)
     {
-        super(item);
+        super(item, name);
     }
 
     @Override

@@ -34,7 +34,7 @@ public enum EnumModule
     {
         for (EnumModule module : values())
         {
-            MissileModuleBuilder.INSTANCE.register(ICBM.DOMAIN, module.name, module.clazz);
+            MissileModuleBuilder.INSTANCE.register(ICBM.DOMAIN, module.name, module.clazz, true);
         }
     }
 }
