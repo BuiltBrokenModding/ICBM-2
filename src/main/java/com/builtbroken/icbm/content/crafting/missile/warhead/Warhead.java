@@ -1,9 +1,9 @@
-package com.builtbroken.icbm.content.crafting;
+package com.builtbroken.icbm.content.crafting.missile.warhead;
 
+import com.builtbroken.icbm.content.crafting.AbstractModule;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import resonant.api.ISave;
 import resonant.api.TriggerCause;
 import resonant.api.explosive.IExplosive;
 import resonant.lib.world.edit.WorldChangeHelper;
@@ -23,18 +23,6 @@ public class Warhead extends AbstractModule
     public Warhead(ItemStack warhead)
     {
         super(warhead);
-    }
-
-    public Warhead(ItemStack warhead, IExplosive ex)
-    {
-        this(warhead);
-        this.ex = ex;
-    }
-
-    public Warhead(ItemStack warhead, IExplosive ex, int size)
-    {
-        this(warhead, ex);
-        this.size = size;
     }
 
     @Override
