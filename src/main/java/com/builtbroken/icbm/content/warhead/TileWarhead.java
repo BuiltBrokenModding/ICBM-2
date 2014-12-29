@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.warhead;
 
+import com.builtbroken.icbm.content.crafting.Warhead;
 import com.builtbroken.icbm.content.missile.RenderMissile;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.ByteBufUtils;
@@ -10,7 +11,6 @@ import org.lwjgl.opengl.GL11;
 import resonant.api.items.ISimpleItemRenderer;
 import resonant.api.tile.IRemovable;
 import resonant.lib.world.explosive.ExplosiveItemUtility;
-import resonant.lib.world.explosive.ExplosiveRegistry;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -124,7 +124,7 @@ public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IP
         if (!world().isRemote && ExplosiveItemUtility.getExplosive(itemStack) != null)
         {
             //Set explosive id
-            warhead = new Warhead(itemStack.getTagCompound());
+            warhead = new Warhead(itemStack);
 
             //Set rotation for direction based explosives
             setMeta(determineOrientation(entityLiving));
@@ -252,7 +252,10 @@ public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IP
         {
             NBTTagCompound tag = ByteBufUtils.readTag(data);
             if(warhead == null)
-                warhead = new Warhead(tag);
+            {
+                warhead = new Warhead(getItemStack());
+                warhead.load(tag);
+            }
             else
                 warhead.load(tag);
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
@@ -280,6 +283,11 @@ public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IP
     @Override
     public ItemStack getPickBlock(MovingObjectPosition target)
     {
+        return getItemStack();
+    }
+
+    public ItemStack getItemStack()
+    {
         if(warhead != null)
         {
             ItemStack stack = new ItemStack(this.getBlockType());
@@ -295,7 +303,7 @@ public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IP
     public List<ItemStack> getRemovedItems(EntityPlayer entity)
     {
         List<ItemStack> list = new ArrayList();
-        list.add(getPickBlock(null));
+        list.add(getItemStack());
         return list;
     }
 

@@ -2,8 +2,7 @@ package com.builtbroken.icbm.content.missile;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.IMissile;
-import com.builtbroken.icbm.content.warhead.Warhead;
-import resonant.lib.world.explosive.ExplosiveItemUtility;
+import com.builtbroken.icbm.content.crafting.Warhead;
 import resonant.api.explosive.IExplosive;
 import resonant.api.explosive.IExplosiveContainer;
 import resonant.api.TriggerCause;
@@ -45,7 +44,8 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     public static void fireMissileByEntity(EntityLivingBase entity, ItemStack missile)
     {
         EntityMissile entityMissile = new EntityMissile(entity);
-        entityMissile.warhead = new Warhead(missile.getTagCompound());
+        entityMissile.warhead = new Warhead(missile);
+        entityMissile.warhead.load();
         entityMissile.setTicksInAir(1);
         entityMissile.setMotion(1);
         entityMissile.worldObj.spawnEntityInWorld(entityMissile);

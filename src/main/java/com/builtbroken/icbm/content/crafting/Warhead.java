@@ -1,5 +1,6 @@
-package com.builtbroken.icbm.content.warhead;
+package com.builtbroken.icbm.content.crafting;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import resonant.api.ISave;
@@ -12,26 +13,28 @@ import resonant.lib.world.explosive.ExplosiveRegistry;
 /** Container for explosive data to make implementing warhead like objects easier
  * Created by robert on 12/25/2014.
  */
-public class Warhead implements ISave
+public class Warhead extends AbstractModule
 {
     public IExplosive ex;
     public int size = 1;
     public NBTTagCompound tag = new NBTTagCompound();
+    public ItemStack explosive;
 
-    public Warhead(IExplosive ex)
+    public Warhead(ItemStack warhead)
     {
+        super(warhead);
+    }
+
+    public Warhead(ItemStack warhead, IExplosive ex)
+    {
+        this(warhead);
         this.ex = ex;
     }
 
-    public Warhead(IExplosive ex, int size)
+    public Warhead(ItemStack warhead, IExplosive ex, int size)
     {
-        this.ex = ex;
+        this(warhead, ex);
         this.size = size;
-    }
-
-    public Warhead(NBTTagCompound tag)
-    {
-        load(tag);
     }
 
     @Override

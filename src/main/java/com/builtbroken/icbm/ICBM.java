@@ -150,15 +150,10 @@ public final class ICBM extends AbstractMod
         itemRocketLauncher = manager.newItem(ItemRocketLauncher.class);
 
         CREATIVE_TAB.itemStack = new ItemStack(itemMissile);
+
         //Explosives
         ExplosiveRegistry.registerOrGetExplosive(NAME, "Snowmen", new Explosive("snowmen", BlastSnowman.class, 1));
         ExplosiveRegistry.registerOrGetExplosive(NAME, "TNT", new Explosive("tnt", BlastBasic.class, 1));
-
-        //Debug missiles TODO remove when done testing
-        ExplosiveRegistry.registerOrGetExplosive(NAME, "testx05", new Explosive("testx05", BlastBasic.class, 5));
-        ExplosiveRegistry.registerOrGetExplosive(NAME, "testx50", new Explosive("testx50", BlastBasic.class, 50));
-        ExplosiveRegistry.registerOrGetExplosive(NAME," test_invertedx01", new Explosive("test_invertedx01", BlastInvert.class));
-
     }
 
     @EventHandler
