@@ -17,6 +17,6 @@ public class MissileModule extends AbstractModule
 
     public void update(EntityMissile missile)
     {
-        
+
     }
 }

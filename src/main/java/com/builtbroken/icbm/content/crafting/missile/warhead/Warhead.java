@@ -13,7 +13,7 @@ import resonant.lib.world.explosive.ExplosiveRegistry;
 /** Container for explosive data to make implementing warhead like objects easier
  * Created by robert on 12/25/2014.
  */
-public class Warhead extends AbstractModule
+public abstract class Warhead extends AbstractModule
 {
     public IExplosive ex;
     public int size = 1;

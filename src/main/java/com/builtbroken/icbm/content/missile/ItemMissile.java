@@ -4,6 +4,9 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.IAmmo;
 import com.builtbroken.icbm.api.IAmmoType;
 import com.builtbroken.icbm.api.IWeapon;
+import com.builtbroken.icbm.content.crafting.missile.EnumModule;
+import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
+import com.builtbroken.icbm.content.crafting.missile.engine.Engine;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -13,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import resonant.api.explosive.IExplosive;
 import resonant.api.items.IExplosiveItem;
 import resonant.lib.world.explosive.ExplosiveItemUtility;
+import resonant.lib.world.explosive.ExplosiveRegistry;
 
 import java.util.List;
 
@@ -62,8 +66,21 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo
     @Override
     public void getSubItems(Item item, CreativeTabs tab, List list)
     {
-        list.add(new ItemStack(item, 1, 1));
-        ExplosiveItemUtility.getSubItems(item, list);
+        for(int i =0; i < 4; i++)
+        {
+            list.add(new ItemStack(item, 1, i));
+            for(IExplosive ex: ExplosiveRegistry.getExplosives())
+            {
+                ItemStack stack = new ItemStack(item, 1, i);
+                //Build Missile to save
+                Missile missile = new Missile(stack);
+                //Engine
+                missile.setEngine((Engine)EnumModule.CREATIVE_ENGINE.newModule());
+                //Warhead
+
+                list.add(stack);
+            }
+        }
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.warhead;
 
+import com.builtbroken.icbm.content.crafting.MissileSizes;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.missile.RenderMissile;
 import cpw.mods.fml.client.FMLClientHandler;
@@ -124,7 +125,7 @@ public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IP
         if (!world().isRemote && ExplosiveItemUtility.getExplosive(itemStack) != null)
         {
             //Set explosive id
-            warhead = new Warhead(itemStack);
+            warhead = MissileSizes.loadWarhead(itemStack);
 
             //Set rotation for direction based explosives
             setMeta(determineOrientation(entityLiving));
@@ -253,7 +254,7 @@ public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IP
             NBTTagCompound tag = ByteBufUtils.readTag(data);
             if(warhead == null)
             {
-                warhead = new Warhead(getItemStack());
+                warhead = MissileSizes.loadWarhead(getItemStack());
                 warhead.load(tag);
             }
             else

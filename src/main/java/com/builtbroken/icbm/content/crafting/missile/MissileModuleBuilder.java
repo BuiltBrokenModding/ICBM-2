@@ -1,14 +1,19 @@
 package com.builtbroken.icbm.content.crafting.missile;
 
+import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.crafting.AbstractModule;
+import com.builtbroken.icbm.content.crafting.MissileSizes;
 import com.builtbroken.icbm.content.crafting.ModuleBuilder;
-import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasing;
+import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engine;
 import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
-import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
+import com.builtbroken.icbm.content.crafting.missile.warhead.*;
 import net.minecraft.item.ItemStack;
+import resonant.api.explosive.IExplosive;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by robert on 12/28/2014.
@@ -19,8 +24,22 @@ public class MissileModuleBuilder extends ModuleBuilder
 
     public HashMap<String, Class<? extends Warhead>> registeredWarheads = new HashMap();
     public HashMap<String, Class<? extends Engine>> registeredEngines = new HashMap();
-    public HashMap<String, Class<? extends MissileCasing>> registeredCasings = new HashMap();
     public HashMap<String, Class<? extends Guidance>> registeredGuidances = new HashMap();
+    public List<String> idToUseWithModuleItem = new ArrayList<String>();
+
+
+    public boolean register(String mod_id, String name, Class<? extends AbstractModule> clazz, boolean useItem)
+    {
+        if (this.register(mod_id, name, clazz))
+        {
+            if (useItem)
+            {
+                idToUseWithModuleItem.add(mod_id + "." + name);
+            }
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public boolean register(String mod_id, String name, Class<? extends AbstractModule> clazz)
@@ -36,17 +55,13 @@ public class MissileModuleBuilder extends ModuleBuilder
             {
                 registeredEngines.put(id, (Class<? extends Engine>) clazz);
             }
-            else if (MissileCasing.class.isAssignableFrom(clazz))
-            {
-                registeredCasings.put(id, (Class<? extends MissileCasing>) clazz);
-            }
             else if (Guidance.class.isAssignableFrom(clazz))
             {
                 registeredGuidances.put(id, (Class<? extends Guidance>) clazz);
             }
             else
             {
-                throw new IllegalArgumentException("MissileModuleBuilder, mod " + mod_id +" registered a module[" + name + " " + clazz + "] that can't be used on the missile");
+                throw new IllegalArgumentException("MissileModuleBuilder, mod " + mod_id + " registered a module[" + name + " " + clazz + "] that can't be used on the missile");
             }
             return true;
         }
@@ -56,16 +71,6 @@ public class MissileModuleBuilder extends ModuleBuilder
     public Missile buildMissile(ItemStack stack)
     {
         return new Missile(stack);
-    }
-
-    public MissileCasing buildCasing(ItemStack stack)
-    {
-        AbstractModule module = super.build(stack);
-        if (module instanceof MissileCasing)
-        {
-            return (MissileCasing) module;
-        }
-        return null;
     }
 
     public Warhead buildWarhead(ItemStack stack)
@@ -96,5 +101,46 @@ public class MissileModuleBuilder extends ModuleBuilder
             return (Guidance) module;
         }
         return null;
+    }
+
+    public Missile buildMissile(MissileSizes missileSize, IExplosive ex)
+    {
+        return this.buildMissile(missileSize, ex, (Engine)EnumModule.CREATIVE_ENGINE.newModule(), null);
+    }
+
+    public Missile buildMissile(MissileSizes missileSize, IExplosive ex, Engine engine, Guidance guidance)
+    {
+        Missile missile = new Missile(new ItemStack(ICBM.itemMissile, 1, missileSize.ordinal()));
+        //Engine
+        missile.setEngine(engine);
+
+        //Guidance
+        missile.setGuidance(guidance);
+
+        //Warhead
+        Warhead warhead = null;
+        ItemStack warheadStack = new ItemStack(ICBM.blockExplosive, 1, missileSize.ordinal());
+        switch (missileSize)
+        {
+            case MICRO:
+                warhead = new WarheadMicro(warheadStack);
+                break;
+            case SMALL:
+                warhead = new WarheadSmall(warheadStack);
+                break;
+            case STANDARD:
+                warhead = new WarheadStandard(warheadStack);
+                break;
+            case MEDIUM:
+                warhead = new WarheadMedium(warheadStack);
+                break;
+            case LARGE:
+                warhead = new WarheadLarge(warheadStack);
+                break;
+        }
+        warhead.ex = ex;
+        missile.setWarhead(warhead);
+
+        return missile;
     }
 }

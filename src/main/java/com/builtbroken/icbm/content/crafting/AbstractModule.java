@@ -1,7 +1,12 @@
 package com.builtbroken.icbm.content.crafting;
 
+import com.builtbroken.icbm.api.IModuleContainer;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.IIcon;
 import resonant.api.ISave;
 import resonant.lib.mod.AbstractMod;
 
@@ -60,6 +65,36 @@ public class AbstractModule implements ISave
 
     @Override
     public void save(NBTTagCompound nbt)
+    {
+
+    }
+
+    /** Called when the module is installed */
+    public void onAdded(IModuleContainer container)
+    {
+
+    }
+
+    /** Called when the module is removed */
+    public void onRemoved(IModuleContainer container)
+    {
+
+    }
+
+    /** Called to get the stack to return when removing the module */
+    public ItemStack getRemovedStack(IModuleContainer container)
+    {
+        return toStack();
+    }
+
+    @SideOnly(Side.CLIENT)
+    public IIcon getIcon(ItemStack stack, int pass)
+    {
+        return null;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister register)
     {
 
     }

@@ -2,6 +2,8 @@ package com.builtbroken.icbm.content.missile;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.IMissile;
+import com.builtbroken.icbm.content.crafting.MissileSizes;
+import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import resonant.api.explosive.IExplosive;
 import resonant.api.explosive.IExplosiveContainer;
@@ -20,7 +22,7 @@ import resonant.lib.transform.vector.Vector3;
 public class EntityMissile extends EntityProjectile implements IExplosiveContainer, IMissile
 {
 
-    protected Warhead warhead;
+    protected Missile missile;
 
     public EntityMissile(World w)
     {
@@ -44,8 +46,7 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     public static void fireMissileByEntity(EntityLivingBase entity, ItemStack missile)
     {
         EntityMissile entityMissile = new EntityMissile(entity);
-        entityMissile.warhead = new Warhead(missile);
-        entityMissile.warhead.load();
+        entityMissile.missile = MissileSizes.loadMissile(missile);
         entityMissile.setTicksInAir(1);
         entityMissile.setMotion(1);
         entityMissile.worldObj.spawnEntityInWorld(entityMissile);
@@ -58,7 +59,7 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     @Override
     public String getCommandSenderName()
     {
-        return warhead == null ? "Missile Module" : "Missile with " + warhead.ex.toString() + " warhead";
+        return missile == null ? "Corrupted-Missile" : missile.getWarhead() == null ? "Missile-Module" : "Missile with " + missile.getWarhead().ex.toString() + " warhead";
     }
 
     /**
@@ -107,20 +108,28 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     protected void readEntityFromNBT(NBTTagCompound nbt)
     {
         super.readEntityFromNBT(nbt);
-        warhead.load(nbt);
+        if(nbt.hasKey("missileStack"))
+        {
+            ItemStack stack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("missileStack"));
+            missile = MissileSizes.loadMissile(stack);
+        }
     }
 
     @Override
     protected void writeEntityToNBT(NBTTagCompound nbt)
     {
         super.writeEntityToNBT(nbt);
-        warhead.save(nbt);
+        if(missile != null)
+        {
+            ItemStack stack = missile.toStack();
+            nbt.setTag("missileStack", stack.writeToNBT(new NBTTagCompound()));
+        }
     }
 
     @Override
     public IExplosive getExplosive()
     {
-        return warhead != null ? warhead.ex : null;
+        return missile != null && missile.getWarhead() != null ? missile.getWarhead().ex : null;
     }
 
     @Override
