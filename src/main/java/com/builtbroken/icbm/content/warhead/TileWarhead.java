@@ -288,15 +288,16 @@ public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IP
 
     public ItemStack getItemStack()
     {
+        ItemStack stack = new ItemStack(this.getBlockType());
         if(warhead != null)
         {
-            ItemStack stack = new ItemStack(this.getBlockType());
-            NBTTagCompound tag = new NBTTagCompound();
-            warhead.save(tag);
-            stack.setTagCompound(tag);
-            return stack;
+            warhead.save(stack);
         }
-        return null;
+        else
+        {
+            stack.setItemDamage(1);
+        }
+        return stack;
     }
 
     @Override

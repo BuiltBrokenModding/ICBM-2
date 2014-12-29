@@ -3,14 +3,15 @@ itemGroup.ICBM=ICBM
 
 ## Missile
 item.icbm:missile.name=Missile
-item.icbm:missile.empty.name=Missile Module
+item.icbm:missile.empty.name=Missile Casing
 
 ## Launcher
 item.icbm:rocketLauncher.name=Handheld Launcher
 info.icbm:rocketlauncher.tooltip=Fires small missiles
 
 ## Warhead
-tile.icbm:warhead.name=Warhead
+tile.icbm:warhead.name=Loaded Warhead
+tile.icbm:warhead.casing.name=Warhead Casing
 
 ## Info
 info.icbm:warhead.loaded=Type
