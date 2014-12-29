@@ -4,11 +4,9 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.IAmmo;
 import com.builtbroken.icbm.api.IAmmoType;
 import com.builtbroken.icbm.api.IWeapon;
-import com.builtbroken.icbm.content.crafting.MissileSizes;
-import com.builtbroken.icbm.content.crafting.missile.EnumModule;
+import com.builtbroken.icbm.content.crafting.missile.MissileSizes;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
-import com.builtbroken.icbm.content.crafting.missile.engine.Engine;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -17,9 +15,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import resonant.api.explosive.IExplosive;
 import resonant.api.items.IExplosiveItem;
-import resonant.engine.References;
 import resonant.lib.utility.LanguageUtility;
-import resonant.lib.world.explosive.ExplosiveItemUtility;
 import resonant.lib.world.explosive.ExplosiveRegistry;
 
 import java.util.ArrayList;
@@ -96,7 +92,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo
         String ex_translation = LanguageUtility.getLocal("info." + ICBM.PREFIX + "warhead.name") + ": ";
         if(ex != null)
         {
-            ex_translation += LanguageUtility.getLocal(getExplosive(stack).getTranslationKey());
+            ex_translation += LanguageUtility.getLocal(ex.getTranslationKey() +".name");
             list.add(ex_translation);
 
             List<String> l = new ArrayList();
@@ -113,7 +109,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo
         String engine_translation = LanguageUtility.getLocal("info." + ICBM.PREFIX + "engine.name") +": ";
         if(missile.getEngine() != null)
         {
-            engine_translation += LanguageUtility.getLocal(missile.getEngine().getUnlocaizedName());
+            engine_translation += LanguageUtility.getLocal(missile.getEngine().getUnlocaizedName() +".name");
         }
         else
         {

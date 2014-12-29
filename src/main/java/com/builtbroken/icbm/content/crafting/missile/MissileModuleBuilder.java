@@ -1,11 +1,10 @@
 package com.builtbroken.icbm.content.crafting.missile;
 
-import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.crafting.AbstractModule;
-import com.builtbroken.icbm.content.crafting.MissileSizes;
 import com.builtbroken.icbm.content.crafting.ModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engine;
+import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
 import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
 import com.builtbroken.icbm.content.crafting.missile.warhead.*;
 import net.minecraft.item.ItemStack;
@@ -105,7 +104,7 @@ public class MissileModuleBuilder extends ModuleBuilder
 
     public Missile buildMissile(MissileSizes missileSize, IExplosive ex)
     {
-        return this.buildMissile(missileSize, ex, (Engine)EnumModule.CREATIVE_ENGINE.newModule(), null);
+        return this.buildMissile(missileSize, ex, (Engine) Engines.CREATIVE_ENGINE.newModule(), null);
     }
 
     public Missile buildMissile(MissileSizes missileSize, IExplosive ex, Engine engine, Guidance guidance)

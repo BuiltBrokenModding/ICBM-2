@@ -1,9 +1,12 @@
-package com.builtbroken.icbm.content.crafting;
+package com.builtbroken.icbm.content.crafting.missile;
 
 import com.builtbroken.icbm.api.IModuleItem;
+import com.builtbroken.icbm.content.crafting.AbstractModule;
+import com.builtbroken.icbm.content.crafting.ModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -11,6 +14,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +29,17 @@ public class ItemMissileModules extends Item implements IModuleItem, IItemRender
         this.setMaxStackSize(1);
     }
 
+    @Override
+    public String getUnlocalizedName(ItemStack stack)
+    {
+        AbstractModule module = getModule(stack);
+        if (module != null)
+        {
+            return module.getUnlocaizedName();
+        }
+        return super.getUnlocalizedName(stack);
+    }
+
     public ItemStack getModuleStackForModule(String module_id)
     {
         if (MissileModuleBuilder.INSTANCE.isRegistered(module_id))
@@ -37,7 +52,7 @@ public class ItemMissileModules extends Item implements IModuleItem, IItemRender
         return null;
     }
 
-    @Override
+    @Override @SideOnly(Side.CLIENT)
     public IIcon getIcon(ItemStack stack, int pass)
     {
         AbstractModule module = getModule(stack);
@@ -46,6 +61,21 @@ public class ItemMissileModules extends Item implements IModuleItem, IItemRender
             return module.getIcon(stack, pass);
         }
         return super.getIcon(stack, pass);
+    }
+
+    @Override @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister reg)
+    {
+        List<ItemStack> list = new ArrayList();
+        getSubItems(this, null, list);
+        for(ItemStack stack: list)
+        {
+            AbstractModule module = getModule(stack);
+            if (module != null)
+            {
+                module.registerIcons(reg);
+            }
+        }
     }
 
 

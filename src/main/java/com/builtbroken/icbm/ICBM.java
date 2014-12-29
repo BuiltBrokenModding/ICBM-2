@@ -1,9 +1,9 @@
 package com.builtbroken.icbm;
 
 import com.builtbroken.icbm.content.blast.entity.BlastSnowman;
-import com.builtbroken.icbm.content.crafting.ItemMissileModules;
-import com.builtbroken.icbm.content.crafting.MissileSizes;
-import com.builtbroken.icbm.content.crafting.missile.EnumModule;
+import com.builtbroken.icbm.content.crafting.missile.ItemMissileModules;
+import com.builtbroken.icbm.content.crafting.missile.MissileSizes;
+import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -27,7 +27,6 @@ import com.builtbroken.icbm.content.missile.ItemMissile;
 import com.builtbroken.icbm.content.rocketlauncher.ItemRocketLauncher;
 import resonant.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.icbm.content.blast.explosive.BlastBasic;
-import com.builtbroken.icbm.content.blast.explosive.BlastInvert;
 import resonant.lib.world.explosive.Explosive;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
@@ -140,6 +139,7 @@ public final class ICBM extends AbstractMod
     public void preInit(FMLPreInitializationEvent event)
     {
         super.preInit(event);
+
         NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
 
         Modstats.instance().getReporter().registerMod(INSTANCE);
@@ -161,7 +161,7 @@ public final class ICBM extends AbstractMod
             MissileModuleBuilder.INSTANCE.register(DOMAIN, "warhead_"+size.name().toLowerCase(), size.warhead_clazz);
         }
 
-        EnumModule.register();
+        Engines.register();
 
         CREATIVE_TAB.itemStack = new ItemStack(itemMissile);
 

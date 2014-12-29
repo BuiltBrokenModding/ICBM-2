@@ -1,9 +1,9 @@
-package com.builtbroken.icbm.content.warhead;
+package com.builtbroken.icbm.content.crafting.missile.trigger;
 
 /** Enum of trigger types that can be installed into the warhead
  * Created by robert on 12/13/2014.
  */
-public enum TriggerDevices
+public enum Triggers
 {
     //TODO abstract so that any mod can create new trigger devices
     //TODO add checks to see if the trigger types can be st off by fire

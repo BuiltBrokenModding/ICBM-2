@@ -2,9 +2,8 @@ package com.builtbroken.icbm.content.missile;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.IMissile;
-import com.builtbroken.icbm.content.crafting.MissileSizes;
+import com.builtbroken.icbm.content.crafting.missile.MissileSizes;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
-import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import resonant.api.explosive.IExplosive;
 import resonant.api.explosive.IExplosiveContainer;
 import resonant.api.TriggerCause;

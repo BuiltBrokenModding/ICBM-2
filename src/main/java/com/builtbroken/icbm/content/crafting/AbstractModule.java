@@ -29,14 +29,14 @@ public class AbstractModule implements ISave
 
     public String getUnlocaizedName()
     {
-        return "module." + ICBM.PREFIX + name + ".name";
+        return "module." + ICBM.PREFIX + name;
     }
 
     /** Loads from the item's NBT */
-    public final ItemStack load()
+    public final AbstractModule load()
     {
         load(item);
-        return item;
+        return this;
     }
 
     /** Loads from an ItemStack's NBT, can be used to clone modules */

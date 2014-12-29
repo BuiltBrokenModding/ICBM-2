@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.content.warhead;
 
-import com.builtbroken.icbm.content.crafting.MissileSizes;
+import com.builtbroken.icbm.content.crafting.missile.MissileSizes;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.missile.RenderMissile;
 import cpw.mods.fml.client.FMLClientHandler;

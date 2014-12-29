@@ -103,7 +103,7 @@ public class ModuleBuilder
                 {
                     try
                     {
-                        return idToCLassMap.get(id).getConstructor(ItemStack.class).newInstance(stack);
+                        return idToCLassMap.get(id).getConstructor(ItemStack.class).newInstance(stack).load();
                     }
                     catch (InstantiationException e)
                     {

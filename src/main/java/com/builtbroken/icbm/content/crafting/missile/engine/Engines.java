@@ -1,17 +1,13 @@
-package com.builtbroken.icbm.content.crafting.missile;
+package com.builtbroken.icbm.content.crafting.missile.engine;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.crafting.AbstractModule;
-import com.builtbroken.icbm.content.crafting.missile.engine.EngineCreative;
-import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadLarge;
-import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadMedium;
-import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadMicro;
-import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadSmall;
+import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 
 /**
  * Created by robert on 12/28/2014.
  */
-public enum EnumModule
+public enum Engines
 {
     //Engines
     CREATIVE_ENGINE("creative_engine", EngineCreative.class);
@@ -19,7 +15,7 @@ public enum EnumModule
     private final String name;
     private final Class<? extends AbstractModule> clazz;
 
-    private EnumModule(String name, Class<? extends AbstractModule> clazz)
+    private Engines(String name, Class<? extends AbstractModule> clazz)
     {
         this.name = name;
         this.clazz = clazz;
@@ -32,7 +28,7 @@ public enum EnumModule
 
     public static void register()
     {
-        for (EnumModule module : values())
+        for (Engines module : values())
         {
             MissileModuleBuilder.INSTANCE.register(ICBM.DOMAIN, module.name, module.clazz, true);
         }

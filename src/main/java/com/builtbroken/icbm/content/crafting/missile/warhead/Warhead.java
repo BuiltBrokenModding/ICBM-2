@@ -10,7 +10,8 @@ import resonant.lib.world.edit.WorldChangeHelper;
 import resonant.lib.world.explosive.ExplosiveItemUtility;
 import resonant.lib.world.explosive.ExplosiveRegistry;
 
-/** Container for explosive data to make implementing warhead like objects easier
+/**
+ * Container for explosive data to make implementing warhead like objects easier
  * Created by robert on 12/25/2014.
  */
 public abstract class Warhead extends AbstractModule
@@ -28,22 +29,28 @@ public abstract class Warhead extends AbstractModule
     @Override
     public void load(NBTTagCompound nbt)
     {
-        ex = ExplosiveItemUtility.getExplosive(nbt);
+        if (nbt.hasKey(ExplosiveItemUtility.EXPLOSIVE_SAVE))
+            ex = ExplosiveItemUtility.getExplosive(nbt);
+        if (nbt.hasKey("data"))
+            tag = nbt.getCompoundTag("data");
         size = ExplosiveItemUtility.getSize(nbt);
-        tag = nbt.getCompoundTag("data");
     }
 
     @Override
     public void save(NBTTagCompound nbt)
     {
-        ExplosiveItemUtility.setExplosive(nbt, ex);
+        if (ex != null)
+            ExplosiveItemUtility.setExplosive(nbt, ex);
+        if (tag != null)
+            nbt.setTag("data", tag);
         ExplosiveItemUtility.setSize(nbt, size);
-        nbt.setTag("data", tag);
     }
 
-    /** Triggers the warhead to set its explosive off */
+    /**
+     * Triggers the warhead to set its explosive off
+     */
     public WorldChangeHelper.ChangeResult trigger(TriggerCause triggerCause, World world, double x, double y, double z)
     {
-       return ExplosiveRegistry.triggerExplosive(world, x, y, z, ex, triggerCause, size, tag);
+        return ExplosiveRegistry.triggerExplosive(world, x, y, z, ex, triggerCause, size, tag);
     }
 }
