@@ -53,7 +53,7 @@ public interface IAmmo
      * @param firingEntity - entity that will be used for rotation, position, and source
      *                     of any damage caused by the bullet.
      */
-    public void fireAmmo(IWeapon weapon, ItemStack ammoStack, Entity firingEntity);
+    public void fireAmmo(IWeapon weapon, ItemStack weaponStack, ItemStack ammoStack, Entity firingEntity);
 
     /**
      * Called to consume ammo from the stack. Use this to define how ammo is consumed
@@ -63,7 +63,7 @@ public interface IAmmo
      * @param ammoStack  - ammo that was fired
      * @param shotsFired - number of shots that were fired
      */
-    public void consumeAmmo(IWeapon weapon, ItemStack ammoStack, int shotsFired);
+    public void consumeAmmo(IWeapon weapon,  ItemStack weaponStack, ItemStack ammoStack, int shotsFired);
 
 
 }

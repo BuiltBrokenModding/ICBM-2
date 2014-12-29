@@ -42,7 +42,7 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
      * @param entity  - entity that is firing the missile, most likely a player with a launcher
      * @param missile - item stack that represents the missile plus explosive settings to fire
      */
-    public static void fireMissileByEntity(EntityLivingBase entity, ItemStack missile)
+    public static void fireMissileByEntity(EntityLivingBase entity, ItemStack missile, MissileSizes size)
     {
         EntityMissile entityMissile = new EntityMissile(entity);
         entityMissile.missile = MissileSizes.loadMissile(missile);

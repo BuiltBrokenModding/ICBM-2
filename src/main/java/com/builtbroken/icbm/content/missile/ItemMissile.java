@@ -124,7 +124,8 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo
     @Override
     public boolean isAmmo(ItemStack stack)
     {
-        return getExplosive(stack) != null;
+        Missile missile = MissileSizes.loadMissile(stack);
+        return missile != null && missile.getEngine() != null;
     }
 
     @Override
@@ -136,7 +137,14 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo
     @Override
     public IAmmoType getAmmoType(ItemStack stack)
     {
-        return AmmoTypeMissile.INSTANCE;
+        switch (stack.getItemDamage())
+        {
+            case 1: return AmmoTypeMissile.SMALL;
+            case 2: return AmmoTypeMissile.STANDARD;
+            case 3: return AmmoTypeMissile.MEDIUM;
+            case 4: return AmmoTypeMissile.LARGE;
+        }
+        return AmmoTypeMissile.MICRO;
     }
 
     @Override
@@ -146,11 +154,11 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo
     }
 
     @Override
-    public void fireAmmo(IWeapon weapon, ItemStack ammoStack, Entity firingEntity)
+    public void fireAmmo(IWeapon weapon, ItemStack weaponStack, ItemStack ammoStack, Entity firingEntity)
     {
         if (firingEntity instanceof EntityLivingBase)
         {
-            EntityMissile.fireMissileByEntity((EntityLivingBase) firingEntity, ammoStack);
+            EntityMissile.fireMissileByEntity((EntityLivingBase) firingEntity, ammoStack, ((AmmoTypeMissile)getAmmoType(ammoStack)).size);
         }
         else
         {
@@ -159,7 +167,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo
     }
 
     @Override
-    public void consumeAmmo(IWeapon weapon, ItemStack ammoStack, int shotsFired)
+    public void consumeAmmo(IWeapon weapon, ItemStack weaponStack, ItemStack ammoStack, int shotsFired)
     {
         ammoStack.stackSize -= shotsFired;
     }

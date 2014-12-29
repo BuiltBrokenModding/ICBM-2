@@ -1,13 +1,12 @@
 package com.builtbroken.icbm.content.rocketlauncher;
 
+import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.IAmmo;
 import com.builtbroken.icbm.api.IAmmoType;
 import com.builtbroken.icbm.api.IWeapon;
+import com.builtbroken.icbm.content.missile.EntityMissile;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import com.builtbroken.icbm.ICBM;
-import resonant.api.explosive.IExplosive;
-import com.builtbroken.icbm.content.missile.EntityMissile;
-import com.builtbroken.icbm.content.missile.ItemMissile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
@@ -65,23 +64,27 @@ public class ItemRocketLauncher extends Item implements IWeapon
 
                 if (inventoryStack != null)
                 {
-                    if (inventoryStack.getItem() instanceof ItemMissile)
+                    if (inventoryStack.getItem() instanceof IAmmo)
                     {
-                        IExplosive ex = ((ItemMissile) inventoryStack.getItem()).getExplosive(inventoryStack);
-
-                        if (ex != null)
+                        IAmmo ammo = (IAmmo) inventoryStack.getItem();
+                        if (ammo.isAmmo(inventoryStack))
                         {
-                            EntityMissile.fireMissileByEntity(player, inventoryStack);
-
-                            if (!player.capabilities.isCreativeMode)
+                            IAmmoType type = ammo.getAmmoType(inventoryStack);
+                            if ("missile".equalsIgnoreCase(type.getCategory()) && "micro".equalsIgnoreCase(type.getType()))
                             {
-                                player.inventory.setInventorySlotContents(slot, null);
+                                ammo.fireAmmo(this, itemStack, inventoryStack, player);
+
+                                if (!player.capabilities.isCreativeMode)
+                                {
+                                    ammo.consumeAmmo(this, itemStack, inventoryStack, 1);
+                                    player.inventoryContainer.detectAndSendChanges();
+                                }
+
+                                //Store last time player launched a rocket
+                                clickTimePlayer.put(player.getDisplayName(), clickMs);
+
+                                return itemStack;
                             }
-
-                            //Store last time player launched a rocket
-                            clickTimePlayer.put(player.getDisplayName(), clickMs);
-
-                            return itemStack;
                         }
                     }
                 }
