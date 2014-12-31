@@ -23,6 +23,7 @@ public abstract class Missile extends AbstractModule implements IModuleContainer
     private Guidance guidance;
     private Engine engine;
     public final MissileSizes size;
+    public int body_length = 2;
 
     public Missile(ItemStack stack, MissileSizes size)
     {

@@ -127,7 +127,7 @@ public class RenderMissile extends Render implements IItemRenderer
         }
     }
 
-    private float interpolateRotation(float prev, float rotation, float f)
+    public static float interpolateRotation(float prev, float rotation, float f)
     {
         float f3 = rotation - prev;
 

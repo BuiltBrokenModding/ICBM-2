@@ -5,6 +5,7 @@ import com.builtbroken.icbm.content.crafting.missile.ItemMissileModules;
 import com.builtbroken.icbm.content.crafting.missile.MissileSizes;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
+import com.builtbroken.icbm.content.display.TileMissileDisplay;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -106,6 +107,7 @@ public final class ICBM extends AbstractMod
     // Blocks
     public static Block blockExplosive;
     public static Block blockExplosiveMarker;
+    public static Block blockMissileDisplay;
 
     // Items
     public static Item itemMissile;
@@ -148,6 +150,7 @@ public final class ICBM extends AbstractMod
 
         // Blocks
         blockExplosive = manager.newBlock(TileWarhead.class);
+        blockMissileDisplay = manager.newBlock(TileMissileDisplay.class);
         if (ResonantEngine.runningAsDev)
             blockExplosiveMarker = manager.newBlock(BlockExplosiveMarker.class, ItemBlockMetadata.class);
 
