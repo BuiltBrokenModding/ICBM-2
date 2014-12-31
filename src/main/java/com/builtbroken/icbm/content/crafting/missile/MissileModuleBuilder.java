@@ -58,10 +58,6 @@ public class MissileModuleBuilder extends ModuleBuilder
             {
                 registeredGuidances.put(id, (Class<? extends Guidance>) clazz);
             }
-            else
-            {
-                throw new IllegalArgumentException("MissileModuleBuilder, mod " + mod_id + " registered a module[" + name + " " + clazz + "] that can't be used on the missile");
-            }
             return true;
         }
         return false;
@@ -69,7 +65,12 @@ public class MissileModuleBuilder extends ModuleBuilder
 
     public Missile buildMissile(ItemStack stack)
     {
-        return new Missile(stack);
+        AbstractModule module = super.build(stack);
+        if (module instanceof Missile)
+        {
+            return (Missile) module;
+        }
+        return null;
     }
 
     public Warhead buildWarhead(ItemStack stack)

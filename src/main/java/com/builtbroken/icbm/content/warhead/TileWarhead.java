@@ -314,8 +314,8 @@ public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IP
     {
         GL11.glPushMatrix();
         GL11.glTranslatef(position.xf() + 0.5f, position.yf() - 2.5f, position.zf() + 0.5f);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderMissile.TEXTURE);
-        RenderMissile.defaultMissile.renderOnly("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderMissile.SMALL_TEXTURE);
+        RenderMissile.SMALL.renderOnly("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
         GL11.glPopMatrix();
     }
 

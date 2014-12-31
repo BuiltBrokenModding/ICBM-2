@@ -3,6 +3,7 @@ package com.builtbroken.icbm.content.crafting.missile.casing;
 import com.builtbroken.icbm.api.IModuleContainer;
 import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
+import com.builtbroken.icbm.content.crafting.missile.MissileSizes;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engine;
 import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
@@ -16,15 +17,17 @@ import net.minecraft.nbt.NBTTagCompound;
  *
  * @author Darkguardsman
  */
-public class Missile extends AbstractModule implements IModuleContainer
+public abstract class Missile extends AbstractModule implements IModuleContainer
 {
     private Warhead warhead;
     private Guidance guidance;
     private Engine engine;
+    public final MissileSizes size;
 
-    public Missile(ItemStack stack)
+    public Missile(ItemStack stack, MissileSizes size)
     {
         super(stack, "missile");
+        this.size = size;
         load(stack);
     }
 

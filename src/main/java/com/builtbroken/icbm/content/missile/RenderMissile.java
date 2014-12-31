@@ -1,5 +1,8 @@
 package com.builtbroken.icbm.content.missile;
 
+import com.builtbroken.icbm.api.ICustomMissileRender;
+import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
+import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import cpw.mods.fml.client.FMLClientHandler;
 
 import java.util.HashMap;
@@ -25,8 +28,8 @@ public class RenderMissile extends Render implements IItemRenderer
 {
     public static final HashMap<IExplosive, IModelCustom> cache = new HashMap<IExplosive, IModelCustom>();
 
-    public static final IModelCustom defaultMissile = AdvancedModelLoader.loadModel(new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_PREFIX + "missile_conventional.tcn"));
-    public final static ResourceLocation TEXTURE = new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_TEXTURE_PATH + "missile_condensed.png");
+    public static final IModelCustom SMALL = AdvancedModelLoader.loadModel(new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_PREFIX + "missile_conventional.tcn"));
+    public static final ResourceLocation SMALL_TEXTURE = new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_TEXTURE_PATH + "missile_condensed.png");
 
     public RenderMissile(float f)
     {
@@ -37,6 +40,7 @@ public class RenderMissile extends Render implements IItemRenderer
     public void doRender(Entity entity, double x, double y, double z, float f, float f1)
     {
         EntityMissile entityMissile = (EntityMissile) entity;
+        Missile missile = entityMissile.getMissile();
 
         GL11.glPushMatrix();
         GL11.glScalef(0.5f, 0.5f, 0.5f);
@@ -46,8 +50,15 @@ public class RenderMissile extends Render implements IItemRenderer
         GL11.glRotatef(yaw, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(interpolateRotation(entity.prevRotationPitch, entity.rotationPitch, f1) + 90, 0.0F, 0.0F, 1.0F);
 
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
-        defaultMissile.renderAll();
+        if(!(missile instanceof ICustomMissileRender) || !((ICustomMissileRender) missile).renderMissileInWorld())
+        {
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(SMALL_TEXTURE);
+            if (missile == null || missile.getWarhead() != null)
+            {
+                SMALL.renderOnly("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
+            }
+            SMALL.renderAllExcept("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
+        }
         GL11.glPopMatrix();
     }
 
@@ -74,7 +85,7 @@ public class RenderMissile extends Render implements IItemRenderer
     {
         if (this.shouldUseRenderHelper(type, item, null))
         {
-            IExplosive ex = ((ItemMissile)item.getItem()).getExplosive(item);
+            Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(item);
 
             float scale = 0.7f;
             float right = 0f;
@@ -102,19 +113,17 @@ public class RenderMissile extends Render implements IItemRenderer
                 GL11.glRotatef(-90, 0, 0, 1f);
             }
 
-            if (type == IItemRenderer.ItemRenderType.ENTITY)
-            {
-                scale = scale / 1.5f;
-            }
-
             GL11.glScalef(scale, scale, scale);
 
-            FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
-            if(ex != null)
+            if(!(missile instanceof ICustomMissileRender) || !((ICustomMissileRender) missile).renderMissileItem(type, item, data))
             {
-                defaultMissile.renderOnly("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
+                FMLClientHandler.instance().getClient().renderEngine.bindTexture(SMALL_TEXTURE);
+                if (missile == null || missile.getWarhead() != null)
+                {
+                    SMALL.renderOnly("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
+                }
+                SMALL.renderAllExcept("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
             }
-            defaultMissile.renderAllExcept("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
         }
     }
 

@@ -158,7 +158,8 @@ public final class ICBM extends AbstractMod
 
         for(MissileSizes size : MissileSizes.values())
         {
-            MissileModuleBuilder.INSTANCE.register(DOMAIN, "warhead_"+size.name().toLowerCase(), size.warhead_clazz);
+            MissileModuleBuilder.INSTANCE.register(DOMAIN, "missile_" + size.name().toLowerCase(), size.missile_clazz);
+            MissileModuleBuilder.INSTANCE.register(DOMAIN, "warhead_" + size.name().toLowerCase(), size.warhead_clazz);
         }
 
         Engines.register();
