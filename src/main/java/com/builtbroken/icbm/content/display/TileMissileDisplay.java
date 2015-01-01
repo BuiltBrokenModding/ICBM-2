@@ -1,11 +1,8 @@
 package com.builtbroken.icbm.content.display;
 
-import com.builtbroken.icbm.api.ICustomMissileRender;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.missile.ItemMissile;
-import com.builtbroken.icbm.content.missile.RenderMissile;
-import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -16,12 +13,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
-import org.lwjgl.opengl.GL11;
+import net.minecraftforge.common.util.ForgeDirection;
 import resonant.engine.ResonantEngine;
 import resonant.lib.network.discriminator.PacketTile;
 import resonant.lib.network.discriminator.PacketType;
 import resonant.lib.network.handle.IPacketReceiver;
 import resonant.lib.prefab.tile.TileAdvanced;
+import resonant.lib.render.RenderItemOverlayUtility;
 import resonant.lib.transform.region.Cuboid;
 import resonant.lib.transform.vector.Vector3;
 
@@ -32,7 +30,7 @@ import resonant.lib.transform.vector.Vector3;
  */
 public class TileMissileDisplay extends TileAdvanced implements IPacketReceiver
 {
-    protected Missile missile = null;
+    private Missile missile = null;
 
     public TileMissileDisplay()
     {
@@ -50,11 +48,11 @@ public class TileMissileDisplay extends TileAdvanced implements IPacketReceiver
         super.readFromNBT(nbt);
         if (nbt.hasKey("missileItem"))
         {
-            missile = MissileModuleBuilder.INSTANCE.buildMissile(ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("missileItem")));
+            setMissile(MissileModuleBuilder.INSTANCE.buildMissile(ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("missileItem"))));
         }
         else
         {
-            missile = null;
+            setMissile(null);
         }
     }
 
@@ -62,9 +60,9 @@ public class TileMissileDisplay extends TileAdvanced implements IPacketReceiver
     public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
-        if (missile != null)
+        if (getMissile() != null)
         {
-            nbt.setTag("missileItem", missile.toStack().writeToNBT(new NBTTagCompound()));
+            nbt.setTag("missileItem", getMissile().toStack().writeToNBT(new NBTTagCompound()));
         }
     }
 
@@ -92,31 +90,15 @@ public class TileMissileDisplay extends TileAdvanced implements IPacketReceiver
     @SideOnly(Side.CLIENT)
     public void renderDynamic(Vector3 pos, float frame, int pass)
     {
-        if (this.getWorldObj() != null)
+        if (this.getWorldObj() != null && getMissile() != null)
         {
-            if (missile != null)
-            {
-                GL11.glPushMatrix();
-                GL11.glTranslated(pos.x() + 0.5, pos.y() + 0.5, pos.z() + 0.5);
-                GL11.glScalef(0.5f, 0.5f, 0.5f);
-                float yaw = 0;
-                float pitch = 90;
-
-                GL11.glRotatef(yaw, 0.0F, 1.0F, 0.0F);
-                GL11.glRotatef(pitch, 0.0F, 0.0F, 1.0F);
-
-                if (!(missile instanceof ICustomMissileRender) || !((ICustomMissileRender) missile).renderMissileInWorld())
-                {
-                    FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderMissile.SMALL_TEXTURE);
-                    if (missile.getWarhead() != null)
-                    {
-                        RenderMissile.SMALL.renderOnly("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
-                    }
-                    RenderMissile.SMALL.renderAllExcept("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
-                }
-                GL11.glPopMatrix();
-            }
+            RenderItemOverlayUtility.renderItem(getWorldObj(), ForgeDirection.UNKNOWN, missile.toStack(), pos.add(0.5), 0, 0);
         }
+    }
+
+    public void setMissile(Missile missile)
+    {
+        this.missile = missile;
     }
 
     @Override
@@ -125,22 +107,22 @@ public class TileMissileDisplay extends TileAdvanced implements IPacketReceiver
         if (server())
         {
             ItemStack stack = player.getHeldItem();
-            if (stack == null)
+            if (getMissile() != null)
             {
-                if (missile != null)
+                if (stack == null)
                 {
                     player.addChatComponentMessage(new ChatComponentText("Removed Missile"));
-                    player.inventory.mainInventory[player.inventory.currentItem] = missile.toStack();
-                    missile = null;
+                    player.inventory.mainInventory[player.inventory.currentItem] = getMissile().toStack();
+                    setMissile(null);
                     player.inventoryContainer.detectAndSendChanges();
                     updateClient();
                     return true;
                 }
-            } //TODO support non-ICBM missiles
+            }
             else if (stack.getItem() instanceof ItemMissile)
             {
                 player.addChatComponentMessage(new ChatComponentText("Added Missile"));
-                missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
+                setMissile(MissileModuleBuilder.INSTANCE.buildMissile(stack));
                 if (!player.capabilities.isCreativeMode)
                 {
                     stack.stackSize--;
@@ -156,4 +138,11 @@ public class TileMissileDisplay extends TileAdvanced implements IPacketReceiver
         }
         return false;
     }
+
+    public Missile getMissile()
+    {
+        return missile;
+    }
+
+
 }

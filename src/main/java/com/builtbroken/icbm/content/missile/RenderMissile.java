@@ -1,13 +1,12 @@
 package com.builtbroken.icbm.content.missile;
 
+import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.ICustomMissileRender;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import cpw.mods.fml.client.FMLClientHandler;
-
-import java.util.HashMap;
-
-import com.builtbroken.icbm.ICBM;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
@@ -15,12 +14,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
-
 import org.lwjgl.opengl.GL11;
-
 import resonant.api.explosive.IExplosive;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
+import java.util.HashMap;
 
 @SideOnly(Side.CLIENT)
 /** @author Calclavia */
@@ -45,12 +42,12 @@ public class RenderMissile extends Render implements IItemRenderer
         GL11.glPushMatrix();
         GL11.glScalef(0.5f, 0.5f, 0.5f);
         GL11.glTranslated(x, y - 1, z);
-        float yaw = interpolateRotation(-entity.prevRotationYaw  + 90, -entity.rotationYaw  + 90, f1);
+        float yaw = interpolateRotation(-entity.prevRotationYaw + 90, -entity.rotationYaw + 90, f1);
 
         GL11.glRotatef(yaw, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(interpolateRotation(entity.prevRotationPitch, entity.rotationPitch, f1) + 90, 0.0F, 0.0F, 1.0F);
 
-        if(!(missile instanceof ICustomMissileRender) || !((ICustomMissileRender) missile).renderMissileInWorld())
+        if (!(missile instanceof ICustomMissileRender) || !((ICustomMissileRender) missile).renderMissileInWorld())
         {
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(SMALL_TEXTURE);
             if (missile == null || missile.getWarhead() != null)
@@ -87,35 +84,35 @@ public class RenderMissile extends Render implements IItemRenderer
         {
             Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(item);
 
-            float scale = 0.7f;
-            float right = 0f;
+            float scale = 0.5f;
+            float yaw = 0;
+            float pitch = -90;;
 
-            if (type == IItemRenderer.ItemRenderType.INVENTORY)
+            switch (type)
             {
-                scale = 0.4f;
-                right = -0.5f;
-
-                GL11.glTranslatef(right, 0f, 0f);
-            }
-
-            if (type == IItemRenderer.ItemRenderType.EQUIPPED)
-            {
-                GL11.glTranslatef(1f, 0.3f, 0.5f);
-                GL11.glRotatef(0, 0, 0, 1f);
-            }
-            else if (type == IItemRenderer.ItemRenderType.EQUIPPED_FIRST_PERSON)
-            {
-                GL11.glTranslatef(1.15f, -1f, 0.5f);
-                GL11.glRotatef(0, 0, 0, 1f);
-            }
-            else
-            {
-                GL11.glRotatef(-90, 0, 0, 1f);
+                case INVENTORY:
+                    GL11.glTranslatef(-0.5f, 0f, 0f);
+                    break;
+                case EQUIPPED:
+                    GL11.glTranslatef(1f, 0.3f, 0.5f);
+                    break;
+                case EQUIPPED_FIRST_PERSON:
+                    GL11.glTranslatef(1.15f, -1f, 0.5f);
+                    break;
+                case ENTITY:
+                    GL11.glTranslatef(-0.6f, 0f, 0f);
+                    break;
+                default:
+                    break;
             }
 
             GL11.glScalef(scale, scale, scale);
+            GL11.glRotatef(yaw, 0, 1f, 0f);
+            GL11.glRotatef(pitch, 0, 0f, 1f);
 
-            if(!(missile instanceof ICustomMissileRender) || !((ICustomMissileRender) missile).renderMissileItem(type, item, data))
+
+
+            if (!(missile instanceof ICustomMissileRender) || !((ICustomMissileRender) missile).renderMissileItem(type, item, data))
             {
                 FMLClientHandler.instance().getClient().renderEngine.bindTexture(SMALL_TEXTURE);
                 if (missile == null || missile.getWarhead() != null)
@@ -131,7 +128,7 @@ public class RenderMissile extends Render implements IItemRenderer
     {
         float f3 = rotation - prev;
 
-        while(f3 < - 180.0F)
+        while (f3 < -180.0F)
         {
             f3 += 360.0F;
         }
