@@ -2,7 +2,11 @@ package com.builtbroken.icbm.content.missile;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.IMissile;
-import resonant.lib.world.explosive.ExplosiveItemUtility;
+import com.builtbroken.icbm.content.crafting.missile.MissileSizes;
+import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
+import cpw.mods.fml.common.network.ByteBufUtils;
+import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
+import io.netty.buffer.ByteBuf;
 import resonant.api.explosive.IExplosive;
 import resonant.api.explosive.IExplosiveContainer;
 import resonant.api.TriggerCause;
@@ -17,24 +21,21 @@ import resonant.lib.transform.vector.Vector3;
 /**
  * Basic missile like projectile that explodes on impact
  */
-public class EntityMissile extends EntityProjectile implements IExplosiveContainer, IMissile
+public class EntityMissile extends EntityProjectile implements IExplosiveContainer, IMissile, IEntityAdditionalSpawnData
 {
-    /** String ID for the explosive this missile carries */
-    public String explosiveID = null;
+
+    private Missile missile;
 
     public EntityMissile(World w)
     {
         super(w);
+        this.setSize(.5F, .5F);
     }
 
     public EntityMissile(EntityLivingBase entity)
     {
         super(entity);
-    }
-
-    public EntityMissile(World w, Vector3 startAndSource)
-    {
-        super(w, startAndSource);
+        this.setSize(.5F, .5F);
     }
 
     /**
@@ -44,10 +45,10 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
      * @param entity  - entity that is firing the missile, most likely a player with a launcher
      * @param missile - item stack that represents the missile plus explosive settings to fire
      */
-    public static void fireMissileByEntity(EntityLivingBase entity, ItemStack missile)
+    public static void fireMissileByEntity(EntityLivingBase entity, ItemStack missile, MissileSizes size)
     {
         EntityMissile entityMissile = new EntityMissile(entity);
-        entityMissile.setExplosive(missile);
+        entityMissile.setMissile(MissileSizes.loadMissile(missile));
         entityMissile.setTicksInAir(1);
         entityMissile.setMotion(1);
         entityMissile.worldObj.spawnEntityInWorld(entityMissile);
@@ -60,7 +61,7 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     @Override
     public String getCommandSenderName()
     {
-        return ExplosiveRegistry.get(this.explosiveID) == null ? "Missile Module" : "Missile with " + ExplosiveRegistry.get(this.explosiveID).toString() + " warhead";
+        return getMissile() == null ? "Unknown-Missile" : getMissile().getWarhead() == null ? "Missile-Module" : "Missile with " + getMissile().getWarhead().ex.toString() + " warhead";
     }
 
     /**
@@ -106,28 +107,9 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     }
 
     @Override
-    protected void readEntityFromNBT(NBTTagCompound nbt)
-    {
-        super.readEntityFromNBT(nbt);
-        this.explosiveID = nbt.getString("explosiveString");
-    }
-
-    @Override
-    protected void writeEntityToNBT(NBTTagCompound nbt)
-    {
-        super.writeEntityToNBT(nbt);
-        nbt.setString("explosiveString", this.explosiveID);
-    }
-
-    @Override
     public IExplosive getExplosive()
     {
-        return ExplosiveRegistry.get(this.explosiveID);
-    }
-
-    public void setExplosive(ItemStack stack)
-    {
-        this.explosiveID = ExplosiveItemUtility.getExplosive(stack).getID();
+        return getMissile() != null && getMissile().getWarhead() != null ? getMissile().getWarhead().ex : null;
     }
 
     @Override
@@ -140,6 +122,54 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     protected void onImpact()
     {
         super.onImpact();
-        ExplosiveRegistry.triggerExplosive(worldObj, posX, posY, posZ, getExplosive(), new TriggerCause.TriggerCauseEntity(this), 5);
+        NBTTagCompound tag = new NBTTagCompound();
+        writeEntityToNBT(tag);
+        ExplosiveRegistry.triggerExplosive(worldObj, posX, posY, posZ, getExplosive(), new TriggerCause.TriggerCauseEntity(this), 5, tag);
+    }
+
+    public Missile getMissile()
+    {
+        return missile;
+    }
+
+    public void setMissile(Missile missile)
+    {
+        this.missile = missile;
+    }
+
+    @Override
+    protected void readEntityFromNBT(NBTTagCompound nbt)
+    {
+        super.readEntityFromNBT(nbt);
+        if(nbt.hasKey("missileStack"))
+        {
+            ItemStack stack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("missileStack"));
+            setMissile(MissileSizes.loadMissile(stack));
+        }
+    }
+
+    @Override
+    protected void writeEntityToNBT(NBTTagCompound nbt)
+    {
+        super.writeEntityToNBT(nbt);
+        if(getMissile() != null)
+        {
+            ItemStack stack = getMissile().toStack();
+            nbt.setTag("missileStack", stack.writeToNBT(new NBTTagCompound()));
+        }
+    }
+
+    @Override
+    public void writeSpawnData(ByteBuf buffer)
+    {
+        NBTTagCompound tag = new NBTTagCompound();
+        writeEntityToNBT(tag);
+        ByteBufUtils.writeTag(buffer, tag);
+    }
+
+    @Override
+    public void readSpawnData(ByteBuf additionalData)
+    {
+        readEntityFromNBT(ByteBufUtils.readTag(additionalData));
     }
 }

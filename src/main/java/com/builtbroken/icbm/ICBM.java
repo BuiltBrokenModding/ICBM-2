@@ -1,5 +1,11 @@
 package com.builtbroken.icbm;
 
+import com.builtbroken.icbm.content.blast.entity.BlastSnowman;
+import com.builtbroken.icbm.content.crafting.missile.ItemMissileModules;
+import com.builtbroken.icbm.content.crafting.missile.MissileSizes;
+import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
+import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
+import com.builtbroken.icbm.content.display.TileMissileDisplay;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -21,8 +27,7 @@ import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.ItemMissile;
 import com.builtbroken.icbm.content.rocketlauncher.ItemRocketLauncher;
 import resonant.lib.world.explosive.ExplosiveRegistry;
-import com.builtbroken.icbm.content.blast.BlastBasic;
-import com.builtbroken.icbm.content.blast.BlastInvert;
+import com.builtbroken.icbm.content.blast.explosive.BlastBasic;
 import resonant.lib.world.explosive.Explosive;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
@@ -102,10 +107,13 @@ public final class ICBM extends AbstractMod
     // Blocks
     public static Block blockExplosive;
     public static Block blockExplosiveMarker;
+    public static Block blockMissileDisplay;
 
     // Items
     public static Item itemMissile;
     public static Item itemRocketLauncher;
+    public static ItemMissileModules itemMissileModules;
+
     public final ModCreativeTab CREATIVE_TAB;
 
     public ICBM()
@@ -133,6 +141,7 @@ public final class ICBM extends AbstractMod
     public void preInit(FMLPreInitializationEvent event)
     {
         super.preInit(event);
+
         NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
 
         Modstats.instance().getReporter().registerMod(INSTANCE);
@@ -141,21 +150,25 @@ public final class ICBM extends AbstractMod
 
         // Blocks
         blockExplosive = manager.newBlock(TileWarhead.class);
+        blockMissileDisplay = manager.newBlock(TileMissileDisplay.class);
         if (ResonantEngine.runningAsDev)
             blockExplosiveMarker = manager.newBlock(BlockExplosiveMarker.class, ItemBlockMetadata.class);
 
         // ITEMS
         itemMissile = manager.newItem(ItemMissile.class);
         itemRocketLauncher = manager.newItem(ItemRocketLauncher.class);
+        itemMissileModules = manager.newItem(ItemMissileModules.class);
+
+        for(MissileSizes size : MissileSizes.values())
+        {
+            MissileModuleBuilder.INSTANCE.register(DOMAIN, "missile_" + size.name().toLowerCase(), size.missile_clazz);
+            MissileModuleBuilder.INSTANCE.register(DOMAIN, "warhead_" + size.name().toLowerCase(), size.warhead_clazz);
+        }
+
+        Engines.register();
 
         CREATIVE_TAB.itemStack = new ItemStack(itemMissile);
-        //Explosives
-        ExplosiveRegistry.registerOrGetExplosive(NAME,"testx01", new Explosive("testx01", BlastBasic.class));
-        ExplosiveRegistry.registerOrGetExplosive(NAME, "testx05", new Explosive("testx05", BlastBasic.class, 5));
-        ExplosiveRegistry.registerOrGetExplosive(NAME, "testx10", new Explosive("testx10", BlastBasic.class, 10));
-        ExplosiveRegistry.registerOrGetExplosive(NAME, "testx50", new Explosive("testx50", BlastBasic.class, 50));
 
-        ExplosiveRegistry.registerOrGetExplosive(NAME," test_invertedx01", new Explosive("test_invertedx01", BlastInvert.class));
 
     }
 
@@ -163,6 +176,11 @@ public final class ICBM extends AbstractMod
     public void init(FMLInitializationEvent event)
     {
         super.init(event);
+        //Explosives
+        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Snowmen", new Explosive("snowmen", BlastSnowman.class, 1));
+        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "TNT", new Explosive("tnt", BlastBasic.class, 1));
+
+        //Entities
         EntityRegistry.registerGlobalEntityID(EntityMissile.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());
         EntityRegistry.registerModEntity(EntityMissile.class, "ICBMMissile", ENTITY_ID_PREFIX + 3, this, 500, 1, true);
     }

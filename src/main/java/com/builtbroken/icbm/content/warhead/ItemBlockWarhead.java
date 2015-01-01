@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.warhead;
 
+import com.builtbroken.icbm.ICBM;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -37,7 +38,18 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem
     @Override
     public String getUnlocalizedName()
     {
-        return "icbm.explosive";
+        return "tile."+ ICBM.PREFIX + "warhead";
+    }
+
+    @Override
+    public String getUnlocalizedName(ItemStack stack)
+    {
+        int meta = getMetadata(stack.getItemDamage());
+        if(meta == 1)
+        {
+            return getUnlocalizedName() + ".casing";
+        }
+        return getUnlocalizedName();
     }
 
     @Override
