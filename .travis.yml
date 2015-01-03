@@ -7,7 +7,7 @@ notifications:
    - "%{build_number} (%{branch} - %{commit}: %{commit_message} : %{author}): %{message} (%{build_url})"
 install: true
 script:
-  - gradle build --refresh-dependencies
+  - gradle build -PbambooshortPlanName=ICBM --refresh-dependencies
 jdk:
   - oraclejdk7
   - openjdk6

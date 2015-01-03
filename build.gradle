@@ -19,24 +19,6 @@ buildscript {
 apply plugin: 'forge'
 apply plugin: 'maven-publish'
 
-task makePretty(type: Delete) {
-  delete 'output'
-}
-
-if (project.getProperty("bambooshortPlanName") == "ICBM-Dev"){
-    group = "dev.BuiltBrokenModding.icbm"
-    archivesBaseName = ICBM-dev
-} else {
-    group = "com.BuiltBrokenModding.icbm"
-    archivesBaseName = ICBM
-}
-
-clean{
-   dependsOn makePretty
-}
-
-def ENV = System.getenv()
-
 ext.buildProps = file "build.properties"
 
 buildProps.withReader {
@@ -44,17 +26,6 @@ buildProps.withReader {
     prop.load(it)
     ext.config = new ConfigSlurper().parse prop
 }
-
-version = "${config.version.minecraft}-${config.version.mod.major}.${config.version.mod.minor}.${config.version.mod.revis}b"
-group = "icbm"
-archivesBaseName = "ICBM"
-
-if (project.hasProperty("bambooBuildNumber"))
-    version += project.bambooBuildNumber
-else
-    version += "NIGHTLY"
-    
-println "version = "+ version
 
 minecraft {
     version = "${config.version.minecraft}-${config.version.forge}"
@@ -70,6 +41,35 @@ minecraft {
 		replace "@BUILD@", 1
 	}
 }
+
+task makePretty(type: Delete) {
+  delete 'output'
+}
+
+if (project.getProperty("bambooshortPlanName") == "ICBM-Dev"){
+    group = "dev.BuiltBrokenModding.icbm"
+    archivesBaseName = "ICBM-dev"
+} else {
+    group = "com.BuiltBrokenModding.icbm"
+    archivesBaseName = "ICBM"
+}
+
+clean{
+   dependsOn makePretty
+}
+
+def ENV = System.getenv()
+
+version = "${config.version.minecraft}-${config.version.mod.major}.${config.version.mod.minor}.${config.version.mod.revis}b"
+group = "icbm"
+archivesBaseName = "ICBM"
+
+if (project.hasProperty("bambooBuildNumber"))
+    version += project.bambooBuildNumber
+else
+    version += "NIGHTLY"
+    
+println "version = "+ version
 
 if (System.getenv("BUILD_NUMBER") != null)
     version += ".${System.getenv("BUILD_NUMBER")}"
