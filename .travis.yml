@@ -9,7 +9,7 @@ notifications:
    - "%{build_number} (%{branch} - %{commit}: %{commit_message} : %{author}): %{message} (%{build_url})"
 install: true
 script:
-  - gradle build -PbambooshortPlanName=ICBM --refresh-dependencies
+  - gradle build -PbambooshortPlanName=ICBM -Pdmodcurse=61545 --refresh-dependencies
 cache:
   directories:
     - $HOME/.gradle
