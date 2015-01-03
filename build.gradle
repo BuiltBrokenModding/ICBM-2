@@ -1,4 +1,3 @@
-println "blah"
 buildscript {
     repositories {
         mavenCentral()
@@ -16,6 +15,7 @@ buildscript {
     }
 }
 
+apply from: './BuiltBrokenScripts/scripts/builtbroken.gradle'
 apply plugin: 'forge'
 apply plugin: 'maven-publish'
 
@@ -34,8 +34,8 @@ minecraft {
 	replace "@MAJOR@", config.version.mod.major
 	replace "@MINOR@", config.version.mod.minor
 	replace "@REVIS@", config.version.mod.revis
-	if (System.getenv("BUILD_NUMBER") != null) {
-		replace "@BUILD@", System.getenv("BUILD_NUMBER")
+if (project.hasProperty("bambooBuildNumber")) != null) {
+		replace "@BUILD@", PbambooBuildNumber")
 	}
 	else {
 		replace "@BUILD@", 1
@@ -47,10 +47,10 @@ task makePretty(type: Delete) {
 }
 
 if (project.getProperty("bambooshortPlanName") == "ICBM-Dev"){
-    group = "dev.BuiltBrokenModding.icbm"
+    group = "dev.builtbrokenmodding.icbm"
     archivesBaseName = "ICBM-dev"
 } else {
-    group = "com.BuiltBrokenModding.icbm"
+    group = "com.builtbrokenmodding.icbm"
     archivesBaseName = "ICBM"
 }
 
@@ -58,26 +58,12 @@ clean{
    dependsOn makePretty
 }
 
-def ENV = System.getenv()
-
-version = "${config.version.minecraft}-${config.version.mod.major}.${config.version.mod.minor}.${config.version.mod.revis}b"
-group = "icbm"
-archivesBaseName = "ICBM"
-
 if (project.hasProperty("bambooBuildNumber"))
     version += project.bambooBuildNumber
 else
     version += "NIGHTLY"
     
 println "version = "+ version
-
-if (System.getenv("BUILD_NUMBER") != null)
-    version += ".${System.getenv("BUILD_NUMBER")}"
-
-
-processResources {
-	from 'build.properties'
-}
 
 task apiZip(type: Zip) {
     classifier = 'api'
@@ -93,12 +79,6 @@ artifacts {
 task copyBuildXml(type: Copy) {
     from 'build.properties'
     into 'output'
-}
-
-jar {
-    dependsOn copyBuildXml
-    classifier = ''
-    destinationDir = file 'output'
 }
 
 processResources {
@@ -117,34 +97,6 @@ processResources {
 		exclude '**/*.properties'
 	}
 }
-
-task deobfJar(type: Jar) {
-    from sourceSets.main.output
-    classifier = 'deobf'
-    destinationDir = file 'output'
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication)
-        {
-            artifact jar
-            artifact deobfJar
-            artifact("output/build.properties") {
-                classifier "build"
-                extension "properties"
-            }
-            from project.components.java
-        }
-    }
-
-    repositories {
-        maven {
-            url "file:///var/www/html/maven"
-        }
-    }
-}
-
 
 repositories {
     maven {
@@ -171,3 +123,5 @@ dependencies
      compile group: 'dev.calclavia.resonantengine', name: 'resonant-engine', version: "${config.version.resonantengine}", classifier: "dev"
     //runtime group: 'dev.calclavia.resonantengine', name: 'resonant-engine', version: "${config.version.resonantengine}", classifier: "dev"
 }
+
+
