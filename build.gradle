@@ -41,6 +41,12 @@ processResources {
 	from 'build.properties'
 }
 
+// This is used to set the local version
+if (project.hasProperty("bambooBuildNumber"))
+    version += project.bambooBuildNumber
+else
+    version += "NIGHTLY"
+
 println "version = "+ version
 
 processResources {
