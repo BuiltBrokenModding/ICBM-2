@@ -8,6 +8,10 @@ notifications:
 install: true
 script:
   - gradle build -PbambooshortPlanName=ICBM --refresh-dependencies
+cache:
+  directories:
+    - $HOME/.gradle
+    - .gradle
 jdk:
   - oraclejdk7
   - openjdk6
