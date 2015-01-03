@@ -35,7 +35,7 @@ if (project.getProperty("bambooshortPlanName") == "ICBM-Dev"){
     archivesBaseName = "ICBM"
 }
 
-version = "${config.version.minecraft}-${config.version.mod.major}.${config.version.mod.minor}.${config.version.mod.revis}b"
+version = "${project.minecraft.version}-${config.version.mod.major}.${config.version.mod.minor}.${config.version.mod.revis}b"
 
 processResources {
 	from 'build.properties'
