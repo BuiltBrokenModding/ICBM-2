@@ -19,8 +19,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.Level;
-import resonant.lib.render.fx.*;
-import resonant.lib.transform.vector.Vector3;
+import com.builtbroken.lib.render.fx.*;
+import com.builtbroken.lib.transform.vector.Vector3;
 
 import java.util.List;
 

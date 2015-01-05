@@ -2,8 +2,7 @@ package com.builtbroken.icbm.content.missile;
 
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
-import resonant.lib.transform.region.Cuboid;
-import resonant.lib.transform.vector.Vector3;
+import com.builtbroken.lib.transform.region.Cuboid;
 
 /** A non-axis aligned version of the bounding box that allows for rotation
  * Created by robert on 12/13/2014.

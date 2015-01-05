@@ -15,7 +15,7 @@ import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
-import resonant.api.explosive.IExplosive;
+import com.builtbroken.api.explosive.IExplosive;
 
 import java.util.HashMap;
 

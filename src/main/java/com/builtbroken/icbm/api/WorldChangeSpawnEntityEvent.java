@@ -3,9 +3,8 @@ package com.builtbroken.icbm.api;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
-import resonant.lib.transform.vector.VectorWorld;
-import resonant.lib.world.edit.IWorldChangeAction;
-import resonant.lib.world.explosive.Blast;
+import com.builtbroken.lib.transform.vector.VectorWorld;
+import com.builtbroken.lib.world.edit.IWorldChangeAction;
 
 /**
  * Created by robert on 12/25/2014.

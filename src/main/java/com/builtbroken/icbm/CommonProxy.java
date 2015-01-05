@@ -4,8 +4,8 @@ import com.builtbroken.icbm.content.missile.EntityMissile;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.world.World;
-import resonant.lib.mod.AbstractProxy;
-import resonant.lib.transform.vector.Vector3;
+import com.builtbroken.lib.mod.AbstractProxy;
+import com.builtbroken.lib.transform.vector.Vector3;
 
 import java.util.List;
 

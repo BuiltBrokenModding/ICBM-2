@@ -7,6 +7,7 @@ import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.display.TileMissileDisplay;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
+import com.builtbroken.mod.BBL;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -22,13 +23,13 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import com.builtbroken.icbm.content.BlockExplosiveMarker;
-import resonant.lib.world.explosive.ExplosiveItemUtility;
+import com.builtbroken.lib.world.explosive.ExplosiveItemUtility;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.ItemMissile;
 import com.builtbroken.icbm.content.rocketlauncher.ItemRocketLauncher;
-import resonant.lib.world.explosive.ExplosiveRegistry;
+import com.builtbroken.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.icbm.content.blast.explosive.BlastBasic;
-import resonant.lib.world.explosive.Explosive;
+import com.builtbroken.lib.world.explosive.Explosive;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
@@ -44,13 +45,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.modstats.ModstatInfo;
 import org.modstats.Modstats;
-import resonant.api.explosive.IExplosive;
-import resonant.lib.prefab.tile.item.ItemBlockMetadata;
-import resonant.engine.ResonantEngine;
-import resonant.lib.mod.AbstractMod;
-import resonant.lib.mod.AbstractProxy;
-import resonant.lib.mod.ModCreativeTab;
-import resonant.lib.mod.config.Config;
+import com.builtbroken.api.explosive.IExplosive;
+import com.builtbroken.lib.prefab.tile.item.ItemBlockMetadata;
+import com.builtbroken.lib.mod.AbstractMod;
+import com.builtbroken.lib.mod.AbstractProxy;
+import com.builtbroken.lib.mod.ModCreativeTab;
+import com.builtbroken.lib.mod.config.Config;
 
 import java.util.ArrayList;
 
@@ -151,7 +151,7 @@ public final class ICBM extends AbstractMod
         // Blocks
         blockExplosive = manager.newBlock(TileWarhead.class);
         blockMissileDisplay = manager.newBlock(TileMissileDisplay.class);
-        if (ResonantEngine.runningAsDev)
+        if (BBL.runningAsDev)
             blockExplosiveMarker = manager.newBlock(BlockExplosiveMarker.class, ItemBlockMetadata.class);
 
         // ITEMS

@@ -1,10 +1,9 @@
 package com.builtbroken.icbm.content.crafting;
 
 import com.builtbroken.icbm.ICBM;
-import com.google.common.collect.BiMap;
+import com.builtbroken.mod.BBL;
 import com.google.common.collect.HashBiMap;
 import net.minecraft.item.ItemStack;
-import resonant.engine.ResonantEngine;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -108,22 +107,22 @@ public class ModuleBuilder
                     catch (InstantiationException e)
                     {
                         ICBM.LOGGER.error("ModuleBuilder failed to create module from class " + idToCLassMap.get(id));
-                        if (ResonantEngine.runningAsDev)
+                        if (BBL.runningAsDev)
                             e.printStackTrace();
                     } catch (IllegalAccessException e)
                     {
                         ICBM.LOGGER.error("ModuleBuilder was prevented access to class " + idToCLassMap.get(id));
-                        if (ResonantEngine.runningAsDev)
+                        if (BBL.runningAsDev)
                             e.printStackTrace();
                     } catch (NoSuchMethodException e)
                     {
                         ICBM.LOGGER.error("ModuleBuilder failed to find  constructor(ItemStack.class) for class " + idToCLassMap.get(id));
-                        if (ResonantEngine.runningAsDev)
+                        if (BBL.runningAsDev)
                             e.printStackTrace();
                     } catch (InvocationTargetException e)
                     {
                         ICBM.LOGGER.error("ModuleBuilder failed to find to invoke constructor(ItemStack.class) for class " + idToCLassMap.get(id));
-                        if (ResonantEngine.runningAsDev)
+                        if (BBL.runningAsDev)
                             e.printStackTrace();
                     }
                 }

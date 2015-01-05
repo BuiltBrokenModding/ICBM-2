@@ -2,7 +2,8 @@ package com.builtbroken.icbm.content.blast.explosive;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
-import resonant.lib.world.explosive.Blast;
+import com.builtbroken.lib.world.explosive.Blast;
+import com.builtbroken.mod.BBL;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockTNT;
 import net.minecraft.entity.Entity;
@@ -11,14 +12,13 @@ import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.world.Explosion;
-import resonant.api.TriggerCause;
-import resonant.api.mffs.machine.IForceField;
-import resonant.engine.ResonantEngine;
-import resonant.lib.transform.sorting.Vector3DistanceComparator;
-import resonant.lib.transform.vector.Vector3;
-import resonant.lib.utility.DamageUtility;
-import resonant.lib.utility.MathUtility;
-import resonant.lib.world.edit.BlockEdit;
+import com.builtbroken.api.TriggerCause;
+import com.builtbroken.api.mffs.machine.IForceField;
+import com.builtbroken.lib.transform.sorting.Vector3DistanceComparator;
+import com.builtbroken.lib.transform.vector.Vector3;
+import com.builtbroken.lib.utility.DamageUtility;
+import com.builtbroken.lib.utility.MathUtility;
+import com.builtbroken.lib.world.edit.BlockEdit;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -90,7 +90,7 @@ public class BlastBasic extends Blast
 
         profile.endSection("getEffectedBlocks");
         //Generate debug info
-        if (ResonantEngine.runningAsDev)
+        if (BBL.runningAsDev)
         {
             ICBM.LOGGER.info(profile.getOutputSimple());
         }

@@ -1,9 +1,8 @@
 package com.builtbroken.icbm.content.blast.explosive;
 
-import com.builtbroken.icbm.content.blast.explosive.BlastBasic;
-import resonant.lib.debug.profiler.RunProfile;
-import resonant.lib.transform.vector.Vector3;
-import resonant.lib.utility.TextUtility;
+import com.builtbroken.lib.debug.profiler.RunProfile;
+import com.builtbroken.lib.transform.vector.Vector3;
+import com.builtbroken.lib.utility.TextUtility;
 
 import java.util.ArrayList;
 import java.util.Collections;

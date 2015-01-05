@@ -4,11 +4,11 @@ import com.builtbroken.icbm.content.crafting.AbstractModule;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import resonant.api.TriggerCause;
-import resonant.api.explosive.IExplosive;
-import resonant.lib.world.edit.WorldChangeHelper;
-import resonant.lib.world.explosive.ExplosiveItemUtility;
-import resonant.lib.world.explosive.ExplosiveRegistry;
+import com.builtbroken.api.TriggerCause;
+import com.builtbroken.api.explosive.IExplosive;
+import com.builtbroken.lib.world.edit.WorldChangeHelper;
+import com.builtbroken.lib.world.explosive.ExplosiveItemUtility;
+import com.builtbroken.lib.world.explosive.ExplosiveRegistry;
 
 /**
  * Container for explosive data to make implementing warhead like objects easier

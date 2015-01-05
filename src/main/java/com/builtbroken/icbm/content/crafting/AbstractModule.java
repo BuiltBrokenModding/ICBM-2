@@ -9,8 +9,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
-import resonant.api.ISave;
-import resonant.lib.mod.AbstractMod;
+import com.builtbroken.api.ISave;
 
 /**
  * Created by robert on 12/28/2014.

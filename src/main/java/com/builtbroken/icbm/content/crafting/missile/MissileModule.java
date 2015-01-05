@@ -3,7 +3,6 @@ package com.builtbroken.icbm.content.crafting.missile;
 import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import net.minecraft.item.ItemStack;
-import resonant.api.IUpdate;
 
 /**
  * Created by robert on 12/28/2014.

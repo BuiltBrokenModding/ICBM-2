@@ -10,8 +10,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
-import resonant.lib.transform.vector.VectorWorld;
-import resonant.lib.world.explosive.Blast;
+import com.builtbroken.lib.transform.vector.VectorWorld;
+import com.builtbroken.lib.world.explosive.Blast;
 
 import java.util.Random;
 

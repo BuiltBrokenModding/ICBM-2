@@ -7,16 +7,16 @@ import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import io.netty.buffer.ByteBuf;
-import resonant.api.explosive.IExplosive;
-import resonant.api.explosive.IExplosiveContainer;
-import resonant.api.TriggerCause;
-import resonant.lib.world.explosive.ExplosiveRegistry;
+import com.builtbroken.api.explosive.IExplosive;
+import com.builtbroken.api.explosive.IExplosiveContainer;
+import com.builtbroken.api.TriggerCause;
+import com.builtbroken.lib.world.explosive.ExplosiveRegistry;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import resonant.lib.prefab.EntityProjectile;
-import resonant.lib.transform.vector.Vector3;
+import com.builtbroken.lib.prefab.EntityProjectile;
+import com.builtbroken.lib.transform.vector.Vector3;
 
 /**
  * Basic missile like projectile that explodes on impact

@@ -9,14 +9,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import resonant.api.explosive.IExplosive;
-import resonant.api.items.IExplosiveItem;
-import resonant.lib.world.explosive.ExplosiveItemUtility;
+import com.builtbroken.api.explosive.IExplosive;
+import com.builtbroken.api.items.IExplosiveItem;
+import com.builtbroken.lib.world.explosive.ExplosiveItemUtility;
 
 import java.util.List;
 

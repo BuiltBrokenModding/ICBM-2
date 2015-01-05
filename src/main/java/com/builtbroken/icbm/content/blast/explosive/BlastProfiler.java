@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.content.blast.explosive;
 
-import resonant.lib.debug.profiler.Profiler;
+import com.builtbroken.lib.debug.profiler.Profiler;
 
 /**
  * Created by robert on 12/10/2014.

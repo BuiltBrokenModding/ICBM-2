@@ -4,7 +4,7 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.crafting.missile.casing.*;
 import com.builtbroken.icbm.content.crafting.missile.warhead.*;
 import net.minecraft.item.ItemStack;
-import resonant.api.explosive.IExplosive;
+import com.builtbroken.api.explosive.IExplosive;
 
 import java.lang.reflect.InvocationTargetException;
 
