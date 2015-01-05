@@ -50,7 +50,7 @@ public abstract class Missile extends AbstractModule implements IModuleContainer
     }
 
     @Override
-    public void save(NBTTagCompound nbt)
+    public NBTTagCompound save(NBTTagCompound nbt)
     {
         if (getWarhead() != null)
             nbt.setTag("warhead", getWarhead().toStack().writeToNBT(new NBTTagCompound()));
@@ -58,6 +58,8 @@ public abstract class Missile extends AbstractModule implements IModuleContainer
             nbt.setTag("engine", getEngine().toStack().writeToNBT(new NBTTagCompound()));
         if (getGuidance() != null)
             nbt.setTag("guidance", getGuidance().toStack().writeToNBT(new NBTTagCompound()));
+
+        return nbt;
     }
 
     @Override

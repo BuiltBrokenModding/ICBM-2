@@ -3,13 +3,13 @@ package com.builtbroken.icbm.content.crafting;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.IModuleContainer;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
+import com.builtbroken.mc.api.ISave;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
-import com.builtbroken.api.ISave;
 
 /**
  * Created by robert on 12/28/2014.
@@ -74,9 +74,9 @@ public class AbstractModule implements ISave
     }
 
     @Override
-    public void save(NBTTagCompound nbt)
+    public NBTTagCompound save(NBTTagCompound nbt)
     {
-
+        return nbt;
     }
 
     /** Called when the module is installed */

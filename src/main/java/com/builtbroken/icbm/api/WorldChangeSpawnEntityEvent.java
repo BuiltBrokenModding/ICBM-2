@@ -1,10 +1,10 @@
 package com.builtbroken.icbm.api;
 
+import com.builtbroken.mc.lib.transform.vector.VectorWorld;
+import com.builtbroken.mc.lib.world.edit.IWorldChangeAction;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
-import com.builtbroken.lib.transform.vector.VectorWorld;
-import com.builtbroken.lib.world.edit.IWorldChangeAction;
 
 /**
  * Created by robert on 12/25/2014.

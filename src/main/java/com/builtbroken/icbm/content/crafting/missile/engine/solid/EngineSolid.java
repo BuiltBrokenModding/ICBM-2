@@ -1,11 +1,11 @@
 package com.builtbroken.icbm.content.crafting.missile.engine.solid;
 
 import com.builtbroken.icbm.content.crafting.missile.engine.Engine;
+import com.builtbroken.mc.api.tile.IInventoryProvider;
+import com.builtbroken.mc.api.tile.node.IExternalInventory;
+import com.builtbroken.mc.lib.helper.inventory.ExternalInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
-import com.builtbroken.api.tile.IInventoryProvider;
-import com.builtbroken.api.tile.node.IExternalInventory;
-import com.builtbroken.lib.utility.inventory.ExternalInventory;
 
 /**
  * Created by robert on 12/28/2014.

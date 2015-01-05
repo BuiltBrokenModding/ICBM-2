@@ -2,23 +2,25 @@ package com.builtbroken.icbm.content.blast.explosive;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
-import com.builtbroken.lib.world.explosive.Blast;
-import com.builtbroken.mod.BBL;
+import com.builtbroken.mc.api.event.TriggerCause;
+import com.builtbroken.mc.core.BBL;
+import com.builtbroken.mc.lib.helper.DamageUtility;
+import com.builtbroken.mc.lib.helper.MathUtility;
+import com.builtbroken.mc.lib.transform.sorting.Vector3DistanceComparator;
+import com.builtbroken.mc.lib.transform.vector.Vector3;
+import com.builtbroken.mc.lib.world.edit.BlockEdit;
+import com.builtbroken.mc.lib.world.explosive.Blast;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockTNT;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.Explosion;
-import com.builtbroken.api.TriggerCause;
-import com.builtbroken.api.mffs.machine.IForceField;
-import com.builtbroken.lib.transform.sorting.Vector3DistanceComparator;
-import com.builtbroken.lib.transform.vector.Vector3;
-import com.builtbroken.lib.utility.DamageUtility;
-import com.builtbroken.lib.utility.MathUtility;
-import com.builtbroken.lib.world.edit.BlockEdit;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -96,9 +98,11 @@ public class BlastBasic extends Blast
         }
     }
 
-    /** Called to trigger the blast pathfinder
-     * @param map - hash map to store data for block placement to energy used
-     * @param vec - starting block
+    /**
+     * Called to trigger the blast pathfinder
+     *
+     * @param map    - hash map to store data for block placement to energy used
+     * @param vec    - starting block
      * @param energy - starting energy
      */
     protected void triggerPathFinder(HashMap<BlockEdit, Float> map, BlockEdit vec, float energy)
@@ -107,12 +111,13 @@ public class BlastBasic extends Blast
         expand(map, vec, energy, null, 0);
     }
 
-    /** Called to map another iteration to expand outwards from the center of the explosion
+    /**
+     * Called to map another iteration to expand outwards from the center of the explosion
      *
-     * @param map - hash map to store data for block placement to energy used
-     * @param vec - next block to expand from, and to log to map
-     * @param energy - current energy at block
-     * @param side - side not to expand in, and direction we came from
+     * @param map       - hash map to store data for block placement to energy used
+     * @param vec       - next block to expand from, and to log to map
+     * @param energy    - current energy at block
+     * @param side      - side not to expand in, and direction we came from
      * @param iteration - current iteration count from center, use this to stop the iteration if they get too far from center
      */
     protected void expand(HashMap<BlockEdit, Float> map, BlockEdit vec, float energy, EnumFacing side, int iteration)
@@ -213,30 +218,27 @@ public class BlastBasic extends Blast
         Block block = vec.getBlock();
         TileEntity tile = vec.getTileEntity();
 
-        //MFFS support
-        if (tile instanceof IForceField)
+        // TODO re-add support MFFS support
+        //if (tile instanceof IForceField)
+        // {
+        //     ((IForceField) tile).weakenForceField((int) vec.energy() * 100);
+        // }
+        if (vec.block() == Blocks.air || vec.block() == Blocks.fire)
         {
-            ((IForceField) tile).weakenForceField((int) vec.energy() * 100);
-        }
-        else
-        {
-            if (vec.block() == Blocks.air || vec.block() == Blocks.fire)
-            {
-                //TODO add energy value of explosion to this explosion if it is small
-                //TODO maybe trigger explosion inside this thread allowing for controlled over lap
-                //TODO if we trigger the explosive move most of the energy in the same direction
-                //the current explosion is running in with a little bit in the opposite direction
+            //TODO add energy value of explosion to this explosion if it is small
+            //TODO maybe trigger explosion inside this thread allowing for controlled over lap
+            //TODO if we trigger the explosive move most of the energy in the same direction
+            //the current explosion is running in with a little bit in the opposite direction
 
-                //Trigger break event so blocks can do X action
-                if (!(block instanceof BlockTNT) && !(vec.getTileEntity() instanceof TileWarhead))
-                {
-                    block.onBlockDestroyedByExplosion(world, vec.xi(), vec.yi(), vec.zi(), wrapperExplosion);
-                }
-                else
-                {
-                    //Add explosives to post call to allow the thread to finish before generating more explosions
-                    postCallDestroyMethod.add(vec);
-                }
+            //Trigger break event so blocks can do X action
+            if (!(block instanceof BlockTNT) && !(vec.getTileEntity() instanceof TileWarhead))
+            {
+                block.onBlockDestroyedByExplosion(world, vec.xi(), vec.yi(), vec.zi(), wrapperExplosion);
+            }
+            else
+            {
+                //Add explosives to post call to allow the thread to finish before generating more explosions
+                postCallDestroyMethod.add(vec);
             }
 
             vec.place();

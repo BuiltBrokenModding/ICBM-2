@@ -1,5 +1,7 @@
 package com.builtbroken.icbm;
 
+import com.builtbroken.mc.lib.render.fx.*;
+import com.builtbroken.mc.lib.transform.vector.Vector3;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -19,8 +21,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.Level;
-import com.builtbroken.lib.render.fx.*;
-import com.builtbroken.lib.transform.vector.Vector3;
 
 import java.util.List;
 

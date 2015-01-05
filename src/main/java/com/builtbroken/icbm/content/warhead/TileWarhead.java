@@ -3,15 +3,27 @@ package com.builtbroken.icbm.content.warhead;
 import com.builtbroken.icbm.content.crafting.missile.MissileSizes;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.missile.RenderMissile;
+import com.builtbroken.mc.api.event.TriggerCause;
+import com.builtbroken.mc.api.explosive.IExplosive;
+import com.builtbroken.mc.api.explosive.IExplosiveContainer;
+import com.builtbroken.mc.api.items.ISimpleItemRenderer;
+import com.builtbroken.mc.api.tile.IRemovable;
+import com.builtbroken.mc.core.network.IPacketReceiver;
+import com.builtbroken.mc.core.network.packet.PacketTile;
+import com.builtbroken.mc.core.network.packet.PacketType;
+import com.builtbroken.mc.lib.helper.WrenchUtility;
+import com.builtbroken.mc.lib.transform.region.Cuboid;
+import com.builtbroken.mc.lib.transform.vector.Vector3;
+import com.builtbroken.mc.lib.transform.vector.VectorWorld;
+import com.builtbroken.mc.lib.world.edit.WorldChangeHelper;
+import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
+import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
-import com.builtbroken.api.items.ISimpleItemRenderer;
-import com.builtbroken.api.tile.IRemovable;
-import com.builtbroken.lib.world.explosive.ExplosiveItemUtility;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -27,18 +39,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.Explosion;
 import net.minecraftforge.common.util.ForgeDirection;
-import com.builtbroken.api.explosive.IExplosive;
-import com.builtbroken.api.explosive.IExplosiveContainer;
-import com.builtbroken.api.TriggerCause;
-import com.builtbroken.lib.prefab.tile.TileAdvanced;
-import com.builtbroken.lib.network.discriminator.PacketTile;
-import com.builtbroken.lib.network.discriminator.PacketType;
-import com.builtbroken.lib.network.handle.IPacketReceiver;
-import com.builtbroken.lib.transform.region.Cuboid;
-import com.builtbroken.lib.transform.vector.Vector3;
-import com.builtbroken.lib.transform.vector.VectorWorld;
-import com.builtbroken.lib.utility.WrenchUtility;
-import com.builtbroken.lib.world.edit.WorldChangeHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,7 @@ import java.util.List;
  * Block version of the warhead placed at the end of a missile
  * @author Darkguardsman
  */
-public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IPacketReceiver, IRemovable.ISneakPickup, ISimpleItemRenderer
+public class TileWarhead extends Tile implements IExplosiveContainer, IPacketReceiver, IRemovable.ISneakPickup, ISimpleItemRenderer
 {
     public boolean exploding = false;
 
@@ -56,15 +56,16 @@ public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IP
     public TileWarhead()
     {
         super(Material.iron);
-        this.setBlockHardness(100);
-        this.normalRender(false);
-        this.itemBlock(ItemBlockWarhead.class);
-        this.bounds_$eq(new Cuboid(0.2, 0, 0.2, 0.8, 0.5, 0.8));
-        this.isOpaqueCube(false);
+        this.hardness = 100;
+        this.renderNormalBlock = false;
+        this.renderTileEntity = true;
+        this.isOpaque = false;
+        this.itemBlock = ItemBlockWarhead.class;
+        this.bounds = new Cuboid(0.2, 0, 0.2, 0.8, 0.5, 0.8);
     }
 
     @Override
-    public void collide(Entity entity)
+    public void onCollide(Entity entity)
     {
         if(entity != null && entity.isBurning())
         {

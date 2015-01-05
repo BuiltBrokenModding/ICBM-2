@@ -3,7 +3,14 @@ package com.builtbroken.icbm.content.display;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.missile.ItemMissile;
-import com.builtbroken.mod.BBL;
+import com.builtbroken.mc.core.BBL;
+import com.builtbroken.mc.core.network.IPacketReceiver;
+import com.builtbroken.mc.core.network.packet.PacketTile;
+import com.builtbroken.mc.core.network.packet.PacketType;
+import com.builtbroken.mc.lib.render.RenderItemOverlayUtility;
+import com.builtbroken.mc.lib.transform.region.Cuboid;
+import com.builtbroken.mc.lib.transform.vector.Vector3;
+import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -15,31 +22,22 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.util.ForgeDirection;
-import com.builtbroken.lib.network.discriminator.PacketTile;
-import com.builtbroken.lib.network.discriminator.PacketType;
-import com.builtbroken.lib.network.handle.IPacketReceiver;
-import com.builtbroken.lib.prefab.tile.TileAdvanced;
-import com.builtbroken.lib.render.RenderItemOverlayUtility;
-import com.builtbroken.lib.transform.region.Cuboid;
-import com.builtbroken.lib.transform.vector.Vector3;
 
 /**
  * Simple display table to test to make sure missiles are rendering correctly
  * Later will be changed to only render micro and small missiles
  * Created by robert on 12/31/2014.
  */
-public class TileMissileDisplay extends TileAdvanced implements IPacketReceiver
+public class TileMissileDisplay extends Tile implements IPacketReceiver
 {
     private Missile missile = null;
 
     public TileMissileDisplay()
     {
         super(Material.circuits);
-        this.setRenderStaticBlock(true);
-        this.normalRender(false);
-        this.setForceItemToRenderAsBlock(true);
-        this.bounds(new Cuboid(0, 0, 0, 1, .4, 1));
-        this.isOpaqueCube(false);
+        this.renderTileEntity = true;
+        this.isOpaque = true;
+        this.bounds = new Cuboid(0, 0, 0, 1, .4, 1);
     }
 
     @Override
@@ -104,7 +102,7 @@ public class TileMissileDisplay extends TileAdvanced implements IPacketReceiver
     @Override
     public boolean use(EntityPlayer player, int side, Vector3 hit)
     {
-        if (server())
+        if (isServer())
         {
             ItemStack stack = player.getHeldItem();
             if (getMissile() != null)

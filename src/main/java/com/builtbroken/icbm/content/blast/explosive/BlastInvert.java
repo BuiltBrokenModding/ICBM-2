@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.blast.explosive;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.lib.world.edit.BlockEdit;
+import com.builtbroken.mc.lib.world.edit.BlockEdit;
 
 /**
  * Created by robert on 12/1/2014.

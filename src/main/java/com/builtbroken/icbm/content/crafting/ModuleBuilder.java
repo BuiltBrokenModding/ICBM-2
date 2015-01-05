@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.crafting;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.mod.BBL;
+import com.builtbroken.mc.core.BBL;
 import com.google.common.collect.HashBiMap;
 import net.minecraft.item.ItemStack;
 

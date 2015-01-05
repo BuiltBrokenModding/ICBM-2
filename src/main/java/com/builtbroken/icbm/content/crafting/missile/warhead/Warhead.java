@@ -1,14 +1,14 @@
 package com.builtbroken.icbm.content.crafting.missile.warhead;
 
 import com.builtbroken.icbm.content.crafting.AbstractModule;
+import com.builtbroken.mc.api.event.TriggerCause;
+import com.builtbroken.mc.api.explosive.IExplosive;
+import com.builtbroken.mc.lib.world.edit.WorldChangeHelper;
+import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
+import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import com.builtbroken.api.TriggerCause;
-import com.builtbroken.api.explosive.IExplosive;
-import com.builtbroken.lib.world.edit.WorldChangeHelper;
-import com.builtbroken.lib.world.explosive.ExplosiveItemUtility;
-import com.builtbroken.lib.world.explosive.ExplosiveRegistry;
 
 /**
  * Container for explosive data to make implementing warhead like objects easier
@@ -37,13 +37,14 @@ public abstract class Warhead extends AbstractModule
     }
 
     @Override
-    public void save(NBTTagCompound nbt)
+    public NBTTagCompound save(NBTTagCompound nbt)
     {
         if (ex != null)
             ExplosiveItemUtility.setExplosive(nbt, ex);
         if (tag != null)
             nbt.setTag("data", tag);
         ExplosiveItemUtility.setSize(nbt, size);
+        return nbt;
     }
 
     /**

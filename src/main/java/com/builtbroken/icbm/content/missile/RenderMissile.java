@@ -4,6 +4,7 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.ICustomMissileRender;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
+import com.builtbroken.mc.api.explosive.IExplosive;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -15,7 +16,6 @@ import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
-import com.builtbroken.api.explosive.IExplosive;
 
 import java.util.HashMap;
 
@@ -23,8 +23,6 @@ import java.util.HashMap;
 /** @author Calclavia */
 public class RenderMissile extends Render implements IItemRenderer
 {
-    public static final HashMap<IExplosive, IModelCustom> cache = new HashMap<IExplosive, IModelCustom>();
-
     public static final IModelCustom SMALL = AdvancedModelLoader.loadModel(new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_PREFIX + "missile_conventional.tcn"));
     public static final ResourceLocation SMALL_TEXTURE = new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_TEXTURE_PATH + "missile_condensed.png");
 

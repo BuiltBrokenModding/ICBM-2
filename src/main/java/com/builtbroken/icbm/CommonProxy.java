@@ -1,11 +1,11 @@
 package com.builtbroken.icbm;
 
 import com.builtbroken.icbm.content.missile.EntityMissile;
+import com.builtbroken.mc.lib.mod.AbstractProxy;
+import com.builtbroken.mc.lib.transform.vector.Vector3;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.world.World;
-import com.builtbroken.lib.mod.AbstractProxy;
-import com.builtbroken.lib.transform.vector.Vector3;
 
 import java.util.List;
 
@@ -15,13 +15,6 @@ public class CommonProxy extends AbstractProxy
     public void init()
     {
         super.init();
-       //GameRegistry.registerTileEntity(TileLauncherBase.class, "ICBMFaSheDi");
-        //GameRegistry.registerTileEntity(TileLauncherScreen.class, "ICBMFaSheShiMuo");
-        //GameRegistry.registerTileEntity(TileLauncherFrame.class, "ICBMFaSheJia");
-        //GameRegistry.registerTileEntity(TileRadarStation.class, "ICBMLeiDaTai");
-        //GameRegistry.registerTileEntity(TileEMPTower.class, "ICBMDianCiQi");
-        //GameRegistry.registerTileEntity(TileExplosive.class, "ICBMZhaDan");
-        //GameRegistry.registerTileEntity(TileMissileAssembler.class, "ICBMMissileTable");
     }
 
     public void spawnParticle(String name, World world, Vector3 position, float scale, double distance)
