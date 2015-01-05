@@ -3,7 +3,7 @@ package com.builtbroken.icbm.content.display;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.missile.ItemMissile;
-import com.builtbroken.mc.core.BBL;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
@@ -74,7 +74,7 @@ public class TileMissileDisplay extends Tile implements IPacketReceiver
 
     public void updateClient()
     {
-        BBL.instance.packetHandler.sendToAllAround(getDescPacket(), (TileEntity) this);
+        Engine.instance.packetHandler.sendToAllAround(getDescPacket(), (TileEntity) this);
     }
 
     @Override

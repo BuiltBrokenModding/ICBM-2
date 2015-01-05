@@ -3,7 +3,7 @@ package com.builtbroken.icbm.content.blast.explosive;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
 import com.builtbroken.mc.api.event.TriggerCause;
-import com.builtbroken.mc.core.BBL;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.helper.DamageUtility;
 import com.builtbroken.mc.lib.helper.MathUtility;
 import com.builtbroken.mc.lib.transform.sorting.Vector3DistanceComparator;
@@ -92,7 +92,7 @@ public class BlastBasic extends Blast
 
         profile.endSection("getEffectedBlocks");
         //Generate debug info
-        if (BBL.runningAsDev)
+        if (Engine.runningAsDev)
         {
             ICBM.LOGGER.info(profile.getOutputSimple());
         }
