@@ -66,6 +66,10 @@ processResources {
 	}
 }
 
+task runJar(dependsOn:jar) << {
+  javaexec { main="-jar"; args "bin-maven/MavenPageMaker.jar" } 
+}
+
 repositories {
     maven {
         url 'http://calclavia.com/maven/'
