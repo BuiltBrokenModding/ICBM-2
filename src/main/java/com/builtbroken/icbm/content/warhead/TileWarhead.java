@@ -74,6 +74,12 @@ public class TileWarhead extends Tile implements IExplosiveContainer, IPacketRec
     }
 
     @Override
+    public Tile newTile()
+    {
+        return new TileWarhead();
+    }
+
+    @Override
     public boolean activate(EntityPlayer entityPlayer, int side, Vector3 hit)
     {
         if (entityPlayer.getCurrentEquippedItem() != null)

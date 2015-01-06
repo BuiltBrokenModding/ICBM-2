@@ -41,6 +41,12 @@ public class TileMissileDisplay extends Tile implements IPacketReceiver
     }
 
     @Override
+    public Tile newTile()
+    {
+        return new TileMissileDisplay();
+    }
+
+    @Override
     public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
