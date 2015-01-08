@@ -59,8 +59,7 @@ import java.util.ArrayList;
  *
  * @author Calclavia
  */
-@Mod(modid = ICBM.DOMAIN, name = ICBM.NAME, version = ICBM.VERSION, dependencies = "required-after:ResonantEngine")
-@ModstatInfo(prefix = "com/builtbroken/icbm", name = ICBM.NAME, version = ICBM.VERSION)
+@Mod(modid = ICBM.DOMAIN, name = ICBM.NAME, version = ICBM.VERSION, dependencies = "required-after:VoltzEngine")
 public final class ICBM extends AbstractMod
 {
     /** Name of the channel and mod ID. */
