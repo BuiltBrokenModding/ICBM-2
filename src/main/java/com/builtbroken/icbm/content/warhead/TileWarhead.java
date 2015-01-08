@@ -80,7 +80,7 @@ public class TileWarhead extends Tile implements IExplosiveContainer, IPacketRec
     }
 
     @Override
-    public boolean activate(EntityPlayer entityPlayer, int side, Vector3 hit)
+    public boolean onPlayerActivated(EntityPlayer entityPlayer, int side, Vector3 hit)
     {
         if (entityPlayer.getCurrentEquippedItem() != null)
         {

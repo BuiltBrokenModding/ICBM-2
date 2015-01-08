@@ -106,7 +106,7 @@ public class TileMissileDisplay extends Tile implements IPacketReceiver
     }
 
     @Override
-    public boolean use(EntityPlayer player, int side, Vector3 hit)
+    public boolean onPlayerRightClick(EntityPlayer player, int side, Vector3 hit)
     {
         if (isServer())
         {
