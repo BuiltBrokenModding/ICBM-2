@@ -49,8 +49,6 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.modstats.ModstatInfo;
-import org.modstats.Modstats;
 
 import java.util.ArrayList;
 
@@ -143,7 +141,6 @@ public final class ICBM extends AbstractMod
 
         NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
 
-        Modstats.instance().getReporter().registerMod(INSTANCE);
         MinecraftForge.EVENT_BUS.register(INSTANCE);
         MinecraftForge.EVENT_BUS.register(proxy);
 
