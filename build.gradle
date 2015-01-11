@@ -33,10 +33,10 @@ buildProps.withReader {
 }
 
 if (project.getProperty("bambooshortPlanName") == "ICBM-Dev"){
-    group = "dev.builtbrokenmodding.icbm"
+    group = "dev.builtbroken.icbm"
     archivesBaseName = "ICBM-dev"
 } else {
-    group = "com.builtbrokenmodding.icbm"
+    group = "com.builtbroken.icbm"
     archivesBaseName = "ICBM"
 }
 
