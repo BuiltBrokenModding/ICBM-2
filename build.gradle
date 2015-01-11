@@ -21,6 +21,11 @@ apply plugin: 'forge'
 
 ext.buildProps = file "build.properties"
 
+println minecraft.apiVersion
+
+def currentJvm = org.gradle.internal.jvm.Jvm.current()
+println currentJvm
+
 buildProps.withReader {
     def prop = new Properties()
     prop.load(it)
