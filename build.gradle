@@ -21,10 +21,10 @@ apply plugin: 'forge'
 
 ext.buildProps = file "build.properties"
 
-println minecraft.apiVersion
+println "Current Minecraft version " + minecraft.apiVersion
 
 def currentJvm = org.gradle.internal.jvm.Jvm.current()
-println currentJvm
+println "Current Java version " +currentJvm
 
 buildProps.withReader {
     def prop = new Properties()
@@ -32,7 +32,7 @@ buildProps.withReader {
     ext.config = new ConfigSlurper().parse prop
 }
 
-if (project.getProperty("bambooshortPlanName") == "ICBM-Dev"){
+if (project.getProperty("bambooshortPlanName") == "BBM-Dev"){
     group = "dev.builtbroken.icbm"
     archivesBaseName = "ICBM-dev"
 } else {
