@@ -1,6 +1,7 @@
 buildscript {
     repositories {
         mavenCentral()
+        jcenter()
         maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
@@ -51,7 +52,6 @@ if (project.hasProperty("bambooBuildNumber"))
     version += project.bambooBuildNumber
 else
     version += "NIGHTLY"
-
 println "version = "+ version
 
 processResources {
@@ -71,6 +71,7 @@ processResources {
 	}
 }
 
+archivesBaseName = "ICBM"
 task runJar(dependsOn:jar) << {
   javaexec { main="-jar"; args "bin-maven/MavenPageMaker.jar" } 
 }
