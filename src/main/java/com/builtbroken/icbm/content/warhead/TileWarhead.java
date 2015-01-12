@@ -55,7 +55,7 @@ public class TileWarhead extends Tile implements IExplosiveContainer, IPacketRec
 
     public TileWarhead()
     {
-        super(Material.iron);
+        super("warhead", Material.iron);
         this.hardness = 100;
         this.renderNormalBlock = false;
         this.renderTileEntity = true;

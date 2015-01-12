@@ -34,7 +34,7 @@ public class TileMissileDisplay extends Tile implements IPacketReceiver
 
     public TileMissileDisplay()
     {
-        super(Material.circuits);
+        super("missileDisplay", Material.circuits);
         this.renderTileEntity = true;
         this.isOpaque = true;
         this.bounds = new Cuboid(0, 0, 0, 1, .4, 1);
