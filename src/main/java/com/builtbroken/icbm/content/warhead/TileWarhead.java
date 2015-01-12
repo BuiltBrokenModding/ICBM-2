@@ -13,8 +13,8 @@ import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.lib.helper.WrenchUtility;
 import com.builtbroken.mc.lib.transform.region.Cuboid;
-import com.builtbroken.mc.lib.transform.vector.Vector3;
-import com.builtbroken.mc.lib.transform.vector.VectorWorld;
+import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.world.edit.WorldChangeHelper;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
 import com.builtbroken.mc.prefab.tile.Tile;
@@ -80,7 +80,7 @@ public class TileWarhead extends Tile implements IExplosiveContainer, IPacketRec
     }
 
     @Override
-    public boolean onPlayerActivated(EntityPlayer entityPlayer, int side, Vector3 hit)
+    public boolean onPlayerActivated(EntityPlayer entityPlayer, int side, Pos hit)
     {
         if (entityPlayer.getCurrentEquippedItem() != null)
         {
@@ -142,7 +142,7 @@ public class TileWarhead extends Tile implements IExplosiveContainer, IPacketRec
             // If anything can set it on fire blow up
             for (byte i = 0; i < 6; i++)
             {
-                VectorWorld position = toVectorWorld();
+                Location position = toVectorWorld();
                 position.add(ForgeDirection.getOrientation(i));
 
                 Block b = position.getBlock();
@@ -181,7 +181,7 @@ public class TileWarhead extends Tile implements IExplosiveContainer, IPacketRec
         // If anything can set it on fire blow up
         for (byte i = 0; i < 6; i++)
         {
-            VectorWorld position = toVectorWorld();
+            Location position = toVectorWorld();
             position.add(ForgeDirection.getOrientation(i));
 
             Block b = position.getBlock();
@@ -317,7 +317,7 @@ public class TileWarhead extends Tile implements IExplosiveContainer, IPacketRec
     }
 
     @SideOnly(Side.CLIENT) @Override
-    public void renderDynamic(Vector3 position, float frame, int pass)
+    public void renderDynamic(Pos position, float frame, int pass)
     {
         GL11.glPushMatrix();
         GL11.glTranslatef(position.xf() + 0.5f, position.yf() - 2.5f, position.zf() + 0.5f);
@@ -345,6 +345,6 @@ public class TileWarhead extends Tile implements IExplosiveContainer, IPacketRec
             GL11.glScalef(0.5f, 0.5f, 0.5f);
         }
 
-        renderDynamic(new Vector3(), 0, 0);
+        renderDynamic(new Pos(), 0, 0);
     }
 }

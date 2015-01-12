@@ -7,7 +7,7 @@ import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.helper.DamageUtility;
 import com.builtbroken.mc.lib.helper.MathUtility;
 import com.builtbroken.mc.lib.transform.sorting.Vector3DistanceComparator;
-import com.builtbroken.mc.lib.transform.vector.Vector3;
+import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.lib.world.explosive.Blast;
 import net.minecraft.block.Block;
@@ -87,7 +87,7 @@ public class BlastBasic extends Blast
 
         //Sort results so blocks are placed in the center first
         profile.startSection("Sorter");
-        Collections.sort(list, new Vector3DistanceComparator(new Vector3(this)));
+        Collections.sort(list, new Vector3DistanceComparator(new Pos(this)));
         profile.endSection("Sorter");
 
         profile.endSection("getEffectedBlocks");
@@ -151,7 +151,7 @@ public class BlastBasic extends Blast
                         }
                     }
 
-                    Collections.sort(sides, new Vector3DistanceComparator(new Vector3(this)));
+                    Collections.sort(sides, new Vector3DistanceComparator(new Pos(this)));
 
                     profile.blockIterationTimes.add(System.nanoTime() - timeStart);
                     //Iterate threw sides expending energy outwards
@@ -294,8 +294,8 @@ public class BlastBasic extends Blast
     {
         if (DamageUtility.canDamage(entity))
         {
-            Vector3 eVec = new Vector3(entity);
-            MovingObjectPosition hit = eVec.rayTrace(world, new Vector3(this));
+            Pos eVec = new Pos(entity);
+            MovingObjectPosition hit = eVec.rayTrace(world, new Pos(this));
             if (hit == null || hit.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK)
             {
                 float e = ((float) radius + 1 * 5) / (float) eVec.distance(this);
@@ -306,11 +306,11 @@ public class BlastBasic extends Blast
         }
     }
 
-    protected void applyMotion(Entity entity, Vector3 eVec, float energyAppliedNearEntity)
+    protected void applyMotion(Entity entity, Pos eVec, float energyAppliedNearEntity)
     {
         if (!entity.isRiding())
         {
-            Vector3 motion = eVec.toEulerAngle(new Vector3(this)).toVector().multiply(energyAppliedNearEntity);
+            Pos motion = eVec.toEulerAngle(new Pos(this)).toVector().multiply(energyAppliedNearEntity);
             entity.motionX += motion.xi() & 1;
             entity.motionY += motion.xi() & 1;
             entity.motionZ += motion.xi() & 1;

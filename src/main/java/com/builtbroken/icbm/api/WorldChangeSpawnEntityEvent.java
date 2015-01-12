@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.api;
 
-import com.builtbroken.mc.lib.transform.vector.VectorWorld;
+import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.world.edit.IWorldChangeAction;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.world.World;
@@ -13,7 +13,7 @@ public class WorldChangeSpawnEntityEvent extends LivingSpawnEvent.SpecialSpawn
 {
     IWorldChangeAction blast;
 
-    public WorldChangeSpawnEntityEvent(EntityLiving entity, IWorldChangeAction blast, VectorWorld vec)
+    public WorldChangeSpawnEntityEvent(EntityLiving entity, IWorldChangeAction blast, Location vec)
     {
         this(entity, blast, vec.world(), vec.x(), vec.y(), vec.z());
     }

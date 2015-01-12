@@ -7,7 +7,7 @@ import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosive;
 import com.builtbroken.mc.api.explosive.IExplosiveContainer;
-import com.builtbroken.mc.lib.transform.vector.Vector3;
+import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.entity.EntityProjectile;
 import cpw.mods.fml.common.network.ByteBufUtils;
@@ -80,11 +80,11 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     {
         if (this.worldObj.isRemote)
         {
-            Vector3 position = new Vector3(this);
+            Pos position = new Pos(this);
             // The distance of the smoke relative
             // to the missile.
             double distance = - 1.2f;
-            Vector3 delta = new Vector3();
+            Pos delta = new Pos();
             // The delta Y of the smoke.
             delta.y_$eq(Math.sin(Math.toRadians(this.rotationPitch)) * distance);
             // The horizontal distance of the

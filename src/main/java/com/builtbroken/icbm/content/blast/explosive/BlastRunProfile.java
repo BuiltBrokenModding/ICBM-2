@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.blast.explosive;
 
 
 import com.builtbroken.jlib.lang.StringHelpers;
-import com.builtbroken.mc.lib.transform.vector.Vector3;
+import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.testing.debug.profiler.RunProfile;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ public class BlastRunProfile extends RunProfile
 {
     public final int size;
     public final float energy;
-    public final Vector3 center;
+    public final Pos center;
     public int tilesPathed = 0;
     public int airBlocksPathed = 0;
     public int blocksRemoved = 0;
@@ -27,7 +27,7 @@ public class BlastRunProfile extends RunProfile
         super("icbm.blast."+ blast.getClass().getSimpleName() + "#"+ System.nanoTime());
         this.size = blast.size;
         this.energy = blast.energy;
-        this.center = new Vector3(blast);
+        this.center = new Pos(blast);
     }
 
     @Override
