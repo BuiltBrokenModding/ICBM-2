@@ -5,8 +5,8 @@ import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.missile.ItemMissile;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketReceiver;
+import com.builtbroken.mc.core.network.packet.AbstractPacket;
 import com.builtbroken.mc.core.network.packet.PacketTile;
-import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.lib.render.RenderItemOverlayUtility;
 import com.builtbroken.mc.lib.transform.region.Cuboid;
 import com.builtbroken.mc.lib.transform.vector.Pos;
@@ -75,7 +75,7 @@ public class TileMissileDisplay extends Tile implements IPacketReceiver
     {
         NBTTagCompound tag = new NBTTagCompound();
         writeToNBT(tag);
-        return new PacketTile(this, tag);
+        return new PacketTile(this, 0, tag);
     }
 
     public void updateClient()
@@ -84,10 +84,11 @@ public class TileMissileDisplay extends Tile implements IPacketReceiver
     }
 
     @Override
-    public void read(ByteBuf buf, EntityPlayer player, PacketType packet)
+    public boolean read(EntityPlayer player, AbstractPacket packet)
     {
         System.out.println("Packet Received");
-        readFromNBT(ByteBufUtils.readTag(buf));
+        readFromNBT(ByteBufUtils.readTag(packet.data));
+        return true;
     }
 
     @Override

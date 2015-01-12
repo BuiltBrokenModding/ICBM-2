@@ -9,8 +9,8 @@ import com.builtbroken.mc.api.explosive.IExplosiveContainer;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.api.tile.IRemovable;
 import com.builtbroken.mc.core.network.IPacketReceiver;
+import com.builtbroken.mc.core.network.packet.AbstractPacket;
 import com.builtbroken.mc.core.network.packet.PacketTile;
-import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.lib.helper.WrenchUtility;
 import com.builtbroken.mc.lib.transform.region.Cuboid;
 import com.builtbroken.mc.lib.transform.vector.Pos;
@@ -252,13 +252,13 @@ public class TileWarhead extends Tile implements IExplosiveContainer, IPacketRec
     }
 
     @Override
-    public void read(ByteBuf data, EntityPlayer player, PacketType type)
+    public boolean read(EntityPlayer player, AbstractPacket type)
     {
-        final byte ID = data.readByte();
+        final byte ID = type.data.readByte();
 
         if (ID == 1)
         {
-            NBTTagCompound tag = ByteBufUtils.readTag(data);
+            NBTTagCompound tag = ByteBufUtils.readTag(type.data);
             if(warhead == null)
             {
                 warhead = MissileSizes.loadWarhead(getItemStack());
@@ -268,6 +268,7 @@ public class TileWarhead extends Tile implements IExplosiveContainer, IPacketRec
                 warhead.load(tag);
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         }
+        return true;
     }
 
     @Override

@@ -87,7 +87,7 @@ public class BlastBasic extends Blast
 
         //Sort results so blocks are placed in the center first
         profile.startSection("Sorter");
-        Collections.sort(list, new Vector3DistanceComparator(new Pos(this)));
+        Collections.sort(list, new Vector3DistanceComparator(new Pos(x(), y(), z())));
         profile.endSection("Sorter");
 
         profile.endSection("getEffectedBlocks");
@@ -151,7 +151,7 @@ public class BlastBasic extends Blast
                         }
                     }
 
-                    Collections.sort(sides, new Vector3DistanceComparator(new Pos(this)));
+                    Collections.sort(sides, new Vector3DistanceComparator(new Pos(x(), y(), z())));
 
                     profile.blockIterationTimes.add(System.nanoTime() - timeStart);
                     //Iterate threw sides expending energy outwards
@@ -295,10 +295,10 @@ public class BlastBasic extends Blast
         if (DamageUtility.canDamage(entity))
         {
             Pos eVec = new Pos(entity);
-            MovingObjectPosition hit = eVec.rayTrace(world, new Pos(this));
+            MovingObjectPosition hit = eVec.rayTrace(world, new Pos(x(), y(), z()));
             if (hit == null || hit.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK)
             {
-                float e = ((float) radius + 1 * 5) / (float) eVec.distance(this);
+                float e = ((float) radius + 1 * 5) / (float) eVec.distance(new Pos(x(), y(), z()));
 
                 entity.attackEntityFrom(source, e);
                 applyMotion(entity, eVec, e);
@@ -310,7 +310,7 @@ public class BlastBasic extends Blast
     {
         if (!entity.isRiding())
         {
-            Pos motion = eVec.toEulerAngle(new Pos(this)).toVector().multiply(energyAppliedNearEntity);
+            Pos motion = eVec.toEulerAngle(new Pos(x(), y(), z())).toVector().multiply(energyAppliedNearEntity);
             entity.motionX += motion.xi() & 1;
             entity.motionY += motion.xi() & 1;
             entity.motionZ += motion.xi() & 1;

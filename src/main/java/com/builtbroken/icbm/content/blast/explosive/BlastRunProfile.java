@@ -27,7 +27,7 @@ public class BlastRunProfile extends RunProfile
         super("icbm.blast."+ blast.getClass().getSimpleName() + "#"+ System.nanoTime());
         this.size = blast.size;
         this.energy = blast.energy;
-        this.center = new Pos(blast);
+        this.center = new Pos(blast.x, blast.y, blast.z);
     }
 
     @Override
