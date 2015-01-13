@@ -22,11 +22,6 @@ apply plugin: 'forge'
 
 ext.buildProps = file "build.properties"
 
-println "Current Minecraft version " + minecraft.apiVersion
-
-def currentJvm = org.gradle.internal.jvm.Jvm.current()
-println "Current Java version " + currentJvm
-
 buildProps.withReader {
     def prop = new Properties()
     prop.load(it)
@@ -35,10 +30,10 @@ buildProps.withReader {
 
 if (project.getProperty("bambooshortPlanName") == "BBM-Dev"){
     group = "dev.builtbroken.icbm"
-    archivesBaseName = "Icbm"
+    archivesBaseName = "ICBM"
 } else {
     group = "com.builtbroken.icbm"
-    archivesBaseName = "Icbm"
+    archivesBaseName = "ICBM"
 }
 
 archivesBaseName = "Icbm"
@@ -56,7 +51,23 @@ else
     version += "NIGHTLY"
 println "version = "+ version
 
-println archivesBaseName
+println "Current Minecraft version = " + minecraft.apiVersion
+
+def currentJvm = org.gradle.internal.jvm.Jvm.current()
+println "Current Java version = " + currentJvm
+
+minecraft {
+	replace "@MAJOR@", config.version.mod.major
+	replace "@MINOR@", config.version.mod.minor
+	replace "@REVIS@", config.version.mod.revis
+	
+	if if (project.hasProperty("bambooBuildNumber")) {
+		replace "@BUILD@", project.bambooBuildNumber
+	}
+	else {
+		replace "@BUILD@", nightly
+	}
+}
 
 processResources {
 	from(sourceSets.main.resources.srcDirs) {
@@ -73,11 +84,6 @@ processResources {
 		exclude '**/*.info'
 		exclude '**/*.properties'
 	}
-}
-
-archivesBaseName = "ICBM"
-task runJar(dependsOn:jar) << {
-  javaexec { main="-jar"; args "bin-maven/MavenPageMaker.jar" } 
 }
 
 repositories {
