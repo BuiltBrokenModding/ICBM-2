@@ -61,11 +61,11 @@ minecraft {
 	replace "@MINOR@", config.version.mod.minor
 	replace "@REVIS@", config.version.mod.revis
 	
-	if if (project.hasProperty("bambooBuildNumber")) {
+	if (project.hasProperty("bambooBuildNumber")) {
 		replace "@BUILD@", project.bambooBuildNumber
 	}
 	else {
-		replace "@BUILD@", nightly
+		replace "@BUILD@", "nightly"
 	}
 }
 
