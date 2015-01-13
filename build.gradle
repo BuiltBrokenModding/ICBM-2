@@ -35,13 +35,13 @@ buildProps.withReader {
 
 if (project.getProperty("bambooshortPlanName") == "BBM-Dev"){
     group = "dev.builtbroken.icbm"
-    archivesBaseName = "ICBM"
+    archivesBaseName = "Icbm"
 } else {
     group = "com.builtbroken.icbm"
-    archivesBaseName = "ICBM"
+    archivesBaseName = "Icbm"
 }
 
-archivesBaseName = "ICBM"
+archivesBaseName = "Icbm"
 
 version = "${project.minecraft.version}-${config.version.mod.major}.${config.version.mod.minor}.${config.version.mod.revis}b"
 
