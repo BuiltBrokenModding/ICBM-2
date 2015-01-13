@@ -25,7 +25,7 @@ ext.buildProps = file "build.properties"
 println "Current Minecraft version " + minecraft.apiVersion
 
 def currentJvm = org.gradle.internal.jvm.Jvm.current()
-println "Current Java version " +currentJvm
+println "Current Java version " + currentJvm
 
 buildProps.withReader {
     def prop = new Properties()
@@ -55,6 +55,8 @@ if (project.hasProperty("bambooBuildNumber"))
 else
     version += "NIGHTLY"
 println "version = "+ version
+
+println archivesBaseName
 
 processResources {
 	from(sourceSets.main.resources.srcDirs) {
