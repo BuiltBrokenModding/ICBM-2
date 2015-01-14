@@ -99,6 +99,10 @@ repositories {
         name 'CB Repo'
         url "http://chickenbones.net/maven/"
     }
+    maven {
+        name = "ic2"
+        url = "http://maven.ic2.player.to/"
+    }
     maven { 
         name 'OC Maven'
         url = "http://maven.cil.li/" }
