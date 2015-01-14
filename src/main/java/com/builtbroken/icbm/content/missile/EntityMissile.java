@@ -84,15 +84,13 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
             // The distance of the smoke relative
             // to the missile.
             double distance = - 1.2f;
-            Pos delta = new Pos();
-            // The delta Y of the smoke.
-            delta.y_$eq(Math.sin(Math.toRadians(this.rotationPitch)) * distance);
+
             // The horizontal distance of the
             // smoke.
             double dH = Math.cos(Math.toRadians(this.rotationPitch)) * distance;
             // The delta X and Z.
-            delta.x_$eq(Math.sin(Math.toRadians(this.rotationYaw)) * dH);
-            delta.z_$eq(Math.cos(Math.toRadians(this.rotationYaw)) * dH);
+            // The delta Y of the smoke.
+            Pos delta = new Pos(Math.sin(Math.toRadians(this.rotationYaw)) * dH, Math.sin(Math.toRadians(this.rotationPitch)) * distance, Math.cos(Math.toRadians(this.rotationYaw)) * dH);
 
             position.add(delta);
             this.worldObj.spawnParticle("flame", position.x(), position.y(), position.z(), 0, 0, 0);

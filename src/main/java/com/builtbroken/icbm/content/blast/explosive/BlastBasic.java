@@ -144,7 +144,7 @@ public class BlastBasic extends Blast
                         if (dir != side)
                         {
                             BlockEdit v = new BlockEdit(world, vec.x(), vec.y(), vec.z());
-                            v.addEquals(dir);
+                            v = v.add(dir);
                             v.face_$eq(dir);
                             v.logPrevBlock();
                             sides.add(v);
