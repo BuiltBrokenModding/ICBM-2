@@ -2,6 +2,8 @@ Educational Public License
 Version 1.0.0
 The following license is subject to change at anytime with or without notice and will take effect immediately. By using this license, you agree to all the following terms below.
 
+If you would like to requets permision to distribute the mod please join #BuiltBrokenModding on irc.esper.net or e-mail us at modpack@builtbroken.com/
+
 Summary
 
 You are allowed to:
