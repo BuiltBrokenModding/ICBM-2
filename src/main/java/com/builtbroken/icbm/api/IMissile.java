@@ -5,4 +5,6 @@ package com.builtbroken.icbm.api;
  */
 public interface IMissile
 {
+    /** Tells the missile to start moving */
+    public void setIntoMotion();
 }

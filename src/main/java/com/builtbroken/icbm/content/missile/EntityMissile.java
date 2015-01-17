@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.missile;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.IMissile;
-import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
+import com.builtbroken.icbm.api.IMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.mc.api.event.TriggerCause;
@@ -14,6 +14,7 @@ import com.builtbroken.mc.prefab.entity.EntityProjectile;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -39,6 +40,13 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
         this.setSize(.5F, .5F);
     }
 
+    @Override
+    public void setIntoMotion()
+    {
+        setTicksInAir(1);
+        setMotion(1);
+    }
+
     /**
      * Fires a missile from the entity using its facing direction and location. For more
      * complex launching options create your own implementation.
@@ -46,17 +54,25 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
      * @param entity  - entity that is firing the missile, most likely a player with a launcher
      * @param missile - item stack that represents the missile plus explosive settings to fire
      */
-    public static void fireMissileByEntity(EntityLivingBase entity, ItemStack missile, MissileCasings size)
+    public static void fireMissileByEntity(Entity entity, ItemStack missile)
     {
-        EntityMissile entityMissile = new EntityMissile(entity);
-        entityMissile.setMissile(MissileModuleBuilder.INSTANCE.buildMissile(missile));
-        entityMissile.setTicksInAir(1);
-        entityMissile.setMotion(1);
-        entityMissile.worldObj.spawnEntityInWorld(entityMissile);
+        Entity entityMissile = null;
+        if (missile.getItem() instanceof IMissileItem)
+        {
+            entityMissile = ((IMissileItem) missile.getItem()).getMissileEntity(missile, entity);
+            entityMissile.setWorld(entity.worldObj);
+        }
+        fireMissileByEntity(entityMissile);
+    }
 
-        //Player audio effect
-        entityMissile.worldObj.playSoundAtEntity(entityMissile, ICBM.PREFIX + "missilelaunch", 4F, (1.0F + (entityMissile.worldObj.rand.nextFloat() - entityMissile.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
-
+    public static void fireMissileByEntity(Entity entityMissile)
+    {
+        if (entityMissile instanceof IMissile)
+        {
+            ((IMissile) entityMissile).setIntoMotion();
+            entityMissile.worldObj.spawnEntityInWorld(entityMissile);
+            entityMissile.worldObj.playSoundAtEntity(entityMissile, ICBM.PREFIX + "missilelaunch", 4F, (1.0F + (entityMissile.worldObj.rand.nextFloat() - entityMissile.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+        }
     }
 
     @Override
@@ -84,7 +100,7 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
             Pos position = new Pos(this);
             // The distance of the smoke relative
             // to the missile.
-            double distance = - 1.2f;
+            double distance = -1.2f;
 
             // The horizontal distance of the
             // smoke.
@@ -140,7 +156,7 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     protected void readEntityFromNBT(NBTTagCompound nbt)
     {
         super.readEntityFromNBT(nbt);
-        if(nbt.hasKey("missileStack"))
+        if (nbt.hasKey("missileStack"))
         {
             ItemStack stack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("missileStack"));
             setMissile(MissileModuleBuilder.INSTANCE.buildMissile(stack));
@@ -151,7 +167,7 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     protected void writeEntityToNBT(NBTTagCompound nbt)
     {
         super.writeEntityToNBT(nbt);
-        if(getMissile() != null)
+        if (getMissile() != null)
         {
             ItemStack stack = getMissile().toStack();
             nbt.setTag("missileStack", stack.writeToNBT(new NBTTagCompound()));
