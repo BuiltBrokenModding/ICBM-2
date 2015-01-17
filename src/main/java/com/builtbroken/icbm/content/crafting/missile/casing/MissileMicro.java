@@ -11,6 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
+import org.lwjgl.opengl.GL11;
 
 /**
  * Created by robert on 12/29/2014.
@@ -32,6 +33,7 @@ public class MissileMicro extends Missile implements ICustomMissileRender
     public boolean renderMissileItem(IItemRenderer.ItemRenderType type, ItemStack stack, Object... data)
     {
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
+        GL11.glScalef(.5f, .5f, .5f);
         MODEL.renderAll();
         return true;
     }
@@ -40,6 +42,7 @@ public class MissileMicro extends Missile implements ICustomMissileRender
     public boolean renderMissileInWorld()
     {
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
+        GL11.glScalef(.5f, .5f, .5f);
         MODEL.renderAll();
         return true;
     }

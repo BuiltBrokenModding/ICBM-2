@@ -19,11 +19,17 @@ import net.minecraft.nbt.NBTTagCompound;
  */
 public abstract class Missile extends AbstractModule implements IModuleContainer
 {
+
+    public final MissileSizes size;
+
+    public int body_length = 2;
+    public int visual_id = 0;
+
     private Warhead warhead;
     private Guidance guidance;
     private Engine engine;
-    public final MissileSizes size;
-    public int body_length = 2;
+
+
 
     public Missile(ItemStack stack, MissileSizes size)
     {

@@ -38,7 +38,6 @@ public class RenderMissile extends Render implements IItemRenderer
         Missile missile = entityMissile.getMissile();
 
         GL11.glPushMatrix();
-        GL11.glScalef(0.5f, 0.5f, 0.5f);
         GL11.glTranslated(x, y - 1, z);
         float yaw = interpolateRotation(-entity.prevRotationYaw + 90, -entity.rotationYaw + 90, f1);
 
@@ -47,6 +46,7 @@ public class RenderMissile extends Render implements IItemRenderer
 
         if (!(missile instanceof ICustomMissileRender) || !((ICustomMissileRender) missile).renderMissileInWorld())
         {
+            GL11.glScalef(.5f, .5f, .5f);
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(SMALL_TEXTURE);
             if (missile == null || missile.getWarhead() != null)
             {
@@ -82,7 +82,6 @@ public class RenderMissile extends Render implements IItemRenderer
         {
             Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(item);
 
-            float scale = 0.5f;
             float yaw = 0;
             float pitch = -90;;
 
@@ -104,7 +103,6 @@ public class RenderMissile extends Render implements IItemRenderer
                     break;
             }
 
-            GL11.glScalef(scale, scale, scale);
             GL11.glRotatef(yaw, 0, 1f, 0f);
             GL11.glRotatef(pitch, 0, 0f, 1f);
 
@@ -112,6 +110,7 @@ public class RenderMissile extends Render implements IItemRenderer
 
             if (!(missile instanceof ICustomMissileRender) || !((ICustomMissileRender) missile).renderMissileItem(type, item, data))
             {
+                GL11.glScalef(.5f, .5f, .5f);
                 FMLClientHandler.instance().getClient().renderEngine.bindTexture(SMALL_TEXTURE);
                 if (missile == null || missile.getWarhead() != null)
                 {

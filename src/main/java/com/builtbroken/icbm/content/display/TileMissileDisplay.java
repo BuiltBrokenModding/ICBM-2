@@ -80,13 +80,12 @@ public class TileMissileDisplay extends Tile implements IPacketReceiver
 
     public void updateClient()
     {
-        Engine.instance.packetHandler.sendToAllAround(getDescPacket(), (TileEntity) this);
+        getDescPacket().send();
     }
 
     @Override
     public boolean read(EntityPlayer player, AbstractPacket packet)
     {
-        System.out.println("Packet Received");
         readFromNBT(ByteBufUtils.readTag(packet.data));
         return true;
     }
