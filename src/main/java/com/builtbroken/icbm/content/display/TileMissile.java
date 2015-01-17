@@ -45,7 +45,7 @@ public class TileMissile extends Tile
         GL11.glScaled(.0015625f, .0015625f, .0015625f);
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(MissileSmall.TEXTURE);
         MissileSmall.MODEL.renderAll();
-        RenderUtility.enableLighting();e
+        RenderUtility.enableLighting();
         GL11.glPopMatrix();
     }
 }
