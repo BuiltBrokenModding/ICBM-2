@@ -3,15 +3,27 @@ package com.builtbroken.icbm.content.warhead;
 import com.builtbroken.icbm.content.crafting.missile.MissileSizes;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.missile.RenderMissile;
+import com.builtbroken.mc.api.event.TriggerCause;
+import com.builtbroken.mc.api.explosive.IExplosive;
+import com.builtbroken.mc.api.explosive.IExplosiveContainer;
+import com.builtbroken.mc.api.items.ISimpleItemRenderer;
+import com.builtbroken.mc.api.tile.IRemovable;
+import com.builtbroken.mc.core.network.IPacketReceiver;
+import com.builtbroken.mc.core.network.packet.AbstractPacket;
+import com.builtbroken.mc.core.network.packet.PacketTile;
+import com.builtbroken.mc.lib.helper.WrenchUtility;
+import com.builtbroken.mc.lib.transform.region.Cuboid;
+import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.lib.transform.vector.Location;
+import com.builtbroken.mc.lib.world.edit.WorldChangeHelper;
+import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
+import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
-import resonant.api.items.ISimpleItemRenderer;
-import resonant.api.tile.IRemovable;
-import resonant.lib.world.explosive.ExplosiveItemUtility;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -27,18 +39,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.Explosion;
 import net.minecraftforge.common.util.ForgeDirection;
-import resonant.api.explosive.IExplosive;
-import resonant.api.explosive.IExplosiveContainer;
-import resonant.api.TriggerCause;
-import resonant.lib.prefab.tile.TileAdvanced;
-import resonant.lib.network.discriminator.PacketTile;
-import resonant.lib.network.discriminator.PacketType;
-import resonant.lib.network.handle.IPacketReceiver;
-import resonant.lib.transform.region.Cuboid;
-import resonant.lib.transform.vector.Vector3;
-import resonant.lib.transform.vector.VectorWorld;
-import resonant.lib.utility.WrenchUtility;
-import resonant.lib.world.edit.WorldChangeHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,7 @@ import java.util.List;
  * Block version of the warhead placed at the end of a missile
  * @author Darkguardsman
  */
-public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IPacketReceiver, IRemovable.ISneakPickup, ISimpleItemRenderer
+public class TileWarhead extends Tile implements IExplosiveContainer, IPacketReceiver, IRemovable.ISneakPickup, ISimpleItemRenderer
 {
     public boolean exploding = false;
 
@@ -55,16 +55,17 @@ public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IP
 
     public TileWarhead()
     {
-        super(Material.iron);
-        this.setBlockHardness(100);
-        this.normalRender(false);
-        this.itemBlock(ItemBlockWarhead.class);
-        this.bounds_$eq(new Cuboid(0.2, 0, 0.2, 0.8, 0.5, 0.8));
-        this.isOpaqueCube(false);
+        super("warhead", Material.iron);
+        this.hardness = 100;
+        this.renderNormalBlock = false;
+        this.renderTileEntity = true;
+        this.isOpaque = false;
+        this.itemBlock = ItemBlockWarhead.class;
+        this.bounds = new Cuboid(0.2, 0, 0.2, 0.8, 0.5, 0.8);
     }
 
     @Override
-    public void collide(Entity entity)
+    public void onCollide(Entity entity)
     {
         if(entity != null && entity.isBurning())
         {
@@ -73,7 +74,13 @@ public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IP
     }
 
     @Override
-    public boolean activate(EntityPlayer entityPlayer, int side, Vector3 hit)
+    public Tile newTile()
+    {
+        return new TileWarhead();
+    }
+
+    @Override
+    public boolean onPlayerActivated(EntityPlayer entityPlayer, int side, Pos hit)
     {
         if (entityPlayer.getCurrentEquippedItem() != null)
         {
@@ -135,7 +142,7 @@ public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IP
             // If anything can set it on fire blow up
             for (byte i = 0; i < 6; i++)
             {
-                VectorWorld position = toVectorWorld();
+                Location position = toVectorWorld();
                 position.add(ForgeDirection.getOrientation(i));
 
                 Block b = position.getBlock();
@@ -174,7 +181,7 @@ public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IP
         // If anything can set it on fire blow up
         for (byte i = 0; i < 6; i++)
         {
-            VectorWorld position = toVectorWorld();
+            Location position = toVectorWorld();
             position.add(ForgeDirection.getOrientation(i));
 
             Block b = position.getBlock();
@@ -245,13 +252,13 @@ public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IP
     }
 
     @Override
-    public void read(ByteBuf data, EntityPlayer player, PacketType type)
+    public boolean read(EntityPlayer player, AbstractPacket type)
     {
-        final byte ID = data.readByte();
+        final byte ID = type.data.readByte();
 
         if (ID == 1)
         {
-            NBTTagCompound tag = ByteBufUtils.readTag(data);
+            NBTTagCompound tag = ByteBufUtils.readTag(type.data);
             if(warhead == null)
             {
                 warhead = MissileSizes.loadWarhead(getItemStack());
@@ -261,6 +268,7 @@ public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IP
                 warhead.load(tag);
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         }
+        return true;
     }
 
     @Override
@@ -310,7 +318,7 @@ public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IP
     }
 
     @SideOnly(Side.CLIENT) @Override
-    public void renderDynamic(Vector3 position, float frame, int pass)
+    public void renderDynamic(Pos position, float frame, int pass)
     {
         GL11.glPushMatrix();
         GL11.glTranslatef(position.xf() + 0.5f, position.yf() - 2.5f, position.zf() + 0.5f);
@@ -338,6 +346,6 @@ public class TileWarhead extends TileAdvanced implements IExplosiveContainer, IP
             GL11.glScalef(0.5f, 0.5f, 0.5f);
         }
 
-        renderDynamic(new Vector3(), 0, 0);
+        renderDynamic(new Pos(), 0, 0);
     }
 }

@@ -4,19 +4,19 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.IMissile;
 import com.builtbroken.icbm.content.crafting.missile.MissileSizes;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
+import com.builtbroken.mc.api.event.TriggerCause;
+import com.builtbroken.mc.api.explosive.IExplosive;
+import com.builtbroken.mc.api.explosive.IExplosiveContainer;
+import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
+import com.builtbroken.mc.prefab.entity.EntityProjectile;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import io.netty.buffer.ByteBuf;
-import resonant.api.explosive.IExplosive;
-import resonant.api.explosive.IExplosiveContainer;
-import resonant.api.TriggerCause;
-import resonant.lib.world.explosive.ExplosiveRegistry;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import resonant.lib.prefab.EntityProjectile;
-import resonant.lib.transform.vector.Vector3;
 
 /**
  * Basic missile like projectile that explodes on impact
@@ -80,19 +80,17 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     {
         if (this.worldObj.isRemote)
         {
-            Vector3 position = new Vector3(this);
+            Pos position = new Pos(this);
             // The distance of the smoke relative
             // to the missile.
             double distance = - 1.2f;
-            Vector3 delta = new Vector3();
-            // The delta Y of the smoke.
-            delta.y_$eq(Math.sin(Math.toRadians(this.rotationPitch)) * distance);
+
             // The horizontal distance of the
             // smoke.
             double dH = Math.cos(Math.toRadians(this.rotationPitch)) * distance;
             // The delta X and Z.
-            delta.x_$eq(Math.sin(Math.toRadians(this.rotationYaw)) * dH);
-            delta.z_$eq(Math.cos(Math.toRadians(this.rotationYaw)) * dH);
+            // The delta Y of the smoke.
+            Pos delta = new Pos(Math.sin(Math.toRadians(this.rotationYaw)) * dH, Math.sin(Math.toRadians(this.rotationPitch)) * distance, Math.cos(Math.toRadians(this.rotationYaw)) * dH);
 
             position.add(delta);
             this.worldObj.spawnParticle("flame", position.x(), position.y(), position.z(), 0, 0, 0);

@@ -1,11 +1,10 @@
 package com.builtbroken.icbm.content.blast.entity;
 
+import com.builtbroken.mc.api.event.TriggerCause;
+import com.builtbroken.mc.lib.world.edit.IWorldChangeAction;
+import com.builtbroken.mc.lib.world.explosive.Explosive;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import resonant.api.TriggerCause;
-import resonant.lib.world.edit.IWorldChangeAction;
-import resonant.lib.world.explosive.Blast;
-import resonant.lib.world.explosive.Explosive;
 
 /**
  * Created by robert on 12/25/2014.

@@ -2,7 +2,6 @@ package com.builtbroken.icbm.api;
 
 import com.builtbroken.icbm.content.crafting.AbstractModule;
 import net.minecraft.item.ItemStack;
-import resonant.lib.mod.AbstractMod;
 
 /** Container that holds modules, used more for internal tracking
  * and interaction. Currently doesn't support dynamic replacement

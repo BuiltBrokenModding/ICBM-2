@@ -1,7 +1,7 @@
-println "blah"
 buildscript {
     repositories {
         mavenCentral()
+        jcenter()
         maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
@@ -16,18 +16,9 @@ buildscript {
     }
 }
 
+apply from: './BuiltBrokenScripts/index.gradle'
 apply plugin: 'forge'
-apply plugin: 'maven-publish'
 
-task makePretty(type: Delete) {
-  delete 'output'
-}
-
-clean{
-   dependsOn makePretty
-}
-
-def ENV = System.getenv()
 
 ext.buildProps = file "build.properties"
 
@@ -37,60 +28,45 @@ buildProps.withReader {
     ext.config = new ConfigSlurper().parse prop
 }
 
-version = "${config.version.minecraft}-${config.version.mod.major}.${config.version.mod.minor}.${config.version.mod.revis}b"
-group = "icbm"
-archivesBaseName = "ICBM"
-
-if (project.hasProperty("bambooBuildNumber"))
-    version += project.bambooBuildNumber
-else
-    version += "NIGHTLY"
-    
-println "version = "+ version
-
-minecraft {
-    version = "${config.version.minecraft}-${config.version.forge}"
-	
-	replaceIn "ICBM.java"
-	replace "@MAJOR@", config.version.mod.major
-	replace "@MINOR@", config.version.mod.minor
-	replace "@REVIS@", config.version.mod.revis
-	if (System.getenv("BUILD_NUMBER") != null) {
-		replace "@BUILD@", System.getenv("BUILD_NUMBER")
-	}
-	else {
-		replace "@BUILD@", 1
-	}
+if (project.getProperty("bambooshortPlanName") == "BBM-Dev"){
+    group = "dev.builtbroken.icbm"
+    archivesBaseName = "ICBM"
+} else {
+    group = "com.builtbroken.icbm"
+    archivesBaseName = "ICBM"
 }
 
-if (System.getenv("BUILD_NUMBER") != null)
-    version += ".${System.getenv("BUILD_NUMBER")}"
+archivesBaseName = "Icbm"
 
+version = "${project.minecraft.version}-${config.version.mod.major}.${config.version.mod.minor}.${config.version.mod.revis}b"
 
 processResources {
 	from 'build.properties'
 }
 
-task apiZip(type: Zip) {
-    classifier = 'api'
-    from sourceSets*.allSource
-    include 'icbm/api/**'
-    destinationDir = file 'output'
-}
+// This is used to set the local version
+if (project.hasProperty("bambooBuildNumber"))
+    version += project.bambooBuildNumber
+else
+    version += "NIGHTLY"
+println "version = "+ version
 
-artifacts {
-    archives apiZip
-}
+println "Current Minecraft version = " + minecraft.apiVersion
 
-task copyBuildXml(type: Copy) {
-    from 'build.properties'
-    into 'output'
-}
+def currentJvm = org.gradle.internal.jvm.Jvm.current()
+println "Current Java version = " + currentJvm
 
-jar {
-    dependsOn copyBuildXml
-    classifier = ''
-    destinationDir = file 'output'
+minecraft {
+	replace "@MAJOR@", config.version.mod.major
+	replace "@MINOR@", config.version.mod.minor
+	replace "@REVIS@", config.version.mod.revis
+	
+	if (project.hasProperty("bambooBuildNumber")) {
+		replace "@BUILD@", project.bambooBuildNumber
+	}
+	else {
+		replace "@BUILD@", "nightly"
+	}
 }
 
 processResources {
@@ -110,37 +86,10 @@ processResources {
 	}
 }
 
-task deobfJar(type: Jar) {
-    from sourceSets.main.output
-    classifier = 'deobf'
-    destinationDir = file 'output'
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication)
-        {
-            artifact jar
-            artifact deobfJar
-            artifactId 'ICBM'
-            artifact("output/build.properties") {
-                classifier "build"
-                extension "properties"
-            }
-        }
-    }
-
-    repositories {
-        maven {
-            url "file:///var/www/html/maven"
-        }
-    }
-}
-
-
 repositories {
     maven {
-        url 'http://calclavia.com/maven/'
+        name "BuiltBroken"
+        url "http://ci.builtbroken.com/maven/"
     }
     maven {
         name "Mobius Repo"
@@ -150,6 +99,10 @@ repositories {
         name 'CB Repo'
         url "http://chickenbones.net/maven/"
     }
+    maven {
+        name = "ic2"
+        url = "http://maven.ic2.player.to/"
+    }
     maven { 
         name 'OC Maven'
         url = "http://maven.cil.li/" }
@@ -158,7 +111,7 @@ repositories {
 dependencies 
 {
     testCompile 'junit:junit:4.11'
-    compile "mcp.mobius.waila:Waila:1.5.5_1.7.10"
+    compile "mcp.mobius.waila:Waila:1.5.8a_1.7.10"
     compile "li.cil.oc:OpenComputers:MC1.7.10-1.4.0.+:dev"
-     compile group: 'dev.calclavia.resonantengine', name: 'resonant-engine', version: "${config.version.resonantengine}", classifier: "dev"
+    compile "dev.builtbroken.voltzengine:VoltzEngine:1.7.10-0.+:deobf-dev"
 }

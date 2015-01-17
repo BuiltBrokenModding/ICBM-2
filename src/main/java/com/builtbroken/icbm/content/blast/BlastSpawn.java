@@ -1,6 +1,8 @@
 package com.builtbroken.icbm.content.blast;
 
 import com.builtbroken.icbm.api.WorldChangeSpawnEntityEvent;
+import com.builtbroken.mc.lib.transform.vector.Location;
+import com.builtbroken.mc.lib.world.explosive.Blast;
 import cpw.mods.fml.common.eventhandler.Event;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -10,8 +12,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
-import resonant.lib.transform.vector.VectorWorld;
-import resonant.lib.world.explosive.Blast;
 
 import java.util.Random;
 
@@ -44,7 +44,7 @@ public abstract class BlastSpawn extends Blast
                 Entity ent = getNewEntity(world, rand, i);
                 if (ent != null)
                 {
-                    VectorWorld location = new VectorWorld(this);
+                    Location location = new Location(this);
                     boolean spawn = true;
                     if (ent instanceof EntityLiving)
                     {

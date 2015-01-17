@@ -5,8 +5,19 @@ import com.builtbroken.icbm.content.crafting.missile.ItemMissileModules;
 import com.builtbroken.icbm.content.crafting.missile.MissileSizes;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
+import com.builtbroken.icbm.content.display.TileMissile;
 import com.builtbroken.icbm.content.display.TileMissileDisplay;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
+import com.builtbroken.mc.api.explosive.IExplosive;
+import com.builtbroken.mc.core.Engine;
+import com.builtbroken.mc.lib.mod.AbstractMod;
+import com.builtbroken.mc.lib.mod.AbstractProxy;
+import com.builtbroken.mc.lib.mod.ModCreativeTab;
+import com.builtbroken.mc.lib.mod.config.Config;
+import com.builtbroken.mc.lib.world.explosive.Explosive;
+import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
+import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
+import com.builtbroken.mc.prefab.tile.item.ItemBlockMetadata;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -22,13 +33,10 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import com.builtbroken.icbm.content.BlockExplosiveMarker;
-import resonant.lib.world.explosive.ExplosiveItemUtility;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.ItemMissile;
 import com.builtbroken.icbm.content.rocketlauncher.ItemRocketLauncher;
-import resonant.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.icbm.content.blast.explosive.BlastBasic;
-import resonant.lib.world.explosive.Explosive;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
@@ -42,15 +50,6 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.modstats.ModstatInfo;
-import org.modstats.Modstats;
-import resonant.api.explosive.IExplosive;
-import resonant.lib.prefab.tile.item.ItemBlockMetadata;
-import resonant.engine.ResonantEngine;
-import resonant.lib.mod.AbstractMod;
-import resonant.lib.mod.AbstractProxy;
-import resonant.lib.mod.ModCreativeTab;
-import resonant.lib.mod.config.Config;
 
 import java.util.ArrayList;
 
@@ -59,8 +58,7 @@ import java.util.ArrayList;
  *
  * @author Calclavia
  */
-@Mod(modid = ICBM.DOMAIN, name = ICBM.NAME, version = ICBM.VERSION, dependencies = "required-after:ResonantEngine")
-@ModstatInfo(prefix = "com/builtbroken/icbm", name = ICBM.NAME, version = ICBM.VERSION)
+@Mod(modid = ICBM.DOMAIN, name = ICBM.NAME, version = ICBM.VERSION, dependencies = "required-after:VoltzEngine")
 public final class ICBM extends AbstractMod
 {
     /** Name of the channel and mod ID. */
@@ -108,6 +106,7 @@ public final class ICBM extends AbstractMod
     public static Block blockExplosive;
     public static Block blockExplosiveMarker;
     public static Block blockMissileDisplay;
+    public static Block blockMissile;
 
     // Items
     public static Item itemMissile;
@@ -144,14 +143,14 @@ public final class ICBM extends AbstractMod
 
         NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
 
-        Modstats.instance().getReporter().registerMod(INSTANCE);
         MinecraftForge.EVENT_BUS.register(INSTANCE);
         MinecraftForge.EVENT_BUS.register(proxy);
 
         // Blocks
         blockExplosive = manager.newBlock(TileWarhead.class);
         blockMissileDisplay = manager.newBlock(TileMissileDisplay.class);
-        if (ResonantEngine.runningAsDev)
+        blockMissile = manager.newBlock(TileMissile.class);
+        if (Engine.runningAsDev)
             blockExplosiveMarker = manager.newBlock(BlockExplosiveMarker.class, ItemBlockMetadata.class);
 
         // ITEMS

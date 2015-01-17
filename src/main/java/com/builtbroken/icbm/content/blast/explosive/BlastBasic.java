@@ -2,23 +2,25 @@ package com.builtbroken.icbm.content.blast.explosive;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
-import resonant.lib.world.explosive.Blast;
+import com.builtbroken.mc.api.event.TriggerCause;
+import com.builtbroken.mc.core.Engine;
+import com.builtbroken.mc.lib.helper.DamageUtility;
+import com.builtbroken.mc.lib.helper.MathUtility;
+import com.builtbroken.mc.lib.transform.sorting.Vector3DistanceComparator;
+import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.lib.world.edit.BlockEdit;
+import com.builtbroken.mc.lib.world.explosive.Blast;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockTNT;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.Explosion;
-import resonant.api.TriggerCause;
-import resonant.api.mffs.machine.IForceField;
-import resonant.engine.ResonantEngine;
-import resonant.lib.transform.sorting.Vector3DistanceComparator;
-import resonant.lib.transform.vector.Vector3;
-import resonant.lib.utility.DamageUtility;
-import resonant.lib.utility.MathUtility;
-import resonant.lib.world.edit.BlockEdit;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -85,20 +87,22 @@ public class BlastBasic extends Blast
 
         //Sort results so blocks are placed in the center first
         profile.startSection("Sorter");
-        Collections.sort(list, new Vector3DistanceComparator(new Vector3(this)));
+        Collections.sort(list, new Vector3DistanceComparator(new Pos(x(), y(), z())));
         profile.endSection("Sorter");
 
         profile.endSection("getEffectedBlocks");
         //Generate debug info
-        if (ResonantEngine.runningAsDev)
+        if (Engine.runningAsDev)
         {
             ICBM.LOGGER.info(profile.getOutputSimple());
         }
     }
 
-    /** Called to trigger the blast pathfinder
-     * @param map - hash map to store data for block placement to energy used
-     * @param vec - starting block
+    /**
+     * Called to trigger the blast pathfinder
+     *
+     * @param map    - hash map to store data for block placement to energy used
+     * @param vec    - starting block
      * @param energy - starting energy
      */
     protected void triggerPathFinder(HashMap<BlockEdit, Float> map, BlockEdit vec, float energy)
@@ -107,12 +111,13 @@ public class BlastBasic extends Blast
         expand(map, vec, energy, null, 0);
     }
 
-    /** Called to map another iteration to expand outwards from the center of the explosion
+    /**
+     * Called to map another iteration to expand outwards from the center of the explosion
      *
-     * @param map - hash map to store data for block placement to energy used
-     * @param vec - next block to expand from, and to log to map
-     * @param energy - current energy at block
-     * @param side - side not to expand in, and direction we came from
+     * @param map       - hash map to store data for block placement to energy used
+     * @param vec       - next block to expand from, and to log to map
+     * @param energy    - current energy at block
+     * @param side      - side not to expand in, and direction we came from
      * @param iteration - current iteration count from center, use this to stop the iteration if they get too far from center
      */
     protected void expand(HashMap<BlockEdit, Float> map, BlockEdit vec, float energy, EnumFacing side, int iteration)
@@ -139,14 +144,14 @@ public class BlastBasic extends Blast
                         if (dir != side)
                         {
                             BlockEdit v = new BlockEdit(world, vec.x(), vec.y(), vec.z());
-                            v.addEquals(dir);
+                            v = v.add(dir);
                             v.face_$eq(dir);
                             v.logPrevBlock();
                             sides.add(v);
                         }
                     }
 
-                    Collections.sort(sides, new Vector3DistanceComparator(new Vector3(this)));
+                    Collections.sort(sides, new Vector3DistanceComparator(new Pos(x(), y(), z())));
 
                     profile.blockIterationTimes.add(System.nanoTime() - timeStart);
                     //Iterate threw sides expending energy outwards
@@ -213,30 +218,27 @@ public class BlastBasic extends Blast
         Block block = vec.getBlock();
         TileEntity tile = vec.getTileEntity();
 
-        //MFFS support
-        if (tile instanceof IForceField)
+        // TODO re-add support MFFS support
+        //if (tile instanceof IForceField)
+        // {
+        //     ((IForceField) tile).weakenForceField((int) vec.energy() * 100);
+        // }
+        if (vec.block() == Blocks.air || vec.block() == Blocks.fire)
         {
-            ((IForceField) tile).weakenForceField((int) vec.energy() * 100);
-        }
-        else
-        {
-            if (vec.block() == Blocks.air || vec.block() == Blocks.fire)
-            {
-                //TODO add energy value of explosion to this explosion if it is small
-                //TODO maybe trigger explosion inside this thread allowing for controlled over lap
-                //TODO if we trigger the explosive move most of the energy in the same direction
-                //the current explosion is running in with a little bit in the opposite direction
+            //TODO add energy value of explosion to this explosion if it is small
+            //TODO maybe trigger explosion inside this thread allowing for controlled over lap
+            //TODO if we trigger the explosive move most of the energy in the same direction
+            //the current explosion is running in with a little bit in the opposite direction
 
-                //Trigger break event so blocks can do X action
-                if (!(block instanceof BlockTNT) && !(vec.getTileEntity() instanceof TileWarhead))
-                {
-                    block.onBlockDestroyedByExplosion(world, vec.xi(), vec.yi(), vec.zi(), wrapperExplosion);
-                }
-                else
-                {
-                    //Add explosives to post call to allow the thread to finish before generating more explosions
-                    postCallDestroyMethod.add(vec);
-                }
+            //Trigger break event so blocks can do X action
+            if (!(block instanceof BlockTNT) && !(vec.getTileEntity() instanceof TileWarhead))
+            {
+                block.onBlockDestroyedByExplosion(world, vec.xi(), vec.yi(), vec.zi(), wrapperExplosion);
+            }
+            else
+            {
+                //Add explosives to post call to allow the thread to finish before generating more explosions
+                postCallDestroyMethod.add(vec);
             }
 
             vec.place();
@@ -292,11 +294,11 @@ public class BlastBasic extends Blast
     {
         if (DamageUtility.canDamage(entity))
         {
-            Vector3 eVec = new Vector3(entity);
-            MovingObjectPosition hit = eVec.rayTrace(world, new Vector3(this));
+            Pos eVec = new Pos(entity);
+            MovingObjectPosition hit = eVec.rayTrace(world, new Pos(x(), y(), z()));
             if (hit == null || hit.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK)
             {
-                float e = ((float) radius + 1 * 5) / (float) eVec.distance(this);
+                float e = ((float) radius + 1 * 5) / (float) eVec.distance(new Pos(x(), y(), z()));
 
                 entity.attackEntityFrom(source, e);
                 applyMotion(entity, eVec, e);
@@ -304,11 +306,11 @@ public class BlastBasic extends Blast
         }
     }
 
-    protected void applyMotion(Entity entity, Vector3 eVec, float energyAppliedNearEntity)
+    protected void applyMotion(Entity entity, Pos eVec, float energyAppliedNearEntity)
     {
         if (!entity.isRiding())
         {
-            Vector3 motion = eVec.toEulerAngle(new Vector3(this)).toVector().multiply(energyAppliedNearEntity);
+            Pos motion = eVec.toEulerAngle(new Pos(x(), y(), z())).toVector().multiply(energyAppliedNearEntity);
             entity.motionX += motion.xi() & 1;
             entity.motionY += motion.xi() & 1;
             entity.motionZ += motion.xi() & 1;

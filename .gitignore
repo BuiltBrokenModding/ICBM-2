@@ -18,3 +18,4 @@ output/
 
 !*.lang
 run/
+logs/

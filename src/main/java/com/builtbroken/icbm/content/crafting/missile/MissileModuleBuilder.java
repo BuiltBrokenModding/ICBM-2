@@ -7,8 +7,8 @@ import com.builtbroken.icbm.content.crafting.missile.engine.Engine;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
 import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
 import com.builtbroken.icbm.content.crafting.missile.warhead.*;
+import com.builtbroken.mc.api.explosive.IExplosive;
 import net.minecraft.item.ItemStack;
-import resonant.api.explosive.IExplosive;
 
 import java.util.ArrayList;
 import java.util.HashMap;

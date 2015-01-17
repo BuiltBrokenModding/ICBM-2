@@ -1,9 +1,9 @@
 package com.builtbroken.icbm.content.blast.explosive;
 
-import com.builtbroken.icbm.content.blast.explosive.BlastBasic;
-import resonant.lib.debug.profiler.RunProfile;
-import resonant.lib.transform.vector.Vector3;
-import resonant.lib.utility.TextUtility;
+
+import com.builtbroken.jlib.lang.StringHelpers;
+import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.testing.debug.profiler.RunProfile;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,7 +16,7 @@ public class BlastRunProfile extends RunProfile
 {
     public final int size;
     public final float energy;
-    public final Vector3 center;
+    public final Pos center;
     public int tilesPathed = 0;
     public int airBlocksPathed = 0;
     public int blocksRemoved = 0;
@@ -27,7 +27,7 @@ public class BlastRunProfile extends RunProfile
         super("icbm.blast."+ blast.getClass().getSimpleName() + "#"+ System.nanoTime());
         this.size = blast.size;
         this.energy = blast.energy;
-        this.center = new Vector3(blast);
+        this.center = new Pos(blast.x, blast.y, blast.z);
     }
 
     @Override
@@ -38,9 +38,9 @@ public class BlastRunProfile extends RunProfile
         stringBuilder.append("\nSize:   " + size);
         stringBuilder.append("\n");
 
-        stringBuilder.append("\nIterations: " + TextUtility.fitIntoSpaces(tilesPathed, 5));
-        stringBuilder.append("\nAir:        " + TextUtility.fitIntoSpaces(airBlocksPathed, 5));
-        stringBuilder.append("\nBlocks:     " + TextUtility.fitIntoSpaces(blocksRemoved, 5));
+        stringBuilder.append("\nIterations: " + StringHelpers.fitIntoSpaces(tilesPathed, 5));
+        stringBuilder.append("\nAir:        " + StringHelpers.fitIntoSpaces(airBlocksPathed, 5));
+        stringBuilder.append("\nBlocks:     " + StringHelpers.fitIntoSpaces(blocksRemoved, 5));
         stringBuilder.append("\n");
 
         long averageBlockIterationTime = 0;
@@ -51,9 +51,9 @@ public class BlastRunProfile extends RunProfile
         averageBlockIterationTime /= blockIterationTimes.size();
 
         Collections.sort(blockIterationTimes);
-        stringBuilder.append("\nAvg B Time: " + TextUtility.formatNanoTime(averageBlockIterationTime));
-        stringBuilder.append("\nMin B Time: " + TextUtility.formatNanoTime(blockIterationTimes.get(0)));
-        stringBuilder.append("\nMax B Time: " + TextUtility.formatNanoTime(blockIterationTimes.get(blockIterationTimes.size() - 1)));
+        stringBuilder.append("\nAvg B Time: " + StringHelpers.formatNanoTime(averageBlockIterationTime));
+        stringBuilder.append("\nMin B Time: " + StringHelpers.formatNanoTime(blockIterationTimes.get(0)));
+        stringBuilder.append("\nMax B Time: " + StringHelpers.formatNanoTime(blockIterationTimes.get(blockIterationTimes.size() - 1)));
         stringBuilder.append("\n");
     }
 }

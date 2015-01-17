@@ -8,7 +8,7 @@ That being said as far as DarkGuardsman is concerned the mod downloads are commu
  
 ##license
 Read license.md contained within the repo
-
+ 
 ##Warranty
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -67,7 +67,7 @@ If not listed don't fear we are still compiling the credits list after it got re
 * Freesound.org
 
 ## Download Locations
-* http://builtbroken.com/icbm-downloads/
+* http://builtbroken.com/pages/icbm/
 
 ##Installing
 * Install Minecraft Forge.

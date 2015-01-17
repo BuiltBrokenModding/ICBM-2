@@ -3,6 +3,14 @@ package com.builtbroken.icbm.content.display;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.missile.ItemMissile;
+import com.builtbroken.mc.core.Engine;
+import com.builtbroken.mc.core.network.IPacketReceiver;
+import com.builtbroken.mc.core.network.packet.AbstractPacket;
+import com.builtbroken.mc.core.network.packet.PacketTile;
+import com.builtbroken.mc.lib.render.RenderItemOverlayUtility;
+import com.builtbroken.mc.lib.transform.region.Cuboid;
+import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -14,32 +22,28 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.util.ForgeDirection;
-import resonant.engine.ResonantEngine;
-import resonant.lib.network.discriminator.PacketTile;
-import resonant.lib.network.discriminator.PacketType;
-import resonant.lib.network.handle.IPacketReceiver;
-import resonant.lib.prefab.tile.TileAdvanced;
-import resonant.lib.render.RenderItemOverlayUtility;
-import resonant.lib.transform.region.Cuboid;
-import resonant.lib.transform.vector.Vector3;
 
 /**
  * Simple display table to test to make sure missiles are rendering correctly
  * Later will be changed to only render micro and small missiles
  * Created by robert on 12/31/2014.
  */
-public class TileMissileDisplay extends TileAdvanced implements IPacketReceiver
+public class TileMissileDisplay extends Tile implements IPacketReceiver
 {
     private Missile missile = null;
 
     public TileMissileDisplay()
     {
-        super(Material.circuits);
-        this.setRenderStaticBlock(true);
-        this.normalRender(false);
-        this.setForceItemToRenderAsBlock(true);
-        this.bounds(new Cuboid(0, 0, 0, 1, .4, 1));
-        this.isOpaqueCube(false);
+        super("missileDisplay", Material.circuits);
+        this.renderTileEntity = true;
+        this.isOpaque = true;
+        this.bounds = new Cuboid(0, 0, 0, 1, .4, 1);
+    }
+
+    @Override
+    public Tile newTile()
+    {
+        return new TileMissileDisplay();
     }
 
     @Override
@@ -71,24 +75,24 @@ public class TileMissileDisplay extends TileAdvanced implements IPacketReceiver
     {
         NBTTagCompound tag = new NBTTagCompound();
         writeToNBT(tag);
-        return new PacketTile(this, tag);
+        return new PacketTile(this, 0, tag);
     }
 
     public void updateClient()
     {
-        ResonantEngine.instance.packetHandler.sendToAllAround(getDescPacket(), (TileEntity) this);
+        getDescPacket().send();
     }
 
     @Override
-    public void read(ByteBuf buf, EntityPlayer player, PacketType packet)
+    public boolean read(EntityPlayer player, AbstractPacket packet)
     {
-        System.out.println("Packet Received");
-        readFromNBT(ByteBufUtils.readTag(buf));
+        readFromNBT(ByteBufUtils.readTag(packet.data));
+        return true;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void renderDynamic(Vector3 pos, float frame, int pass)
+    public void renderDynamic(Pos pos, float frame, int pass)
     {
         if (this.getWorldObj() != null && getMissile() != null)
         {
@@ -102,9 +106,9 @@ public class TileMissileDisplay extends TileAdvanced implements IPacketReceiver
     }
 
     @Override
-    public boolean use(EntityPlayer player, int side, Vector3 hit)
+    public boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
     {
-        if (server())
+        if (isServer())
         {
             ItemStack stack = player.getHeldItem();
             if (getMissile() != null)

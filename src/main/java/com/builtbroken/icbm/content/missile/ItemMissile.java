@@ -7,16 +7,16 @@ import com.builtbroken.icbm.api.IWeapon;
 import com.builtbroken.icbm.content.crafting.missile.MissileSizes;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
+import com.builtbroken.mc.api.explosive.IExplosive;
+import com.builtbroken.mc.api.items.IExplosiveItem;
+import com.builtbroken.mc.lib.helper.LanguageUtility;
+import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import resonant.api.explosive.IExplosive;
-import resonant.api.items.IExplosiveItem;
-import resonant.lib.utility.LanguageUtility;
-import resonant.lib.world.explosive.ExplosiveRegistry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +75,9 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo
     {
         for(MissileSizes size : MissileSizes.values())
         {
-            list.add(new ItemStack(item, 1, size.ordinal()));
+            ItemStack s = MissileModuleBuilder.INSTANCE.buildMissile(size, null).toStack();
+            s.setItemDamage(1);
+            list.add(s);
             for(IExplosive ex: ExplosiveRegistry.getExplosives())
             {
                 list.add(MissileModuleBuilder.INSTANCE.buildMissile(size, ex).toStack());

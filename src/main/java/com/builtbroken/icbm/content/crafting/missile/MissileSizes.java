@@ -3,8 +3,8 @@ package com.builtbroken.icbm.content.crafting.missile;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.crafting.missile.casing.*;
 import com.builtbroken.icbm.content.crafting.missile.warhead.*;
+import com.builtbroken.mc.api.explosive.IExplosive;
 import net.minecraft.item.ItemStack;
-import resonant.api.explosive.IExplosive;
 
 import java.lang.reflect.InvocationTargetException;
 

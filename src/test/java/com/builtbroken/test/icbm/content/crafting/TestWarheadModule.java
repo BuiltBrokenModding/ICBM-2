@@ -6,13 +6,13 @@ import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.MissileSizes;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadMicro;
+import com.builtbroken.mc.api.explosive.IExplosive;
+import com.builtbroken.mc.lib.world.explosive.Explosive;
+import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
+import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import junit.framework.TestCase;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
-import resonant.api.explosive.IExplosive;
-import resonant.lib.world.explosive.Explosive;
-import resonant.lib.world.explosive.ExplosiveItemUtility;
-import resonant.lib.world.explosive.ExplosiveRegistry;
 
 /** Unit test for the warhead module class
  * Created by robert on 12/29/2014.
