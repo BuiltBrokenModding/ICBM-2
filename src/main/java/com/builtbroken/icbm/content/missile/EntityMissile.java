@@ -2,7 +2,8 @@ package com.builtbroken.icbm.content.missile;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.IMissile;
-import com.builtbroken.icbm.content.crafting.missile.MissileSizes;
+import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
+import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosive;
@@ -45,10 +46,10 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
      * @param entity  - entity that is firing the missile, most likely a player with a launcher
      * @param missile - item stack that represents the missile plus explosive settings to fire
      */
-    public static void fireMissileByEntity(EntityLivingBase entity, ItemStack missile, MissileSizes size)
+    public static void fireMissileByEntity(EntityLivingBase entity, ItemStack missile, MissileCasings size)
     {
         EntityMissile entityMissile = new EntityMissile(entity);
-        entityMissile.setMissile(MissileSizes.loadMissile(missile));
+        entityMissile.setMissile(MissileModuleBuilder.INSTANCE.buildMissile(missile));
         entityMissile.setTicksInAir(1);
         entityMissile.setMotion(1);
         entityMissile.worldObj.spawnEntityInWorld(entityMissile);
@@ -142,7 +143,7 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
         if(nbt.hasKey("missileStack"))
         {
             ItemStack stack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("missileStack"));
-            setMissile(MissileSizes.loadMissile(stack));
+            setMissile(MissileModuleBuilder.INSTANCE.buildMissile(stack));
         }
     }
 

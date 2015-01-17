@@ -4,7 +4,7 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.IAmmo;
 import com.builtbroken.icbm.api.IAmmoType;
 import com.builtbroken.icbm.api.IWeapon;
-import com.builtbroken.icbm.content.crafting.missile.MissileSizes;
+import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.mc.api.explosive.IExplosive;
@@ -51,9 +51,9 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo
     @Override
     public String getUnlocalizedName(ItemStack item)
     {
-        if(item.getItemDamage() < MissileSizes.values().length)
+        if(item.getItemDamage() < MissileCasings.values().length)
         {
-            MissileSizes size = MissileSizes.values()[item.getItemDamage()];
+            MissileCasings size = MissileCasings.values()[item.getItemDamage()];
             if (getExplosive(item) == null)
             {
                 return getUnlocalizedName() + "." + size.toString().toLowerCase() + ".empty";
@@ -66,18 +66,16 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo
     @Override
     public IExplosive getExplosive(ItemStack itemStack)
     {
-        Missile missile = MissileSizes.loadMissile(itemStack);
+        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(itemStack);
         return missile.getWarhead() != null ? missile.getWarhead().ex : null;
     }
 
     @Override
     public void getSubItems(Item item, CreativeTabs tab, List list)
     {
-        for(MissileSizes size : MissileSizes.values())
+        for(MissileCasings size : MissileCasings.values())
         {
-            ItemStack s = MissileModuleBuilder.INSTANCE.buildMissile(size, null).toStack();
-            s.setItemDamage(1);
-            list.add(s);
+            list.add(MissileModuleBuilder.INSTANCE.buildMissile(size, null).toStack());
             for(IExplosive ex: ExplosiveRegistry.getExplosives())
             {
                 list.add(MissileModuleBuilder.INSTANCE.buildMissile(size, ex).toStack());
@@ -89,7 +87,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
     {
         super.addInformation(stack, player, list, bool);
-        Missile missile = MissileSizes.loadMissile(stack);
+        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
         IExplosive ex = missile.getWarhead() != null ? missile.getWarhead().ex : null;
         String ex_translation = LanguageUtility.getLocal("info." + ICBM.PREFIX + "warhead.name") + ": ";
         if(ex != null)
@@ -126,7 +124,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo
     @Override
     public boolean isAmmo(ItemStack stack)
     {
-        Missile missile = MissileSizes.loadMissile(stack);
+        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
         return missile != null && missile.getEngine() != null;
     }
 

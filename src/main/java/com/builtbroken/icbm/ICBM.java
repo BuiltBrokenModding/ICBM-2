@@ -2,9 +2,10 @@ package com.builtbroken.icbm;
 
 import com.builtbroken.icbm.content.blast.entity.BlastSnowman;
 import com.builtbroken.icbm.content.crafting.missile.ItemMissileModules;
-import com.builtbroken.icbm.content.crafting.missile.MissileSizes;
+import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
+import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.icbm.content.display.TileMissile;
 import com.builtbroken.icbm.content.display.TileMissileDisplay;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
@@ -158,12 +159,8 @@ public final class ICBM extends AbstractMod
         itemRocketLauncher = manager.newItem(ItemRocketLauncher.class);
         itemMissileModules = manager.newItem(ItemMissileModules.class);
 
-        for(MissileSizes size : MissileSizes.values())
-        {
-            MissileModuleBuilder.INSTANCE.register(DOMAIN, "missile_" + size.name().toLowerCase(), size.missile_clazz);
-            MissileModuleBuilder.INSTANCE.register(DOMAIN, "warhead_" + size.name().toLowerCase(), size.warhead_clazz);
-        }
-
+        MissileCasings.register();
+        WarheadCasings.register();
         Engines.register();
 
         CREATIVE_TAB.itemStack = new ItemStack(itemMissile);
