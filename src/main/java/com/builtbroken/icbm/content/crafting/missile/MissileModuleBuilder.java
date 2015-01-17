@@ -1,15 +1,19 @@
 package com.builtbroken.icbm.content.crafting.missile;
 
+import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.icbm.content.crafting.ModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
+import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engine;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
 import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
-import com.builtbroken.icbm.content.crafting.missile.warhead.*;
+import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
+import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.mc.api.explosive.IExplosive;
 import net.minecraft.item.ItemStack;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -103,26 +107,67 @@ public class MissileModuleBuilder extends ModuleBuilder
         return null;
     }
 
-    public Missile buildMissile(MissileSizes missileSize, IExplosive ex)
+    public Missile buildMissile(MissileCasings missileSize, IExplosive ex)
     {
         return this.buildMissile(missileSize, ex, (Engine) Engines.CREATIVE_ENGINE.newModule(), null);
     }
 
-    public Missile buildMissile(MissileSizes missileSize, IExplosive ex, Engine engine, Guidance guidance)
+    public Warhead buildWarhead(WarheadCasings size, IExplosive ex)
     {
-        Missile missile = missileSize.getMissile();
-        //Engine
-        missile.setEngine(engine);
-
-        //Guidance
-        missile.setGuidance(guidance);
-
-        //Warhead
-        if(ex != null)
+        try
         {
-            missile.setWarhead(missileSize.getWarhead(ex));
-        }
 
-        return missile;
+            Warhead warhead = size.warhead_clazz.getConstructor(ItemStack.class).newInstance(new ItemStack(ICBM.blockExplosive, 1, size.ordinal()));
+            warhead.ex = ex;
+            return warhead;
+        } catch (InstantiationException e)
+        {
+            e.printStackTrace();
+        } catch (IllegalAccessException e)
+        {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e)
+        {
+            e.printStackTrace();
+        } catch (InvocationTargetException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Missile buildMissile(MissileCasings missileSize, IExplosive ex, Engine engine, Guidance guidance)
+    {
+        try
+        {
+            Missile missile = missileSize.missile_clazz.getConstructor(ItemStack.class).newInstance(new ItemStack(ICBM.itemMissile, 1, missileSize.ordinal()));
+
+            //Engine
+            missile.setEngine(engine);
+
+            //Guidance
+            missile.setGuidance(guidance);
+
+            //Warhead
+            if (ex != null)
+            {
+                missile.setWarhead(buildWarhead(missileSize.warhead_casing, ex));
+            }
+
+            return missile;
+        } catch (InstantiationException e)
+        {
+            e.printStackTrace();
+        } catch (IllegalAccessException e)
+        {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e)
+        {
+            e.printStackTrace();
+        } catch (InvocationTargetException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

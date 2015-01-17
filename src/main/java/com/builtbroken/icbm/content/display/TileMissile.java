@@ -46,7 +46,6 @@ public class TileMissile extends Tile
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(MissileSmall.TEXTURE);
         MissileSmall.MODEL.renderAll();
         RenderUtility.enableLighting();
-        GL11.glPopAttrib();
         GL11.glPopMatrix();
     }
 }

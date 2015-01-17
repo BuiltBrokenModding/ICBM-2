@@ -1,30 +1,34 @@
 package com.builtbroken.icbm.content.warhead;
 
-import com.builtbroken.icbm.content.crafting.missile.MissileSizes;
+import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
+import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
+import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadSmall;
+import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadStandard;
 import com.builtbroken.icbm.content.missile.RenderMissile;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosive;
 import com.builtbroken.mc.api.explosive.IExplosiveContainer;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.api.tile.IRemovable;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketReceiver;
 import com.builtbroken.mc.core.network.packet.AbstractPacket;
+import com.builtbroken.mc.core.network.packet.PacketSaveData;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.lib.helper.WrenchUtility;
 import com.builtbroken.mc.lib.transform.region.Cuboid;
-import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.lib.transform.vector.Location;
+import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.WorldChangeHelper;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
+import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraftforge.client.IItemRenderer;
-import org.lwjgl.opengl.GL11;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -38,20 +42,24 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.Explosion;
+import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.lwjgl.opengl.GL11;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Block version of the warhead placed at the end of a missile
+ *
  * @author Darkguardsman
  */
-public class TileWarhead extends Tile implements IExplosiveContainer, IPacketReceiver, IRemovable.ISneakPickup, ISimpleItemRenderer
+public class TileWarhead extends Tile implements IExplosiveContainer, IRemovable.ISneakPickup, ISimpleItemRenderer
 {
     public boolean exploding = false;
 
-    protected Warhead warhead;
+    private Warhead warhead;
 
     public TileWarhead()
     {
@@ -67,7 +75,7 @@ public class TileWarhead extends Tile implements IExplosiveContainer, IPacketRec
     @Override
     public void onCollide(Entity entity)
     {
-        if(entity != null && entity.isBurning())
+        if (entity != null && entity.isBurning())
         {
             explode(new TriggerCause.TriggerCauseEntity(entity));
         }
@@ -132,7 +140,7 @@ public class TileWarhead extends Tile implements IExplosiveContainer, IPacketRec
         if (!world().isRemote && ExplosiveItemUtility.getExplosive(itemStack) != null)
         {
             //Set explosive id
-            warhead = MissileSizes.loadWarhead(itemStack);
+            setWarhead(MissileModuleBuilder.INSTANCE.buildWarhead(itemStack));
 
             //Set rotation for direction based explosives
             setMeta(determineOrientation(entityLiving));
@@ -160,7 +168,7 @@ public class TileWarhead extends Tile implements IExplosiveContainer, IPacketRec
                 }
             }
 
-            if(power_side != -1)
+            if (power_side != -1)
                 explode(new TriggerCause.TriggerCauseRedstone(ForgeDirection.UNKNOWN, powerMax));
         }
     }
@@ -199,7 +207,7 @@ public class TileWarhead extends Tile implements IExplosiveContainer, IPacketRec
             }
         }
 
-        if(power_side != -1)
+        if (power_side != -1)
             explode(new TriggerCause.TriggerCauseRedstone(ForgeDirection.UNKNOWN, powerMax));
     }
 
@@ -209,10 +217,10 @@ public class TileWarhead extends Tile implements IExplosiveContainer, IPacketRec
      */
     public void explode(TriggerCause triggerCause)
     {
-        if(!exploding)
+        if (!exploding)
         {
             exploding = true;
-            if (warhead.trigger(triggerCause, world(), x(), y(), z()) == WorldChangeHelper.ChangeResult.COMPLETED)
+            if (getWarhead().trigger(triggerCause, world(), x(), y(), z()) == WorldChangeHelper.ChangeResult.COMPLETED)
                 world().setBlockToAir(xi(), yi(), zi());
             else
                 exploding = false;
@@ -238,7 +246,11 @@ public class TileWarhead extends Tile implements IExplosiveContainer, IPacketRec
     public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
-        warhead.load(nbt);
+        setWarhead(null);
+        if (nbt.hasKey("itemWarhead"))
+        {
+            setWarhead(MissileModuleBuilder.INSTANCE.buildWarhead(ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("itemWarhead"))));
+        }
     }
 
     /**
@@ -248,59 +260,43 @@ public class TileWarhead extends Tile implements IExplosiveContainer, IPacketRec
     public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
-        warhead.save(nbt);
-    }
 
-    @Override
-    public boolean read(EntityPlayer player, AbstractPacket type)
-    {
-        final byte ID = type.data.readByte();
-
-        if (ID == 1)
-        {
-            NBTTagCompound tag = ByteBufUtils.readTag(type.data);
-            if(warhead == null)
-            {
-                warhead = MissileSizes.loadWarhead(getItemStack());
-                warhead.load(tag);
-            }
-            else
-                warhead.load(tag);
-            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-        }
-        return true;
+        if (getWarhead() != null && getWarhead().toStack() != null)
+            nbt.setTag("itemWarhead", getWarhead().toStack().writeToNBT(new NBTTagCompound()));
     }
 
     @Override
     public PacketTile getDescPacket()
     {
-        return new PacketTile(this, 1, warhead);
+        return new PacketSaveData(this);
     }
 
     @Override
     public IExplosive getExplosive()
     {
-        return warhead.ex;
+        return getWarhead().ex;
     }
 
     @Override
-    public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List)
+    public void getSubBlocks(Item item, CreativeTabs tabs, List list)
     {
-        ExplosiveItemUtility.getSubItems(par1, par3List);
+        for (WarheadCasings size : WarheadCasings.values())
+        {
+            list.add(MissileModuleBuilder.INSTANCE.buildWarhead(size, null).toStack());
+            for (IExplosive ex : ExplosiveRegistry.getExplosives())
+            {
+                list.add(MissileModuleBuilder.INSTANCE.buildWarhead(size, ex).toStack());
+            }
+        }
     }
 
     @Override
-    public ItemStack getPickBlock(MovingObjectPosition target)
-    {
-        return getItemStack();
-    }
-
-    public ItemStack getItemStack()
+    public ItemStack toItemStack()
     {
         ItemStack stack = new ItemStack(this.getBlockType());
-        if(warhead != null)
+        if (getWarhead() != null)
         {
-            warhead.save(stack);
+            getWarhead().save(stack);
         }
         else
         {
@@ -313,11 +309,12 @@ public class TileWarhead extends Tile implements IExplosiveContainer, IPacketRec
     public List<ItemStack> getRemovedItems(EntityPlayer entity)
     {
         List<ItemStack> list = new ArrayList();
-        list.add(getItemStack());
+        list.add(toItemStack());
         return list;
     }
 
-    @SideOnly(Side.CLIENT) @Override
+    @SideOnly(Side.CLIENT)
+    @Override
     public void renderDynamic(Pos position, float frame, int pass)
     {
         GL11.glPushMatrix();
@@ -327,7 +324,8 @@ public class TileWarhead extends Tile implements IExplosiveContainer, IPacketRec
         GL11.glPopMatrix();
     }
 
-    @Override @SideOnly(Side.CLIENT)
+    @Override
+    @SideOnly(Side.CLIENT)
     public void renderInventoryItem(IItemRenderer.ItemRenderType type, ItemStack itemStack, Object... data)
     {
         //Translate and rotate
@@ -347,5 +345,53 @@ public class TileWarhead extends Tile implements IExplosiveContainer, IPacketRec
         }
 
         renderDynamic(new Pos(), 0, 0);
+    }
+
+    public Warhead getWarhead()
+    {
+        if (warhead == null)
+        {
+            warhead = getNewWarhead();
+            if(warhead == null)
+                warhead = new WarheadStandard(toItemStack());
+        }
+        return warhead;
+    }
+
+    public Warhead getNewWarhead()
+    {
+        Warhead warhead = null;
+        try
+        {
+            warhead = WarheadCasings.get(getMetadata()).warhead_clazz.getConstructor(ItemStack.class).newInstance(toItemStack());
+        } catch (InvocationTargetException e)
+        {
+            ICBM.LOGGER.error("[TileWarhead]Failed invoke warhead constructor for class " + WarheadCasings.get(getMetadata()).warhead_clazz);
+            if (Engine.runningAsDev)
+                e.printStackTrace();
+        } catch (NoSuchMethodException e)
+        {
+            ICBM.LOGGER.error("[TileWarhead]Failed to find ItemStack constructor for warhead class " + WarheadCasings.get(getMetadata()).warhead_clazz);
+            if (Engine.runningAsDev)
+                e.printStackTrace();
+        } catch (InstantiationException e)
+        {
+            ICBM.LOGGER.error("[TileWarhead]Failed to create new warhead instance for warhead class " + WarheadCasings.get(getMetadata()).warhead_clazz);
+            if (Engine.runningAsDev)
+                e.printStackTrace();
+        } catch (IllegalAccessException e)
+        {
+            ICBM.LOGGER.error("[TileWarhead]Something prevented us from making a new instance of class " + WarheadCasings.get(getMetadata()).warhead_clazz);
+            if (Engine.runningAsDev)
+                e.printStackTrace();
+        }
+
+        return warhead;
+    }
+
+
+    public void setWarhead(Warhead warhead)
+    {
+        this.warhead = warhead;
     }
 }

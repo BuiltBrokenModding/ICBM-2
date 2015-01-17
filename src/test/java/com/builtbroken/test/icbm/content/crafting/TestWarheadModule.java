@@ -2,9 +2,10 @@ package com.builtbroken.test.icbm.content.crafting;
 
 import com.builtbroken.icbm.content.blast.explosive.BlastBasic;
 import com.builtbroken.icbm.content.crafting.ModuleBuilder;
+import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
-import com.builtbroken.icbm.content.crafting.missile.MissileSizes;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
+import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadMicro;
 import com.builtbroken.mc.api.explosive.IExplosive;
 import com.builtbroken.mc.lib.world.explosive.Explosive;
@@ -38,10 +39,7 @@ public class TestWarheadModule extends TestCase
 
         if(!init)
         {
-            for(MissileSizes size : MissileSizes.values())
-            {
-                MissileModuleBuilder.INSTANCE.register("junit", "warhead_"+size.name().toLowerCase(), size.warhead_clazz);
-            }
+            WarheadCasings.register();
             ex = new Explosive(BlastBasic.class);
             ExplosiveRegistry.LOG_REGISTERING_EXPLOSIVES = false;
             ex = ExplosiveRegistry.registerOrGetExplosive("junit", "test", ex);

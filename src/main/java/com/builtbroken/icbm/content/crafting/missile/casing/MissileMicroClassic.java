@@ -1,7 +1,6 @@
 package com.builtbroken.icbm.content.crafting.missile.casing;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.api.ICustomMissileRender;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -13,9 +12,9 @@ import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 
 /**
- * Created by robert on 12/29/2014.
+ * Created by robert on 1/16/2015.
  */
-public class MissileMicro extends Missile implements ICustomMissileRender
+public class MissileMicroClassic extends MissileMicro
 {
     @SideOnly(Side.CLIENT)
     public static final IModelCustom MODEL = AdvancedModelLoader.loadModel(new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_PREFIX + "missile_micro.tcn"));
@@ -23,9 +22,9 @@ public class MissileMicro extends Missile implements ICustomMissileRender
     @SideOnly(Side.CLIENT)
     public static final  ResourceLocation TEXTURE = new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_TEXTURE_PATH + "missile.micro.default.png");
 
-    public MissileMicro(ItemStack stack)
+    public MissileMicroClassic(ItemStack stack)
     {
-        super(stack, MissileCasings.MICRO);
+        super(stack);
     }
 
     @Override

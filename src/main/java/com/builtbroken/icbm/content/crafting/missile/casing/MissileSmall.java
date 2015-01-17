@@ -2,7 +2,6 @@ package com.builtbroken.icbm.content.crafting.missile.casing;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.ICustomMissileRender;
-import com.builtbroken.icbm.content.crafting.missile.MissileSizes;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -26,7 +25,7 @@ public class MissileSmall extends Missile implements ICustomMissileRender
 
     public MissileSmall(ItemStack stack)
     {
-        super(stack, MissileSizes.SMALL);
+        super(stack, MissileCasings.SMALL);
     }
 
     @Override

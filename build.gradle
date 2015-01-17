@@ -86,6 +86,19 @@ processResources {
 	}
 }
 
+publishing {
+  publications {
+    myPublication(MavenPublication) {      
+      pom.withXml {
+        from components.java
+        asNode().appendNode('description', 'Created on ' + getDate())        
+        def deps = configurations.compile.allDependencies
+        def dep_node = asNode().appendNode('dependencies')
+      }
+    }
+  }
+}
+
 repositories {
     maven {
         name "BuiltBroken"
@@ -113,5 +126,16 @@ dependencies
     testCompile 'junit:junit:4.11'
     compile "mcp.mobius.waila:Waila:1.5.8a_1.7.10"
     compile "li.cil.oc:OpenComputers:MC1.7.10-1.4.0.+:dev"
+    if (project.getProperty("bambooshortPlanName") == "BBM-Dev"){
     compile "dev.builtbroken.voltzengine:VoltzEngine:1.7.10-0.+:deobf-dev"
+    }
+    else
+    {
+    compile "com.builtbroken.voltzengine:VoltzEngine:1.7.10-0.+:deobf"}
+}
+
+def getDate() {
+    def date = new Date()
+    def formattedDate = date.format('yyyyMMddHHmmss')
+    return formattedDate
 }

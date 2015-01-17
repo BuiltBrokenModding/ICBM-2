@@ -1,6 +1,5 @@
 package com.builtbroken.icbm.content.crafting.missile.casing;
 
-import com.builtbroken.icbm.content.crafting.missile.MissileSizes;
 import net.minecraft.item.ItemStack;
 
 /**
@@ -10,6 +9,6 @@ public class MissileLarge extends Missile
 {
     public MissileLarge(ItemStack stack)
     {
-        super(stack, MissileSizes.LARGE);
+        super(stack, MissileCasings.LARGE);
     }
 }

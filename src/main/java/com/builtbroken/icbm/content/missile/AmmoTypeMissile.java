@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.missile;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.IAmmoType;
-import com.builtbroken.icbm.content.crafting.missile.MissileSizes;
+import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 
 /**
  * Created by robert on 12/28/2014.
@@ -10,15 +10,15 @@ import com.builtbroken.icbm.content.crafting.missile.MissileSizes;
 //TODO re-implement as this is a temp class
 public class AmmoTypeMissile implements IAmmoType
 {
-    public static final AmmoTypeMissile MICRO = new AmmoTypeMissile(MissileSizes.MICRO);
-    public static final AmmoTypeMissile SMALL = new AmmoTypeMissile(MissileSizes.SMALL);
-    public static final AmmoTypeMissile STANDARD = new AmmoTypeMissile(MissileSizes.STANDARD);
-    public static final AmmoTypeMissile MEDIUM = new AmmoTypeMissile(MissileSizes.MEDIUM);
-    public static final AmmoTypeMissile LARGE = new AmmoTypeMissile(MissileSizes.LARGE);
+    public static final AmmoTypeMissile MICRO = new AmmoTypeMissile(MissileCasings.MICRO);
+    public static final AmmoTypeMissile SMALL = new AmmoTypeMissile(MissileCasings.SMALL);
+    public static final AmmoTypeMissile STANDARD = new AmmoTypeMissile(MissileCasings.STANDARD);
+    public static final AmmoTypeMissile MEDIUM = new AmmoTypeMissile(MissileCasings.MEDIUM);
+    public static final AmmoTypeMissile LARGE = new AmmoTypeMissile(MissileCasings.LARGE);
 
-    protected MissileSizes size;
+    protected MissileCasings size;
 
-    private AmmoTypeMissile(MissileSizes size)
+    private AmmoTypeMissile(MissileCasings size)
     {
         this.size = size;
     }
