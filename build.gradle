@@ -128,3 +128,9 @@ dependencies
     compile "li.cil.oc:OpenComputers:MC1.7.10-1.4.0.+:dev"
     compile "dev.builtbroken.voltzengine:VoltzEngine:1.7.10-0.+:deobf-dev"
 }
+
+def getDate() {
+    def date = new Date()
+    def formattedDate = date.format('yyyyMMddHHmmss')
+    return formattedDate
+}
