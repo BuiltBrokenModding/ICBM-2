@@ -38,19 +38,21 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     {
         super(w);
         this.setSize(.5F, .5F);
+        this.kill_ticks = 144000 /* 2 hours */;
     }
 
     public EntityMissile(EntityLivingBase entity)
     {
         super(entity);
         this.setSize(.5F, .5F);
+        this.kill_ticks = 144000 /* 2 hours */;
     }
 
     @Override
     public void setTarget(IPos3D target, boolean ark)
     {
         this.target_pos = target;
-        if(ark)
+        if (ark)
             this.flight_data = new FlightDataDirect(this);
         else
             this.flight_data = new FlightDataDirect(this);
@@ -66,6 +68,7 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     public void setIntoMotion()
     {
         setTicksInAir(1);
+        updateMotion();
     }
 
     /**
@@ -114,7 +117,7 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     @Override
     protected void updateMotion()
     {
-        if(flight_data != null)
+        if (flight_data != null)
             flight_data.updatePath();
 
         if (this.getTicksInAir() > 0)
@@ -171,9 +174,12 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     protected void onImpact()
     {
         super.onImpact();
-        NBTTagCompound tag = new NBTTagCompound();
-        writeEntityToNBT(tag);
-        ExplosiveRegistry.triggerExplosive(worldObj, posX, posY, posZ, getExplosive(), new TriggerCause.TriggerCauseEntity(this), 5, tag);
+        if (getExplosive() != null)
+        {
+            NBTTagCompound tag = new NBTTagCompound();
+            writeEntityToNBT(tag);
+            ExplosiveRegistry.triggerExplosive(worldObj, posX, posY, posZ, getExplosive(), new TriggerCause.TriggerCauseEntity(this), 5, tag);
+        }
     }
 
     public Missile getMissile()
@@ -184,6 +190,25 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     public void setMissile(Missile missile)
     {
         this.missile = missile;
+
+        switch (missile.size)
+        {
+            case MICRO:
+                this.kill_ticks = 1200 /* 1 min */;
+                break;
+            case SMALL:
+                this.kill_ticks = 12000 /* 10 mins */;
+                break;
+            case STANDARD:
+                this.kill_ticks = 72000 /* 1 hours */;
+                break;
+            case MEDIUM:
+                this.kill_ticks = 360000 /* 5 hours */;
+                break;
+            case LARGE:
+                this.kill_ticks = 1440000 /* 20 hours */;
+                break;
+        }
     }
 
     @Override
