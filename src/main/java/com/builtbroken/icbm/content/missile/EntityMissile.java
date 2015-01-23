@@ -5,6 +5,9 @@ import com.builtbroken.icbm.api.IMissile;
 import com.builtbroken.icbm.api.IMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
+import com.builtbroken.icbm.content.missile.data.FlightData;
+import com.builtbroken.icbm.content.missile.data.FlightDataDirect;
+import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosive;
 import com.builtbroken.mc.api.explosive.IExplosiveContainer;
@@ -25,8 +28,11 @@ import net.minecraft.world.World;
  */
 public class EntityMissile extends EntityProjectile implements IExplosiveContainer, IMissile, IEntityAdditionalSpawnData
 {
-
     private Missile missile;
+
+    //Used for guided version
+    public IPos3D target_pos;
+    public FlightData flight_data;
 
     public EntityMissile(World w)
     {
@@ -41,10 +47,25 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     }
 
     @Override
+    public void setTarget(IPos3D target, boolean ark)
+    {
+        this.target_pos = target;
+        if(ark)
+            this.flight_data = new FlightDataDirect(this);
+        else
+            this.flight_data = new FlightDataDirect(this);
+    }
+
+    @Override
+    public void setTarget(Entity entity, boolean track)
+    {
+        setTarget(new Pos(entity), false);
+    }
+
+    @Override
     public void setIntoMotion()
     {
         setTicksInAir(1);
-        setMotion(1);
     }
 
     /**
@@ -88,9 +109,22 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     public void onUpdate()
     {
         super.onUpdate();
-        if (!this.isCollided && !this.onGround && this.getTicksInAir() > 0)
-            this.spawnMissileSmoke();
+    }
 
+    @Override
+    protected void updateMotion()
+    {
+        if(flight_data != null)
+            flight_data.updatePath();
+
+        if (this.getTicksInAir() > 0)
+            this.spawnMissileSmoke();
+    }
+
+    @Override
+    public boolean shouldKillProjectile()
+    {
+        return this.posY < -640.0D || this.posY > 100000;
     }
 
     private void spawnMissileSmoke()
