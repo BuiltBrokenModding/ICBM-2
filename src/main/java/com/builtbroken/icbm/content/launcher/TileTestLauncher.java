@@ -29,13 +29,16 @@ public class TileTestLauncher extends TileMissileContainer implements ILauncher
     @Override
     public boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
     {
-        if(player.isSneaking())
+        if(isServer())
         {
-            fireMissile();
-        }
-        else
-        {
+            if (player.isSneaking())
+            {
+                fireMissile();
+            }
+            else
+            {
 
+            }
         }
         return true;
     }
@@ -44,14 +47,15 @@ public class TileTestLauncher extends TileMissileContainer implements ILauncher
     {
         //Create Missile
         EntityMissile missile = new EntityMissile(world());
-        missile.setMissile(MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.MICRO, ExplosiveRegistry.get("TNT")));
+        missile.setMissile(MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.MICRO, null));
 
         //Set position and rotation
         missile.rotationPitch = -90;
         missile.setPosition(x() + 0.5, y() + 3, z() + 0.5);
 
         //Set target point
-        missile.setTarget(new Pos((TileEntity)this).add(Pos.north.multiply(100)), true);
+        missile.setTarget(new Pos((TileEntity)this).add(Pos.north.multiply(100)), false);
+        missile.sourceOfProjectile = new Pos(this);
 
         //Spawn and start moving
         world().spawnEntityInWorld(missile);

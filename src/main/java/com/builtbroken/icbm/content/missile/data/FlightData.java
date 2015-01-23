@@ -10,10 +10,10 @@ public class FlightData
 {
     protected EntityMissile missile;
 
-    protected double distance_x = 0;
-    protected double distance_y = 0;
-    protected double distance_z = 0;
-    protected double total_distance = 0;
+    protected double distance_x = -1;
+    protected double distance_y = -1;
+    protected double distance_z = -1;
+    protected double total_distance = -1;
 
     protected long ticks = -1;
 
@@ -28,10 +28,13 @@ public class FlightData
         if(ticks >= Long.MAX_VALUE)
             ticks = 1;
 
-        distance_x = missile.target_pos.x() - missile.sourceOfProjectile.x();
-        distance_y = missile.target_pos.y() - missile.sourceOfProjectile.y();
-        distance_z = missile.target_pos.z() - missile.sourceOfProjectile.z();
-        total_distance = missile.sourceOfProjectile.distance(missile.target_pos);
+        if(missile.target_pos != null && missile.sourceOfProjectile != null)
+        {
+            distance_x = missile.target_pos.x() - missile.sourceOfProjectile.x();
+            distance_y = missile.target_pos.y() - missile.sourceOfProjectile.y();
+            distance_z = missile.target_pos.z() - missile.sourceOfProjectile.z();
+            total_distance = missile.sourceOfProjectile.distance(missile.target_pos);
+        }
     }
 
 

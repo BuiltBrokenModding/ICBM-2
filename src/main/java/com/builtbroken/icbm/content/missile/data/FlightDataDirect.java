@@ -8,6 +8,7 @@ import net.minecraft.util.MathHelper;
  */
 public class FlightDataDirect extends FlightData
 {
+    boolean doOnce = false;
     public FlightDataDirect(EntityMissile missile)
     {
         super(missile);
@@ -16,6 +17,10 @@ public class FlightDataDirect extends FlightData
     @Override
     public void updatePath()
     {
-       setMotionToRotation(1);
+        if(!doOnce)
+        {
+            doOnce = true;
+            setMotionToRotation(1);
+        }
     }
 }

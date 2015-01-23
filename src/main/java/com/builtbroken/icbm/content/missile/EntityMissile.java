@@ -6,6 +6,7 @@ import com.builtbroken.icbm.api.IMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.missile.data.FlightData;
+import com.builtbroken.icbm.content.missile.data.FlightDataArk;
 import com.builtbroken.icbm.content.missile.data.FlightDataDirect;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.event.TriggerCause;
@@ -53,9 +54,7 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     {
         this.target_pos = target;
         if (ark)
-            this.flight_data = new FlightDataDirect(this);
-        else
-            this.flight_data = new FlightDataDirect(this);
+            this.flight_data = new FlightDataArk(this);
     }
 
     @Override
@@ -68,6 +67,7 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     public void setIntoMotion()
     {
         setTicksInAir(1);
+        setMotion(1);
         updateMotion();
     }
 
@@ -117,8 +117,11 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     @Override
     protected void updateMotion()
     {
-        if (flight_data != null)
-            flight_data.updatePath();
+        super.updateMotion();
+        if (flight_data == null)
+            flight_data = new FlightDataDirect(this);
+
+        flight_data.updatePath();
 
         if (this.getTicksInAir() > 0)
             this.spawnMissileSmoke();
@@ -167,12 +170,15 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     @Override
     protected void onStoppedMoving()
     {
-        onImpact();
+        System.out.println("Missile has stopped moving " + this);
+        if (onGround || isCollided)
+            onImpact();
     }
 
     @Override
     protected void onImpact()
     {
+        System.out.println("Missile has impacted the ground " + this);
         super.onImpact();
         if (getExplosive() != null)
         {

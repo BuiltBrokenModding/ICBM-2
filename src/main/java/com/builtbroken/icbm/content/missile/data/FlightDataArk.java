@@ -11,6 +11,7 @@ public class FlightDataArk extends FlightData
 {
     double start_distance = 0;
     boolean down = false;
+    boolean doOnce = false;
 
     public FlightDataArk(EntityMissile missile)
     {
@@ -26,14 +27,20 @@ public class FlightDataArk extends FlightData
             start_distance = total_distance;
         }
 
-        if(!down && (missile.posY >= 1000 || total_distance <= (start_distance / 2)))
+
+        if(missile.target_pos != null && !down && (missile.posY >= 1000 || total_distance <= (start_distance / 2)))
         {
             down = true;
             //Start to ark down
             EulerAngle angle = new Pos(missile).toEulerAngle(missile.target_pos);
             missile.rotationYaw = (float)angle.yaw();
             missile.rotationPitch = (float)angle.pitch();
+            doOnce = false;
         }
-        setMotionToRotation(1);
+        if(!doOnce)
+        {
+            doOnce = true;
+            setMotionToRotation(1);
+        }
     }
 }
