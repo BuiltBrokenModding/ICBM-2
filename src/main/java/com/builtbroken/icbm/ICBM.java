@@ -8,6 +8,7 @@ import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.icbm.content.display.TileMissile;
 import com.builtbroken.icbm.content.display.TileMissileDisplay;
+import com.builtbroken.icbm.content.launcher.TileTestLauncher;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
 import com.builtbroken.mc.api.explosive.IExplosive;
 import com.builtbroken.mc.core.Engine;
@@ -152,7 +153,10 @@ public final class ICBM extends AbstractMod
         blockMissileDisplay = manager.newBlock(TileMissileDisplay.class);
         blockMissile = manager.newBlock(TileMissile.class);
         if (Engine.runningAsDev)
+        {
             blockExplosiveMarker = manager.newBlock(BlockExplosiveMarker.class, ItemBlockMetadata.class);
+            manager.newBlock(TileTestLauncher.class);
+        }
 
         // ITEMS
         itemMissile = manager.newItem(ItemMissile.class);
