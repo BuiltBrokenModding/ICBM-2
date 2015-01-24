@@ -4,7 +4,7 @@ before_install:
 notifications:
  irc:
   channels:
-   - "irc.esper.net#icbm"
+   - "irc.esper.net#BBM-bots"
   template:
    - "%{build_number} (%{branch} - %{commit}: %{commit_message} : %{author}): %{message} (%{build_url})"
 install: true
