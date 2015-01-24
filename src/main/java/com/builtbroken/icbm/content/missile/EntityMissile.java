@@ -170,21 +170,20 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     @Override
     protected void onStoppedMoving()
     {
-        System.out.println("Missile has stopped moving " + this);
-        if (onGround || isCollided)
-            onImpact();
+        if(getTicksInAir() > 0)
+        {
+            System.out.println("Missile has stopped moving " + this);
+            super.onStoppedMoving();
+        }
     }
 
     @Override
     protected void onImpact()
     {
-        System.out.println("Missile has impacted the ground " + this);
         super.onImpact();
-        if (getExplosive() != null)
+        if (missile.getWarhead() != null)
         {
-            NBTTagCompound tag = new NBTTagCompound();
-            writeEntityToNBT(tag);
-            ExplosiveRegistry.triggerExplosive(worldObj, posX, posY, posZ, getExplosive(), new TriggerCause.TriggerCauseEntity(this), 5, tag);
+            missile.getWarhead().trigger(new TriggerCause.TriggerCauseEntity(this), worldObj, posX, posY, posZ);
         }
     }
 

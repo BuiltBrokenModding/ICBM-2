@@ -1,14 +1,13 @@
 package com.builtbroken.icbm.content.missile.data;
 
 import com.builtbroken.icbm.content.missile.EntityMissile;
-import net.minecraft.util.MathHelper;
 
 /**
  * Created by robert on 1/22/2015.
  */
 public class FlightDataDirect extends FlightData
 {
-    boolean doOnce = false;
+    boolean doOnce = true;
     public FlightDataDirect(EntityMissile missile)
     {
         super(missile);
@@ -17,10 +16,13 @@ public class FlightDataDirect extends FlightData
     @Override
     public void updatePath()
     {
-        if(!doOnce)
+        if(doOnce)
         {
-            doOnce = true;
-            setMotionToRotation(1);
+            doOnce = false;
+            calculateMotionForRotationAndPower(1);
         }
+        missile.motionX = motionX;
+        missile.motionY = motionY;
+        missile.motionZ = motionZ;
     }
 }

@@ -15,6 +15,10 @@ public class FlightData
     protected double distance_z = -1;
     protected double total_distance = -1;
 
+    protected double motionX;
+    protected double motionY;
+    protected double motionZ;
+
     protected long ticks = -1;
 
     public FlightData(EntityMissile missile)
@@ -38,14 +42,14 @@ public class FlightData
     }
 
 
-    public void setMotionToRotation(double power)
+    public void calculateMotionForRotationAndPower(double power)
     {
-        missile.motionX = (double)(-MathHelper.sin(missile.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos( missile.rotationPitch / 180.0F * (float)Math.PI));
-        missile.motionZ = (double)(MathHelper.cos( missile.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos( missile.rotationPitch / 180.0F * (float)Math.PI));
-        missile.motionY = (double)(-MathHelper.sin( missile.rotationPitch / 180.0F * (float)Math.PI));
+        motionX = (double)(-MathHelper.sin(missile.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos( missile.rotationPitch / 180.0F * (float)Math.PI));
+        motionZ = (double)(MathHelper.cos( missile.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos( missile.rotationPitch / 180.0F * (float)Math.PI));
+        motionY = (double)(-MathHelper.sin( missile.rotationPitch / 180.0F * (float)Math.PI));
 
-        missile.motionX *= power;
-        missile.motionY *= power;
-        missile.motionZ *= power;
+        motionX *= power;
+        motionY *= power;
+        motionZ *= power;
     }
 }
