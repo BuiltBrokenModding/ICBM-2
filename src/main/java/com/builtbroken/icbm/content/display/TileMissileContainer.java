@@ -61,14 +61,7 @@ public class TileMissileContainer extends TileModuleMachine implements IPacketRe
     @Override
     public PacketTile getDescPacket()
     {
-        NBTTagCompound tag = new NBTTagCompound();
-        writeToNBT(tag);
-        return new PacketTile(this, 0, tag);
-    }
-
-    public void updateClient()
-    {
-        sendPacket(getDescPacket());
+        return new PacketTile(this, getSaveData());
     }
 
     @Override
@@ -91,7 +84,7 @@ public class TileMissileContainer extends TileModuleMachine implements IPacketRe
                     player.inventory.mainInventory[player.inventory.currentItem] = getMissile().toStack();
                     setMissile(null);
                     player.inventoryContainer.detectAndSendChanges();
-                    updateClient();
+                    sendDescPacket();
                     return true;
                 }
             }
@@ -107,7 +100,7 @@ public class TileMissileContainer extends TileModuleMachine implements IPacketRe
                         player.inventory.mainInventory[player.inventory.currentItem] = null;
                     }
                     player.inventoryContainer.detectAndSendChanges();
-                    updateClient();
+                    sendDescPacket();
                 }
                 return true;
             }
