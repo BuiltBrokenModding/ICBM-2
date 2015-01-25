@@ -6,12 +6,14 @@ import com.builtbroken.icbm.content.missile.ItemMissile;
 import com.builtbroken.mc.core.network.IPacketReceiver;
 import com.builtbroken.mc.core.network.packet.AbstractPacket;
 import com.builtbroken.mc.core.network.packet.PacketTile;
+import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.lib.render.RenderItemOverlayUtility;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.TileModuleMachine;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -66,14 +68,13 @@ public class TileMissileContainer extends TileModuleMachine implements IPacketRe
 
     public void updateClient()
     {
-        getDescPacket().send();
+        sendPacket(getDescPacket());
     }
 
     @Override
-    public boolean read(EntityPlayer player, AbstractPacket packet)
+    public void read(ByteBuf buf, EntityPlayer player, PacketType packet)
     {
-        readFromNBT(ByteBufUtils.readTag(packet.data));
-        return true;
+        readFromNBT(ByteBufUtils.readTag(buf));
     }
 
     @Override
