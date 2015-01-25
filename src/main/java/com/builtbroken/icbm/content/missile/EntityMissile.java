@@ -63,13 +63,7 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
         setTarget(new Pos(entity), false);
     }
 
-    @Override
-    public void setIntoMotion()
-    {
-        setTicksInAir(1);
-        setMotion(1);
-        updateMotion();
-    }
+
 
     /**
      * Fires a missile from the entity using its facing direction and location. For more
@@ -105,13 +99,11 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
         return getMissile() == null ? "Unknown-Missile" : getMissile().getWarhead() == null ? "Missile-Module" : "Missile with " + getMissile().getWarhead().ex.toString() + " warhead";
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     @Override
-    public void onUpdate()
+    public void setIntoMotion()
     {
-        super.onUpdate();
+        setTicksInAir(1);
+        updateMotion();
     }
 
     @Override
@@ -149,14 +141,17 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
             // The delta Y of the smoke.
             Pos delta = new Pos(Math.sin(Math.toRadians(this.rotationYaw)) * dH, Math.sin(Math.toRadians(this.rotationPitch)) * distance, Math.cos(Math.toRadians(this.rotationYaw)) * dH);
 
-            position.add(delta);
+            position = position.add(delta);
             this.worldObj.spawnParticle("flame", position.x(), position.y(), position.z(), 0, 0, 0);
             ICBM.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
-            position.multiply(1 - 0.001 * Math.random());
+
+            position = position.multiply(1 - 0.001 * Math.random());
             ICBM.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
-            position.multiply(1 - 0.001 * Math.random());
+
+            position = position.multiply(1 - 0.001 * Math.random());
             ICBM.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
-            position.multiply(1 - 0.001 * Math.random());
+
+            position = position.multiply(1 - 0.001 * Math.random());
             ICBM.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
         }
     }
@@ -170,10 +165,11 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     @Override
     protected void onStoppedMoving()
     {
+        super.onStoppedMoving();
+
         if(getTicksInAir() > 0)
         {
             System.out.println("Missile has stopped moving " + this);
-            super.onStoppedMoving();
         }
     }
 

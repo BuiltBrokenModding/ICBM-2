@@ -56,21 +56,26 @@ public class TileTestLauncher extends TileMissileContainer implements ILauncher
             {
                 missile = new EntityMissile(world());
                 missile.setMissile(MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.MICRO, null));
-                missile.rotationPitch = 90;
+
                 missile.setPosition(x() + 0.5, y() + 3, z() + 0.5);
                 world().spawnEntityInWorld(missile);
             }
-            missile.setPosition(x() + 0.5, y() + 3, z() + 0.5);
+            missile.setPositionAndRotation(x() + 0.5, y() + 3, z() + 0.5, 0, 180);
         }
     }
 
     public void fireMissile()
     {
-
-        missile.setTarget(new Pos((TileEntity)this).add(Pos.north.multiply(100)), true);
-        missile.sourceOfProjectile = new Pos(this);
-        missile.setIntoMotion();
-        missile = null;
+        if(missile != null)
+        {
+            missile.setTarget(new Pos((TileEntity) this).add(Pos.north.multiply(100)), true);
+            missile.sourceOfProjectile = new Pos(this);
+            missile.motionX = 0;
+            missile.motionZ = 0;
+            missile.motionY = 2;
+            missile.setIntoMotion();
+            missile = null;
+        }
     }
 
     @SideOnly(Side.CLIENT)

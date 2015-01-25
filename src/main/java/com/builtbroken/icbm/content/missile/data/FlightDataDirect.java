@@ -16,7 +16,7 @@ public class FlightDataDirect extends FlightData
     @Override
     public void updatePath()
     {
-        if(doOnce)
+        if(!doOnce)
         {
             doOnce = false;
             calculateMotionForRotationAndPower(1);
