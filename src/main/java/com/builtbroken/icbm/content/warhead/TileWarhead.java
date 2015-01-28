@@ -357,7 +357,7 @@ public class TileWarhead extends Tile implements IExplosiveContainer, IRemovable
         Warhead warhead = null;
         try
         {
-            warhead = WarheadCasings.get(getMetadata()).warhead_clazz.getConstructor(ItemStack.class).newInstance(toItemStack());
+            warhead = WarheadCasings.get(getMetadata()).warhead_clazz.getConstructor(ItemStack.class).newInstance(new ItemStack(this.getTileBlock(), 1, getMetadata()));
         } catch (InvocationTargetException e)
         {
             ICBM.LOGGER.error("[TileWarhead]Failed invoke warhead constructor for class " + WarheadCasings.get(getMetadata()).warhead_clazz);

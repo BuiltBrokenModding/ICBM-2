@@ -33,6 +33,6 @@ public enum WarheadCasings
     {
         if(i >= 0 && i < values().length)
             return values()[i];
-        return null;
+        return EXPLOSIVE_STANDARD;
     }
 }
