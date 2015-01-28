@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.blast.entity;
 
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.lib.world.edit.IWorldChangeAction;
-import com.builtbroken.mc.lib.world.explosive.Explosive;
+import com.builtbroken.mc.prefab.explosive.Explosive;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 

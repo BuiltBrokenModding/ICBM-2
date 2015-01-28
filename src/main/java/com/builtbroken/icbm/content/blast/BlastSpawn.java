@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.blast;
 
 import com.builtbroken.icbm.api.WorldChangeSpawnEntityEvent;
 import com.builtbroken.mc.lib.transform.vector.Location;
-import com.builtbroken.mc.lib.world.explosive.Blast;
+import com.builtbroken.mc.prefab.explosive.blast.Blast;
 import cpw.mods.fml.common.eventhandler.Event;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;

@@ -1,13 +1,13 @@
 package com.builtbroken.test.icbm.content.crafting;
 
-import com.builtbroken.mc.prefab.explosive.BlastBasic;
+import com.builtbroken.mc.prefab.explosive.blast.BlastBasic;
 import com.builtbroken.icbm.content.crafting.ModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadMicro;
 import com.builtbroken.mc.api.explosive.IExplosive;
-import com.builtbroken.mc.lib.world.explosive.Explosive;
+import com.builtbroken.mc.prefab.explosive.Explosive;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import junit.framework.TestCase;
