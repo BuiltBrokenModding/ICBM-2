@@ -1,8 +1,7 @@
 package com.builtbroken.test.icbm.content.crafting;
 
-import com.builtbroken.icbm.content.blast.explosive.BlastBasic;
+import com.builtbroken.mc.prefab.explosive.BlastBasic;
 import com.builtbroken.icbm.content.crafting.ModuleBuilder;
-import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
