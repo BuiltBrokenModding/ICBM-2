@@ -4,10 +4,11 @@ import com.builtbroken.icbm.content.blast.entity.BlastSnowman;
 import com.builtbroken.icbm.content.crafting.missile.ItemMissileModules;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
-import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.icbm.content.display.TileMissile;
 import com.builtbroken.icbm.content.display.TileMissileDisplay;
+import com.builtbroken.icbm.content.launcher.TileRotationTest;
+import com.builtbroken.icbm.content.launcher.TileTestLauncher;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
 import com.builtbroken.mc.api.explosive.IExplosive;
 import com.builtbroken.mc.core.Engine;
@@ -15,7 +16,7 @@ import com.builtbroken.mc.lib.mod.AbstractMod;
 import com.builtbroken.mc.lib.mod.AbstractProxy;
 import com.builtbroken.mc.lib.mod.ModCreativeTab;
 import com.builtbroken.mc.lib.mod.config.Config;
-import com.builtbroken.mc.lib.world.explosive.Explosive;
+import com.builtbroken.mc.prefab.explosive.Explosive;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.tile.item.ItemBlockMetadata;
@@ -37,7 +38,7 @@ import com.builtbroken.icbm.content.BlockExplosiveMarker;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.ItemMissile;
 import com.builtbroken.icbm.content.rocketlauncher.ItemRocketLauncher;
-import com.builtbroken.icbm.content.blast.explosive.BlastBasic;
+import com.builtbroken.mc.prefab.explosive.blast.BlastBasic;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
@@ -152,7 +153,11 @@ public final class ICBM extends AbstractMod
         blockMissileDisplay = manager.newBlock(TileMissileDisplay.class);
         blockMissile = manager.newBlock(TileMissile.class);
         if (Engine.runningAsDev)
+        {
             blockExplosiveMarker = manager.newBlock(BlockExplosiveMarker.class, ItemBlockMetadata.class);
+            manager.newBlock(TileTestLauncher.class);
+            manager.newBlock(TileRotationTest.class);
+        }
 
         // ITEMS
         itemMissile = manager.newItem(ItemMissile.class);

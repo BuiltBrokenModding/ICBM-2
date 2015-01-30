@@ -9,6 +9,6 @@ public class WarheadMedium extends Warhead
 {
     public WarheadMedium(ItemStack warhead)
     {
-        super(warhead);
+        super(warhead, WarheadCasings.EXPLOSIVE_MEDIUM);
     }
 }

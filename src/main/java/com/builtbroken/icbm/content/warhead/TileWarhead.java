@@ -4,7 +4,6 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
-import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadSmall;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadStandard;
 import com.builtbroken.icbm.content.missile.RenderMissile;
 import com.builtbroken.mc.api.event.TriggerCause;
@@ -13,9 +12,6 @@ import com.builtbroken.mc.api.explosive.IExplosiveContainer;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.api.tile.IRemovable;
 import com.builtbroken.mc.core.Engine;
-import com.builtbroken.mc.core.network.IPacketReceiver;
-import com.builtbroken.mc.core.network.packet.AbstractPacket;
-import com.builtbroken.mc.core.network.packet.PacketSaveData;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.lib.helper.WrenchUtility;
 import com.builtbroken.mc.lib.transform.region.Cuboid;
@@ -26,7 +22,6 @@ import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -40,7 +35,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.Explosion;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -268,7 +262,7 @@ public class TileWarhead extends Tile implements IExplosiveContainer, IRemovable
     @Override
     public PacketTile getDescPacket()
     {
-        return new PacketSaveData(this);
+        return new PacketTile(this, getSaveData());
     }
 
     @Override
@@ -352,7 +346,7 @@ public class TileWarhead extends Tile implements IExplosiveContainer, IRemovable
         if (warhead == null)
         {
             warhead = getNewWarhead();
-            if(warhead == null)
+            if (warhead == null)
                 warhead = new WarheadStandard(toItemStack());
         }
         return warhead;
@@ -363,7 +357,7 @@ public class TileWarhead extends Tile implements IExplosiveContainer, IRemovable
         Warhead warhead = null;
         try
         {
-            warhead = WarheadCasings.get(getMetadata()).warhead_clazz.getConstructor(ItemStack.class).newInstance(toItemStack());
+            warhead = WarheadCasings.get(getMetadata()).warhead_clazz.getConstructor(ItemStack.class).newInstance(new ItemStack(this.getTileBlock(), 1, getMetadata()));
         } catch (InvocationTargetException e)
         {
             ICBM.LOGGER.error("[TileWarhead]Failed invoke warhead constructor for class " + WarheadCasings.get(getMetadata()).warhead_clazz);

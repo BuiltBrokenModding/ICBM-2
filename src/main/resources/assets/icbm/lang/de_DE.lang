@@ -1,0 +1,47 @@
+## German lang file
+itemGroup.ICBM=ICBM
+
+## Missile
+item.icbm:missile.name=Rakete
+item.icbm:missile.empty.name=Raketengehäuse
+
+item.icbm:missile.micro.name=Rakete
+item.icbm:missile.micro.empty.name=Raketengehäuse
+
+item.icbm:missile.small.name=Kleine Rakete
+item.icbm:missile.small.empty.name=Kleines Raketengehäuse
+
+item.icbm:missile.standard.name=Rakete
+item.icbm:missile.standard.empty.name=Raketengehäuse
+
+item.icbm:missile.medium.name=Große Rakete
+item.icbm:missile.medium.empty.name=Großes Raketengehäuse
+
+item.icbm:missile.large.name=ICBM
+item.icbm:missile.large.empty.name=ICBM-Gehäuse
+
+## Explosives
+explosive.icbm:tnt.name=TNT
+explosive.icbm:snowmen.name=Let it Snow!
+
+## Launcher
+item.icbm:rocketLauncher.name=Raketenwerfer
+info.icbm:rocketlauncher.tooltip=Feuert kleine Raketen
+
+## Warhead
+tile.icbm:warhead.name=Geladener Sprengkopf
+tile.icbm:warhead.casing.name=Sprengkopfgehäuse
+
+## Info
+info.icbm:engine.name=Triebwerk
+info.icbm:warhead.name=Sprengkopf
+info.icbm:guidance.name=Steuerung
+info.icbm:trigger.name=Trigger
+
+## Triggers
+trigger.icbm:impact.name=Einschlag
+trigger.icbm:gps.name=Position
+trigger.icbm:time.name=Timer
+
+## Modules
+module.icbm:engine.creative.name=Leerenantrieb

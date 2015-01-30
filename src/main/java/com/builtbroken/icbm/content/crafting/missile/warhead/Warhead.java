@@ -21,9 +21,12 @@ public abstract class Warhead extends AbstractModule
     public NBTTagCompound tag = new NBTTagCompound();
     public ItemStack explosive;
 
-    public Warhead(ItemStack warhead)
+    protected WarheadCasings casing;
+
+    public Warhead(ItemStack warhead, WarheadCasings casing)
     {
         super(warhead, "warhead");
+        this.casing = casing;
     }
 
     @Override
@@ -52,6 +55,6 @@ public abstract class Warhead extends AbstractModule
      */
     public WorldChangeHelper.ChangeResult trigger(TriggerCause triggerCause, World world, double x, double y, double z)
     {
-        return ExplosiveRegistry.triggerExplosive(world, x, y, z, ex, triggerCause, size, tag);
+        return ExplosiveRegistry.triggerExplosive(world, x, y, z, ex, triggerCause, size + (size * casing.ordinal()) + 5, tag);
     }
 }

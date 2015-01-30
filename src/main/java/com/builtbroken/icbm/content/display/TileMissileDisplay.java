@@ -28,7 +28,7 @@ import net.minecraftforge.common.util.ForgeDirection;
  * Later will be changed to only render micro and small missiles
  * Created by robert on 12/31/2014.
  */
-public class TileMissileDisplay extends Tile implements IPacketReceiver
+public class TileMissileDisplay extends TileMissileContainer
 {
     private Missile missile = null;
 
@@ -47,50 +47,6 @@ public class TileMissileDisplay extends Tile implements IPacketReceiver
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbt)
-    {
-        super.readFromNBT(nbt);
-        if (nbt.hasKey("missileItem"))
-        {
-            setMissile(MissileModuleBuilder.INSTANCE.buildMissile(ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("missileItem"))));
-        }
-        else
-        {
-            setMissile(null);
-        }
-    }
-
-    @Override
-    public void writeToNBT(NBTTagCompound nbt)
-    {
-        super.writeToNBT(nbt);
-        if (getMissile() != null)
-        {
-            nbt.setTag("missileItem", getMissile().toStack().writeToNBT(new NBTTagCompound()));
-        }
-    }
-
-    @Override
-    public PacketTile getDescPacket()
-    {
-        NBTTagCompound tag = new NBTTagCompound();
-        writeToNBT(tag);
-        return new PacketTile(this, 0, tag);
-    }
-
-    public void updateClient()
-    {
-        getDescPacket().send();
-    }
-
-    @Override
-    public boolean read(EntityPlayer player, AbstractPacket packet)
-    {
-        readFromNBT(ByteBufUtils.readTag(packet.data));
-        return true;
-    }
-
-    @Override
     @SideOnly(Side.CLIENT)
     public void renderDynamic(Pos pos, float frame, int pass)
     {
@@ -99,54 +55,5 @@ public class TileMissileDisplay extends Tile implements IPacketReceiver
             RenderItemOverlayUtility.renderItem(getWorldObj(), ForgeDirection.UNKNOWN, missile.toStack(), pos.add(0.5), 0, 0);
         }
     }
-
-    public void setMissile(Missile missile)
-    {
-        this.missile = missile;
-    }
-
-    @Override
-    public boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
-    {
-        if (isServer())
-        {
-            ItemStack stack = player.getHeldItem();
-            if (getMissile() != null)
-            {
-                if (stack == null)
-                {
-                    player.addChatComponentMessage(new ChatComponentText("Removed Missile"));
-                    player.inventory.mainInventory[player.inventory.currentItem] = getMissile().toStack();
-                    setMissile(null);
-                    player.inventoryContainer.detectAndSendChanges();
-                    updateClient();
-                    return true;
-                }
-            }
-            else if (stack.getItem() instanceof ItemMissile)
-            {
-                player.addChatComponentMessage(new ChatComponentText("Added Missile"));
-                setMissile(MissileModuleBuilder.INSTANCE.buildMissile(stack));
-                if (!player.capabilities.isCreativeMode)
-                {
-                    stack.stackSize--;
-                    if (stack.stackSize <= 0)
-                    {
-                        player.inventory.mainInventory[player.inventory.currentItem] = null;
-                    }
-                    player.inventoryContainer.detectAndSendChanges();
-                    updateClient();
-                }
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public Missile getMissile()
-    {
-        return missile;
-    }
-
 
 }

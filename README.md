@@ -1,4 +1,7 @@
 ##What is ICBM?
+
+--NOTE--The current 1.7.10 versions are complete rewrites of ICBM, most things from 1.6.4 are not implemented yet. but they are planned to be implemented later, either in ICBM or in seperate mods. --NOTE--
+
 ICBM is a Minecraft Mod that introduces intercontinental ballistic missiles to Minecraft. But the fun doesn't end there! This mod also features many different explosives, missiles and machines classified in three different tiers. If strategic warfare, carefully coordinated airstrikes, messing with matter and general destruction are up your alley, then this mod is for you!
 
 ##Who owns ICBM

@@ -69,7 +69,7 @@ public class ItemRocketLauncher extends Item implements IWeapon
                         if (ammo.isAmmo(inventoryStack))
                         {
                             IAmmoType type = ammo.getAmmoType(inventoryStack);
-                            if ("missile".equalsIgnoreCase(type.getCategory()) && "micro".equalsIgnoreCase(type.getType()))
+                            if ("missile".equalsIgnoreCase(type.getCategory()) && ("micro".equalsIgnoreCase(type.getType()) || "small".equalsIgnoreCase(type.getType())))
                             {
                                 ammo.fireAmmo(this, itemStack, inventoryStack, player);
 

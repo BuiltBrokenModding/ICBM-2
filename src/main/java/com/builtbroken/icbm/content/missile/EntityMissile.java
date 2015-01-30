@@ -2,18 +2,21 @@ package com.builtbroken.icbm.content.missile;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.IMissile;
-import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
+import com.builtbroken.icbm.api.IMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
+import com.builtbroken.icbm.content.missile.data.FlightData;
+import com.builtbroken.icbm.content.missile.data.FlightDataArk;
+import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosive;
 import com.builtbroken.mc.api.explosive.IExplosiveContainer;
 import com.builtbroken.mc.lib.transform.vector.Pos;
-import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.entity.EntityProjectile;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -24,20 +27,41 @@ import net.minecraft.world.World;
  */
 public class EntityMissile extends EntityProjectile implements IExplosiveContainer, IMissile, IEntityAdditionalSpawnData
 {
-
     private Missile missile;
+
+    //Used for guided version
+    public IPos3D target_pos;
+    public FlightData flight_data;
 
     public EntityMissile(World w)
     {
         super(w);
         this.setSize(.5F, .5F);
+        this.inAirKillTime = 144000 /* 2 hours */;
     }
 
     public EntityMissile(EntityLivingBase entity)
     {
-        super(entity);
+        super(entity.worldObj, entity, 1);
         this.setSize(.5F, .5F);
+        this.inAirKillTime = 144000 /* 2 hours */;
     }
+
+    @Override
+    public void setTarget(IPos3D target, boolean ark)
+    {
+        this.target_pos = target;
+        if (ark)
+            this.flight_data = new FlightDataArk(this);
+    }
+
+    @Override
+    public void setTarget(Entity entity, boolean track)
+    {
+        setTarget(new Pos(entity), false);
+    }
+
+
 
     /**
      * Fires a missile from the entity using its facing direction and location. For more
@@ -46,17 +70,25 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
      * @param entity  - entity that is firing the missile, most likely a player with a launcher
      * @param missile - item stack that represents the missile plus explosive settings to fire
      */
-    public static void fireMissileByEntity(EntityLivingBase entity, ItemStack missile, MissileCasings size)
+    public static void fireMissileByEntity(Entity entity, ItemStack missile)
     {
-        EntityMissile entityMissile = new EntityMissile(entity);
-        entityMissile.setMissile(MissileModuleBuilder.INSTANCE.buildMissile(missile));
-        entityMissile.setTicksInAir(1);
-        entityMissile.setMotion(1);
-        entityMissile.worldObj.spawnEntityInWorld(entityMissile);
+        Entity entityMissile = null;
+        if (missile.getItem() instanceof IMissileItem)
+        {
+            entityMissile = ((IMissileItem) missile.getItem()).getMissileEntity(missile, entity);
+            entityMissile.setWorld(entity.worldObj);
+        }
+        fireMissileByEntity(entityMissile);
+    }
 
-        //Player audio effect
-        entityMissile.worldObj.playSoundAtEntity(entityMissile, ICBM.PREFIX + "missilelaunch", 4F, (1.0F + (entityMissile.worldObj.rand.nextFloat() - entityMissile.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
-
+    public static void fireMissileByEntity(Entity entityMissile)
+    {
+        if (entityMissile instanceof IMissile)
+        {
+            ((IMissile) entityMissile).setIntoMotion();
+            entityMissile.worldObj.spawnEntityInWorld(entityMissile);
+            entityMissile.worldObj.playSoundAtEntity(entityMissile, ICBM.PREFIX + "missilelaunch", 4F, (1.0F + (entityMissile.worldObj.rand.nextFloat() - entityMissile.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+        }
     }
 
     @Override
@@ -65,16 +97,19 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
         return getMissile() == null ? "Unknown-Missile" : getMissile().getWarhead() == null ? "Missile-Module" : "Missile with " + getMissile().getWarhead().ex.toString() + " warhead";
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     @Override
-    public void onUpdate()
+    public void setIntoMotion()
     {
-        super.onUpdate();
-        if (!this.isCollided && !this.onGround && this.getTicksInAir() > 0)
-            this.spawnMissileSmoke();
+        ticksInAir = 1;
+        updateMotion();
+    }
 
+    @Override
+    protected void updateMotion()
+    {
+        super.updateMotion();
+        if (this.ticksInAir > 0)
+            this.spawnMissileSmoke();
     }
 
     private void spawnMissileSmoke()
@@ -84,7 +119,7 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
             Pos position = new Pos(this);
             // The distance of the smoke relative
             // to the missile.
-            double distance = - 1.2f;
+            double distance = -1.2f;
 
             // The horizontal distance of the
             // smoke.
@@ -93,14 +128,17 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
             // The delta Y of the smoke.
             Pos delta = new Pos(Math.sin(Math.toRadians(this.rotationYaw)) * dH, Math.sin(Math.toRadians(this.rotationPitch)) * distance, Math.cos(Math.toRadians(this.rotationYaw)) * dH);
 
-            position.add(delta);
+            position = position.add(delta);
             this.worldObj.spawnParticle("flame", position.x(), position.y(), position.z(), 0, 0, 0);
             ICBM.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
-            position.multiply(1 - 0.001 * Math.random());
+
+            position = position.multiply(1 - 0.001 * Math.random());
             ICBM.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
-            position.multiply(1 - 0.001 * Math.random());
+
+            position = position.multiply(1 - 0.001 * Math.random());
             ICBM.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
-            position.multiply(1 - 0.001 * Math.random());
+
+            position = position.multiply(1 - 0.001 * Math.random());
             ICBM.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
         }
     }
@@ -112,18 +150,35 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     }
 
     @Override
-    protected void onStoppedMoving()
+    protected void onImpactEntity(Entity ent, float v)
     {
+        super.onImpactEntity(ent, v);
         onImpact();
     }
 
     @Override
+    public void onImpactTile()
+    {
+        super.onImpactTile();
+        onImpact();
+    }
+
     protected void onImpact()
     {
-        super.onImpact();
-        NBTTagCompound tag = new NBTTagCompound();
-        writeEntityToNBT(tag);
-        ExplosiveRegistry.triggerExplosive(worldObj, posX, posY, posZ, getExplosive(), new TriggerCause.TriggerCauseEntity(this), 5, tag);
+        if (missile.getWarhead() != null)
+        {
+            missile.getWarhead().trigger(new TriggerCause.TriggerCauseEntity(this), worldObj, posX, posY, posZ);
+        }
+    }
+
+    @Override
+    protected void decreaseMotion()
+    {
+        //TODO do handling per size
+        if(ticksInAir > 1000)
+        {
+            super.decreaseMotion();
+        }
     }
 
     public Missile getMissile()
@@ -134,13 +189,14 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     public void setMissile(Missile missile)
     {
         this.missile = missile;
+        this.inAirKillTime = missile.casing.maxFlightTimeInTicks;
     }
 
     @Override
-    protected void readEntityFromNBT(NBTTagCompound nbt)
+    public void readEntityFromNBT(NBTTagCompound nbt)
     {
         super.readEntityFromNBT(nbt);
-        if(nbt.hasKey("missileStack"))
+        if (nbt.hasKey("missileStack"))
         {
             ItemStack stack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("missileStack"));
             setMissile(MissileModuleBuilder.INSTANCE.buildMissile(stack));
@@ -148,10 +204,10 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     }
 
     @Override
-    protected void writeEntityToNBT(NBTTagCompound nbt)
+    public void writeEntityToNBT(NBTTagCompound nbt)
     {
         super.writeEntityToNBT(nbt);
-        if(getMissile() != null)
+        if (getMissile() != null)
         {
             ItemStack stack = getMissile().toStack();
             nbt.setTag("missileStack", stack.writeToNBT(new NBTTagCompound()));

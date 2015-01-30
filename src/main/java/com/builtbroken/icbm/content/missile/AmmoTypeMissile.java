@@ -16,7 +16,7 @@ public class AmmoTypeMissile implements IAmmoType
     public static final AmmoTypeMissile MEDIUM = new AmmoTypeMissile(MissileCasings.MEDIUM);
     public static final AmmoTypeMissile LARGE = new AmmoTypeMissile(MissileCasings.LARGE);
 
-    protected MissileCasings size;
+    public MissileCasings size;
 
     private AmmoTypeMissile(MissileCasings size)
     {

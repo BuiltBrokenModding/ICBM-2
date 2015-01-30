@@ -4,12 +4,12 @@ before_install:
 notifications:
  irc:
   channels:
-   - "irc.esper.net#icbm"
+   - "irc.esper.net#BBM-bots"
   template:
    - "%{build_number} (%{branch} - %{commit}: %{commit_message} : %{author}): %{message} (%{build_url})"
 install: true
 script:
-  - gradle build -PbambooshortPlanName=ICBM -Pdmodcurse=61545 --refresh-dependencies
+  - gradle build -PbambooshortPlanName=BBM-Dev -Pdmodcurse=61545 --refresh-dependencies
 cache:
   directories:
     - $HOME/.gradle

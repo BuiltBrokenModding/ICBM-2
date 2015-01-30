@@ -9,21 +9,23 @@ import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
  */
 public enum MissileCasings
 {
-    MICRO(WarheadCasings.EXPLOSIVE_MICRO, MissileMicro.class),
-    SMALL(WarheadCasings.EXPLOSIVE_SMALL, MissileSmall.class),
-    STANDARD(WarheadCasings.EXPLOSIVE_STANDARD, MissileStandard.class),
-    MEDIUM(WarheadCasings.EXPLOSIVE_MEDIUM, MissileMedium.class),
-    LARGE(WarheadCasings.EXPLOSIVE_LARGE, MissileLarge.class),
-    MICRO_CLASSIC(WarheadCasings.EXPLOSIVE_MICRO, MissileMicroClassic.class),
-    SMALL_CLASSIC(WarheadCasings.EXPLOSIVE_SMALL, MissileSmallClassic.class);
+    MICRO(WarheadCasings.EXPLOSIVE_MICRO, MissileMicro.class, 1200, true),
+    SMALL(WarheadCasings.EXPLOSIVE_SMALL, MissileSmall.class, 12000, true),
+    STANDARD(WarheadCasings.EXPLOSIVE_STANDARD, MissileStandard.class, 72000, false),
+    MEDIUM(WarheadCasings.EXPLOSIVE_MEDIUM, MissileMedium.class, 360000, false),
+    LARGE(WarheadCasings.EXPLOSIVE_LARGE, MissileLarge.class, 1440000, false);
 
     public final WarheadCasings warhead_casing;
     public final Class<? extends Missile> missile_clazz;
+    public final int maxFlightTimeInTicks;
+    public boolean enabled = true;
 
-    private MissileCasings(WarheadCasings warhead, Class<? extends Missile> missile_clazz)
+    private MissileCasings(WarheadCasings warhead, Class<? extends Missile> missile_clazz, int maxFlightTicks, boolean enabled)
     {
         this.warhead_casing = warhead;
         this.missile_clazz = missile_clazz;
+        this.maxFlightTimeInTicks = maxFlightTicks;
+        this.enabled = enabled;
     }
 
     public static void register()

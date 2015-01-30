@@ -3,6 +3,7 @@ package com.builtbroken.icbm.content.missile;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.IAmmo;
 import com.builtbroken.icbm.api.IAmmoType;
+import com.builtbroken.icbm.api.IMissileItem;
 import com.builtbroken.icbm.api.IWeapon;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
@@ -17,6 +18,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +28,7 @@ import java.util.List;
  *
  * @author Darkguardsman
  */
-public class ItemMissile extends Item implements IExplosiveItem, IAmmo
+public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissileItem
 {
     public ItemMissile()
     {
@@ -75,10 +77,13 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo
     {
         for(MissileCasings size : MissileCasings.values())
         {
-            list.add(MissileModuleBuilder.INSTANCE.buildMissile(size, null).toStack());
-            for(IExplosive ex: ExplosiveRegistry.getExplosives())
+            if(size.enabled)
             {
-                list.add(MissileModuleBuilder.INSTANCE.buildMissile(size, ex).toStack());
+                list.add(MissileModuleBuilder.INSTANCE.buildMissile(size, null).toStack());
+                for (IExplosive ex : ExplosiveRegistry.getExplosives())
+                {
+                    list.add(MissileModuleBuilder.INSTANCE.buildMissile(size, ex).toStack());
+                }
             }
         }
     }
@@ -156,19 +161,32 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo
     @Override
     public void fireAmmo(IWeapon weapon, ItemStack weaponStack, ItemStack ammoStack, Entity firingEntity)
     {
-        if (firingEntity instanceof EntityLivingBase)
-        {
-            EntityMissile.fireMissileByEntity((EntityLivingBase) firingEntity, ammoStack, ((AmmoTypeMissile)getAmmoType(ammoStack)).size);
-        }
-        else
-        {
-            ICBM.LOGGER.error("Item Missile can't be fired using \n fireAmmo(" + weapon + ", " + ammoStack + ", " + firingEntity + ") \n when the entity is not an instanceof EntityLivingBase");
-        }
+        EntityMissile.fireMissileByEntity(firingEntity, ammoStack);
     }
 
     @Override
     public void consumeAmmo(IWeapon weapon, ItemStack weaponStack, ItemStack ammoStack, int shotsFired)
     {
         ammoStack.stackSize -= shotsFired;
+    }
+
+    @Override
+    public Entity getMissileEntity(ItemStack stack)
+    {
+        EntityMissile missile = new EntityMissile((World)null);
+        missile.setMissile(MissileModuleBuilder.INSTANCE.buildMissile(stack));
+        return missile;
+    }
+
+    @Override
+    public Entity getMissileEntity(ItemStack stack, Entity firedBy)
+    {
+        if(firedBy instanceof EntityLivingBase)
+        {
+            EntityMissile missile = new EntityMissile((EntityLivingBase)firedBy);
+            missile.setMissile(MissileModuleBuilder.INSTANCE.buildMissile(stack));
+            return missile;
+        }
+        return null;
     }
 }

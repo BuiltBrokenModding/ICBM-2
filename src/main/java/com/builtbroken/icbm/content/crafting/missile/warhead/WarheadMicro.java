@@ -9,6 +9,6 @@ public class WarheadMicro extends Warhead
 {
     public WarheadMicro(ItemStack warhead)
     {
-        super(warhead);
+        super(warhead, WarheadCasings.EXPLOSIVE_MICRO);
     }
 }

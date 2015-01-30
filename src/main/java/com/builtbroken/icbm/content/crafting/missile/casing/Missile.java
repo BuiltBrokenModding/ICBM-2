@@ -19,7 +19,7 @@ import net.minecraft.nbt.NBTTagCompound;
 public abstract class Missile extends AbstractModule implements IModuleContainer
 {
 
-    public final MissileCasings size;
+    public final MissileCasings casing;
 
     public int body_length = 2;
     public int visual_id = 0;
@@ -30,10 +30,10 @@ public abstract class Missile extends AbstractModule implements IModuleContainer
 
 
 
-    public Missile(ItemStack stack, MissileCasings size)
+    public Missile(ItemStack stack, MissileCasings casing)
     {
         super(stack, "missile");
-        this.size = size;
+        this.casing = casing;
         load(stack);
     }
 
