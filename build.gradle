@@ -86,6 +86,21 @@ processResources {
 	}
 }
 
+curse {
+    apiKey = project.dmodcurse
+    projectId = "225502"
+    // my project url is http://minecraft.curseforge.com/mc-mods/225502-icbm
+    changelog = ""
+    releaseType = "alpha"
+
+    // the default obfuscated jar is uploaded by default
+    // artifact = project.file("some/jar/to/upload.jar")
+
+    // allows you to add extra compatible MC versions. The one specified in the minecraft{} block is used by default.
+    addGameVersion "1.7.10"
+    // addGameversion "1.7.0", "1.7.4"
+}
+
 publishing {
   publications {
     myPublication(MavenPublication) {      
