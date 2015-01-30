@@ -9,6 +9,6 @@ public class WarheadLarge extends Warhead
 {
     public WarheadLarge(ItemStack warhead)
     {
-        super(warhead);
+        super(warhead, WarheadCasings.EXPLOSIVE_LARGE);
     }
 }

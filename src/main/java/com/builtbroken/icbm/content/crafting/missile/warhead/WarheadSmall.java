@@ -9,6 +9,6 @@ public class WarheadSmall extends Warhead
 {
     public WarheadSmall(ItemStack warhead)
     {
-        super(warhead);
+        super(warhead, WarheadCasings.EXPLOSIVE_SMALL);
     }
 }

@@ -9,6 +9,6 @@ public class WarheadStandard extends Warhead
 {
     public WarheadStandard(ItemStack warhead)
     {
-        super(warhead);
+        super(warhead, WarheadCasings.EXPLOSIVE_STANDARD);
     }
 }
