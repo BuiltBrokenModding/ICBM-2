@@ -7,14 +7,11 @@ import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.missile.data.FlightData;
 import com.builtbroken.icbm.content.missile.data.FlightDataArk;
-import com.builtbroken.icbm.content.missile.data.FlightDataDirect;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosive;
 import com.builtbroken.mc.api.explosive.IExplosiveContainer;
 import com.builtbroken.mc.lib.transform.vector.Pos;
-import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
-import com.builtbroken.mc.prefab.entity.EntityProjectile;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import io.netty.buffer.ByteBuf;
@@ -22,7 +19,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 /**
@@ -174,6 +170,16 @@ public class EntityMissile extends EntityArrowMissile implements IExplosiveConta
         }
     }
 
+    @Override
+    protected void decreaseMotion()
+    {
+        //TODO do handling per size
+        if(ticksInAir > 1000)
+        {
+            super.decreaseMotion();
+        }
+    }
+
     public Missile getMissile()
     {
         return missile;
@@ -182,25 +188,7 @@ public class EntityMissile extends EntityArrowMissile implements IExplosiveConta
     public void setMissile(Missile missile)
     {
         this.missile = missile;
-
-        switch (missile.size)
-        {
-            case MICRO:
-                this.inAirKillTime = 1200 /* 1 min */;
-                break;
-            case SMALL:
-                this.inAirKillTime = 12000 /* 10 mins */;
-                break;
-            case STANDARD:
-                this.inAirKillTime = 72000 /* 1 hours */;
-                break;
-            case MEDIUM:
-                this.inAirKillTime = 360000 /* 5 hours */;
-                break;
-            case LARGE:
-                this.inAirKillTime = 1440000 /* 20 hours */;
-                break;
-        }
+        this.inAirKillTime = missile.casing.maxFlightTimeInTicks;
     }
 
     @Override

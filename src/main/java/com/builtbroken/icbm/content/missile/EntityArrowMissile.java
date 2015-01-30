@@ -321,17 +321,22 @@ public class EntityArrowMissile extends Entity implements IProjectile
         this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
 
         //Decrease motion so the projectile stops
-        this.motionX *= 0.99F;
-        this.motionY *= 0.99F;
-        this.motionZ *= 0.99F;
-        //Add gravity so the projectile will fall
-        this.motionY -= 0.05F;
+        decreaseMotion();
 
         //Set position
         this.setPosition(this.posX, this.posY, this.posZ);
 
         //Adjust for collision
         this.func_145775_I();
+    }
+
+    protected void decreaseMotion()
+    {
+        this.motionX *= 0.99F;
+        this.motionY *= 0.99F;
+        this.motionZ *= 0.99F;
+        //Add gravity so the projectile will fall
+        this.motionY -= 0.05F;
     }
 
 
