@@ -22,12 +22,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 /**
  * Basic missile like projectile that explodes on impact
  */
-public class EntityMissile extends EntityProjectile implements IExplosiveContainer, IMissile, IEntityAdditionalSpawnData
+public class EntityMissile extends EntityArrowMissile implements IExplosiveContainer, IMissile, IEntityAdditionalSpawnData
 {
     private Missile missile;
 
@@ -39,14 +40,14 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     {
         super(w);
         this.setSize(.5F, .5F);
-        this.kill_ticks = 144000 /* 2 hours */;
+        this.inAirKillTime = 144000 /* 2 hours */;
     }
 
     public EntityMissile(EntityLivingBase entity)
     {
-        super(entity);
+        super(entity.worldObj, entity, 1);
         this.setSize(.5F, .5F);
-        this.kill_ticks = 144000 /* 2 hours */;
+        this.inAirKillTime = 144000 /* 2 hours */;
     }
 
     @Override
@@ -102,7 +103,7 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     @Override
     public void setIntoMotion()
     {
-        setTicksInAir(1);
+        ticksInAir = 1;
         updateMotion();
     }
 
@@ -115,14 +116,8 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
 
         flight_data.updatePath();
 
-        if (this.getTicksInAir() > 0)
+        if (this.ticksInAir > 0)
             this.spawnMissileSmoke();
-    }
-
-    @Override
-    public boolean shouldKillProjectile()
-    {
-        return this.posY < -640.0D || this.posY > 100000;
     }
 
     private void spawnMissileSmoke()
@@ -163,20 +158,21 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     }
 
     @Override
-    protected void onStoppedMoving()
+    protected void onImpactEntity(Entity ent, float v)
     {
-        super.onStoppedMoving();
-
-        if(getTicksInAir() > 0)
-        {
-            System.out.println("Missile has stopped moving " + this);
-        }
+        super.onImpactEntity(ent, v);
+        onImpact();
     }
 
     @Override
+    public void onImpactTile()
+    {
+        super.onImpactTile();
+        onImpact();
+    }
+
     protected void onImpact()
     {
-        super.onImpact();
         if (missile.getWarhead() != null)
         {
             missile.getWarhead().trigger(new TriggerCause.TriggerCauseEntity(this), worldObj, posX, posY, posZ);
@@ -195,25 +191,25 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
         switch (missile.size)
         {
             case MICRO:
-                this.kill_ticks = 1200 /* 1 min */;
+                this.inAirKillTime = 1200 /* 1 min */;
                 break;
             case SMALL:
-                this.kill_ticks = 12000 /* 10 mins */;
+                this.inAirKillTime = 12000 /* 10 mins */;
                 break;
             case STANDARD:
-                this.kill_ticks = 72000 /* 1 hours */;
+                this.inAirKillTime = 72000 /* 1 hours */;
                 break;
             case MEDIUM:
-                this.kill_ticks = 360000 /* 5 hours */;
+                this.inAirKillTime = 360000 /* 5 hours */;
                 break;
             case LARGE:
-                this.kill_ticks = 1440000 /* 20 hours */;
+                this.inAirKillTime = 1440000 /* 20 hours */;
                 break;
         }
     }
 
     @Override
-    protected void readEntityFromNBT(NBTTagCompound nbt)
+    public void readEntityFromNBT(NBTTagCompound nbt)
     {
         super.readEntityFromNBT(nbt);
         if (nbt.hasKey("missileStack"))
@@ -224,7 +220,7 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     }
 
     @Override
-    protected void writeEntityToNBT(NBTTagCompound nbt)
+    public void writeEntityToNBT(NBTTagCompound nbt)
     {
         super.writeEntityToNBT(nbt);
         if (getMissile() != null)
