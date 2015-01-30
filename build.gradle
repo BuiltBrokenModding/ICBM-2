@@ -18,6 +18,8 @@ buildscript {
 
 apply from: './BuiltBrokenScripts/index.gradle'
 apply plugin: 'forge'
+apply plugin: 'curseforge'
+
 
 
 ext.buildProps = file "build.properties"
