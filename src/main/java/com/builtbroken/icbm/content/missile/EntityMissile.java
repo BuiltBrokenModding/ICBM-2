@@ -111,11 +111,6 @@ public class EntityMissile extends EntityArrowMissile implements IExplosiveConta
     protected void updateMotion()
     {
         super.updateMotion();
-        if (flight_data == null)
-            flight_data = new FlightDataDirect(this);
-
-        flight_data.updatePath();
-
         if (this.ticksInAir > 0)
             this.spawnMissileSmoke();
     }
