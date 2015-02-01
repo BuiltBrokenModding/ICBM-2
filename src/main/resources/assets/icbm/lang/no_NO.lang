@@ -26,7 +26,7 @@ explosive.icbm:snowmen.name=La det snø!
 
 ## Launcher
 item.icbm:rocketLauncher.name=Rakettkaster
-info.icbm:rocketlauncher.tooltip=Fyrer små missiler
+info.icbm:rocketlauncher.tooltip=Fyrer av små missiler
 
 ## Warhead
 tile.icbm:warhead.name=Lastet Stridshode
