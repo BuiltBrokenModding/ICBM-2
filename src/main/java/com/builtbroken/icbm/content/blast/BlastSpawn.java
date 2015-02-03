@@ -26,7 +26,7 @@ public abstract class BlastSpawn extends Blast
     protected int maxEntities = 1;
 
     @Override
-    public BlastSpawn setYield(int size)
+    public BlastSpawn setYield(double size)
     {
         super.setYield(size);
         this.maxEntities *= size;
@@ -63,7 +63,7 @@ public abstract class BlastSpawn extends Blast
                         }
                         if (spawn)
                         {
-                            location.add(rand.nextInt(size) - rand.nextInt(size), rand.nextInt(size), rand.nextInt(size) - rand.nextInt(size));
+                            location.add(rand.nextInt((int)size) - rand.nextInt((int)size), rand.nextInt((int)size), rand.nextInt((int)size) - rand.nextInt((int)size));
                             ent.setLocationAndAngles(location.x(), location.y(), location.z(), MathHelper.wrapAngleTo180_float(rand.nextFloat() * 360.0F), 0.0F);
                             if (ent instanceof EntityLivingBase)
                             {

@@ -17,7 +17,7 @@ public class ExplosiveSpawn extends Explosive
     }
 
     @Override
-    public IWorldChangeAction createBlastForTrigger(World world, double x, double y, double z, TriggerCause triggerCause, int yieldMultiplier, NBTTagCompound tag)
+    public IWorldChangeAction createBlastForTrigger(World world, double x, double y, double z, TriggerCause triggerCause, double yieldMultiplier, NBTTagCompound tag)
     {
         if(tag != null)
         {
