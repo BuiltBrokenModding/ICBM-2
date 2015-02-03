@@ -9,8 +9,8 @@ import com.builtbroken.icbm.content.missile.data.FlightData;
 import com.builtbroken.icbm.content.missile.data.FlightDataArk;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.event.TriggerCause;
+import com.builtbroken.mc.api.explosive.IExplosive;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.api.explosive.IExplosiveContainer;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.entity.EntityProjectile;
 import cpw.mods.fml.common.network.ByteBufUtils;
@@ -25,7 +25,7 @@ import net.minecraft.world.World;
 /**
  * Basic missile like projectile that explodes on impact
  */
-public class EntityMissile extends EntityProjectile implements IExplosiveContainer, IMissile, IEntityAdditionalSpawnData
+public class EntityMissile extends EntityProjectile implements IExplosive, IMissile, IEntityAdditionalSpawnData
 {
     private Missile missile;
 

@@ -7,8 +7,8 @@ import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadStandard;
 import com.builtbroken.icbm.content.missile.RenderMissile;
 import com.builtbroken.mc.api.event.TriggerCause;
+import com.builtbroken.mc.api.explosive.IExplosive;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.api.explosive.IExplosiveContainer;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.api.tile.IRemovable;
 import com.builtbroken.mc.core.Engine;
@@ -49,7 +49,7 @@ import java.util.List;
  *
  * @author Darkguardsman
  */
-public class TileWarhead extends Tile implements IExplosiveContainer, IRemovable.ISneakPickup, ISimpleItemRenderer
+public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPickup, ISimpleItemRenderer
 {
     public boolean exploding = false;
 
