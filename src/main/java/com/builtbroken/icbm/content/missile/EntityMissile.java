@@ -9,7 +9,7 @@ import com.builtbroken.icbm.content.missile.data.FlightData;
 import com.builtbroken.icbm.content.missile.data.FlightDataArk;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.event.TriggerCause;
-import com.builtbroken.mc.api.explosive.IExplosive;
+import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.explosive.IExplosiveContainer;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.entity.EntityProjectile;
@@ -144,7 +144,7 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     }
 
     @Override
-    public IExplosive getExplosive()
+    public IExplosiveHandler getExplosive()
     {
         return getMissile() != null && getMissile().getWarhead() != null ? getMissile().getWarhead().ex : null;
     }

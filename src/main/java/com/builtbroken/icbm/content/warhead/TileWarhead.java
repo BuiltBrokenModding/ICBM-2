@@ -7,7 +7,7 @@ import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadStandard;
 import com.builtbroken.icbm.content.missile.RenderMissile;
 import com.builtbroken.mc.api.event.TriggerCause;
-import com.builtbroken.mc.api.explosive.IExplosive;
+import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.explosive.IExplosiveContainer;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.api.tile.IRemovable;
@@ -266,7 +266,7 @@ public class TileWarhead extends Tile implements IExplosiveContainer, IRemovable
     }
 
     @Override
-    public IExplosive getExplosive()
+    public IExplosiveHandler getExplosive()
     {
         return getWarhead().ex;
     }
@@ -277,7 +277,7 @@ public class TileWarhead extends Tile implements IExplosiveContainer, IRemovable
         for (WarheadCasings size : WarheadCasings.values())
         {
             list.add(MissileModuleBuilder.INSTANCE.buildWarhead(size, null).toStack());
-            for (IExplosive ex : ExplosiveRegistry.getExplosives())
+            for (IExplosiveHandler ex : ExplosiveRegistry.getExplosives())
             {
                 list.add(MissileModuleBuilder.INSTANCE.buildWarhead(size, ex).toStack());
             }

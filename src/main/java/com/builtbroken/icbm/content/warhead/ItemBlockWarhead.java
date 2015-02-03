@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.warhead;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.mc.api.explosive.IExplosive;
+import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.IExplosiveItem;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
 import cpw.mods.fml.relauncher.Side;
@@ -52,7 +52,7 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem
     }
 
     @Override
-    public IExplosive getExplosive(ItemStack itemStack)
+    public IExplosiveHandler getExplosive(ItemStack itemStack)
     {
         return ExplosiveItemUtility.getExplosive(itemStack);
     }

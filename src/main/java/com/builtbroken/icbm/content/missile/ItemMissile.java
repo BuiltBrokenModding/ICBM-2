@@ -8,7 +8,7 @@ import com.builtbroken.icbm.api.IWeapon;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
-import com.builtbroken.mc.api.explosive.IExplosive;
+import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.IExplosiveItem;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
@@ -66,7 +66,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     }
 
     @Override
-    public IExplosive getExplosive(ItemStack itemStack)
+    public IExplosiveHandler getExplosive(ItemStack itemStack)
     {
         Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(itemStack);
         return missile.getWarhead() != null ? missile.getWarhead().ex : null;
@@ -80,7 +80,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
             if(size.enabled)
             {
                 list.add(MissileModuleBuilder.INSTANCE.buildMissile(size, null).toStack());
-                for (IExplosive ex : ExplosiveRegistry.getExplosives())
+                for (IExplosiveHandler ex : ExplosiveRegistry.getExplosives())
                 {
                     list.add(MissileModuleBuilder.INSTANCE.buildMissile(size, ex).toStack());
                 }
@@ -93,7 +93,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     {
         super.addInformation(stack, player, list, bool);
         Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
-        IExplosive ex = missile.getWarhead() != null ? missile.getWarhead().ex : null;
+        IExplosiveHandler ex = missile.getWarhead() != null ? missile.getWarhead().ex : null;
         String ex_translation = LanguageUtility.getLocal("info." + ICBM.PREFIX + "warhead.name") + ": ";
         if(ex != null)
         {

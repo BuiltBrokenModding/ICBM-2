@@ -2,16 +2,16 @@ package com.builtbroken.icbm.content.blast.entity;
 
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.lib.world.edit.IWorldChangeAction;
-import com.builtbroken.mc.prefab.explosive.Explosive;
+import com.builtbroken.mc.prefab.explosive.ExplosiveHandler;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 /**
  * Created by robert on 12/25/2014.
  */
-public class ExplosiveSpawn extends Explosive
+public class ExplosiveHandlerSpawn extends ExplosiveHandler
 {
-    public ExplosiveSpawn()
+    public ExplosiveHandlerSpawn()
     {
         super("Spawn", null);
     }

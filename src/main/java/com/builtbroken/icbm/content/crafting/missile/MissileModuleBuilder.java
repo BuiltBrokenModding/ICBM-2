@@ -10,7 +10,7 @@ import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
 import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
-import com.builtbroken.mc.api.explosive.IExplosive;
+import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import net.minecraft.item.ItemStack;
 
 import java.lang.reflect.InvocationTargetException;
@@ -107,12 +107,12 @@ public class MissileModuleBuilder extends ModuleBuilder
         return null;
     }
 
-    public Missile buildMissile(MissileCasings missileSize, IExplosive ex)
+    public Missile buildMissile(MissileCasings missileSize, IExplosiveHandler ex)
     {
         return this.buildMissile(missileSize, ex, (Engine) Engines.CREATIVE_ENGINE.newModule(), null);
     }
 
-    public Warhead buildWarhead(WarheadCasings size, IExplosive ex)
+    public Warhead buildWarhead(WarheadCasings size, IExplosiveHandler ex)
     {
         try
         {
@@ -136,7 +136,7 @@ public class MissileModuleBuilder extends ModuleBuilder
         return null;
     }
 
-    public Missile buildMissile(MissileCasings missileSize, IExplosive ex, Engine engine, Guidance guidance)
+    public Missile buildMissile(MissileCasings missileSize, IExplosiveHandler ex, Engine engine, Guidance guidance)
     {
         try
         {

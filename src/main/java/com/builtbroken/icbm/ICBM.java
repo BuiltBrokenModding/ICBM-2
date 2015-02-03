@@ -10,13 +10,13 @@ import com.builtbroken.icbm.content.display.TileMissileDisplay;
 import com.builtbroken.icbm.content.launcher.TileRotationTest;
 import com.builtbroken.icbm.content.launcher.TileTestLauncher;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
-import com.builtbroken.mc.api.explosive.IExplosive;
+import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.mod.AbstractMod;
 import com.builtbroken.mc.lib.mod.AbstractProxy;
 import com.builtbroken.mc.lib.mod.ModCreativeTab;
 import com.builtbroken.mc.lib.mod.config.Config;
-import com.builtbroken.mc.prefab.explosive.Explosive;
+import com.builtbroken.mc.prefab.explosive.ExplosiveHandler;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.tile.item.ItemBlockMetadata;
@@ -126,7 +126,7 @@ public final class ICBM extends AbstractMod
             @Override
             public String getLabel(ItemStack stack)
             {
-                IExplosive ex = ExplosiveItemUtility.getExplosive(stack);
+                IExplosiveHandler ex = ExplosiveItemUtility.getExplosive(stack);
                 if (ex != null)
                 {
                     return stack.getDisplayName() + ex.getID();
@@ -178,8 +178,8 @@ public final class ICBM extends AbstractMod
     {
         super.init(event);
         //Explosives
-        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Snowmen", new Explosive("snowmen", BlastSnowman.class, 1));
-        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "TNT", new Explosive("tnt", BlastBasic.class, 1));
+        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Snowmen", new ExplosiveHandler("snowmen", BlastSnowman.class, 1));
+        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "TNT", new ExplosiveHandler("tnt", BlastBasic.class, 1));
 
         //Entities
         EntityRegistry.registerGlobalEntityID(EntityMissile.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());
