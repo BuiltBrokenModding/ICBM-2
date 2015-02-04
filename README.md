@@ -38,7 +38,6 @@ If not listed don't fear we are still compiling the credits list after it got re
 
 ###Credits
 * Adaptivity        - Russian Translations
-* Archelf           - Assets
 * Archadia          - Code, Assets
 * Azanor            - Consultation
 * Calclavia         - Original Author 
