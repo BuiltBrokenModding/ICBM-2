@@ -4,10 +4,8 @@ import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.missile.ItemMissile;
 import com.builtbroken.mc.core.network.IPacketReceiver;
-import com.builtbroken.mc.core.network.packet.AbstractPacket;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
-import com.builtbroken.mc.lib.render.RenderItemOverlayUtility;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.TileModuleMachine;
 import cpw.mods.fml.common.network.ByteBufUtils;
@@ -22,58 +20,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
-import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * Created by robert on 1/18/2015.
  */
 public class TileMissileContainer extends TileModuleMachine implements IPacketReceiver
 {
-    private Missile missile = null;
-
     public TileMissileContainer(String name, Material material)
     {
         super(name, material);
         this.addInventoryModule(1);
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIcon()
-    {
-        //Use clay texture for breaking animation
-        return Blocks.hardened_clay.getIcon(0, 0);
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister)
-    {
-        //We have no icons to register
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbt)
-    {
-        super.readFromNBT(nbt);
-        if (nbt.hasKey("missileItem"))
-        {
-            setMissile(MissileModuleBuilder.INSTANCE.buildMissile(ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("missileItem"))));
-        }
-        else
-        {
-            setMissile(null);
-        }
-    }
-
-    @Override
-    public void writeToNBT(NBTTagCompound nbt)
-    {
-        super.writeToNBT(nbt);
-        if (getMissile() != null)
-        {
-            nbt.setTag("missileItem", getMissile().toStack().writeToNBT(new NBTTagCompound()));
-        }
     }
 
     @Override
@@ -91,34 +47,54 @@ public class TileMissileContainer extends TileModuleMachine implements IPacketRe
     @Override
     public boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
     {
-        if (isServer())
+        if (!player.isSneaking())
         {
-            ItemStack stack = player.getHeldItem();
-            if (getMissile() != null)
+            ItemStack heldItem = player.getHeldItem();
+
+            if (heldItem == null)
             {
-                if (stack == null)
+                if (getMissile() != null)
                 {
-                    player.addChatComponentMessage(new ChatComponentText("Removed Missile"));
-                    player.inventory.mainInventory[player.inventory.currentItem] = getMissile().toStack();
-                    setMissile(null);
-                    player.inventoryContainer.detectAndSendChanges();
-                    sendDescPacket();
+                    if (isServer())
+                    {
+                        //TODO add translation
+                        player.addChatComponentMessage(new ChatComponentText("*Removed Missile*"));
+                        player.inventory.mainInventory[player.inventory.currentItem] = getMissile().toStack();
+                        setInventorySlotContents(0, null);
+                        player.inventoryContainer.detectAndSendChanges();
+                        sendDescPacket();
+                    }
                     return true;
                 }
             }
-            else if (stack.getItem() instanceof ItemMissile)
+            else if (heldItem.getItem() instanceof ItemMissile)
             {
-                player.addChatComponentMessage(new ChatComponentText("Added Missile"));
-                setMissile(MissileModuleBuilder.INSTANCE.buildMissile(stack));
-                if (!player.capabilities.isCreativeMode)
+                if (isServer())
                 {
-                    stack.stackSize--;
-                    if (stack.stackSize <= 0)
+                    Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(heldItem);
+                    if (canAcceptMissile(missile))
                     {
-                        player.inventory.mainInventory[player.inventory.currentItem] = null;
+                        //TODO add translation
+                        player.addChatComponentMessage(new ChatComponentText("*Added Missile*"));
+                        ItemStack stack = heldItem.copy();
+                        stack.stackSize = 1;
+                        setInventorySlotContents(0, stack);
+                        if (!player.capabilities.isCreativeMode)
+                        {
+                            heldItem.stackSize--;
+                            if (heldItem.stackSize <= 0)
+                            {
+                                player.inventory.mainInventory[player.inventory.currentItem] = null;
+                            }
+                            player.inventoryContainer.detectAndSendChanges();
+                        }
+                        sendDescPacket();
                     }
-                    player.inventoryContainer.detectAndSendChanges();
-                    sendDescPacket();
+                    else
+                    {
+                        //TODO add translation
+                        player.addChatComponentMessage(new ChatComponentText("*Missile will not fit*"));
+                    }
                 }
                 return true;
             }
@@ -126,13 +102,19 @@ public class TileMissileContainer extends TileModuleMachine implements IPacketRe
         return false;
     }
 
-    public void setMissile(Missile missile)
+    public boolean canAcceptMissile(Missile missile)
     {
-        this.missile = missile;
+        return missile != null;
     }
 
     public Missile getMissile()
     {
-        return missile;
+        return getStackInSlot(0) != null ? MissileModuleBuilder.INSTANCE.buildMissile(getStackInSlot(0)) : null;
+    }
+
+    @Override
+    public int getInventoryStackLimit()
+    {
+        return 1;
     }
 }

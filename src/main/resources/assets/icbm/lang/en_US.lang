@@ -20,6 +20,10 @@ item.icbm:missile.medium.empty.name=Large Missile Casing
 item.icbm:missile.large.name=ICBM
 item.icbm:missile.large.empty.name=ICBM Casing
 
+## Tiles
+tile.icbm:TileMissile.0.name=Wooden Rocket Display
+tile.icbm:TileMissile.1.name=Wooden Small Missile Display
+
 ## Explosives
 explosive.icbm:tnt.name=TNT
 explosive.icbm:snowmen.name=Let it Snow!
