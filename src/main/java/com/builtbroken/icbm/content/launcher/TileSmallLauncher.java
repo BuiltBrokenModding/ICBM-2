@@ -1,12 +1,13 @@
 package com.builtbroken.icbm.content.launcher;
 
+import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.ILauncher;
-import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileSmall;
 import com.builtbroken.icbm.content.display.TileMissileContainer;
 import com.builtbroken.icbm.content.missile.EntityMissile;
+import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.lib.render.RenderUtility;
 import com.builtbroken.mc.lib.transform.region.Cuboid;
 import com.builtbroken.mc.lib.transform.vector.Pos;
@@ -19,24 +20,32 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.IItemRenderer;
+import net.minecraftforge.client.model.AdvancedModelLoader;
+import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 
-/**
+/** Mainly a test launcher for devs this tile also can be used by players as a small portable launcher
  * Created by robert on 1/18/2015.
  */
-public class TileTestLauncher extends TileMissileContainer implements ILauncher
+public class TileSmallLauncher extends TileMissileContainer implements ILauncher, ISimpleItemRenderer
 {
     public Pos target = null;
 
-    public TileTestLauncher()
+    @SideOnly(Side.CLIENT)
+    private static IModelCustom launcher_model;
+
+    public TileSmallLauncher()
     {
-        super("TestLauncher", Material.anvil);
+        super("smallLauncher", Material.anvil);
         this.addInventoryModule(1);
-        this.bounds = new Cuboid(0, 0, 0, 1, .1, 1);
+        this.bounds = new Cuboid(0, 0, 0, 1, .5, 1);
         this.isOpaque = false;
-        this.renderNormalBlock = true;
+        this.renderNormalBlock = false;
         this.renderTileEntity = true;
     }
 
@@ -116,7 +125,7 @@ public class TileTestLauncher extends TileMissileContainer implements ILauncher
     @Override
     public Tile newTile()
     {
-        return new TileTestLauncher();
+        return new TileSmallLauncher();
     }
 
     @SideOnly(Side.CLIENT)
@@ -133,19 +142,45 @@ public class TileTestLauncher extends TileMissileContainer implements ILauncher
     }
 
     @Override
+    public void renderInventoryItem(IItemRenderer.ItemRenderType type, ItemStack itemStack, Object... data)
+    {
+        //Import model if missing
+        if(launcher_model == null)
+        {
+            launcher_model = AdvancedModelLoader.loadModel(new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_PREFIX + "small_launcher.tcn"));
+        }
+
+        GL11.glTranslatef(-0.5f, -0.5f, -0.5f);
+        GL11.glScaled(.8f, .8f, .8f);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(MissileSmall.TEXTURE);
+        launcher_model.renderAllExcept("rail");
+    }
+
+    @Override
     @SideOnly(Side.CLIENT)
     public void renderDynamic(Pos pos, float frame, int pass)
     {
+        //Import model if missing
+        if(launcher_model == null)
+        {
+            launcher_model = AdvancedModelLoader.loadModel(new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_PREFIX + "small_launcher.tcn"));
+        }
+
+        //Render launcher
+        GL11.glPushMatrix();
+        GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.5f, pos.zf() + 0.5f);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(MissileSmall.TEXTURE);
+        launcher_model.renderAll();
+        GL11.glPopMatrix();
+
+        //Render missile
         if(getMissile() != null)
         {
-            //TODO abstract to render any missile
             GL11.glPushMatrix();
-            RenderUtility.disableLighting();
-            GL11.glTranslatef(pos.xf() + 0.5f, pos.yf(), pos.zf() + 0.5f);
+            GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.5f, pos.zf() + 0.5f);
             GL11.glScaled(.0015625f, .0015625f, .0015625f);
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(MissileSmall.TEXTURE);
             MissileSmall.MODEL.renderAll();
-            RenderUtility.enableLighting();
             GL11.glPopMatrix();
         }
     }

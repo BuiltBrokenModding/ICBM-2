@@ -8,7 +8,7 @@ import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.icbm.content.display.TileMissile;
 import com.builtbroken.icbm.content.display.TileMissileDisplay;
 import com.builtbroken.icbm.content.launcher.TileRotationTest;
-import com.builtbroken.icbm.content.launcher.TileTestLauncher;
+import com.builtbroken.icbm.content.launcher.TileSmallLauncher;
 import com.builtbroken.icbm.content.missile.MissileTracker;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
@@ -31,7 +31,6 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.*;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import com.builtbroken.icbm.content.BlockExplosiveMarker;
@@ -110,6 +109,7 @@ public final class ICBM extends AbstractMod
     public static Block blockExplosiveMarker;
     public static Block blockMissileDisplay;
     public static Block blockMissile;
+    public static Block blockSmallLauncher;
 
     // Items
     public static Item itemMissile;
@@ -151,10 +151,10 @@ public final class ICBM extends AbstractMod
         blockExplosive = manager.newBlock(TileWarhead.class);
         blockMissileDisplay = manager.newBlock(TileMissileDisplay.class);
         blockMissile = manager.newBlock(TileMissile.class);
+        blockSmallLauncher = manager.newBlock(TileSmallLauncher.class);
         if (Engine.runningAsDev)
         {
             blockExplosiveMarker = manager.newBlock(BlockExplosiveMarker.class, ItemBlockMetadata.class);
-            manager.newBlock(TileTestLauncher.class);
             manager.newBlock(TileRotationTest.class);
         }
 
