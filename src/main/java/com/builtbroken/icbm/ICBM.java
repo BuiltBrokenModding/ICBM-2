@@ -9,6 +9,7 @@ import com.builtbroken.icbm.content.display.TileMissile;
 import com.builtbroken.icbm.content.display.TileMissileDisplay;
 import com.builtbroken.icbm.content.launcher.TileRotationTest;
 import com.builtbroken.icbm.content.launcher.TileTestLauncher;
+import com.builtbroken.icbm.content.missile.MissileTracker;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.core.Engine;
@@ -27,10 +28,9 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.Metadata;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.event.*;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -39,6 +39,7 @@ import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.ItemMissile;
 import com.builtbroken.icbm.content.rocketlauncher.ItemRocketLauncher;
 import com.builtbroken.mc.prefab.explosive.blast.BlastBasic;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
@@ -142,11 +143,9 @@ public final class ICBM extends AbstractMod
     public void preInit(FMLPreInitializationEvent event)
     {
         super.preInit(event);
-
-        NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
-
-        MinecraftForge.EVENT_BUS.register(INSTANCE);
+        MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(proxy);
+        FMLCommonHandler.instance().bus().register(this);
 
         // Blocks
         blockExplosive = manager.newBlock(TileWarhead.class);
@@ -221,4 +220,16 @@ public final class ICBM extends AbstractMod
 
     }
 
+    @SubscribeEvent
+    public void onWorldTickEnd(TickEvent.WorldTickEvent evt)
+    {
+        if(evt.side == Side.SERVER && evt.phase == TickEvent.Phase.END)
+        {
+            MissileTracker tracker = MissileTracker.getTrackerForWorld(evt.world);
+            if(tracker != null)
+            {
+                tracker.update(evt.world);
+            }
+        }
+    }
 }

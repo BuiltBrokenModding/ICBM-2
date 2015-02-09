@@ -31,7 +31,6 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
 
     //Used for guided version
     public IPos3D target_pos;
-    public FlightData flight_data;
 
     public EntityMissile(World w)
     {
@@ -51,8 +50,6 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     public void setTarget(IPos3D target, boolean ark)
     {
         this.target_pos = target;
-        if (ark)
-            this.flight_data = new FlightDataArk(this);
     }
 
     @Override
@@ -108,6 +105,13 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     protected void updateMotion()
     {
         super.updateMotion();
+        if(target_pos != null)
+        {
+            if(this.posY >= 1000)
+            {
+                MissileTracker.addToTracker(this);
+            }
+        }
         if (this.ticksInAir > 0)
             this.spawnMissileSmoke();
     }
