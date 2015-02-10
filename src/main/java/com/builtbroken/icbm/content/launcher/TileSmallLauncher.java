@@ -22,6 +22,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
@@ -154,6 +155,12 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
         GL11.glScaled(.8f, .8f, .8f);
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(MissileSmall.TEXTURE);
         launcher_model.renderAllExcept("rail");
+    }
+
+    @SideOnly(Side.CLIENT)
+    public AxisAlignedBB getRenderBoundingBox()
+    {
+        return new Cuboid(0, 0, 0, 1, 2, 1).add(x(), y(), z()).toAABB();
     }
 
     @Override
