@@ -178,7 +178,6 @@ public final class ICBM extends AbstractMod
         super.init(event);
         //Explosives
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Snowmen", new ExplosiveHandler("snowmen", BlastSnowman.class, 1));
-        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "TNT", new ExplosiveHandler("tnt", BlastBasic.class, 1));
 
         //Entities
         EntityRegistry.registerGlobalEntityID(EntityMissile.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());
