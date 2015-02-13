@@ -12,12 +12,17 @@ import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.IExplosiveItem;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -189,4 +194,17 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
         }
         return null;
     }
+
+    @SideOnly(Side.CLIENT) @Override
+    public IIcon getIcon(ItemStack stack, int pass)
+    {
+        return Items.stone_shovel.getIcon(stack, pass);
+    }
+
+    @SideOnly(Side.CLIENT) @Override
+    public void registerIcons(IIconRegister p_94581_1_)
+    {
+        //No icon to register
+    }
+
 }
