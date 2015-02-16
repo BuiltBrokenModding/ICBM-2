@@ -5,7 +5,7 @@ import com.builtbroken.icbm.content.crafting.missile.casing.MissileSmall;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.render.RenderUtility;
-import com.builtbroken.mc.lib.transform.region.Cuboid;
+import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.item.ItemBlockMetadata;
@@ -36,7 +36,7 @@ public class TileMissile extends Tile implements IPostInit, ISimpleItemRenderer
     {
         super("TileMissile", Material.anvil);
         this.itemBlock = ItemBlockMetadata.class;
-        this.bounds = new Cuboid(0, 0, 0, 1, .1, 1);
+        this.bounds = new Cube(0, 0, 0, 1, .1, 1);
         this.isOpaque = false;
         this.renderNormalBlock = true;
         this.renderTileEntity = true;

@@ -14,7 +14,7 @@ import com.builtbroken.mc.api.tile.IRemovable;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.lib.helper.WrenchUtility;
-import com.builtbroken.mc.lib.transform.region.Cuboid;
+import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.WorldChangeHelper;
@@ -65,7 +65,7 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         this.renderTileEntity = true;
         this.isOpaque = false;
         this.itemBlock = ItemBlockWarhead.class;
-        this.bounds = new Cuboid(0.2, 0, 0.2, 0.8, 0.5, 0.8);
+        this.bounds = new Cube(0.2, 0, 0.2, 0.8, 0.5, 0.8);
     }
 
     @Override

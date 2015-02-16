@@ -8,7 +8,7 @@ import com.builtbroken.mc.core.network.IPacketReceiver;
 import com.builtbroken.mc.core.network.packet.AbstractPacket;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.lib.render.RenderItemOverlayUtility;
-import com.builtbroken.mc.lib.transform.region.Cuboid;
+import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.common.network.ByteBufUtils;
@@ -40,7 +40,7 @@ public class TileMissileDisplay extends TileMissileContainer
         super("missileDisplay", Material.circuits);
         this.renderTileEntity = true;
         this.isOpaque = true;
-        this.bounds = new Cuboid(0, 0, 0, 1, .4, 1);
+        this.bounds = new Cube(0, 0, 0, 1, .4, 1);
     }
 
     @Override

@@ -9,7 +9,7 @@ import com.builtbroken.icbm.content.display.TileMissileContainer;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.lib.render.RenderUtility;
-import com.builtbroken.mc.lib.transform.region.Cuboid;
+import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.client.FMLClientHandler;
@@ -44,7 +44,7 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
     {
         super("smallLauncher", Material.anvil);
         this.addInventoryModule(1);
-        this.bounds = new Cuboid(0, 0, 0, 1, .5, 1);
+        this.bounds = new Cube(0, 0, 0, 1, .5, 1);
         this.isOpaque = false;
         this.renderNormalBlock = false;
         this.renderTileEntity = true;
@@ -160,7 +160,7 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
     @SideOnly(Side.CLIENT)
     public AxisAlignedBB getRenderBoundingBox()
     {
-        return new Cuboid(0, 0, 0, 1, 2, 1).add(x(), y(), z()).toAABB();
+        return new Cube(0, 0, 0, 1, 2, 1).add(x(), y(), z()).toAABB();
     }
 
     @Override
