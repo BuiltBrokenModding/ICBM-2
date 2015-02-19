@@ -94,6 +94,7 @@ curse {
     // my project url is http://minecraft.curseforge.com/mc-mods/225502-icbm
     changelog = ""
     releaseType = "alpha"
+    relatedProject 'voltz-engine': 'requiredLibrary'
 
     // the default obfuscated jar is uploaded by default
     // artifact = project.file("some/jar/to/upload.jar")
