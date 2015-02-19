@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.crafting.missile.warhead;
 
 import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.mc.api.event.TriggerCause;
-import com.builtbroken.mc.api.explosive.IExplosive;
+import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.lib.world.edit.WorldChangeHelper;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
@@ -16,7 +16,7 @@ import net.minecraft.world.World;
  */
 public abstract class Warhead extends AbstractModule
 {
-    public IExplosive ex;
+    public IExplosiveHandler ex;
     public int size = 1;
     public NBTTagCompound tag = new NBTTagCompound();
     public ItemStack explosive;

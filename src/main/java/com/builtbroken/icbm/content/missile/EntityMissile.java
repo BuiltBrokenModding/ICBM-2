@@ -10,7 +10,7 @@ import com.builtbroken.icbm.content.missile.data.FlightDataArk;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosive;
-import com.builtbroken.mc.api.explosive.IExplosiveContainer;
+import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.entity.EntityProjectile;
 import cpw.mods.fml.common.network.ByteBufUtils;
@@ -25,13 +25,12 @@ import net.minecraft.world.World;
 /**
  * Basic missile like projectile that explodes on impact
  */
-public class EntityMissile extends EntityProjectile implements IExplosiveContainer, IMissile, IEntityAdditionalSpawnData
+public class EntityMissile extends EntityProjectile implements IExplosive, IMissile, IEntityAdditionalSpawnData
 {
     private Missile missile;
 
     //Used for guided version
     public IPos3D target_pos;
-    public FlightData flight_data;
 
     public EntityMissile(World w)
     {
@@ -51,8 +50,6 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     public void setTarget(IPos3D target, boolean ark)
     {
         this.target_pos = target;
-        if (ark)
-            this.flight_data = new FlightDataArk(this);
     }
 
     @Override
@@ -108,6 +105,13 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     protected void updateMotion()
     {
         super.updateMotion();
+        if(target_pos != null)
+        {
+            if(this.posY >= 1000)
+            {
+                MissileTracker.addToTracker(this);
+            }
+        }
         if (this.ticksInAir > 0)
             this.spawnMissileSmoke();
     }
@@ -144,7 +148,7 @@ public class EntityMissile extends EntityProjectile implements IExplosiveContain
     }
 
     @Override
-    public IExplosive getExplosive()
+    public IExplosiveHandler getExplosive()
     {
         return getMissile() != null && getMissile().getWarhead() != null ? getMissile().getWarhead().ex : null;
     }

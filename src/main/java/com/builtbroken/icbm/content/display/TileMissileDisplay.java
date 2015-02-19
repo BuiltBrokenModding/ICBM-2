@@ -8,7 +8,7 @@ import com.builtbroken.mc.core.network.IPacketReceiver;
 import com.builtbroken.mc.core.network.packet.AbstractPacket;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.lib.render.RenderItemOverlayUtility;
-import com.builtbroken.mc.lib.transform.region.Cuboid;
+import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.common.network.ByteBufUtils;
@@ -16,11 +16,14 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 
 /**
@@ -37,7 +40,22 @@ public class TileMissileDisplay extends TileMissileContainer
         super("missileDisplay", Material.circuits);
         this.renderTileEntity = true;
         this.isOpaque = true;
-        this.bounds = new Cuboid(0, 0, 0, 1, .4, 1);
+        this.bounds = new Cube(0, 0, 0, 1, .4, 1);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IIcon getIcon()
+    {
+        //Use clay texture for breaking animation
+        return Blocks.hardened_clay.getIcon(0, 0);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister iconRegister)
+    {
+        //We have no icons to register
     }
 
     @Override

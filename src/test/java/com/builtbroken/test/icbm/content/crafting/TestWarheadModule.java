@@ -1,13 +1,13 @@
 package com.builtbroken.test.icbm.content.crafting;
 
+import com.builtbroken.mc.api.explosive.IExplosiveHandler;
+import com.builtbroken.mc.prefab.explosive.ExplosiveHandler;
 import com.builtbroken.mc.prefab.explosive.blast.BlastBasic;
 import com.builtbroken.icbm.content.crafting.ModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadMicro;
-import com.builtbroken.mc.api.explosive.IExplosive;
-import com.builtbroken.mc.prefab.explosive.Explosive;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import junit.framework.TestCase;
@@ -20,7 +20,7 @@ import net.minecraft.item.ItemStack;
 public class TestWarheadModule extends TestCase
 {
     private static boolean init = false;
-    private static IExplosive ex = null;
+    private static IExplosiveHandler ex = null;
 
     //Test to see if the warhead creates itself correctly
     public void testCreation()
@@ -39,7 +39,7 @@ public class TestWarheadModule extends TestCase
         if(!init)
         {
             WarheadCasings.register();
-            ex = new Explosive(BlastBasic.class);
+            ex = new ExplosiveHandler(BlastBasic.class);
             ExplosiveRegistry.LOG_REGISTERING_EXPLOSIVES = false;
             ex = ExplosiveRegistry.registerOrGetExplosive("junit", "test", ex);
             init = true;

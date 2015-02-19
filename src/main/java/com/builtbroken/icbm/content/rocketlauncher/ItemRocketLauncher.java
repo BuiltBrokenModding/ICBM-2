@@ -7,11 +7,16 @@ import com.builtbroken.icbm.api.IWeapon;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 import java.util.HashMap;
@@ -127,5 +132,17 @@ public class ItemRocketLauncher extends Item implements IWeapon
     public boolean canContainAmmo(ItemStack weapon)
     {
         return false;
+    }
+
+    @SideOnly(Side.CLIENT) @Override
+    public IIcon getIcon(ItemStack stack, int pass)
+    {
+        return Items.stone_shovel.getIcon(stack, pass);
+    }
+
+    @SideOnly(Side.CLIENT) @Override
+    public void registerIcons(IIconRegister p_94581_1_)
+    {
+        //No icon to register
     }
 }
