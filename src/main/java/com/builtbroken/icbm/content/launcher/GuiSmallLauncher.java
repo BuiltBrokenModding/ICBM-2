@@ -1,10 +1,15 @@
 package com.builtbroken.icbm.content.launcher;
 
+import com.builtbroken.jlib.data.Colors;
+import com.builtbroken.mc.core.References;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
+import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
 import com.builtbroken.mc.prefab.gui.GuiContainerBase;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -17,33 +22,66 @@ public class GuiSmallLauncher extends GuiContainerBase
     protected GuiTextField x_field;
     protected GuiTextField y_field;
     protected GuiTextField z_field;
+    protected String errorString = "";
 
     public GuiSmallLauncher(TileSmallLauncher launcher, EntityPlayer player)
     {
         super(new ContainerDummy(player, launcher));
         this.launcher = launcher;
-        int x = 150;
-        this.x_field = new GuiTextField(this.fontRendererObj, x + 35, 50, 30, 20);
+        this.baseTexture = References.GUI__MC_EMPTY_FILE;
+    }
+
+    @Override
+    public void initGui()
+    {
+        super.initGui();
+        Keyboard.enableRepeatEvents(true);
+        int x = guiLeft + 10;
+        int y = guiTop + 40;
+        this.x_field = new GuiTextField(this.fontRendererObj, x, y, 30, 20);
+        this.x_field.setText("" + launcher.target.xi());
         this.x_field.setMaxStringLength(15);
-        this.x_field.setEnableBackgroundDrawing(false);
         this.x_field.setTextColor(16777215);
 
-        this.y_field = new GuiTextField(this.fontRendererObj, x + 75, 50, 30, 20);
+        this.y_field = new GuiTextField(this.fontRendererObj, x + 35, y, 30, 20);
+        this.y_field.setText("" + launcher.target.yi());
         this.y_field.setMaxStringLength(15);
-        this.y_field.setEnableBackgroundDrawing(false);
         this.y_field.setTextColor(16777215);
 
-        this.z_field = new GuiTextField(this.fontRendererObj, x + 115, 50, 30, 20);
+        this.z_field = new GuiTextField(this.fontRendererObj, x + 75, y, 30, 20);
+        this.z_field.setText("" + launcher.target.zi());
         this.z_field.setMaxStringLength(15);
-        this.z_field.setEnableBackgroundDrawing(false);
         this.z_field.setTextColor(16777215);
+
+        this.buttonList.add(new GuiButton(0, x + 115, y, 40, 20, "Update"));
+    }
+
+    @Override
+    protected void actionPerformed(GuiButton button)
+    {
+        super.actionPerformed(button);
+
+        //Update button
+        if(button.id == 0)
+        {
+            try
+            {
+                launcher.setTarget(new Pos(Integer.parseInt(x_field.getText()), Integer.parseInt(y_field.getText()),Integer.parseInt(z_field.getText())));
+            }
+            catch(NumberFormatException e)
+            {
+                //Ignore as this is expected
+                errorString = "Invalid target data";
+            }
+        }
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-        drawStringCentered(LanguageUtility.getLocalName(launcher.getInventoryName()), 100, 50);
+        drawStringCentered(LanguageUtility.getLocalName(launcher.getInventoryName()), 85, 10);
+        drawStringCentered(errorString, 85, 80, Colors.RED.color);
     }
 
     @Override
@@ -58,12 +96,12 @@ public class GuiSmallLauncher extends GuiContainerBase
     }
 
     @Override
-    protected void keyTyped(char p_73869_1_, int p_73869_2_)
+    protected void keyTyped(char c, int id)
     {
-        this.x_field.textboxKeyTyped(p_73869_1_, p_73869_2_);
-        this.y_field.textboxKeyTyped(p_73869_1_, p_73869_2_);
-        this.z_field.textboxKeyTyped(p_73869_1_, p_73869_2_);
-        super.keyTyped(p_73869_1_, p_73869_2_);
+        this.x_field.textboxKeyTyped(c, id);
+        this.y_field.textboxKeyTyped(c, id);
+        this.z_field.textboxKeyTyped(c, id);
+        super.keyTyped(c, id);
     }
 
     @Override

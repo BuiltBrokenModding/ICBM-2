@@ -26,6 +26,8 @@ tile.icbm:TileMissile.1.name=Wooden Small Missile Display
 
 tile.icbm:smallLauncher.name=Portable Missile Launcher
 tile.icbm:smallLauncher.container.name=Launcher Guidance Screen
+tile.icbm:smallLauncher.container.invalidtarget=Invalid Target Location
+tile.icbm:smallLauncher.container.invaliddistance=Target distance needs to be between 20 and 200
 
 ## Explosives
 explosive.icbm:tnt.name=TNT

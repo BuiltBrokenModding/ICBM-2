@@ -7,9 +7,14 @@ import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileSmall;
 import com.builtbroken.icbm.content.display.TileMissileContainer;
 import com.builtbroken.icbm.content.missile.EntityMissile;
+import com.builtbroken.mc.api.ISave;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.api.tile.IGuiTile;
-import com.builtbroken.mc.lib.render.RenderUtility;
+import com.builtbroken.mc.api.tile.node.ITileModule;
+import com.builtbroken.mc.core.network.IPacketIDReceiver;
+import com.builtbroken.mc.core.network.packet.PacketTile;
+import com.builtbroken.mc.core.network.packet.PacketType;
+import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
@@ -17,14 +22,16 @@ import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
@@ -32,12 +39,13 @@ import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 
-/** Mainly a test launcher for devs this tile also can be used by players as a small portable launcher
+/**
+ * Mainly a test launcher for devs this tile also can be used by players as a small portable launcher
  * Created by robert on 1/18/2015.
  */
-public class TileSmallLauncher extends TileMissileContainer implements ILauncher, ISimpleItemRenderer, IGuiTile
+public class TileSmallLauncher extends TileMissileContainer implements ILauncher, ISimpleItemRenderer, IGuiTile, IPacketIDReceiver
 {
-    public Pos target = null;
+    protected Pos target = new Pos(0, -1, 0);
 
     @SideOnly(Side.CLIENT)
     private static IModelCustom launcher_model;
@@ -52,15 +60,40 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
         this.renderTileEntity = true;
     }
 
+    public void setTarget(Pos target)
+    {
+        this.target = target;
+        if (isClient())
+        {
+            sendPacket(new PacketTile(this, 1, target));
+        }
+    }
+
     @Override
     public boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
     {
         if (player.getHeldItem() != null && player.getHeldItem().getItem() == Items.flint_and_steel)
         {
-            fireMissile();
+            if (target != null && target.y() > -1)
+            {
+                double distance = target.distance(new Pos(this));
+                if (distance <= 200 && distance >= 20)
+                {
+                    fireMissile();
+                    //TODO add launch logging to console
+                }
+                else
+                {
+                    player.addChatComponentMessage(new ChatComponentText(LanguageUtility.getLocalName(getInventoryName() + ".invaliddistance")));
+                }
+            }
+            else
+            {
+                player.addChatComponentMessage(new ChatComponentText(LanguageUtility.getLocalName(getInventoryName() + ".invalidtarget")));
+            }
             return true;
         }
-        else if(player.getHeldItem() == null)
+        else if (player.getHeldItem() == null)
         {
             openGui(player, ICBM.INSTANCE);
             return true;
@@ -83,38 +116,45 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
 
     public void fireMissile()
     {
-        Missile missile = getMissile();
-        if(missile != null)
+        if (target != null && target.y() > -1)
         {
-            if (isServer())
+            double distance = target.distance(new Pos(this));
+            if (distance <= 200 && distance >= 20)
             {
-                //Create and setup missile
-                EntityMissile entity = new EntityMissile(world());
-                entity.setMissile(missile);
-                entity.setPositionAndRotation(x() + 0.5, y() + 3, z() + 0.5, 0, 0);
-                entity.setVelocity(0, 2, 0);
-
-                //Set target data
-                entity.setTarget(new Pos((TileEntity) this).add(Pos.north.multiply(50)), true);
-                entity.sourceOfProjectile = new Pos(this);
-
-                //Spawn and start moving
-                world().spawnEntityInWorld(entity);
-                entity.setIntoMotion();
-
-                //Empty inventory slot
-                this.setInventorySlotContents(0, null);
-                sendDescPacket();
-            }
-            else
-            {
-                //TODO add some effects
-                for (int l = 0; l < 20; ++l)
+                Missile missile = getMissile();
+                if (missile != null)
                 {
-                    double f = x() + 0.5 + 0.3 * (world().rand.nextFloat() - world().rand.nextFloat());
-                    double f1 = y() + 0.1 + 0.5 * (world().rand.nextFloat() - world().rand.nextFloat());
-                    double f2 = z() + 0.5 + 0.3 * (world().rand.nextFloat() - world().rand.nextFloat());
-                    world().spawnParticle("largesmoke", f, f1, f2, 0.0D, 0.0D, 0.0D);
+                    if (isServer())
+                    {
+                        //Create and setup missile
+                        EntityMissile entity = new EntityMissile(world());
+                        entity.setMissile(missile);
+                        entity.setPositionAndRotation(x() + 0.5, y() + 3, z() + 0.5, 0, 0);
+                        entity.setVelocity(0, 2, 0);
+
+                        //Set target data
+                        entity.setTarget(target, true);
+                        entity.sourceOfProjectile = new Pos(this);
+
+                        //Spawn and start moving
+                        world().spawnEntityInWorld(entity);
+                        entity.setIntoMotion();
+
+                        //Empty inventory slot
+                        this.setInventorySlotContents(0, null);
+                        sendDescPacket();
+                    }
+                    else
+                    {
+                        //TODO add some effects
+                        for (int l = 0; l < 20; ++l)
+                        {
+                            double f = x() + 0.5 + 0.3 * (world().rand.nextFloat() - world().rand.nextFloat());
+                            double f1 = y() + 0.1 + 0.5 * (world().rand.nextFloat() - world().rand.nextFloat());
+                            double f2 = z() + 0.5 + 0.3 * (world().rand.nextFloat() - world().rand.nextFloat());
+                            world().spawnParticle("largesmoke", f, f1, f2, 0.0D, 0.0D, 0.0D);
+                        }
+                    }
                 }
             }
         }
@@ -148,14 +188,14 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
     @Override
     public String getInventoryName()
     {
-        return name + ".container";
+        return "tile.icbm:smallLauncher.container";
     }
 
     @Override
     public void renderInventoryItem(IItemRenderer.ItemRenderType type, ItemStack itemStack, Object... data)
     {
         //Import model if missing
-        if(launcher_model == null)
+        if (launcher_model == null)
         {
             launcher_model = AdvancedModelLoader.loadModel(new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_PREFIX + "small_launcher.tcn"));
         }
@@ -177,7 +217,7 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
     public void renderDynamic(Pos pos, float frame, int pass)
     {
         //Import model if missing
-        if(launcher_model == null)
+        if (launcher_model == null)
         {
             launcher_model = AdvancedModelLoader.loadModel(new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_PREFIX + "small_launcher.tcn"));
         }
@@ -190,7 +230,7 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
         GL11.glPopMatrix();
 
         //Render missile
-        if(getMissile() != null)
+        if (getMissile() != null)
         {
             GL11.glPushMatrix();
             GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.5f, pos.zf() + 0.5f);
@@ -201,15 +241,49 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
         }
     }
 
-    @Override @SideOnly(Side.CLIENT)
+    @Override
+    @SideOnly(Side.CLIENT)
     public Object getServerGuiElement(int ID, EntityPlayer player)
     {
         return new ContainerDummy(player, this);
     }
 
-    @Override @SideOnly(Side.CLIENT)
+    @Override
+    @SideOnly(Side.CLIENT)
     public Object getClientGuiElement(int ID, EntityPlayer player)
     {
         return new GuiSmallLauncher(this, player);
+    }
+
+    @Override
+    public boolean read(ByteBuf buf, int id, EntityPlayer player, PacketType type)
+    {
+        if (isServer())
+        {
+            if (id == 1)
+            {
+                this.target = new Pos(buf);
+                return true;
+            }
+        }
+        else
+        {
+
+        }
+        return false;
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound nbt)
+    {
+        super.readFromNBT(nbt);
+        this.target = new Pos(nbt);
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound nbt)
+    {
+        super.writeToNBT(nbt);
+        this.target.writeNBT(nbt);
     }
 }
