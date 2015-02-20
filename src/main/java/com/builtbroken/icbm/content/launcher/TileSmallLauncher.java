@@ -8,9 +8,11 @@ import com.builtbroken.icbm.content.crafting.missile.casing.MissileSmall;
 import com.builtbroken.icbm.content.display.TileMissileContainer;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
+import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.lib.render.RenderUtility;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.prefab.gui.ContainerDummy;
 import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -33,7 +35,7 @@ import org.lwjgl.opengl.GL11;
 /** Mainly a test launcher for devs this tile also can be used by players as a small portable launcher
  * Created by robert on 1/18/2015.
  */
-public class TileSmallLauncher extends TileMissileContainer implements ILauncher, ISimpleItemRenderer
+public class TileSmallLauncher extends TileMissileContainer implements ILauncher, ISimpleItemRenderer, IGuiTile
 {
     public Pos target = null;
 
@@ -58,9 +60,10 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
             fireMissile();
             return true;
         }
-        else
+        else if(player.getHeldItem() == null)
         {
-            //TODO open GUI to set target
+            openGui(player, ICBM.INSTANCE);
+            return true;
         }
         return super.onPlayerRightClick(player, side, hit);
     }
@@ -143,6 +146,12 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
     }
 
     @Override
+    public String getInventoryName()
+    {
+        return name + ".container";
+    }
+
+    @Override
     public void renderInventoryItem(IItemRenderer.ItemRenderType type, ItemStack itemStack, Object... data)
     {
         //Import model if missing
@@ -190,5 +199,17 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
             MissileSmall.MODEL.renderAll();
             GL11.glPopMatrix();
         }
+    }
+
+    @Override @SideOnly(Side.CLIENT)
+    public Object getServerGuiElement(int ID, EntityPlayer player)
+    {
+        return new ContainerDummy(player, this);
+    }
+
+    @Override @SideOnly(Side.CLIENT)
+    public Object getClientGuiElement(int ID, EntityPlayer player)
+    {
+        return new GuiSmallLauncher(this, player);
     }
 }
