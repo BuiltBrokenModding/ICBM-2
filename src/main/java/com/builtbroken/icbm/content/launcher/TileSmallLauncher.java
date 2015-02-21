@@ -9,6 +9,7 @@ import com.builtbroken.icbm.content.display.TileMissileContainer;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.api.tile.IGuiTile;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
@@ -63,9 +64,9 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
     public void setTarget(Pos target)
     {
         this.target = target;
-        if (isClient() && world() != null)
+        if (isClient())
         {
-            sendPacket(new PacketTile(this, 1, target));
+            Engine.instance.packetHandler.sendToServer(new PacketTile(this, 1, target));
         }
     }
 
@@ -119,45 +120,38 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
 
     public void fireMissile()
     {
-        if (target != null && target.y() > -1)
+        Missile missile = getMissile();
+        if (missile != null)
         {
-            double distance = target.distance(new Pos(this));
-            if (distance <= 200 && distance >= 20)
+            if (isServer())
             {
-                Missile missile = getMissile();
-                if (missile != null)
+                //Create and setup missile
+                EntityMissile entity = new EntityMissile(world());
+                entity.setMissile(missile);
+                entity.setPositionAndRotation(x() + 0.5, y() + 3, z() + 0.5, 0, 0);
+                entity.setVelocity(0, 2, 0);
+
+                //Set target data
+                entity.setTarget(target, true);
+                entity.sourceOfProjectile = new Pos(this);
+
+                //Spawn and start moving
+                world().spawnEntityInWorld(entity);
+                entity.setIntoMotion();
+
+                //Empty inventory slot
+                this.setInventorySlotContents(0, null);
+                sendDescPacket();
+            }
+            else
+            {
+                //TODO add some effects
+                for (int l = 0; l < 20; ++l)
                 {
-                    if (isServer())
-                    {
-                        //Create and setup missile
-                        EntityMissile entity = new EntityMissile(world());
-                        entity.setMissile(missile);
-                        entity.setPositionAndRotation(x() + 0.5, y() + 3, z() + 0.5, 0, 0);
-                        entity.setVelocity(0, 2, 0);
-
-                        //Set target data
-                        entity.setTarget(target, true);
-                        entity.sourceOfProjectile = new Pos(this);
-
-                        //Spawn and start moving
-                        world().spawnEntityInWorld(entity);
-                        entity.setIntoMotion();
-
-                        //Empty inventory slot
-                        this.setInventorySlotContents(0, null);
-                        sendDescPacket();
-                    }
-                    else
-                    {
-                        //TODO add some effects
-                        for (int l = 0; l < 20; ++l)
-                        {
-                            double f = x() + 0.5 + 0.3 * (world().rand.nextFloat() - world().rand.nextFloat());
-                            double f1 = y() + 0.1 + 0.5 * (world().rand.nextFloat() - world().rand.nextFloat());
-                            double f2 = z() + 0.5 + 0.3 * (world().rand.nextFloat() - world().rand.nextFloat());
-                            world().spawnParticle("largesmoke", f, f1, f2, 0.0D, 0.0D, 0.0D);
-                        }
-                    }
+                    double f = x() + 0.5 + 0.3 * (world().rand.nextFloat() - world().rand.nextFloat());
+                    double f1 = y() + 0.1 + 0.5 * (world().rand.nextFloat() - world().rand.nextFloat());
+                    double f2 = z() + 0.5 + 0.3 * (world().rand.nextFloat() - world().rand.nextFloat());
+                    world().spawnParticle("largesmoke", f, f1, f2, 0.0D, 0.0D, 0.0D);
                 }
             }
         }
@@ -277,6 +271,8 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
                 ItemStack stack = ByteBufUtils.readItemStack(buf);
                 if (stack.getItem() != Item.getItemFromBlock(Blocks.stone))
                     this.setInventorySlotContents(0, stack);
+                else
+                    this.setInventorySlotContents(0, null);
                 return true;
             }
         }
