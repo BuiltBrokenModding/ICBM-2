@@ -24,7 +24,7 @@ import net.minecraft.util.IIcon;
 /**
  * Created by robert on 1/18/2015.
  */
-public class TileMissileContainer extends TileModuleMachine implements IPacketReceiver
+public class TileMissileContainer extends TileModuleMachine
 {
     public TileMissileContainer(String name, Material material)
     {
@@ -36,12 +36,6 @@ public class TileMissileContainer extends TileModuleMachine implements IPacketRe
     public PacketTile getDescPacket()
     {
         return new PacketTile(this, getSaveData());
-    }
-
-    @Override
-    public void read(ByteBuf buf, EntityPlayer player, PacketType packet)
-    {
-        readFromNBT(ByteBufUtils.readTag(buf));
     }
 
     @Override

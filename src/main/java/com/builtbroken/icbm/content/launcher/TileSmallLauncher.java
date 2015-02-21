@@ -7,10 +7,8 @@ import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileSmall;
 import com.builtbroken.icbm.content.display.TileMissileContainer;
 import com.builtbroken.icbm.content.missile.EntityMissile;
-import com.builtbroken.mc.api.ISave;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.api.tile.IGuiTile;
-import com.builtbroken.mc.api.tile.node.ITileModule;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
@@ -20,6 +18,7 @@ import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
 import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -28,6 +27,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
@@ -63,7 +63,7 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
     public void setTarget(Pos target)
     {
         this.target = target;
-        if (isClient())
+        if (isClient() && world() != null)
         {
             sendPacket(new PacketTile(this, 1, target));
         }
@@ -105,11 +105,14 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
     public void update()
     {
         super.update();
-        if (ticks % 20 == 0)
+        if (isServer())
         {
-            if (world().isBlockIndirectlyGettingPowered(xi(), yi(), zi()))
+            if (ticks % 20 == 0)
             {
-                fireMissile();
+                if (world().isBlockIndirectlyGettingPowered(xi(), yi(), zi()))
+                {
+                    fireMissile();
+                }
             }
         }
     }
@@ -268,22 +271,37 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
         }
         else
         {
-
+            if (id == 0)
+            {
+                this.target = new Pos(buf);
+                ItemStack stack = ByteBufUtils.readItemStack(buf);
+                if (stack.getItem() != Item.getItemFromBlock(Blocks.stone))
+                    this.setInventorySlotContents(0, stack);
+                return true;
+            }
         }
         return false;
+    }
+
+    @Override
+    public PacketTile getDescPacket()
+    {
+        return new PacketTile(this, 0, target, getStackInSlot(0) != null ? getStackInSlot(0) : new ItemStack(Blocks.stone));
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
-        this.target = new Pos(nbt);
+        if (nbt.hasKey("target"))
+            this.target = new Pos(nbt.getCompoundTag("target"));
     }
 
     @Override
     public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
-        this.target.writeNBT(nbt);
+        if (target != null)
+            nbt.setTag("target", target.toNBT());
     }
 }
