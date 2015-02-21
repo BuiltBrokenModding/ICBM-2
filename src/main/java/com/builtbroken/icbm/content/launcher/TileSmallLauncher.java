@@ -2,6 +2,7 @@ package com.builtbroken.icbm.content.launcher;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.ILauncher;
+import com.builtbroken.icbm.api.IMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileSmall;
@@ -269,7 +270,7 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
             {
                 this.target = new Pos(buf);
                 ItemStack stack = ByteBufUtils.readItemStack(buf);
-                if (stack.getItem() != Item.getItemFromBlock(Blocks.stone))
+                if (stack.getItem() instanceof IMissileItem)
                     this.setInventorySlotContents(0, stack);
                 else
                     this.setInventorySlotContents(0, null);
