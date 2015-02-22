@@ -14,13 +14,16 @@ import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
+import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
+import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
 import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.ByteBufUtils;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -45,7 +48,7 @@ import org.lwjgl.opengl.GL11;
  * Mainly a test launcher for devs this tile also can be used by players as a small portable launcher
  * Created by robert on 1/18/2015.
  */
-public class TileSmallLauncher extends TileMissileContainer implements ILauncher, ISimpleItemRenderer, IGuiTile, IPacketIDReceiver
+public class TileSmallLauncher extends TileMissileContainer implements ILauncher, ISimpleItemRenderer, IGuiTile, IPacketIDReceiver, IPostInit
 {
     protected Pos target = new Pos(0, -1, 0);
 
@@ -60,6 +63,13 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
         this.isOpaque = false;
         this.renderNormalBlock = false;
         this.renderTileEntity = true;
+
+    }
+
+    @Override
+    public void onPostInit()
+    {
+        GameRegistry.addShapedRecipe(new ItemStack(ICBM.blockSmallLauncher), "IIB", "IIB", "CBC", 'I', Items.iron_ingot, 'B', Blocks.iron_block, 'C', UniversalRecipe.CIRCUIT_T1.get());
     }
 
     public void setTarget(Pos target)
