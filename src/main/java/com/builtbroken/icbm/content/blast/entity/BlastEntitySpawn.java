@@ -1,6 +1,5 @@
 package com.builtbroken.icbm.content.blast.entity;
 
-import com.builtbroken.icbm.content.blast.BlastSpawn;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.world.World;
