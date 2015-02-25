@@ -3,7 +3,6 @@ package com.builtbroken.icbm.content.blast;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.lib.world.edit.PlacementData;
-import com.builtbroken.mc.lib.world.heat.BlockConversionData;
 import com.builtbroken.mc.lib.world.heat.HeatedBlockRegistry;
 import com.builtbroken.mc.prefab.entity.selector.EntitySelectors;
 import com.builtbroken.mc.prefab.explosive.blast.BlastSimplePath;
@@ -18,33 +17,31 @@ import java.util.List;
 /**
  * Created by robert on 2/24/2015.
  */
-public class BlastExoThermic extends BlastSimplePath
+public class BlastEndoThermic extends BlastSimplePath
 {
-    public static DamageSource thermalDamage = new DamageSource("thermal").setFireDamage();
+    public static DamageSource frostDamage = new DamageSource("frost");
+
     @Override
     public BlockEdit changeBlock(Location location)
     {
         Block block = location.getBlock();
-        if(block != null)
+        //TODO change temp to be based on init energy and heating data of the block
+        //TODO change to dump heat into the heat map
+        PlacementData data = HeatedBlockRegistry.getResultCoolDown(block, getTempForDistance(location.distance(x, y, z)));
+        if(data != null && data.block() != null)
         {
-            //TODO change temp to be based on init energy and heating data of the block
-            //TODO change to dump heat into the heat map
-            PlacementData data = HeatedBlockRegistry.getResultWarmUp(block, getTempForDistance(location.distance(x, y, z)));
-            if (data != null && data.block() != null)
+            BlockEdit edit = new BlockEdit(location);
+            edit.set(data.block(), data.meta() == -1 ? 0 : data.meta(), false, true);
+            return edit;
+        }
+        else if (location.isAirBlock())
+        {
+            Location loc = location.add(0, -1, 0);
+            if(!loc.isAirBlock() && loc.isSideSolid(ForgeDirection.UP))
             {
                 BlockEdit edit = new BlockEdit(location);
-                edit.set(data.block(), data.meta() == -1 ? 0 : data.meta(), false, true);
+                edit.set(Blocks.snow_layer, 0, false, true);
                 return edit;
-            }
-            else if (location.isAirBlock())
-            {
-                Location loc = location.add(0, -1, 0);
-                if(!loc.isAirBlock() && loc.isSideSolid(ForgeDirection.UP))
-                {
-                    BlockEdit edit = new BlockEdit(location);
-                    edit.set(Blocks.fire, 0, false, true);
-                    return edit;
-                }
             }
         }
         return null;
@@ -52,7 +49,7 @@ public class BlastExoThermic extends BlastSimplePath
 
     private int getTempForDistance(double distance)
     {
-        return 20000 - (int)((20000 / size) * distance);
+        return 0 + (int)(Math.max(10, (293 / size)) * distance);
     }
 
     @Override
@@ -63,10 +60,12 @@ public class BlastExoThermic extends BlastSimplePath
         {
             double distance = entity.getDistance(x, y, z);
             int temp = getTempForDistance(distance);
-            float damage = temp / 1000.0f;
-            if(entity.attackEntityFrom(thermalDamage, damage))
+            if(temp <= 250)
             {
-                entity.setFire((int)damage);
+                float damage = Math.max(1, 250 - temp) / 25;
+                entity.attackEntityFrom(frostDamage, damage);
+                if (entity.isBurning())
+                    entity.extinguish();
             }
         }
     }

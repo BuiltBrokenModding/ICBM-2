@@ -1,5 +1,6 @@
 package com.builtbroken.icbm;
 
+import com.builtbroken.icbm.content.blast.BlastEndoThermic;
 import com.builtbroken.icbm.content.blast.BlastExoThermic;
 import com.builtbroken.icbm.content.blast.entity.BlastSnowman;
 import com.builtbroken.icbm.content.crafting.missile.ItemMissileModules;
@@ -180,6 +181,8 @@ public final class ICBM extends AbstractMod
         //Explosives
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Snowmen", new ExplosiveHandler("snowmen", BlastSnowman.class, 1));
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "ExoThermic", new ExplosiveHandler("ExoThermic", BlastExoThermic.class, 2));
+        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "EndoThermic", new ExplosiveHandler("EndoThermic", BlastEndoThermic.class, 2));
+
 
         //Entities
         EntityRegistry.registerGlobalEntityID(EntityMissile.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());
