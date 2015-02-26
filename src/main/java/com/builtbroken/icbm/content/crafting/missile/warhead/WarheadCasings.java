@@ -8,17 +8,19 @@ import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
  */
 public enum WarheadCasings
 {
-    EXPLOSIVE_MICRO(WarheadMicro.class),
-    EXPLOSIVE_SMALL(WarheadSmall.class),
-    EXPLOSIVE_STANDARD(WarheadStandard.class),
-    EXPLOSIVE_MEDIUM(WarheadMedium.class),
-    EXPLOSIVE_LARGE(WarheadLarge.class);
+    EXPLOSIVE_MICRO(WarheadMicro.class, true),
+    EXPLOSIVE_SMALL(WarheadSmall.class, true),
+    EXPLOSIVE_STANDARD(WarheadStandard.class, false),
+    EXPLOSIVE_MEDIUM(WarheadMedium.class, false),
+    EXPLOSIVE_LARGE(WarheadLarge.class, false);
 
     public final Class<? extends Warhead> warhead_clazz;
+    public final boolean enabled;
 
-    private WarheadCasings(Class<? extends Warhead> warhead_clazz)
+    private WarheadCasings(Class<? extends Warhead> warhead_clazz, boolean enabled)
     {
         this.warhead_clazz = warhead_clazz;
+        this.enabled = enabled;
     }
 
     public static void register()
@@ -33,6 +35,6 @@ public enum WarheadCasings
     {
         if(i >= 0 && i < values().length)
             return values()[i];
-        return EXPLOSIVE_STANDARD;
+        return EXPLOSIVE_MICRO;
     }
 }

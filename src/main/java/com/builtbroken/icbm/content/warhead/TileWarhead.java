@@ -19,7 +19,6 @@ import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.WorldChangeHelper;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
-import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -278,11 +277,8 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
     {
         for (WarheadCasings size : WarheadCasings.values())
         {
-            list.add(MissileModuleBuilder.INSTANCE.buildWarhead(size, null).toStack());
-            for (IExplosiveHandler ex : ExplosiveRegistry.getExplosives())
-            {
-                list.add(MissileModuleBuilder.INSTANCE.buildWarhead(size, ex).toStack());
-            }
+            if (size.enabled)
+                list.add(MissileModuleBuilder.INSTANCE.buildWarhead(size, null).toStack());
         }
     }
 
