@@ -55,17 +55,20 @@ public class BlastEndoThermic extends BlastSimplePath
     @Override
     public void doEffectOther(boolean beforeBlocksPlaced)
     {
-        List<Entity> list = EntitySelectors.LIVING_SELECTOR.selector().getEntities(this, size * 2);
-        for(Entity entity : list)
+        if(!beforeBlocksPlaced)
         {
-            double distance = entity.getDistance(x, y, z);
-            int temp = getTempForDistance(distance);
-            if(temp <= 250)
+            List<Entity> list = EntitySelectors.LIVING_SELECTOR.selector().getEntities(this, size * 2);
+            for (Entity entity : list)
             {
-                float damage = Math.max(1, 250 - temp) / 25;
-                entity.attackEntityFrom(frostDamage, damage);
-                if (entity.isBurning())
-                    entity.extinguish();
+                double distance = entity.getDistance(x, y, z);
+                int temp = getTempForDistance(distance);
+                if (temp <= 250)
+                {
+                    float damage = Math.max(1, 250 - temp) / 25;
+                    entity.attackEntityFrom(frostDamage, damage);
+                    if (entity.isBurning())
+                        entity.extinguish();
+                }
             }
         }
     }

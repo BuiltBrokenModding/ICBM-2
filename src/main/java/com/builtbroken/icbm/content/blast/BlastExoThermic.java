@@ -58,15 +58,18 @@ public class BlastExoThermic extends BlastSimplePath
     @Override
     public void doEffectOther(boolean beforeBlocksPlaced)
     {
-        List<Entity> list = EntitySelectors.LIVING_SELECTOR.selector().getEntities(this, size * 2);
-        for(Entity entity : list)
+        if(!beforeBlocksPlaced)
         {
-            double distance = entity.getDistance(x, y, z);
-            int temp = getTempForDistance(distance);
-            float damage = temp / 1000.0f;
-            if(entity.attackEntityFrom(thermalDamage, damage))
+            List<Entity> list = EntitySelectors.LIVING_SELECTOR.selector().getEntities(this, size * 2);
+            for (Entity entity : list)
             {
-                entity.setFire((int)damage);
+                double distance = entity.getDistance(x, y, z);
+                int temp = getTempForDistance(distance);
+                float damage = temp / 1000.0f;
+                if (entity.attackEntityFrom(thermalDamage, damage))
+                {
+                    entity.setFire((int) damage);
+                }
             }
         }
     }
