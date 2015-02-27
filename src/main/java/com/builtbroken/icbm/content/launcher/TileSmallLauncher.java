@@ -42,6 +42,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -69,7 +71,7 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
     @Override
     public void onPostInit()
     {
-        GameRegistry.addShapedRecipe(new ItemStack(ICBM.blockSmallLauncher), "IIB", "IIB", "CBC", 'I', Items.iron_ingot, 'B', Blocks.iron_block, 'C', UniversalRecipe.CIRCUIT_T1.get());
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.blockSmallLauncher), "IIB", "IIB", "CBC", 'I', Items.iron_ingot, 'B', Blocks.iron_block, 'C', UniversalRecipe.CIRCUIT_T1.get()));
     }
 
     public void setTarget(Pos target)
