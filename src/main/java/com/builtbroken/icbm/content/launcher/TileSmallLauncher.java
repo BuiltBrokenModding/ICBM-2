@@ -252,7 +252,6 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
     public Object getServerGuiElement(int ID, EntityPlayer player)
     {
         return new ContainerDummy(player, this);
