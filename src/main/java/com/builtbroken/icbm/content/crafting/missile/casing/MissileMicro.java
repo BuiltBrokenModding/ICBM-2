@@ -17,32 +17,27 @@ import org.lwjgl.opengl.GL11;
  */
 public class MissileMicro extends Missile implements ICustomMissileRender
 {
-    @SideOnly(Side.CLIENT)
-    public static final IModelCustom MODEL = AdvancedModelLoader.loadModel(new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_PREFIX + "missile_micro.tcn"));
-
-    @SideOnly(Side.CLIENT)
-    public static final  ResourceLocation TEXTURE = new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_TEXTURE_PATH + "missile.micro.default.png");
 
     public MissileMicro(ItemStack stack)
     {
         super(stack, MissileCasings.MICRO);
     }
 
-    @Override
+    @Override @SideOnly(Side.CLIENT)
     public boolean renderMissileItem(IItemRenderer.ItemRenderType type, ItemStack stack, Object... data)
     {
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(ModelRefs.MICRO_MISSILE_TEXTURE);
         GL11.glScalef(.5f, .5f, .5f);
-        MODEL.renderAll();
+        ModelRefs.MICRO_MISSILE_MODEL.renderAll();
         return true;
     }
 
-    @Override
+    @Override @SideOnly(Side.CLIENT)
     public boolean renderMissileInWorld()
     {
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(ModelRefs.MICRO_MISSILE_TEXTURE);
         GL11.glScalef(.5f, .5f, .5f);
-        MODEL.renderAll();
+        ModelRefs.MICRO_MISSILE_MODEL.renderAll();
         return true;
     }
 }
