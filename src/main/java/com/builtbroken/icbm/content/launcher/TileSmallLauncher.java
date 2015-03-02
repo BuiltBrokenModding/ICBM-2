@@ -6,6 +6,7 @@ import com.builtbroken.icbm.api.IMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileSmall;
+import com.builtbroken.icbm.content.crafting.missile.casing.ModelRefs;
 import com.builtbroken.icbm.content.display.TileMissileContainer;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
@@ -212,7 +213,7 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
 
         GL11.glTranslatef(-0.5f, -0.5f, -0.5f);
         GL11.glScaled(.8f, .8f, .8f);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(MissileSmall.TEXTURE);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(ModelRefs.GREY_FAKE_TEXTURE);
         launcher_model.renderAllExcept("rail");
     }
 
@@ -235,7 +236,7 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
         //Render launcher
         GL11.glPushMatrix();
         GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.5f, pos.zf() + 0.5f);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(MissileSmall.TEXTURE);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(ModelRefs.GREY_FAKE_TEXTURE);
         launcher_model.renderAll();
         GL11.glPopMatrix();
 
@@ -245,8 +246,8 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
             GL11.glPushMatrix();
             GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.5f, pos.zf() + 0.5f);
             GL11.glScaled(.0015625f, .0015625f, .0015625f);
-            FMLClientHandler.instance().getClient().renderEngine.bindTexture(MissileSmall.TEXTURE);
-            MissileSmall.MODEL.renderAll();
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(ModelRefs.GREY_FAKE_TEXTURE);
+            ModelRefs.SMALL_MISSILE_MODEL.renderAll();
             GL11.glPopMatrix();
         }
     }
