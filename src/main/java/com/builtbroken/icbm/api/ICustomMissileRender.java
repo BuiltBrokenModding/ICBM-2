@@ -8,7 +8,7 @@ import net.minecraftforge.client.IItemRenderer;
 /**
  * Created by robert on 12/12/2014.
  */
-@SideOnly(Side.CLIENT)
+
 public interface ICustomMissileRender
 {
     /**
