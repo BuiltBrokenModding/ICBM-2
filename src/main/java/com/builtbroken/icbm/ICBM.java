@@ -123,7 +123,7 @@ public final class ICBM extends AbstractMod
 
     public ICBM()
     {
-        super(DOMAIN);
+        super(DOMAIN, "ICBM");
         CREATIVE_TAB = new ModCreativeTab("ICBM");
         CREATIVE_TAB.itemSorter = new ModCreativeTab.NameSorter()
         {
