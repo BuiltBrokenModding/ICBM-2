@@ -1,14 +1,18 @@
-package com.builtbroken.icbm.content.crafting;
+package com.builtbroken.icbm.content.crafting.station;
 
+import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
 import com.builtbroken.icbm.content.display.TileMissileContainer;
+import com.builtbroken.mc.api.tile.IGuiTile;
+import com.builtbroken.mc.lib.transform.vector.Pos;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 /**
  * Created by robert on 3/12/2015.
  */
-public class TileMissileWorkstation extends TileMissileContainer
+public class TileMissileWorkstation extends TileMissileContainer implements IGuiTile
 {
     //Static values
     public static final int INPUT_SLOT = 0;
@@ -147,5 +151,25 @@ public class TileMissileWorkstation extends TileMissileContainer
     public ItemStack getGuidanceItem()
     {
         return getStackInSlot(GUIDANCE_SLOT);
+    }
+
+    @Override
+    public boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
+    {
+        if(isServer())
+            openGui(player, 0, ICBM.INSTANCE);
+        return true;
+    }
+
+    @Override
+    public Object getServerGuiElement(int ID, EntityPlayer player)
+    {
+        return new ContainerMissileWorkstation(player, this);
+    }
+
+    @Override
+    public Object getClientGuiElement(int ID, EntityPlayer player)
+    {
+        return new GuiMissileWorkstation(player, this);
     }
 }

@@ -8,6 +8,7 @@ import com.builtbroken.icbm.content.crafting.missile.ItemMissileModules;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
+import com.builtbroken.icbm.content.crafting.station.TileMissileWorkstation;
 import com.builtbroken.icbm.content.display.TileMissile;
 import com.builtbroken.icbm.content.display.TileMissileDisplay;
 import com.builtbroken.icbm.content.launcher.TileRotationTest;
@@ -113,6 +114,7 @@ public final class ICBM extends AbstractMod
     public static Block blockMissileDisplay;
     public static Block blockMissile;
     public static Block blockSmallLauncher;
+    public static Block blockMissileWorkstation;
 
     // Items
     public static Item itemMissile;
@@ -155,6 +157,7 @@ public final class ICBM extends AbstractMod
         blockMissileDisplay = manager.newBlock(TileMissileDisplay.class);
         blockMissile = manager.newBlock(TileMissile.class);
         blockSmallLauncher = manager.newBlock(TileSmallLauncher.class);
+        blockMissileWorkstation = manager.newBlock(TileMissileWorkstation.class);
         if (Engine.runningAsDev)
         {
             blockExplosiveMarker = manager.newBlock(BlockExplosiveMarker.class, ItemBlockMetadata.class);
