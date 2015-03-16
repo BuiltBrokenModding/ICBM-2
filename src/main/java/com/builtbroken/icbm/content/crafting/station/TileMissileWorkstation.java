@@ -4,7 +4,12 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
 import com.builtbroken.icbm.content.display.TileMissileContainer;
 import com.builtbroken.mc.api.tile.IGuiTile;
+import com.builtbroken.mc.core.network.IPacketIDReceiver;
+import com.builtbroken.mc.core.network.packet.PacketTile;
+import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.prefab.tile.TileModuleMachine;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -12,7 +17,7 @@ import net.minecraft.item.ItemStack;
 /**
  * Created by robert on 3/12/2015.
  */
-public class TileMissileWorkstation extends TileMissileContainer implements IGuiTile
+public class TileMissileWorkstation extends TileModuleMachine implements IGuiTile, IPacketIDReceiver
 {
     //Static values
     public static final int INPUT_SLOT = 0;
@@ -34,18 +39,19 @@ public class TileMissileWorkstation extends TileMissileContainer implements IGui
 
     public TileMissileWorkstation()
     {
-        super("missileworkstation", Material.iron, 5);
+        super("missileworkstation", Material.iron);
+        this.addInventoryModule(5);
     }
 
     @Override
     public void update()
     {
         //TODO add progress timer for manual building as well
-        if(automated)
+        if (automated)
         {
-            if(getMissileItem() != null && getStackInSlot(OUTPUT_SLOT) == null && getMissileItem().getItem() instanceof IModularMissileItem)
+            if (getMissileItem() != null && getStackInSlot(OUTPUT_SLOT) == null && getMissileItem().getItem() instanceof IModularMissileItem)
             {
-                if(progress++ >= MAX_PROGRESS && assemble() == "")
+                if (progress++ >= MAX_PROGRESS && assemble() == "")
                 {
                     progress = 0;
                 }
@@ -60,7 +66,7 @@ public class TileMissileWorkstation extends TileMissileContainer implements IGui
         {
             if (getMissileItem() == null)
                 return "slot.input.empty";
-            if(getStackInSlot(OUTPUT_SLOT) != null)
+            if (getStackInSlot(OUTPUT_SLOT) != null)
                 return "slot.output.full";
             if (getMissileItem().getItem() instanceof IModularMissileItem)
             {
@@ -89,9 +95,9 @@ public class TileMissileWorkstation extends TileMissileContainer implements IGui
                         missile.setGuidance(getMissileItem(), getGuidanceItem(), false);
                         setInventorySlotContents(GUIDANCE_SLOT, null);
                     }
-                if(enforce_complete)
+                if (enforce_complete)
                 {
-                    if(missile.getEngine(getMissileItem()) == null || missile.getWarhead(getMissileItem()) == null || missile.getGuidance(getMissileItem()) == null)
+                    if (missile.getEngine(getMissileItem()) == null || missile.getWarhead(getMissileItem()) == null || missile.getGuidance(getMissileItem()) == null)
                         return "slot.output.incomplete";
                 }
                 //Move missile to output slot even if not finished
@@ -153,10 +159,12 @@ public class TileMissileWorkstation extends TileMissileContainer implements IGui
         return getStackInSlot(GUIDANCE_SLOT);
     }
 
+    public ItemStack getMissileItem() { return getStackInSlot(INPUT_SLOT); }
+
     @Override
     public boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
     {
-        if(isServer())
+        if (isServer())
             openGui(player, 0, ICBM.INSTANCE);
         return true;
     }
@@ -171,5 +179,48 @@ public class TileMissileWorkstation extends TileMissileContainer implements IGui
     public Object getClientGuiElement(int ID, EntityPlayer player)
     {
         return new GuiMissileWorkstation(player, this);
+    }
+
+    @Override
+    public boolean read(ByteBuf buf, int id, EntityPlayer player, PacketType type)
+    {
+        if (id == 0)
+        {
+
+        }
+        else if (isServer())
+        {
+            if (id == 1)
+            {
+                this.automated = buf.readBoolean();
+                return true;
+            }
+            else if (id == 2)
+            {
+                this.automated = buf.readBoolean();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public PacketTile getDescPacket()
+    {
+        return new PacketTile(this, 0, automated, enforce_complete);
+    }
+
+    public void setAutomated(boolean b)
+    {
+        this.automated = b;
+        if (isClient())
+            sendPacketToServer(new PacketTile(this, 1, b));
+    }
+
+    public void setEnforceComplete(boolean b)
+    {
+        this.enforce_complete = b;
+        if (isClient())
+            sendPacketToServer(new PacketTile(this, 2, b));
     }
 }
