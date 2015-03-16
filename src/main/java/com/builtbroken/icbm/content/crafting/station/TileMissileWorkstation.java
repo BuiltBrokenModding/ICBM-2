@@ -2,15 +2,16 @@ package com.builtbroken.icbm.content.crafting.station;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
-import com.builtbroken.icbm.content.display.TileMissileContainer;
 import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.TileModuleMachine;
+import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
@@ -33,6 +34,7 @@ public class TileMissileWorkstation extends TileModuleMachine implements IGuiTil
 
     //Machine vars
     protected boolean automated = false;
+    protected boolean assemble = true;
     protected boolean enforce_complete = false;
     protected int progress = 0;
 
@@ -159,7 +161,10 @@ public class TileMissileWorkstation extends TileModuleMachine implements IGuiTil
         return getStackInSlot(GUIDANCE_SLOT);
     }
 
-    public ItemStack getMissileItem() { return getStackInSlot(INPUT_SLOT); }
+    public ItemStack getMissileItem()
+    {
+        return getStackInSlot(INPUT_SLOT);
+    }
 
     @Override
     public boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
@@ -186,7 +191,9 @@ public class TileMissileWorkstation extends TileModuleMachine implements IGuiTil
     {
         if (id == 0)
         {
-
+            this.automated = buf.readBoolean();
+            this.enforce_complete = buf.readBoolean();
+            return true;
         }
         else if (isServer())
         {
@@ -197,8 +204,37 @@ public class TileMissileWorkstation extends TileModuleMachine implements IGuiTil
             }
             else if (id == 2)
             {
-                this.automated = buf.readBoolean();
+                this.enforce_complete = buf.readBoolean();
                 return true;
+            }
+            else if (id == 3)
+            {
+                this.assemble = buf.readBoolean();
+                return true;
+            }
+            else if (id == 4)
+            {
+                String e = "";
+                if (assemble)
+                    e = assemble();
+                else
+                    e = disassemble();
+
+                if(e != "")
+                {
+                    sendPacket(new PacketTile(this, 1, e));
+                }
+            }
+        }
+        else
+        {
+            if(id == 1)
+            {
+                String e = ByteBufUtils.readUTF8String(buf);
+                if(Minecraft.getMinecraft().currentScreen instanceof GuiMissileWorkstation)
+                {
+                    ((GuiMissileWorkstation) Minecraft.getMinecraft().currentScreen).error_msg = e;
+                }
             }
         }
         return false;
@@ -222,5 +258,12 @@ public class TileMissileWorkstation extends TileModuleMachine implements IGuiTil
         this.enforce_complete = b;
         if (isClient())
             sendPacketToServer(new PacketTile(this, 2, b));
+    }
+
+    public void setAssemble(boolean b)
+    {
+        this.assemble = b;
+        if (isClient())
+            sendPacketToServer(new PacketTile(this, 3, b));
     }
 }
