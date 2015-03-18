@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.rocketlauncher;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.mc.lib.render.model.loader.EngineModelLoader;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
@@ -17,7 +18,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class RenderRocketLauncher implements IItemRenderer
 {
     private static final ResourceLocation TEXTURE = new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_TEXTURE_PATH + "rocketLauncher.png");
-    private static final IModelCustom MODEL = AdvancedModelLoader.loadModel(new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_PREFIX  + "rocketLauncher.tcn"));
+    private static final IModelCustom MODEL = EngineModelLoader.loadModel(new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_PREFIX + "rocketLauncher.tcn"));
 
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type)

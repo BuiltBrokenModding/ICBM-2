@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.crafting.missile.casing;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.mc.lib.render.model.loader.EngineModelLoader;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.ResourceLocation;
@@ -13,8 +14,8 @@ import net.minecraftforge.client.model.IModelCustom;
 @SideOnly(Side.CLIENT)
 public class ModelRefs
 {
-    public static final IModelCustom MICRO_MISSILE_MODEL = AdvancedModelLoader.loadModel(new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_PREFIX + "missile_micro.tcn"));
-    public static final IModelCustom SMALL_MISSILE_MODEL = AdvancedModelLoader.loadModel(new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_PREFIX + "Missile_Small.obj"));
+    public static final IModelCustom MICRO_MISSILE_MODEL = EngineModelLoader.loadModel(new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_PREFIX + "missile_micro.tcn"));
+    public static final IModelCustom SMALL_MISSILE_MODEL = EngineModelLoader.loadModel(new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_PREFIX + "Missile_Small.obj"));
 
     public static final  ResourceLocation GREY_FAKE_TEXTURE = new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_TEXTURE_PATH + "grey.png");
     public static final  ResourceLocation MICRO_MISSILE_TEXTURE = new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_TEXTURE_PATH + "missile.micro.default.png");

@@ -18,6 +18,7 @@ import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
+import com.builtbroken.mc.lib.render.model.loader.EngineModelLoader;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
@@ -208,7 +209,7 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
         //Import model if missing
         if (launcher_model == null)
         {
-            launcher_model = AdvancedModelLoader.loadModel(new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_PREFIX + "small_launcher.tcn"));
+            launcher_model = EngineModelLoader.loadModel(new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_PREFIX + "small_launcher.tcn"));
         }
 
         GL11.glTranslatef(-0.5f, -0.5f, -0.5f);
@@ -230,7 +231,7 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
         //Import model if missing
         if (launcher_model == null)
         {
-            launcher_model = AdvancedModelLoader.loadModel(new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_PREFIX + "small_launcher.tcn"));
+            launcher_model = EngineModelLoader.loadModel(new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_PREFIX + "small_launcher.tcn"));
         }
 
         //Render launcher

@@ -4,6 +4,7 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.ICustomMissileRender;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
+import com.builtbroken.mc.lib.render.model.loader.EngineModelLoader;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -20,7 +21,7 @@ import org.lwjgl.opengl.GL11;
 /** @author Calclavia */
 public class RenderMissile extends Render implements IItemRenderer
 {
-    public static final IModelCustom SMALL = AdvancedModelLoader.loadModel(new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_PREFIX + "missile_conventional.tcn"));
+    public static final IModelCustom SMALL = EngineModelLoader.loadModel(new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_PREFIX + "missile_conventional.tcn"));
     public static final ResourceLocation SMALL_TEXTURE = new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_TEXTURE_PATH + "missile_condensed.png");
 
     public RenderMissile(float f)
