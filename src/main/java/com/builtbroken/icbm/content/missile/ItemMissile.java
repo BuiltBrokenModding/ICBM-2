@@ -5,6 +5,7 @@ import com.builtbroken.icbm.api.IAmmo;
 import com.builtbroken.icbm.api.IAmmoType;
 import com.builtbroken.icbm.api.IMissileItem;
 import com.builtbroken.icbm.api.IWeapon;
+import com.builtbroken.icbm.api.crafting.IModularMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
@@ -36,7 +37,7 @@ import java.util.List;
  *
  * @author Darkguardsman
  */
-public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissileItem, IPostInit
+public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissileItem, IPostInit, IModularMissileItem
 {
     public ItemMissile()
     {
@@ -216,4 +217,45 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
         //No icon to register
     }
 
+    @Override
+    public ItemStack getEngine(ItemStack stack)
+    {
+        //TODO Directly access stack to increase performance
+        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
+        return missile != null && missile.getEngine() != null ? missile.getEngine().toStack() : null;
+    }
+
+    @Override
+    public boolean setEngine(ItemStack missile, ItemStack stack, boolean simulate)
+    {
+        return false;
+    }
+
+    @Override
+    public ItemStack getWarhead(ItemStack stack)
+    {
+        //TODO Directly access stack to increase performance
+        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
+        return missile != null && missile.getWarhead() != null ? missile.getWarhead().toStack() : null;
+    }
+
+    @Override
+    public boolean setWarhead(ItemStack missile, ItemStack stack, boolean simulate)
+    {
+        return false;
+    }
+
+    @Override
+    public ItemStack getGuidance(ItemStack stack)
+    {
+        //TODO Directly access stack to increase performance
+        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
+        return missile != null && missile.getGuidance() != null ? missile.getGuidance().toStack() : null;
+    }
+
+    @Override
+    public boolean setGuidance(ItemStack missile, ItemStack stack, boolean simulate)
+    {
+        return false;
+    }
 }

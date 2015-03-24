@@ -28,9 +28,9 @@ public class GuiMissileWorkstation extends GuiContainerBase
     public void initGui()
     {
         super.initGui();
-        action_button = new GuiButton(0, 0, 100, 30, 15, "Assemble");
-        auto_button = new GuiButton(1, 100, 50, 50, 20, "Auto");
-        mode_button = new GuiButton(2, 60, 50, 50, 20, "Mode");
+        action_button = new GuiButton(0, guiLeft + 0, guiTop + 60, 30, 15, "Assemble");
+        auto_button = new GuiButton(1, guiLeft + 100, guiTop + 20, 50, 20, "Auto");
+        mode_button = new GuiButton(2, guiLeft + 60, guiTop + 20, 50, 20, "Mode");
 
         buttonList.add(auto_button);
         buttonList.add(mode_button);
@@ -58,7 +58,7 @@ public class GuiMissileWorkstation extends GuiContainerBase
         }
         else if (button.id == 2)
         {
-            if (!tile.assemble)
+            if (tile.assemble)
             {
                 action_button.displayString = "Disassemble";
             }

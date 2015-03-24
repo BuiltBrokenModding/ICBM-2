@@ -13,11 +13,11 @@ public class ContainerMissileWorkstation extends ContainerBase
     public ContainerMissileWorkstation(EntityPlayer player, IInventory inventory)
     {
         super(player, inventory);
-        this.addSlotToContainer(new Slot(inventory, 0, 50, 50));
+        this.addSlotToContainer(new Slot(inventory, 0, 8, 8));
         this.addSlotToContainer(new Slot(inventory, 1, 70, 50));
         this.addSlotToContainer(new Slot(inventory, 2, 90, 50));
         this.addSlotToContainer(new Slot(inventory, 3, 110, 50));
-        this.addSlotToContainer(new Slot(inventory, 4, 130, 50));
+        this.addSlotToContainer(new Slot(inventory, 4, 152, 8));
         addPlayerInventory(player);
     }
 }
