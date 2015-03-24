@@ -16,12 +16,12 @@ import net.minecraft.util.IIcon;
  *
  * Created by robert on 12/28/2014.
  */
-public class EngineCreative extends Engine
+public class RocketEngineCreative extends RocketEngine
 {
     @SideOnly(Side.CLIENT)
     private IIcon icon;
 
-    public EngineCreative(ItemStack item)
+    public RocketEngineCreative(ItemStack item)
     {
         super(item, "engine.creative");
     }

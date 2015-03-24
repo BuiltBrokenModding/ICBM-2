@@ -3,7 +3,7 @@ package com.builtbroken.icbm.content.crafting.missile.casing;
 import com.builtbroken.icbm.api.IModuleContainer;
 import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
-import com.builtbroken.icbm.content.crafting.missile.engine.Engine;
+import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
 import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import net.minecraft.item.ItemStack;
@@ -26,7 +26,7 @@ public abstract class Missile extends AbstractModule implements IModuleContainer
 
     private Warhead warhead;
     private Guidance guidance;
-    private Engine engine;
+    private RocketEngine engine;
 
 
 
@@ -70,15 +70,15 @@ public abstract class Missile extends AbstractModule implements IModuleContainer
     @Override
     public boolean canInstallModule(ItemStack stack, AbstractModule module)
     {
-        return module instanceof Engine || module instanceof Warhead || module instanceof Guidance;
+        return module instanceof RocketEngine || module instanceof Warhead || module instanceof Guidance;
     }
 
     @Override
     public boolean installModule(ItemStack stack, AbstractModule module)
     {
-        if (module instanceof Engine && engine == null)
+        if (module instanceof RocketEngine && engine == null)
         {
-            setEngine((Engine)module);
+            setEngine((RocketEngine)module);
             return getEngine() == module;
         }
         else if (module instanceof Warhead && warhead == null)
@@ -104,7 +104,7 @@ public abstract class Missile extends AbstractModule implements IModuleContainer
         this.guidance = guidance;
     }
 
-    public void setEngine(Engine engine)
+    public void setEngine(RocketEngine engine)
     {
         this.engine = engine;
     }
@@ -119,7 +119,7 @@ public abstract class Missile extends AbstractModule implements IModuleContainer
         return guidance;
     }
 
-    public Engine getEngine()
+    public RocketEngine getEngine()
     {
         return engine;
     }

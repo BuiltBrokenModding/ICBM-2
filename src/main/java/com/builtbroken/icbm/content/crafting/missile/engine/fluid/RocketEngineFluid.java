@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.content.crafting.missile.engine.fluid;
 
-import com.builtbroken.icbm.content.crafting.missile.engine.Engine;
+import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
@@ -10,11 +10,11 @@ import net.minecraftforge.fluids.IFluidTank;
 /** Fluid only version of the engine
  * Created by robert on 12/28/2014.
  */
-public class EngineFluid extends Engine implements IFluidTank
+public class RocketEngineFluid extends RocketEngine implements IFluidTank
 {
     protected FluidTank tank = new FluidTank(1);
 
-    public EngineFluid(ItemStack item, String name)
+    public RocketEngineFluid(ItemStack item, String name)
     {
         super(item, name);
     }

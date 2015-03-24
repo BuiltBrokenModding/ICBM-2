@@ -10,7 +10,7 @@ import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 public enum Engines
 {
     //Engines
-    CREATIVE_ENGINE("creative_engine", EngineCreative.class);
+    CREATIVE_ENGINE("creative_engine", RocketEngineCreative.class);
 
     private final String name;
     private final Class<? extends AbstractModule> clazz;

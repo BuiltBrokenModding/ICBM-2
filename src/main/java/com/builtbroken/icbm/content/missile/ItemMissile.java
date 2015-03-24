@@ -1,14 +1,15 @@
 package com.builtbroken.icbm.content.missile;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.api.IAmmo;
-import com.builtbroken.icbm.api.IAmmoType;
-import com.builtbroken.icbm.api.IMissileItem;
-import com.builtbroken.icbm.api.IWeapon;
+import com.builtbroken.icbm.api.*;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
-import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
+import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
+import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
+import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
+import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
+import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.IExplosiveItem;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
@@ -68,7 +69,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     @Override
     public String getUnlocalizedName(ItemStack item)
     {
-        if(item.getItemDamage() < MissileCasings.values().length)
+        if (item.getItemDamage() < MissileCasings.values().length)
         {
             MissileCasings size = MissileCasings.values()[item.getItemDamage()];
             if (getExplosive(item) == null)
@@ -90,9 +91,9 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     @Override
     public void getSubItems(Item item, CreativeTabs tab, List list)
     {
-        for(MissileCasings size : MissileCasings.values())
+        for (MissileCasings size : MissileCasings.values())
         {
-            if(size.enabled)
+            if (size.enabled)
             {
                 list.add(MissileModuleBuilder.INSTANCE.buildMissile(size, null).toStack());
                 for (IExplosiveHandler ex : ExplosiveRegistry.getExplosives())
@@ -110,14 +111,14 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
         Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
         IExplosiveHandler ex = missile.getWarhead() != null ? missile.getWarhead().ex : null;
         String ex_translation = LanguageUtility.getLocal("info." + ICBM.PREFIX + "warhead.name") + ": ";
-        if(ex != null)
+        if (ex != null)
         {
-            ex_translation += LanguageUtility.getLocal(ex.getTranslationKey() +".name");
+            ex_translation += LanguageUtility.getLocal(ex.getTranslationKey() + ".name");
             list.add(ex_translation);
 
             List<String> l = new ArrayList();
             ex.addInfoToItem(stack, l);
-            for(String s : l)
+            for (String s : l)
                 list.add(s);
         }
         else
@@ -126,10 +127,10 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
             list.add(ex_translation);
         }
 
-        String engine_translation = LanguageUtility.getLocal("info." + ICBM.PREFIX + "engine.name") +": ";
-        if(missile.getEngine() != null)
+        String engine_translation = LanguageUtility.getLocal("info." + ICBM.PREFIX + "engine.name") + ": ";
+        if (missile.getEngine() != null)
         {
-            engine_translation += LanguageUtility.getLocal(missile.getEngine().getUnlocaizedName() +".name");
+            engine_translation += LanguageUtility.getLocal(missile.getEngine().getUnlocaizedName() + ".name");
         }
         else
         {
@@ -159,10 +160,14 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     {
         switch (stack.getItemDamage())
         {
-            case 1: return AmmoTypeMissile.SMALL;
-            case 2: return AmmoTypeMissile.STANDARD;
-            case 3: return AmmoTypeMissile.MEDIUM;
-            case 4: return AmmoTypeMissile.LARGE;
+            case 1:
+                return AmmoTypeMissile.SMALL;
+            case 2:
+                return AmmoTypeMissile.STANDARD;
+            case 3:
+                return AmmoTypeMissile.MEDIUM;
+            case 4:
+                return AmmoTypeMissile.LARGE;
         }
         return AmmoTypeMissile.MICRO;
     }
@@ -188,7 +193,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     @Override
     public Entity getMissileEntity(ItemStack stack)
     {
-        EntityMissile missile = new EntityMissile((World)null);
+        EntityMissile missile = new EntityMissile((World) null);
         missile.setMissile(MissileModuleBuilder.INSTANCE.buildMissile(stack));
         return missile;
     }
@@ -196,22 +201,24 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     @Override
     public Entity getMissileEntity(ItemStack stack, Entity firedBy)
     {
-        if(firedBy instanceof EntityLivingBase)
+        if (firedBy instanceof EntityLivingBase)
         {
-            EntityMissile missile = new EntityMissile((EntityLivingBase)firedBy);
+            EntityMissile missile = new EntityMissile((EntityLivingBase) firedBy);
             missile.setMissile(MissileModuleBuilder.INSTANCE.buildMissile(stack));
             return missile;
         }
         return null;
     }
 
-    @SideOnly(Side.CLIENT) @Override
+    @SideOnly(Side.CLIENT)
+    @Override
     public IIcon getIcon(ItemStack stack, int pass)
     {
         return Items.stone_shovel.getIcon(stack, pass);
     }
 
-    @SideOnly(Side.CLIENT) @Override
+    @SideOnly(Side.CLIENT)
+    @Override
     public void registerIcons(IIconRegister p_94581_1_)
     {
         //No icon to register
@@ -226,8 +233,22 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     }
 
     @Override
-    public boolean setEngine(ItemStack missile, ItemStack stack, boolean simulate)
+    public boolean setEngine(ItemStack m_stack, ItemStack stack, boolean simulate)
     {
+        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(m_stack);
+        if (missile != null && missile.getEngine() == null && stack != null && stack.getItem() instanceof IModuleItem)
+        {
+            AbstractModule module = ((IModuleItem) stack.getItem()).getModule(stack);
+            if (module instanceof RocketEngine)
+            {
+                if (!simulate)
+                {
+                    missile.setEngine((RocketEngine) module);
+                    m_stack = missile.toStack();
+                }
+                return true;
+            }
+        }
         return false;
     }
 
@@ -240,8 +261,22 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     }
 
     @Override
-    public boolean setWarhead(ItemStack missile, ItemStack stack, boolean simulate)
+    public boolean setWarhead(ItemStack m_stack, ItemStack stack, boolean simulate)
     {
+        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(m_stack);
+        if (missile != null && missile.getWarhead() == null && stack != null && stack.getItem() instanceof IModuleItem)
+        {
+            AbstractModule module = ((IModuleItem) stack.getItem()).getModule(stack);
+            if (module instanceof Warhead)
+            {
+                if (!simulate)
+                {
+                    missile.setWarhead((Warhead) module);
+                    m_stack = missile.toStack();
+                }
+                return true;
+            }
+        }
         return false;
     }
 
@@ -254,8 +289,22 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     }
 
     @Override
-    public boolean setGuidance(ItemStack missile, ItemStack stack, boolean simulate)
+    public boolean setGuidance(ItemStack m_stack, ItemStack stack, boolean simulate)
     {
+        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(m_stack);
+        if (missile != null && missile.getGuidance() == null && stack != null && stack.getItem() instanceof IModuleItem)
+        {
+            AbstractModule module = ((IModuleItem) stack.getItem()).getModule(stack);
+            if (module instanceof Guidance)
+            {
+                if (!simulate)
+                {
+                    missile.setGuidance((Guidance) module);
+                    m_stack = missile.toStack();
+                }
+                return true;
+            }
+        }
         return false;
     }
 }
