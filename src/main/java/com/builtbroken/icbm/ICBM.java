@@ -4,7 +4,7 @@ import com.builtbroken.icbm.content.blast.BlastEndoThermic;
 import com.builtbroken.icbm.content.blast.BlastExoThermic;
 import com.builtbroken.icbm.content.blast.entity.BlastSnowman;
 import com.builtbroken.icbm.content.blast.fragment.BlastFragment;
-import com.builtbroken.icbm.content.crafting.missile.ItemMissileModules;
+import com.builtbroken.icbm.content.crafting.missile.engine.ItemEngineModules;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
@@ -41,7 +41,6 @@ import com.builtbroken.icbm.content.BlockExplosiveMarker;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.ItemMissile;
 import com.builtbroken.icbm.content.rocketlauncher.ItemRocketLauncher;
-import com.builtbroken.mc.prefab.explosive.blast.BlastBasic;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
@@ -119,7 +118,7 @@ public final class ICBM extends AbstractMod
     // Items
     public static Item itemMissile;
     public static Item itemRocketLauncher;
-    public static ItemMissileModules itemMissileModules;
+    public static ItemEngineModules itemEngineModules;
 
     public final ModCreativeTab CREATIVE_TAB;
 
@@ -167,7 +166,7 @@ public final class ICBM extends AbstractMod
         // ITEMS
         itemMissile = manager.newItem(ItemMissile.class);
         itemRocketLauncher = manager.newItem(ItemRocketLauncher.class);
-        itemMissileModules = manager.newItem(ItemMissileModules.class);
+        itemEngineModules = manager.newItem(ItemEngineModules.class);
 
         MissileCasings.register();
         WarheadCasings.register();

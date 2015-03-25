@@ -90,12 +90,6 @@ public class AbstractModule implements ISave
 
     }
 
-    /** Called to get the stack to return when removing the module */
-    public ItemStack getRemovedStack(IModuleContainer container)
-    {
-        return toStack();
-    }
-
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(ItemStack stack, int pass)
     {

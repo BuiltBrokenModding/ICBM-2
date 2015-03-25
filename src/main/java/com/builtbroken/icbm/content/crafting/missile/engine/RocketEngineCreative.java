@@ -26,12 +26,6 @@ public class RocketEngineCreative extends RocketEngine
         super(item, "engine.creative");
     }
 
-    @Override
-    public ItemStack getRemovedStack(IModuleContainer container)
-    {
-        return null;
-    }
-
     @Override @SideOnly(Side.CLIENT)
     public IIcon getIcon(ItemStack stack, int pass)
     {
@@ -41,6 +35,6 @@ public class RocketEngineCreative extends RocketEngine
     @Override @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister register)
     {
-        register.registerIcon(ICBM.PREFIX + "rocket.motor.creative");
+        icon = register.registerIcon(ICBM.PREFIX + "rocket.motor.creative");
     }
 }
