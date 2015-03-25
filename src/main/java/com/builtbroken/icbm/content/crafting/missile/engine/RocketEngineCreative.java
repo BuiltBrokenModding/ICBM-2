@@ -19,7 +19,7 @@ import net.minecraft.util.IIcon;
 public class RocketEngineCreative extends RocketEngine
 {
     @SideOnly(Side.CLIENT)
-    private IIcon icon;
+    private static IIcon icon;
 
     public RocketEngineCreative(ItemStack item)
     {
