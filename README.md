@@ -60,6 +60,7 @@ If not listed don't fear we are still compiling the credits list after it got re
 * Vexatos           - German Translations
 * Wdtod             - Laser Sentry Model
 * Wildex999
+* Hennamann         - Code, Norwegian Translations 
 
 ## Download Locations
 * http://builtbroken.com/pages/icbm/
