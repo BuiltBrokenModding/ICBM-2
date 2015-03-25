@@ -1,6 +1,9 @@
 package com.builtbroken.icbm.content.warhead;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.IModuleItem;
+import com.builtbroken.icbm.content.crafting.AbstractModule;
+import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.IExplosiveItem;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
@@ -19,7 +22,7 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem
+public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IModuleItem
 {
     public ItemBlockWarhead(Block block)
     {
@@ -168,5 +171,11 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem
     {
         //TODO if we implement enchanted missile use this to denote the item has an enchantment
         return super.hasEffect(stack, pass);
+    }
+
+    @Override
+    public AbstractModule getModule(ItemStack stack)
+    {
+        return MissileModuleBuilder.INSTANCE.buildWarhead(stack);
     }
 }

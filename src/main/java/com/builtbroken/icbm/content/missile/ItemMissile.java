@@ -236,15 +236,30 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     public boolean setEngine(ItemStack m_stack, ItemStack stack, boolean simulate)
     {
         Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(m_stack);
-        if (missile != null && missile.getEngine() == null && stack != null && stack.getItem() instanceof IModuleItem)
+        if (missile != null)
         {
-            AbstractModule module = ((IModuleItem) stack.getItem()).getModule(stack);
-            if (module instanceof RocketEngine)
+            if(missile.getEngine() == null)
+            {
+                if(stack != null && stack.getItem() instanceof IModuleItem)
+                {
+                    AbstractModule module = ((IModuleItem) stack.getItem()).getModule(stack);
+                    if (module instanceof RocketEngine)
+                    {
+                        if (!simulate)
+                        {
+                            missile.setEngine((RocketEngine) module);
+                            missile.toStack();
+                        }
+                        return true;
+                    }
+                }
+            }
+            else if(stack  == null)
             {
                 if (!simulate)
                 {
-                    missile.setEngine((RocketEngine) module);
-                    m_stack = missile.toStack();
+                    missile.setEngine(null);
+                    missile.toStack();
                 }
                 return true;
             }
@@ -264,14 +279,26 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     public boolean setWarhead(ItemStack m_stack, ItemStack stack, boolean simulate)
     {
         Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(m_stack);
-        if (missile != null && missile.getWarhead() == null && stack != null && stack.getItem() instanceof IModuleItem)
+        if (missile != null)
         {
-            AbstractModule module = ((IModuleItem) stack.getItem()).getModule(stack);
-            if (module instanceof Warhead)
+            if(missile.getWarhead() == null && stack != null && stack.getItem() instanceof IModuleItem)
+            {
+                AbstractModule module = ((IModuleItem) stack.getItem()).getModule(stack);
+                if (module instanceof Warhead)
+                {
+                    if (!simulate)
+                    {
+                        missile.setWarhead((Warhead) module);
+                        m_stack = missile.toStack();
+                    }
+                    return true;
+                }
+            }
+            else if(stack == null)
             {
                 if (!simulate)
                 {
-                    missile.setWarhead((Warhead) module);
+                    missile.setWarhead(null);
                     m_stack = missile.toStack();
                 }
                 return true;
@@ -292,14 +319,26 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     public boolean setGuidance(ItemStack m_stack, ItemStack stack, boolean simulate)
     {
         Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(m_stack);
-        if (missile != null && missile.getGuidance() == null && stack != null && stack.getItem() instanceof IModuleItem)
+        if (missile != null)
         {
-            AbstractModule module = ((IModuleItem) stack.getItem()).getModule(stack);
-            if (module instanceof Guidance)
+            if(missile.getGuidance() == null && stack != null && stack.getItem() instanceof IModuleItem)
+            {
+                AbstractModule module = ((IModuleItem) stack.getItem()).getModule(stack);
+                if (module instanceof Guidance)
+                {
+                    if (!simulate)
+                    {
+                        missile.setGuidance((Guidance) module);
+                        m_stack = missile.toStack();
+                    }
+                    return true;
+                }
+            }
+            else if(stack == null)
             {
                 if (!simulate)
                 {
-                    missile.setGuidance((Guidance) module);
+                    missile.setGuidance(null);
                     m_stack = missile.toStack();
                 }
                 return true;

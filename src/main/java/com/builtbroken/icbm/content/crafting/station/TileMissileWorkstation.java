@@ -66,44 +66,45 @@ public class TileMissileWorkstation extends TileModuleMachine implements IGuiTil
     {
         if (getStackInSlot(OUTPUT_SLOT) == null)
         {
-            if (getMissileItem() == null)
+            ItemStack missile_stack = getMissileItem();
+            if (missile_stack == null)
                 return "slot.input.empty";
             if (getStackInSlot(OUTPUT_SLOT) != null)
                 return "slot.output.full";
-            if (getMissileItem().getItem() instanceof IModularMissileItem)
+            if (missile_stack.getItem() instanceof IModularMissileItem)
             {
-                IModularMissileItem missile = (IModularMissileItem) getMissileItem().getItem();
+                IModularMissileItem missile = (IModularMissileItem) missile_stack.getItem();
 
                 //Insert engine
-                if (getEngineItem() != null && missile.getEngine(getMissileItem()) == null)
-                    if (missile.setEngine(getMissileItem(), getEngineItem(), true))
+                if (getEngineItem() != null && missile.getEngine(missile_stack) == null)
+                    if (missile.setEngine(missile_stack, getEngineItem(), true))
                     {
-                        missile.setEngine(getMissileItem(), getEngineItem(), false);
+                        missile.setEngine(missile_stack, getEngineItem(), false);
                         setInventorySlotContents(ENGINE_SLOT, null);
                     }
 
                 //Insert warhead
-                if (getWarheadItem() != null && missile.getWarhead(getMissileItem()) == null)
-                    if (missile.setWarhead(getMissileItem(), getWarheadItem(), true))
+                if (getWarheadItem() != null && missile.getWarhead(missile_stack) == null)
+                    if (missile.setWarhead(missile_stack, getWarheadItem(), true))
                     {
-                        missile.setWarhead(getMissileItem(), getWarheadItem(), false);
+                        missile.setWarhead(missile_stack, getWarheadItem(), false);
                         setInventorySlotContents(WARHEAD_SLOT, null);
                     }
 
                 //Insert guidance
-                if (getGuidanceItem() != null && missile.getGuidance(getMissileItem()) == null)
-                    if (missile.setGuidance(getMissileItem(), getGuidanceItem(), true))
+                if (getGuidanceItem() != null && missile.getGuidance(missile_stack) == null)
+                    if (missile.setGuidance(missile_stack, getGuidanceItem(), true))
                     {
-                        missile.setGuidance(getMissileItem(), getGuidanceItem(), false);
+                        missile.setGuidance(missile_stack, getGuidanceItem(), false);
                         setInventorySlotContents(GUIDANCE_SLOT, null);
                     }
                 if (enforce_complete)
                 {
-                    if (missile.getEngine(getMissileItem()) == null || missile.getWarhead(getMissileItem()) == null || missile.getGuidance(getMissileItem()) == null)
+                    if (missile.getEngine(missile_stack) == null || missile.getWarhead(missile_stack) == null || missile.getGuidance(missile_stack) == null)
                         return "slot.output.incomplete";
                 }
                 //Move missile to output slot even if not finished
-                setInventorySlotContents(OUTPUT_SLOT, getMissileItem());
+                setInventorySlotContents(OUTPUT_SLOT, missile_stack);
                 setInventorySlotContents(INPUT_SLOT, null);
                 return "";
             }
@@ -119,27 +120,36 @@ public class TileMissileWorkstation extends TileModuleMachine implements IGuiTil
      */
     public String disassemble()
     {
-        if (getMissileItem() != null && getMissileItem().getItem() instanceof IModularMissileItem)
+        ItemStack missile_stack = getMissileItem();
+        if (missile_stack != null && missile_stack.getItem() instanceof IModularMissileItem)
         {
-            IModularMissileItem missile = (IModularMissileItem) getMissileItem().getItem();
-            if (missile.getEngine(getMissileItem()) != null && getEngineItem() != null)
+            IModularMissileItem missile = (IModularMissileItem) missile_stack.getItem();
+
+            //Check if output slots are empty
+            if (missile.getEngine(missile_stack) != null && getEngineItem() != null)
                 return "slot.engine.full";
-            if (missile.getWarhead(getMissileItem()) != null && getWarheadItem() != null)
+            if (missile.getWarhead(missile_stack) != null && getWarheadItem() != null)
                 return "slot.warhead.full";
-            if (missile.getGuidance(getMissileItem()) != null && getGuidanceItem() != null)
+            if (missile.getGuidance(missile_stack) != null && getGuidanceItem() != null)
                 return "slot.guidance.full";
             if (getStackInSlot(OUTPUT_SLOT) != null)
                 return "slot.output.full";
 
-            setInventorySlotContents(WARHEAD_SLOT, missile.getWarhead(getMissileItem()));
-            setInventorySlotContents(ENGINE_SLOT, missile.getEngine(getMissileItem()));
-            setInventorySlotContents(GUIDANCE_SLOT, missile.getGuidance(getMissileItem()));
+            //Remove items from missile
+            setInventorySlotContents(WARHEAD_SLOT, missile.getWarhead(missile_stack));
+            setInventorySlotContents(ENGINE_SLOT, missile.getEngine(missile_stack));
+            setInventorySlotContents(GUIDANCE_SLOT, missile.getGuidance(missile_stack));
 
-            missile.setEngine(getMissileItem(), null, false);
-            missile.setWarhead(getMissileItem(), null, false);
-            missile.setGuidance(getMissileItem(), null, false);
+            //Clear items off of the missile
+            if(missile.getEngine(missile_stack) != null && !missile.setEngine(missile_stack, null, false))
+                return "missile.engine.error.set";
+            if(missile.getWarhead(missile_stack) != null && !missile.setWarhead(missile_stack, null, false))
+                return "missile.warhead.error.set";
+            if(missile.getGuidance(missile_stack) != null && !missile.setGuidance(missile_stack, null, false))
+                return "missile.guidance.error.set";
 
-            setInventorySlotContents(OUTPUT_SLOT, getMissileItem());
+            //Move missile to output slot
+            setInventorySlotContents(OUTPUT_SLOT, missile_stack);
             setInventorySlotContents(INPUT_SLOT, null);
             return "";
         }
