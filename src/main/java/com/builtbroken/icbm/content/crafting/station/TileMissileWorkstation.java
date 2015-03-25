@@ -136,16 +136,19 @@ public class TileMissileWorkstation extends TileModuleMachine implements IGuiTil
                 return "slot.output.full";
 
             //Remove items from missile
-            setInventorySlotContents(WARHEAD_SLOT, missile.getWarhead(missile_stack));
-            setInventorySlotContents(ENGINE_SLOT, missile.getEngine(missile_stack));
-            setInventorySlotContents(GUIDANCE_SLOT, missile.getGuidance(missile_stack));
+            if (getWarheadItem() == null)
+                setInventorySlotContents(WARHEAD_SLOT, missile.getWarhead(missile_stack));
+            if (getEngineItem() == null)
+                setInventorySlotContents(ENGINE_SLOT, missile.getEngine(missile_stack));
+            if (getGuidanceItem() == null)
+                setInventorySlotContents(GUIDANCE_SLOT, missile.getGuidance(missile_stack));
 
             //Clear items off of the missile
-            if(missile.getEngine(missile_stack) != null && !missile.setEngine(missile_stack, null, false))
+            if (missile.getEngine(missile_stack) != null && !missile.setEngine(missile_stack, null, false))
                 return "missile.engine.error.set";
-            if(missile.getWarhead(missile_stack) != null && !missile.setWarhead(missile_stack, null, false))
+            if (missile.getWarhead(missile_stack) != null && !missile.setWarhead(missile_stack, null, false))
                 return "missile.warhead.error.set";
-            if(missile.getGuidance(missile_stack) != null && !missile.setGuidance(missile_stack, null, false))
+            if (missile.getGuidance(missile_stack) != null && !missile.setGuidance(missile_stack, null, false))
                 return "missile.guidance.error.set";
 
             //Move missile to output slot
@@ -230,7 +233,7 @@ public class TileMissileWorkstation extends TileModuleMachine implements IGuiTil
                 else
                     e = disassemble();
 
-                if(e != "")
+                if (e != "")
                 {
                     sendPacket(new PacketTile(this, 1, e));
                 }
@@ -238,10 +241,10 @@ public class TileMissileWorkstation extends TileModuleMachine implements IGuiTil
         }
         else
         {
-            if(id == 1)
+            if (id == 1)
             {
                 String e = ByteBufUtils.readUTF8String(buf);
-                if(Minecraft.getMinecraft().currentScreen instanceof GuiMissileWorkstation)
+                if (Minecraft.getMinecraft().currentScreen instanceof GuiMissileWorkstation)
                 {
                     ((GuiMissileWorkstation) Minecraft.getMinecraft().currentScreen).error_msg = e;
                 }
