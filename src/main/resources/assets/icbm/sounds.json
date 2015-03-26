@@ -1,3 +1,21 @@
 {
-# "compressor": {"category": "<category>", "sounds" : ["<file name>"]}
+ "icbm.missilelaunch":{
+      "category":"neutral",
+      "sounds":[
+         "missile/missilelaunch1",
+         "missile/missilelaunch2"
+      ]
+   },
+   "icbm.missileflight":{
+      "category":"neutral",
+      "sounds":[
+         "missile/missileinair"
+      ]
+   },
+    "icbm.boom":{
+      "category":"neutral",
+      "sounds":[
+         "explosive/explosion1"
+      ]
+   }
 }

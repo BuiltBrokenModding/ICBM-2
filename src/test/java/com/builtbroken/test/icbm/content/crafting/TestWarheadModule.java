@@ -40,7 +40,6 @@ public class TestWarheadModule extends TestCase
         {
             WarheadCasings.register();
             ex = new ExplosiveHandler(BlastBasic.class);
-            ExplosiveRegistry.LOG_REGISTERING_EXPLOSIVES = false;
             ex = ExplosiveRegistry.registerOrGetExplosive("junit", "test", ex);
             init = true;
         }

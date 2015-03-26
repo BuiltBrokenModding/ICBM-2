@@ -1,30 +1,33 @@
 package com.builtbroken.icbm;
 
+import com.builtbroken.icbm.content.BlockExplosiveMarker;
 import com.builtbroken.icbm.content.blast.BlastEndoThermic;
 import com.builtbroken.icbm.content.blast.BlastExoThermic;
 import com.builtbroken.icbm.content.blast.entity.BlastSnowman;
 import com.builtbroken.icbm.content.blast.explosive.BlastAntimatter;
 import com.builtbroken.icbm.content.blast.fragment.BlastFragment;
-import com.builtbroken.icbm.content.crafting.missile.engine.ItemEngineModules;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
+import com.builtbroken.icbm.content.crafting.missile.engine.ItemEngineModules;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.icbm.content.crafting.station.TileMissileWorkstation;
 import com.builtbroken.icbm.content.display.TileMissile;
 import com.builtbroken.icbm.content.display.TileMissileDisplay;
 import com.builtbroken.icbm.content.launcher.TileRotationTest;
 import com.builtbroken.icbm.content.launcher.TileSmallLauncher;
+import com.builtbroken.icbm.content.missile.EntityMissile;
+import com.builtbroken.icbm.content.missile.ItemMissile;
 import com.builtbroken.icbm.content.missile.MissileTracker;
+import com.builtbroken.icbm.content.rocketlauncher.ItemRocketLauncher;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.mod.AbstractMod;
 import com.builtbroken.mc.lib.mod.AbstractProxy;
 import com.builtbroken.mc.lib.mod.ModCreativeTab;
-import com.builtbroken.mc.lib.mod.config.Config;
-import com.builtbroken.mc.prefab.explosive.ExplosiveHandler;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
+import com.builtbroken.mc.prefab.explosive.ExplosiveHandler;
 import com.builtbroken.mc.prefab.tile.item.ItemBlockMetadata;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -33,15 +36,14 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.Metadata;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.*;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import com.builtbroken.icbm.content.BlockExplosiveMarker;
-import com.builtbroken.icbm.content.missile.EntityMissile;
-import com.builtbroken.icbm.content.missile.ItemMissile;
-import com.builtbroken.icbm.content.rocketlauncher.ItemRocketLauncher;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
@@ -51,6 +53,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -67,12 +70,16 @@ import java.util.ArrayList;
 @Mod(modid = ICBM.DOMAIN, name = ICBM.NAME, version = ICBM.VERSION, dependencies = "required-after:VoltzEngine")
 public final class ICBM extends AbstractMod
 {
-    /** Name of the channel and mod ID. */
+    /**
+     * Name of the channel and mod ID.
+     */
     public static final String NAME = "ICBM";
     public static final String DOMAIN = "icbm";
     public static final String PREFIX = DOMAIN + ":";
 
-    /** The version of ICBM. */
+    /**
+     * The version of ICBM.
+     */
     public static final String MAJOR_VERSION = "@MAJOR@";
     public static final String MINOR_VERSION = "@MINOR@";
     public static final String REVISION_VERSION = "@REVIS@";
@@ -100,14 +107,11 @@ public final class ICBM extends AbstractMod
     @SidedProxy(clientSide = "com.builtbroken.icbm.ClientProxy", serverSide = "com.builtbroken.icbm.CommonProxy")
     public static CommonProxy proxy;
 
-    @Config(key = "Creepers_Drop_Sulfur", category = "Extras")
-    public static boolean CREEPER_DROP_SULFER = true;
-    @Config(key = "Creepers_Blow_up_in_Fire", category = "Extras")
-    public static boolean CREEPER_BLOW_UP_IN_FIRE = true;
-    @Config(key = "Antimatter_Destroy_Unbreakable", category = "Explosives")
+
     public static boolean ANTIMATTER_BREAK_UNBREAKABLE = true;
 
-    @Config(key = "EntityIDStart", category = "Extras")
+    public static float missile_firing_volume = 1f;
+
     public static int ENTITY_ID_PREFIX = 50;
 
     // Blocks
@@ -154,6 +158,9 @@ public final class ICBM extends AbstractMod
         MinecraftForge.EVENT_BUS.register(proxy);
         FMLCommonHandler.instance().bus().register(this);
 
+        ANTIMATTER_BREAK_UNBREAKABLE = getConfig().getBoolean("Antimatter_Destroy_Unbreakable", Configuration.CATEGORY_GENERAL, true, "Allows antimatter to break blocks that are unbreakable, bedrock for example.");
+        missile_firing_volume = getConfig().getFloat("", "volume", 1.0F, 0, 4, "");
+        
         // Blocks
         blockExplosive = manager.newBlock(TileWarhead.class);
         blockMissileDisplay = manager.newBlock(TileMissileDisplay.class);
@@ -235,10 +242,10 @@ public final class ICBM extends AbstractMod
     @SubscribeEvent
     public void onWorldTickEnd(TickEvent.WorldTickEvent evt)
     {
-        if(evt.side == Side.SERVER && evt.phase == TickEvent.Phase.END)
+        if (evt.side == Side.SERVER && evt.phase == TickEvent.Phase.END)
         {
             MissileTracker tracker = MissileTracker.getTrackerForWorld(evt.world);
-            if(tracker != null)
+            if (tracker != null)
             {
                 tracker.update(evt.world);
             }
