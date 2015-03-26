@@ -51,19 +51,14 @@ public class ItemEngineModules extends Item implements IModuleItem
     @SideOnly(Side.CLIENT)
     public IIcon getIconFromDamage(int meta)
     {
-        Engines engine = Engines.get(meta);
-        if (engine != null)
-        {
-            return engine.icon;
-        }
-        return this.itemIcon;
+        return Engines.get(meta) != null ? Engines.get(meta).icon : this.itemIcon;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister reg)
     {
-        this.itemIcon = reg.registerIcon(ICBM.PREFIX + "rocket.motor");
+        this.itemIcon = reg.registerIcon(ICBM.PREFIX + "engine");
         for (Engines engine : Engines.values())
         {
             engine.icon = reg.registerIcon(ICBM.PREFIX + engine.name);

@@ -14,7 +14,7 @@ import net.minecraft.util.IIcon;
 public enum Engines
 {
     //Engines
-    CREATIVE_ENGINE("creative.engine", RocketEngineCreative.class);
+    CREATIVE_ENGINE("engine.creative", RocketEngineCreative.class);
 
     protected final String name;
     protected final Class<? extends AbstractModule> clazz;

@@ -3,6 +3,7 @@ package com.builtbroken.icbm;
 import com.builtbroken.icbm.content.blast.BlastEndoThermic;
 import com.builtbroken.icbm.content.blast.BlastExoThermic;
 import com.builtbroken.icbm.content.blast.entity.BlastSnowman;
+import com.builtbroken.icbm.content.blast.explosive.BlastAntimatter;
 import com.builtbroken.icbm.content.blast.fragment.BlastFragment;
 import com.builtbroken.icbm.content.crafting.missile.engine.ItemEngineModules;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
@@ -103,6 +104,8 @@ public final class ICBM extends AbstractMod
     public static boolean CREEPER_DROP_SULFER = true;
     @Config(key = "Creepers_Blow_up_in_Fire", category = "Extras")
     public static boolean CREEPER_BLOW_UP_IN_FIRE = true;
+    @Config(key = "Antimatter_Destroy_Unbreakable", category = "Explosives")
+    public static boolean ANTIMATTER_BREAK_UNBREAKABLE = true;
 
     @Config(key = "EntityIDStart", category = "Extras")
     public static int ENTITY_ID_PREFIX = 50;
@@ -186,6 +189,8 @@ public final class ICBM extends AbstractMod
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "ExoThermic", new ExplosiveHandler("ExoThermic", BlastExoThermic.class, 2));
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "EndoThermic", new ExplosiveHandler("EndoThermic", BlastEndoThermic.class, 2));
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "ArrowFragment", new ExplosiveHandler("ArrowFragment", BlastFragment.class, 2));
+        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Antimatter", new ExplosiveHandler("Antimatter", BlastAntimatter.class, 2));
+
 
         //Entities
         EntityRegistry.registerGlobalEntityID(EntityMissile.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());
