@@ -18,15 +18,16 @@ import net.minecraftforge.client.model.IModelCustom;
 public final class Assets
 {
     //Models
-    public static final IModelCustom MICRO_MISSILE_MODEL = model("missile_micro.tcn");
+    public static final IModelCustom MICRO_MISSILE_MODEL = model("Rocket_Micro.obj");
     public static final IModelCustom SMALL_MISSILE_MODEL = model("Missile_Small.obj");
     public static final IModelCustom CLASSIC_MISSILE_MODEL = model("missile_conventional.tcn");
     public static final IModelCustom PORTABLE_LAUNCHER_MODEL = model("small_launcher.tcn");
     public static final IModelCustom RPG_MODEL = model("rocketLauncher.tcn");
+    public static final IModelCustom SMALL_SILO_MODEL = model("SmallSilo.tcn");
 
     //Textures
     public static final ResourceLocation GREY_FAKE_TEXTURE = texture("grey");
-    public static final ResourceLocation MICRO_MISSILE_TEXTURE = texture("missile.micro.default");
+    public static final ResourceLocation MICRO_MISSILE_TEXTURE = texture("Rocket_Micro");
     public static final ResourceLocation CLASSIC_MISSILE_TEXTURE = texture("missile_condensed");
     public static final ResourceLocation RPG_TEXTURE = texture("rocketLauncher");
 
