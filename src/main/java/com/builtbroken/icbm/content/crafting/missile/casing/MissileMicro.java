@@ -24,7 +24,7 @@ public class MissileMicro extends Missile implements ICustomMissileRender
     public boolean renderMissileItem(IItemRenderer.ItemRenderType type, ItemStack stack, Object... data)
     {
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.MICRO_MISSILE_TEXTURE);
-        GL11.glScalef(.5f, .5f, .5f);
+        GL11.glScalef(.0015625f, .0015625f, .0015625f);
         Assets.MICRO_MISSILE_MODEL.renderAll();
         return true;
     }
@@ -33,7 +33,7 @@ public class MissileMicro extends Missile implements ICustomMissileRender
     public boolean renderMissileInWorld()
     {
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.MICRO_MISSILE_TEXTURE);
-        GL11.glScalef(.5f, .5f, .5f);
+        GL11.glScalef(.0015625f, .0015625f, .0015625f);
         Assets.MICRO_MISSILE_MODEL.renderAll();
         return true;
     }

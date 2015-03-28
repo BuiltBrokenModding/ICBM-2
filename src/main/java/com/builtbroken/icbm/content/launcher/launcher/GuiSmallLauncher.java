@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.launcher;
+package com.builtbroken.icbm.content.launcher.launcher;
 
 import com.builtbroken.jlib.data.Colors;
 import com.builtbroken.mc.core.References;

@@ -1,6 +1,6 @@
 package com.builtbroken.icbm;
 
-import com.builtbroken.icbm.content.BlockExplosiveMarker;
+import com.builtbroken.icbm.content.debug.BlockExplosiveMarker;
 import com.builtbroken.icbm.content.blast.BlastEndoThermic;
 import com.builtbroken.icbm.content.blast.BlastExoThermic;
 import com.builtbroken.icbm.content.blast.entity.BlastSnowman;
@@ -13,8 +13,9 @@ import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.icbm.content.crafting.station.TileMissileWorkstation;
 import com.builtbroken.icbm.content.display.TileMissile;
 import com.builtbroken.icbm.content.display.TileMissileDisplay;
-import com.builtbroken.icbm.content.launcher.TileRotationTest;
-import com.builtbroken.icbm.content.launcher.TileSmallLauncher;
+import com.builtbroken.icbm.content.debug.TileRotationTest;
+import com.builtbroken.icbm.content.launcher.launcher.TileSmallLauncher;
+import com.builtbroken.icbm.content.launcher.silo.TileSmallSilo;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.ItemMissile;
 import com.builtbroken.icbm.content.missile.MissileTracker;
@@ -97,6 +98,7 @@ public final class ICBM extends AbstractMod
     public static Block blockMissileDisplay;
     public static Block blockMissile;
     public static Block blockSmallLauncher;
+    public static Block blockSmallSilo;
     public static Block blockMissileWorkstation;
 
     // Items
@@ -146,6 +148,7 @@ public final class ICBM extends AbstractMod
         blockWarhead = manager.newBlock(TileWarhead.class);
         blockMissileDisplay = manager.newBlock(TileMissileDisplay.class);
         blockSmallLauncher = manager.newBlock(TileSmallLauncher.class);
+        blockSmallSilo = manager.newBlock(TileSmallSilo.class);
         blockMissileWorkstation = manager.newBlock(TileMissileWorkstation.class);
 
         // Decor Blocks

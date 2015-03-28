@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content;
+package com.builtbroken.icbm.content.debug;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

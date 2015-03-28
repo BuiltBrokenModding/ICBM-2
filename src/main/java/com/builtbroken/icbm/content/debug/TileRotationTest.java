@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.launcher;
+package com.builtbroken.icbm.content.debug;
 
 import com.builtbroken.icbm.api.ILauncher;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
