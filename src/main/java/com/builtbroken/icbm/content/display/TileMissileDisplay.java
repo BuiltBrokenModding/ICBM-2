@@ -22,6 +22,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -74,4 +75,9 @@ public class TileMissileDisplay extends TileMissileContainer
         }
     }
 
+    @SideOnly(Side.CLIENT)
+    public AxisAlignedBB getRenderBoundingBox()
+    {
+        return new Cube(0, 0, 0, 1, 2, 1).add(x(), y(), z()).toAABB();
+    }
 }
