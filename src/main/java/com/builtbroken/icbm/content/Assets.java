@@ -28,7 +28,7 @@ public final class Assets
     public static final ResourceLocation GREY_FAKE_TEXTURE = texture("grey");
     public static final ResourceLocation MICRO_MISSILE_TEXTURE = texture("missile.micro.default");
     public static final ResourceLocation CLASSIC_MISSILE_TEXTURE = texture("missile_condensed");
-    public static final ResourceLocation RPG_TEXTURE = texture("rocketLauncher.png");
+    public static final ResourceLocation RPG_TEXTURE = texture("rocketLauncher");
 
 
     public static IModelCustom model(String name)
