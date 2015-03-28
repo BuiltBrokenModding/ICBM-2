@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.warhead;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.content.Assets;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
@@ -311,8 +312,8 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
     {
         GL11.glPushMatrix();
         GL11.glTranslatef(position.xf() + 0.5f, position.yf() - 2.5f, position.zf() + 0.5f);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(RenderMissile.SMALL_TEXTURE);
-        RenderMissile.SMALL.renderOnly("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.CLASSIC_MISSILE_TEXTURE);
+        Assets.CLASSIC_MISSILE_MODEL.renderOnly("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
         GL11.glPopMatrix();
     }
 
@@ -370,22 +371,22 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
             warhead = WarheadCasings.get(getMetadata()).warhead_clazz.getConstructor(ItemStack.class).newInstance(new ItemStack(this.getTileBlock(), 1, getMetadata()));
         } catch (InvocationTargetException e)
         {
-            ICBM.LOGGER.error("[TileWarhead]Failed invoke warhead constructor for class " + WarheadCasings.get(getMetadata()).warhead_clazz);
+            ICBM.INSTANCE.logger().error("[TileWarhead]Failed invoke warhead constructor for class " + WarheadCasings.get(getMetadata()).warhead_clazz);
             if (Engine.runningAsDev)
                 e.printStackTrace();
         } catch (NoSuchMethodException e)
         {
-            ICBM.LOGGER.error("[TileWarhead]Failed to find ItemStack constructor for warhead class " + WarheadCasings.get(getMetadata()).warhead_clazz);
+            ICBM.INSTANCE.logger().error("[TileWarhead]Failed to find ItemStack constructor for warhead class " + WarheadCasings.get(getMetadata()).warhead_clazz);
             if (Engine.runningAsDev)
                 e.printStackTrace();
         } catch (InstantiationException e)
         {
-            ICBM.LOGGER.error("[TileWarhead]Failed to create new warhead instance for warhead class " + WarheadCasings.get(getMetadata()).warhead_clazz);
+            ICBM.INSTANCE.logger().error("[TileWarhead]Failed to create new warhead instance for warhead class " + WarheadCasings.get(getMetadata()).warhead_clazz);
             if (Engine.runningAsDev)
                 e.printStackTrace();
         } catch (IllegalAccessException e)
         {
-            ICBM.LOGGER.error("[TileWarhead]Something prevented us from making a new instance of class " + WarheadCasings.get(getMetadata()).warhead_clazz);
+            ICBM.INSTANCE.logger().error("[TileWarhead]Something prevented us from making a new instance of class " + WarheadCasings.get(getMetadata()).warhead_clazz);
             if (Engine.runningAsDev)
                 e.printStackTrace();
         }

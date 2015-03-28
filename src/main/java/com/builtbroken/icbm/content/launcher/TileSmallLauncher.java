@@ -3,10 +3,9 @@ package com.builtbroken.icbm.content.launcher;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.ILauncher;
 import com.builtbroken.icbm.api.IMissileItem;
+import com.builtbroken.icbm.content.Assets;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
-import com.builtbroken.icbm.content.crafting.missile.casing.MissileSmall;
-import com.builtbroken.icbm.content.crafting.missile.casing.ModelRefs;
 import com.builtbroken.icbm.content.display.TileMissileContainer;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
@@ -34,7 +33,6 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
@@ -42,9 +40,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
-import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import org.lwjgl.opengl.GL11;
 
@@ -55,9 +51,6 @@ import org.lwjgl.opengl.GL11;
 public class TileSmallLauncher extends TileMissileContainer implements ILauncher, ISimpleItemRenderer, IGuiTile, IPacketIDReceiver, IPostInit
 {
     protected Pos target = new Pos(0, -1, 0);
-
-    @SideOnly(Side.CLIENT)
-    private static IModelCustom launcher_model;
 
     public TileSmallLauncher()
     {
@@ -206,16 +199,10 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
     @Override
     public void renderInventoryItem(IItemRenderer.ItemRenderType type, ItemStack itemStack, Object... data)
     {
-        //Import model if missing
-        if (launcher_model == null)
-        {
-            launcher_model = EngineModelLoader.loadModel(new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_PREFIX + "small_launcher.tcn"));
-        }
-
         GL11.glTranslatef(-0.5f, -0.5f, -0.5f);
         GL11.glScaled(.8f, .8f, .8f);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(ModelRefs.GREY_FAKE_TEXTURE);
-        launcher_model.renderAllExcept("rail");
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
+        Assets.PORTABLE_LAUNCHER_MODEL.renderAllExcept("rail");
     }
 
     @SideOnly(Side.CLIENT)
@@ -228,17 +215,11 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
     @SideOnly(Side.CLIENT)
     public void renderDynamic(Pos pos, float frame, int pass)
     {
-        //Import model if missing
-        if (launcher_model == null)
-        {
-            launcher_model = EngineModelLoader.loadModel(new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_PREFIX + "small_launcher.tcn"));
-        }
-
         //Render launcher
         GL11.glPushMatrix();
         GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.5f, pos.zf() + 0.5f);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(ModelRefs.GREY_FAKE_TEXTURE);
-        launcher_model.renderAll();
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
+        Assets.PORTABLE_LAUNCHER_MODEL.renderAll();
         GL11.glPopMatrix();
 
         //Render missile
@@ -247,8 +228,8 @@ public class TileSmallLauncher extends TileMissileContainer implements ILauncher
             GL11.glPushMatrix();
             GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.5f, pos.zf() + 0.5f);
             GL11.glScaled(.0015625f, .0015625f, .0015625f);
-            FMLClientHandler.instance().getClient().renderEngine.bindTexture(ModelRefs.GREY_FAKE_TEXTURE);
-            ModelRefs.SMALL_MISSILE_MODEL.renderAll();
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
+            Assets.SMALL_MISSILE_MODEL.renderAll();
             GL11.glPopMatrix();
         }
     }

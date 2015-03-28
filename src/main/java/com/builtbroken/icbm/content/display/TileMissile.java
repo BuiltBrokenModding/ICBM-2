@@ -1,8 +1,7 @@
 package com.builtbroken.icbm.content.display;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.crafting.missile.casing.MissileSmall;
-import com.builtbroken.icbm.content.crafting.missile.casing.ModelRefs;
+import com.builtbroken.icbm.content.Assets;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.render.RenderUtility;
@@ -91,8 +90,8 @@ public class TileMissile extends Tile implements IPostInit, ISimpleItemRenderer
         RenderUtility.disableLighting();
         GL11.glTranslatef(pos.xf() + 0.5f, pos.yf(), pos.zf() + 0.5f);
         GL11.glScaled(.0015625f, .0015625f, .0015625f);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(ModelRefs.GREY_FAKE_TEXTURE);
-        ModelRefs.SMALL_MISSILE_MODEL.renderAll();
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
+        Assets.SMALL_MISSILE_MODEL.renderAll();
         RenderUtility.enableLighting();
         GL11.glPopMatrix();
     }

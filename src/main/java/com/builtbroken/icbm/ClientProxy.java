@@ -115,7 +115,7 @@ public class ClientProxy extends CommonProxy
                 return fxLayers[0];
             } catch (Exception e)
             {
-                ICBM.LOGGER.log(Level.ERROR, "Failed to use reflection on entity effects.");
+                ICBM.INSTANCE.logger().log(Level.ERROR, "Failed to use reflection on entity effects.");
                 e.printStackTrace();
                 this.disableReflectionFX = true;
             }

@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.rocketlauncher;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.content.Assets;
 import com.builtbroken.mc.lib.render.model.loader.EngineModelLoader;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -17,8 +18,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderRocketLauncher implements IItemRenderer
 {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_TEXTURE_PATH + "rocketLauncher.png");
-    private static final IModelCustom MODEL = EngineModelLoader.loadModel(new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_PREFIX + "rocketLauncher.tcn"));
 
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type)
@@ -37,7 +36,7 @@ public class RenderRocketLauncher implements IItemRenderer
     {
         GL11.glPushMatrix();
 
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.RPG_TEXTURE);
 
         if (type == ItemRenderType.INVENTORY)
         {
@@ -65,7 +64,7 @@ public class RenderRocketLauncher implements IItemRenderer
             GL11.glTranslatef(0, 0.3f, 0);
         }
 
-        MODEL.renderAll();
+        Assets.RPG_MODEL.renderAll();
 
         GL11.glPopMatrix();
     }

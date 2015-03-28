@@ -63,46 +63,27 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 
 /**
- * Main class for ICBM core to profile on. The core will need to be initialized by each ICBM module.
+ * Main Mod class for ICBM, Loads up everything needs when called by FML/Forge
  *
- * @author Calclavia
+ * @author DarkGuardsman, [Original Author Calclavia]
  */
 @Mod(modid = ICBM.DOMAIN, name = ICBM.NAME, version = ICBM.VERSION, dependencies = "required-after:VoltzEngine")
 public final class ICBM extends AbstractMod
 {
-    /**
-     * Name of the channel and mod ID.
-     */
+    //Meta
     public static final String NAME = "ICBM";
     public static final String DOMAIN = "icbm";
     public static final String PREFIX = DOMAIN + ":";
 
-    /**
-     * The version of ICBM.
-     */
+    // Version numbers
     public static final String MAJOR_VERSION = "@MAJOR@";
     public static final String MINOR_VERSION = "@MINOR@";
     public static final String REVISION_VERSION = "@REVIS@";
     public static final String BUILD_VERSION = "@BUILD@";
     public static final String VERSION = MAJOR_VERSION + "." + MINOR_VERSION + "." + REVISION_VERSION + "." + BUILD_VERSION;
 
-    public static final String ASSETS_PATH = "/assets/icbm/";
-    public static final String TEXTURE_PATH = "textures/";
-    public static final String GUI_PATH = TEXTURE_PATH + "gui/";
-    public static final String MODEL_PREFIX = "models/";
-    public static final String MODEL_DIRECTORY = ASSETS_PATH + MODEL_PREFIX;
-
-    public static final String MODEL_TEXTURE_PATH = TEXTURE_PATH + MODEL_PREFIX;
-    public static final String BLOCK_PATH = TEXTURE_PATH + "blocks/";
-    public static final String ITEM_PATH = TEXTURE_PATH + "items/";
-
-    public static final Logger LOGGER = LogManager.getLogger(NAME);
-
     @Instance(DOMAIN)
     public static ICBM INSTANCE;
-
-    @Metadata(DOMAIN)
-    public static ModMetadata metadata;
 
     @SidedProxy(clientSide = "com.builtbroken.icbm.ClientProxy", serverSide = "com.builtbroken.icbm.CommonProxy")
     public static CommonProxy proxy;
@@ -115,7 +96,7 @@ public final class ICBM extends AbstractMod
     public static int ENTITY_ID_PREFIX = 50;
 
     // Blocks
-    public static Block blockExplosive;
+    public static Block blockWarhead;
     public static Block blockExplosiveMarker;
     public static Block blockMissileDisplay;
     public static Block blockMissile;
@@ -158,15 +139,23 @@ public final class ICBM extends AbstractMod
         MinecraftForge.EVENT_BUS.register(proxy);
         FMLCommonHandler.instance().bus().register(this);
 
+        //Request Engine to load items for use
+        Engine.heatedRockRequested = true;
+
+        // Configs TODO load up using config system, and separate file
         ANTIMATTER_BREAK_UNBREAKABLE = getConfig().getBoolean("Antimatter_Destroy_Unbreakable", Configuration.CATEGORY_GENERAL, true, "Allows antimatter to break blocks that are unbreakable, bedrock for example.");
         missile_firing_volume = getConfig().getFloat("", "volume", 1.0F, 0, 4, "");
-        
-        // Blocks
-        blockExplosive = manager.newBlock(TileWarhead.class);
+
+        // Functional Blocks
+        blockWarhead = manager.newBlock(TileWarhead.class);
         blockMissileDisplay = manager.newBlock(TileMissileDisplay.class);
-        blockMissile = manager.newBlock(TileMissile.class);
         blockSmallLauncher = manager.newBlock(TileSmallLauncher.class);
         blockMissileWorkstation = manager.newBlock(TileMissileWorkstation.class);
+
+        // Decor Blocks
+        blockMissile = manager.newBlock(TileMissile.class);
+
+        // Debug Only blocks
         if (Engine.runningAsDev)
         {
             blockExplosiveMarker = manager.newBlock(BlockExplosiveMarker.class, ItemBlockMetadata.class);
@@ -178,28 +167,28 @@ public final class ICBM extends AbstractMod
         itemRocketLauncher = manager.newItem(ItemRocketLauncher.class);
         itemEngineModules = manager.newItem(ItemEngineModules.class);
 
+        // Register modules, need to do this or they will not build from ItemStacks
         MissileCasings.register();
         WarheadCasings.register();
         Engines.register();
 
+        //Set tab item last so to avoid NPE
         CREATIVE_TAB.itemStack = new ItemStack(itemMissile);
-
-        Engine.heatedRockRequested = true;
     }
 
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
         super.init(event);
-        //Explosives
+
+        //Create Explosives
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Snowmen", new ExplosiveHandler("snowmen", BlastSnowman.class, 1));
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "ExoThermic", new ExplosiveHandler("ExoThermic", BlastExoThermic.class, 2));
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "EndoThermic", new ExplosiveHandler("EndoThermic", BlastEndoThermic.class, 2));
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "ArrowFragment", new ExplosiveHandler("ArrowFragment", BlastFragment.class, 2));
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Antimatter", new ExplosiveHandler("Antimatter", BlastAntimatter.class, 2));
 
-
-        //Entities
+        //Register Entities
         EntityRegistry.registerGlobalEntityID(EntityMissile.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());
         EntityRegistry.registerModEntity(EntityMissile.class, "ICBMMissile", ENTITY_ID_PREFIX + 3, this, 500, 1, true);
     }

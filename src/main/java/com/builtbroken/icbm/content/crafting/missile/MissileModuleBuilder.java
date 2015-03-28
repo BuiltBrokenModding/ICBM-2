@@ -117,7 +117,7 @@ public class MissileModuleBuilder extends ModuleBuilder
         try
         {
 
-            Warhead warhead = size.warhead_clazz.getConstructor(ItemStack.class).newInstance(new ItemStack(ICBM.blockExplosive, 1, size.ordinal()));
+            Warhead warhead = size.warhead_clazz.getConstructor(ItemStack.class).newInstance(new ItemStack(ICBM.blockWarhead, 1, size.ordinal()));
             warhead.ex = ex;
             return warhead;
         } catch (InstantiationException e)
