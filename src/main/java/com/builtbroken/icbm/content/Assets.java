@@ -28,6 +28,7 @@ public final class Assets
     //Textures
     public static final ResourceLocation GREY_FAKE_TEXTURE = texture("grey");
     public static final ResourceLocation MICRO_MISSILE_TEXTURE = texture("Rocket_Micro");
+    public static final ResourceLocation SMALL_MISSILE_TEXTURE = texture("Missile_Small");
     public static final ResourceLocation CLASSIC_MISSILE_TEXTURE = texture("missile_condensed");
     public static final ResourceLocation RPG_TEXTURE = texture("rocketLauncher");
 

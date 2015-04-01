@@ -20,6 +20,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
@@ -82,17 +83,22 @@ public class TileMissile extends Tile implements IPostInit, ISimpleItemRenderer
         renderDynamic(new Pos(), 0, 0);
     }
 
+    @SideOnly(Side.CLIENT)
+    @Override
+    public AxisAlignedBB getRenderBoundingBox()
+    {
+        return new Cube(0, 0, 0, 1, 3, 1).add(x(), y(), z()).toAABB();
+    }
+
     @Override
     @SideOnly(Side.CLIENT)
     public void renderDynamic(Pos pos, float frame, int pass)
     {
         GL11.glPushMatrix();
-        RenderUtility.disableLighting();
         GL11.glTranslatef(pos.xf() + 0.5f, pos.yf(), pos.zf() + 0.5f);
         GL11.glScaled(.0015625f, .0015625f, .0015625f);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_MISSILE_TEXTURE);
         Assets.SMALL_MISSILE_MODEL.renderAll();
-        RenderUtility.enableLighting();
         GL11.glPopMatrix();
     }
 }
