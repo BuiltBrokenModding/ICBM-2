@@ -122,7 +122,7 @@ public class TileSmallLauncher extends TileAbstractLauncher implements ISimpleIt
             GL11.glPushMatrix();
             GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.5f, pos.zf() + 0.5f);
             GL11.glScaled(.0015625f, .0015625f, .0015625f);
-            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_MISSILE_TEXTURE);
             Assets.SMALL_MISSILE_MODEL.renderAll();
             GL11.glPopMatrix();
         }

@@ -23,7 +23,7 @@ public class MissileSmall extends Missile implements ICustomMissileRender
     @Override @SideOnly(Side.CLIENT)
     public boolean renderMissileItem(IItemRenderer.ItemRenderType type, ItemStack stack, Object... data)
     {
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_MISSILE_TEXTURE);
         GL11.glScalef(.0015625f, .0015625f, .0015625f);
         switch(type)
         {
@@ -36,7 +36,7 @@ public class MissileSmall extends Missile implements ICustomMissileRender
     @Override @SideOnly(Side.CLIENT)
     public boolean renderMissileInWorld()
     {
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_MISSILE_TEXTURE);
         GL11.glScalef(.0015625f, .0015625f, .0015625f);
         Assets.SMALL_MISSILE_MODEL.renderAll();
         return true;
