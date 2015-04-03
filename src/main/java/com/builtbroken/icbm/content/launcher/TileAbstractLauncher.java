@@ -5,6 +5,7 @@ import com.builtbroken.icbm.api.IMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.display.TileMissileContainer;
 import com.builtbroken.icbm.content.missile.EntityMissile;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
@@ -153,10 +154,20 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
      */
     public void onImpactOfMissile(EntityMissile missile)
     {
-        for (LauncherReport report : launcherReports)
+        if (missile != null)
         {
-            if (report.entityID == missile.getUniqueID())
-                report.impacted = true;
+            if (Engine.runningAsDev)
+                Engine.instance.logger().info("Missile" + missile.getUniqueID() + " reported impact");
+            for (LauncherReport report : launcherReports)
+            {
+                if (report.entityID == missile.getUniqueID())
+                {
+                    report.impacted = true;
+                    if (Engine.runningAsDev)
+                        Engine.instance.logger().info("Missile" + missile.getUniqueID() + " matched a report");
+                    break;
+                }
+            }
         }
     }
 
@@ -164,10 +175,17 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     {
         if (missile != null)
         {
+            if (Engine.runningAsDev)
+                Engine.instance.logger().info("Missile" + missile.getUniqueID() + " reported death");
             for (LauncherReport report : launcherReports)
             {
                 if (report.entityID == missile.getUniqueID())
+                {
                     report.deathTime = System.nanoTime();
+                    if (Engine.runningAsDev)
+                        Engine.instance.logger().info("Missile" + missile.getUniqueID() + " matched a report");
+                    break;
+                }
             }
         }
     }
