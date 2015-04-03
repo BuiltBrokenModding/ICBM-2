@@ -18,6 +18,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +32,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     protected Pos target = new Pos(0, -1, 0);
     protected short link_code;
 
-    protected List<Integer> missileEntityIDs = new ArrayList();
-    protected LauncherReport[] launchReports = new LauncherReport[20];
+    protected List<LauncherReport> launcherReports = new ArrayList();
 
     public TileAbstractLauncher(String name, Material mat, int slots)
     {
@@ -92,7 +92,8 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
 
                 //Spawn and start moving
                 world().spawnEntityInWorld(entity);
-                missileEntityIDs.add(entity.getEntityId());
+                addLaunchReport(entity);
+
                 entity.setIntoMotion();
 
                 //Empty inventory slot
@@ -104,6 +105,13 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
                 triggerLaunchingEffects();
             }
         }
+    }
+
+    protected void addLaunchReport(EntityMissile missile)
+    {
+        launcherReports.add(new LauncherReport(missile));
+        if (launcherReports.size() > 20)
+            launcherReports.remove(0);
     }
 
     /**
@@ -142,14 +150,22 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
      */
     public void onImpactOfMissile(EntityMissile missile)
     {
-
+        for (LauncherReport report : launcherReports)
+        {
+            if (report.entityID == missile.getEntityId())
+                report.impacted = true;
+        }
     }
 
     public void onDeathOfMissile(EntityMissile missile)
     {
-        if (missile != null && missileEntityIDs.contains(missile.getEntityId()))
+        if (missile != null)
         {
-            missileEntityIDs.remove(missile.getEntityId());
+            for (LauncherReport report : launcherReports)
+            {
+                if (report.entityID == missile.getEntityId())
+                    report.deathTime = System.nanoTime();
+            }
         }
     }
 
@@ -197,13 +213,16 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         else
             this.link_code = (short) MathUtility.rand.nextInt(Short.MAX_VALUE);
 
-        if (nbt.hasKey("missiles"))
+        if (nbt.hasKey("launchReports"))
         {
-            //Make sure we clear so not to have duplications
-            missileEntityIDs.clear();
-            int[] array = nbt.getIntArray("missiles");
-            for(int i = 0; i < array.length; i++)
-                missileEntityIDs.add(array[i]);
+            //Clear list to remove duplication
+            launcherReports.clear();
+
+            NBTTagList list = nbt.getTagList("launchReports", 10);
+            for (int i = 0; i < list.tagCount(); i++)
+            {
+                launcherReports.add(new LauncherReport(list.getCompoundTagAt(i)));
+            }
         }
     }
 
@@ -215,14 +234,14 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
             nbt.setTag("target", target.toNBT());
         nbt.setShort("link_code", link_code);
 
-        if (missileEntityIDs != null && missileEntityIDs.size() > 0)
+        if (launcherReports != null && launcherReports.size() > 0)
         {
-            int[] array = new int[missileEntityIDs.size()];
-            for(int i = 0; i < missileEntityIDs.size(); i++)
+            NBTTagList list = new NBTTagList();
+            for (LauncherReport report : launcherReports)
             {
-                array[i] = missileEntityIDs.get(i);
+                list.appendTag(report.save());
             }
-            nbt.setIntArray("missiles", array);
+            nbt.setTag("launchReports", list);
         }
     }
 }

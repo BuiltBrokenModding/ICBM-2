@@ -23,11 +23,6 @@ public class LauncherReport implements ISave
     public Long deathTime;
     public boolean impacted;
 
-    public LauncherReport(Missile missile)
-    {
-        this.missile = missile;
-    }
-
     public LauncherReport(EntityMissile missile)
     {
         entityID = missile.getEntityId();
@@ -49,8 +44,8 @@ public class LauncherReport implements ISave
             launchTime = nbt.getLong("start");
         if (nbt.hasKey("end"))
             deathTime = nbt.getLong("end");
-        if(nbt.hasKey("impact"))
-            impacted = nbt.getBoolean("impact");
+        
+        impacted = nbt.getBoolean("impact");
     }
 
     public NBTTagCompound save()
@@ -61,6 +56,14 @@ public class LauncherReport implements ISave
     @Override
     public NBTTagCompound save(NBTTagCompound nbt)
     {
+        if (missile != null)
+            nbt.setTag("missile", missile.toStack().writeToNBT(new NBTTagCompound()));
+        if (launchTime != 0L)
+            nbt.setLong("start", launchTime);
+        if (deathTime != 0L)
+            nbt.setLong("end", deathTime);
+        if (impacted)
+            nbt.setBoolean("impact", true);
         return nbt;
     }
 }
