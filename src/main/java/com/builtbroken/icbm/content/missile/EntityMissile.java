@@ -5,6 +5,7 @@ import com.builtbroken.icbm.api.IMissile;
 import com.builtbroken.icbm.api.IMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
+import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.icbm.content.missile.data.FlightData;
 import com.builtbroken.icbm.content.missile.data.FlightDataArk;
 import com.builtbroken.jlib.data.vector.IPos3D;
@@ -20,6 +21,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 /**
@@ -164,7 +166,29 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     public void onImpactTile()
     {
         super.onImpactTile();
+        if(sourceOfProjectile != null)
+        {
+            TileEntity tile = sourceOfProjectile.getTileEntity(worldObj);
+            if(tile instanceof TileAbstractLauncher)
+            {
+                ((TileAbstractLauncher) tile).onImpactOfMissile(this);
+            }
+        }
         onImpact();
+    }
+
+    @Override
+    public void setDead()
+    {
+        super.setDead();
+        if(sourceOfProjectile != null)
+        {
+            TileEntity tile = sourceOfProjectile.getTileEntity(worldObj);
+            if(tile instanceof TileAbstractLauncher)
+            {
+                ((TileAbstractLauncher) tile).onDeathOfMissile(this);
+            }
+        }
     }
 
     protected void onImpact()
