@@ -174,6 +174,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     {
         if (isServer())
         {
+            //Server side, update target button
             if (id == 1)
             {
                 this.target = new Pos(buf);
@@ -182,6 +183,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         }
         else
         {
+            //Client side, desc packet
             if (id == 0)
             {
                 this.target = new Pos(buf);

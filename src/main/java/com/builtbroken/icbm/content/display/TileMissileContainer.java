@@ -52,22 +52,26 @@ public class TileMissileContainer extends TileModuleMachine
 
     public boolean playerRemoveMissile(EntityPlayer player, int side, Pos hit)
     {
-        if (isServer() && getMissile() != null)
+        if(player.getHeldItem() == null && getMissile() != null)
         {
-            //TODO add translation
-            player.addChatComponentMessage(new ChatComponentText("*Removed Missile*"));
-            player.inventory.mainInventory[player.inventory.currentItem] = getMissile().toStack();
-            setInventorySlotContents(0, null);
-            player.inventoryContainer.detectAndSendChanges();
-            sendDescPacket();
+            if (isServer())
+            {
+                //TODO add translation
+                player.addChatComponentMessage(new ChatComponentText("*Removed Missile*"));
+                player.inventory.mainInventory[player.inventory.currentItem] = getMissile().toStack();
+                setInventorySlotContents(0, null);
+                player.inventoryContainer.detectAndSendChanges();
+                sendDescPacket();
+            }
+            return true;
         }
-        return true;
+        return false;
     }
 
     public boolean playerAddMissile(EntityPlayer player, int side, Pos hit)
     {
         ItemStack heldItem = player.getHeldItem();
-        if(heldItem != null)
+        if(heldItem != null && getMissile() == null)
         {
             if (isServer() && heldItem.getItem() instanceof IMissileItem)
             {

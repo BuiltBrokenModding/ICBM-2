@@ -1,20 +1,13 @@
 package com.builtbroken.icbm.content.launcher.launcher;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.api.ILauncher;
-import com.builtbroken.icbm.api.IMissileItem;
 import com.builtbroken.icbm.content.Assets;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
-import com.builtbroken.icbm.content.display.TileMissileContainer;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
-import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.core.Engine;
-import com.builtbroken.mc.core.network.IPacketIDReceiver;
-import com.builtbroken.mc.core.network.packet.PacketTile;
-import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
@@ -23,20 +16,17 @@ import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
 import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -68,33 +58,38 @@ public class TileSmallLauncher extends TileAbstractLauncher implements ISimpleIt
     @Override
     public boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
     {
-        if (player.getHeldItem() != null && player.getHeldItem().getItem() == Items.flint_and_steel)
+        if (!super.onPlayerRightClick(player, side, hit))
         {
-            if (target != null && target.y() > -1)
+            if (player.getHeldItem() != null && player.getHeldItem().getItem() == Items.flint_and_steel)
             {
-                double distance = target.distance(new Pos(this));
-                if (distance <= 200 && distance >= 20)
+                if (target != null && target.y() > -1)
                 {
-                    fireMissile(target);
-                    //TODO add launch logging to console
+                    double distance = target.distance(new Pos(this));
+                    if (distance <= 200 && distance >= 20)
+                    {
+                        fireMissile(target);
+                        //TODO add launch logging to console
+                    }
+                    else
+                    {
+                        LanguageUtility.addChatToPlayer(player, getInventoryName() + ".invaliddistance");
+                    }
                 }
                 else
                 {
-                    LanguageUtility.addChatToPlayer(player, getInventoryName() + ".invaliddistance");
+                    LanguageUtility.addChatToPlayer(player, getInventoryName() + ".invalidtarget");
                 }
+                return true;
             }
             else
             {
-                LanguageUtility.addChatToPlayer(player, getInventoryName() + ".invalidtarget");
+                if (player instanceof EntityPlayerMP)
+                    Engine.instance.packetHandler.sendToPlayer(getDescPacket(), (EntityPlayerMP) player);
+                openGui(player, ICBM.INSTANCE);
+                return true;
             }
-            return true;
         }
-        else if (player.getHeldItem() == null)
-        {
-            openGui(player, ICBM.INSTANCE);
-            return true;
-        }
-        return super.onPlayerRightClick(player, side, hit);
+        return false;
     }
 
     @Override
