@@ -7,6 +7,8 @@ import com.builtbroken.mc.api.ISave;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
+import java.util.UUID;
+
 /**
  * Used to log information about what happened when the missile launched
  * then impacted.
@@ -15,7 +17,7 @@ import net.minecraft.nbt.NBTTagCompound;
 public class LauncherReport implements ISave
 {
     //Not saved
-    public int entityID;
+    public UUID entityID;
 
     //Saved data
     public Missile missile;
@@ -25,7 +27,7 @@ public class LauncherReport implements ISave
 
     public LauncherReport(EntityMissile missile)
     {
-        entityID = missile.getEntityId();
+        entityID = missile.getUniqueID();
         this.missile = missile.getMissile();
         this.launchTime = System.nanoTime();
     }
@@ -46,6 +48,11 @@ public class LauncherReport implements ISave
             deathTime = nbt.getLong("end");
         
         impacted = nbt.getBoolean("impact");
+
+        if (nbt.hasKey("UUIDMost", 4) && nbt.hasKey("UUIDLeast", 4))
+        {
+            this.entityID = new UUID(nbt.getLong("UUIDMost"), nbt.getLong("UUIDLeast"));
+        }
     }
 
     public NBTTagCompound save()
@@ -64,6 +71,12 @@ public class LauncherReport implements ISave
             nbt.setLong("end", deathTime);
         if (impacted)
             nbt.setBoolean("impact", true);
+
+        if(entityID != null)
+        {
+            nbt.setLong("UUIDMost", entityID.getMostSignificantBits());
+            nbt.setLong("UUIDLeast", entityID.getLeastSignificantBits());
+        }
         return nbt;
     }
 }

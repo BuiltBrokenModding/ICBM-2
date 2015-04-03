@@ -107,6 +107,9 @@ public class MissileTracker implements IVirtualObject
                             missile.setIntoMotion();
 
                             world.spawnEntityInWorld(missile);
+
+                            if (Engine.runningAsDev)
+                                Engine.instance.logger().info("Spawned in missile[" + missile.getUniqueID() + "]  " + data);
                         }
                         else
                         {
@@ -138,7 +141,7 @@ public class MissileTracker implements IVirtualObject
         missiles.add(data);
 
         if (Engine.runningAsDev)
-            Engine.instance.logger().info("Missile added " + data);
+            Engine.instance.logger().info("Missile[" + missile.getUniqueID() + "] added " + data);
     }
 
     @Override

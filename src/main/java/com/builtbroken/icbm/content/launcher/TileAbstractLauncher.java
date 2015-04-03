@@ -155,7 +155,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     {
         for (LauncherReport report : launcherReports)
         {
-            if (report.entityID == missile.getEntityId())
+            if (report.entityID == missile.getUniqueID())
                 report.impacted = true;
         }
     }
@@ -166,7 +166,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         {
             for (LauncherReport report : launcherReports)
             {
-                if (report.entityID == missile.getEntityId())
+                if (report.entityID == missile.getUniqueID())
                     report.deathTime = System.nanoTime();
             }
         }
