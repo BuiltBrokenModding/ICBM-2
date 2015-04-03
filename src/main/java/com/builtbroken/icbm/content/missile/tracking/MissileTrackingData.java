@@ -22,13 +22,14 @@ public class MissileTrackingData
 
     public MissileTrackingData(World world, NBTTagCompound tag)
     {
-        if(tag.hasKey("missile"))
+        if (tag.hasKey("missile"))
         {
             Entity entity = EntityList.createEntityFromNBT(tag.getCompoundTag("missile"), world);
             if (entity instanceof EntityMissile)
             {
                 missile = (EntityMissile) entity;
-                respawnTicks = (long) new Point(missile.posX, missile.posZ).distance(new Point(missile.target_pos.x(), missile.target_pos.z())) * 2;
+                if (missile.target_pos != null)
+                    respawnTicks = (long) new Point(missile.posX, missile.posZ).distance(new Point(missile.target_pos.x(), missile.target_pos.z())) * 2;
             }
         }
     }
