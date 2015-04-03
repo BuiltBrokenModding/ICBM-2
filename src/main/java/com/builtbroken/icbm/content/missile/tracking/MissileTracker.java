@@ -1,16 +1,15 @@
 package com.builtbroken.icbm.content.missile.tracking;
 
-import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.mc.api.IVirtualObject;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.handler.SaveManager;
 import com.builtbroken.mc.lib.helper.NBTUtility;
 import com.builtbroken.mc.lib.transform.vector.Location;
-import com.builtbroken.mc.lib.transform.vector.Point;
-import com.builtbroken.mc.lib.transform.vector.Pos;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
@@ -43,7 +42,7 @@ public class MissileTracker implements IVirtualObject
         this.dim = world.provider.dimensionId;
         SaveManager.register(this);
         File file = getSaveFile();
-        if(file != null && file.exists())
+        if (file != null && file.exists())
         {
             load(NBTUtility.loadData(file));
         }
@@ -89,23 +88,38 @@ public class MissileTracker implements IVirtualObject
         while (it.hasNext())
         {
             MissileTrackingData data = it.next();
-            if(data.isValid())
+            if (data.isValid())
             {
                 data.ticks++;
                 if (data.shouldRespawn())
                 {
                     //TODO add chunk loading
-                    Location loc = new Location(world, data.missile.target_pos);
+                    Location loc = new Location(world, data.target);
                     if (loc.isChunkLoaded())
                     {
-                        //Its unlikely but this may cause threading issues if this is called as a thread
-                        world.spawnEntityInWorld(data.missile);
+                        Entity entity = EntityList.createEntityFromNBT(data.m_save, world);
+                        if (entity instanceof EntityMissile)
+                        {
+                            EntityMissile missile = (EntityMissile) entity;
+                            missile.setPosition(data.target.x() + (10 * world.rand.nextFloat()), 500 + (100 * world.rand.nextFloat()), data.target.z() + (10 * world.rand.nextFloat()));
+                            missile.setVelocity(0, -1, 0);
+                            missile.setIntoMotion();
+
+                            world.spawnEntityInWorld(missile);
+                        }
+                        else
+                        {
+                            if (Engine.runningAsDev)
+                                Engine.instance.logger().error("Error, entity != missile, loading missile data " + data);
+                        }
                         it.remove();
                     }
                 }
             }
             else
             {
+                if (Engine.runningAsDev)
+                    Engine.instance.logger().error("Removed invalid missile data " + data);
                 it.remove();
             }
         }
@@ -118,8 +132,12 @@ public class MissileTracker implements IVirtualObject
         MissileTrackingData data = new MissileTrackingData(missile);
         List l = new ArrayList();
         l.add(missile);
-        world.unloadEntities(l);
+        world.removeEntity(missile);
+
         missiles.add(data);
+
+        if (Engine.runningAsDev)
+            Engine.instance.logger().info("Missile added " + data);
     }
 
     @Override
@@ -144,7 +162,7 @@ public class MissileTracker implements IVirtualObject
     public void load(NBTTagCompound nbt)
     {
         NBTTagList list = nbt.getTagList("missileEntities", 10);
-        for(int i = 0; i < list.tagCount(); i++)
+        for (int i = 0; i < list.tagCount(); i++)
         {
             missiles.add(new MissileTrackingData(world, list.getCompoundTagAt(i)));
         }
