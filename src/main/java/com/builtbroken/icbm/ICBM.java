@@ -18,7 +18,7 @@ import com.builtbroken.icbm.content.launcher.launcher.TileSmallLauncher;
 import com.builtbroken.icbm.content.launcher.silo.TileSmallSilo;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.ItemMissile;
-import com.builtbroken.icbm.content.missile.MissileTracker;
+import com.builtbroken.icbm.content.missile.tracking.MissileTracker;
 import com.builtbroken.icbm.content.rocketlauncher.ItemRocketLauncher;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;

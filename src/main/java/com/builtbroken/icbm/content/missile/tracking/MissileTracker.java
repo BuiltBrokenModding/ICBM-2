@@ -1,9 +1,8 @@
-package com.builtbroken.icbm.content.missile;
+package com.builtbroken.icbm.content.missile.tracking;
 
-import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
-import com.builtbroken.jlib.data.vector.IPos3D;
+import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.mc.api.IVirtualObject;
 import com.builtbroken.mc.core.handler.SaveManager;
 import com.builtbroken.mc.lib.helper.NBTUtility;
@@ -20,6 +19,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by robert on 2/9/2015.
@@ -28,17 +28,19 @@ public class MissileTracker implements IVirtualObject
 {
     private static HashMap<Integer, MissileTracker> trackers = new HashMap();
 
-    private ArrayList<MissileData> missiles = new ArrayList();
+    private ArrayList<MissileTrackingData> missiles = new ArrayList();
     private final int dim;
+    private final World world;
 
     static
     {
         SaveManager.registerClass("MissileTracker", MissileTracker.class);
     }
 
-    private MissileTracker(int dim)
+    private MissileTracker(World world)
     {
-        this.dim = dim;
+        this.world = world;
+        this.dim = world.provider.dimensionId;
         SaveManager.register(this);
         File file = getSaveFile();
         if(file != null && file.exists())
@@ -61,7 +63,7 @@ public class MissileTracker implements IVirtualObject
             int dim = world.provider.dimensionId;
             if (!trackers.containsKey(dim))
             {
-                trackers.put(dim, new MissileTracker(dim));
+                trackers.put(dim, new MissileTracker(world));
             }
             return trackers.get(dim);
         }
@@ -83,21 +85,28 @@ public class MissileTracker implements IVirtualObject
 
     public boolean update(World world)
     {
-        Iterator<MissileData> it = missiles.iterator();
+        Iterator<MissileTrackingData> it = missiles.iterator();
         while (it.hasNext())
         {
-            MissileData data = it.next();
-            data.ticks++;
-            if (data.ticks >= data.respawnTicks)
+            MissileTrackingData data = it.next();
+            if(data.isValid())
             {
-                //TODO add chunk loading
-                Location loc = new Location(world, data.target);
-                if(loc.isChunkLoaded())
+                data.ticks++;
+                if (data.shouldRespawn())
                 {
-                    //Its unlikely but this may cause threading issues if this is called as a thread
-                    spawnMissileOverTarget(data.missile, loc , null);
-                    it.remove();
+                    //TODO add chunk loading
+                    Location loc = new Location(world, data.missile.target_pos);
+                    if (loc.isChunkLoaded())
+                    {
+                        //Its unlikely but this may cause threading issues if this is called as a thread
+                        world.spawnEntityInWorld(data.missile);
+                        it.remove();
+                    }
                 }
+            }
+            else
+            {
+                it.remove();
             }
         }
         return true;
@@ -106,15 +115,10 @@ public class MissileTracker implements IVirtualObject
     public void add(EntityMissile missile)
     {
         //Cache data to respawn missile
-        MissileData data = new MissileData();
-        data.missile = missile.getMissile();
-        data.target = new Pos(missile.target_pos);
-
-        data.respawnTicks = (int) new Point(missile.posX, missile.posZ).distance(new Point(data.target.x(), data.target.z())) * 2;
-
-        //Kill old missile as we do not need it
-        missile.worldObj.removeEntity(missile);
-
+        MissileTrackingData data = new MissileTrackingData(missile);
+        List l = new ArrayList();
+        l.add(missile);
+        world.unloadEntities(l);
         missiles.add(data);
     }
 
@@ -139,14 +143,10 @@ public class MissileTracker implements IVirtualObject
     @Override
     public void load(NBTTagCompound nbt)
     {
-        NBTTagList list = nbt.getTagList("missiles", 10);
+        NBTTagList list = nbt.getTagList("missileEntities", 10);
         for(int i = 0; i < list.tagCount(); i++)
         {
-            NBTTagCompound tag = list.getCompoundTagAt(i);
-            MissileData data = new MissileData();
-            data.missile = MissileModuleBuilder.INSTANCE.buildMissile(ItemStack.loadItemStackFromNBT(tag));
-            data.target = new Pos(tag);
-            missiles.add(data);
+            missiles.add(new MissileTrackingData(world, list.getCompoundTagAt(i)));
         }
     }
 
@@ -154,24 +154,14 @@ public class MissileTracker implements IVirtualObject
     public NBTTagCompound save(NBTTagCompound nbt)
     {
         NBTTagList list = new NBTTagList();
-        Iterator<MissileData> it = missiles.iterator();
+        Iterator<MissileTrackingData> it = missiles.iterator();
         while (it.hasNext())
         {
-            MissileData data = it.next();
-            NBTTagCompound tag = new NBTTagCompound();
-            data.target.writeNBT(tag);
-            data.missile.toStack().writeToNBT(tag);
-            list.appendTag(tag);
+            list.appendTag(it.next().save());
         }
-        nbt.setTag("missiles", list);
+        nbt.setTag("missileEntities", list);
         return nbt;
     }
 
-    public static class MissileData
-    {
-        Missile missile;
-        Pos target;
-        int ticks;
-        int respawnTicks;
-    }
+
 }
