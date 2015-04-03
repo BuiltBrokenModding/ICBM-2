@@ -66,6 +66,38 @@ public class TileSmallLauncher extends TileAbstractLauncher implements ISimpleIt
     }
 
     @Override
+    public boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
+    {
+        if (player.getHeldItem() != null && player.getHeldItem().getItem() == Items.flint_and_steel)
+        {
+            if (target != null && target.y() > -1)
+            {
+                double distance = target.distance(new Pos(this));
+                if (distance <= 200 && distance >= 20)
+                {
+                    fireMissile();
+                    //TODO add launch logging to console
+                }
+                else
+                {
+                    LanguageUtility.addChatToPlayer(player, getInventoryName() + ".invaliddistance");
+                }
+            }
+            else
+            {
+                LanguageUtility.addChatToPlayer(player, getInventoryName() + ".invalidtarget");
+            }
+            return true;
+        }
+        else if (player.getHeldItem() == null)
+        {
+            openGui(player, ICBM.INSTANCE);
+            return true;
+        }
+        return super.onPlayerRightClick(player, side, hit);
+    }
+
+    @Override
     public Tile newTile()
     {
         return new TileSmallLauncher();
