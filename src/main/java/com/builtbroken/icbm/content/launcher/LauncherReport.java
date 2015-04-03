@@ -19,8 +19,8 @@ public class LauncherReport implements ISave
 
     //Saved data
     public Missile missile;
-    public Long launchTime;
-    public Long deathTime;
+    public long launchTime = 0L;
+    public long deathTime = 0L;
     public boolean impacted;
 
     public LauncherReport(EntityMissile missile)
