@@ -5,7 +5,6 @@ import com.builtbroken.icbm.api.IMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.display.TileMissileContainer;
 import com.builtbroken.icbm.content.missile.EntityMissile;
-import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
@@ -29,7 +28,7 @@ import java.util.List;
  */
 public abstract class TileAbstractLauncher extends TileMissileContainer implements ILauncher, IPacketIDReceiver
 {
-    protected Pos target = new Pos(0, -1, 0);
+    public Pos target = new Pos(0, -1, 0);
     protected short link_code;
 
     protected List<LauncherReport> launcherReports = new ArrayList();
@@ -42,10 +41,14 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     public void setTarget(Pos target)
     {
         this.target = target;
-        if (isClient())
-        {
-            Engine.instance.packetHandler.sendToServer(new PacketTile(this, 1, target));
-        }
+        sendPacketToServer(new PacketTile(this, 1, target));
+    }
+
+    @Override
+    public void firstTick()
+    {
+        if (!target.isAboveBedrock())
+            target = new Pos(this);
     }
 
     @Override
