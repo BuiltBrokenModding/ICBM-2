@@ -102,7 +102,8 @@ public class MissileTracker implements IVirtualObject
                         {
                             EntityMissile missile = (EntityMissile) entity;
                             missile.setPosition(data.target.x() + (10 * world.rand.nextFloat()), 500 + (100 * world.rand.nextFloat()), data.target.z() + (10 * world.rand.nextFloat()));
-                            missile.setVelocity(0, -1, 0);
+                            //TODO change to simulate terminal velocity based on drop height
+                            missile.setVelocity(0, -2, 0);
                             missile.setIntoMotion();
 
                             world.spawnEntityInWorld(missile);
