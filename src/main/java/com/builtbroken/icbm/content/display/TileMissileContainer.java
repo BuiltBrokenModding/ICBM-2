@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.display;
 
+import com.builtbroken.icbm.api.IMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.missile.ItemMissile;
@@ -46,57 +47,57 @@ public class TileMissileContainer extends TileModuleMachine
     @Override
     public boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
     {
-        if (!player.isSneaking())
-        {
-            ItemStack heldItem = player.getHeldItem();
+        return playerRemoveMissile(player, side, hit) || playerAddMissile(player, side, hit);
+    }
 
-            if (heldItem == null)
+    public boolean playerRemoveMissile(EntityPlayer player, int side, Pos hit)
+    {
+        if (isServer() && getMissile() != null)
+        {
+            //TODO add translation
+            player.addChatComponentMessage(new ChatComponentText("*Removed Missile*"));
+            player.inventory.mainInventory[player.inventory.currentItem] = getMissile().toStack();
+            setInventorySlotContents(0, null);
+            player.inventoryContainer.detectAndSendChanges();
+            sendDescPacket();
+        }
+        return true;
+    }
+
+    public boolean playerAddMissile(EntityPlayer player, int side, Pos hit)
+    {
+        ItemStack heldItem = player.getHeldItem();
+        if(heldItem != null)
+        {
+            if (isServer() && heldItem.getItem() instanceof IMissileItem)
             {
-                if (getMissile() != null)
+                Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(heldItem);
+
+                if (canAcceptMissile(missile))
                 {
-                    if (isServer())
+                    //TODO add translation
+                    player.addChatComponentMessage(new ChatComponentText("*Added Missile*"));
+                    ItemStack stack = heldItem.copy();
+                    stack.stackSize = 1;
+                    setInventorySlotContents(0, stack);
+                    if (!player.capabilities.isCreativeMode)
                     {
-                        //TODO add translation
-                        player.addChatComponentMessage(new ChatComponentText("*Removed Missile*"));
-                        player.inventory.mainInventory[player.inventory.currentItem] = getMissile().toStack();
-                        setInventorySlotContents(0, null);
-                        player.inventoryContainer.detectAndSendChanges();
-                        sendDescPacket();
-                    }
-                    return true;
-                }
-            }
-            else if (heldItem.getItem() instanceof ItemMissile)
-            {
-                if (isServer())
-                {
-                    Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(heldItem);
-                    if (canAcceptMissile(missile))
-                    {
-                        //TODO add translation
-                        player.addChatComponentMessage(new ChatComponentText("*Added Missile*"));
-                        ItemStack stack = heldItem.copy();
-                        stack.stackSize = 1;
-                        setInventorySlotContents(0, stack);
-                        if (!player.capabilities.isCreativeMode)
+                        heldItem.stackSize--;
+                        if (heldItem.stackSize <= 0)
                         {
-                            heldItem.stackSize--;
-                            if (heldItem.stackSize <= 0)
-                            {
-                                player.inventory.mainInventory[player.inventory.currentItem] = null;
-                            }
-                            player.inventoryContainer.detectAndSendChanges();
+                            player.inventory.mainInventory[player.inventory.currentItem] = null;
                         }
-                        sendDescPacket();
+                        player.inventoryContainer.detectAndSendChanges();
                     }
-                    else
-                    {
-                        //TODO add translation
-                        player.addChatComponentMessage(new ChatComponentText("*Missile will not fit*"));
-                    }
+                    sendDescPacket();
                 }
-                return true;
+                else
+                {
+                    //TODO add translation
+                    player.addChatComponentMessage(new ChatComponentText("*Missile will not fit*"));
+                }
             }
+            return true;
         }
         return false;
     }

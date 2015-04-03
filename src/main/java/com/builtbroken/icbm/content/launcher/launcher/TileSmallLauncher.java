@@ -75,7 +75,7 @@ public class TileSmallLauncher extends TileAbstractLauncher implements ISimpleIt
                 double distance = target.distance(new Pos(this));
                 if (distance <= 200 && distance >= 20)
                 {
-                    fireMissile();
+                    fireMissile(target);
                     //TODO add launch logging to console
                 }
                 else
@@ -95,6 +95,12 @@ public class TileSmallLauncher extends TileAbstractLauncher implements ISimpleIt
             return true;
         }
         return super.onPlayerRightClick(player, side, hit);
+    }
+
+    @Override
+    public boolean canAcceptMissile(Missile missile)
+    {
+        return super.canAcceptMissile(missile) && missile.casing == MissileCasings.SMALL;
     }
 
     @Override

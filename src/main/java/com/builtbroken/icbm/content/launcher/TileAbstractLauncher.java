@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.launcher;
 
+import codechicken.lib.math.MathHelper;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.ILauncher;
 import com.builtbroken.icbm.api.IMissileItem;
@@ -17,6 +18,7 @@ import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
+import com.builtbroken.mc.lib.helper.MathUtility;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Pos;
@@ -49,6 +51,7 @@ import org.lwjgl.opengl.GL11;
 public abstract class TileAbstractLauncher extends TileMissileContainer implements ILauncher, IPacketIDReceiver
 {
     protected Pos target = new Pos(0, -1, 0);
+    protected short link_code;
 
     public TileAbstractLauncher(String name, Material mat, int slots)
     {
@@ -64,8 +67,6 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         }
     }
 
-
-
     @Override
     public void update()
     {
@@ -76,13 +77,19 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
             {
                 if (world().isBlockIndirectlyGettingPowered(xi(), yi(), zi()))
                 {
-                    fireMissile();
+                    fireMissile(target);
                 }
             }
         }
     }
 
+
     public void fireMissile()
+    {
+        fireMissile(target);
+    }
+
+    public void fireMissile(final Pos target)
     {
         Missile missile = getMissile();
         if (missile != null)
@@ -92,7 +99,10 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
                 //Create and setup missile
                 EntityMissile entity = new EntityMissile(world());
                 entity.setMissile(missile);
-                entity.setPositionAndRotation(x() + 0.5, y() + 3, z() + 0.5, 0, 0);
+
+                //Set location data
+                Pos start = new Pos(this).add(getMissileLaunchOffset());
+                entity.setPositionAndRotation(start.x(), start.y(), start.z(), 0, 0);
                 entity.setVelocity(0, 2, 0);
 
                 //Set target data
@@ -109,22 +119,35 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
             }
             else
             {
-                //TODO add some effects
-                for (int l = 0; l < 20; ++l)
-                {
-                    double f = x() + 0.5 + 0.3 * (world().rand.nextFloat() - world().rand.nextFloat());
-                    double f1 = y() + 0.1 + 0.5 * (world().rand.nextFloat() - world().rand.nextFloat());
-                    double f2 = z() + 0.5 + 0.3 * (world().rand.nextFloat() - world().rand.nextFloat());
-                    world().spawnParticle("largesmoke", f, f1, f2, 0.0D, 0.0D, 0.0D);
-                }
+                triggerLaunchingEffects();
             }
         }
     }
 
-    @Override
-    public boolean canAcceptMissile(Missile missile)
+    /**
+     * Called to ensure the missile doesn't clip the edge of a multi-block
+     * structure that holds the missile.
+     * @return Position in relation to the launcher base, do not add location data
+     */
+    public Pos getMissileLaunchOffset()
     {
-        return missile != null && missile.casing == MissileCasings.SMALL;
+        return new Pos(0.5, 3, 0.5);
+    }
+
+    /**
+     * Called to load up and populate some effects in addition to the missile's own
+     * launching effects.
+     */
+    public void triggerLaunchingEffects()
+    {
+        //TODO add more effects
+        for (int l = 0; l < 20; ++l)
+        {
+            double f = x() + 0.5 + 0.3 * (world().rand.nextFloat() - world().rand.nextFloat());
+            double f1 = y() + 0.1 + 0.5 * (world().rand.nextFloat() - world().rand.nextFloat());
+            double f2 = z() + 0.5 + 0.3 * (world().rand.nextFloat() - world().rand.nextFloat());
+            world().spawnParticle("largesmoke", f, f1, f2, 0.0D, 0.0D, 0.0D);
+        }
     }
 
     @Override
@@ -166,6 +189,10 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         super.readFromNBT(nbt);
         if (nbt.hasKey("target"))
             this.target = new Pos(nbt.getCompoundTag("target"));
+        if(nbt.hasKey("link_code"))
+            this.link_code = nbt.getShort("link_code");
+        else
+            this.link_code = (short)MathUtility.rand.nextInt(Short.MAX_VALUE);
     }
 
     @Override
@@ -174,5 +201,6 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         super.writeToNBT(nbt);
         if (target != null)
             nbt.setTag("target", target.toNBT());
+        nbt.setShort("link_code", link_code);
     }
 }
