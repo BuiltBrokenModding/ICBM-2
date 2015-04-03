@@ -50,7 +50,7 @@ processResources {
 if (project.hasProperty("bambooBuildNumber"))
     version += project.bambooBuildNumber
 else
-    version += "NIGHTLY"
+    version += getDate()
 println "version = "+ version
 
 println "Current Minecraft version = " + minecraft.apiVersion

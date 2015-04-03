@@ -9,13 +9,13 @@ item.icbm:missile.micro.name=Rakett
 item.icbm:missile.micro.empty.name=Raketthus
 
 item.icbm:missile.small.name=Liten Missil
-item.icbm:missile.small.empty.name=Liten Missilhus  
+item.icbm:missile.small.empty.name=Lite Missilhus  
 
 item.icbm:missile.standard.name=Missil
 item.icbm:missile.standard.empty.name=Missilhus
 
 item.icbm:missile.medium.name=Stor Missil
-item.icbm:missile.medium.empty.name=Stor Missilhus
+item.icbm:missile.medium.empty.name=Stort Missilhus
 
 item.icbm:missile.large.name=ICBM
 item.icbm:missile.large.empty.name=ICBM Hus
@@ -25,7 +25,7 @@ explosive.icbm:tnt.name=TNT
 explosive.icbm:snowmen.name=La det snø!
 
 ## Launcher
-item.icbm:rocketLauncher.name=Rakettkaster
+item.icbm:rocketLauncher.name=Rakettavfyrer
 info.icbm:rocketlauncher.tooltip=Fyrer av små missiler
 
 ## Warhead

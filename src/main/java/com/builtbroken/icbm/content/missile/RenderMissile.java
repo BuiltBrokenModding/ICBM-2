@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.missile;
 
-import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.ICustomMissileRender;
+import com.builtbroken.icbm.content.Assets;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import cpw.mods.fml.client.FMLClientHandler;
@@ -12,17 +12,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 /** @author Calclavia */
 public class RenderMissile extends Render implements IItemRenderer
 {
-    public static final IModelCustom SMALL = AdvancedModelLoader.loadModel(new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_PREFIX + "missile_conventional.tcn"));
-    public static final ResourceLocation SMALL_TEXTURE = new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_TEXTURE_PATH + "missile_condensed.png");
-
     public RenderMissile(float f)
     {
         this.shadowSize = f;
@@ -44,12 +39,12 @@ public class RenderMissile extends Render implements IItemRenderer
         if (!(missile instanceof ICustomMissileRender) || !((ICustomMissileRender) missile).renderMissileInWorld())
         {
             GL11.glScalef(.5f, .5f, .5f);
-            FMLClientHandler.instance().getClient().renderEngine.bindTexture(SMALL_TEXTURE);
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.CLASSIC_MISSILE_TEXTURE);
             if (missile == null || missile.getWarhead() != null)
             {
-                SMALL.renderOnly("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
+                Assets.CLASSIC_MISSILE_MODEL.renderOnly("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
             }
-            SMALL.renderAllExcept("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
+            Assets.CLASSIC_MISSILE_MODEL.renderAllExcept("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
         }
         GL11.glPopMatrix();
     }
@@ -108,12 +103,12 @@ public class RenderMissile extends Render implements IItemRenderer
             if (!(missile instanceof ICustomMissileRender) || !((ICustomMissileRender) missile).renderMissileItem(type, item, data))
             {
                 GL11.glScalef(.5f, .5f, .5f);
-                FMLClientHandler.instance().getClient().renderEngine.bindTexture(SMALL_TEXTURE);
+                FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.CLASSIC_MISSILE_TEXTURE);
                 if (missile == null || missile.getWarhead() != null)
                 {
-                    SMALL.renderOnly("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
+                    Assets.CLASSIC_MISSILE_MODEL.renderOnly("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
                 }
-                SMALL.renderAllExcept("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
+                Assets.CLASSIC_MISSILE_MODEL.renderAllExcept("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
             }
         }
     }

@@ -54,8 +54,7 @@ public class AbstractModule implements ISave
     /** Saves to an ItemStack's NBT, can be used to clone to an itemstakc */
     public final void save(ItemStack stack)
     {
-        if(stack.getTagCompound() == null)
-            stack.setTagCompound(new NBTTagCompound());
+        stack.setTagCompound(new NBTTagCompound());
         save(stack.getTagCompound());
 
         stack.getTagCompound().setString(ModuleBuilder.SAVE_ID, MissileModuleBuilder.INSTANCE.getID(this));
@@ -89,12 +88,6 @@ public class AbstractModule implements ISave
     public void onRemoved(IModuleContainer container)
     {
 
-    }
-
-    /** Called to get the stack to return when removing the module */
-    public ItemStack getRemovedStack(IModuleContainer container)
-    {
-        return toStack();
     }
 
     @SideOnly(Side.CLIENT)

@@ -5,7 +5,7 @@ import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.icbm.content.crafting.ModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
-import com.builtbroken.icbm.content.crafting.missile.engine.Engine;
+import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
 import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
@@ -26,7 +26,7 @@ public class MissileModuleBuilder extends ModuleBuilder
     public static MissileModuleBuilder INSTANCE = new MissileModuleBuilder();
 
     public HashMap<String, Class<? extends Warhead>> registeredWarheads = new HashMap();
-    public HashMap<String, Class<? extends Engine>> registeredEngines = new HashMap();
+    public HashMap<String, Class<? extends RocketEngine>> registeredEngines = new HashMap();
     public HashMap<String, Class<? extends Guidance>> registeredGuidances = new HashMap();
     public List<String> idToUseWithModuleItem = new ArrayList<String>();
 
@@ -54,9 +54,9 @@ public class MissileModuleBuilder extends ModuleBuilder
             {
                 registeredWarheads.put(id, (Class<? extends Warhead>) clazz);
             }
-            else if (Engine.class.isAssignableFrom(clazz))
+            else if (RocketEngine.class.isAssignableFrom(clazz))
             {
-                registeredEngines.put(id, (Class<? extends Engine>) clazz);
+                registeredEngines.put(id, (Class<? extends RocketEngine>) clazz);
             }
             else if (Guidance.class.isAssignableFrom(clazz))
             {
@@ -87,12 +87,12 @@ public class MissileModuleBuilder extends ModuleBuilder
         return null;
     }
 
-    public Engine buildEngine(ItemStack stack)
+    public RocketEngine buildEngine(ItemStack stack)
     {
         AbstractModule module = super.build(stack);
-        if (module instanceof Engine)
+        if (module instanceof RocketEngine)
         {
-            return (Engine) module;
+            return (RocketEngine) module;
         }
         return null;
     }
@@ -109,7 +109,7 @@ public class MissileModuleBuilder extends ModuleBuilder
 
     public Missile buildMissile(MissileCasings missileSize, IExplosiveHandler ex)
     {
-        return this.buildMissile(missileSize, ex, (Engine) Engines.CREATIVE_ENGINE.newModule(), null);
+        return this.buildMissile(missileSize, ex, (RocketEngine) Engines.CREATIVE_ENGINE.newModule(), null);
     }
 
     public Warhead buildWarhead(WarheadCasings size, IExplosiveHandler ex)
@@ -117,7 +117,7 @@ public class MissileModuleBuilder extends ModuleBuilder
         try
         {
 
-            Warhead warhead = size.warhead_clazz.getConstructor(ItemStack.class).newInstance(new ItemStack(ICBM.blockExplosive, 1, size.ordinal()));
+            Warhead warhead = size.warhead_clazz.getConstructor(ItemStack.class).newInstance(new ItemStack(ICBM.blockWarhead, 1, size.ordinal()));
             warhead.ex = ex;
             return warhead;
         } catch (InstantiationException e)
@@ -136,7 +136,7 @@ public class MissileModuleBuilder extends ModuleBuilder
         return null;
     }
 
-    public Missile buildMissile(MissileCasings missileSize, IExplosiveHandler ex, Engine engine, Guidance guidance)
+    public Missile buildMissile(MissileCasings missileSize, IExplosiveHandler ex, RocketEngine engine, Guidance guidance)
     {
         try
         {

@@ -1,15 +1,12 @@
 package com.builtbroken.icbm.content.crafting.missile.casing;
 
-import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.ICustomMissileRender;
+import com.builtbroken.icbm.content.Assets;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -17,32 +14,27 @@ import org.lwjgl.opengl.GL11;
  */
 public class MissileMicro extends Missile implements ICustomMissileRender
 {
-    @SideOnly(Side.CLIENT)
-    public static final IModelCustom MODEL = AdvancedModelLoader.loadModel(new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_PREFIX + "missile_micro.tcn"));
-
-    @SideOnly(Side.CLIENT)
-    public static final  ResourceLocation TEXTURE = new ResourceLocation(ICBM.DOMAIN, ICBM.MODEL_TEXTURE_PATH + "missile.micro.default.png");
 
     public MissileMicro(ItemStack stack)
     {
         super(stack, MissileCasings.MICRO);
     }
 
-    @Override
+    @Override @SideOnly(Side.CLIENT)
     public boolean renderMissileItem(IItemRenderer.ItemRenderType type, ItemStack stack, Object... data)
     {
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
-        GL11.glScalef(.5f, .5f, .5f);
-        MODEL.renderAll();
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.MICRO_MISSILE_TEXTURE);
+        GL11.glScalef(.0015625f, .0015625f, .0015625f);
+        Assets.MICRO_MISSILE_MODEL.renderAll();
         return true;
     }
 
-    @Override
+    @Override @SideOnly(Side.CLIENT)
     public boolean renderMissileInWorld()
     {
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(TEXTURE);
-        GL11.glScalef(.5f, .5f, .5f);
-        MODEL.renderAll();
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.MICRO_MISSILE_TEXTURE);
+        GL11.glScalef(.0015625f, .0015625f, .0015625f);
+        Assets.MICRO_MISSILE_MODEL.renderAll();
         return true;
     }
 }

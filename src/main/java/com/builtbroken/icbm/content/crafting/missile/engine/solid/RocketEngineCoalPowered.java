@@ -10,9 +10,9 @@ import net.minecraftforge.oredict.OreDictionary;
 /**
  * Created by robert on 12/28/2014.
  */
-public class EngineCoalPowered extends EngineSolid
+public class RocketEngineCoalPowered extends RocketEngineSolid
 {
-    public EngineCoalPowered(ItemStack item)
+    public RocketEngineCoalPowered(ItemStack item)
     {
         super(item, "engine.coal");
     }

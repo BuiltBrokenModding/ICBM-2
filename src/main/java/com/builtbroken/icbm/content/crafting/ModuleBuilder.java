@@ -106,29 +106,29 @@ public class ModuleBuilder
                     }
                     catch (InstantiationException e)
                     {
-                        ICBM.LOGGER.error("ModuleBuilder failed to create module from class " + idToCLassMap.get(id));
+                        ICBM.INSTANCE.logger().error("ModuleBuilder failed to create module from class " + idToCLassMap.get(id));
                         if (Engine.runningAsDev)
                             e.printStackTrace();
                     } catch (IllegalAccessException e)
                     {
-                        ICBM.LOGGER.error("ModuleBuilder was prevented access to class " + idToCLassMap.get(id));
+                        ICBM.INSTANCE.logger().error("ModuleBuilder was prevented access to class " + idToCLassMap.get(id));
                         if (Engine.runningAsDev)
                             e.printStackTrace();
                     } catch (NoSuchMethodException e)
                     {
-                        ICBM.LOGGER.error("ModuleBuilder failed to find  constructor(ItemStack.class) for class " + idToCLassMap.get(id));
+                        ICBM.INSTANCE.logger().error("ModuleBuilder failed to find  constructor(ItemStack.class) for class " + idToCLassMap.get(id));
                         if (Engine.runningAsDev)
                             e.printStackTrace();
                     } catch (InvocationTargetException e)
                     {
-                        ICBM.LOGGER.error("ModuleBuilder failed to find to invoke constructor(ItemStack.class) for class " + idToCLassMap.get(id));
+                        ICBM.INSTANCE.logger().error("ModuleBuilder failed to find to invoke constructor(ItemStack.class) for class " + idToCLassMap.get(id));
                         if (Engine.runningAsDev)
                             e.printStackTrace();
                     }
                 }
                 else
                 {
-                    ICBM.LOGGER.error("ModuleBuilder, module " + id + " has no class registered.");
+                    ICBM.INSTANCE.logger().error("ModuleBuilder, module " + id + " has no class registered.");
                 }
             }
         }

@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.blast;
+package com.builtbroken.icbm.content.blast.entity;
 
 import com.builtbroken.icbm.api.WorldChangeSpawnEntityEvent;
 import com.builtbroken.mc.lib.transform.vector.Location;

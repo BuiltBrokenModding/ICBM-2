@@ -16,20 +16,14 @@ import net.minecraft.util.IIcon;
  *
  * Created by robert on 12/28/2014.
  */
-public class EngineCreative extends Engine
+public class RocketEngineCreative extends RocketEngine
 {
     @SideOnly(Side.CLIENT)
-    private IIcon icon;
+    private static IIcon icon;
 
-    public EngineCreative(ItemStack item)
+    public RocketEngineCreative(ItemStack item)
     {
         super(item, "engine.creative");
-    }
-
-    @Override
-    public ItemStack getRemovedStack(IModuleContainer container)
-    {
-        return null;
     }
 
     @Override @SideOnly(Side.CLIENT)
@@ -41,6 +35,6 @@ public class EngineCreative extends Engine
     @Override @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister register)
     {
-        register.registerIcon(ICBM.PREFIX + "rocket.motor.creative");
+        icon = register.registerIcon(ICBM.PREFIX + "rocket.motor.creative");
     }
 }

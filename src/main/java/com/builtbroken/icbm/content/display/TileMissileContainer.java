@@ -24,24 +24,23 @@ import net.minecraft.util.IIcon;
 /**
  * Created by robert on 1/18/2015.
  */
-public class TileMissileContainer extends TileModuleMachine implements IPacketReceiver
+public class TileMissileContainer extends TileModuleMachine
 {
     public TileMissileContainer(String name, Material material)
     {
+        this(name, material, 1);
+    }
+
+    public TileMissileContainer(String name, Material material, int slots)
+    {
         super(name, material);
-        this.addInventoryModule(1);
+        this.addInventoryModule(slots);
     }
 
     @Override
     public PacketTile getDescPacket()
     {
         return new PacketTile(this, getSaveData());
-    }
-
-    @Override
-    public void read(ByteBuf buf, EntityPlayer player, PacketType packet)
-    {
-        readFromNBT(ByteBufUtils.readTag(buf));
     }
 
     @Override
@@ -109,7 +108,12 @@ public class TileMissileContainer extends TileModuleMachine implements IPacketRe
 
     public Missile getMissile()
     {
-        return getStackInSlot(0) != null ? MissileModuleBuilder.INSTANCE.buildMissile(getStackInSlot(0)) : null;
+        return getMissileItem() != null ? MissileModuleBuilder.INSTANCE.buildMissile(getMissileItem()) : null;
+    }
+
+    public ItemStack getMissileItem()
+    {
+        return getStackInSlot(0);
     }
 
     @Override
