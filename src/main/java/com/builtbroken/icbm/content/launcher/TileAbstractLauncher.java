@@ -5,7 +5,6 @@ import com.builtbroken.icbm.api.IMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.display.TileMissileContainer;
 import com.builtbroken.icbm.content.missile.EntityMissile;
-import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
@@ -55,6 +54,8 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     @Override
     public void update()
     {
+        //TODO track location of missiles if enabled
+        //TODO track ETA to target of missiles if enabled
         super.update();
         if (isServer())
         {
@@ -66,6 +67,22 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
                 }
             }
         }
+    }
+
+    @Override
+    public void doCleanupCheck()
+    {
+        //Cleans up the report list looking for broken reports, temp fix for NULL UUIDs
+        List<LauncherReport> newList = new ArrayList();
+        for (LauncherReport report : launcherReports)
+        {
+            if (report.entityUUID != null && report.missile != null)
+            {
+                newList.add(report);
+            }
+        }
+        launcherReports.clear();
+        launcherReports = newList;
     }
 
 
@@ -154,17 +171,14 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
      */
     public void onImpactOfMissile(EntityMissile missile)
     {
-        if (missile != null)
+        if (isServer() && missile != null)
         {
-            if (Engine.runningAsDev)
-                Engine.instance.logger().info("Missile" + missile.getUniqueID() + " reported impact");
+            //TODO thin out list to only include active reports, or rather ones still waiting on death times to be added
             for (LauncherReport report : launcherReports)
             {
-                if (report.entityID == missile.getUniqueID())
+                if (report.entityUUID != null && report.entityUUID.getMostSignificantBits() == missile.getUniqueID().getMostSignificantBits())
                 {
                     report.impacted = true;
-                    if (Engine.runningAsDev)
-                        Engine.instance.logger().info("Missile" + missile.getUniqueID() + " matched a report");
                     break;
                 }
             }
@@ -173,17 +187,13 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
 
     public void onDeathOfMissile(EntityMissile missile)
     {
-        if (missile != null)
+        if (isServer() && missile != null)
         {
-            if (Engine.runningAsDev)
-                Engine.instance.logger().info("Missile" + missile.getUniqueID() + " reported death");
             for (LauncherReport report : launcherReports)
             {
-                if (report.entityID == missile.getUniqueID())
+                if (report.entityUUID != null && report.entityUUID.getMostSignificantBits() == missile.getUniqueID().getMostSignificantBits())
                 {
                     report.deathTime = System.nanoTime();
-                    if (Engine.runningAsDev)
-                        Engine.instance.logger().info("Missile" + missile.getUniqueID() + " matched a report");
                     break;
                 }
             }

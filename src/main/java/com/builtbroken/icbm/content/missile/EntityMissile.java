@@ -33,6 +33,9 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     //Used for guided version
     public IPos3D target_pos;
 
+    //Used to prevent reporting when de-spawning
+    public boolean noReport = false;
+
     public EntityMissile(World w)
     {
         super(w);
@@ -165,7 +168,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     public void onImpactTile()
     {
         super.onImpactTile();
-        if(sourceOfProjectile != null)
+        if(!noReport && sourceOfProjectile != null)
         {
             TileEntity tile = sourceOfProjectile.getTileEntity(worldObj);
             if(tile instanceof TileAbstractLauncher)
@@ -180,7 +183,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     public void setDead()
     {
         super.setDead();
-        if(sourceOfProjectile != null)
+        if(!noReport && sourceOfProjectile != null)
         {
             TileEntity tile = sourceOfProjectile.getTileEntity(worldObj);
             if(tile instanceof TileAbstractLauncher)

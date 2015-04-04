@@ -17,17 +17,19 @@ import java.util.UUID;
 public class LauncherReport implements ISave
 {
     //Not saved
-    public UUID entityID;
+    public UUID entityUUID;
 
     //Saved data
     public Missile missile;
+    public boolean impacted;
+
+    //TODO add method to get flight time to string(hhmmss), and convert both times to readable values(hhmmss)
     public long launchTime = 0L;
     public long deathTime = 0L;
-    public boolean impacted;
 
     public LauncherReport(EntityMissile missile)
     {
-        entityID = missile.getUniqueID();
+        entityUUID = missile.getUniqueID();
         this.missile = missile.getMissile();
         this.launchTime = System.nanoTime();
     }
@@ -46,13 +48,11 @@ public class LauncherReport implements ISave
             launchTime = nbt.getLong("start");
         if (nbt.hasKey("end"))
             deathTime = nbt.getLong("end");
-        
+
         impacted = nbt.getBoolean("impact");
 
-        if (nbt.hasKey("UUIDMost", 4) && nbt.hasKey("UUIDLeast", 4))
-        {
-            this.entityID = new UUID(nbt.getLong("UUIDMost"), nbt.getLong("UUIDLeast"));
-        }
+        if (nbt.hasKey("UUID"))
+            this.entityUUID = UUID.fromString(nbt.getString("UUID"));
     }
 
     public NBTTagCompound save()
@@ -72,11 +72,8 @@ public class LauncherReport implements ISave
         if (impacted)
             nbt.setBoolean("impact", true);
 
-        if(entityID != null)
-        {
-            nbt.setLong("UUIDMost", entityID.getMostSignificantBits());
-            nbt.setLong("UUIDLeast", entityID.getLeastSignificantBits());
-        }
+        if (entityUUID != null)
+            nbt.setString("UUID", entityUUID.toString());
         return nbt;
     }
 }

@@ -132,12 +132,11 @@ public class MissileTracker implements IVirtualObject
 
     public void add(EntityMissile missile)
     {
-        //Cache data to respawn missile
+        //Prevents the missile from reporting when being forced removed from the world
+        missile.noReport = true;
+        //Cache missile for respawn with matching data
         MissileTrackingData data = new MissileTrackingData(missile);
-        List l = new ArrayList();
-        l.add(missile);
         world.removeEntity(missile);
-
         missiles.add(data);
 
         if (Engine.runningAsDev)
