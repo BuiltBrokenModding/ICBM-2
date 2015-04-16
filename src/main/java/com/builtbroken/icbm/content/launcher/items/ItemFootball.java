@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.launcher.denator;
+package com.builtbroken.icbm.content.launcher.items;
 
 /** Reminder to make a reskinned remote detonator
  * Created by robert on 2/9/2015.
