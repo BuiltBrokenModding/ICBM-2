@@ -5,10 +5,13 @@ import com.builtbroken.icbm.api.IMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.display.TileMissileContainer;
 import com.builtbroken.icbm.content.missile.EntityMissile;
+import com.builtbroken.mc.api.tile.ILinkFeedback;
+import com.builtbroken.mc.api.tile.IPassCode;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.lib.helper.MathUtility;
+import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
@@ -26,7 +29,7 @@ import java.util.List;
  * Prefab for all missile launchers and silos.
  * Created by robert on 1/18/2015.
  */
-public abstract class TileAbstractLauncher extends TileMissileContainer implements ILauncher, IPacketIDReceiver
+public abstract class TileAbstractLauncher extends TileMissileContainer implements ILauncher, IPacketIDReceiver, IPassCode, ILinkFeedback
 {
     public Pos target = new Pos(0, -1, 0);
     protected short link_code;
@@ -45,10 +48,20 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     }
 
     @Override
+    public short getCode()
+    {
+        if (link_code == 0)
+            link_code = MathUtility.randomShort();
+        return link_code;
+    }
+
+    @Override
     public void firstTick()
     {
         if (!target.isAboveBedrock())
             target = new Pos(this);
+        if (link_code == 0)
+            link_code = MathUtility.randomShort();
     }
 
     @Override
@@ -201,6 +214,12 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     }
 
     @Override
+    public void onLinked(Location location)
+    {
+
+    }
+
+    @Override
     public boolean read(ByteBuf buf, int id, EntityPlayer player, PacketType type)
     {
         if (isServer())
@@ -265,7 +284,8 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         super.writeToNBT(nbt);
         if (target != null)
             nbt.setTag("target", target.toNBT());
-        nbt.setShort("link_code", link_code);
+        if (link_code != 0)
+            nbt.setShort("link_code", link_code);
 
         if (launcherReports != null && launcherReports.size() > 0)
         {

@@ -1,20 +1,47 @@
 package com.builtbroken.icbm.content.launcher.controller;
 
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
+import com.builtbroken.mc.api.tile.ILinkFeedback;
+import com.builtbroken.mc.api.tile.ILinkable;
+import com.builtbroken.mc.api.tile.IPassCode;
+import com.builtbroken.mc.core.network.IPacketIDReceiver;
+import com.builtbroken.mc.core.network.packet.AbstractPacket;
+import com.builtbroken.mc.core.network.packet.PacketTile;
+import com.builtbroken.mc.core.network.packet.PacketType;
+import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.TileModuleMachine;
+import cpw.mods.fml.common.network.ByteBufUtils;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/** Used to link several launchers together to be controlled from a single terminal
+/**
+ * Used to link several launchers together to be controlled from a single terminal
  * Created by robert on 4/3/2015.
  */
-public class TileController extends TileModuleMachine
+public class TileController extends TileModuleMachine implements ILinkable, IPacketIDReceiver
 {
+    public static double MAX_LINK_DISTANCE = 100;
+    public static int MAX_LAUNCHER_LINK = 10;
+
+    //TODO auto connect to any launcher next to the controller
+    //TODO default to rear connection first
+    //TODO add rotation
+    //TODO add model
+    //TODO add OC support
+    //TODO add data cables to restrict linking
+    //TODO add upgrade cards (Wireless linking, Link capacity, Guidance, Missile tracking)
     protected List<Pos> launcherLocations = new ArrayList<Pos>();
+
+    //Only used client side at the moment
+    protected List<LauncherData> launcherData;
 
     public TileController()
     {
@@ -28,14 +55,21 @@ public class TileController extends TileModuleMachine
      */
     protected void fireLauncher(int index)
     {
-        if (index < launcherLocations.size())
+        if (isServer())
         {
-            Pos pos = launcherLocations.get(index);
-            TileEntity tile = pos.getTileEntity(world());
-            if (tile instanceof TileAbstractLauncher)
+            if (index > 0 && index < launcherLocations.size())
             {
-                ((TileAbstractLauncher) tile).fireMissile();
+                Pos pos = launcherLocations.get(index);
+                TileEntity tile = pos.getTileEntity(world());
+                if (tile instanceof TileAbstractLauncher)
+                {
+                    ((TileAbstractLauncher) tile).fireMissile();
+                }
             }
+        }
+        else
+        {
+            sendPacketToServer(new PacketTile(this, 2, index));
         }
     }
 
@@ -44,38 +78,69 @@ public class TileController extends TileModuleMachine
      */
     protected void fireAllLaunchers()
     {
-        for (int i = 0; i < launcherLocations.size(); i++)
+        if (isServer())
         {
-            fireLauncher(i);
+            for (int i = 0; i < launcherLocations.size(); i++)
+            {
+                fireLauncher(i);
+            }
+        }
+        else
+        {
+            sendPacketToServer(new PacketTile(this, 2, -1));
         }
     }
 
-    /**
-     * Called to link a launcher using the launcher location
-     * and its pass code
-     *
-     * @param pos  - location, normally stored in a tool/item
-     * @param code - pass code, to prevent linking machines without
-     *             using a link tool that has clicked the launcher
-     */
-    protected void linkLauncher(Pos pos, short code)
+    @Override
+    public String link(Location pos, short code)
     {
+        //Validate location data
+        if (pos.world != world())
+            return "link.error.world.match";
+        if (!pos.isAboveBedrock())
+            return "link.error.pos.invalid";
+        if (distance(pos) > MAX_LINK_DISTANCE)
+            return "link.error.pos.distance";
 
+        //Compare tile pass code
+        TileEntity tile = pos.getTileEntity();
+        if (!(tile instanceof TileAbstractLauncher))
+            return "link.error.tile.invalid";
+        if (((IPassCode) tile).getCode() == code)
+            return "link.error.code.match";
+
+        //Add location
+        if (!launcherLocations.contains(pos))
+        {
+            if (launcherLocations.size() < MAX_LAUNCHER_LINK)
+            {
+                launcherLocations.add(pos.toVector3());
+                ((ILinkFeedback) tile).onLinked(toLocation());
+                return "";
+            }
+            else
+            {
+                return "link.error.tile.limit.max";
+            }
+
+        }
+        else
+        {
+            return "link.error.tile.already.added";
+        }
     }
 
-    /**
-     * Called to add a launcher to the list of controlled launchers
-     *
-     * @param pos - location of the launcher
-     */
-    protected void addLauncher(Pos pos)
+    @Override
+    public void onNeighborChanged(Pos pos)
     {
-        if (launcherLocations.size() < 10)
+        super.onNeighborChanged(pos);
+        if (!launcherLocations.contains(pos))
         {
             TileEntity tile = pos.getTileEntity(world());
             if (tile instanceof TileAbstractLauncher)
             {
                 launcherLocations.add(pos);
+                ((ILinkFeedback) tile).onLinked(toLocation());
             }
         }
     }
@@ -87,7 +152,10 @@ public class TileController extends TileModuleMachine
      */
     protected void removeLauncher(Pos pos)
     {
-        launcherLocations.remove(pos);
+        if (isServer())
+            launcherLocations.remove(pos);
+        else
+            sendPacketToServer(new PacketTile(this, 1, pos));
     }
 
     /**
@@ -107,5 +175,78 @@ public class TileController extends TileModuleMachine
             }
         }
         return list;
+    }
+
+    @Override
+    public boolean read(ByteBuf buf, int id, EntityPlayer player, PacketType type)
+    {
+        if (isClient())
+        {
+            //Basic GUI data
+            if (id == 0)
+            {
+                NBTTagCompound tag = ByteBufUtils.readTag(buf);
+                launcherData = new ArrayList();
+
+                if (tag.hasKey("launcherData"))
+                {
+                    NBTTagList list = tag.getTagList("launcherData", 10);
+                    for (int i = 0; i < list.tagCount(); i++)
+                    {
+                        launcherData.add(new LauncherData(list.getCompoundTagAt(i)));
+                    }
+                }
+                return true;
+            }
+        }
+        else
+        {
+            //Remove launcher, input from GUI
+            if (id == 1)
+            {
+                removeLauncher(new Pos(buf));
+                return true;
+            }
+            else if (id == 2)
+            {
+                int index = buf.readInt();
+                if (index == -1)
+                    fireAllLaunchers();
+                else
+                    fireLauncher(index);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void doUpdateGuiUsers()
+    {
+        //Only send packets to the GUI if we have data to send
+        if (launcherLocations.size() > 0)
+        {
+            PacketTile packet;
+            NBTTagCompound nbt = new NBTTagCompound();
+            NBTTagList list = new NBTTagList();
+
+            //Construct launcher data structure
+            for (TileAbstractLauncher launcher : getLaunchers())
+            {
+                list.appendTag(new LauncherData(launcher).toNBT());
+            }
+            nbt.setTag("launcherData", list);
+
+            //Create and send packet
+            packet = new PacketTile(this, 0, nbt);
+            sendPacketToGuiUsers(packet);
+        }
+    }
+
+    @Override
+    public AbstractPacket getDescPacket()
+    {
+        //No data is needed on load
+        return null;
     }
 }

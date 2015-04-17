@@ -28,7 +28,7 @@ public class GuiSmallLauncher extends GuiContainerBase
 
     public GuiSmallLauncher(TileSmallLauncher launcher, EntityPlayer player)
     {
-        super(new ContainerDummy(player, launcher));
+        super(new ContainerSmallLauncher(player, launcher));
         this.launcher = launcher;
         this.baseTexture = References.GUI__MC_EMPTY_FILE;
     }
