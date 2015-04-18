@@ -2,6 +2,7 @@ package com.builtbroken.icbm.content.launcher.controller;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
+import com.builtbroken.mc.api.items.IWorldPosItem;
 import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.api.tile.ILinkFeedback;
 import com.builtbroken.mc.api.tile.ILinkable;
@@ -110,7 +111,7 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
         TileEntity tile = pos.getTileEntity();
         if (!(tile instanceof TileAbstractLauncher))
             return "link.error.tile.invalid";
-        if (((IPassCode) tile).getCode() == code)
+        if (((IPassCode) tile).getCode() != code)
             return "link.error.code.match";
 
         //Add location
@@ -269,6 +270,9 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
     @Override
     protected boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
     {
+        if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IWorldPosItem)
+            return false;
+
         if(isServer())
             openGui(player, ICBM.INSTANCE);
         return true;

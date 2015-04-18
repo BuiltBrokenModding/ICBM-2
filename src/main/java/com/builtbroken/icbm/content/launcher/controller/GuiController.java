@@ -40,11 +40,14 @@ public class GuiController extends GuiContainerBase
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
         drawStringCentered(LanguageUtility.getLocalName(controller.getInventoryName()), 85, 10);
 
-        int i = 0;
-        for(LauncherData data : controller.launcherData)
+        if(controller.launcherData != null)
         {
-            i++;
-            drawString("#" + i + " " + data.location, 85, 10 + i * 11);
+            int i = 0;
+            for (LauncherData data : controller.launcherData)
+            {
+                i++;
+                drawString("#" + i + " " + data.location, 85, 10 + i * 11);
+            }
         }
     }
 

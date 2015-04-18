@@ -30,6 +30,9 @@ public class ItemLinkTool extends Item implements IWorldPosItem, IPassCodeItem
     @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hit_x, float hit_y, float hit_z)
     {
+        if(world.isRemote)
+            return true;
+
         Location location = new Location(world, x, y, z);
         TileEntity tile = location.getTileEntity();
 
