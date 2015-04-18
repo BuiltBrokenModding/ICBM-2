@@ -14,6 +14,8 @@ import com.builtbroken.icbm.content.crafting.station.TileMissileWorkstation;
 import com.builtbroken.icbm.content.display.TileMissile;
 import com.builtbroken.icbm.content.display.TileMissileDisplay;
 import com.builtbroken.icbm.content.debug.TileRotationTest;
+import com.builtbroken.icbm.content.launcher.controller.TileController;
+import com.builtbroken.icbm.content.launcher.items.ItemLinkTool;
 import com.builtbroken.icbm.content.launcher.launcher.TileSmallLauncher;
 import com.builtbroken.icbm.content.launcher.silo.TileSmallSilo;
 import com.builtbroken.icbm.content.missile.EntityMissile;
@@ -99,11 +101,13 @@ public final class ICBM extends AbstractMod
     public static Block blockMissile;
     public static Block blockSmallLauncher;
     public static Block blockSmallSilo;
+    public static Block blockSiloController;
     public static Block blockMissileWorkstation;
 
     // Items
     public static Item itemMissile;
     public static Item itemRocketLauncher;
+    public static Item itemLinkTool;
     public static ItemEngineModules itemEngineModules;
 
     public final ModCreativeTab CREATIVE_TAB;
@@ -150,6 +154,7 @@ public final class ICBM extends AbstractMod
         blockSmallLauncher = manager.newBlock(TileSmallLauncher.class);
         blockSmallSilo = manager.newBlock(TileSmallSilo.class);
         blockMissileWorkstation = manager.newBlock(TileMissileWorkstation.class);
+        blockSiloController = manager.newBlock("SiloController", TileController.class);
 
         // Decor Blocks
         blockMissile = manager.newBlock(TileMissile.class);
@@ -165,6 +170,7 @@ public final class ICBM extends AbstractMod
         itemMissile = manager.newItem(ItemMissile.class);
         itemRocketLauncher = manager.newItem(ItemRocketLauncher.class);
         itemEngineModules = manager.newItem(ItemEngineModules.class);
+        itemLinkTool = manager.newItem("siloLinker", ItemLinkTool.class);
 
         // Register modules, need to do this or they will not build from ItemStacks
         MissileCasings.register();

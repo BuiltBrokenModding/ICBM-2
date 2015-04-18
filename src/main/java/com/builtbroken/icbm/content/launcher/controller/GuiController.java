@@ -1,29 +1,24 @@
 package com.builtbroken.icbm.content.launcher.controller;
 
-import com.builtbroken.icbm.content.launcher.launcher.TileSmallLauncher;
-import com.builtbroken.jlib.data.Colors;
 import com.builtbroken.mc.core.References;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
-import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
 import com.builtbroken.mc.prefab.gui.GuiContainerBase;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
 
 /**
  * Created by robert on 2/20/2015.
  */
 public class GuiController extends GuiContainerBase
 {
-    protected TileSmallLauncher launcher;
+    protected TileController controller;
 
-    public GuiController(TileSmallLauncher launcher, EntityPlayer player)
+    public GuiController(TileController launcher, EntityPlayer player)
     {
-        super(new ContainerController(player, launcher));
-        this.launcher = launcher;
+        super(new ContainerDummy(player, launcher));
+        this.controller = launcher;
         this.baseTexture = References.GUI__MC_EMPTY_FILE;
     }
 
@@ -31,9 +26,6 @@ public class GuiController extends GuiContainerBase
     public void initGui()
     {
         super.initGui();
-        Keyboard.enableRepeatEvents(true);
-        int x = guiLeft + 10;
-        int y = guiTop + 40;
     }
 
     @Override
@@ -46,7 +38,14 @@ public class GuiController extends GuiContainerBase
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-        drawStringCentered(LanguageUtility.getLocalName(launcher.getInventoryName()), 85, 10);
+        drawStringCentered(LanguageUtility.getLocalName(controller.getInventoryName()), 85, 10);
+
+        int i = 0;
+        for(LauncherData data : controller.launcherData)
+        {
+            i++;
+            drawString("#" + i + " " + data.location, 85, 10 + i * 11);
+        }
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.builtbroken.icbm.content.launcher.controller;
 
+import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
+import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.api.tile.ILinkFeedback;
 import com.builtbroken.mc.api.tile.ILinkable;
 import com.builtbroken.mc.api.tile.IPassCode;
@@ -10,6 +12,7 @@ import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.prefab.gui.ContainerDummy;
 import com.builtbroken.mc.prefab.tile.TileModuleMachine;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
@@ -26,7 +29,7 @@ import java.util.List;
  * Used to link several launchers together to be controlled from a single terminal
  * Created by robert on 4/3/2015.
  */
-public class TileController extends TileModuleMachine implements ILinkable, IPacketIDReceiver
+public class TileController extends TileModuleMachine implements ILinkable, IPacketIDReceiver, IGuiTile
 {
     public static double MAX_LINK_DISTANCE = 100;
     public static int MAX_LAUNCHER_LINK = 10;
@@ -46,6 +49,7 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
     public TileController()
     {
         super("missileController", Material.iron);
+        this.addInventoryModule(2);
     }
 
     /**
@@ -248,5 +252,25 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
     {
         //No data is needed on load
         return null;
+    }
+
+    @Override
+    public Object getServerGuiElement(int ID, EntityPlayer player)
+    {
+        return new ContainerDummy(player, this);
+    }
+
+    @Override
+    public Object getClientGuiElement(int ID, EntityPlayer player)
+    {
+        return new GuiController(this, player);
+    }
+
+    @Override
+    protected boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
+    {
+        if(isServer())
+            openGui(player, ICBM.INSTANCE);
+        return true;
     }
 }
