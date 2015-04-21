@@ -62,7 +62,7 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
     {
         if (isServer())
         {
-            if (index > 0 && index < launcherLocations.size())
+            if (index >= 0 && index < launcherLocations.size())
             {
                 Pos pos = launcherLocations.get(index);
                 TileEntity tile = pos.getTileEntity(world());

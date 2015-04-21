@@ -3,6 +3,7 @@ package com.builtbroken.icbm.content.launcher.controller;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.mc.core.References;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
+import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
 import com.builtbroken.mc.prefab.gui.GuiContainerBase;
 import net.minecraft.client.gui.GuiButton;
@@ -67,14 +68,14 @@ public class GuiController extends GuiContainerBase
         else
         {
             this.buttonList.add(new GuiButton(0, x, y, 30, 20, "Back"));
-            this.buttonList.add(new GuiButton(1, x + 100, y + 100, 30, 20, "Update"));
+            this.buttonList.add(new GuiButton(1, x + 100, y + 100, 50, 20, "Update"));
 
             x = guiLeft + 10;
-            y = guiTop + 40;
+            y = guiTop + 60;
 
             TileEntity tile = controller.launcherData.get(editMissile).location.getTileEntity();
 
-            if(tile instanceof TileAbstractLauncher && ((TileAbstractLauncher) tile).target != null)
+            if (tile instanceof TileAbstractLauncher && ((TileAbstractLauncher) tile).target != null)
             {
                 this.x_field = this.newField(x, y, 30, 20, "" + ((TileAbstractLauncher) tile).target.xi());
                 this.y_field = this.newField(x + 35, y, 30, 20, "" + ((TileAbstractLauncher) tile).target.yi());
@@ -87,6 +88,7 @@ public class GuiController extends GuiContainerBase
     protected void actionPerformed(GuiButton button)
     {
         super.actionPerformed(button);
+        this.errorString = "";
         if (!editMode)
         {
             if (button.id >= 0 && button.id < buttons.length)
@@ -107,11 +109,25 @@ public class GuiController extends GuiContainerBase
         }
         else
         {
-            if(button.id == 0)
+            if (button.id == 0)
             {
                 editMissile = -1;
                 editMode = false;
                 initGui();
+            }
+            else if (button.id == 1)
+            {
+                TileEntity tile = controller.launcherData.get(editMissile).location.getTileEntity();
+                if (tile instanceof TileAbstractLauncher)
+                {
+                    try
+                    {
+                        ((TileAbstractLauncher) tile).setTarget(new Pos(Integer.parseInt(x_field.getText()), Integer.parseInt(y_field.getText()), Integer.parseInt(z_field.getText())));
+                    } catch (NumberFormatException e)
+                    {
+                        errorString = "Invalid input";
+                    }
+                }
             }
         }
     }
