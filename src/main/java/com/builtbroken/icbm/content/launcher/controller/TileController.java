@@ -18,6 +18,7 @@ import com.builtbroken.mc.prefab.tile.TileModuleMachine;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -201,6 +202,12 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
                         launcherData.add(new LauncherData(list.getCompoundTagAt(i)));
                     }
                 }
+
+                if(Minecraft.getMinecraft().currentScreen instanceof GuiController)
+                {
+                    Minecraft.getMinecraft().currentScreen.initGui();
+                }
+
                 return true;
             }
         }
