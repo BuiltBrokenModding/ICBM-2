@@ -33,7 +33,7 @@ import java.util.List;
 public class TileController extends TileModuleMachine implements ILinkable, IPacketIDReceiver, IGuiTile
 {
     public static double MAX_LINK_DISTANCE = 100;
-    public static int MAX_LAUNCHER_LINK = 10;
+    public static int MAX_LAUNCHER_LINK = 6; //changed to 6 due to current GUI size and no GUI paging
 
     //TODO auto connect to any launcher next to the controller
     //TODO default to rear connection first

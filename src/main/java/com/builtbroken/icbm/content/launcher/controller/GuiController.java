@@ -15,6 +15,11 @@ public class GuiController extends GuiContainerBase
 {
     protected TileController controller;
 
+    GuiButton[] buttons;
+
+    int page = 0;
+
+
     public GuiController(TileController launcher, EntityPlayer player)
     {
         super(new ContainerDummy(player, launcher));
@@ -26,6 +31,21 @@ public class GuiController extends GuiContainerBase
     public void initGui()
     {
         super.initGui();
+
+        int x = this.guiLeft + 20;
+        int y = this.guiTop + 20;
+        if(controller.launcherData != null)
+        {
+            for(int i = 0; i < controller.launcherData.size(); i++)
+            {
+                buttons = new GuiButton[controller.launcherData.size() * 2];
+                buttons[i] = new GuiButton(i, x, y, 100, 20, "Launcher " + i);
+                this.buttonList.add(buttons[i]);
+                buttons[i + controller.launcherData.size()] = new GuiButton(i + controller.launcherData.size(), x + 105, y, 30, 20, "Fire");
+                this.buttonList.add(buttons[i + controller.launcherData.size()]);
+                y += 22;
+            }
+        }
     }
 
     @Override
@@ -40,15 +60,7 @@ public class GuiController extends GuiContainerBase
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
         drawStringCentered(LanguageUtility.getLocalName(controller.getInventoryName()), 85, 10);
 
-        if(controller.launcherData != null)
-        {
-            int i = 0;
-            for (LauncherData data : controller.launcherData)
-            {
-                i++;
-                drawString("#" + i + " " + data.location, 85, 10 + i * 11);
-            }
-        }
+
     }
 
     @Override
