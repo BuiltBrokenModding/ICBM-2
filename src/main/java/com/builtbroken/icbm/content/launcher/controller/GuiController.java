@@ -138,7 +138,7 @@ public class GuiController extends GuiContainerBase
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
         drawStringCentered(LanguageUtility.getLocalName(controller.getInventoryName()), 85, 10);
 
-        if (!editMode && controller.launcherData != null && controller.launcherData.size() == 0)
+        if (!editMode && (controller.launcherData == null || controller.launcherData.size() == 0))
         {
             drawStringCentered("No linked silos", 85, 40);
         }
