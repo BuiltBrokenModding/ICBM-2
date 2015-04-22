@@ -1,30 +1,41 @@
 package com.builtbroken.icbm.content.launcher.controller;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.content.Assets;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
-import com.builtbroken.mc.api.ISave;
+import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.api.items.IWorldPosItem;
 import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.api.tile.ILinkFeedback;
 import com.builtbroken.mc.api.tile.ILinkable;
 import com.builtbroken.mc.api.tile.IPassCode;
-import com.builtbroken.mc.api.tile.node.ITileModule;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.AbstractPacket;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
+import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
 import com.builtbroken.mc.prefab.tile.TileModuleMachine;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.ByteBufUtils;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.IIcon;
+import net.minecraftforge.client.IItemRenderer;
+import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +44,7 @@ import java.util.List;
  * Used to link several launchers together to be controlled from a single terminal
  * Created by robert on 4/3/2015.
  */
-public class TileController extends TileModuleMachine implements ILinkable, IPacketIDReceiver, IGuiTile
+public class TileController extends TileModuleMachine implements ILinkable, IPacketIDReceiver, IGuiTile, ISimpleItemRenderer
 {
     public static double MAX_LINK_DISTANCE = 100;
     public static int MAX_LAUNCHER_LINK = 6; //changed to 6 due to current GUI size and no GUI paging
@@ -54,6 +65,9 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
     {
         super("missileController", Material.iron);
         this.addInventoryModule(2);
+        this.renderNormalBlock = false;
+        this.renderTileEntity = true;
+        this.isOpaque = false;
     }
 
     /**
@@ -205,7 +219,7 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
                     }
                 }
 
-                if(Minecraft.getMinecraft().currentScreen instanceof GuiController)
+                if (Minecraft.getMinecraft().currentScreen instanceof GuiController)
                 {
                     Minecraft.getMinecraft().currentScreen.initGui();
                 }
@@ -280,11 +294,11 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
     public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
-        if(nbt.hasKey("locations"))
+        if (nbt.hasKey("locations"))
         {
             launcherLocations.clear();
             NBTTagList list = nbt.getTagList("locations", 10);
-            for(int i =0; i < list.tagCount(); i++)
+            for (int i = 0; i < list.tagCount(); i++)
             {
                 NBTTagCompound tag = list.getCompoundTagAt(i);
                 launcherLocations.add(new Pos(tag.getInteger("x"), tag.getInteger("xy"), tag.getInteger("z")));
@@ -296,10 +310,10 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
     public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
-        if(launcherLocations != null && launcherLocations.size() > 0)
+        if (launcherLocations != null && launcherLocations.size() > 0)
         {
             NBTTagList list = new NBTTagList();
-            for(Pos pos : launcherLocations)
+            for (Pos pos : launcherLocations)
                 list.appendTag(pos.toIntNBT());
             nbt.setTag("locations", list);
         }
@@ -308,11 +322,52 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
     @Override
     protected boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
     {
-        if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IWorldPosItem)
+        if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IWorldPosItem)
             return false;
 
-        if(isServer())
+        if (isServer())
             openGui(player, ICBM.INSTANCE);
         return true;
+    }
+
+    @Override
+    public void renderInventoryItem(IItemRenderer.ItemRenderType type, ItemStack itemStack, Object... data)
+    {
+        GL11.glTranslatef(-0.5f, -0.5f, -0.5f);
+        GL11.glScaled(.8f, .8f, .8f);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.WEAPON_CASE_TEXTURE);
+        Assets.WEAPON_CASE_MODEL.renderAll();
+    }
+
+    @SideOnly(Side.CLIENT)
+    public AxisAlignedBB getRenderBoundingBox()
+    {
+        return new Cube(0, 0, 0, 1, 2, 1).add(x(), y(), z()).toAABB();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void renderDynamic(Pos pos, float frame, int pass)
+    {
+        //Render launcher
+        GL11.glPushMatrix();
+        GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.5f, pos.zf() + 0.5f);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.LAUNCHER_CONTROLLER_TEXTURE);
+        Assets.LAUNCHER_CONTROLLER_MODEL.renderOnly("screen");
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.WEAPON_CASE_TEXTURE);
+        Assets.LAUNCHER_CONTROLLER_MODEL.renderAllExcept("screen");
+        GL11.glPopMatrix();
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister iconRegister)
+    {
+
+    }
+
+    @Override
+    public IIcon getIcon()
+    {
+        return Blocks.gravel.getIcon(0, 0);
     }
 }
