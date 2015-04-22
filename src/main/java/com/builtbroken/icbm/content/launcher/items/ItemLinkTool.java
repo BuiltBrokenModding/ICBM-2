@@ -38,8 +38,8 @@ public class ItemLinkTool extends Item implements IWorldPosItem, IPassCodeItem
     @Override
     public void registerIcons(IIconRegister reg)
     {
-        this.itemIcon = reg.registerIcon(ICBM.PREFIX +"linker.unlinked");
-        this.linked_icon = reg.registerIcon(ICBM.PREFIX +"linker.linked");
+        this.itemIcon = reg.registerIcon(ICBM.PREFIX + "linker.unlinked");
+        this.linked_icon = reg.registerIcon(ICBM.PREFIX + "linker.linked");
     }
 
     @Override
@@ -48,6 +48,19 @@ public class ItemLinkTool extends Item implements IWorldPosItem, IPassCodeItem
         if(meta == 1)
             return this.linked_icon;
         return this.itemIcon;
+    }
+
+    @Override
+    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
+    {
+        if(player.isSneaking())
+        {
+            stack.setTagCompound(null);
+            stack.setItemDamage(0);
+            LanguageUtility.addChatToPlayer(player, "link.cleared");
+            player.inventoryContainer.detectAndSendChanges();
+        }
+        return stack;
     }
 
     @Override
@@ -68,6 +81,7 @@ public class ItemLinkTool extends Item implements IWorldPosItem, IPassCodeItem
                 setCode(stack, ((IPassCode) tile).getCode());
             }
             stack.setItemDamage(1);
+            player.inventoryContainer.detectAndSendChanges();
             return true;
         }
         else
