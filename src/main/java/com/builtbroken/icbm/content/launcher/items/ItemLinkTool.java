@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.launcher.items;
 
+import com.builtbroken.icbm.ICBM;
 import com.builtbroken.jlib.lang.TextColor;
 import com.builtbroken.mc.api.IWorldPosition;
 import com.builtbroken.mc.api.items.IPassCodeItem;
@@ -8,6 +9,9 @@ import com.builtbroken.mc.api.tile.ILinkable;
 import com.builtbroken.mc.api.tile.IPassCode;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.transform.vector.Location;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.dispenser.ILocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -15,6 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 /**
@@ -22,9 +27,27 @@ import net.minecraft.world.World;
  */
 public class ItemLinkTool extends Item implements IWorldPosItem, IPassCodeItem
 {
+    IIcon linked_icon;
+
     public ItemLinkTool()
     {
         this.setMaxStackSize(1);
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void registerIcons(IIconRegister reg)
+    {
+        this.itemIcon = reg.registerIcon(ICBM.PREFIX +"linker.unlinked");
+        this.linked_icon = reg.registerIcon(ICBM.PREFIX +"linker.linked");
+    }
+
+    @Override
+    public IIcon getIconFromDamage(int meta)
+    {
+        if(meta == 1)
+            return this.linked_icon;
+        return this.itemIcon;
     }
 
     @Override
@@ -44,6 +67,7 @@ public class ItemLinkTool extends Item implements IWorldPosItem, IPassCodeItem
             {
                 setCode(stack, ((IPassCode) tile).getCode());
             }
+            stack.setItemDamage(1);
             return true;
         }
         else
