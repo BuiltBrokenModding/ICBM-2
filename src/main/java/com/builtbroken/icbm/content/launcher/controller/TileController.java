@@ -352,6 +352,13 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
         //Render launcher
         GL11.glPushMatrix();
         GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.5f, pos.zf() + 0.5f);
+        switch(facing)
+        {
+            case EAST: break;
+            case WEST: GL11.glRotatef(180f, 0, 1f, 0); break;
+            case SOUTH: GL11.glRotatef(-90f, 0, 1f, 0); break;
+            default: GL11.glRotatef(90f, 0, 1f, 0); break;
+        }
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.LAUNCHER_CONTROLLER_TEXTURE);
         Assets.LAUNCHER_CONTROLLER_MODEL.renderOnly("screen");
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.WEAPON_CASE_TEXTURE);
