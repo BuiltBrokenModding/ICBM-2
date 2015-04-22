@@ -2,11 +2,13 @@ package com.builtbroken.icbm.content.launcher.controller;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
+import com.builtbroken.mc.api.ISave;
 import com.builtbroken.mc.api.items.IWorldPosItem;
 import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.api.tile.ILinkFeedback;
 import com.builtbroken.mc.api.tile.ILinkable;
 import com.builtbroken.mc.api.tile.IPassCode;
+import com.builtbroken.mc.api.tile.node.ITileModule;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.AbstractPacket;
 import com.builtbroken.mc.core.network.packet.PacketTile;
@@ -272,6 +274,35 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
     public Object getClientGuiElement(int ID, EntityPlayer player)
     {
         return new GuiController(this, player);
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound nbt)
+    {
+        super.readFromNBT(nbt);
+        if(nbt.hasKey("locations"))
+        {
+            launcherLocations.clear();
+            NBTTagList list = nbt.getTagList("locations", 10);
+            for(int i =0; i < list.tagCount(); i++)
+            {
+                NBTTagCompound tag = list.getCompoundTagAt(i);
+                launcherLocations.add(new Pos(tag.getInteger("x"), tag.getInteger("xy"), tag.getInteger("z")));
+            }
+        }
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound nbt)
+    {
+        super.writeToNBT(nbt);
+        if(launcherLocations != null && launcherLocations.size() > 0)
+        {
+            NBTTagList list = new NBTTagList();
+            for(Pos pos : launcherLocations)
+                list.appendTag(pos.toIntNBT());
+            nbt.setTag("locations", list);
+        }
     }
 
     @Override
