@@ -202,50 +202,54 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
     @Override
     public boolean read(ByteBuf buf, int id, EntityPlayer player, PacketType type)
     {
-        if (isClient())
+        if(!super.read(buf, id, player, type))
         {
-            //Basic GUI data
-            if (id == 0)
+            if (isClient())
             {
-                NBTTagCompound tag = ByteBufUtils.readTag(buf);
-                launcherData = new ArrayList();
-
-                if (tag.hasKey("launcherData"))
+                //Basic GUI data
+                if (id == 0)
                 {
-                    NBTTagList list = tag.getTagList("launcherData", 10);
-                    for (int i = 0; i < list.tagCount(); i++)
+                    NBTTagCompound tag = ByteBufUtils.readTag(buf);
+                    launcherData = new ArrayList();
+
+                    if (tag.hasKey("launcherData"))
                     {
-                        launcherData.add(new LauncherData(list.getCompoundTagAt(i)));
+                        NBTTagList list = tag.getTagList("launcherData", 10);
+                        for (int i = 0; i < list.tagCount(); i++)
+                        {
+                            launcherData.add(new LauncherData(list.getCompoundTagAt(i)));
+                        }
                     }
-                }
 
-                if (Minecraft.getMinecraft().currentScreen instanceof GuiController)
+                    if (Minecraft.getMinecraft().currentScreen instanceof GuiController)
+                    {
+                        Minecraft.getMinecraft().currentScreen.initGui();
+                    }
+
+                    return true;
+                }
+            }
+            else
+            {
+                //Remove launcher, input from GUI
+                if (id == 1)
                 {
-                    Minecraft.getMinecraft().currentScreen.initGui();
+                    removeLauncher(new Pos(buf));
+                    return true;
                 }
-
-                return true;
+                else if (id == 2)
+                {
+                    int index = buf.readInt();
+                    if (index == -1)
+                        fireAllLaunchers();
+                    else
+                        fireLauncher(index);
+                    return true;
+                }
             }
+            return false;
         }
-        else
-        {
-            //Remove launcher, input from GUI
-            if (id == 1)
-            {
-                removeLauncher(new Pos(buf));
-                return true;
-            }
-            else if (id == 2)
-            {
-                int index = buf.readInt();
-                if (index == -1)
-                    fireAllLaunchers();
-                else
-                    fireLauncher(index);
-                return true;
-            }
-        }
-        return false;
+        return true;
     }
 
     @Override
@@ -269,13 +273,6 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
             packet = new PacketTile(this, 0, nbt);
             sendPacketToGuiUsers(packet);
         }
-    }
-
-    @Override
-    public AbstractPacket getDescPacket()
-    {
-        //No data is needed on load
-        return null;
     }
 
     @Override
