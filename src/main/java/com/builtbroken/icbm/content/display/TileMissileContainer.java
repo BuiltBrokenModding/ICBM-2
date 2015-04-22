@@ -39,9 +39,23 @@ public class TileMissileContainer extends TileModuleMachine
     }
 
     @Override
-    public PacketTile getDescPacket()
+    public void readDescPacket(ByteBuf buf)
     {
-        return new PacketTile(this, getSaveData());
+        super.readDescPacket(buf);
+        //Silo item
+        ItemStack stack = ByteBufUtils.readItemStack(buf);
+        if (stack.getItem() instanceof IMissileItem)
+            this.setInventorySlotContents(0, stack);
+        else
+            this.setInventorySlotContents(0, null);
+    }
+
+    @Override
+    public void writeDescPacket(ByteBuf buf)
+    {
+        super.writeDescPacket(buf);
+        //Silo item
+        ByteBufUtils.writeItemStack(buf, getStackInSlot(0) != null ? getStackInSlot(0) : new ItemStack(Blocks.stone));
     }
 
     @Override

@@ -222,36 +222,26 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     @Override
     public boolean read(ByteBuf buf, int id, EntityPlayer player, PacketType type)
     {
-        if (isServer())
+        if (id == 1)
         {
-            //Server side, update target button
-            if (id == 1)
-            {
-                this.target = new Pos(buf);
-                return true;
-            }
+            this.target = new Pos(buf);
+            return true;
         }
-        else
-        {
-            //Client side, desc packet
-            if (id == 0)
-            {
-                this.target = new Pos(buf);
-                ItemStack stack = ByteBufUtils.readItemStack(buf);
-                if (stack.getItem() instanceof IMissileItem)
-                    this.setInventorySlotContents(0, stack);
-                else
-                    this.setInventorySlotContents(0, null);
-                return true;
-            }
-        }
-        return false;
+        return super.read(buf, id, player, type);
     }
 
     @Override
-    public PacketTile getDescPacket()
+    public void readDescPacket(ByteBuf buf)
     {
-        return new PacketTile(this, 0, target, getStackInSlot(0) != null ? getStackInSlot(0) : new ItemStack(Blocks.stone));
+        super.readDescPacket(buf);
+        target = new Pos(buf);
+    }
+
+    @Override
+    public void writeDescPacket(ByteBuf buf)
+    {
+        super.writeDescPacket(buf);
+        target.writeByteBuf(buf);
     }
 
     @Override
