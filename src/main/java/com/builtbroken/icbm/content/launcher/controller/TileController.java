@@ -298,7 +298,7 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
             for (int i = 0; i < list.tagCount(); i++)
             {
                 NBTTagCompound tag = list.getCompoundTagAt(i);
-                launcherLocations.add(new Pos(tag.getInteger("x"), tag.getInteger("xy"), tag.getInteger("z")));
+                launcherLocations.add(new Pos(tag.getInteger("x"), tag.getInteger("y"), tag.getInteger("z")));
             }
         }
     }
