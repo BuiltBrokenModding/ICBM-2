@@ -122,7 +122,7 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
         if (!pos.isAboveBedrock())
             return "link.error.pos.invalid";
         if (distance(pos) > MAX_LINK_DISTANCE)
-            return "link.error.pos.distance";
+            return "link.error.pos.distance.max";
 
         //Compare tile pass code
         TileEntity tile = pos.getTileEntity();

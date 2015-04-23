@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.launcher.controller;
 
+import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.mc.core.References;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
@@ -53,11 +54,11 @@ public class GuiController extends GuiContainerBase
                     buttons = new GuiButton[controller.launcherData.size() * 2];
 
                     //Launcher edit button
-                    buttons[i] = new GuiButton(i, x, y, 100, 20, "Launcher " + i);
+                    buttons[i] = new GuiButton(i, x, y, 100, 20, LanguageUtility.getLocalName("gui.icbm:controller.launcher") + " " + i);
                     this.buttonList.add(buttons[i]);
 
                     //Fire launcher button
-                    buttons[i + controller.launcherData.size()] = new GuiButton(i + controller.launcherData.size(), x + 105, y, 30, 20, "Fire");
+                    buttons[i + controller.launcherData.size()] = new GuiButton(i + controller.launcherData.size(), x + 105, y, 30, 20, LanguageUtility.getLocalName("gui.icbm:controller.fire"));
                     if (controller.launcherData.get(i).missile == null)
                         buttons[i + controller.launcherData.size()].enabled = false;
                     this.buttonList.add(buttons[i + controller.launcherData.size()]);
@@ -67,8 +68,8 @@ public class GuiController extends GuiContainerBase
         }
         else
         {
-            this.buttonList.add(new GuiButton(0, x, y, 30, 20, "Back"));
-            this.buttonList.add(new GuiButton(1, x + 100, y + 100, 50, 20, "Update"));
+            this.buttonList.add(new GuiButton(0, x, y, 30, 20, LanguageUtility.getLocalName("gui.icbm:controller.back")));
+            this.buttonList.add(new GuiButton(1, x + 100, y + 100, 50, 20, LanguageUtility.getLocalName("gui.icbm:controller.update")));
 
             x = guiLeft + 10;
             y = guiTop + 60;
@@ -125,7 +126,7 @@ public class GuiController extends GuiContainerBase
                         ((TileAbstractLauncher) tile).setTarget(new Pos(Integer.parseInt(x_field.getText()), Integer.parseInt(y_field.getText()), Integer.parseInt(z_field.getText())));
                     } catch (NumberFormatException e)
                     {
-                        errorString = "Invalid input";
+                        errorString = "gui.icbm:controller.invalid.input";
                     }
                 }
             }
@@ -140,7 +141,7 @@ public class GuiController extends GuiContainerBase
 
         if (!editMode && (controller.launcherData == null || controller.launcherData.size() == 0))
         {
-            drawStringCentered("No linked silos", 85, 40);
+            drawStringCentered("gui.icbm:controller.links.none", 85, 40);
         }
     }
 

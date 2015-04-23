@@ -47,6 +47,40 @@ info.icbm:warhead.name=Warhead
 info.icbm:guidance.name=Guidance
 info.icbm:trigger.name=Trigger
 
+## Linking tool & machine action info
+link.error.world.match.name=Limited to save dim
+link.error.pos.invalid.name=Invalid linked location
+link.error.pos.distance.max.name=Distance to high
+link.error.pos.distance.min.name=Distance to low
+link.error.tile.invalid.name=Invalid linking tile
+link.error.code.match.name=Link code doesn't match
+link.error.tile.limit.max.name=Max linked tiles reached
+link.error.tile.already.added.name=Tile already linked
+link.cleared.name=Link data cleared
+link.pos.set.name=Link data set
+
+## Controller GUI error messages
+gui.icbm:controller.links.none.name=No silos linked
+gui.icbm:controller.invalid.input.name=Invalid input
+
+## Controller GUI buttons
+gui.icbm:controller.launcher.name=Launcher
+gui.icbm:controller.launcher.width=100
+gui.icbm:controller.launcher.x=0
+
+gui.icbm:controller.fire.name=Fire
+gui.icbm:controller.fire.width=30
+gui.icbm:controller.fire.x=105
+
+gui.icbm:controller.update.name=Update
+gui.icbm:controller.update.width=30
+gui.icbm:controller.update.x=0
+
+gui.icbm:controller.back.name=Back
+gui.icbm:controller.back.width=50
+gui.icbm:controller.back.x=100
+
+
 ## Triggers
 trigger.icbm:impact.name=Impact
 trigger.icbm:gps.name=Location
