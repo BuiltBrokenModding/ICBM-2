@@ -1,11 +1,15 @@
 package com.builtbroken.icbm.content.launcher.silo;
 
 import com.builtbroken.icbm.content.Assets;
+import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
+import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.icbm.content.launcher.launcher.GuiSmallLauncher;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
+import com.builtbroken.mc.api.tile.ILinkFeedback;
 import com.builtbroken.mc.lib.render.RenderUtility;
 import com.builtbroken.mc.lib.transform.region.Cube;
+import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
 import com.builtbroken.mc.prefab.tile.Tile;
@@ -34,6 +38,12 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
         this.isOpaque = false;
         this.renderNormalBlock = false;
         this.renderTileEntity = true;
+    }
+
+    @Override
+    public boolean canAcceptMissile(Missile missile)
+    {
+        return super.canAcceptMissile(missile) && missile.casing == MissileCasings.SMALL;
     }
 
     @Override

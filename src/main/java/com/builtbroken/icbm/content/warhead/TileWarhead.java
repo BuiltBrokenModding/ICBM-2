@@ -6,7 +6,6 @@ import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadStandard;
-import com.builtbroken.icbm.content.missile.RenderMissile;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosive;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
@@ -146,7 +145,7 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
             // If anything can set it on fire blow up
             for (byte i = 0; i < 6; i++)
             {
-                Location position = toVectorWorld();
+                Location position = toLocation();
                 position.add(ForgeDirection.getOrientation(i));
 
                 Block b = position.getBlock();
@@ -185,7 +184,7 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         // If anything can set it on fire blow up
         for (byte i = 0; i < 6; i++)
         {
-            Location position = toVectorWorld();
+            Location position = toLocation();
             position.add(ForgeDirection.getOrientation(i));
 
             Block b = position.getBlock();

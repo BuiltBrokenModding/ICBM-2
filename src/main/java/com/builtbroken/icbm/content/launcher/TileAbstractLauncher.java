@@ -1,54 +1,40 @@
 package com.builtbroken.icbm.content.launcher;
 
-import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.ILauncher;
 import com.builtbroken.icbm.api.IMissileItem;
-import com.builtbroken.icbm.content.Assets;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
-import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.display.TileMissileContainer;
-import com.builtbroken.icbm.content.launcher.launcher.GuiSmallLauncher;
 import com.builtbroken.icbm.content.missile.EntityMissile;
-import com.builtbroken.mc.api.items.ISimpleItemRenderer;
-import com.builtbroken.mc.api.tile.IGuiTile;
-import com.builtbroken.mc.core.Engine;
+import com.builtbroken.mc.api.tile.ILinkFeedback;
+import com.builtbroken.mc.api.tile.IPassCode;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
-import com.builtbroken.mc.core.registry.implement.IPostInit;
-import com.builtbroken.mc.lib.helper.LanguageUtility;
-import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
-import com.builtbroken.mc.lib.transform.region.Cube;
+import com.builtbroken.mc.lib.helper.MathUtility;
+import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
-import com.builtbroken.mc.prefab.gui.ContainerDummy;
-import com.builtbroken.mc.prefab.tile.Tile;
-import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.ByteBufUtils;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IIcon;
-import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import org.lwjgl.opengl.GL11;
+import net.minecraft.nbt.NBTTagList;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Prefab for all missile launchers and silos.
  * Created by robert on 1/18/2015.
  */
-public abstract class TileAbstractLauncher extends TileMissileContainer implements ILauncher, IPacketIDReceiver
+public abstract class TileAbstractLauncher extends TileMissileContainer implements ILauncher, IPacketIDReceiver, IPassCode, ILinkFeedback
 {
-    protected Pos target = new Pos(0, -1, 0);
+    public Pos target = new Pos(0, -1, 0);
+    protected short link_code;
+
+    protected List<LauncherReport> launcherReports = new ArrayList();
 
     public TileAbstractLauncher(String name, Material mat, int slots)
     {
@@ -58,47 +44,31 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     public void setTarget(Pos target)
     {
         this.target = target;
-        if (isClient())
-        {
-            Engine.instance.packetHandler.sendToServer(new PacketTile(this, 1, target));
-        }
+        sendPacketToServer(new PacketTile(this, 1, target));
     }
 
     @Override
-    public boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
+    public short getCode()
     {
-        if (player.getHeldItem() != null && player.getHeldItem().getItem() == Items.flint_and_steel)
-        {
-            if (target != null && target.y() > -1)
-            {
-                double distance = target.distance(new Pos(this));
-                if (distance <= 200 && distance >= 20)
-                {
-                    fireMissile();
-                    //TODO add launch logging to console
-                }
-                else
-                {
-                    player.addChatComponentMessage(new ChatComponentText(LanguageUtility.getLocalName(getInventoryName() + ".invaliddistance")));
-                }
-            }
-            else
-            {
-                player.addChatComponentMessage(new ChatComponentText(LanguageUtility.getLocalName(getInventoryName() + ".invalidtarget")));
-            }
-            return true;
-        }
-        else if (player.getHeldItem() == null)
-        {
-            openGui(player, ICBM.INSTANCE);
-            return true;
-        }
-        return super.onPlayerRightClick(player, side, hit);
+        if (link_code == 0)
+            link_code = MathUtility.randomShort();
+        return link_code;
+    }
+
+    @Override
+    public void firstTick()
+    {
+        if (!target.isAboveBedrock())
+            target = new Pos(this);
+        if (link_code == 0)
+            link_code = MathUtility.randomShort();
     }
 
     @Override
     public void update()
     {
+        //TODO track location of missiles if enabled
+        //TODO track ETA to target of missiles if enabled
         super.update();
         if (isServer())
         {
@@ -106,13 +76,35 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
             {
                 if (world().isBlockIndirectlyGettingPowered(xi(), yi(), zi()))
                 {
-                    fireMissile();
+                    fireMissile(target);
                 }
             }
         }
     }
 
+    @Override
+    public void doCleanupCheck()
+    {
+        //Cleans up the report list looking for broken reports, temp fix for NULL UUIDs
+        List<LauncherReport> newList = new ArrayList();
+        for (LauncherReport report : launcherReports)
+        {
+            if (report.entityUUID != null && report.missile != null)
+            {
+                newList.add(report);
+            }
+        }
+        launcherReports.clear();
+        launcherReports = newList;
+    }
+
+
     public void fireMissile()
+    {
+        fireMissile(target);
+    }
+
+    public void fireMissile(final Pos target)
     {
         Missile missile = getMissile();
         if (missile != null)
@@ -122,7 +114,10 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
                 //Create and setup missile
                 EntityMissile entity = new EntityMissile(world());
                 entity.setMissile(missile);
-                entity.setPositionAndRotation(x() + 0.5, y() + 3, z() + 0.5, 0, 0);
+
+                //Set location data
+                Pos start = new Pos(this).add(getMissileLaunchOffset());
+                entity.setPositionAndRotation(start.x(), start.y(), start.z(), 0, 0);
                 entity.setVelocity(0, 2, 0);
 
                 //Set target data
@@ -131,6 +126,8 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
 
                 //Spawn and start moving
                 world().spawnEntityInWorld(entity);
+                addLaunchReport(entity);
+
                 entity.setIntoMotion();
 
                 //Empty inventory slot
@@ -139,55 +136,112 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
             }
             else
             {
-                //TODO add some effects
-                for (int l = 0; l < 20; ++l)
+                triggerLaunchingEffects();
+            }
+        }
+    }
+
+    protected void addLaunchReport(EntityMissile missile)
+    {
+        launcherReports.add(new LauncherReport(missile));
+        if (launcherReports.size() > 20)
+            launcherReports.remove(0);
+    }
+
+    /**
+     * Called to ensure the missile doesn't clip the edge of a multi-block
+     * structure that holds the missile.
+     *
+     * @return Position in relation to the launcher base, do not add location data
+     */
+    public Pos getMissileLaunchOffset()
+    {
+        return new Pos(0.5, 3, 0.5);
+    }
+
+    /**
+     * Called to load up and populate some effects in addition to the missile's own
+     * launching effects.
+     */
+    public void triggerLaunchingEffects()
+    {
+        //TODO add more effects
+        for (int l = 0; l < 20; ++l)
+        {
+            double f = x() + 0.5 + 0.3 * (world().rand.nextFloat() - world().rand.nextFloat());
+            double f1 = y() + 0.1 + 0.5 * (world().rand.nextFloat() - world().rand.nextFloat());
+            double f2 = z() + 0.5 + 0.3 * (world().rand.nextFloat() - world().rand.nextFloat());
+            world().spawnParticle("largesmoke", f, f1, f2, 0.0D, 0.0D, 0.0D);
+        }
+    }
+
+    /**
+     * Called when the missile fired from this launcher impacts
+     * the ground. Used for tracking information and feed back
+     * for users.
+     *
+     * @param missile - entity fired by this launcher
+     */
+    public void onImpactOfMissile(EntityMissile missile)
+    {
+        if (isServer() && missile != null)
+        {
+            //TODO thin out list to only include active reports, or rather ones still waiting on death times to be added
+            for (LauncherReport report : launcherReports)
+            {
+                if (report.entityUUID != null && report.entityUUID.getMostSignificantBits() == missile.getUniqueID().getMostSignificantBits())
                 {
-                    double f = x() + 0.5 + 0.3 * (world().rand.nextFloat() - world().rand.nextFloat());
-                    double f1 = y() + 0.1 + 0.5 * (world().rand.nextFloat() - world().rand.nextFloat());
-                    double f2 = z() + 0.5 + 0.3 * (world().rand.nextFloat() - world().rand.nextFloat());
-                    world().spawnParticle("largesmoke", f, f1, f2, 0.0D, 0.0D, 0.0D);
+                    report.impacted = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    public void onDeathOfMissile(EntityMissile missile)
+    {
+        if (isServer() && missile != null)
+        {
+            for (LauncherReport report : launcherReports)
+            {
+                if (report.entityUUID != null && report.entityUUID.getMostSignificantBits() == missile.getUniqueID().getMostSignificantBits())
+                {
+                    report.deathTime = System.nanoTime();
+                    break;
                 }
             }
         }
     }
 
     @Override
-    public boolean canAcceptMissile(Missile missile)
+    public void onLinked(Location location)
     {
-        return missile != null && missile.casing == MissileCasings.SMALL;
+
     }
 
     @Override
     public boolean read(ByteBuf buf, int id, EntityPlayer player, PacketType type)
     {
-        if (isServer())
+        if (id == 1)
         {
-            if (id == 1)
-            {
-                this.target = new Pos(buf);
-                return true;
-            }
+            this.target = new Pos(buf);
+            return true;
         }
-        else
-        {
-            if (id == 0)
-            {
-                this.target = new Pos(buf);
-                ItemStack stack = ByteBufUtils.readItemStack(buf);
-                if (stack.getItem() instanceof IMissileItem)
-                    this.setInventorySlotContents(0, stack);
-                else
-                    this.setInventorySlotContents(0, null);
-                return true;
-            }
-        }
-        return false;
+        return super.read(buf, id, player, type);
     }
 
     @Override
-    public PacketTile getDescPacket()
+    public void readDescPacket(ByteBuf buf)
     {
-        return new PacketTile(this, 0, target, getStackInSlot(0) != null ? getStackInSlot(0) : new ItemStack(Blocks.stone));
+        super.readDescPacket(buf);
+        target = new Pos(buf);
+    }
+
+    @Override
+    public void writeDescPacket(ByteBuf buf)
+    {
+        super.writeDescPacket(buf);
+        target.writeByteBuf(buf);
     }
 
     @Override
@@ -196,6 +250,22 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         super.readFromNBT(nbt);
         if (nbt.hasKey("target"))
             this.target = new Pos(nbt.getCompoundTag("target"));
+        if (nbt.hasKey("link_code"))
+            this.link_code = nbt.getShort("link_code");
+        else
+            this.link_code = (short) MathUtility.rand.nextInt(Short.MAX_VALUE);
+
+        if (nbt.hasKey("launchReports"))
+        {
+            //Clear list to remove duplication
+            launcherReports.clear();
+
+            NBTTagList list = nbt.getTagList("launchReports", 10);
+            for (int i = 0; i < list.tagCount(); i++)
+            {
+                launcherReports.add(new LauncherReport(list.getCompoundTagAt(i)));
+            }
+        }
     }
 
     @Override
@@ -204,5 +274,17 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         super.writeToNBT(nbt);
         if (target != null)
             nbt.setTag("target", target.toNBT());
+        if (link_code != 0)
+            nbt.setShort("link_code", link_code);
+
+        if (launcherReports != null && launcherReports.size() > 0)
+        {
+            NBTTagList list = new NBTTagList();
+            for (LauncherReport report : launcherReports)
+            {
+                list.appendTag(report.save());
+            }
+            nbt.setTag("launchReports", list);
+        }
     }
 }

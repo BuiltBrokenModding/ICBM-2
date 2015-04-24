@@ -24,9 +24,11 @@ public class GuiSmallLauncher extends GuiContainerBase
     protected GuiTextField z_field;
     protected String errorString = "";
 
+    private int field_update_delay = 0;
+
     public GuiSmallLauncher(TileSmallLauncher launcher, EntityPlayer player)
     {
-        super(new ContainerDummy(player, launcher));
+        super(new ContainerSmallLauncher(player, launcher));
         this.launcher = launcher;
         this.baseTexture = References.GUI__MC_EMPTY_FILE;
     }
@@ -62,13 +64,12 @@ public class GuiSmallLauncher extends GuiContainerBase
         super.actionPerformed(button);
 
         //Update button
-        if(button.id == 0)
+        if (button.id == 0)
         {
             try
             {
-                launcher.setTarget(new Pos(Integer.parseInt(x_field.getText()), Integer.parseInt(y_field.getText()),Integer.parseInt(z_field.getText())));
-            }
-            catch(NumberFormatException e)
+                launcher.setTarget(new Pos(Integer.parseInt(x_field.getText()), Integer.parseInt(y_field.getText()), Integer.parseInt(z_field.getText())));
+            } catch (NumberFormatException e)
             {
                 //Ignore as this is expected
                 errorString = "Invalid target data";
@@ -82,6 +83,18 @@ public class GuiSmallLauncher extends GuiContainerBase
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
         drawStringCentered(LanguageUtility.getLocalName(launcher.getInventoryName()), 85, 10);
         drawStringCentered(errorString, 85, 80, Colors.RED.color);
+
+        if (!x_field.isFocused() && !y_field.isFocused() && !z_field.isFocused())
+        {
+            field_update_delay++;
+            if(field_update_delay > 100)
+            {
+                field_update_delay = 0;
+                this.x_field.setText("" + launcher.target.xi());
+                this.y_field.setText("" + launcher.target.yi());
+                this.z_field.setText("" + launcher.target.zi());
+            }
+        }
     }
 
     @Override

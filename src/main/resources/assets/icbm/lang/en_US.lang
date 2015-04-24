@@ -20,6 +20,8 @@ item.icbm:missile.medium.empty.name=Large Missile Casing
 item.icbm:missile.large.name=ICBM
 item.icbm:missile.large.empty.name=ICBM Casing
 
+item.icbm:siloLinker.name=Data Chip
+
 ## Tiles
 tile.icbm:TileMissile.0.name=Wooden Rocket Display
 tile.icbm:TileMissile.1.name=Wooden Small Missile Display
@@ -29,9 +31,17 @@ tile.icbm:smallLauncher.container.name=Launcher Guidance Screen
 tile.icbm:smallLauncher.container.invalidtarget=Invalid Target Location
 tile.icbm:smallLauncher.container.invaliddistance=Target distance needs to be between 20 and 200
 
+tile.icbm:missileController.name=Launcher Controller
+tile.icbm:smallsilo.name=Small Silo
+tile.icbm:missileworkstation.name=Missile Station
+
 ## Explosives
 explosive.icbm:tnt.name=TNT
 explosive.icbm:snowmen.name=Let it Snow!
+explosive.icbm:EndoThermic.name=Endothermic
+explosive.icbm:ExoThermic.name=Exothermic
+explosive.icbm:ArrowFragment.name=Arrow
+explosive.icbm:Antimatter.name=Antimatter
 
 ## Launcher
 item.icbm:rocketLauncher.name=Handheld Launcher
@@ -46,6 +56,42 @@ info.icbm:engine.name=Engine
 info.icbm:warhead.name=Warhead
 info.icbm:guidance.name=Guidance
 info.icbm:trigger.name=Trigger
+
+## Linking tool & machine action info
+link.error.world.match.name=Limited to save dim
+link.error.pos.invalid.name=Invalid linked location
+link.error.pos.distance.max.name=Distance to high
+link.error.pos.distance.min.name=Distance to low
+link.error.tile.invalid.name=Invalid linking tile
+link.error.code.match.name=Link code doesn't match
+link.error.tile.limit.max.name=Max linked tiles reached
+link.error.tile.already.added.name=Tile already linked
+link.cleared.name=Link data cleared
+link.pos.set.name=Link data set
+
+## Controller GUI error messages
+gui.icbm:controller.links.none.name=No silos linked
+gui.icbm:controller.invalid.input.name=Invalid input
+
+## Controller GUI buttons
+gui.icbm:controller.launcher.name=Launcher
+gui.icbm:controller.launcher.width=100
+gui.icbm:controller.launcher.x=0
+
+gui.icbm:controller.fire.name=Fire
+gui.icbm:controller.fire.width=30
+gui.icbm:controller.fire.x=105
+
+gui.icbm:controller.update.name=Update
+gui.icbm:controller.update.width=30
+gui.icbm:controller.update.x=0
+
+gui.icbm:controller.back.name=Back
+gui.icbm:controller.back.width=50
+gui.icbm:controller.back.x=100
+
+container.TileController.name=Launcher Controller
+
 
 ## Triggers
 trigger.icbm:impact.name=Impact

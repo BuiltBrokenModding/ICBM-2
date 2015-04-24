@@ -5,8 +5,8 @@ import com.builtbroken.icbm.api.IMissile;
 import com.builtbroken.icbm.api.IMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
-import com.builtbroken.icbm.content.missile.data.FlightData;
-import com.builtbroken.icbm.content.missile.data.FlightDataArk;
+import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
+import com.builtbroken.icbm.content.missile.tracking.MissileTracker;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosive;
@@ -20,6 +20,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 /**
@@ -31,6 +32,9 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
 
     //Used for guided version
     public IPos3D target_pos;
+
+    //Used to prevent reporting when de-spawning
+    public boolean noReport = false;
 
     public EntityMissile(World w)
     {
@@ -164,7 +168,29 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     public void onImpactTile()
     {
         super.onImpactTile();
+        if(!noReport && sourceOfProjectile != null)
+        {
+            TileEntity tile = sourceOfProjectile.getTileEntity(worldObj);
+            if(tile instanceof TileAbstractLauncher)
+            {
+                ((TileAbstractLauncher) tile).onImpactOfMissile(this);
+            }
+        }
         onImpact();
+    }
+
+    @Override
+    public void setDead()
+    {
+        super.setDead();
+        if(!noReport && sourceOfProjectile != null)
+        {
+            TileEntity tile = sourceOfProjectile.getTileEntity(worldObj);
+            if(tile instanceof TileAbstractLauncher)
+            {
+                ((TileAbstractLauncher) tile).onDeathOfMissile(this);
+            }
+        }
     }
 
     protected void onImpact()
