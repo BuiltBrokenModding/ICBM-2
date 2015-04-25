@@ -5,6 +5,7 @@ import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.explosive.blast.Blast;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.MathHelper;
 
 /**
  * Created by robert on 2/25/2015.
@@ -24,7 +25,12 @@ public class BlastFragment extends Blast
                     EntityArrow arrow = new EntityArrow(world);
                     arrow.setPosition(pos.x(), pos.y(), pos.z());
                     pos = new Pos().addRandom(MathUtility.rand, 2);
-                    arrow.setVelocity(pos.x(), pos.y(), pos.z());
+
+                    //Motion
+                    arrow.motionX = pos.x();
+                    arrow.motionY = pos.y();
+                    arrow.motionZ = pos.z();
+                    
                     world.spawnEntityInWorld(arrow);
                 }
             }
