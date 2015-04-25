@@ -146,7 +146,7 @@ public final class ICBM extends AbstractMod
 
         // Configs TODO load up using config system, and separate file
         ANTIMATTER_BREAK_UNBREAKABLE = getConfig().getBoolean("Antimatter_Destroy_Unbreakable", Configuration.CATEGORY_GENERAL, true, "Allows antimatter to break blocks that are unbreakable, bedrock for example.");
-        missile_firing_volume = getConfig().getFloat("", "volume", 1.0F, 0, 4, "");
+        missile_firing_volume = getConfig().getFloat("volume", Configuration.CATEGORY_GENERAL, 1.0F, 0, 4, "Missile firing volume");
 
         // Functional Blocks
         blockWarhead = manager.newBlock(TileWarhead.class);
