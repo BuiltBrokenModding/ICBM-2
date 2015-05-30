@@ -16,7 +16,6 @@ public class GuiMissileWorkstation extends GuiContainerBase
     private TileMissileWorkstation tile;
     private GuiButton action_button;
     private GuiButton mode_button;
-    private GuiButton auto_button;
 
     public GuiMissileWorkstation(EntityPlayer player, TileMissileWorkstation tile)
     {
@@ -28,13 +27,11 @@ public class GuiMissileWorkstation extends GuiContainerBase
     public void initGui()
     {
         super.initGui();
-        action_button = new GuiButton(0, guiLeft + 0, guiTop + 60, 30, 15, "Assemble");
-        auto_button = new GuiButton(1, guiLeft + 100, guiTop + 20, 50, 20, "Auto");
-        mode_button = new GuiButton(2, guiLeft + 60, guiTop + 20, 50, 20, "Mode");
+        action_button = new GuiButton(0, guiLeft + 60, guiTop + 20, 50, 20, "Assemble");
+        mode_button = new GuiButton(1, guiLeft + 0, guiTop + 60, 30, 15, "Mode");
 
-        buttonList.add(auto_button);
-        buttonList.add(mode_button);
         buttonList.add(action_button);
+        buttonList.add(mode_button);
     }
 
     @Override
@@ -45,18 +42,6 @@ public class GuiMissileWorkstation extends GuiContainerBase
             tile.sendPacketToServer(new PacketTile(tile, 4));
         }
         else if (button.id == 1)
-        {
-            if (tile.automated)
-            {
-                auto_button.displayString = "Auto";
-            }
-            else
-            {
-                auto_button.displayString = "Manual";
-            }
-            tile.setAutomated(!tile.automated);
-        }
-        else if (button.id == 2)
         {
             if (tile.assemble)
             {
