@@ -223,7 +223,7 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
 
                     if (Minecraft.getMinecraft().currentScreen instanceof GuiController)
                     {
-                        Minecraft.getMinecraft().currentScreen.initGui();
+                        ((GuiController) Minecraft.getMinecraft().currentScreen).reloadData();
                     }
 
                     return true;

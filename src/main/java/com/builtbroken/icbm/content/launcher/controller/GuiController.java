@@ -29,6 +29,9 @@ public class GuiController extends GuiContainerBase
     boolean editMode = false;
     int editMissile = 0;
 
+    private int ticks = 0;
+    private static int updateGuiTicks = 100;
+
 
     public GuiController(TileController launcher, EntityPlayer player)
     {
@@ -65,8 +68,7 @@ public class GuiController extends GuiContainerBase
                     y += 22;
                 }
             }
-        }
-        else
+        } else
         {
             this.buttonList.add(new GuiButton(0, x, y, 30, 20, LanguageUtility.getLocalName("gui.icbm:controller.back")));
             this.buttonList.add(new GuiButton(1, x + 100, y + 100, 50, 20, LanguageUtility.getLocalName("gui.icbm:controller.update")));
@@ -84,6 +86,26 @@ public class GuiController extends GuiContainerBase
             }
         }
     }
+
+    public void reloadData()
+    {
+        if (!editMode)
+        {
+            initGui();
+        }
+        else if(this.x_field != null && this.y_field != null && this.z_field != null && this.x_field.isFocused() && this.y_field.isFocused() && this.z_field.isFocused())
+        {
+            TileEntity tile = controller.launcherData.get(editMissile).location.getTileEntity();
+
+            if (tile instanceof TileAbstractLauncher && ((TileAbstractLauncher) tile).target != null)
+            {
+                this.x_field.setText("" + ((TileAbstractLauncher) tile).target.xi());
+                this.y_field.setText("" + ((TileAbstractLauncher) tile).target.yi());
+                this.z_field.setText("" + ((TileAbstractLauncher) tile).target.zi());
+            }
+        }
+    }
+
 
     @Override
     protected void actionPerformed(GuiButton button)
@@ -107,16 +129,14 @@ public class GuiController extends GuiContainerBase
                     controller.fireLauncher(button.id - controller.launcherData.size());
                 }
             }
-        }
-        else
+        } else
         {
             if (button.id == 0)
             {
                 editMissile = -1;
                 editMode = false;
                 initGui();
-            }
-            else if (button.id == 1)
+            } else if (button.id == 1)
             {
                 TileEntity tile = controller.launcherData.get(editMissile).location.getTileEntity();
                 if (tile instanceof TileAbstractLauncher)
@@ -137,6 +157,11 @@ public class GuiController extends GuiContainerBase
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+
+        if(ticks++ >= updateGuiTicks)
+        {
+            reloadData();
+        }
         drawStringCentered(LanguageUtility.getLocalName(controller.getInventoryName()), 85, 10);
 
         if (!editMode && (controller.launcherData == null || controller.launcherData.size() == 0))
