@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.missile.tracking;
 
+import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.mc.api.IVirtualObject;
@@ -50,6 +51,7 @@ public class MissileTracker implements IVirtualObject
 
     public static void addToTracker(EntityMissile missile)
     {
+        debug("missile added to tracker " + missile);
         MissileTracker tracker = getTrackerForWorld(missile.worldObj);
         if (tracker != null)
             tracker.add(missile);
@@ -71,6 +73,7 @@ public class MissileTracker implements IVirtualObject
 
     public static void spawnMissileOverTarget(Missile data, Location location, EntityPlayer player)
     {
+        debug("spawning missile over target area. D:" + data +"  L:" + location + "  P:" + player);
         EntityMissile missile = new EntityMissile(location.world);
         missile.setMissile(data);
         missile.setPosition(location.x() + (10 * location.world.rand.nextFloat()), 500 + (100 * location.world.rand.nextFloat()), location.z() + (10 * location.world.rand.nextFloat()));
@@ -108,13 +111,11 @@ public class MissileTracker implements IVirtualObject
 
                             world.spawnEntityInWorld(missile);
 
-                            if (Engine.runningAsDev)
-                                Engine.instance.logger().info("Spawned in missile[" + missile.getUniqueID() + "]  " + data);
+                            debug("Spawned in missile[" + missile.getUniqueID() + "]  " + data);
                         }
                         else
                         {
-                            if (Engine.runningAsDev)
-                                Engine.instance.logger().error("Error, entity != missile, loading missile data " + data);
+                            debug("Error, entity != missile, loading missile data " + data);
                         }
                         it.remove();
                     }
@@ -122,8 +123,7 @@ public class MissileTracker implements IVirtualObject
             }
             else
             {
-                if (Engine.runningAsDev)
-                    Engine.instance.logger().error("Removed invalid missile data " + data);
+                debug("Removed invalid missile data " + data);
                 it.remove();
             }
         }
@@ -139,8 +139,7 @@ public class MissileTracker implements IVirtualObject
         world.removeEntity(missile);
         missiles.add(data);
 
-        if (Engine.runningAsDev)
-            Engine.instance.logger().info("Missile[" + missile.getUniqueID() + "] added " + data);
+        debug("Missile[" + missile.getUniqueID() + "] added " + data);
     }
 
     @Override
@@ -184,5 +183,9 @@ public class MissileTracker implements IVirtualObject
         return nbt;
     }
 
-
+    protected static void debug(String msg)
+    {
+        if(ICBM.DEBUG_MISSILE_MANAGER)
+            ICBM.INSTANCE.logger().info("[MissileTracker]" + msg);
+    }
 }

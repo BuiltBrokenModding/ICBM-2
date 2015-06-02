@@ -15,6 +15,7 @@ import com.builtbroken.icbm.content.display.TileMissile;
 import com.builtbroken.icbm.content.display.TileMissileDisplay;
 import com.builtbroken.icbm.content.debug.TileRotationTest;
 import com.builtbroken.icbm.content.launcher.controller.TileController;
+import com.builtbroken.icbm.content.launcher.items.ItemGPSFlag;
 import com.builtbroken.icbm.content.launcher.items.ItemLinkTool;
 import com.builtbroken.icbm.content.launcher.launcher.TileSmallLauncher;
 import com.builtbroken.icbm.content.launcher.silo.TileSmallSilo;
@@ -89,6 +90,7 @@ public final class ICBM extends AbstractMod
 
 
     public static boolean ANTIMATTER_BREAK_UNBREAKABLE = true;
+    public static boolean DEBUG_MISSILE_MANAGER = false;
 
     public static float missile_firing_volume = 1f;
 
@@ -108,6 +110,7 @@ public final class ICBM extends AbstractMod
     public static Item itemMissile;
     public static Item itemRocketLauncher;
     public static Item itemLinkTool;
+    public static Item itemGPSTool;
     public static ItemEngineModules itemEngineModules;
 
     public final ModCreativeTab CREATIVE_TAB;
@@ -146,7 +149,9 @@ public final class ICBM extends AbstractMod
 
         // Configs TODO load up using config system, and separate file
         ANTIMATTER_BREAK_UNBREAKABLE = getConfig().getBoolean("Antimatter_Destroy_Unbreakable", Configuration.CATEGORY_GENERAL, true, "Allows antimatter to break blocks that are unbreakable, bedrock for example.");
+        DEBUG_MISSILE_MANAGER = getConfig().getBoolean("Missile_Manager", "Debug", Engine.runningAsDev, "Adds additional info to the console");
         missile_firing_volume = getConfig().getFloat("missile_firing_volume", "volume", 1.0F, 0, 4, "How loud the missile is when fired from launchers");
+
 
         // Functional Blocks
         blockWarhead = manager.newBlock(TileWarhead.class);
@@ -171,6 +176,7 @@ public final class ICBM extends AbstractMod
         itemRocketLauncher = manager.newItem(ItemRocketLauncher.class);
         itemEngineModules = manager.newItem(ItemEngineModules.class);
         itemLinkTool = manager.newItem("siloLinker", ItemLinkTool.class);
+        itemGPSTool = manager.newItem("gpsFlag", ItemGPSFlag.class);
 
         // Register modules, need to do this or they will not build from ItemStacks
         MissileCasings.register();

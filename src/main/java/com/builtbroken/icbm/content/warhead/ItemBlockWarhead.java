@@ -4,8 +4,10 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.IModuleItem;
 import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
+import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.IExplosiveItem;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -46,12 +48,7 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IModu
     @Override
     public String getUnlocalizedName(ItemStack stack)
     {
-        int meta = getMetadata(stack.getItemDamage());
-        if(meta == 1)
-        {
-            return getUnlocalizedName() + ".casing";
-        }
-        return getUnlocalizedName();
+        return getUnlocalizedName() + "." + WarheadCasings.get(stack.getItemDamage()).name().replace("EXPLOSIVE_", "").toLowerCase();
     }
 
     @Override

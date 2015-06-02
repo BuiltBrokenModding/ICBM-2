@@ -48,8 +48,9 @@ item.icbm:rocketLauncher.name=Handheld Launcher
 info.icbm:rocketlauncher.tooltip=Fires small missiles
 
 ## Warhead
-tile.icbm:warhead.name=Loaded Warhead
-tile.icbm:warhead.casing.name=Warhead Casing
+tile.icbm:warhead.name=Warhead
+tile.icbm:warhead.0.name=Micro Warhead
+tile.icbm:warhead.1.name=Small Warhead
 
 ## Info
 info.icbm:engine.name=Engine
