@@ -13,6 +13,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -31,6 +32,13 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IModu
         super(block);
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
+    }
+
+    @Override
+    public CreativeTabs[] getCreativeTabs()
+    {
+        //TODO move empty warheads to parts tab
+        return new CreativeTabs[]{ getCreativeTab() };
     }
 
     @Override

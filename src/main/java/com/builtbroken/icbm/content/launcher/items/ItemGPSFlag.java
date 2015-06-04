@@ -25,6 +25,7 @@ public class ItemGPSFlag extends ItemGPSData implements IWorldPosItem
     public ItemGPSFlag()
     {
         this.setMaxStackSize(1);
+        this.setHasSubtypes(true);
     }
 
     @SideOnly(Side.CLIENT)

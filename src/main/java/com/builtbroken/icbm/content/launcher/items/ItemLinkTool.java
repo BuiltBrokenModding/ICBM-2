@@ -32,6 +32,7 @@ public class ItemLinkTool extends ItemGPSData implements IWorldPosItem, IPassCod
     public ItemLinkTool()
     {
         this.setMaxStackSize(1);
+        this.setHasSubtypes(true);
     }
 
     @SideOnly(Side.CLIENT)

@@ -22,6 +22,7 @@ import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.WorldChangeHelper;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
+import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -44,6 +45,7 @@ import net.minecraft.world.Explosion;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.lwjgl.opengl.GL11;
 
 import java.lang.reflect.InvocationTargetException;
@@ -75,9 +77,14 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
     @Override
     public void onPostInit()
     {
+        //Small warhead recipes
         ItemStack micro_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, null).toStack();
         micro_warhead_empty.stackSize = 8;
-        GameRegistry.addRecipe(new ShapedOreRecipe(micro_warhead_empty, new Object[] {" r "," n ", "n n", 'n', Items.iron_ingot, 'r', Items.redstone }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(micro_warhead_empty.copy(), new Object[] {" r "," n ", "n n", 'n', Items.iron_ingot, 'r', Items.redstone }));
+        micro_warhead_empty.stackSize = 1;
+
+        GameRegistry.addRecipe(new ShapelessOreRecipe(MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, ExplosiveRegistry.get("tnt")).toStack(), new Object[]{Items.gunpowder, micro_warhead_empty}));
+
 
         ItemStack small_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, null).toStack();
         GameRegistry.addRecipe(new ShapedOreRecipe(small_warhead_empty, new Object[] {" r "," n ", "ncn", 'n', Items.iron_ingot, 'r', Items.redstone, 'c', UniversalRecipe.CIRCUIT_T1.get()}));
