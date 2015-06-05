@@ -15,6 +15,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -23,6 +24,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -32,7 +34,6 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IModu
     public ItemBlockWarhead(Block block)
     {
         super(block);
-        this.setMaxDamage(0);
         this.setHasSubtypes(true);
     }
 
@@ -41,6 +42,12 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IModu
     {
         //TODO move empty warheads to parts tab
         return new CreativeTabs[]{ getCreativeTab() };
+    }
+
+    @Override @SideOnly(Side.CLIENT)
+    public IIcon getIconFromDamage(int meta)
+    {
+        return field_150939_a.getIcon(0, meta);
     }
 
     @Override

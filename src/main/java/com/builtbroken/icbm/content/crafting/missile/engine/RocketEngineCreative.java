@@ -18,23 +18,8 @@ import net.minecraft.util.IIcon;
  */
 public class RocketEngineCreative extends RocketEngine
 {
-    @SideOnly(Side.CLIENT)
-    private static IIcon icon;
-
     public RocketEngineCreative(ItemStack item)
     {
         super(item, "engine.creative");
-    }
-
-    @Override @SideOnly(Side.CLIENT)
-    public IIcon getIcon(ItemStack stack, int pass)
-    {
-        return icon;
-    }
-
-    @Override @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister register)
-    {
-        icon = register.registerIcon(ICBM.PREFIX + "rocket.motor.creative");
     }
 }

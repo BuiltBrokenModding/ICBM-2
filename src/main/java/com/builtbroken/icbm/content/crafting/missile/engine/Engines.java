@@ -5,9 +5,13 @@ import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.icbm.content.crafting.ModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.engine.solid.RocketEngineCoalPowered;
+import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
+import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 /**
  * Created by robert on 12/28/2014.
@@ -62,5 +66,6 @@ public enum Engines
         {
             MissileModuleBuilder.INSTANCE.register(ICBM.DOMAIN, module.name, module.clazz, true);
         }
+        GameRegistry.addRecipe(new ShapedOreRecipe(Engines.COAL_ENGINE.newModuleStack(), new Object[]{"c", "f", "h", 'c', UniversalRecipe.CIRCUIT_T1.get(), 'f', Blocks.furnace, 'h', Blocks.hopper}));
     }
 }

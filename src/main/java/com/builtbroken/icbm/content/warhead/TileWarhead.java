@@ -57,7 +57,7 @@ import java.util.List;
  *
  * @author Darkguardsman
  */
-public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPickup, ISimpleItemRenderer, IPostInit
+public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPickup, IPostInit
 {
     public boolean exploding = false;
 
@@ -68,6 +68,7 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         super("warhead", Material.iron);
         this.hardness = 100;
         this.renderNormalBlock = false;
+        this.renderType = -1;
         this.renderTileEntity = true;
         this.isOpaque = false;
         this.itemBlock = ItemBlockWarhead.class;
@@ -92,6 +93,8 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         GameRegistry.addRecipe(new ShapelessOreRecipe(MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, ExplosiveRegistry.get("TNT")).toStack(), new Object[]{Blocks.tnt, small_warhead_empty}));
 
     }
+
+
 
     @Override
     public void onCollide(Entity entity)
@@ -342,7 +345,7 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         GL11.glPopMatrix();
     }
 
-    @Override
+    /**
     @SideOnly(Side.CLIENT)
     public void renderInventoryItem(IItemRenderer.ItemRenderType type, ItemStack itemStack, Object... data)
     {
@@ -363,7 +366,7 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         }
 
         renderDynamic(new Pos(), 0, 0);
-    }
+    } */
 
     @SideOnly(Side.CLIENT)
     public IIcon getIcon()
@@ -371,10 +374,19 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         return Blocks.iron_block.getIcon(0, 0);
     }
 
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister)
+    @Override @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister reg)
     {
+        for(WarheadCasings casing : WarheadCasings.values())
+        {
+            casing.icon = reg.registerIcon(ICBM.PREFIX + "warhead." + casing.name().replace("EXPLOSIVE_", "").toLowerCase());
+        }
+    }
 
+    @Override @SideOnly(Side.CLIENT)
+    public IIcon getIcon(int side, int meta)
+    {
+        return WarheadCasings.get(meta).icon;
     }
 
     public Warhead getWarhead()
