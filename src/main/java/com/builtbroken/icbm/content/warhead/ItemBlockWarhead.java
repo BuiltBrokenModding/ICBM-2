@@ -4,10 +4,12 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.IModuleItem;
 import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
+import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.IExplosiveItem;
 import com.builtbroken.mc.core.Engine;
+import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -62,14 +64,27 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IModu
     @Override
     public IExplosiveHandler getExplosive(ItemStack itemStack)
     {
-        return ExplosiveItemUtility.getExplosive(itemStack);
+        Warhead warhead = getModule(itemStack);
+        if(warhead != null)
+        {
+            return warhead.ex;
+        }
+        return null;
     }
 
     @Override
     public void addInformation(ItemStack stack, EntityPlayer player, List lines, boolean b)
     {
         super.addInformation(stack, player, lines, b);
-        ExplosiveItemUtility.addInformation(stack, player, lines, b);
+        Warhead warhead = getModule(stack);
+        if(warhead != null)
+        {
+            ExplosiveItemUtility.addInformation(warhead.toStack(), warhead.ex, player, lines, b);
+        }
+        else
+        {
+            lines.add(LanguageUtility.getLocalName("warhead.error.missing_data"));
+        }
     }
 
     @Override
@@ -179,7 +194,7 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IModu
     }
 
     @Override
-    public AbstractModule getModule(ItemStack stack)
+    public Warhead getModule(ItemStack stack)
     {
         return MissileModuleBuilder.INSTANCE.buildWarhead(stack);
     }

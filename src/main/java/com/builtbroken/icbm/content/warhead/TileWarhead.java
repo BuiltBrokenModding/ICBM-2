@@ -83,11 +83,14 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         GameRegistry.addRecipe(new ShapedOreRecipe(micro_warhead_empty.copy(), new Object[] {" p "," n ", "nrn",'p', Blocks.stone_pressure_plate, 'n', Items.iron_ingot, 'r', Items.redstone }));
         micro_warhead_empty.stackSize = 1;
 
-        GameRegistry.addRecipe(new ShapelessOreRecipe(MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, ExplosiveRegistry.get("tnt")).toStack(), new Object[]{Items.gunpowder, micro_warhead_empty}));
+        GameRegistry.addRecipe(new ShapelessOreRecipe(MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, ExplosiveRegistry.get("TNT")).toStack(), new Object[]{Items.gunpowder, micro_warhead_empty}));
 
 
         ItemStack small_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, null).toStack();
         GameRegistry.addRecipe(new ShapedOreRecipe(small_warhead_empty, new Object[] {" p "," n ", "ncn", 'p', Blocks.heavy_weighted_pressure_plate, 'n', Items.iron_ingot, 'r', Items.redstone, 'c', UniversalRecipe.CIRCUIT_T1.get()}));
+
+        GameRegistry.addRecipe(new ShapelessOreRecipe(MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, ExplosiveRegistry.get("TNT")).toStack(), new Object[]{Blocks.tnt, small_warhead_empty}));
+
     }
 
     @Override
