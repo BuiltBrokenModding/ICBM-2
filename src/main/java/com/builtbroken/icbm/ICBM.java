@@ -67,7 +67,7 @@ import java.util.ArrayList;
  *
  * @author DarkGuardsman, [Original Author Calclavia]
  */
-@Mod(modid = ICBM.DOMAIN, name = ICBM.NAME, version = ICBM.VERSION, dependencies = "required-after:VoltzEngine")
+@Mod(modid = ICBM.DOMAIN, name = ICBM.NAME, version = ICBM.VERSION, dependencies = ICBM.DEPENDENCIES)
 public final class ICBM extends AbstractMod
 {
     //Meta
@@ -81,6 +81,9 @@ public final class ICBM extends AbstractMod
     public static final String REVISION_VERSION = "@REVIS@";
     public static final String BUILD_VERSION = "@BUILD@";
     public static final String VERSION = MAJOR_VERSION + "." + MINOR_VERSION + "." + REVISION_VERSION + "." + BUILD_VERSION;
+    //public static final String ENGINE_VERSION =  "@MAJOR@.@MINOR@.@REVIS@.@BUILD@"; TODO get version working
+    public static final String DEPENDENCIES = "required-after:VoltzEngine";
+
 
     @Instance(DOMAIN)
     public static ICBM INSTANCE;
