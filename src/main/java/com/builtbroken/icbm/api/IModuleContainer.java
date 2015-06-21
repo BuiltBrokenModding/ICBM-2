@@ -19,7 +19,7 @@ public interface IModuleContainer
      * @param module - instance of the module
      * @return true if it can be installed
      */
-    public boolean canInstallModule(ItemStack stack, AbstractModule module);
+    boolean canInstallModule(ItemStack stack, AbstractModule module);
 
     /**
      * Called to install the module into the container
@@ -27,5 +27,5 @@ public interface IModuleContainer
      * @param module - instance of the module
      * @return true if it was installed
      */
-    public boolean installModule(ItemStack stack, AbstractModule module);
+    boolean installModule(ItemStack stack, AbstractModule module);
 }

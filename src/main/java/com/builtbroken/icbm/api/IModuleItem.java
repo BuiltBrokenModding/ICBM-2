@@ -9,5 +9,5 @@ import net.minecraft.item.ItemStack;
 public interface IModuleItem
 {
     /** Gets the module that this item represents */
-    public AbstractModule getModule(ItemStack stack);
+    AbstractModule getModule(ItemStack stack);
 }

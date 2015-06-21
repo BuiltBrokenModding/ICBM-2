@@ -66,6 +66,6 @@ public enum Engines
         {
             MissileModuleBuilder.INSTANCE.register(ICBM.DOMAIN, module.name, module.clazz, true);
         }
-        GameRegistry.addRecipe(new ShapedOreRecipe(Engines.COAL_ENGINE.newModuleStack(), new Object[]{"c", "f", "h", 'c', UniversalRecipe.CIRCUIT_T1.get(), 'f', Blocks.furnace, 'h', Blocks.hopper}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(Engines.COAL_ENGINE.newModuleStack(), "c", "f", "h", 'c', UniversalRecipe.CIRCUIT_T1.get(), 'f', Blocks.furnace, 'h', Blocks.hopper));
     }
 }

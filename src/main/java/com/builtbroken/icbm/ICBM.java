@@ -215,15 +215,15 @@ public final class ICBM extends AbstractMod
         ArrayList dustCharcoal = OreDictionary.getOres("dustCharcoal");
         ArrayList dustCoal = OreDictionary.getOres("dustCoal");
         // Sulfur
-        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.gunpowder, 2), new Object[]{"dustSulfur", "dustSaltpeter", Items.coal}));
-        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.gunpowder, 2), new Object[]{"dustSulfur", "dustSaltpeter", new ItemStack(Items.coal, 1, 1)}));
+        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.gunpowder, 2), "dustSulfur", "dustSaltpeter", Items.coal));
+        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.gunpowder, 2), "dustSulfur", "dustSaltpeter", new ItemStack(Items.coal, 1, 1)));
 
         if (dustCharcoal != null && dustCharcoal.size() > 0)
-            GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.gunpowder, 2), new Object[]{"dustSulfur", "dustSaltpeter", "dustCharcoal"}));
+            GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.gunpowder, 2), "dustSulfur", "dustSaltpeter", "dustCharcoal"));
         if (dustCoal != null && dustCoal.size() > 0)
-            GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.gunpowder, 2), new Object[]{"dustSulfur", "dustSaltpeter", "dustCoal"}));
+            GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.gunpowder, 2), "dustSulfur", "dustSaltpeter", "dustCoal"));
 
-        GameRegistry.addRecipe(new ShapedOreRecipe(Blocks.tnt, new Object[]{"@@@", "@R@", "@@@", '@', Items.gunpowder, 'R', Items.redstone}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(Blocks.tnt, "@@@", "@R@", "@@@", '@', Items.gunpowder, 'R', Items.redstone));
     }
 
     @Override

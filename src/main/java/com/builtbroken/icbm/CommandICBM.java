@@ -198,7 +198,7 @@ public class CommandICBM extends CommandBase
     @Override
     public List addTabCompletionOptions(ICommandSender sender, String[] args)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, new String[]{"lag"}) : null;
+        return args.length == 1 ? getListOfStringsMatchingLastWord(args, "lag") : null;
     }
 
     @Override

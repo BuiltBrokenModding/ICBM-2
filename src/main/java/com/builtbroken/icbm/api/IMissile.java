@@ -9,9 +9,9 @@ import net.minecraft.entity.Entity;
 public interface IMissile
 {
     /** Tells the missile to start moving */
-    public void setIntoMotion();
+    void setIntoMotion();
 
-    public void setTarget(IPos3D location, boolean ark);
+    void setTarget(IPos3D location, boolean ark);
 
-    public void setTarget(Entity entity, boolean track_towards);
+    void setTarget(Entity entity, boolean track_towards);
 }

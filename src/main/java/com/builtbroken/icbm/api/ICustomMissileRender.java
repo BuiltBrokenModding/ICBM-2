@@ -20,13 +20,13 @@ public interface ICustomMissileRender
      * @param data  - unknown?
      * @return false to use the default missile render
      */
-    public boolean renderMissileItem(IItemRenderer.ItemRenderType type, ItemStack stack, Object... data);
+    boolean renderMissileItem(IItemRenderer.ItemRenderType type, ItemStack stack, Object... data);
 
     /**
      * Location and rotation is already set based on default missile. So only make minor adjustments based
      * on your model as needed.
      * @return false to use the default missile render
      */
-    public boolean renderMissileInWorld();
+    boolean renderMissileInWorld();
 
 }

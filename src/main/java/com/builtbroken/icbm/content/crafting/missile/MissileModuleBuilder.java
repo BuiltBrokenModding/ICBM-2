@@ -109,7 +109,7 @@ public class MissileModuleBuilder extends ModuleBuilder
 
     public Missile buildMissile(MissileCasings missileSize, IExplosiveHandler ex)
     {
-        return this.buildMissile(missileSize, ex, (RocketEngine) Engines.CREATIVE_ENGINE.newModule(), null);
+        return this.buildMissile(missileSize, ex, Engines.CREATIVE_ENGINE.newModule(), null);
     }
 
     public Warhead buildWarhead(WarheadCasings size, IExplosiveHandler ex)
