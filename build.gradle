@@ -13,12 +13,22 @@ buildscript {
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath 'net.saliman:gradle-cobertura-plugin:2.0.0' // cobertura plugin
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.4.0'
     }
 }
 
-apply from: './BuiltBrokenScripts/index.gradle'
+plugins {
+  id 'com.matthewprenger.cursegradle' version '1.0.1'
+  id 'net.saliman.cobertura' version '2.2.5'
+  id 'com.github.kt3k.coveralls' version '2.0.1'
+}
+
+apply from: 'https://raw.githubusercontent.com/BuiltBrokenModding/BuiltBrokenScripts/buildScripts/index.gradle'
 apply plugin: 'forge'
 apply plugin: 'curseforge'
+apply plugin: 'cobertura'
+apply plugin: 'com.github.kt3k.coveralls'
 
 
 
@@ -88,21 +98,21 @@ processResources {
 	}
 }
 
-curse {
-    apiKey = project.dmodcurse
-    projectId = "225502"
-    // my project url is http://minecraft.curseforge.com/mc-mods/225502-icbm
-    changelog = ""
-    releaseType = "alpha"
-    relatedProject 'voltz-engine': 'requiredLibrary'
-
-    // the default obfuscated jar is uploaded by default
-    // artifact = project.file("some/jar/to/upload.jar")
-
-    // allows you to add extra compatible MC versions. The one specified in the minecraft{} block is used by default.
-    addGameVersion "1.7.10"
-    // addGameversion "1.7.0", "1.7.4"
-}
+//curse {
+//    apiKey = project.dmodcurse
+//    projectId = "225502"
+//    // my project url is http://minecraft.curseforge.com/mc-mods/225502-icbm
+//    changelog = ""
+//    releaseType = "alpha"
+//    relatedProject 'voltz-engine': 'requiredLibrary'
+//
+//    // the default obfuscated jar is uploaded by default
+//    // artifact = project.file("some/jar/to/upload.jar")
+//
+//    // allows you to add extra compatible MC versions. The one specified in the minecraft{} block is used by default.
+//    addGameVersion "1.7.10"
+//    // addGameversion "1.7.0", "1.7.4"
+//}
 
 repositories {
     maven {
@@ -143,4 +153,11 @@ def getDate() {
     def date = new Date()
     def formattedDate = date.format('yyyyMMddHHmmss')
     return formattedDate
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true // coveralls plugin depends on xml format report
+        html.enabled = true
+    }
 }
