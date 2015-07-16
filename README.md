@@ -75,4 +75,4 @@ If not listed don't fear we are still compiling the credits list after it got re
 
 Coverage
 ======
-[![Coverage Status](https://coveralls.io/repos/BuiltBrokenModding/ICBM/badge.svg?branch=master&service=github)](https://coveralls.io/github/BuiltBrokenModding/ICBM?branch=master)
+[![codecov.io](http://codecov.io/github/BuiltBrokenModding/ICBM/coverage.svg?branch=development)](http://codecov.io/github/BuiltBrokenModding/ICBM?branch=development)
