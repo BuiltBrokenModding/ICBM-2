@@ -10,15 +10,15 @@ public interface IAmmoType
      * for example "Rocket", "Missile", "Bullet", "Shell"
      * @return valid string value
      */
-    public String getCategory();
+    String getCategory();
 
     /**
      * Gets the type of the ammo
      * for example "9mm", "12Gauge", "120mm"
      * @return valid string value
      */
-    public String getType();
+    String getType();
 
     /** Name to use for translation */
-    public String getUnlocalizedName();
+    String getUnlocalizedName();
 }

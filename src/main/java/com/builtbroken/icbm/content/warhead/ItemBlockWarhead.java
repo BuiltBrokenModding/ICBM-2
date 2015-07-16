@@ -4,13 +4,19 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.IModuleItem;
 import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
+import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
+import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.IExplosiveItem;
+import com.builtbroken.mc.core.Engine;
+import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -18,6 +24,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -27,8 +34,20 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IModu
     public ItemBlockWarhead(Block block)
     {
         super(block);
-        this.setMaxDamage(0);
         this.setHasSubtypes(true);
+    }
+
+    @Override
+    public CreativeTabs[] getCreativeTabs()
+    {
+        //TODO move empty warheads to parts tab
+        return new CreativeTabs[]{ getCreativeTab() };
+    }
+
+    @Override @SideOnly(Side.CLIENT)
+    public IIcon getIconFromDamage(int meta)
+    {
+        return field_150939_a.getIcon(0, meta);
     }
 
     @Override
@@ -46,25 +65,33 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IModu
     @Override
     public String getUnlocalizedName(ItemStack stack)
     {
-        int meta = getMetadata(stack.getItemDamage());
-        if(meta == 1)
-        {
-            return getUnlocalizedName() + ".casing";
-        }
-        return getUnlocalizedName();
+        return getUnlocalizedName() + "." + WarheadCasings.get(stack.getItemDamage()).name().replace("EXPLOSIVE_", "").toLowerCase();
     }
 
     @Override
     public IExplosiveHandler getExplosive(ItemStack itemStack)
     {
-        return ExplosiveItemUtility.getExplosive(itemStack);
+        Warhead warhead = getModule(itemStack);
+        if(warhead != null)
+        {
+            return warhead.ex;
+        }
+        return null;
     }
 
     @Override
     public void addInformation(ItemStack stack, EntityPlayer player, List lines, boolean b)
     {
         super.addInformation(stack, player, lines, b);
-        ExplosiveItemUtility.addInformation(stack, player, lines, b);
+        Warhead warhead = getModule(stack);
+        if(warhead != null)
+        {
+            ExplosiveItemUtility.addInformation(warhead.toStack(), warhead.ex, player, lines, b);
+        }
+        else
+        {
+            lines.add(LanguageUtility.getLocalName("warhead.error.missing_data"));
+        }
     }
 
     @Override
@@ -174,7 +201,7 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IModu
     }
 
     @Override
-    public AbstractModule getModule(ItemStack stack)
+    public Warhead getModule(ItemStack stack)
     {
         return MissileModuleBuilder.INSTANCE.buildWarhead(stack);
     }

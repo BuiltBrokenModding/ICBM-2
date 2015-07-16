@@ -15,7 +15,7 @@ public interface IAmmo
      * @param stack - stack that is ammo
      * @return true if it is ammo
      */
-    public boolean isAmmo(ItemStack stack);
+    boolean isAmmo(ItemStack stack);
 
     /**
      * Is the ammo item a clip of ammo rather than single rounds
@@ -26,7 +26,7 @@ public interface IAmmo
      *
      * @return true if it is a clip item.
      */
-    public boolean isClip(ItemStack stack);
+    boolean isClip(ItemStack stack);
 
     /**
      * Gets the type of ammo. For example
@@ -34,7 +34,7 @@ public interface IAmmo
      * @param stack - stack that is ammo
      * @return type
      */
-    public IAmmoType getAmmoType(ItemStack stack);
+    IAmmoType getAmmoType(ItemStack stack);
 
     /**
      * How many rounds are in the stack.
@@ -43,7 +43,7 @@ public interface IAmmo
      * @return number of rounds in the stack, or stack
      * size if you don't use clip based logic
      */
-    public int getAmmoCount(ItemStack ammoStack);
+    int getAmmoCount(ItemStack ammoStack);
 
     /**
      * Called when the bullet is fired by an entity
@@ -53,7 +53,7 @@ public interface IAmmo
      * @param firingEntity - entity that will be used for rotation, position, and source
      *                     of any damage caused by the bullet.
      */
-    public void fireAmmo(IWeapon weapon, ItemStack weaponStack, ItemStack ammoStack, Entity firingEntity);
+    void fireAmmo(IWeapon weapon, ItemStack weaponStack, ItemStack ammoStack, Entity firingEntity);
 
     /**
      * Called to consume ammo from the stack. Use this to define how ammo is consumed
@@ -63,7 +63,7 @@ public interface IAmmo
      * @param ammoStack  - ammo that was fired
      * @param shotsFired - number of shots that were fired
      */
-    public void consumeAmmo(IWeapon weapon,  ItemStack weaponStack, ItemStack ammoStack, int shotsFired);
+    void consumeAmmo(IWeapon weapon, ItemStack weaponStack, ItemStack ammoStack, int shotsFired);
 
 
 }

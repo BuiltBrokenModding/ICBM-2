@@ -13,14 +13,19 @@ import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.api.tile.IRemovable;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.packet.PacketTile;
+import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.WrenchUtility;
+import com.builtbroken.mc.lib.helper.recipe.RecipeUtility;
+import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.WorldChangeHelper;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
+import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -39,6 +44,8 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.Explosion;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.lwjgl.opengl.GL11;
 
 import java.lang.reflect.InvocationTargetException;
@@ -50,7 +57,7 @@ import java.util.List;
  *
  * @author Darkguardsman
  */
-public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPickup, ISimpleItemRenderer
+public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPickup, IPostInit
 {
     public boolean exploding = false;
 
@@ -61,11 +68,33 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         super("warhead", Material.iron);
         this.hardness = 100;
         this.renderNormalBlock = false;
+        this.renderType = -1;
         this.renderTileEntity = true;
         this.isOpaque = false;
         this.itemBlock = ItemBlockWarhead.class;
         this.bounds = new Cube(0.2, 0, 0.2, 0.8, 0.5, 0.8);
     }
+
+    @Override
+    public void onPostInit()
+    {
+        //Small warhead recipes
+        ItemStack micro_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, null).toStack();
+        micro_warhead_empty.stackSize = 8;
+        GameRegistry.addRecipe(new ShapedOreRecipe(micro_warhead_empty.copy(), " p "," n ", "nrn",'p', Blocks.stone_pressure_plate, 'n', Items.iron_ingot, 'r', Items.redstone));
+        micro_warhead_empty.stackSize = 1;
+
+        GameRegistry.addRecipe(new ShapelessOreRecipe(MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, ExplosiveRegistry.get("TNT")).toStack(), Items.gunpowder, micro_warhead_empty));
+
+
+        ItemStack small_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, null).toStack();
+        GameRegistry.addRecipe(new ShapedOreRecipe(small_warhead_empty, " p "," n ", "ncn", 'p', Blocks.heavy_weighted_pressure_plate, 'n', Items.iron_ingot, 'r', Items.redstone, 'c', UniversalRecipe.CIRCUIT_T1.get()));
+
+        GameRegistry.addRecipe(new ShapelessOreRecipe(MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, ExplosiveRegistry.get("TNT")).toStack(), Blocks.tnt, small_warhead_empty));
+
+    }
+
+
 
     @Override
     public void onCollide(Entity entity)
@@ -316,7 +345,7 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         GL11.glPopMatrix();
     }
 
-    @Override
+    /**
     @SideOnly(Side.CLIENT)
     public void renderInventoryItem(IItemRenderer.ItemRenderType type, ItemStack itemStack, Object... data)
     {
@@ -337,7 +366,7 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         }
 
         renderDynamic(new Pos(), 0, 0);
-    }
+    } */
 
     @SideOnly(Side.CLIENT)
     public IIcon getIcon()
@@ -345,10 +374,19 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         return Blocks.iron_block.getIcon(0, 0);
     }
 
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister)
+    @Override @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister reg)
     {
+        for(WarheadCasings casing : WarheadCasings.values())
+        {
+            casing.icon = reg.registerIcon(ICBM.PREFIX + "warhead." + casing.name().replace("EXPLOSIVE_", "").toLowerCase());
+        }
+    }
 
+    @Override @SideOnly(Side.CLIENT)
+    public IIcon getIcon(int side, int meta)
+    {
+        return WarheadCasings.get(meta).icon;
     }
 
     public Warhead getWarhead()

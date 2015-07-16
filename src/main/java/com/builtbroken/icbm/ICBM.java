@@ -15,6 +15,7 @@ import com.builtbroken.icbm.content.display.TileMissile;
 import com.builtbroken.icbm.content.display.TileMissileDisplay;
 import com.builtbroken.icbm.content.debug.TileRotationTest;
 import com.builtbroken.icbm.content.launcher.controller.TileController;
+import com.builtbroken.icbm.content.launcher.items.ItemGPSFlag;
 import com.builtbroken.icbm.content.launcher.items.ItemLinkTool;
 import com.builtbroken.icbm.content.launcher.launcher.TileSmallLauncher;
 import com.builtbroken.icbm.content.launcher.silo.TileSmallSilo;
@@ -66,7 +67,7 @@ import java.util.ArrayList;
  *
  * @author DarkGuardsman, [Original Author Calclavia]
  */
-@Mod(modid = ICBM.DOMAIN, name = ICBM.NAME, version = ICBM.VERSION, dependencies = "required-after:VoltzEngine")
+@Mod(modid = ICBM.DOMAIN, name = ICBM.NAME, version = ICBM.VERSION, dependencies = ICBM.DEPENDENCIES)
 public final class ICBM extends AbstractMod
 {
     //Meta
@@ -80,6 +81,9 @@ public final class ICBM extends AbstractMod
     public static final String REVISION_VERSION = "@REVIS@";
     public static final String BUILD_VERSION = "@BUILD@";
     public static final String VERSION = MAJOR_VERSION + "." + MINOR_VERSION + "." + REVISION_VERSION + "." + BUILD_VERSION;
+    //public static final String ENGINE_VERSION =  "@MAJOR@.@MINOR@.@REVIS@.@BUILD@"; TODO get version working
+    public static final String DEPENDENCIES = "required-after:VoltzEngine";
+
 
     @Instance(DOMAIN)
     public static ICBM INSTANCE;
@@ -89,6 +93,7 @@ public final class ICBM extends AbstractMod
 
 
     public static boolean ANTIMATTER_BREAK_UNBREAKABLE = true;
+    public static boolean DEBUG_MISSILE_MANAGER = false;
 
     public static float missile_firing_volume = 1f;
 
@@ -108,6 +113,7 @@ public final class ICBM extends AbstractMod
     public static Item itemMissile;
     public static Item itemRocketLauncher;
     public static Item itemLinkTool;
+    public static Item itemGPSTool;
     public static ItemEngineModules itemEngineModules;
 
     public final ModCreativeTab CREATIVE_TAB;
@@ -146,7 +152,9 @@ public final class ICBM extends AbstractMod
 
         // Configs TODO load up using config system, and separate file
         ANTIMATTER_BREAK_UNBREAKABLE = getConfig().getBoolean("Antimatter_Destroy_Unbreakable", Configuration.CATEGORY_GENERAL, true, "Allows antimatter to break blocks that are unbreakable, bedrock for example.");
-        missile_firing_volume = getConfig().getFloat("", "volume", 1.0F, 0, 4, "");
+        DEBUG_MISSILE_MANAGER = getConfig().getBoolean("Missile_Manager", "Debug", Engine.runningAsDev, "Adds additional info to the console");
+        missile_firing_volume = getConfig().getFloat("missile_firing_volume", "volume", 1.0F, 0, 4, "How loud the missile is when fired from launchers");
+
 
         // Functional Blocks
         blockWarhead = manager.newBlock(TileWarhead.class);
@@ -171,6 +179,7 @@ public final class ICBM extends AbstractMod
         itemRocketLauncher = manager.newItem(ItemRocketLauncher.class);
         itemEngineModules = manager.newItem(ItemEngineModules.class);
         itemLinkTool = manager.newItem("siloLinker", ItemLinkTool.class);
+        itemGPSTool = manager.newItem("gpsFlag", ItemGPSFlag.class);
 
         // Register modules, need to do this or they will not build from ItemStacks
         MissileCasings.register();
@@ -206,15 +215,15 @@ public final class ICBM extends AbstractMod
         ArrayList dustCharcoal = OreDictionary.getOres("dustCharcoal");
         ArrayList dustCoal = OreDictionary.getOres("dustCoal");
         // Sulfur
-        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.gunpowder, 2), new Object[]{"dustSulfur", "dustSaltpeter", Items.coal}));
-        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.gunpowder, 2), new Object[]{"dustSulfur", "dustSaltpeter", new ItemStack(Items.coal, 1, 1)}));
+        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.gunpowder, 2), "dustSulfur", "dustSaltpeter", Items.coal));
+        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.gunpowder, 2), "dustSulfur", "dustSaltpeter", new ItemStack(Items.coal, 1, 1)));
 
         if (dustCharcoal != null && dustCharcoal.size() > 0)
-            GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.gunpowder, 2), new Object[]{"dustSulfur", "dustSaltpeter", "dustCharcoal"}));
+            GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.gunpowder, 2), "dustSulfur", "dustSaltpeter", "dustCharcoal"));
         if (dustCoal != null && dustCoal.size() > 0)
-            GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.gunpowder, 2), new Object[]{"dustSulfur", "dustSaltpeter", "dustCoal"}));
+            GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.gunpowder, 2), "dustSulfur", "dustSaltpeter", "dustCoal"));
 
-        GameRegistry.addRecipe(new ShapedOreRecipe(Blocks.tnt, new Object[]{"@@@", "@R@", "@@@", '@', Items.gunpowder, 'R', Items.redstone}));
+        GameRegistry.addRecipe(new ShapedOreRecipe(Blocks.tnt, "@@@", "@R@", "@@@", '@', Items.gunpowder, 'R', Items.redstone));
     }
 
     @Override

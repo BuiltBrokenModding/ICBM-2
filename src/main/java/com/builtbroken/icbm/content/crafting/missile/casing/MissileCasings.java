@@ -20,7 +20,7 @@ public enum MissileCasings
     public final int maxFlightTimeInTicks;
     public boolean enabled = true;
 
-    private MissileCasings(WarheadCasings warhead, Class<? extends Missile> missile_clazz, int maxFlightTicks, boolean enabled)
+    MissileCasings(WarheadCasings warhead, Class<? extends Missile> missile_clazz, int maxFlightTicks, boolean enabled)
     {
         this.warhead_casing = warhead;
         this.missile_clazz = missile_clazz;

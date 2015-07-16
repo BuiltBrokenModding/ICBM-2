@@ -14,7 +14,7 @@ public interface IWeapon
      * @return what is left of the stack, or null if it consumed
      * the entire stack
      */
-    public ItemStack loadAmmo(ItemStack weapon, ItemStack ammo, IAmmoType type, boolean isClip);
+    ItemStack loadAmmo(ItemStack weapon, ItemStack ammo, IAmmoType type, boolean isClip);
 
     /**
      * Can the weapon have a clip or ammo inserted into a feed system.
@@ -24,5 +24,5 @@ public interface IWeapon
      * @param weapon - itemstack that is the weapon
      * @return true if it can contain ammo
      */
-    public boolean canContainAmmo(ItemStack weapon);
+    boolean canContainAmmo(ItemStack weapon);
 }

@@ -25,13 +25,14 @@ import net.minecraft.world.World;
 /**
  * Created by robert on 4/15/2015.
  */
-public class ItemLinkTool extends Item implements IWorldPosItem, IPassCodeItem
+public class ItemLinkTool extends ItemGPSData implements IWorldPosItem, IPassCodeItem
 {
     IIcon linked_icon;
 
     public ItemLinkTool()
     {
         this.setMaxStackSize(1);
+        this.setHasSubtypes(true);
     }
 
     @SideOnly(Side.CLIENT)
@@ -137,27 +138,6 @@ public class ItemLinkTool extends Item implements IWorldPosItem, IPassCodeItem
             if(!stack.hasTagCompound())
                 stack.setTagCompound(new NBTTagCompound());
             stack.getTagCompound().setShort("passShort", code);
-        }
-    }
-
-    @Override
-    public Location getLocation(ItemStack stack)
-    {
-        if(stack.getItem() == this && stack.hasTagCompound() && stack.getTagCompound().hasKey("linkPos"))
-        {
-            return new Location(stack.getTagCompound().getCompoundTag("linkPos"));
-        }
-        return null;
-    }
-
-    @Override
-    public void setLocation(ItemStack stack, IWorldPosition loc)
-    {
-        if(stack.getItem() == this)
-        {
-            if (!stack.hasTagCompound())
-                stack.setTagCompound(new NBTTagCompound());
-            stack.getTagCompound().setTag("linkPos", new Location(loc).toNBT());
         }
     }
 }

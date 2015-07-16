@@ -35,7 +35,7 @@ tile.icbm:warhead.casing.name=Stridshode Hus
 ## Info
 info.icbm:engine.name=Motor
 info.icbm:warhead.name=Stridshode
-info.icbm:guidance.name=rettleiing
+info.icbm:guidance.name=Rettleiing
 info.icbm:trigger.name=Trigger
 
 ## Triggers

@@ -75,7 +75,7 @@ public class RenderMissile extends Render implements IItemRenderer
             Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(item);
 
             float yaw = 0;
-            float pitch = -90;;
+            float pitch = -90;
 
             switch (type)
             {

@@ -13,7 +13,7 @@ public interface IMissileItem
      * @param stack - item stack version of the missile
      * @return new entity that is an instanceof IMissile
      */
-    public Entity getMissileEntity(ItemStack stack);
+    Entity getMissileEntity(ItemStack stack);
 
     /** Gets the entity that is the missile for any generic usage
      * @param stack - item stack version of the missile
@@ -21,5 +21,5 @@ public interface IMissileItem
      *                to line the missile up, and set any other info.
      * @return new entity that is an instanceof IMissile
      */
-    public Entity getMissileEntity(ItemStack stack, Entity firedBy);
+    Entity getMissileEntity(ItemStack stack, Entity firedBy);
 }

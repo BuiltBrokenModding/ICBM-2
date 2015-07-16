@@ -2,6 +2,9 @@ package com.builtbroken.icbm.content.crafting.missile.warhead;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.util.IIcon;
 
 /**
  * Created by robert on 1/16/2015.
@@ -17,7 +20,10 @@ public enum WarheadCasings
     public final Class<? extends Warhead> warhead_clazz;
     public final boolean enabled;
 
-    private WarheadCasings(Class<? extends Warhead> warhead_clazz, boolean enabled)
+    @SideOnly(Side.CLIENT)
+    public IIcon icon;
+
+    WarheadCasings(Class<? extends Warhead> warhead_clazz, boolean enabled)
     {
         this.warhead_clazz = warhead_clazz;
         this.enabled = enabled;

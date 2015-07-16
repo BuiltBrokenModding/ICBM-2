@@ -70,7 +70,7 @@ public abstract class BlastSpawn extends Blast
                                 ((EntityLivingBase) ent).rotationYawHead = ent.rotationYaw;
                                 ((EntityLivingBase) ent).renderYawOffset = ent.rotationYaw;
                                 if (ent instanceof EntityLiving)
-                                    ((EntityLiving) ent).onSpawnWithEgg((IEntityLivingData) null);
+                                    ((EntityLiving) ent).onSpawnWithEgg(null);
                             }
                             spawn(ent);
                         }

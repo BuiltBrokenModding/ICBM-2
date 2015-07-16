@@ -118,7 +118,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
                 //Set location data
                 Pos start = new Pos(this).add(getMissileLaunchOffset());
                 entity.setPositionAndRotation(start.x(), start.y(), start.z(), 0, 0);
-                entity.setVelocity(0, 2, 0);
+                entity.motionY = 2;
 
                 //Set target data
                 entity.setTarget(target, true);
