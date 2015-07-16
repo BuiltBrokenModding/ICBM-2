@@ -27,7 +27,6 @@ plugins {
 apply from: 'https://raw.githubusercontent.com/BuiltBrokenModding/BuiltBrokenScripts/buildScripts/index.gradle'
 apply plugin: 'forge'
 apply plugin: 'curseforge'
-apply plugin: 'cobertura'
 apply plugin: 'com.github.kt3k.coveralls'
 apply plugin: 'jacoco'
 
