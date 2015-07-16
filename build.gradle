@@ -148,6 +148,7 @@ dependencies
     else
     {
     compile "com.builtbroken.voltzengine:VoltzEngine:1.7.10-0.+:deobf"}
+    testRuntime 'org.slf4j:slf4j-simple:1.7.10'
 }
 
 def getDate() {
