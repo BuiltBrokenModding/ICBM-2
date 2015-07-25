@@ -101,3 +101,9 @@ trigger.icbm:time.name=Timer
 
 ## Modules
 module.icbm:engine.creative.name=Void Thruster
+
+## ICBM Classic
+
+## ItemTracker
+item.icbmclassic:tracker.name=Tracker
+item.icbmclassic:itemtracker.description.name=Left click to track players
