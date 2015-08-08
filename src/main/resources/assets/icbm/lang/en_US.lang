@@ -93,6 +93,14 @@ gui.icbm:controller.back.x=100
 
 container.TileController.name=Launcher Controller
 
+gui.icbm:workstation.assemble.name=Assemble
+gui.icbm:workstation.assemble.width=50
+
+gui.icbm:workstation.disassemble.name=Disassemble
+gui.icbm:workstation.disassemble.width=70
+
+gui.icbm:workstation.mode.name=Mode
+gui.icbm:workstation.mode.width=30
 
 ## Triggers
 trigger.icbm:impact.name=Impact
