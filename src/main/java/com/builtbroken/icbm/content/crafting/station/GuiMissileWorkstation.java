@@ -28,8 +28,12 @@ public class GuiMissileWorkstation extends GuiContainerBase
     public void initGui()
     {
         super.initGui();
-        action_button = new GuiButton(0, guiLeft + 60, guiTop + 20, 50, 20, LanguageUtility.getLocalName("gui.icbm:workstation.assemble"));
-        mode_button = new GuiButton(1, guiLeft + 5, guiTop + 55, 30, 20, LanguageUtility.getLocalName("gui.icbm:workstation.mode"));
+
+        int assembleWidth = LanguageUtility.getLangSetting("gui.icbm:workstation.assemble.width", 50);
+        int modeWidth = LanguageUtility.getLangSetting("gui.icbm:workstation.mode.width", 30);
+
+        action_button = new GuiButton(0, guiLeft + 35 + assembleWidth / 2, guiTop + 20, assembleWidth, 20, LanguageUtility.getLocalName("gui.icbm:workstation.assemble"));
+        mode_button = new GuiButton(1, guiLeft + 5, guiTop + 55, modeWidth, 20, LanguageUtility.getLocalName("gui.icbm:workstation.mode"));
 
         buttonList.add(action_button);
         buttonList.add(mode_button);
@@ -45,17 +49,20 @@ public class GuiMissileWorkstation extends GuiContainerBase
         }
         else if (button.id == 1)
         {
+            int disassembleWidth = LanguageUtility.getLangSetting("gui.icbm:workstation.disassemble.width", 70);
+            int assembleWidth = LanguageUtility.getLangSetting("gui.icbm:workstation.assemble.width", 50);
+
             if (tile.assemble)
             {
                 action_button.displayString = LanguageUtility.getLocalName("gui.icbm:workstation.disassemble");//"Disassemble";
-                action_button.width = 70;
-                action_button.xPosition -= 10;
+                action_button.width = disassembleWidth;
+                action_button.xPosition += (assembleWidth - disassembleWidth) / 2;
             }
             else
             {
                 action_button.displayString = LanguageUtility.getLocalName("gui.icbm:workstation.assemble");//"Assemble";
-                action_button.width = 50;
-                action_button.xPosition += 10;
+                action_button.width = assembleWidth;
+                action_button.xPosition += (disassembleWidth - assembleWidth) / 2;
             }
             tile.setAssemble(!tile.assemble);
         }
