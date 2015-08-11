@@ -116,3 +116,7 @@ module.icbm:engine.creative.name=Void Thruster
 item.icbmclassic:tracker.name=Tracker
 item.icbmclassic:itemtracker.description=Left click to track players
 item.icbmclassic:itemtracker.trackingmessage=Now tracking:
+
+item.icbmclassic:radargun.name=Radar Gun
+item.icbmclassic:radargun.description=Right click to scan a position
+item.icbmclassic:radargun.trackingmessage=Stored block:
