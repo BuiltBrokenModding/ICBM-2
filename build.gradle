@@ -32,14 +32,6 @@ apply plugin: 'com.github.kt3k.coveralls'
 apply plugin: 'jacoco'
 apply from: 'https://raw.githubusercontent.com/BuiltBrokenModding/BuiltBrokenScripts/buildScripts/scripts/forge/deps.gradle'
 
-// This is used to set the local version
-if (project.hasProperty("bambooBuildNumber"))
-    version += project.bambooBuildNumber
-else
-    version += getDate()
-    
-println "version = "+ version
-
 println "Current Minecraft version = " + minecraft.apiVersion
 
 def currentJvm = org.gradle.internal.jvm.Jvm.current()
