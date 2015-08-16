@@ -15,6 +15,7 @@ buildscript {
         classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
         classpath 'net.saliman:gradle-cobertura-plugin:2.0.0' // cobertura plugin
         classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.4.0'
+        classpath 'org.ajoberstar:gradle-git:0.10.1'
     }
 }
 
@@ -82,6 +83,12 @@ processResources {
 //    addGameVersion "1.7.10"
 //    // addGameversion "1.7.0", "1.7.4"
 //}
+
+def gitHash = 'unknown'
+if (new File(projectDir, '.git').exists()) {
+    def repo = Grgit.open(project.file('.'))
+    gitHash = repo.log().find().abbreviatedId
+}
 
 jar {
     manifest.mainAttributes(
