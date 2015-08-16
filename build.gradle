@@ -29,38 +29,14 @@ apply plugin: 'forge'
 apply plugin: 'curseforge'
 apply plugin: 'com.github.kt3k.coveralls'
 apply plugin: 'jacoco'
-
-
-
-ext.buildProps = file "build.properties"
-
-buildProps.withReader {
-    def prop = new Properties()
-    prop.load(it)
-    ext.config = new ConfigSlurper().parse prop
-}
-
-if (project.getProperty("bambooshortPlanName") == "BBM-Dev"){
-    group = "dev.builtbroken.icbm"
-    archivesBaseName = "ICBM"
-} else {
-    group = "com.builtbroken.icbm"
-    archivesBaseName = "ICBM"
-}
-
-archivesBaseName = "Icbm"
-
-version = "${project.minecraft.version}-${config.version.mod.major}.${config.version.mod.minor}.${config.version.mod.revis}b"
-
-processResources {
-	from 'build.properties'
-}
+apply from: 'https://raw.githubusercontent.com/BuiltBrokenModding/BuiltBrokenScripts/buildScripts/scripts/forge/deps.gradle'
 
 // This is used to set the local version
 if (project.hasProperty("bambooBuildNumber"))
     version += project.bambooBuildNumber
 else
     version += getDate()
+    
 println "version = "+ version
 
 println "Current Minecraft version = " + minecraft.apiVersion
@@ -68,28 +44,21 @@ println "Current Minecraft version = " + minecraft.apiVersion
 def currentJvm = org.gradle.internal.jvm.Jvm.current()
 println "Current Java version = " + currentJvm
 
-minecraft {
-	replace "@MAJOR@", config.version.mod.major
-	replace "@MINOR@", config.version.mod.minor
-	replace "@REVIS@", config.version.mod.revis
-	
-	if (project.hasProperty("bambooBuildNumber")) {
-		replace "@BUILD@", project.bambooBuildNumber
-	}
-	else {
-		replace "@BUILD@", getDate()
-	}
-}
-
 processResources {
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
 	from(sourceSets.main.resources.srcDirs) {
 		//include '**/*.lang'
 		include '**/*.info'
 		include '**/*.properties'
 
-		expand 'version': project.version, 'mcversion': config.version.minecraft
+		expand 'version': project.version, 'mcversion': project.minecraft.version
 		// replace version and MCVersion
 	}
+    
 
 	// copy everything else, thats not text
 	from(sourceSets.main.resources.srcDirs) {
@@ -114,40 +83,24 @@ processResources {
 //    // addGameversion "1.7.0", "1.7.4"
 //}
 
-repositories {
-    maven {
-        name "BuiltBroken"
-        url "http://ci.builtbroken.com/maven/"
-    }
-    maven {
-        name "Mobius Repo"
-        url "http://mobiusstrip.eu/maven"
-    }
-    maven {
-        name 'CB Repo'
-        url "http://chickenbones.net/maven/"
-    }
-    maven {
-        name = "ic2"
-        url = "http://maven.ic2.player.to/"
-    }
-    maven { 
-        name 'OC Maven'
-        url = "http://maven.cil.li/" }
+jar {
+    manifest.mainAttributes(
+            "Built-By": System.getProperty('user.name'),
+            "Created-By": currentJvm,
+            "Implementation-Title": archivesBaseName,
+            "Implementation-Version": project.version,
+            "Git-Hash": gitHash,
+    )
 }
 
 dependencies 
 {
-    testCompile 'junit:junit:4.11'
-    compile "mcp.mobius.waila:Waila:1.5.8a_1.7.10"
-    compile "li.cil.oc:OpenComputers:MC1.7.10-1.4.0.+:dev"
     if (project.getProperty("bambooshortPlanName") == "BBM-Dev"){
     compile "dev.builtbroken.voltzengine:VoltzEngine:1.7.10-0.+:deobf-dev"
     }
     else
     {
     compile "com.builtbroken.voltzengine:VoltzEngine:1.7.10-0.+:deobf"}
-    testRuntime 'org.slf4j:slf4j-simple:1.7.10'
 }
 
 def getDate() {
