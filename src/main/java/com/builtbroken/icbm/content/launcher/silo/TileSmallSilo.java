@@ -10,13 +10,13 @@ import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Pos;
-import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.multiblock.EnumMultiblock;
 import com.builtbroken.mc.prefab.tile.multiblock.MultiBlockHelper;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -144,6 +144,13 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
     }
 
     @Override
+    public void onRemove(Block block, int par6)
+    {
+        super.onRemove(block, par6);
+        breakDownStructure();
+    }
+
+    @Override
     public void onMultiTileBroken(IMultiTile tileMulti)
     {
         if (!_destroyingStructure && tileMulti instanceof TileEntity)
@@ -153,12 +160,18 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
 
             if (tileMapCache.containsKey(pos))
             {
-                for (Map.Entry<IPos3D, String> entry : tileMapCache.entrySet())
-                {
-                    worldObj.setBlockToAir((int) (xi() + entry.getKey().x()), (int) (yi() + entry.getKey().y()), (int) (zi() + entry.getKey().z()));
-                }
-                InventoryUtility.dropBlockAsItem(world(), xi(), yi(), zi(), true);
+                breakDownStructure();
             }
+            _destroyingStructure = false;
+        }
+    }
+
+    private void breakDownStructure()
+    {
+        if (!_destroyingStructure)
+        {
+            _destroyingStructure = true;
+            MultiBlockHelper.destroyMultiBlockStructure(this);
             _destroyingStructure = false;
         }
     }
