@@ -4,34 +4,49 @@ import com.builtbroken.icbm.content.Assets;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
-import com.builtbroken.icbm.content.launcher.launcher.GuiSmallLauncher;
+import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
-import com.builtbroken.mc.api.tile.ILinkFeedback;
-import com.builtbroken.mc.lib.render.RenderUtility;
+import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
+import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
 import com.builtbroken.mc.lib.transform.region.Cube;
-import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
-import com.builtbroken.mc.prefab.gui.ContainerDummy;
+import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.Tile;
+import com.builtbroken.mc.prefab.tile.multiblock.EnumMultiblock;
+import com.builtbroken.mc.prefab.tile.multiblock.MultiBlockHelper;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.Explosion;
 import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by robert on 3/28/2015.
  */
-public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRenderer
+public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRenderer, IMultiTileHost
 {
+    public static HashMap<IPos3D, String> tileMapCache = new HashMap();
+
+    static
+    {
+        tileMapCache.put(new Pos(0, 1, 0), EnumMultiblock.TILE.getName());
+        tileMapCache.put(new Pos(0, 2, 0), EnumMultiblock.TILE.getName());
+    }
+
+    private boolean _destroyingStructure = false;
+
     public TileSmallSilo()
     {
         super("smallsilo", Material.iron, 1);
@@ -107,5 +122,80 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
             Assets.SMALL_MISSILE_MODEL.renderAll();
             GL11.glPopMatrix();
         }
+    }
+
+    @Override
+    public void firstTick()
+    {
+        super.firstTick();
+        MultiBlockHelper.buildMultiBlock(world(), this, true);
+    }
+
+    @Override
+    public void onMultiTileAdded(IMultiTile tileMulti)
+    {
+        if (tileMulti instanceof TileEntity)
+        {
+            if (tileMapCache.containsKey(new Pos(this).sub(new Pos((TileEntity) tileMulti))))
+            {
+                tileMulti.setHost(this);
+            }
+        }
+    }
+
+    @Override
+    public void onMultiTileBroken(IMultiTile tileMulti)
+    {
+        if (!_destroyingStructure && tileMulti instanceof TileEntity)
+        {
+            _destroyingStructure = true;
+            Pos pos = new Pos((TileEntity) tileMulti).sub(new Pos(this));
+
+            if (tileMapCache.containsKey(pos))
+            {
+                for (Map.Entry<IPos3D, String> entry : tileMapCache.entrySet())
+                {
+                    worldObj.setBlockToAir((int) (xi() + entry.getKey().x()), (int) (yi() + entry.getKey().y()), (int) (zi() + entry.getKey().z()));
+                }
+                InventoryUtility.dropBlockAsItem(world(), xi(), yi(), zi(), true);
+            }
+            _destroyingStructure = false;
+        }
+    }
+
+    @Override
+    public void onTileInvalidate(IMultiTile tileMulti)
+    {
+
+    }
+
+    @Override
+    public void onMultiTileBrokenByExplosion(IMultiTile tile, Explosion ex)
+    {
+
+    }
+
+    @Override
+    public boolean onMultiTileActivated(IMultiTile tile, EntityPlayer player, int side, IPos3D hit)
+    {
+        return this.onPlayerRightClick(player, side, new Pos(hit));
+    }
+
+    @Override
+    public void onMultiTileClicked(IMultiTile tile, EntityPlayer player)
+    {
+
+    }
+
+    @Override
+    public HashMap<IPos3D, String> getLayoutOfMultiBlock()
+    {
+        HashMap<IPos3D, String> map = new HashMap();
+        Pos center = new Pos(this);
+        for (Map.Entry<IPos3D, String> entry : tileMapCache.entrySet())
+        {
+            map.put(center.add(entry.getKey()), entry.getValue());
+        }
+        return map;
     }
 }
