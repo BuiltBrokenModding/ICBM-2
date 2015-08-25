@@ -25,8 +25,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.Explosion;
 import net.minecraftforge.client.IItemRenderer;
+import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
 import java.util.HashMap;
@@ -147,43 +147,56 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
     public void onRemove(Block block, int par6)
     {
         super.onRemove(block, par6);
-        breakDownStructure();
+        breakDownStructure(true);
     }
 
     @Override
-    public void onMultiTileBroken(IMultiTile tileMulti)
+    public boolean onMultiTileBroken(IMultiTile tileMulti, Object source, boolean harvest)
     {
         if (!_destroyingStructure && tileMulti instanceof TileEntity)
         {
-            _destroyingStructure = true;
             Pos pos = new Pos((TileEntity) tileMulti).sub(new Pos(this));
 
             if (tileMapCache.containsKey(pos))
             {
-                breakDownStructure();
+                breakDownStructure(harvest);
+                return true;
             }
-            _destroyingStructure = false;
         }
+        return false;
     }
 
-    private void breakDownStructure()
+    @Override
+    public boolean canPlaceBlockAt()
+    {
+        return super.canPlaceBlockAt() && world().getBlock(xi(), yi() + 1, zi()).isReplaceable(world(), xi(), yi() + 1, zi()) && world().getBlock(xi(), yi() + 2, zi()).isReplaceable(world(), xi(), yi() + 2, zi());
+    }
+
+    @Override
+    public boolean canPlaceBlockOnSide(ForgeDirection side)
+    {
+        return side == ForgeDirection.UP && canPlaceBlockAt();
+    }
+
+    @Override
+    public boolean removeByPlayer(EntityPlayer player, boolean willHarvest)
+    {
+        breakDownStructure(willHarvest);
+        return true;
+    }
+
+    private void breakDownStructure(boolean doDrops)
     {
         if (!_destroyingStructure)
         {
             _destroyingStructure = true;
-            MultiBlockHelper.destroyMultiBlockStructure(this);
+            MultiBlockHelper.destroyMultiBlockStructure(this, doDrops);
             _destroyingStructure = false;
         }
     }
 
     @Override
     public void onTileInvalidate(IMultiTile tileMulti)
-    {
-
-    }
-
-    @Override
-    public void onMultiTileBrokenByExplosion(IMultiTile tile, Explosion ex)
     {
 
     }
