@@ -3,7 +3,6 @@ package com.builtbroken.icbm.content.missile.tracking;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.lib.transform.vector.Point;
-import com.builtbroken.mc.lib.transform.vector.Pos;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,7 +20,7 @@ public class MissileTrackingData
         this.m_save = new NBTTagCompound();
         missile.writeToNBTOptional(this.m_save);
         target = missile.target_pos;
-        respawnTicks = (long) new Point(missile.posX, missile.posZ).distance(new Point(missile.target_pos.x(), missile.target_pos.z())) * 2;
+        respawnTicks = (long) new Point(missile.posX, missile.posZ).distance(new Point(missile.target_pos.x(), missile.target_pos.z()));
 
     }
 
@@ -35,7 +34,7 @@ public class MissileTrackingData
                 if (((EntityMissile)entity).target_pos != null)
                 {
                     target = ((EntityMissile)entity).target_pos;
-                    respawnTicks = (long) new Point(((EntityMissile) entity).posX, ((EntityMissile) entity).posZ).distance(new Point(((EntityMissile) entity).target_pos.x(), ((EntityMissile) entity).target_pos.z())) * 2;
+                    respawnTicks = (long) new Point(((EntityMissile) entity).posX, ((EntityMissile) entity).posZ).distance(new Point(((EntityMissile) entity).target_pos.x(), ((EntityMissile) entity).target_pos.z()));
                 }
             }
         }

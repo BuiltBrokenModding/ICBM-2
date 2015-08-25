@@ -22,6 +22,8 @@ item.icbm:missile.large.empty.name=ICBM Casing
 
 item.icbm:siloLinker.name=Data Chip
 
+item.icbm:gpsFlag.name=GPS Data Chip
+
 ## Tiles
 tile.icbm:TileMissile.0.name=Wooden Rocket Display
 tile.icbm:TileMissile.1.name=Wooden Small Missile Display
