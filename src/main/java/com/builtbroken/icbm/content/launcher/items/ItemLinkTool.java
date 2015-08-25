@@ -2,30 +2,34 @@ package com.builtbroken.icbm.content.launcher.items;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.jlib.lang.TextColor;
-import com.builtbroken.mc.api.IWorldPosition;
 import com.builtbroken.mc.api.items.IPassCodeItem;
 import com.builtbroken.mc.api.items.IWorldPosItem;
 import com.builtbroken.mc.api.tile.ILinkable;
 import com.builtbroken.mc.api.tile.IPassCode;
+import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
+import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.transform.vector.Location;
+import com.builtbroken.mc.prefab.items.ItemWorldPos;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.dispenser.ILocation;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 /**
  * Created by robert on 4/15/2015.
  */
-public class ItemLinkTool extends ItemGPSData implements IWorldPosItem, IPassCodeItem
+public class ItemLinkTool extends ItemWorldPos implements IWorldPosItem, IPassCodeItem, IPostInit
 {
     IIcon linked_icon;
 
@@ -33,6 +37,12 @@ public class ItemLinkTool extends ItemGPSData implements IWorldPosItem, IPassCod
     {
         this.setMaxStackSize(1);
         this.setHasSubtypes(true);
+    }
+
+    @Override
+    public void onPostInit()
+    {
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.blockSmallLauncher), " I ", "BCB", "ICI", 'I', Items.iron_ingot, 'B', Blocks.wooden_button, 'C', UniversalRecipe.CIRCUIT_T2.get()));
     }
 
     @SideOnly(Side.CLIENT)
@@ -46,7 +56,7 @@ public class ItemLinkTool extends ItemGPSData implements IWorldPosItem, IPassCod
     @Override
     public IIcon getIconFromDamage(int meta)
     {
-        if(meta == 1)
+        if (meta == 1)
             return this.linked_icon;
         return this.itemIcon;
     }
@@ -54,7 +64,7 @@ public class ItemLinkTool extends ItemGPSData implements IWorldPosItem, IPassCod
     @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
-        if(player.isSneaking())
+        if (player.isSneaking())
         {
             stack.setTagCompound(null);
             stack.setItemDamage(0);
@@ -67,17 +77,17 @@ public class ItemLinkTool extends ItemGPSData implements IWorldPosItem, IPassCod
     @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hit_x, float hit_y, float hit_z)
     {
-        if(world.isRemote)
+        if (world.isRemote)
             return true;
 
         Location location = new Location(world, x, y, z);
         TileEntity tile = location.getTileEntity();
 
-        if(player.isSneaking())
+        if (player.isSneaking())
         {
             setLocation(stack, location);
             LanguageUtility.addChatToPlayer(player, "link.pos.set");
-            if(tile instanceof IPassCode)
+            if (tile instanceof IPassCode)
             {
                 setCode(stack, ((IPassCode) tile).getCode());
             }
@@ -123,7 +133,7 @@ public class ItemLinkTool extends ItemGPSData implements IWorldPosItem, IPassCod
     @Override
     public short getCode(ItemStack stack)
     {
-        if(stack.getItem() == this && stack.hasTagCompound() && stack.getTagCompound().hasKey("passShort"))
+        if (stack.getItem() == this && stack.hasTagCompound() && stack.getTagCompound().hasKey("passShort"))
         {
             return stack.getTagCompound().getShort("passShort");
         }
@@ -133,9 +143,9 @@ public class ItemLinkTool extends ItemGPSData implements IWorldPosItem, IPassCod
     @Override
     public void setCode(ItemStack stack, short code)
     {
-        if(stack.getItem() == this)
+        if (stack.getItem() == this)
         {
-            if(!stack.hasTagCompound())
+            if (!stack.hasTagCompound())
                 stack.setTagCompound(new NBTTagCompound());
             stack.getTagCompound().setShort("passShort", code);
         }

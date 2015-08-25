@@ -4,9 +4,12 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.IAmmo;
 import com.builtbroken.icbm.api.IAmmoType;
 import com.builtbroken.icbm.api.IWeapon;
+import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
+import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
@@ -18,6 +21,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +32,7 @@ import java.util.List;
  * @author Calclavia
  */
 
-public class ItemRocketLauncher extends Item implements IWeapon
+public class ItemRocketLauncher extends Item implements IWeapon, IPostInit
 {
     private static final int firingDelay = 1000;
     private HashMap<String, Long> clickTimePlayer = new HashMap<String, Long>();
@@ -37,6 +41,12 @@ public class ItemRocketLauncher extends Item implements IWeapon
     {
         super();
         this.setUnlocalizedName("rocketLauncher");
+    }
+
+    @Override
+    public void onPostInit()
+    {
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.blockSmallLauncher), "III", " FC", "III", 'I', Items.iron_ingot, 'F', Items.flint, 'C', UniversalRecipe.CIRCUIT_T1.get()));
     }
 
     @Override

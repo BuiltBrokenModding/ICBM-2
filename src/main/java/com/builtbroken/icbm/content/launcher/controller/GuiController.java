@@ -12,7 +12,7 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 
-/**
+/** Main GUI for the small missile silo controller
  * Created by robert on 2/20/2015.
  */
 public class GuiController extends GuiContainerBase

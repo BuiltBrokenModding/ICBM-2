@@ -63,17 +63,7 @@ info.icbm:warhead.name=Warhead
 info.icbm:guidance.name=Guidance
 info.icbm:trigger.name=Trigger
 
-## Linking tool & machine action info
-link.error.world.match.name=Limited to save dim
-link.error.pos.invalid.name=Invalid linked location
-link.error.pos.distance.max.name=Distance to high
-link.error.pos.distance.min.name=Distance to low
-link.error.tile.invalid.name=Invalid linking tile
-link.error.code.match.name=Link code doesn't match
-link.error.tile.limit.max.name=Max linked tiles reached
-link.error.tile.already.added.name=Tile already linked
-link.cleared.name=Link data cleared
-link.pos.set.name=Link data set
+
 
 ## Controller GUI error messages
 gui.icbm:controller.links.none.name=No silos linked

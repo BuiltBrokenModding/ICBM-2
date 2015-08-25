@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.launcher.silo;
 
+import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.Assets;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
@@ -8,12 +9,15 @@ import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
+import com.builtbroken.mc.core.registry.implement.IPostInit;
+import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.multiblock.EnumMultiblock;
 import com.builtbroken.mc.prefab.tile.multiblock.MultiBlockHelper;
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -27,6 +31,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import org.lwjgl.opengl.GL11;
 
 import java.util.HashMap;
@@ -35,7 +40,7 @@ import java.util.Map;
 /**
  * Created by robert on 3/28/2015.
  */
-public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRenderer, IMultiTileHost
+public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRenderer, IMultiTileHost, IPostInit
 {
     public static HashMap<IPos3D, String> tileMapCache = new HashMap();
 
@@ -53,6 +58,12 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
         this.isOpaque = false;
         this.renderNormalBlock = false;
         this.renderTileEntity = true;
+    }
+
+    @Override
+    public void onPostInit()
+    {
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.blockSmallLauncher), "I I", "I I", "CBC", 'I', Blocks.iron_bars, 'B', Blocks.iron_block, 'C', UniversalRecipe.CIRCUIT_T1.get()));
     }
 
     @Override

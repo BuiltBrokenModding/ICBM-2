@@ -3,22 +3,29 @@ package com.builtbroken.icbm.content.launcher.items;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.mc.api.items.IWorldPosItem;
+import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
+import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.transform.vector.Location;
+import com.builtbroken.mc.prefab.items.ItemWorldPos;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 /**
  * Basic item that can stored the location it right clicks
  * Created by Dark on 6/2/2015.
  */
-public class ItemGPSFlag extends ItemGPSData implements IWorldPosItem
+public class ItemGPSFlag extends ItemWorldPos implements IWorldPosItem, IPostInit
 {
     IIcon linked_icon;
 
@@ -26,6 +33,12 @@ public class ItemGPSFlag extends ItemGPSData implements IWorldPosItem
     {
         this.setMaxStackSize(1);
         this.setHasSubtypes(true);
+    }
+
+    @Override
+    public void onPostInit()
+    {
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.blockSmallLauncher), " I ", "BCB", "ICI", 'I', Items.iron_ingot, 'B', Blocks.wooden_button, 'C', UniversalRecipe.CIRCUIT_T1.get()));
     }
 
     @SideOnly(Side.CLIENT)
