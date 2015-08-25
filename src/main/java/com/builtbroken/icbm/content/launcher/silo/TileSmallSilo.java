@@ -83,7 +83,7 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
     @Override
     public String getInventoryName()
     {
-        return "tile.icbm:smallLauncher.container";
+        return "tile.icbm:smallSilo.container";
     }
 
     @Override

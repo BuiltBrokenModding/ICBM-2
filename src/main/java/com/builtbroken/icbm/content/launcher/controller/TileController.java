@@ -10,7 +10,6 @@ import com.builtbroken.mc.api.tile.ILinkFeedback;
 import com.builtbroken.mc.api.tile.ILinkable;
 import com.builtbroken.mc.api.tile.IPassCode;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
-import com.builtbroken.mc.core.network.packet.AbstractPacket;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.lib.transform.region.Cube;
@@ -68,6 +67,12 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
         this.renderNormalBlock = false;
         this.renderTileEntity = true;
         this.isOpaque = false;
+    }
+
+    @Override
+    public String getInventoryName()
+    {
+        return "tile.icbm:smallSiloController.container.name";
     }
 
     /**
