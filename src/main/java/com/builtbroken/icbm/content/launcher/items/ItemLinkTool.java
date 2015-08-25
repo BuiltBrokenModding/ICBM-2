@@ -42,7 +42,7 @@ public class ItemLinkTool extends ItemWorldPos implements IWorldPosItem, IPassCo
     @Override
     public void onPostInit()
     {
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.blockSmallLauncher), " I ", "BCB", "ICI", 'I', Items.iron_ingot, 'B', Blocks.wooden_button, 'C', UniversalRecipe.CIRCUIT_T2.get()));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.itemLinkTool), " I ", "BCB", "ICI", 'I', Items.iron_ingot, 'B', Blocks.wooden_button, 'C', UniversalRecipe.CIRCUIT_T2.get()));
     }
 
     @SideOnly(Side.CLIENT)

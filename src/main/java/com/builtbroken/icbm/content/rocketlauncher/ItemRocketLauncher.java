@@ -46,7 +46,7 @@ public class ItemRocketLauncher extends Item implements IWeapon, IPostInit
     @Override
     public void onPostInit()
     {
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.blockSmallLauncher), "III", " FC", "III", 'I', Items.iron_ingot, 'F', Items.flint, 'C', UniversalRecipe.CIRCUIT_T1.get()));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.itemRocketLauncher), "III", " FC", "III", 'I', Items.iron_ingot, 'F', Items.flint, 'C', UniversalRecipe.CIRCUIT_T1.get()));
     }
 
     @Override
