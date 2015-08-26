@@ -149,6 +149,9 @@ public final class ICBM extends AbstractMod
 
         //Request Engine to load items for use
         Engine.heatedRockRequested = true;
+        Engine.requestOres();
+        Engine.requestSheetMetalContent();
+        Engine.requestMultiBlock();
 
         // Configs TODO load up using config system, and separate file
         ANTIMATTER_BREAK_UNBREAKABLE = getConfig().getBoolean("Antimatter_Destroy_Unbreakable", Configuration.CATEGORY_GENERAL, true, "Allows antimatter to break blocks that are unbreakable, bedrock for example.");
