@@ -38,7 +38,7 @@ def currentJvm = org.gradle.internal.jvm.Jvm.current()
 println "Current Java version = " + currentJvm
 
 minecraft {    
-    replace "required-after:VoltzEngine", voltz_engine_version
+    replace "required-after:VoltzEngine", "required-after:VoltzEngine" + voltz_engine_version
 }
 
 processResources {
