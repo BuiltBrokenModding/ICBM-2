@@ -81,7 +81,7 @@ public final class ICBM extends AbstractMod
     public static final String REVISION_VERSION = "@REVIS@";
     public static final String BUILD_VERSION = "@BUILD@";
     public static final String VERSION = MAJOR_VERSION + "." + MINOR_VERSION + "." + REVISION_VERSION + "." + BUILD_VERSION;
-    //public static final String ENGINE_VERSION =  "@MAJOR@.@MINOR@.@REVIS@.@BUILD@"; TODO get version working
+    //http://www.minecraftforge.net/wiki/Developing_Addons_for_Existing_Mods
     public static final String DEPENDENCIES = "required-after:VoltzEngine";
 
 

@@ -37,6 +37,10 @@ println "Current Minecraft version = " + minecraft.apiVersion
 def currentJvm = org.gradle.internal.jvm.Jvm.current()
 println "Current Java version = " + currentJvm
 
+minecraft {    
+    replace "required-after:VoltzEngine", voltz_engine_version
+}
+
 processResources {
     // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
@@ -60,26 +64,11 @@ processResources {
 	}
 }
 
-//curse {
-//    apiKey = project.dmodcurse
-//    projectId = "225502"
-//    // my project url is http://minecraft.curseforge.com/mc-mods/225502-icbm
-//    changelog = ""
-//    releaseType = "alpha"
-//    relatedProject 'voltz-engine': 'requiredLibrary'
-//
-//    // the default obfuscated jar is uploaded by default
-//    // artifact = project.file("some/jar/to/upload.jar")
-//
-//    // allows you to add extra compatible MC versions. The one specified in the minecraft{} block is used by default.
-//    addGameVersion "1.7.10"
-//    // addGameversion "1.7.0", "1.7.4"
-//}
-
 import org.ajoberstar.grgit.Grgit
 
 def gitHash = 'unknown'
-if (new File(projectDir, '.git').exists()) {
+if (new File(projectDir, '.git').exists()) 
+{
     def repo = Grgit.open(project.file('.'))
     gitHash = repo.log().find().abbreviatedId
 }
@@ -96,12 +85,14 @@ jar {
 
 dependencies 
 {
-    if (project.getProperty("bambooshortPlanName") == "BBM-Dev"){
-    compile "dev.builtbroken.voltzengine:VoltzEngine:1.7.10-0.+:deobf-dev"
+    if (project.getProperty("bambooshortPlanName") == "BBM-Dev")
+    {
+        compile "dev.builtbroken.voltzengine:VoltzEngine:1.7.10-0.+:deobf-dev"
     }
     else
     {
-    compile "com.builtbroken.voltzengine:VoltzEngine:1.7.10-0.+:deobf"}
+        compile "com.builtbroken.voltzengine:VoltzEngine:1.7.10-0.+:deobf"
+    }
 }
 
 def getDate() {
