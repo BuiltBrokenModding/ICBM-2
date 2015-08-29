@@ -150,6 +150,7 @@ public final class ICBM extends AbstractMod
         //Request Engine to load items for use
         Engine.heatedRockRequested = true;
         Engine.requestOres();
+        Engine.requestResources();
         Engine.requestSheetMetalContent();
         Engine.requestMultiBlock();
 
