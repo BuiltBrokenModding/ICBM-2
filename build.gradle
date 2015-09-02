@@ -85,14 +85,15 @@ jar {
 
 dependencies 
 {
-    if (project.getProperty("bambooshortPlanName") == "BBM-Dev")
-    {
-        compile "dev.builtbroken.voltzengine:VoltzEngine:1.7.10-0.+:deobf-dev"
-    }
-    else
-    {
-        compile "com.builtbroken.voltzengine:VoltzEngine:1.7.10-0.+:deobf"
-    }
+    compile "dev.builtbroken.voltzengine:VoltzEngine:1.7.10-0.+:deobf-dev"
+    //if (project.getProperty("bambooshortPlanName") == "BBM-Dev")
+    //{
+    //    compile "dev.builtbroken.voltzengine:VoltzEngine:1.7.10-0.+:deobf-dev"
+    //}
+    //else
+    //{
+    //    compile "com.builtbroken.voltzengine:VoltzEngine:1.7.10-0.+:deobf"
+    //}
 }
 
 def getDate() {
