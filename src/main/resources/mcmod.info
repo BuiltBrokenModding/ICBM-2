@@ -2,13 +2,13 @@
 {
   "modid": "ICBM",
   "name": "ICBM",
-  "description": "Example placeholder mod.",
+  "description": "Explosives at the end of a fast moving mass of steel.",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "http://builtbroken.com",
-  "updateUrl": "",
-  "authorList": ["DarkGuardsMan, dmodoomsirius "],
-  "credits": "The Forge and FML guys, for making this example",
+  "url": "http://www.builtbroken.com",
+  "updateUrl": "http://minecraft.curseforge.com/mc-mods/225502-icbm",
+  "authorList": ["DarkGuardsMan"],
+  "credits": "Calclavia, Dmodoomsirius",
   "logoFile": "icbm_logo.png",
   "screenshots": [],
   "dependencies": []
