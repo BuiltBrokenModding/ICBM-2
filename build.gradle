@@ -55,7 +55,6 @@ processResources {
 		expand 'version': project.version, 'mcversion': project.minecraft.version
 		// replace version and MCVersion
 	}
-    
 
 	// copy everything else, thats not text
 	from(sourceSets.main.resources.srcDirs) {
