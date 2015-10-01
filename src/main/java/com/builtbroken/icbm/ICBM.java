@@ -1,5 +1,7 @@
 package com.builtbroken.icbm;
 
+import com.builtbroken.icbm.content.crafting.parts.MissileCraftingParts;
+import com.builtbroken.icbm.content.crafting.parts.ItemMissileParts;
 import com.builtbroken.icbm.content.debug.BlockExplosiveMarker;
 import com.builtbroken.icbm.content.blast.BlastEndoThermic;
 import com.builtbroken.icbm.content.blast.BlastExoThermic;
@@ -26,12 +28,14 @@ import com.builtbroken.icbm.content.rocketlauncher.ItemRocketLauncher;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.core.Engine;
+import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
 import com.builtbroken.mc.lib.mod.AbstractMod;
 import com.builtbroken.mc.lib.mod.AbstractProxy;
 import com.builtbroken.mc.lib.mod.ModCreativeTab;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.explosive.ExplosiveHandler;
+import com.builtbroken.mc.prefab.recipe.item.sheetmetal.RecipeSheetMetal;
 import com.builtbroken.mc.prefab.tile.item.ItemBlockMetadata;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -115,6 +119,7 @@ public final class ICBM extends AbstractMod
     public static Item itemLinkTool;
     public static Item itemGPSTool;
     public static ItemEngineModules itemEngineModules;
+    public static Item itemMissileParts;
 
     public final ModCreativeTab CREATIVE_TAB;
 
@@ -179,11 +184,12 @@ public final class ICBM extends AbstractMod
         }
 
         // ITEMS
-        itemMissile = manager.newItem(ItemMissile.class);
-        itemRocketLauncher = manager.newItem(ItemRocketLauncher.class);
-        itemEngineModules = manager.newItem(ItemEngineModules.class);
+        itemMissile = manager.newItem("missile", ItemMissile.class);
+        itemRocketLauncher = manager.newItem("rocketLauncher", ItemRocketLauncher.class);
+        itemEngineModules = manager.newItem("engineModules", ItemEngineModules.class);
         itemLinkTool = manager.newItem("siloLinker", ItemLinkTool.class);
         itemGPSTool = manager.newItem("gpsFlag", ItemGPSFlag.class);
+        itemMissileParts = manager.newItem("missileParts", ItemMissileParts.class);
 
         // Register modules, need to do this or they will not build from ItemStacks
         MissileCasings.register();
@@ -219,15 +225,40 @@ public final class ICBM extends AbstractMod
         ArrayList dustCharcoal = OreDictionary.getOres("dustCharcoal");
         ArrayList dustCoal = OreDictionary.getOres("dustCoal");
         // Sulfur
-        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.gunpowder, 2), "dustSulfur", "dustSaltpeter", Items.coal));
-        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.gunpowder, 2), "dustSulfur", "dustSaltpeter", new ItemStack(Items.coal, 1, 1)));
-
-        if (dustCharcoal != null && dustCharcoal.size() > 0)
+        if (getConfig().getBoolean("Charcoal_gunpowder_recipe", "Extra", true, "Enables a dust recipe of sulfur, saltpeter, and charcoal to make gunpowder"))
+        {
+            //TODO see about ore dictionary for coal
+            GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.gunpowder, 2), "dustSulfur", "dustSaltpeter", Items.coal));
+        }
+        if (getConfig().getBoolean("Charcoal_gunpowder_recipe", "Extra", true, "Enables a recipe of sulfur, saltpeter, and charcoal to make gunpowder"))
+        {
+            //TODO see about ore dictionary for charcoal
+            GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.gunpowder, 2), "dustSulfur", "dustSaltpeter", new ItemStack(Items.coal, 1, 1)));
+        }
+        if (getConfig().getBoolean("Charcoal_dust_gunpowder_recipe", "Extra", true, "Enables a recipe of sulfur, saltpeter, and charcoal to make gunpowder") && dustCharcoal != null && dustCharcoal.size() > 0)
+        {
             GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.gunpowder, 2), "dustSulfur", "dustSaltpeter", "dustCharcoal"));
-        if (dustCoal != null && dustCoal.size() > 0)
+        }
+        if (getConfig().getBoolean("Coal_dust_gunpowder_recipe", "Extra", true, "Enables a dust recipe of sulfur, saltpeter, and coal to make gunpowder") && dustCoal != null && dustCoal.size() > 0)
+        {
             GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.gunpowder, 2), "dustSulfur", "dustSaltpeter", "dustCoal"));
+        }
+        if (getConfig().getBoolean("Redstone_TNT_recipe", "Extra", true, "Enables a cheaper/easier tnt recipe using gunpowder surrounding a redstone dust. This recipe is designed to make it easier to craft tnt without mining a lot of material."))
+        {
+            //TODO see about ore dictionary for redstone, and gunpowder
+            GameRegistry.addRecipe(new ShapedOreRecipe(Blocks.tnt, "@@@", "@R@", "@@@", '@', Items.gunpowder, 'R', Items.redstone));
+        }
 
-        GameRegistry.addRecipe(new ShapedOreRecipe(Blocks.tnt, "@@@", "@R@", "@@@", '@', Items.gunpowder, 'R', Items.redstone));
+        //Sheet metal crafting recipes
+        if (Engine.itemSheetMetal != null && Engine.itemSheetMetalTools != null)
+        {
+            GameRegistry.addRecipe(new RecipeSheetMetal(MissileCraftingParts.SMALL_MISSILE_CASE.stack(), "CRC", " H ", 'C', ItemSheetMetal.SheetMetal.CYLINDER.stack(), 'R', ItemSheetMetal.SheetMetal.RIVETS.stack(), 'H', Engine.itemSheetMetalTools.getHammer()));
+
+        }
+        else
+        {
+            logger().error("In order to craft the missile casing you need to enable sheet metal tools and parts in Voltz Engine");
+        }
     }
 
     @Override
