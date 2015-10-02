@@ -253,7 +253,6 @@ public final class ICBM extends AbstractMod
         if (Engine.itemSheetMetal != null && Engine.itemSheetMetalTools != null)
         {
             GameRegistry.addRecipe(new RecipeSheetMetal(MissileCraftingParts.SMALL_MISSILE_CASE.stack(), "CRC", " H ", 'C', ItemSheetMetal.SheetMetal.CYLINDER.stack(), 'R', ItemSheetMetal.SheetMetal.RIVETS.stack(), 'H', Engine.itemSheetMetalTools.getHammer()));
-
         }
         else
         {

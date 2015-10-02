@@ -38,7 +38,7 @@ public class ItemMissileParts extends Item
     {
         for (MissileCraftingParts sheet : MissileCraftingParts.values())
         {
-            list.add(new ItemStack(item, 1, sheet.ordinal()));
+            list.add(sheet.stack());
         }
     }
 
