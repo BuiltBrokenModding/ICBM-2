@@ -60,7 +60,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
         if (Engine.itemSheetMetal != null && Engine.itemSheetMetalTools != null)
         {
             GameRegistry.addRecipe(new RecipeSheetMetal(micro_missile_empty, " rf", "rcf", " rf", 'c', ItemSheetMetal.SheetMetal.SMALL_CYLINDER.stack(), 'f', ItemSheetMetal.SheetMetal.FIN_MICRO.stack(), 'r', "rodIron"));
-            GameRegistry.addRecipe(new RecipeSheetMetal(micro_missile_empty, "rrf", "rcf", "rrf", 'c', MissileCraftingParts.SMALL_MISSILE_CASE.stack(), 'f', ItemSheetMetal.SheetMetal.FIN_SMALL.stack(), 'r', "rodIron"));
+            GameRegistry.addRecipe(new RecipeSheetMetal(small_missile_empty, "rrf", "rcf", "rrf", 'c', MissileCraftingParts.SMALL_MISSILE_CASE.stack(), 'f', ItemSheetMetal.SheetMetal.FIN_SMALL.stack(), 'r', "rodIron"));
         }
         else
         {
