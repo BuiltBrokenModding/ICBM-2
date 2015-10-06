@@ -14,11 +14,11 @@ public class GuiMissileWorkstation extends GuiContainerBase
 {
     public String error_msg = "------";
 
-    private TileMissileWorkstation tile;
+    private TileSmallMissileWorkstation tile;
     private GuiButton action_button;
     private GuiButton mode_button;
 
-    public GuiMissileWorkstation(EntityPlayer player, TileMissileWorkstation tile)
+    public GuiMissileWorkstation(EntityPlayer player, TileSmallMissileWorkstation tile)
     {
         super(new ContainerMissileWorkstation(player, tile));
         this.tile = tile;

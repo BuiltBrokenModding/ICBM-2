@@ -12,7 +12,7 @@ import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
 import com.builtbroken.icbm.content.crafting.missile.engine.ItemEngineModules;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
-import com.builtbroken.icbm.content.crafting.station.TileMissileWorkstation;
+import com.builtbroken.icbm.content.crafting.station.TileSmallMissileWorkstation;
 import com.builtbroken.icbm.content.display.TileMissile;
 import com.builtbroken.icbm.content.display.TileMissileDisplay;
 import com.builtbroken.icbm.content.debug.TileRotationTest;
@@ -170,7 +170,7 @@ public final class ICBM extends AbstractMod
         blockMissileDisplay = manager.newBlock(TileMissileDisplay.class);
         blockSmallLauncher = manager.newBlock(TileSmallLauncher.class);
         blockSmallSilo = manager.newBlock(TileSmallSilo.class);
-        blockMissileWorkstation = manager.newBlock(TileMissileWorkstation.class);
+        blockMissileWorkstation = manager.newBlock(TileSmallMissileWorkstation.class);
         blockSiloController = manager.newBlock("SiloController", TileController.class);
 
         // Decor Blocks

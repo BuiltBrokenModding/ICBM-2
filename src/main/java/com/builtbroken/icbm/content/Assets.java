@@ -26,6 +26,7 @@ public final class Assets
     public static final IModelCustom SMALL_SILO_MODEL = model("SmallSilo.tcn");
     public static final IModelCustom LAUNCHER_CONTROLLER_MODEL = model("LauncherController.tcn");
     public static final IModelCustom WEAPON_CASE_MODEL = model("WeaponCase.tcn");
+    public static final IModelCustom SMALL_MISSILE_STATION_MODEL = model("smallMissileStation.obj");
 
     //Textures
     public static final ResourceLocation GREY_FAKE_TEXTURE = texture("grey");
