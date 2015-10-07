@@ -62,7 +62,7 @@ public class TileAbstractWorkstation extends TileModuleMachine implements IMulti
         if (!_destroyingStructure)
         {
             _destroyingStructure = true;
-            MultiBlockHelper.destroyMultiBlockStructure(this, b);
+            MultiBlockHelper.destroyMultiBlockStructure(this, b, true);
             _destroyingStructure = false;
         }
     }

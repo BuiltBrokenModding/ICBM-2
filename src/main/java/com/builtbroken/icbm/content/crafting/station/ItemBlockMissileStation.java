@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -26,6 +27,31 @@ public class ItemBlockMissileStation extends ItemBlock
         if (placed)
         {
             world.setBlockMetadataWithNotify(x, y, z, side, 3);
+            TileEntity tile = world.getTileEntity(x, y, z);
+            if (tile instanceof TileSmallMissileWorkstation)
+            {
+                switch (dir)
+                {
+                    case UP:
+                        ((TileSmallMissileWorkstation) tile).setDirection(ForgeDirection.NORTH);
+                        break;
+                    case DOWN:
+                        ((TileSmallMissileWorkstation) tile).setDirection(ForgeDirection.SOUTH);
+                        break;
+                    case EAST:
+                        ((TileSmallMissileWorkstation) tile).setDirection(ForgeDirection.UP);
+                        break;
+                    case WEST:
+                        ((TileSmallMissileWorkstation) tile).setDirection(ForgeDirection.UP);
+                        break;
+                    case NORTH:
+                        ((TileSmallMissileWorkstation) tile).setDirection(ForgeDirection.UP);
+                        break;
+                    case SOUTH:
+                        ((TileSmallMissileWorkstation) tile).setDirection(ForgeDirection.UP);
+                        break;
+                }
+            }
         }
         return placed;
     }

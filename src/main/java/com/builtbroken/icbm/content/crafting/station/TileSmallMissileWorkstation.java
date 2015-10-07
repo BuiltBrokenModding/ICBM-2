@@ -18,6 +18,7 @@ import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -83,6 +84,9 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
         super("missileworkstation", Material.iron);
         this.addInventoryModule(5);
         this.itemBlock = ItemBlockMissileStation.class;
+        this.renderNormalBlock = false;
+        this.renderTileEntity = true;
+        this.isOpaque = false;
     }
 
     @Override
@@ -91,7 +95,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
         super.firstTick();
         this.side = ForgeDirection.getOrientation(world().getBlockMetadata(xi(), yi(), zi()));
         System.out.println("First Tick");
-        MultiBlockHelper.buildMultiBlock(world(), this, true);
+        MultiBlockHelper.buildMultiBlock(world(), this, true, true);
     }
 
     @Override
@@ -385,6 +389,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     @Override
     public void setDirection(ForgeDirection direction)
     {
+        //Get the new rotation, and limit it to valid rotations
         ForgeDirection prev = direction;
         switch (side)
         {
@@ -410,13 +415,29 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                 }
                 break;
         }
+
+        //Check if the rotation was valid
         if (isServer() && prev != direction)
         {
             //Rotate 90 degrees meaning we need a structure update
             if (prev != rotation.getOpposite())
             {
                 //TODO check if it can rotate without clipping blocks
+                for (IPos3D pos : getLayoutOfMultiBlock().keySet())
+                {
+                    Block block = world().getBlock((int) pos.x(), (int) pos.y(), (int) pos.z());
+                    if (!block.isAir(world(), (int) pos.x(), (int) pos.y(), (int) pos.z()))
+                    {
+                        this.rotation = prev;
+                    }
+                }
             }
+
+        }
+
+        //Checked again as the above code can change the data
+        if (isServer() && prev != direction)
+        {
             sendPacket(new PacketTile(this, 5, (byte) side.ordinal()));
         }
     }
@@ -436,8 +457,93 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     {
         //Render launcher
         GL11.glPushMatrix();
-        GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.5f, pos.zf() + 0.5f);
+
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
+        switch (side)
+        {
+            case UP:
+                GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() - 0.05f, pos.zf() + 0.44f);
+                switch (getDirection())
+                {
+                    case EAST:
+                        break;
+                    case WEST:
+                        break;
+                    case NORTH:
+                        break;
+                    case SOUTH:
+                        break;
+                }
+                break;
+            case DOWN:
+                GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 1.0f, pos.zf() + 0.56f);
+                GL11.glRotated(180, 1, 0, 0);
+                switch (getDirection())
+                {
+                    case EAST:
+                    case WEST:
+                        GL11.glRotated(90, 1, 0, 0);
+                        break;
+                }
+                break;
+            case EAST:
+                GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() - 0.1f, pos.zf() + 0.5f);
+                switch (getDirection())
+                {
+                    case UP:
+                        break;
+                    case DOWN:
+                        break;
+                    case NORTH:
+                        break;
+                    case SOUTH:
+                        break;
+                }
+                break;
+            case WEST:
+                GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() - 0.1f, pos.zf() + 0.5f);
+                switch (getDirection())
+                {
+                    case UP:
+                        break;
+                    case DOWN:
+                        break;
+                    case NORTH:
+                        break;
+                    case SOUTH:
+                        break;
+                }
+                break;
+            case NORTH:
+                GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() - 0.1f, pos.zf() + 0.5f);
+                switch (getDirection())
+                {
+                    case UP:
+                        break;
+                    case DOWN:
+                        break;
+                    case EAST:
+                        break;
+                    case WEST:
+                        break;
+                }
+                break;
+            case SOUTH:
+                GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() - 0.1f, pos.zf() + 0.5f);
+                switch (getDirection())
+                {
+                    case UP:
+                        break;
+                    case DOWN:
+                        break;
+                    case EAST:
+                        break;
+                    case WEST:
+                        break;
+                }
+                break;
+
+        }
         Assets.SMALL_MISSILE_STATION_MODEL.renderAll();
         GL11.glPopMatrix();
 
