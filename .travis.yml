@@ -1,22 +1,25 @@
 language: java
 before_install:
   - git submodule update --init --recursive
-notifications:
- irc:
-  channels:
-   - "irc.esper.net#BBM-bots"
-  template:
-   - "%{build_number} (%{branch} - %{commit}: %{commit_message} : %{author}): %{message} (%{build_url})"
-install: true
-script:
-  - gradle build coveralls jacocoTestReport -PbambooshortPlanName=BBM-Dev -Pdmodcurse=61545 --refresh-dependencies
+  - chmod a+x gradlew
 cache:
   directories:
     - $HOME/.gradle
     - .gradle
 sudo: false
+notifications:
+  irc:
+    channels:
+      - "irc.esper.net#BBM-bots"
+    skip_join: true
+  template:
+      - "%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message} "
+      - "Change view : %{compare_url}"
+      - "Build details : %{build_url} : duration : %{duration}"
+install: true
+script:
+  - ./gradlew build javadoc coveralls jacocoTestReport -PbambooshortPlanName=BBM-Dev -Pdmodcurse=61545 -S -i --refresh-dependencies
 jdk:
-  - oraclejdk8
   - oraclejdk7
 after_success:
   - bash <(curl -s https://codecov.io/bash)
