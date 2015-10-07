@@ -1,28 +1,35 @@
 package com.builtbroken.icbm.content.crafting.station;
 
-import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.IModuleItem;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
 import com.builtbroken.icbm.content.Assets;
+import com.builtbroken.icbm.content.crafting.AbstractModule;
+import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
+import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
+import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
+import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
+import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
+import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadSmall;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
-import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.api.tile.IRotatable;
+import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.multiblock.EnumMultiblock;
 import com.builtbroken.mc.prefab.tile.multiblock.MultiBlockHelper;
 import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
@@ -33,7 +40,7 @@ import java.util.HashMap;
  * Workstation for the small missile
  * Created by DarkCow on 3/12/2015.
  */
-public class TileSmallMissileWorkstation extends TileAbstractWorkstation implements IGuiTile, IPacketIDReceiver, IRotatable, ISimpleItemRenderer
+public class TileSmallMissileWorkstation extends TileAbstractWorkstation implements IPacketIDReceiver, IRotatable, ISimpleItemRenderer
 {
     //Static values
     public static final int INPUT_SLOT = 0;
@@ -76,7 +83,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     protected boolean enforce_complete = false;
     protected int progress = 0;
     protected ForgeDirection rotation = ForgeDirection.NORTH;
-    protected ForgeDirection side = ForgeDirection.UP;
+    protected ForgeDirection connectedBlockSide = ForgeDirection.UP;
 
 
     public TileSmallMissileWorkstation()
@@ -93,7 +100,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     public void firstTick()
     {
         super.firstTick();
-        this.side = ForgeDirection.getOrientation(world().getBlockMetadata(xi(), yi(), zi()));
+        this.connectedBlockSide = ForgeDirection.getOrientation(world().getBlockMetadata(xi(), yi(), zi()));
         System.out.println("First Tick");
         MultiBlockHelper.buildMultiBlock(world(), this, true, true);
     }
@@ -234,80 +241,19 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     }
 
     @Override
-    public boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
-    {
-        if (isServer())
-            openGui(player, 0, ICBM.INSTANCE);
-        return true;
-    }
-
-    @Override
-    public Object getServerGuiElement(int ID, EntityPlayer player)
-    {
-        return new ContainerMissileWorkstation(player, this);
-    }
-
-    @Override
-    public Object getClientGuiElement(int ID, EntityPlayer player)
-    {
-        return new GuiMissileWorkstation(player, this);
-    }
-
-    @Override
     public boolean read(ByteBuf buf, int id, EntityPlayer player, PacketType type)
     {
-        if (id == 0)
+        if (isClient())
         {
-            this.automated = buf.readBoolean();
-            this.enforce_complete = buf.readBoolean();
-            return true;
-        }
-        else if (isServer())
-        {
-            if (id == 1)
+            if (id == 0)
             {
                 this.automated = buf.readBoolean();
-                return true;
-            }
-            else if (id == 2)
-            {
                 this.enforce_complete = buf.readBoolean();
-                return true;
-            }
-            else if (id == 3)
-            {
-                this.assemble = buf.readBoolean();
-                return true;
-            }
-            else if (id == 4)
-            {
-                String e = "";
-                if (assemble)
-                    e = assemble();
-                else
-                    e = disassemble();
-
-                if (e != "")
-                {
-                    sendPacket(new PacketTile(this, 1, e));
-                }
                 return true;
             }
             else if (id == 5)
             {
                 this.rotation = ForgeDirection.getOrientation(Math.min(0, Math.max(buf.readByte(), 5)));
-                return true;
-            }
-        }
-        else
-        {
-            if (id == 1)
-            {
-                String e = ByteBufUtils.readUTF8String(buf);
-                if (Minecraft.getMinecraft().currentScreen instanceof GuiMissileWorkstation)
-                {
-                    ((GuiMissileWorkstation) Minecraft.getMinecraft().currentScreen).error_msg = e;
-                }
                 return true;
             }
         }
@@ -323,28 +269,22 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     public void setAutomated(boolean b)
     {
         this.automated = b;
-        if (isClient())
-            sendPacketToServer(new PacketTile(this, 1, b));
     }
 
     public void setEnforceComplete(boolean b)
     {
         this.enforce_complete = b;
-        if (isClient())
-            sendPacketToServer(new PacketTile(this, 2, b));
     }
 
     public void setAssemble(boolean b)
     {
         this.assemble = b;
-        if (isClient())
-            sendPacketToServer(new PacketTile(this, 3, b));
     }
 
     @Override
     public HashMap<IPos3D, String> getLayoutOfMultiBlock()
     {
-        switch (side)
+        switch (connectedBlockSide)
         {
             case UP:
             case DOWN:
@@ -381,6 +321,190 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     }
 
     @Override
+    public boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
+    {
+        if (player.getHeldItem() != null)
+        {
+            //Find slot to place or removes items from
+            if (getMissileItem() == null)
+            {
+                addItemToSlot(player, INPUT_SLOT);
+            }
+            else if (player.isSneaking())
+            {
+                removeItemFromSlot(player, OUTPUT_SLOT);
+            }
+            else
+            {
+                handleSlot(player, GUIDANCE_SLOT);
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onMultiTileActivated(IMultiTile tile, EntityPlayer player, int side, IPos3D hit)
+    {
+        //Get offset from center
+        Pos pos = new Pos((TileEntity) tile).newPos(xi(), yi(), zi());
+
+        //Ensure pos is in our layout
+        if (getLayoutOfMultiBlock().containsKey(pos) || pos.equals(Pos.zero))
+        {
+            int slot = -1;
+
+            //Find slot to place or removes items from
+            if (getMissileItem() != null)
+            {
+                if (pos.equals(new Pos(getDirection())))
+                {
+                    slot = WARHEAD_SLOT;
+                }
+                else if (pos.equals(new Pos(getDirection().getOpposite())))
+                {
+                    slot = ENGINE_SLOT;
+                }
+            }
+            else
+            {
+                slot = INPUT_SLOT;
+            }
+
+            //If we have a slot do action
+            handleSlot(player, slot);
+        }
+        return false;
+    }
+
+    private void handleSlot(EntityPlayer player, int slot)
+    {
+        if (!addItemToSlot(player, slot))
+        {
+            removeItemFromSlot(player, slot);
+        }
+    }
+
+    private boolean addItemToSlot(EntityPlayer player, int slot)
+    {
+        if (slot >= 0 && slot < getSizeInventory())
+        {
+            if (getStackInSlot(slot) == null && isItemValidForSlot(slot, player.getHeldItem()))
+            {
+                setInventorySlotContents(slot, player.getHeldItem().copy());
+                getStackInSlot(slot).stackSize = 1;
+                player.getHeldItem().stackSize--;
+                if (player.getHeldItem().stackSize <= 0)
+                {
+                    player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+                }
+                player.inventoryContainer.detectAndSendChanges();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean removeItemFromSlot(EntityPlayer player, int slot)
+    {
+        if (slot >= 0 && slot < getSizeInventory())
+        {
+            boolean itemsMatch = InventoryUtility.stacksMatch(player.getHeldItem(), getStackInSlot(slot));
+            boolean spaceInHand = player.getHeldItem().stackSize < player.getHeldItem().getItem().getItemStackLimit(player.getHeldItem());
+            if (getStackInSlot(slot) != null && (player.getHeldItem() == null || itemsMatch && spaceInHand))
+            {
+                player.getHeldItem().stackSize++;
+                getStackInSlot(slot).stackSize--;
+                if (getStackInSlot(slot).stackSize <= 0)
+                {
+                    setInventorySlotContents(slot, null);
+                }
+                player.inventoryContainer.detectAndSendChanges();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isItemValidForSlot(int slot, ItemStack stack)
+    {
+        if (stack != null)
+        {
+            if (stack.getItem() instanceof IModularMissileItem && (slot == INPUT_SLOT || slot == OUTPUT_SLOT))
+            {
+                Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
+                return missile.casing == MissileCasings.SMALL;
+            }
+            else if (stack.getItem() instanceof IModuleItem)
+            {
+                AbstractModule module = ((IModuleItem) stack.getItem()).getModule(stack);
+                if (module instanceof RocketEngine && slot == ENGINE_SLOT)
+                {
+                    return true;
+                }
+                else if (module instanceof Guidance && slot == GUIDANCE_SLOT)
+                {
+                    return true;
+                }
+                else if (module instanceof WarheadSmall && slot == WARHEAD_SLOT)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    protected boolean onPlayerRightClickWrench(EntityPlayer player, int side, Pos hit)
+    {
+        if (isServer())
+        {
+            if (player.isSneaking())
+            {
+                setDirection(getDirection().getOpposite());
+            }
+            else
+            {
+                switch (this.connectedBlockSide)
+                {
+                    case UP:
+                    case DOWN:
+                        if (getDirection() == ForgeDirection.NORTH)
+                            setDirection(ForgeDirection.EAST);
+                        else if (getDirection() == ForgeDirection.SOUTH)
+                            setDirection(ForgeDirection.WEST);
+                        else if (getDirection() == ForgeDirection.EAST)
+                            setDirection(ForgeDirection.SOUTH);
+                        else
+                            setDirection(ForgeDirection.NORTH);
+                    case EAST:
+                    case WEST:
+                        if (getDirection() == ForgeDirection.NORTH)
+                            setDirection(ForgeDirection.DOWN);
+                        else if (getDirection() == ForgeDirection.SOUTH)
+                            setDirection(ForgeDirection.UP);
+                        else if (getDirection() == ForgeDirection.DOWN)
+                            setDirection(ForgeDirection.SOUTH);
+                        else
+                            setDirection(ForgeDirection.UP);
+                    case NORTH:
+                    case SOUTH:
+                        if (getDirection() == ForgeDirection.EAST)
+                            setDirection(ForgeDirection.DOWN);
+                        else if (getDirection() == ForgeDirection.WEST)
+                            setDirection(ForgeDirection.UP);
+                        else if (getDirection() == ForgeDirection.DOWN)
+                            setDirection(ForgeDirection.WEST);
+                        else
+                            setDirection(ForgeDirection.UP);
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
     public ForgeDirection getDirection()
     {
         return rotation;
@@ -391,7 +515,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     {
         //Get the new rotation, and limit it to valid rotations
         ForgeDirection prev = direction;
-        switch (side)
+        switch (connectedBlockSide)
         {
             case UP:
             case DOWN:
@@ -438,7 +562,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
         //Checked again as the above code can change the data
         if (isServer() && prev != direction)
         {
-            sendPacket(new PacketTile(this, 5, (byte) side.ordinal()));
+            sendPacket(new PacketTile(this, 5, (byte) connectedBlockSide.ordinal()));
         }
     }
 
@@ -459,10 +583,13 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
         GL11.glPushMatrix();
 
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
-        switch (side)
+
+        switch (connectedBlockSide)
         {
             case UP:
-                GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() - 0.05f, pos.zf() + 0.44f);
+                GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() - 0.025f, pos.zf() + 0.44f);
+                GL11.glRotated(1.1, 1, 0, 0);
+                GL11.glTranslatef(-0.077f, -0.03f, -0.137f);
                 switch (getDirection())
                 {
                     case EAST:
@@ -488,20 +615,24 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                 break;
             case EAST:
                 GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() - 0.1f, pos.zf() + 0.5f);
+                GL11.glRotated(-90, 0, 0, 1);
+                GL11.glRotated(1.1, 1, 0, 0);
+                // y x z
+                GL11.glTranslatef(-0.677f, -0.55f, -0.185f);
                 switch (getDirection())
                 {
                     case UP:
                         break;
                     case DOWN:
                         break;
-                    case NORTH:
-                        break;
-                    case SOUTH:
-                        break;
                 }
                 break;
             case WEST:
                 GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() - 0.1f, pos.zf() + 0.5f);
+                GL11.glRotated(90, 0, 0, 1);
+                GL11.glRotated(1.1, 1, 0, 0);
+                // y x z
+                GL11.glTranslatef(0.527f, -0.55f, -0.185f);
                 switch (getDirection())
                 {
                     case UP:
@@ -516,6 +647,11 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                 break;
             case NORTH:
                 GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() - 0.1f, pos.zf() + 0.5f);
+                GL11.glRotated(90, 0, 1, 0);
+                GL11.glRotated(-90, 0, 0, 1);
+                GL11.glRotated(1.1, 1, 0, 0);
+                // y x z
+                GL11.glTranslatef(-0.676f, -0.55f, -0.185f);
                 switch (getDirection())
                 {
                     case UP:
@@ -530,6 +666,11 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                 break;
             case SOUTH:
                 GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() - 0.1f, pos.zf() + 0.5f);
+                GL11.glRotated(90, 0, 1, 0);
+                GL11.glRotated(90, 0, 0, 1);
+                GL11.glRotated(1.1, 1, 0, 0);
+                // y x z
+                GL11.glTranslatef(0.525f, -0.55f, -0.185f);
                 switch (getDirection())
                 {
                     case UP:
