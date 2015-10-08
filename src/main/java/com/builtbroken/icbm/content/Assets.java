@@ -27,6 +27,7 @@ public final class Assets
     public static final IModelCustom LAUNCHER_CONTROLLER_MODEL = model("LauncherController.tcn");
     public static final IModelCustom WEAPON_CASE_MODEL = model("WeaponCase.tcn");
     public static final IModelCustom SMALL_MISSILE_STATION_MODEL = model("smallMissileStation.obj");
+    public static final IModelCustom SMALL_WARHEAD_STATION_MODEL = model("smallWarheadStation.obj");
 
     //Textures
     public static final ResourceLocation GREY_FAKE_TEXTURE = texture("grey");
