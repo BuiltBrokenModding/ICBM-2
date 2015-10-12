@@ -323,7 +323,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     @Override
     public boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
     {
-        if (player.getHeldItem() != null)
+        if (isServer())
         {
             //Find slot to place or removes items from
             if (getMissileItem() == null)
@@ -345,35 +345,38 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     @Override
     public boolean onMultiTileActivated(IMultiTile tile, EntityPlayer player, int side, IPos3D hit)
     {
-        //Get offset from center
-        Pos pos = new Pos((TileEntity) tile).newPos(xi(), yi(), zi());
-
-        //Ensure pos is in our layout
-        if (getLayoutOfMultiBlock().containsKey(pos) || pos.equals(Pos.zero))
+        if (isServer())
         {
-            int slot = -1;
+            //Get offset from center
+            Pos pos = new Pos((TileEntity) tile).sub(xi(), yi(), zi());
 
-            //Find slot to place or removes items from
-            if (getMissileItem() != null)
+            //Ensure pos is in our layout
+            if (getLayoutOfMultiBlock().containsKey(pos) || pos.equals(Pos.zero))
             {
-                if (pos.equals(new Pos(getDirection())))
-                {
-                    slot = WARHEAD_SLOT;
-                }
-                else if (pos.equals(new Pos(getDirection().getOpposite())))
-                {
-                    slot = ENGINE_SLOT;
-                }
-            }
-            else
-            {
-                slot = INPUT_SLOT;
-            }
+                int slot = -1;
 
-            //If we have a slot do action
-            handleSlot(player, slot);
+                //Find slot to place or removes items from
+                if (getMissileItem() != null)
+                {
+                    if (pos.equals(new Pos(getDirection())))
+                    {
+                        slot = WARHEAD_SLOT;
+                    }
+                    else if (pos.equals(new Pos(getDirection().getOpposite())))
+                    {
+                        slot = ENGINE_SLOT;
+                    }
+                }
+                else
+                {
+                    slot = INPUT_SLOT;
+                }
+
+                //If we have a slot do action
+                handleSlot(player, slot);
+            }
         }
-        return false;
+        return true;
     }
 
     private void handleSlot(EntityPlayer player, int slot)
@@ -392,10 +395,13 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
             {
                 setInventorySlotContents(slot, player.getHeldItem().copy());
                 getStackInSlot(slot).stackSize = 1;
-                player.getHeldItem().stackSize--;
-                if (player.getHeldItem().stackSize <= 0)
+                if (!player.capabilities.isCreativeMode)
                 {
-                    player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+                    player.getHeldItem().stackSize--;
+                    if (player.getHeldItem().stackSize <= 0)
+                    {
+                        player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+                    }
                 }
                 player.inventoryContainer.detectAndSendChanges();
                 return true;
@@ -409,7 +415,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
         if (slot >= 0 && slot < getSizeInventory())
         {
             boolean itemsMatch = InventoryUtility.stacksMatch(player.getHeldItem(), getStackInSlot(slot));
-            boolean spaceInHand = player.getHeldItem().stackSize < player.getHeldItem().getItem().getItemStackLimit(player.getHeldItem());
+            boolean spaceInHand = player.getHeldItem() == null || player.getHeldItem().stackSize < player.getHeldItem().getItem().getItemStackLimit(player.getHeldItem());
             if (getStackInSlot(slot) != null && (player.getHeldItem() == null || itemsMatch && spaceInHand))
             {
                 player.getHeldItem().stackSize++;
@@ -590,7 +596,6 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
         {
 
             case UP:
-                this.rotation = ForgeDirection.EAST;
                 if (getDirection() == ForgeDirection.WEST || getDirection() == ForgeDirection.EAST)
                 {
                     GL11.glRotated(-90, 0, 1, 0);
@@ -651,7 +656,6 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                 GL11.glRotated(-90, 1, 0, 0);
                 // x z y
                 GL11.glTranslatef(0.0355f, -0.5f, 0.53f);
-                this.rotation = ForgeDirection.UP;
                 if (getDirection() == ForgeDirection.UP || getDirection() == ForgeDirection.DOWN)
                 {
                     GL11.glRotated(-90, 0, 1, 0);
