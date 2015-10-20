@@ -1,5 +1,9 @@
 package com.builtbroken.icbm;
 
+import com.builtbroken.icbm.content.crafting.station.TileSmallMissileWorkstationClient;
+import com.builtbroken.icbm.content.missile.EntityMissile;
+import com.builtbroken.icbm.content.missile.RenderMissile;
+import com.builtbroken.icbm.content.rocketlauncher.RenderRocketLauncher;
 import com.builtbroken.mc.lib.render.fx.*;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import cpw.mods.fml.client.FMLClientHandler;
@@ -8,9 +12,6 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import com.builtbroken.icbm.content.missile.EntityMissile;
-import com.builtbroken.icbm.content.missile.RenderMissile;
-import com.builtbroken.icbm.content.rocketlauncher.RenderRocketLauncher;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EffectRenderer;
@@ -28,6 +29,13 @@ import java.util.List;
 public class ClientProxy extends CommonProxy
 {
     private boolean disableReflectionFX = false;
+
+    @Override
+    public void preInit()
+    {
+        super.preInit();
+        ICBM.blockMissileWorkstation = ICBM.INSTANCE.getManager().newBlock("SmallMissileWorkStation", TileSmallMissileWorkstationClient.class);
+    }
 
     @Override
     public void init()

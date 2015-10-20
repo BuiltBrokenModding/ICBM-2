@@ -10,6 +10,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.HashMap;
 
@@ -89,5 +90,25 @@ public class TileAbstractWorkstation extends TileModuleMachine implements IMulti
     public HashMap<IPos3D, String> getLayoutOfMultiBlock()
     {
         return null;
+    }
+
+    /**
+     * Checks to see if the rotation is blocked.
+     *
+     * @param newRotation - rotation to check
+     * @return true if any block in the multi block map is not air.
+     */
+    protected boolean isRotationBlocked(ForgeDirection newRotation)
+    {
+        for (IPos3D p : getLayoutOfMultiBlock().keySet())
+        {
+            Pos pos = this.toPos().add(p);
+            Block block = world().getBlock((int) pos.x(), (int) pos.y(), (int) pos.z());
+            if (!block.isAir(world(), (int) pos.x(), (int) pos.y(), (int) pos.z()))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

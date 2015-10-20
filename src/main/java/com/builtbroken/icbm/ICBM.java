@@ -1,8 +1,5 @@
 package com.builtbroken.icbm;
 
-import com.builtbroken.icbm.content.crafting.parts.MissileCraftingParts;
-import com.builtbroken.icbm.content.crafting.parts.ItemMissileParts;
-import com.builtbroken.icbm.content.debug.BlockExplosiveMarker;
 import com.builtbroken.icbm.content.blast.BlastEndoThermic;
 import com.builtbroken.icbm.content.blast.BlastExoThermic;
 import com.builtbroken.icbm.content.blast.entity.BlastSnowman;
@@ -12,10 +9,12 @@ import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
 import com.builtbroken.icbm.content.crafting.missile.engine.ItemEngineModules;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
-import com.builtbroken.icbm.content.crafting.station.TileSmallMissileWorkstation;
+import com.builtbroken.icbm.content.crafting.parts.ItemMissileParts;
+import com.builtbroken.icbm.content.crafting.parts.MissileCraftingParts;
+import com.builtbroken.icbm.content.debug.BlockExplosiveMarker;
+import com.builtbroken.icbm.content.debug.TileRotationTest;
 import com.builtbroken.icbm.content.display.TileMissile;
 import com.builtbroken.icbm.content.display.TileMissileDisplay;
-import com.builtbroken.icbm.content.debug.TileRotationTest;
 import com.builtbroken.icbm.content.launcher.controller.TileController;
 import com.builtbroken.icbm.content.launcher.items.ItemGPSFlag;
 import com.builtbroken.icbm.content.launcher.items.ItemLinkTool;
@@ -170,7 +169,7 @@ public final class ICBM extends AbstractMod
         blockMissileDisplay = manager.newBlock(TileMissileDisplay.class);
         blockSmallLauncher = manager.newBlock(TileSmallLauncher.class);
         blockSmallSilo = manager.newBlock(TileSmallSilo.class);
-        blockMissileWorkstation = manager.newBlock(TileSmallMissileWorkstation.class);
+        //Missile workstation is loaded in the proxy
         blockSiloController = manager.newBlock("SiloController", TileController.class);
 
         // Decor Blocks

@@ -2,7 +2,6 @@ package com.builtbroken.icbm.content.crafting.station;
 
 import com.builtbroken.icbm.api.IModuleItem;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
-import com.builtbroken.icbm.content.Assets;
 import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
@@ -11,29 +10,23 @@ import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
 import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadSmall;
 import com.builtbroken.jlib.data.vector.IPos3D;
-import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.api.tile.IRotatable;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
-import com.builtbroken.mc.core.network.packet.PacketType;
+import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
+import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.multiblock.EnumMultiblock;
 import com.builtbroken.mc.prefab.tile.multiblock.MultiBlockHelper;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import io.netty.buffer.ByteBuf;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
-import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.common.util.ForgeDirection;
-import org.lwjgl.opengl.GL11;
 
 import java.util.HashMap;
 
@@ -41,19 +34,16 @@ import java.util.HashMap;
  * Workstation for the small missile
  * Created by DarkCow on 3/12/2015.
  */
-public class TileSmallMissileWorkstation extends TileAbstractWorkstation implements IPacketIDReceiver, IRotatable, ISimpleItemRenderer
+public class TileSmallMissileWorkstation extends TileAbstractWorkstation implements IPacketIDReceiver, IRotatable
 {
     //Static values
     public static final int INPUT_SLOT = 0;
     public static final int WARHEAD_SLOT = 1;
     public static final int ENGINE_SLOT = 2;
     public static final int GUIDANCE_SLOT = 3;
-    public static final int OUTPUT_SLOT = 4;
 
     public static final int[] INPUTS = new int[]{INPUT_SLOT, WARHEAD_SLOT, ENGINE_SLOT, GUIDANCE_SLOT};
-    public static final int[] OUTPUTS = new int[]{OUTPUT_SLOT};
-
-    public static final int MAX_PROGRESS = 200;
+    public static final int[] OUTPUTS = new int[]{INPUT_SLOT};
 
     /** Multi-block set for up-down row */
     public static HashMap<IPos3D, String> upDownMap;
@@ -79,10 +69,6 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     }
 
     //Machine vars
-    protected boolean automated = false;
-    protected boolean assemble = true;
-    protected boolean enforce_complete = false;
-    protected int progress = 0;
     protected ForgeDirection rotation = ForgeDirection.NORTH;
     protected ForgeDirection connectedBlockSide = ForgeDirection.UP;
 
@@ -98,11 +84,16 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     }
 
     @Override
+    public Tile newTile()
+    {
+        return new TileSmallMissileWorkstation();
+    }
+
+    @Override
     public void firstTick()
     {
         super.firstTick();
         this.connectedBlockSide = ForgeDirection.getOrientation(world().getBlockMetadata(xi(), yi(), zi()));
-        System.out.println("First Tick");
         MultiBlockHelper.buildMultiBlock(world(), this, true, true);
     }
 
@@ -111,68 +102,66 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     {
         super.update();
         //TODO add progress timer for manual building as well
-        if (automated)
+        //TODO re-add automation
+
+        //Eject items if not missile is in the slot
+        if (getMissileItem() == null && ticks % 5 == 0)
         {
-            if (getMissileItem() != null && getStackInSlot(OUTPUT_SLOT) == null && getMissileItem().getItem() instanceof IModularMissileItem)
-            {
-                if (progress++ >= MAX_PROGRESS && assemble() == "")
-                {
-                    progress = 0;
-                }
-            }
+            ejectItems();
         }
     }
+
+    /**
+     * Called to eject crafting items
+     */
+    protected void ejectItems()
+    {
+        for (int i = 1; i <= 3; i++)
+        {
+            InventoryUtility.dropItemStack(toLocation(), getStackInSlot(i));
+            setInventorySlotContents(i, null);
+        }
+    }
+
 
     // Adds all components to the missile and sends it to the output slot
     public String assemble()
     {
-        if (getStackInSlot(OUTPUT_SLOT) == null)
+        ItemStack missile_stack = getMissileItem();
+        if (missile_stack == null)
+            return "slot.input.empty";
+        if (missile_stack.getItem() instanceof IModularMissileItem)
         {
-            ItemStack missile_stack = getMissileItem();
-            if (missile_stack == null)
-                return "slot.input.empty";
-            if (getStackInSlot(OUTPUT_SLOT) != null)
-                return "slot.output.full";
-            if (missile_stack.getItem() instanceof IModularMissileItem)
-            {
-                IModularMissileItem missile = (IModularMissileItem) missile_stack.getItem();
+            IModularMissileItem missile = (IModularMissileItem) missile_stack.getItem();
 
-                //Insert engine
-                if (getEngineItem() != null && missile.getEngine(missile_stack) == null)
-                    if (missile.setEngine(missile_stack, getEngineItem(), true))
-                    {
-                        missile.setEngine(missile_stack, getEngineItem(), false);
-                        setInventorySlotContents(ENGINE_SLOT, null);
-                    }
-
-                //Insert warhead
-                if (getWarheadItem() != null && missile.getWarhead(missile_stack) == null)
-                    if (missile.setWarhead(missile_stack, getWarheadItem(), true))
-                    {
-                        missile.setWarhead(missile_stack, getWarheadItem(), false);
-                        setInventorySlotContents(WARHEAD_SLOT, null);
-                    }
-
-                //Insert guidance
-                if (getGuidanceItem() != null && missile.getGuidance(missile_stack) == null)
-                    if (missile.setGuidance(missile_stack, getGuidanceItem(), true))
-                    {
-                        missile.setGuidance(missile_stack, getGuidanceItem(), false);
-                        setInventorySlotContents(GUIDANCE_SLOT, null);
-                    }
-                if (enforce_complete)
+            //Insert engine
+            if (getEngineItem() != null && missile.getEngine(missile_stack) == null)
+                if (missile.setEngine(missile_stack, getEngineItem(), true))
                 {
-                    if (missile.getEngine(missile_stack) == null || missile.getWarhead(missile_stack) == null || missile.getGuidance(missile_stack) == null)
-                        return "slot.output.incomplete";
+                    missile.setEngine(missile_stack, getEngineItem(), false);
+                    setInventorySlotContents(ENGINE_SLOT, null);
                 }
-                //Move missile to output slot even if not finished
-                setInventorySlotContents(OUTPUT_SLOT, missile_stack);
-                setInventorySlotContents(INPUT_SLOT, null);
-                return "";
-            }
-            return "slot.input.invalid";
+
+            //Insert warhead
+            if (getWarheadItem() != null && missile.getWarhead(missile_stack) == null)
+                if (missile.setWarhead(missile_stack, getWarheadItem(), true))
+                {
+                    missile.setWarhead(missile_stack, getWarheadItem(), false);
+                    setInventorySlotContents(WARHEAD_SLOT, null);
+                }
+
+            //Insert guidance
+            if (getGuidanceItem() != null && missile.getGuidance(missile_stack) == null)
+                if (missile.setGuidance(missile_stack, getGuidanceItem(), true))
+                {
+                    missile.setGuidance(missile_stack, getGuidanceItem(), false);
+                    setInventorySlotContents(GUIDANCE_SLOT, null);
+                }
+            //Move missile to output slot even if not finished
+            setInventorySlotContents(INPUT_SLOT, missile_stack);
+            return "";
         }
-        return "slot.output.full";
+        return "slot.input.invalid";
     }
 
     /**
@@ -183,6 +172,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     public String disassemble()
     {
         ItemStack missile_stack = getMissileItem();
+        ejectItems();
         if (missile_stack != null && missile_stack.getItem() instanceof IModularMissileItem)
         {
             IModularMissileItem missile = (IModularMissileItem) missile_stack.getItem();
@@ -194,8 +184,6 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                 return "slot.warhead.full";
             if (missile.getGuidance(missile_stack) != null && getGuidanceItem() != null)
                 return "slot.guidance.full";
-            if (getStackInSlot(OUTPUT_SLOT) != null)
-                return "slot.output.full";
 
             //Remove items from missile
             if (getWarheadItem() == null)
@@ -214,8 +202,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                 return "missile.guidance.error.set";
 
             //Move missile to output slot
-            setInventorySlotContents(OUTPUT_SLOT, missile_stack);
-            setInventorySlotContents(INPUT_SLOT, null);
+            setInventorySlotContents(INPUT_SLOT, missile_stack);
             return "";
         }
         return "slot.input.invalid";
@@ -242,44 +229,13 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     }
 
     @Override
-    public boolean read(ByteBuf buf, int id, EntityPlayer player, PacketType type)
-    {
-        if (isClient())
-        {
-            if (id == 0)
-            {
-                this.automated = buf.readBoolean();
-                this.enforce_complete = buf.readBoolean();
-                return true;
-            }
-            else if (id == 5)
-            {
-                this.rotation = ForgeDirection.getOrientation(Math.min(0, Math.max(buf.readByte(), 5)));
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
     public PacketTile getDescPacket()
     {
-        return new PacketTile(this, 0, automated, enforce_complete);
-    }
-
-    public void setAutomated(boolean b)
-    {
-        this.automated = b;
-    }
-
-    public void setEnforceComplete(boolean b)
-    {
-        this.enforce_complete = b;
-    }
-
-    public void setAssemble(boolean b)
-    {
-        this.assemble = b;
+        if (getMissileItem() != null)
+        {
+            return new PacketTile(this, 0, rotation, getMissileItem());
+        }
+        return new PacketTile(this, 0, rotation, new ItemStack(Items.apple));
     }
 
     @Override
@@ -331,7 +287,8 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
             {
                 if (addItemToSlot(player, INPUT_SLOT))
                 {
-                    player.addChatComponentMessage(new ChatComponentText("Missile added"));
+                    disassemble();
+                    player.addChatComponentMessage(new ChatComponentText("Missile added, and broken down"));
                 }
                 else if (getMissileItem() != null)
                 {
@@ -344,7 +301,9 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
             }
             else if (player.isSneaking())
             {
-                removeItemFromSlot(player, OUTPUT_SLOT);
+                assemble();
+                removeItemFromSlot(player, INPUT_SLOT);
+                player.addChatComponentMessage(new ChatComponentText("Missile remove, and assembled"));
             }
             else
             {
@@ -433,10 +392,21 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
         {
             boolean itemsMatch = InventoryUtility.stacksMatch(player.getHeldItem(), getStackInSlot(slot));
             boolean spaceInHand = player.getHeldItem() == null || player.getHeldItem().stackSize < player.getHeldItem().getItem().getItemStackLimit(player.getHeldItem());
-            if (getStackInSlot(slot) != null && (player.getHeldItem() == null || itemsMatch && spaceInHand))
+            if (getStackInSlot(slot) != null)
             {
-                player.getHeldItem().stackSize++;
-                getStackInSlot(slot).stackSize--;
+                if(player.getHeldItem() == null)
+                {
+                    player.inventory.setInventorySlotContents(player.inventory.currentItem, getStackInSlot(slot));
+                }
+                else if(itemsMatch && spaceInHand)
+                {
+                    player.getHeldItem().stackSize++;
+                    getStackInSlot(slot).stackSize--;
+                }
+                else if(!player.inventory.addItemStackToInventory(getStackInSlot(slot)))
+                {
+                    InventoryUtility.dropItemStack(new Location(player), getStackInSlot(slot));
+                }
                 if (getStackInSlot(slot).stackSize <= 0)
                 {
                     setInventorySlotContents(slot, null);
@@ -453,12 +423,13 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     {
         if (stack != null)
         {
-            if (stack.getItem() instanceof IModularMissileItem && (slot == INPUT_SLOT || slot == OUTPUT_SLOT))
+            //Missile slots
+            if (stack.getItem() instanceof IModularMissileItem && slot == INPUT_SLOT)
             {
                 Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
-                System.out.println(missile + "  " + missile.casing);
                 return missile.casing == MissileCasings.SMALL;
             }
+            //Modules slots
             else if (stack.getItem() instanceof IModuleItem)
             {
                 AbstractModule module = ((IModuleItem) stack.getItem()).getModule(stack);
@@ -486,6 +457,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
         {
             if (player.isSneaking())
             {
+                //Simple rotation so not extra checks are needed
                 player.addChatComponentMessage(new ChatComponentText("Inverted station rotation"));
                 setDirection(getDirection().getOpposite());
             }
@@ -548,261 +520,35 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     }
 
     @Override
-    public void setDirection(ForgeDirection direction)
+    public void setDirection(ForgeDirection newDir)
     {
         //Rotation can't equal the connected side or it's opposite as this will place it into a wall
-        if (rotation != connectedBlockSide && rotation != connectedBlockSide.getOpposite())
+        if (rotation != newDir && newDir != connectedBlockSide && newDir != connectedBlockSide.getOpposite())
         {
-            //Store old rotation in case we need to revert changes
-            ForgeDirection prev = rotation;
-            //Set rotation
-            rotation = direction;
-
             //Check if the rotation was valid
-            if (isServer() && prev != direction)
+            if (isServer())
             {
                 //Only run placement and structure checks if rotated by 90 degrees
-                if (prev != rotation.getOpposite())
+                if (rotation != rotation.getOpposite())
                 {
-                    if (isRotationBlocked(rotation))
+                    if (!isRotationBlocked(rotation))
                     {
-                        this.rotation = prev;
-                        return; //Return to avoid updating mutli block
+
+                        //Clear and rebuild multi block
+                        rotating = true;
+                        breakDownStructure(false);
+                        //Change rotation after breaking down the structure and before making the new structure
+                        rotation = newDir;
+                        MultiBlockHelper.buildMultiBlock(world(), this, true, true);
+                        rotating = false;
                     }
-
-                    //Clear and rebuild multi block
-                    rotating = true;
-                    breakDownStructure(false);
-                    MultiBlockHelper.buildMultiBlock(world(), this, true, true);
-                    rotating = false;
                 }
-                sendPacket(new PacketTile(this, 5, (byte) connectedBlockSide.ordinal()));
+                else
+                {
+                    rotation = newDir;
+                }
+                sendPacket(new PacketTile(this, 5, (byte) rotation.ordinal()));
             }
-        }
-    }
-
-    protected boolean isRotationBlocked(ForgeDirection newRotation)
-    {
-        for (IPos3D p : getLayoutOfMultiBlock().keySet())
-        {
-            Pos pos = this.toPos().add(p);
-            Block block = world().getBlock((int) pos.x(), (int) pos.y(), (int) pos.z());
-            if (!block.isAir(world(), (int) pos.x(), (int) pos.y(), (int) pos.z()))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-    @Override
-    public void renderInventoryItem(IItemRenderer.ItemRenderType type, ItemStack itemStack, Object... data)
-    {
-        GL11.glTranslatef(-0.5f, -0.5f, -0.5f);
-        GL11.glScaled(.7f, .7f, .7f);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
-        Assets.SMALL_MISSILE_STATION_MODEL.renderAll();
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void renderDynamic(Pos pos, float frame, int pass)
-    {
-        //Render launcher
-        GL11.glPushMatrix();
-        GL11.glTranslatef(pos.xf() + 0.53f, pos.yf(), pos.zf() + 0.5f);
-        GL11.glRotated(90, 0, 1, 0);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
-
-        //Keep in mind the directions are of the facing block
-        switch (connectedBlockSide)
-        {
-            case UP:
-                if (getDirection() == ForgeDirection.WEST || getDirection() == ForgeDirection.EAST)
-                {
-                    GL11.glRotated(-90, 0, 1, 0);
-                    //x y z
-                    GL11.glTranslatef(-0.0255f, 0f, 0.033f);
-                }
-                break;
-            case DOWN:
-                GL11.glRotated(180, 1, 0, 0);
-                // z y x
-                GL11.glTranslatef(0.005f, -1f, 0.055f);
-                if (getDirection() == ForgeDirection.WEST || getDirection() == ForgeDirection.EAST)
-                {
-                    GL11.glRotated(-90, 0, 1, 0);
-                    //x y z
-                    GL11.glTranslatef(-0.0255f, 0f, 0.033f);
-                }
-                break;
-            case EAST:
-                GL11.glRotated(90, 1, 0, 0);
-                // z x y
-                GL11.glTranslatef(0.007f, -0.536f, -0.475f);
-                if (getDirection() == ForgeDirection.UP || getDirection() == ForgeDirection.DOWN)
-                {
-                    GL11.glRotated(-90, 0, 1, 0);
-                    // y x z
-                    GL11.glTranslatef(-0.02f, 0f, 0.038f);
-                }
-                break;
-            case WEST:
-                GL11.glRotated(-90, 1, 0, 0);
-                // z x y
-                GL11.glTranslatef(0.015f, -0.47f, 0.52f);
-                if (getDirection() == ForgeDirection.UP || getDirection() == ForgeDirection.DOWN)
-                {
-                    GL11.glRotated(-90, 0, 1, 0);
-                    // y x z
-                    GL11.glTranslatef(-0.02f, -0.01f, 0.05f);
-                }
-                break;
-            case NORTH:
-                //GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() - 0.1f, pos.zf() + 0.5f);
-                GL11.glRotated(90, 0, 1, 0);
-                GL11.glRotated(90, 1, 0, 0);
-                //GL11.glRotated(1.1, 1, 0, 0);
-                // y x z
-                GL11.glTranslatef(0.0355f, -0.5f, -0.47f);
-                if (getDirection() == ForgeDirection.UP || getDirection() == ForgeDirection.DOWN)
-                {
-                    GL11.glRotated(-90, 0, 1, 0);
-                    // y z x
-                    GL11.glTranslatef(-0.02f, -0.01f, 0.04f);
-                }
-                break;
-            case SOUTH:
-                GL11.glRotated(90, 0, 1, 0);
-                GL11.glRotated(-90, 1, 0, 0);
-                // x z y
-                GL11.glTranslatef(0.0355f, -0.5f, 0.53f);
-                if (getDirection() == ForgeDirection.UP || getDirection() == ForgeDirection.DOWN)
-                {
-                    GL11.glRotated(-90, 0, 1, 0);
-                    // y z x
-                    GL11.glTranslatef(-0.02f, -0.01f, 0.04f);
-                }
-                break;
-
-        }
-        Assets.SMALL_MISSILE_STATION_MODEL.renderAll();
-        GL11.glPopMatrix();
-
-        //render missile
-        GL11.glPushMatrix();
-        renderMissile(pos);
-        GL11.glPopMatrix();
-    }
-
-    /**
-     * Handles rendering of the missile
-     *
-     * @param pos - offset for render
-     */
-    private void renderMissile(Pos pos)
-    {
-        float scale = 0.1f;
-        GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() - 0.4f, pos.zf() + 0.5f);
-        switch (connectedBlockSide)
-        {
-            case UP:
-            case DOWN:
-                handleMissileRotationUD();
-                break;
-            case EAST:
-            case WEST:
-                handleMissileRotationEW();
-                break;
-            case SOUTH:
-            case NORTH:
-                handleMissileRotationNS();
-                break;
-        }
-        GL11.glScaled(scale, scale, scale);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
-        Assets.SMALL_MISSILE_MODEL_2.renderAllExcept("Cube_Cube.002");
-    }
-
-    private void handleMissileRotationUD()
-    {
-        switch (getDirection())
-        {
-            case EAST:
-                GL11.glRotated(-90, 0, 0, 1);
-                // y x z
-                GL11.glTranslatef(-0.9f, -0.9f, 0f);
-                break;
-            case WEST:
-                GL11.glRotated(90, 0, 0, 1);
-                // y x z
-                GL11.glTranslatef(0.9f, -0.9f, 0f);
-                break;
-            case NORTH:
-                GL11.glRotated(90, 1, 0, 0);
-                // x z y
-                GL11.glTranslatef(0f, -0.9f, -0.9f);
-                break;
-            case SOUTH:
-                GL11.glRotated(-90, 1, 0, 0);
-                // x z y
-                GL11.glTranslatef(0f, -0.9f, 0.9f);
-                break;
-        }
-    }
-
-    /**
-     * Handles rotation for east and west
-     */
-    private void handleMissileRotationEW()
-    {
-        switch (getDirection())
-        {
-            //UP is already done by default
-            //EAST and WEST are invalid rotations
-            case DOWN:
-                GL11.glRotated(180, 0, 0, 1);
-                // ? -y ?
-                GL11.glTranslatef(0f, -1.8f, 0f);
-                break;
-            case NORTH:
-                GL11.glRotated(-90, 1, 0, 0);
-                // x -z y
-                GL11.glTranslatef(0f, -0.9f, 0.9f);
-                break;
-            case SOUTH:
-                GL11.glRotated(90, 1, 0, 0);
-                // x z y
-                GL11.glTranslatef(0f, -0.9f, -0.9f);
-                break;
-        }
-    }
-
-    /**
-     * Handles rotation for north and south
-     */
-    private void handleMissileRotationNS()
-    {
-        switch (getDirection())
-        {
-            //UP is already done by default
-            //NORTH and SOUTH are invalid rotations
-            case DOWN:
-                GL11.glRotated(180, 0, 0, 1);
-                // ? -y ?
-                GL11.glTranslatef(0f, -1.8f, 0f);
-                break;
-            case EAST:
-                GL11.glRotated(-90, 0, 0, 1);
-                //-y x z
-                GL11.glTranslatef(-0.9f, -0.9f, 0f);
-                break;
-            case WEST:
-                GL11.glRotated(90, 0, 0, 1);
-                //y -x z
-                GL11.glTranslatef(0.9f, -0.9f, 0f);
-                break;
         }
     }
 }
