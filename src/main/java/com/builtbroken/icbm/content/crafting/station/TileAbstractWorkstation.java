@@ -45,7 +45,7 @@ public class TileAbstractWorkstation extends TileModuleMachine implements IMulti
     @Override
     public boolean onMultiTileBroken(IMultiTile tileMulti, Object source, boolean harvest)
     {
-        if (!_destroyingStructure && tileMulti instanceof TileEntity)
+        if (!_destroyingStructure && !rotating && tileMulti instanceof TileEntity)
         {
             Pos pos = new Pos((TileEntity) tileMulti).sub(new Pos(this));
             if (getLayoutOfMultiBlock().containsKey(pos))
@@ -57,7 +57,7 @@ public class TileAbstractWorkstation extends TileModuleMachine implements IMulti
         return false;
     }
 
-    private void breakDownStructure(boolean b)
+    protected void breakDownStructure(boolean b)
     {
         if (!_destroyingStructure)
         {

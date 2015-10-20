@@ -30,6 +30,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
@@ -328,7 +329,18 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
             //Find slot to place or removes items from
             if (getMissileItem() == null)
             {
-                addItemToSlot(player, INPUT_SLOT);
+                if (addItemToSlot(player, INPUT_SLOT))
+                {
+                    player.addChatComponentMessage(new ChatComponentText("Missile added"));
+                }
+                else if (getMissileItem() != null)
+                {
+                    player.addChatComponentMessage(new ChatComponentText("Slot already filled"));
+                }
+                else
+                {
+                    player.addChatComponentMessage(new ChatComponentText("Invalid input"));
+                }
             }
             else if (player.isSneaking())
             {
@@ -336,7 +348,14 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
             }
             else
             {
-                handleSlot(player, GUIDANCE_SLOT);
+                if (handleSlot(player, GUIDANCE_SLOT))
+                {
+
+                }
+                else
+                {
+                    player.addChatComponentMessage(new ChatComponentText("Invalid input"));
+                }
             }
         }
         return true;
@@ -379,33 +398,31 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
         return true;
     }
 
-    private void handleSlot(EntityPlayer player, int slot)
+    private boolean handleSlot(EntityPlayer player, int slot)
     {
         if (!addItemToSlot(player, slot))
         {
-            removeItemFromSlot(player, slot);
+            return removeItemFromSlot(player, slot);
         }
+        return true;
     }
 
     private boolean addItemToSlot(EntityPlayer player, int slot)
     {
-        if (slot >= 0 && slot < getSizeInventory())
+        if (getStackInSlot(slot) == null && isItemValidForSlot(slot, player.getHeldItem()))
         {
-            if (getStackInSlot(slot) == null && isItemValidForSlot(slot, player.getHeldItem()))
+            setInventorySlotContents(slot, player.getHeldItem().copy());
+            getStackInSlot(slot).stackSize = 1;
+            if (!player.capabilities.isCreativeMode)
             {
-                setInventorySlotContents(slot, player.getHeldItem().copy());
-                getStackInSlot(slot).stackSize = 1;
-                if (!player.capabilities.isCreativeMode)
+                player.getHeldItem().stackSize--;
+                if (player.getHeldItem().stackSize <= 0)
                 {
-                    player.getHeldItem().stackSize--;
-                    if (player.getHeldItem().stackSize <= 0)
-                    {
-                        player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
-                    }
+                    player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
                 }
-                player.inventoryContainer.detectAndSendChanges();
-                return true;
             }
+            player.inventoryContainer.detectAndSendChanges();
+            return true;
         }
         return false;
     }
@@ -439,6 +456,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
             if (stack.getItem() instanceof IModularMissileItem && (slot == INPUT_SLOT || slot == OUTPUT_SLOT))
             {
                 Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
+                System.out.println(missile + "  " + missile.casing);
                 return missile.casing == MissileCasings.SMALL;
             }
             else if (stack.getItem() instanceof IModuleItem)
@@ -468,42 +486,55 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
         {
             if (player.isSneaking())
             {
+                player.addChatComponentMessage(new ChatComponentText("Inverted station rotation"));
                 setDirection(getDirection().getOpposite());
             }
             else
             {
+                ForgeDirection newDir = ForgeDirection.UNKNOWN;
                 switch (this.connectedBlockSide)
                 {
                     case UP:
                     case DOWN:
                         if (getDirection() == ForgeDirection.NORTH)
-                            setDirection(ForgeDirection.EAST);
+                            newDir = ForgeDirection.EAST;
                         else if (getDirection() == ForgeDirection.SOUTH)
-                            setDirection(ForgeDirection.WEST);
+                            newDir = ForgeDirection.WEST;
                         else if (getDirection() == ForgeDirection.EAST)
-                            setDirection(ForgeDirection.SOUTH);
+                            newDir = ForgeDirection.SOUTH;
                         else
-                            setDirection(ForgeDirection.NORTH);
+                            newDir = ForgeDirection.NORTH;
+                        break;
                     case EAST:
                     case WEST:
                         if (getDirection() == ForgeDirection.NORTH)
-                            setDirection(ForgeDirection.DOWN);
+                            newDir = ForgeDirection.DOWN;
                         else if (getDirection() == ForgeDirection.SOUTH)
-                            setDirection(ForgeDirection.UP);
+                            newDir = ForgeDirection.UP;
                         else if (getDirection() == ForgeDirection.DOWN)
-                            setDirection(ForgeDirection.SOUTH);
+                            newDir = ForgeDirection.SOUTH;
                         else
-                            setDirection(ForgeDirection.UP);
+                            newDir = ForgeDirection.NORTH;
+                        break;
                     case NORTH:
                     case SOUTH:
                         if (getDirection() == ForgeDirection.EAST)
-                            setDirection(ForgeDirection.DOWN);
+                            newDir = ForgeDirection.DOWN;
                         else if (getDirection() == ForgeDirection.WEST)
-                            setDirection(ForgeDirection.UP);
+                            newDir = ForgeDirection.UP;
                         else if (getDirection() == ForgeDirection.DOWN)
-                            setDirection(ForgeDirection.WEST);
+                            newDir = ForgeDirection.WEST;
                         else
-                            setDirection(ForgeDirection.UP);
+                            newDir = ForgeDirection.EAST;
+                        break;
+                }
+                if (newDir != ForgeDirection.UNKNOWN && isRotationBlocked(newDir))
+                {
+                    player.addChatComponentMessage(new ChatComponentText("Rotated to face " + newDir));
+                }
+                else
+                {
+                    player.addChatComponentMessage(new ChatComponentText("Can't rotate " + newDir + " as there are blocks in the way"));
                 }
             }
         }
@@ -519,58 +550,51 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     @Override
     public void setDirection(ForgeDirection direction)
     {
-        //Get the new rotation, and limit it to valid rotations
-        ForgeDirection prev = direction;
-        switch (connectedBlockSide)
+        //Rotation can't equal the connected side or it's opposite as this will place it into a wall
+        if (rotation != connectedBlockSide && rotation != connectedBlockSide.getOpposite())
         {
-            case UP:
-            case DOWN:
-                if (direction != ForgeDirection.DOWN && direction != ForgeDirection.UP)
-                {
-                    rotation = direction;
-                }
-                break;
-            case EAST:
-            case WEST:
-                if (direction != ForgeDirection.EAST && direction != ForgeDirection.WEST)
-                {
-                    rotation = direction;
-                }
-                break;
-            case NORTH:
-            case SOUTH:
-                if (direction != ForgeDirection.NORTH && direction != ForgeDirection.SOUTH)
-                {
-                    rotation = direction;
-                }
-                break;
-        }
+            //Store old rotation in case we need to revert changes
+            ForgeDirection prev = rotation;
+            //Set rotation
+            rotation = direction;
 
-        //Check if the rotation was valid
-        if (isServer() && prev != direction)
-        {
-            //Rotate 90 degrees meaning we need a structure update
-            if (prev != rotation.getOpposite())
+            //Check if the rotation was valid
+            if (isServer() && prev != direction)
             {
-                //TODO check if it can rotate without clipping blocks
-                for (IPos3D pos : getLayoutOfMultiBlock().keySet())
+                //Only run placement and structure checks if rotated by 90 degrees
+                if (prev != rotation.getOpposite())
                 {
-                    Block block = world().getBlock((int) pos.x(), (int) pos.y(), (int) pos.z());
-                    if (!block.isAir(world(), (int) pos.x(), (int) pos.y(), (int) pos.z()))
+                    if (isRotationBlocked(rotation))
                     {
                         this.rotation = prev;
+                        return; //Return to avoid updating mutli block
                     }
+
+                    //Clear and rebuild multi block
+                    rotating = true;
+                    breakDownStructure(false);
+                    MultiBlockHelper.buildMultiBlock(world(), this, true, true);
+                    rotating = false;
                 }
+                sendPacket(new PacketTile(this, 5, (byte) connectedBlockSide.ordinal()));
             }
-
-        }
-
-        //Checked again as the above code can change the data
-        if (isServer() && prev != direction)
-        {
-            sendPacket(new PacketTile(this, 5, (byte) connectedBlockSide.ordinal()));
         }
     }
+
+    protected boolean isRotationBlocked(ForgeDirection newRotation)
+    {
+        for (IPos3D p : getLayoutOfMultiBlock().keySet())
+        {
+            Pos pos = this.toPos().add(p);
+            Block block = world().getBlock((int) pos.x(), (int) pos.y(), (int) pos.z());
+            if (!block.isAir(world(), (int) pos.x(), (int) pos.y(), (int) pos.z()))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     @Override
     public void renderInventoryItem(IItemRenderer.ItemRenderType type, ItemStack itemStack, Object... data)
@@ -594,7 +618,6 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
         //Keep in mind the directions are of the facing block
         switch (connectedBlockSide)
         {
-
             case UP:
                 if (getDirection() == ForgeDirection.WEST || getDirection() == ForgeDirection.EAST)
                 {
@@ -629,7 +652,6 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                 GL11.glRotated(-90, 1, 0, 0);
                 // z x y
                 GL11.glTranslatef(0.015f, -0.47f, 0.52f);
-                this.rotation = ForgeDirection.EAST;
                 if (getDirection() == ForgeDirection.UP || getDirection() == ForgeDirection.DOWN)
                 {
                     GL11.glRotated(-90, 0, 1, 0);
@@ -668,15 +690,119 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
         Assets.SMALL_MISSILE_STATION_MODEL.renderAll();
         GL11.glPopMatrix();
 
-        //Render missile
-        if (getMissileItem() != null)
+        //render missile
+        GL11.glPushMatrix();
+        renderMissile(pos);
+        GL11.glPopMatrix();
+    }
+
+    /**
+     * Handles rendering of the missile
+     *
+     * @param pos - offset for render
+     */
+    private void renderMissile(Pos pos)
+    {
+        float scale = 0.1f;
+        GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() - 0.4f, pos.zf() + 0.5f);
+        switch (connectedBlockSide)
         {
-            GL11.glPushMatrix();
-            GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.5f, pos.zf() + 0.5f);
-            GL11.glScaled(.0015625f, .0015625f, .0015625f);
-            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_MISSILE_TEXTURE);
-            Assets.SMALL_MISSILE_MODEL.renderAll();
-            GL11.glPopMatrix();
+            case UP:
+            case DOWN:
+                handleMissileRotationUD();
+                break;
+            case EAST:
+            case WEST:
+                handleMissileRotationEW();
+                break;
+            case SOUTH:
+            case NORTH:
+                handleMissileRotationNS();
+                break;
+        }
+        GL11.glScaled(scale, scale, scale);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
+        Assets.SMALL_MISSILE_MODEL_2.renderAllExcept("Cube_Cube.002");
+    }
+
+    private void handleMissileRotationUD()
+    {
+        switch (getDirection())
+        {
+            case EAST:
+                GL11.glRotated(-90, 0, 0, 1);
+                // y x z
+                GL11.glTranslatef(-0.9f, -0.9f, 0f);
+                break;
+            case WEST:
+                GL11.glRotated(90, 0, 0, 1);
+                // y x z
+                GL11.glTranslatef(0.9f, -0.9f, 0f);
+                break;
+            case NORTH:
+                GL11.glRotated(90, 1, 0, 0);
+                // x z y
+                GL11.glTranslatef(0f, -0.9f, -0.9f);
+                break;
+            case SOUTH:
+                GL11.glRotated(-90, 1, 0, 0);
+                // x z y
+                GL11.glTranslatef(0f, -0.9f, 0.9f);
+                break;
+        }
+    }
+
+    /**
+     * Handles rotation for east and west
+     */
+    private void handleMissileRotationEW()
+    {
+        switch (getDirection())
+        {
+            //UP is already done by default
+            //EAST and WEST are invalid rotations
+            case DOWN:
+                GL11.glRotated(180, 0, 0, 1);
+                // ? -y ?
+                GL11.glTranslatef(0f, -1.8f, 0f);
+                break;
+            case NORTH:
+                GL11.glRotated(-90, 1, 0, 0);
+                // x -z y
+                GL11.glTranslatef(0f, -0.9f, 0.9f);
+                break;
+            case SOUTH:
+                GL11.glRotated(90, 1, 0, 0);
+                // x z y
+                GL11.glTranslatef(0f, -0.9f, -0.9f);
+                break;
+        }
+    }
+
+    /**
+     * Handles rotation for north and south
+     */
+    private void handleMissileRotationNS()
+    {
+        switch (getDirection())
+        {
+            //UP is already done by default
+            //NORTH and SOUTH are invalid rotations
+            case DOWN:
+                GL11.glRotated(180, 0, 0, 1);
+                // ? -y ?
+                GL11.glTranslatef(0f, -1.8f, 0f);
+                break;
+            case EAST:
+                GL11.glRotated(-90, 0, 0, 1);
+                //-y x z
+                GL11.glTranslatef(-0.9f, -0.9f, 0f);
+                break;
+            case WEST:
+                GL11.glRotated(90, 0, 0, 1);
+                //y -x z
+                GL11.glTranslatef(0.9f, -0.9f, 0f);
+                break;
         }
     }
 }

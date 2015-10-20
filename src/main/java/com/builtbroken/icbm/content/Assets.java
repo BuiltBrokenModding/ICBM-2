@@ -20,6 +20,7 @@ public final class Assets
     //Models
     public static final IModelCustom MICRO_MISSILE_MODEL = model("Rocket_Micro.obj");
     public static final IModelCustom SMALL_MISSILE_MODEL = model("Missile_Small.obj");
+    public static final IModelCustom SMALL_MISSILE_MODEL_2 = model("Missile_Small_workstation.obj");
     public static final IModelCustom CLASSIC_MISSILE_MODEL = model("missile_conventional.tcn");
     public static final IModelCustom PORTABLE_LAUNCHER_MODEL = model("small_launcher.tcn");
     public static final IModelCustom RPG_MODEL = model("rocketLauncher.tcn");
