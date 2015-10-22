@@ -487,54 +487,70 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
             }
             else
             {
-                ForgeDirection newDir = ForgeDirection.UNKNOWN;
-                switch (this.connectedBlockSide)
+                ForgeDirection newDir = getNextRotation();
+                if (newDir == ForgeDirection.UNKNOWN)
                 {
-                    case UP:
-                    case DOWN:
-                        if (getDirection() == ForgeDirection.NORTH)
-                            newDir = ForgeDirection.EAST;
-                        else if (getDirection() == ForgeDirection.SOUTH)
-                            newDir = ForgeDirection.WEST;
-                        else if (getDirection() == ForgeDirection.EAST)
-                            newDir = ForgeDirection.SOUTH;
-                        else
-                            newDir = ForgeDirection.NORTH;
-                        break;
-                    case EAST:
-                    case WEST:
-                        if (getDirection() == ForgeDirection.NORTH)
-                            newDir = ForgeDirection.DOWN;
-                        else if (getDirection() == ForgeDirection.SOUTH)
-                            newDir = ForgeDirection.UP;
-                        else if (getDirection() == ForgeDirection.DOWN)
-                            newDir = ForgeDirection.SOUTH;
-                        else
-                            newDir = ForgeDirection.NORTH;
-                        break;
-                    case NORTH:
-                    case SOUTH:
-                        if (getDirection() == ForgeDirection.EAST)
-                            newDir = ForgeDirection.DOWN;
-                        else if (getDirection() == ForgeDirection.WEST)
-                            newDir = ForgeDirection.UP;
-                        else if (getDirection() == ForgeDirection.DOWN)
-                            newDir = ForgeDirection.WEST;
-                        else
-                            newDir = ForgeDirection.EAST;
-                        break;
+                    player.addChatComponentMessage(new ChatComponentText("Error connect side is not set, remove and replace block"));
                 }
-                if (newDir != ForgeDirection.UNKNOWN && isRotationBlocked(newDir))
+                else if (!isRotationBlocked(newDir))
                 {
-                    player.addChatComponentMessage(new ChatComponentText("Rotated to face " + newDir));
+                    setDirection(newDir);
+                    player.addChatComponentMessage(new ChatComponentText("Rotated to face set to " + getDirection()));
                 }
                 else
                 {
-                    player.addChatComponentMessage(new ChatComponentText("Can't rotate " + newDir + " as there are blocks in the way"));
+                    player.addChatComponentMessage(new ChatComponentText("Can't rotate from " + getDirection() + " to " + newDir + " as there are blocks in the way"));
                 }
             }
         }
         return true;
+    }
+
+    /**
+     * Gets the next rotation around the connect side
+     *
+     * @return next rotation, or UNKNOWN if invalid
+     */
+    public ForgeDirection getNextRotation()
+    {
+        ForgeDirection newDir = ForgeDirection.UNKNOWN;
+        switch (this.connectedBlockSide)
+        {
+            case UP:
+            case DOWN:
+                if (getDirection() == ForgeDirection.NORTH)
+                    newDir = ForgeDirection.EAST;
+                else if (getDirection() == ForgeDirection.EAST)
+                    newDir = ForgeDirection.SOUTH;
+                else if (getDirection() == ForgeDirection.SOUTH)
+                    newDir = ForgeDirection.WEST;
+                else
+                    newDir = ForgeDirection.NORTH;
+                break;
+            case EAST:
+            case WEST:
+                if (getDirection() == ForgeDirection.NORTH)
+                    newDir = ForgeDirection.DOWN;
+                else if (getDirection() == ForgeDirection.DOWN)
+                    newDir = ForgeDirection.SOUTH;
+                else if (getDirection() == ForgeDirection.SOUTH)
+                    newDir = ForgeDirection.UP;
+                else
+                    newDir = ForgeDirection.NORTH;
+                break;
+            case NORTH:
+            case SOUTH:
+                if (getDirection() == ForgeDirection.EAST)
+                    newDir = ForgeDirection.DOWN;
+                else if (getDirection() == ForgeDirection.DOWN)
+                    newDir = ForgeDirection.WEST;
+                else if (getDirection() == ForgeDirection.WEST)
+                    newDir = ForgeDirection.UP;
+                else
+                    newDir = ForgeDirection.EAST;
+                break;
+        }
+        return newDir;
     }
 
     @Override

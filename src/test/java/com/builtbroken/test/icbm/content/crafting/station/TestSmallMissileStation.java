@@ -6,6 +6,7 @@ import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.station.TileSmallMissileWorkstation;
 import com.builtbroken.icbm.content.missile.ItemMissile;
 import com.builtbroken.mc.core.Engine;
+import com.builtbroken.mc.core.content.tool.ItemScrewdriver;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
@@ -63,18 +64,18 @@ public class TestSmallMissileStation extends AbstractTileTest<TileSmallMissileWo
     {
         super.testCoverage();
         Method[] methods = TileSmallMissileWorkstation.class.getDeclaredMethods();
-        if (methods.length != 24)
+        if (methods.length != 25)
         {
             for (Method method : methods)
             {
                 System.out.println(method.getName());
                 //Ignored as bamboo seems to add an extra method for code coverage
-                if (method.getName().contains("jacocoInit") && methods.length == 25)
+                if (method.getName().contains("jacocoInit") && methods.length == 26)
                 {
                     return;
                 }
             }
-            fail("There are " + methods.length + " but should be 24");
+            fail("There are " + methods.length + " but should be 25");
         }
     }
 
@@ -390,6 +391,78 @@ public class TestSmallMissileStation extends AbstractTileTest<TileSmallMissileWo
     }
 
     @Test
+    public void testGetNextRotation()
+    {
+        TileSmallMissileWorkstation workstation = new TileSmallMissileWorkstation();
+
+        ////Test down
+        workstation.connectedBlockSide = ForgeDirection.DOWN;
+        workstation.rotation = ForgeDirection.NORTH;
+        assertTrue(workstation.getNextRotation() == ForgeDirection.EAST);
+        workstation.rotation = ForgeDirection.EAST;
+        assertTrue(workstation.getNextRotation() == ForgeDirection.SOUTH);
+        workstation.rotation = ForgeDirection.SOUTH;
+        assertTrue(workstation.getNextRotation() == ForgeDirection.WEST);
+        workstation.rotation = ForgeDirection.WEST;
+
+
+        ////Test up
+        workstation.connectedBlockSide = ForgeDirection.UP;
+        workstation.rotation = ForgeDirection.NORTH;
+        assertTrue(workstation.getNextRotation() == ForgeDirection.EAST);
+        workstation.rotation = ForgeDirection.EAST;
+        assertTrue(workstation.getNextRotation() == ForgeDirection.SOUTH);
+        workstation.rotation = ForgeDirection.SOUTH;
+        assertTrue(workstation.getNextRotation() == ForgeDirection.WEST);
+        workstation.rotation = ForgeDirection.WEST;
+        assertTrue(workstation.getNextRotation() == ForgeDirection.NORTH);
+
+        ////Test east
+        workstation.connectedBlockSide = ForgeDirection.EAST;
+        workstation.rotation = ForgeDirection.NORTH;
+        assertTrue(workstation.getNextRotation() == ForgeDirection.DOWN);
+        workstation.rotation = ForgeDirection.DOWN;
+        assertTrue(workstation.getNextRotation() == ForgeDirection.SOUTH);
+        workstation.rotation = ForgeDirection.SOUTH;
+        assertTrue(workstation.getNextRotation() == ForgeDirection.UP);
+        workstation.rotation = ForgeDirection.UP;
+        assertTrue(workstation.getNextRotation() == ForgeDirection.NORTH);
+
+        ////Test west
+        workstation.connectedBlockSide = ForgeDirection.EAST;
+        workstation.rotation = ForgeDirection.NORTH;
+        assertTrue(workstation.getNextRotation() == ForgeDirection.DOWN);
+        workstation.rotation = ForgeDirection.DOWN;
+        assertTrue(workstation.getNextRotation() == ForgeDirection.SOUTH);
+        workstation.rotation = ForgeDirection.SOUTH;
+        assertTrue(workstation.getNextRotation() == ForgeDirection.UP);
+        workstation.rotation = ForgeDirection.UP;
+        assertTrue(workstation.getNextRotation() == ForgeDirection.NORTH);
+
+        ////Test north
+        workstation.connectedBlockSide = ForgeDirection.NORTH;
+        workstation.rotation = ForgeDirection.EAST;
+        assertTrue(workstation.getNextRotation() == ForgeDirection.DOWN);
+        workstation.rotation = ForgeDirection.DOWN;
+        assertTrue(workstation.getNextRotation() == ForgeDirection.WEST);
+        workstation.rotation = ForgeDirection.WEST;
+        assertTrue(workstation.getNextRotation() == ForgeDirection.UP);
+        workstation.rotation = ForgeDirection.UP;
+        assertTrue(workstation.getNextRotation() == ForgeDirection.EAST);
+
+        ////Test south
+        workstation.connectedBlockSide = ForgeDirection.SOUTH;
+        workstation.rotation = ForgeDirection.EAST;
+        assertTrue(workstation.getNextRotation() == ForgeDirection.DOWN);
+        workstation.rotation = ForgeDirection.DOWN;
+        assertTrue(workstation.getNextRotation() == ForgeDirection.WEST);
+        workstation.rotation = ForgeDirection.WEST;
+        assertTrue(workstation.getNextRotation() == ForgeDirection.UP);
+        workstation.rotation = ForgeDirection.UP;
+        assertTrue(workstation.getNextRotation() == ForgeDirection.EAST);
+    }
+
+    @Test
     public void testSetRotation()
     {
         //idea 12 test cases by isServer is not checked removing two
@@ -433,5 +506,61 @@ public class TestSmallMissileStation extends AbstractTileTest<TileSmallMissileWo
         assertFalse(tile.setDirectionDO(ForgeDirection.EAST, false));
         tile.invalidate();
         tile.rotation = ForgeDirection.NORTH;
+    }
+
+    @Test
+    public void testOnPlayerRightClickWrench()
+    {
+        //Init wrench if missing
+        if (Engine.itemWrench == null)
+        {
+            Engine.itemWrench = new ItemScrewdriver();
+            GameRegistry.registerItem(Engine.itemWrench, "ve.screwdriver");
+        }
+
+        //Set player held item to wrench
+        player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(Engine.itemWrench));
+
+        for (ForgeDirection dir : new ForgeDirection[]{ForgeDirection.UP, ForgeDirection.DOWN})
+        {
+            world.setBlock(0, 10, 0, block, dir.ordinal(), 3);
+            TileSmallMissileWorkstation tile = ((TileSmallMissileWorkstation) world.getTileEntity(0, 10, 0));
+            tile.firstTick();
+
+            //First rotation from north to east
+            assertTrue(tile.onPlayerActivated(player, 0, new Pos()));
+            assertTrue("" + tile.getDirection(), tile.getDirection() == ForgeDirection.EAST);
+            assertTrue(world.getBlock(1, 10, 0) instanceof BlockMultiblock);
+            assertTrue(world.getBlock(-1, 10, 0) instanceof BlockMultiblock);
+            assertFalse(world.getBlock(0, 10, 1) instanceof BlockMultiblock);
+            assertFalse(world.getBlock(0, 10, -1) instanceof BlockMultiblock);
+
+            //First rotation from east to south
+            assertTrue(tile.onPlayerActivated(player, 0, new Pos()));
+            assertTrue("" + tile.getDirection(), tile.getDirection() == ForgeDirection.SOUTH);
+            assertFalse(world.getBlock(1, 10, 0) instanceof BlockMultiblock);
+            assertFalse(world.getBlock(-1, 10, 0) instanceof BlockMultiblock);
+            assertTrue(world.getBlock(0, 10, 1) instanceof BlockMultiblock);
+            assertTrue(world.getBlock(0, 10, -1) instanceof BlockMultiblock);
+
+            //First rotation from south to west
+            assertTrue(tile.onPlayerActivated(player, 0, new Pos()));
+            assertTrue("" + tile.getDirection(), tile.getDirection() == ForgeDirection.WEST);
+            assertTrue(world.getBlock(1, 10, 0) instanceof BlockMultiblock);
+            assertTrue(world.getBlock(-1, 10, 0) instanceof BlockMultiblock);
+            assertFalse(world.getBlock(0, 10, 1) instanceof BlockMultiblock);
+            assertFalse(world.getBlock(0, 10, -1) instanceof BlockMultiblock);
+
+            //First rotation from west to north
+            assertTrue(tile.onPlayerActivated(player, 0, new Pos()));
+            assertTrue("" + tile.getDirection(), tile.getDirection() == ForgeDirection.NORTH);
+            assertFalse(world.getBlock(1, 10, 0) instanceof BlockMultiblock);
+            assertFalse(world.getBlock(-1, 10, 0) instanceof BlockMultiblock);
+            assertTrue(world.getBlock(0, 10, 1) instanceof BlockMultiblock);
+            assertTrue(world.getBlock(0, 10, -1) instanceof BlockMultiblock);
+        }
+
+        //Clean up
+        world.setBlockToAir(0, 10, 0);
     }
 }
