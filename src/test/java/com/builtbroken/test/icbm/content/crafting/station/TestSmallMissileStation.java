@@ -66,6 +66,11 @@ public class TestSmallMissileStation extends AbstractTileTest<TileSmallMissileWo
             for (Method method : methods)
             {
                 System.out.println(method.getName());
+                //Ignored as bamboo seems to add an extra method for code coverage
+                if (method.getName().contains("jacocoInit") && methods.length == 23)
+                {
+                    return;
+                }
             }
             fail("There are " + methods.length + " but should be 22");
         }
