@@ -61,7 +61,14 @@ public class TestSmallMissileStation extends AbstractTileTest<TileSmallMissileWo
     {
         super.testCoverage();
         Method[] methods = TileSmallMissileWorkstation.class.getDeclaredMethods();
-        assertTrue("There are " + methods.length + " but should be 22", methods.length == 22);
+        if (methods.length != 22)
+        {
+            for (Method method : methods)
+            {
+                System.out.println(method.getName());
+            }
+            fail("There are " + methods.length + " but should be 22");
+        }
     }
 
     @Test
