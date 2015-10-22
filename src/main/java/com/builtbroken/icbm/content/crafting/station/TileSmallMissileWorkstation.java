@@ -70,7 +70,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
 
     //Machine vars
     protected ForgeDirection rotation = ForgeDirection.NORTH;
-    protected ForgeDirection connectedBlockSide = ForgeDirection.UP;
+    public ForgeDirection connectedBlockSide = ForgeDirection.UP;
 
 
     public TileSmallMissileWorkstation()
@@ -95,6 +95,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
         super.firstTick();
         this.connectedBlockSide = ForgeDirection.getOrientation(world().getBlockMetadata(xi(), yi(), zi()));
         MultiBlockHelper.buildMultiBlock(world(), this, true, true);
+        //TODO validate rotation so data is not confused
     }
 
     @Override
@@ -107,14 +108,14 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
         //Eject items if not missile is in the slot
         if (getMissileItem() == null && ticks % 5 == 0)
         {
-            ejectItems();
+            ejectCraftingItems();
         }
     }
 
     /**
      * Called to eject crafting items
      */
-    protected void ejectItems()
+    public void ejectCraftingItems()
     {
         for (int i = 1; i <= 3; i++)
         {
@@ -172,7 +173,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     public String disassemble()
     {
         ItemStack missile_stack = getMissileItem();
-        ejectItems();
+        ejectCraftingItems();
         if (missile_stack != null && missile_stack.getItem() instanceof IModularMissileItem)
         {
             IModularMissileItem missile = (IModularMissileItem) missile_stack.getItem();
@@ -397,20 +398,27 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                 if(player.getHeldItem() == null)
                 {
                     player.inventory.setInventorySlotContents(player.inventory.currentItem, getStackInSlot(slot));
+                    setInventorySlotContents(slot, null);
                 }
                 else if(itemsMatch && spaceInHand)
                 {
                     player.getHeldItem().stackSize++;
                     getStackInSlot(slot).stackSize--;
+                    if (getStackInSlot(slot).stackSize <= 0)
+                    {
+                        setInventorySlotContents(slot, null);
+                    }
                 }
                 else if(!player.inventory.addItemStackToInventory(getStackInSlot(slot)))
                 {
                     InventoryUtility.dropItemStack(new Location(player), getStackInSlot(slot));
+                    setInventorySlotContents(slot, null);
                 }
-                if (getStackInSlot(slot).stackSize <= 0)
+                else
                 {
                     setInventorySlotContents(slot, null);
                 }
+
                 player.inventoryContainer.detectAndSendChanges();
                 return true;
             }

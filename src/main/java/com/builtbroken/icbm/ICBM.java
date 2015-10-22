@@ -91,7 +91,7 @@ public final class ICBM extends AbstractMod
     @Instance(DOMAIN)
     public static ICBM INSTANCE;
 
-    @SidedProxy(clientSide = "com.builtbroken.icbm.ClientProxy", serverSide = "com.builtbroken.icbm.CommonProxy")
+    @SidedProxy(clientSide = "com.builtbroken.icbm.ClientProxy", serverSide = "com.builtbroken.icbm.ServerProxy")
     public static CommonProxy proxy;
 
 
