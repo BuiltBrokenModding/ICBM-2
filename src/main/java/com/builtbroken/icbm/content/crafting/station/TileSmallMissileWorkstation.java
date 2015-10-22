@@ -231,9 +231,9 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     {
         if (getMissileItem() != null)
         {
-            return new PacketTile(this, 1, (byte)rotation.ordinal(), getMissileItem());
+            return new PacketTile(this, 1, (byte) rotation.ordinal(), getMissileItem());
         }
-        return new PacketTile(this, 1, (byte)rotation.ordinal(), new ItemStack(Items.apple));
+        return new PacketTile(this, 1, (byte) rotation.ordinal(), new ItemStack(Items.apple));
     }
 
     @Override
@@ -558,7 +558,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     @Override
     public void setDirection(ForgeDirection newDir)
     {
-        setDirectionDO(newDir, true);
+        setDirectionDO(newDir, isServer());
     }
 
     /**
@@ -574,36 +574,33 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
         //Rotation can't equal the connected side or it's opposite as this will place it into a wall
         if (rotation != newDir && newDir != connectedBlockSide && newDir != connectedBlockSide.getOpposite())
         {
-            //Check if the rotation was valid
-            if (isServer())
+            //Only run placement and structure checks if rotated by 90 degrees
+            if (newDir != rotation.getOpposite())
             {
-                //Only run placement and structure checks if rotated by 90 degrees
-                if (newDir != rotation.getOpposite())
+                if (!isRotationBlocked(newDir))
                 {
-                    if (!isRotationBlocked(newDir))
-                    {
-                        //Clear and rebuild multi block
-                        rotating = true;
-                        breakDownStructure(false, false);
-                        //Change rotation after breaking down the structure and before making the new structure
-                        rotation = newDir;
-                        MultiBlockHelper.buildMultiBlock(world(), this, true, true);
-                        rotating = false;
-                    }
-                    else
-                    {
-                        //Failed as there are no free blocks to move to
-                        return false;
-                    }
+                    //Clear and rebuild multi block
+                    rotating = true;
+                    breakDownStructure(false, false);
+                    //Change rotation after breaking down the structure and before making the new structure
+                    rotation = newDir;
+                    MultiBlockHelper.buildMultiBlock(world(), this, true, true);
+                    world().markBlockForUpdate(xi(), yi(), zi());
+                    rotating = false;
                 }
                 else
                 {
-                    rotation = newDir;
+                    //Failed as there are no free blocks to move to
+                    return false;
                 }
-                if (sendPacket)
-                    sendPacket(new PacketTile(this, 5, (byte) rotation.ordinal()));
-                return true;
             }
+            else
+            {
+                rotation = newDir;
+            }
+            if (sendPacket)
+                sendPacket(new PacketTile(this, 5, (byte) rotation.ordinal()));
+            return true;
         }
         return false;
     }

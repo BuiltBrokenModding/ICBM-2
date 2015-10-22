@@ -15,8 +15,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.model.obj.GroupObject;
-import net.minecraftforge.client.model.obj.WavefrontObject;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
@@ -52,6 +50,9 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
                 {
                     this.setInventorySlotContents(INPUT_SLOT, stack);
                 }
+                Pos s = toPos().add(rotation);
+                Pos e = toPos().sub(rotation);
+                world().markBlockRangeForRenderUpdate(s.xi(), s.yi(), s.zi(), e.xi(), e.yi(), e.zi());
                 return true;
             }
             else if (id == 5)
@@ -205,13 +206,6 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
         if (getGuidanceItem() != null)
         {
             //TODO add model indication showing no guidance added
-        }
-        if (Assets.SMALL_MISSILE_MODEL_2 instanceof WavefrontObject)
-        {
-            for (GroupObject obj : ((WavefrontObject) Assets.SMALL_MISSILE_MODEL_2).groupObjects)
-            {
-                System.out.println(obj.name);
-            }
         }
         Assets.SMALL_MISSILE_MODEL_2.renderAllExcept("Cube_Cube.002");
     }
