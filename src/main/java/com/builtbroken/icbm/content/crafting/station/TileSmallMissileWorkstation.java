@@ -68,8 +68,9 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
         northSouthMap.put(new Pos(0, 0, -1), EnumMultiblock.INVENTORY.getName() + "#RenderBlock=false");
     }
 
-    //Machine vars
-    protected ForgeDirection rotation = ForgeDirection.NORTH;
+    /** Rotation of the block, not all rotation are valid, do not set directly see {@link TileSmallMissileWorkstation#setDirection(ForgeDirection)}. */
+    public ForgeDirection rotation = ForgeDirection.NORTH;
+    /** Connected side of the block, if set reset mutli block structure to avoid ghost blocks & invalid renders. */
     public ForgeDirection connectedBlockSide = ForgeDirection.UP;
 
 
