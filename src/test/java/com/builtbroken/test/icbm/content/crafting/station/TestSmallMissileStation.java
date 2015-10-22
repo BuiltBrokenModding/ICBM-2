@@ -4,9 +4,11 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.station.TileSmallMissileWorkstation;
+import com.builtbroken.icbm.content.crafting.station.TileSmallMissileWorkstationClient;
 import com.builtbroken.icbm.content.missile.ItemMissile;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.content.tool.ItemScrewdriver;
+import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
@@ -558,9 +560,122 @@ public class TestSmallMissileStation extends AbstractTileTest<TileSmallMissileWo
             assertFalse(world.getBlock(-1, 10, 0) instanceof BlockMultiblock);
             assertTrue(world.getBlock(0, 10, 1) instanceof BlockMultiblock);
             assertTrue(world.getBlock(0, 10, -1) instanceof BlockMultiblock);
+
+            //Clean up
+            world.setBlockToAir(0, 10, 0);
         }
 
-        //Clean up
-        world.setBlockToAir(0, 10, 0);
+        for (ForgeDirection dir : new ForgeDirection[]{ForgeDirection.EAST, ForgeDirection.WEST})
+        {
+            world.setBlock(0, 10, 0, block, dir.ordinal(), 3);
+            TileSmallMissileWorkstation tile = ((TileSmallMissileWorkstation) world.getTileEntity(0, 10, 0));
+            tile.firstTick();
+
+            //First rotation from north to east
+            assertTrue(tile.onPlayerActivated(player, 0, new Pos()));
+            assertTrue("" + tile.getDirection(), tile.getDirection() == ForgeDirection.DOWN);
+            assertTrue(world.getBlock(0, 11, 0) instanceof BlockMultiblock);
+            assertTrue(world.getBlock(0, 9, 0) instanceof BlockMultiblock);
+            assertFalse(world.getBlock(0, 10, 1) instanceof BlockMultiblock);
+            assertFalse(world.getBlock(0, 10, -1) instanceof BlockMultiblock);
+
+            //First rotation from east to south
+            assertTrue(tile.onPlayerActivated(player, 0, new Pos()));
+            assertTrue("" + tile.getDirection(), tile.getDirection() == ForgeDirection.SOUTH);
+            assertFalse(world.getBlock(0, 11, 0) instanceof BlockMultiblock);
+            assertFalse(world.getBlock(0, 9, 0) instanceof BlockMultiblock);
+            assertTrue(world.getBlock(0, 10, 1) instanceof BlockMultiblock);
+            assertTrue(world.getBlock(0, 10, -1) instanceof BlockMultiblock);
+
+            //First rotation from south to west
+            assertTrue(tile.onPlayerActivated(player, 0, new Pos()));
+            assertTrue("" + tile.getDirection(), tile.getDirection() == ForgeDirection.UP);
+            assertTrue(world.getBlock(0, 9, 0) instanceof BlockMultiblock);
+            assertTrue(world.getBlock(0, 11, 0) instanceof BlockMultiblock);
+            assertFalse(world.getBlock(0, 10, 1) instanceof BlockMultiblock);
+            assertFalse(world.getBlock(0, 10, -1) instanceof BlockMultiblock);
+
+            //First rotation from west to north
+            assertTrue(tile.onPlayerActivated(player, 0, new Pos()));
+            assertTrue("" + tile.getDirection(), tile.getDirection() == ForgeDirection.NORTH);
+            assertFalse(world.getBlock(0, 11, 0) instanceof BlockMultiblock);
+            assertFalse(world.getBlock(0, 9, 0) instanceof BlockMultiblock);
+            assertTrue(world.getBlock(0, 10, 1) instanceof BlockMultiblock);
+            assertTrue(world.getBlock(0, 10, -1) instanceof BlockMultiblock);
+
+            //Clean up
+            world.setBlockToAir(0, 10, 0);
+        }
+
+        for (ForgeDirection dir : new ForgeDirection[]{ForgeDirection.NORTH, ForgeDirection.SOUTH})
+        {
+            world.setBlock(0, 10, 0, block, dir.ordinal(), 3);
+            TileSmallMissileWorkstation tile = ((TileSmallMissileWorkstation) world.getTileEntity(0, 10, 0));
+            tile.firstTick();
+
+            //First rotation from north to east
+            assertTrue(tile.onPlayerActivated(player, 0, new Pos()));
+            assertTrue("" + tile.getDirection(), tile.getDirection() == ForgeDirection.DOWN);
+            assertTrue(world.getBlock(0, 11, 0) instanceof BlockMultiblock);
+            assertTrue(world.getBlock(0, 9, 0) instanceof BlockMultiblock);
+            assertFalse(world.getBlock(1, 10, 0) instanceof BlockMultiblock);
+            assertFalse(world.getBlock(-1, 10, 0) instanceof BlockMultiblock);
+
+            //First rotation from east to south
+            assertTrue(tile.onPlayerActivated(player, 0, new Pos()));
+            assertTrue("" + tile.getDirection(), tile.getDirection() == ForgeDirection.WEST);
+            assertFalse(world.getBlock(0, 11, 0) instanceof BlockMultiblock);
+            assertFalse(world.getBlock(0, 9, 0) instanceof BlockMultiblock);
+            assertTrue(world.getBlock(1, 10, 0) instanceof BlockMultiblock);
+            assertTrue(world.getBlock(-1, 10, 0) instanceof BlockMultiblock);
+
+            //First rotation from south to west
+            assertTrue(tile.onPlayerActivated(player, 0, new Pos()));
+            assertTrue("" + tile.getDirection(), tile.getDirection() == ForgeDirection.UP);
+            assertTrue(world.getBlock(0, 9, 0) instanceof BlockMultiblock);
+            assertTrue(world.getBlock(0, 11, 0) instanceof BlockMultiblock);
+            assertFalse(world.getBlock(0, 10, 0) instanceof BlockMultiblock);
+            assertFalse(world.getBlock(0, 10, 0) instanceof BlockMultiblock);
+
+            //First rotation from west to north
+            assertTrue(tile.onPlayerActivated(player, 0, new Pos()));
+            assertTrue("" + tile.getDirection(), tile.getDirection() == ForgeDirection.EAST);
+            assertFalse(world.getBlock(0, 11, 0) instanceof BlockMultiblock);
+            assertFalse(world.getBlock(0, 9, 0) instanceof BlockMultiblock);
+            assertTrue(world.getBlock(1, 10, 0) instanceof BlockMultiblock);
+            assertTrue(world.getBlock(-1, 10, 0) instanceof BlockMultiblock);
+
+            //Clean up
+            world.setBlockToAir(0, 10, 0);
+        }
+    }
+
+    @Test
+    public void testPacketCode()
+    {
+        for (ItemStack item : new ItemStack[]{null, new ItemStack(ICBM.itemMissile)})
+        {
+            TileSmallMissileWorkstation sender = new TileSmallMissileWorkstation();
+            sender.rotation = ForgeDirection.EAST;
+            sender.setInventorySlotContents(sender.INPUT_SLOT, item);
+            sender.setWorldObj(world);
+
+            TileSmallMissileWorkstationClient receiver = new TileSmallMissileWorkstationClient()
+            {
+                @Override
+                public boolean isClient()
+                {
+                    return true;
+                }
+            };
+            sender.setWorldObj(world);
+
+            //Create and encode packet
+            PacketTile packet = sender.getDescPacket();
+
+            packet.handle(player, receiver);
+            assertTrue(receiver.rotation == ForgeDirection.EAST);
+            assertTrue(InventoryUtility.stacksMatchExact(receiver.getStackInSlot(receiver.INPUT_SLOT), item));
+        }
     }
 }

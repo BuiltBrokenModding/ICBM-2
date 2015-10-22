@@ -89,6 +89,8 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     {
         super.firstTick();
         this.connectedBlockSide = ForgeDirection.getOrientation(world().getBlockMetadata(xi(), yi(), zi()));
+        if (connectedBlockSide == ForgeDirection.NORTH || connectedBlockSide == ForgeDirection.SOUTH)
+            this.rotation = getNextRotation();
         MultiBlockHelper.buildMultiBlock(world(), this, true, true);
         //TODO validate rotation so data is not confused
     }
@@ -229,9 +231,9 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     {
         if (getMissileItem() != null)
         {
-            return new PacketTile(this, 0, rotation, getMissileItem());
+            return new PacketTile(this, 1, (byte)rotation.ordinal(), getMissileItem());
         }
-        return new PacketTile(this, 0, rotation, new ItemStack(Items.apple));
+        return new PacketTile(this, 1, (byte)rotation.ordinal(), new ItemStack(Items.apple));
     }
 
     @Override
@@ -582,7 +584,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                     {
                         //Clear and rebuild multi block
                         rotating = true;
-                        breakDownStructure(false);
+                        breakDownStructure(false, false);
                         //Change rotation after breaking down the structure and before making the new structure
                         rotation = newDir;
                         MultiBlockHelper.buildMultiBlock(world(), this, true, true);

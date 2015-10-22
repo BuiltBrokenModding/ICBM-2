@@ -41,7 +41,7 @@ public abstract class TileAbstractWorkstation extends TileModuleMachine implemen
     public void onRemove(Block block, int par6)
     {
         super.onRemove(block, par6);
-        breakDownStructure(true);
+        breakDownStructure(true, true);
     }
 
     @Override
@@ -58,19 +58,19 @@ public abstract class TileAbstractWorkstation extends TileModuleMachine implemen
             Pos pos = new Pos((TileEntity) tileMulti).sub(new Pos(this));
             if (getLayoutOfMultiBlock().containsKey(pos))
             {
-                breakDownStructure(harvest);
+                breakDownStructure(harvest, true);
                 return true;
             }
         }
         return false;
     }
 
-    protected void breakDownStructure(boolean b)
+    protected void breakDownStructure(boolean drop, boolean destroy)
     {
         if (!_destroyingStructure)
         {
             _destroyingStructure = true;
-            MultiBlockHelper.destroyMultiBlockStructure(this, b, true);
+            MultiBlockHelper.destroyMultiBlockStructure(this, drop, true, destroy);
             _destroyingStructure = false;
         }
     }

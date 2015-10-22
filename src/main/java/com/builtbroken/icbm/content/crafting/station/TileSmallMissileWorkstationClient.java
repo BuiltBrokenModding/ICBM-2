@@ -40,17 +40,17 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
     {
         if (isClient())
         {
-            if (id == 0)
+            if (id == 1)
             {
                 this.rotation = ForgeDirection.getOrientation(buf.readByte());
                 ItemStack stack = ByteBufUtils.readItemStack(buf);
                 if (InventoryUtility.stacksMatch(stack, new ItemStack(Items.apple)))
                 {
-                    this.setInventorySlotContents(INPUT_SLOT, stack);
+                    this.setInventorySlotContents(INPUT_SLOT, null);
                 }
                 else
                 {
-                    this.setInventorySlotContents(INPUT_SLOT, null);
+                    this.setInventorySlotContents(INPUT_SLOT, stack);
                 }
                 return true;
             }
