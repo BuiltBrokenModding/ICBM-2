@@ -20,10 +20,17 @@ import java.util.HashMap;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 10/5/2015.
  */
-public class TileAbstractWorkstation extends TileModuleMachine implements IMultiTileHost
+public abstract class TileAbstractWorkstation extends TileModuleMachine implements IMultiTileHost
 {
+    /** Trigger to prevent breaking blocks while the multi block is being removed */
     private boolean _destroyingStructure = false;
+    /** Trigger to prevent break blocks while the multi block is rotating */
     protected boolean rotating = false;
+
+    /** Rotation of the block, not all rotation are valid, do not set directly see {@link TileSmallMissileWorkstation#setDirection(ForgeDirection)}. */
+    public ForgeDirection rotation = ForgeDirection.NORTH;
+    /** Connected side of the block, if set reset mutli block structure to avoid ghost blocks & invalid renders. */
+    public ForgeDirection connectedBlockSide = ForgeDirection.UP;
 
     public TileAbstractWorkstation(String name, Material material)
     {
@@ -89,7 +96,28 @@ public class TileAbstractWorkstation extends TileModuleMachine implements IMulti
     @Override
     public HashMap<IPos3D, String> getLayoutOfMultiBlock()
     {
-        return null;
+        return getLayoutOfMultiBlock(getDirection());
+    }
+
+    /**
+     * Version of {@link TileAbstractWorkstation#getLayoutOfMultiBlock()} that uses the rotation to
+     * get the layout
+     *
+     * @param rotation - direction the machine is facing, not the connected side
+     * @return map of layout, never null
+     */
+    public abstract HashMap<IPos3D, String> getLayoutOfMultiBlock(ForgeDirection rotation);
+
+
+    @Override
+    public ForgeDirection getDirection()
+    {
+        return rotation;
+    }
+
+    public void setDirection(ForgeDirection newDir)
+    {
+        this.rotation = newDir;
     }
 
     /**
@@ -98,9 +126,9 @@ public class TileAbstractWorkstation extends TileModuleMachine implements IMulti
      * @param newRotation - rotation to check
      * @return true if any block in the multi block map is not air.
      */
-    protected boolean isRotationBlocked(ForgeDirection newRotation)
+    public boolean isRotationBlocked(ForgeDirection newRotation)
     {
-        for (IPos3D p : getLayoutOfMultiBlock().keySet())
+        for (IPos3D p : getLayoutOfMultiBlock(newRotation).keySet())
         {
             Pos pos = this.toPos().add(p);
             Block block = world().getBlock((int) pos.x(), (int) pos.y(), (int) pos.z());

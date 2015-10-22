@@ -6,6 +6,7 @@ import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.station.TileSmallMissileWorkstation;
 import com.builtbroken.icbm.content.missile.ItemMissile;
 import com.builtbroken.mc.core.Engine;
+import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.multiblock.BlockMultiblock;
@@ -16,6 +17,7 @@ import com.builtbroken.mc.testing.junit.VoltzTestRunner;
 import com.builtbroken.mc.testing.junit.world.FakeWorld;
 import com.builtbroken.mc.testing.tile.AbstractTileTest;
 import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -61,18 +63,18 @@ public class TestSmallMissileStation extends AbstractTileTest<TileSmallMissileWo
     {
         super.testCoverage();
         Method[] methods = TileSmallMissileWorkstation.class.getDeclaredMethods();
-        if (methods.length != 22)
+        if (methods.length != 24)
         {
             for (Method method : methods)
             {
                 System.out.println(method.getName());
                 //Ignored as bamboo seems to add an extra method for code coverage
-                if (method.getName().contains("jacocoInit") && methods.length == 23)
+                if (method.getName().contains("jacocoInit") && methods.length == 25)
                 {
                     return;
                 }
             }
-            fail("There are " + methods.length + " but should be 22");
+            fail("There are " + methods.length + " but should be 24");
         }
     }
 
@@ -357,5 +359,79 @@ public class TestSmallMissileStation extends AbstractTileTest<TileSmallMissileWo
         //Test unknown... this should never happen
         tile.connectedBlockSide = ForgeDirection.UNKNOWN;
         assertSame(tile.getLayoutOfMultiBlock(), tile.eastWestMap);
+    }
+
+    @Test
+    public void testIsRotationBlocked()
+    {
+        FakeWorld world = FakeWorld.newWorld("TestIsRotationBlocked");
+        TileSmallMissileWorkstation workstation = new TileSmallMissileWorkstation();
+        workstation.setWorldObj(world);
+        workstation.yCoord = 10;
+        for (ForgeDirection connectedSide : ForgeDirection.VALID_DIRECTIONS)
+        {
+            workstation.connectedBlockSide = connectedSide;
+            for (ForgeDirection rotation : ForgeDirection.VALID_DIRECTIONS)
+            {
+                //Only test valid rotation as the invalid will not work no matter what
+                if (workstation.isValidRotation(rotation))
+                {
+                    //Test rotation with no blocks
+                    assertFalse(workstation.isRotationBlocked(rotation));
+
+                    //Test rotation with blocks
+                    Location pos = workstation.toLocation().add(rotation);
+                    pos.setBlock(Blocks.dirt);
+                    assertTrue(workstation.isRotationBlocked(rotation));
+                    pos.setBlockToAir();
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testSetRotation()
+    {
+        //idea 12 test cases by isServer is not checked removing two
+        FakeWorld world = FakeWorld.newWorld("TestGetLayout");
+        world.setBlock(0, 10, 0, block);
+        TileSmallMissileWorkstation tile = ((TileSmallMissileWorkstation) world.getTileEntity(0, 10, 0));
+
+        tile.connectedBlockSide = ForgeDirection.UP;
+        tile.rotation = ForgeDirection.NORTH;
+        //Init tile as we want the structure to generate
+        tile.firstTick();
+
+        //Run just for code coverage
+        tile.setDirection(ForgeDirection.NORTH);
+
+        //Test invalid rotation, same dir
+        assertFalse(tile.setDirectionDO(ForgeDirection.NORTH, false));
+
+        //Test invalid rotation, connected side
+        assertFalse(tile.setDirectionDO(ForgeDirection.UP, false));
+
+        //Test invalid rotation, inverted connected side
+        assertFalse(tile.setDirectionDO(ForgeDirection.DOWN, false));
+
+        //Test valid rotation, with no block updates
+        assertTrue(tile.setDirectionDO(ForgeDirection.SOUTH, false));
+        assertTrue(world.getBlock(0, 10, 1) instanceof BlockMultiblock);
+        assertTrue(world.getBlock(0, 10, -1) instanceof BlockMultiblock);
+        tile.rotation = ForgeDirection.NORTH;
+
+        //Test valid rotation, with 90 degree change, block updates, nothing blocked
+        assertTrue(tile.setDirectionDO(ForgeDirection.EAST, false));
+        assertTrue(world.getBlock(1, 10, 0) instanceof BlockMultiblock);
+        assertTrue(world.getBlock(-1, 10, 0) instanceof BlockMultiblock);
+        tile.invalidate();
+        tile.rotation = ForgeDirection.NORTH;
+
+        //Test valid rotation, with 90 degree change, block updates, with some stuff blocked
+        world.setBlock(0, 10, 1, Blocks.dirt);
+        world.setBlock(0, 10, -1, Blocks.dirt);
+        assertFalse(tile.setDirectionDO(ForgeDirection.EAST, false));
+        tile.invalidate();
+        tile.rotation = ForgeDirection.NORTH;
     }
 }

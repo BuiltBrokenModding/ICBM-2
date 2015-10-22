@@ -68,12 +68,6 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
         northSouthMap.put(new Pos(0, 0, -1), EnumMultiblock.INVENTORY.getName() + "#RenderBlock=false");
     }
 
-    /** Rotation of the block, not all rotation are valid, do not set directly see {@link TileSmallMissileWorkstation#setDirection(ForgeDirection)}. */
-    public ForgeDirection rotation = ForgeDirection.NORTH;
-    /** Connected side of the block, if set reset mutli block structure to avoid ghost blocks & invalid renders. */
-    public ForgeDirection connectedBlockSide = ForgeDirection.UP;
-
-
     public TileSmallMissileWorkstation()
     {
         super("missileworkstation", Material.iron);
@@ -241,13 +235,13 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     }
 
     @Override
-    public HashMap<IPos3D, String> getLayoutOfMultiBlock()
+    public HashMap<IPos3D, String> getLayoutOfMultiBlock(ForgeDirection dir)
     {
         switch (connectedBlockSide)
         {
             case UP:
             case DOWN:
-                if (getDirection() == ForgeDirection.EAST || getDirection() == ForgeDirection.WEST)
+                if (dir == ForgeDirection.EAST || dir == ForgeDirection.WEST)
                 {
                     return eastWestMap;
                 }
@@ -257,7 +251,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                 }
             case EAST:
             case WEST:
-                if (getDirection() == ForgeDirection.DOWN || getDirection() == ForgeDirection.UP)
+                if (dir == ForgeDirection.DOWN || dir == ForgeDirection.UP)
                 {
                     return upDownMap;
                 }
@@ -267,7 +261,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                 }
             case NORTH:
             case SOUTH:
-                if (getDirection() == ForgeDirection.DOWN || getDirection() == ForgeDirection.UP)
+                if (dir == ForgeDirection.DOWN || dir == ForgeDirection.UP)
                 {
                     return upDownMap;
                 }
@@ -277,6 +271,27 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                 }
         }
         return eastWestMap;
+    }
+
+    /**
+     * Checks if the current rotation value is valid for the connected side
+     *
+     * @return true if it is valid
+     */
+    public boolean isRotationValid()
+    {
+        return isValidRotation(rotation);
+    }
+
+    /**
+     * Checks if a new rotation is valid
+     *
+     * @param dir - new rotation
+     * @return true if the rotation is valid
+     */
+    public boolean isValidRotation(ForgeDirection dir)
+    {
+        return dir != ForgeDirection.UNKNOWN && dir != connectedBlockSide && dir != connectedBlockSide.getOpposite();
     }
 
     @Override
@@ -396,12 +411,12 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
             boolean spaceInHand = player.getHeldItem() == null || player.getHeldItem().stackSize < player.getHeldItem().getItem().getItemStackLimit(player.getHeldItem());
             if (getStackInSlot(slot) != null)
             {
-                if(player.getHeldItem() == null)
+                if (player.getHeldItem() == null)
                 {
                     player.inventory.setInventorySlotContents(player.inventory.currentItem, getStackInSlot(slot));
                     setInventorySlotContents(slot, null);
                 }
-                else if(itemsMatch && spaceInHand)
+                else if (itemsMatch && spaceInHand)
                 {
                     player.getHeldItem().stackSize++;
                     getStackInSlot(slot).stackSize--;
@@ -410,7 +425,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                         setInventorySlotContents(slot, null);
                     }
                 }
-                else if(!player.inventory.addItemStackToInventory(getStackInSlot(slot)))
+                else if (!player.inventory.addItemStackToInventory(getStackInSlot(slot)))
                 {
                     InventoryUtility.dropItemStack(new Location(player), getStackInSlot(slot));
                     setInventorySlotContents(slot, null);
@@ -523,13 +538,20 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     }
 
     @Override
-    public ForgeDirection getDirection()
+    public void setDirection(ForgeDirection newDir)
     {
-        return rotation;
+        setDirectionDO(newDir, true);
     }
 
-    @Override
-    public void setDirection(ForgeDirection newDir)
+    /**
+     * Seperate version of {@link TileSmallMissileWorkstation#setDirection(ForgeDirection)} that returns true if it rotated.
+     * <p/>
+     * This is mainly for testing threw JUnit, meaning don't call this method directly unless you need more control.
+     *
+     * @param newDir - direction to change to
+     * @return false if it didn't rotate
+     */
+    public boolean setDirectionDO(ForgeDirection newDir, boolean sendPacket)
     {
         //Rotation can't equal the connected side or it's opposite as this will place it into a wall
         if (rotation != newDir && newDir != connectedBlockSide && newDir != connectedBlockSide.getOpposite())
@@ -538,11 +560,10 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
             if (isServer())
             {
                 //Only run placement and structure checks if rotated by 90 degrees
-                if (rotation != rotation.getOpposite())
+                if (newDir != rotation.getOpposite())
                 {
-                    if (!isRotationBlocked(rotation))
+                    if (!isRotationBlocked(newDir))
                     {
-
                         //Clear and rebuild multi block
                         rotating = true;
                         breakDownStructure(false);
@@ -551,13 +572,21 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                         MultiBlockHelper.buildMultiBlock(world(), this, true, true);
                         rotating = false;
                     }
+                    else
+                    {
+                        //Failed as there are no free blocks to move to
+                        return false;
+                    }
                 }
                 else
                 {
                     rotation = newDir;
                 }
-                sendPacket(new PacketTile(this, 5, (byte) rotation.ordinal()));
+                if (sendPacket)
+                    sendPacket(new PacketTile(this, 5, (byte) rotation.ordinal()));
+                return true;
             }
         }
+        return false;
     }
 }
