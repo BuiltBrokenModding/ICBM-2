@@ -88,7 +88,10 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     {
         super.firstTick();
         this.connectedBlockSide = ForgeDirection.getOrientation(world().getBlockMetadata(xi(), yi(), zi()));
-        MultiBlockHelper.buildMultiBlock(world(), this, true, true);
+        if (!isRotationValid())
+            this.rotation = getDirection();
+        else
+            MultiBlockHelper.buildMultiBlock(world(), this, true, true);
         world().markBlockForUpdate(xi(), yi(), zi());
     }
 
@@ -298,39 +301,56 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     {
         if (isServer())
         {
+            //TODO add translations
             //Find slot to place or removes items from
-            if (getMissileItem() == null)
+            if (player.getHeldItem() != null)
             {
-                if (InventoryUtility.addItemToSlot(player, inventory_module(), INPUT_SLOT))
+                if (getMissileItem() == null)
                 {
-                    disassemble();
-                    player.addChatComponentMessage(new ChatComponentText("Missile added, and broken down"));
+                    if (isItemValidForSlot(INPUT_SLOT, player.getHeldItem()))
+                    {
+                        if (InventoryUtility.addItemToSlot(player, inventory_module(), INPUT_SLOT))
+                        {
+                            disassemble();
+                            //TODO add sound effect when removing parts
+                        }
+                        //Shouldn't happen as slot is empty and the item is valid
+                        else
+                        {
+                            player.addChatComponentMessage(new ChatComponentText("hmm, something seems wrong."));
+                        }
+                    }
+                    else
+                    {
+                        player.addChatComponentMessage(new ChatComponentText("I don't think that goes into here."));
+                    }
                 }
-                else if (getMissileItem() != null)
+                else if (player.isSneaking())
                 {
-                    player.addChatComponentMessage(new ChatComponentText("Slot already filled"));
+                    assemble();
+                    //TODO add sound effect when adding parts
+                    InventoryUtility.removeItemFromSlot(player, inventory_module(), INPUT_SLOT);
+                }
+                else if (isItemValidForSlot(GUIDANCE_SLOT, player.getHeldItem()))
+                {
+                    InventoryUtility.handleSlot(player, inventory_module(), GUIDANCE_SLOT);
+                }
+                else if (isItemValidForSlot(ENGINE_SLOT, player.getHeldItem()))
+                {
+                    player.addChatComponentMessage(new ChatComponentText("Try clicking the engine section"));
+                }
+                else if (isItemValidForSlot(WARHEAD_SLOT, player.getHeldItem()))
+                {
+                    player.addChatComponentMessage(new ChatComponentText("Try clicking the front of the missile"));
                 }
                 else
                 {
-                    player.addChatComponentMessage(new ChatComponentText("Invalid input"));
+                    player.addChatComponentMessage(new ChatComponentText("That doesn't go onto a missile"));
                 }
-            }
-            else if (player.isSneaking())
-            {
-                assemble();
-                InventoryUtility.removeItemFromSlot(player, inventory_module(), INPUT_SLOT);
-                player.addChatComponentMessage(new ChatComponentText("Missile remove, and assembled"));
             }
             else
             {
-                if (InventoryUtility.handleSlot(player, inventory_module(), GUIDANCE_SLOT))
-                {
-
-                }
-                else
-                {
-                    player.addChatComponentMessage(new ChatComponentText("Invalid input"));
-                }
+                InventoryUtility.handleSlot(player, inventory_module(), GUIDANCE_SLOT);
             }
         }
         return true;
@@ -495,12 +515,11 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     public ForgeDirection getDirection()
     {
         //Fixed invalid rotations
-        if(!isValidRotation(rotation))
+        if (!isValidRotation(rotation))
         {
-            for(int i = 0; i < 5; i++)
+            for (int i = 0; i < 5; i++)
             {
-                this.rotation = getNextRotation();
-                if(setDirectionDO(rotation, isServer()))
+                if (setDirectionDO(getNextRotation(), isServer()))
                 {
                     return rotation;
                 }
