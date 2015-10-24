@@ -66,18 +66,18 @@ public class TestSmallMissileStation extends AbstractTileTest<TileSmallMissileWo
     {
         super.testCoverage();
         Method[] methods = TileSmallMissileWorkstation.class.getDeclaredMethods();
-        if (methods.length != 25)
+        if (methods.length != 22)
         {
             for (Method method : methods)
             {
                 System.out.println(method.getName());
                 //Ignored as bamboo seems to add an extra method for code coverage
-                if (method.getName().contains("jacocoInit") && methods.length == 26)
+                if (method.getName().contains("jacocoInit") && methods.length == 23)
                 {
                     return;
                 }
             }
-            fail("There are " + methods.length + " but should be 25");
+            fail("There are " + methods.length + " but should be 22");
         }
     }
 
