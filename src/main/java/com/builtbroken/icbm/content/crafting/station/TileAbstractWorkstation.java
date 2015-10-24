@@ -9,6 +9,7 @@ import com.builtbroken.mc.prefab.tile.multiblock.MultiBlockHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -47,10 +48,10 @@ public abstract class TileAbstractWorkstation extends TileModuleMachine implemen
     @Override
     public void onMultiTileAdded(IMultiTile tileMulti)
     {
-        if(tileMulti instanceof TileEntity)
+        if (tileMulti instanceof TileEntity)
         {
             Pos pos = new Pos((TileEntity) tileMulti);
-            if(!getLayoutOfMultiBlock().containsKey(pos))
+            if (!getLayoutOfMultiBlock().containsKey(pos))
             {
                 tileMulti.setHost(null);
             }
@@ -149,5 +150,26 @@ public abstract class TileAbstractWorkstation extends TileModuleMachine implemen
             }
         }
         return false;
+    }
+
+
+    @Override
+    public void readFromNBT(NBTTagCompound nbt)
+    {
+        super.readFromNBT(nbt);
+        if (nbt.hasKey("siloRotation"))
+        {
+            this.rotation = ForgeDirection.getOrientation(nbt.getByte("siloRotation"));
+        }
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound nbt)
+    {
+        super.writeToNBT(nbt);
+        if (this.rotation != ForgeDirection.NORTH)
+        {
+            nbt.setByte("siloRotation", (byte) rotation.ordinal());
+        }
     }
 }

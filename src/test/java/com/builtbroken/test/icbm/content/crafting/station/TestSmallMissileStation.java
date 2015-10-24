@@ -63,7 +63,7 @@ public class TestSmallMissileStation extends AbstractTileTest<TileSmallMissileWo
     public void testCoverage()
     {
         super.testCoverage();
-        checkNumberOfDeclaredMethods(TileSmallMissileWorkstation.class, 23);
+        checkNumberOfDeclaredMethods(TileSmallMissileWorkstation.class, 24);
     }
 
     @Test
@@ -641,9 +641,10 @@ public class TestSmallMissileStation extends AbstractTileTest<TileSmallMissileWo
         for (ItemStack item : new ItemStack[]{null, new ItemStack(ICBM.itemMissile)})
         {
             TileSmallMissileWorkstation sender = new TileSmallMissileWorkstation();
+            sender.setWorldObj(world);
             sender.rotation = ForgeDirection.EAST;
             sender.setInventorySlotContents(sender.INPUT_SLOT, item);
-            sender.setWorldObj(world);
+
 
             TileSmallMissileWorkstationClient receiver = new TileSmallMissileWorkstationClient()
             {

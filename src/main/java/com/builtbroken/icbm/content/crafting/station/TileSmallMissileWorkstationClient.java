@@ -1,8 +1,6 @@
 package com.builtbroken.icbm.content.crafting.station;
 
 import com.builtbroken.icbm.content.Assets;
-import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
-import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.lib.transform.vector.Pos;
@@ -29,31 +27,12 @@ import org.lwjgl.opengl.GL11;
  */
 public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstation implements ISimpleItemRenderer
 {
-    private Missile missile;
 
     @Override
     public Tile newTile()
     {
         return new TileSmallMissileWorkstationClient();
     }
-
-    @Override
-    public void setInventorySlotContents(int slot, ItemStack stack)
-    {
-        if (slot == INPUT_SLOT)
-        {
-            if (stack == null)
-            {
-                missile = null;
-            }
-            else if (!InventoryUtility.stacksMatchExact(getStackInSlot(slot), stack))
-            {
-                missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
-            }
-        }
-        super.setInventorySlotContents(slot, stack);
-    }
-
 
     @Override
     public boolean read(ByteBuf buf, int id, EntityPlayer player, PacketType type)
@@ -195,8 +174,8 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
      */
     private void renderMissile(Pos pos)
     {
-        float scale = 0.1f;
-        GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() - 0.4f, pos.zf() + 0.5f);
+        float scale = 1f; //0.1f;
+        GL11.glTranslatef(pos.xf() + .04f, pos.yf() - 0.4f, pos.zf() + 0.16f);
 
         //TODO optimize as it seems each rotation method looks similar to the next
         switch (connectedBlockSide)
@@ -235,11 +214,11 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
             //Component_3_001 - 8 Engine lower segments
             //Component_2_001 - 4 Engine fins
             Assets.SMALL_MISSILE_MODEL_2.renderOnly("Group_002", "Group_003");
-            for(int i = 1; i < 9; i++)
+            for (int i = 1; i < 9; i++)
             {
                 Assets.SMALL_MISSILE_MODEL_2.renderOnly("Component_3_00" + i);
             }
-            for(int i = 1; i < 5; i++)
+            for (int i = 1; i < 5; i++)
             {
                 Assets.SMALL_MISSILE_MODEL_2.renderOnly("Component_2_00" + i);
             }
@@ -296,12 +275,12 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
             case NORTH:
                 GL11.glRotated(-90, 1, 0, 0);
                 // x -z y
-                GL11.glTranslatef(0f, -0.9f, 0.9f);
+                GL11.glTranslatef(.15f, -0.9f, 0.7f);
                 break;
             case SOUTH:
                 GL11.glRotated(90, 1, 0, 0);
                 // x z y
-                GL11.glTranslatef(0f, -0.9f, -0.9f);
+                GL11.glTranslatef(0.15f, -0.9f, -1.1f);
                 break;
         }
     }
@@ -318,17 +297,17 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
             case DOWN:
                 GL11.glRotated(180, 0, 0, 1);
                 // ? -y ?
-                GL11.glTranslatef(0f, -1.8f, 0f);
+                GL11.glTranslatef( 0f, -1.8f, 0f);
                 break;
             case EAST:
                 GL11.glRotated(-90, 0, 0, 1);
                 //-y x z
-                GL11.glTranslatef(-0.9f, -0.9f, 0f);
+                GL11.glTranslatef(-1.35f, -0.9f, 0f);
                 break;
             case WEST:
                 GL11.glRotated(90, 0, 0, 1);
                 //y -x z
-                GL11.glTranslatef(0.9f, -0.9f, 0f);
+                GL11.glTranslatef(0.45f, -0.9f, 0f);
                 break;
         }
     }

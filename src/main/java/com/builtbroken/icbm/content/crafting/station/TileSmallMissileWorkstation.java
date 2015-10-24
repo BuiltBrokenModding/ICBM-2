@@ -67,6 +67,9 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
         northSouthMap.put(new Pos(0, 0, -1), EnumMultiblock.INVENTORY.getName() + "#RenderBlock=false");
     }
 
+    /** Missile object, create from the input slot stack */
+    public Missile missile; //TODO change assemble and disassemble to use this object to reduce object creation
+
     public TileSmallMissileWorkstation()
     {
         super("missileworkstation", Material.iron);
@@ -107,6 +110,24 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
         {
             ejectCraftingItems();
         }
+    }
+
+    @Override
+    public void setInventorySlotContents(int slot, ItemStack stack)
+    {
+        if (slot == INPUT_SLOT)
+        {
+            if (stack == null)
+            {
+                missile = null;
+            }
+            else if (!InventoryUtility.stacksMatchExact(getStackInSlot(slot), stack))
+            {
+                missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
+            }
+        }
+        super.setInventorySlotContents(slot, stack);
+        world().markBlockForUpdate(xi(), yi(), zi());
     }
 
     /**
@@ -309,7 +330,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                 {
                     if (isItemValidForSlot(INPUT_SLOT, player.getHeldItem()))
                     {
-                        if (InventoryUtility.addItemToSlot(player, inventory_module(), INPUT_SLOT))
+                        if (InventoryUtility.addItemToSlot(player, this, INPUT_SLOT))
                         {
                             disassemble();
                             //TODO add sound effect when removing parts
@@ -329,7 +350,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                 {
                     assemble();
                     //TODO add sound effect when adding parts
-                    InventoryUtility.removeItemFromSlot(player, inventory_module(), INPUT_SLOT);
+                    InventoryUtility.removeItemFromSlot(player, this, INPUT_SLOT);
                 }
                 else if (isItemValidForSlot(GUIDANCE_SLOT, player.getHeldItem()))
                 {
