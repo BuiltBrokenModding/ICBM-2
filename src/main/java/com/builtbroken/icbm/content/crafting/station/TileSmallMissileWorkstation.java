@@ -585,7 +585,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                     //Change rotation after breaking down the structure and before making the new structure
                     rotation = newDir;
                     MultiBlockHelper.buildMultiBlock(world(), this, true, true);
-                    world().markBlockForUpdate(xi(), yi(), zi());
+                    MultiBlockHelper.updateStructure(world(), this, true);
                     rotating = false;
                 }
                 else
