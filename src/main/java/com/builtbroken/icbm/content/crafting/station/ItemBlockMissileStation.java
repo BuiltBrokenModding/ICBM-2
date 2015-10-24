@@ -33,25 +33,18 @@ public class ItemBlockMissileStation extends ItemBlock
                 switch (dir)
                 {
                     case UP:
-                        ((TileSmallMissileWorkstation) tile).setDirection(ForgeDirection.NORTH);
-                        break;
                     case DOWN:
-                        ((TileSmallMissileWorkstation) tile).setDirection(ForgeDirection.SOUTH);
+                        ((TileSmallMissileWorkstation) tile).rotation = ForgeDirection.SOUTH;
                         break;
                     case EAST:
-                        ((TileSmallMissileWorkstation) tile).setDirection(ForgeDirection.UP);
-                        break;
                     case WEST:
-                        ((TileSmallMissileWorkstation) tile).setDirection(ForgeDirection.UP);
-                        break;
                     case NORTH:
-                        ((TileSmallMissileWorkstation) tile).setDirection(ForgeDirection.UP);
-                        break;
                     case SOUTH:
-                        ((TileSmallMissileWorkstation) tile).setDirection(ForgeDirection.UP);
+                        ((TileSmallMissileWorkstation) tile).rotation = ForgeDirection.UP;
                         break;
                 }
             }
+            world.markBlockForUpdate(x, y, z);
         }
         return placed;
     }

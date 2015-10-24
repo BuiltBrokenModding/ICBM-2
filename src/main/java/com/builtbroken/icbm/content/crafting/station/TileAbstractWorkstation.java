@@ -47,7 +47,18 @@ public abstract class TileAbstractWorkstation extends TileModuleMachine implemen
     @Override
     public void onMultiTileAdded(IMultiTile tileMulti)
     {
-
+        if(tileMulti instanceof TileEntity)
+        {
+            Pos pos = new Pos((TileEntity) tileMulti);
+            if(!getLayoutOfMultiBlock().containsKey(pos))
+            {
+                tileMulti.setHost(null);
+            }
+        }
+        else
+        {
+            tileMulti.setHost(null);
+        }
     }
 
     @Override

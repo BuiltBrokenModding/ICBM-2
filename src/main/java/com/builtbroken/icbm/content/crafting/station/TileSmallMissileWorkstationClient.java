@@ -1,6 +1,8 @@
 package com.builtbroken.icbm.content.crafting.station;
 
 import com.builtbroken.icbm.content.Assets;
+import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
+import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.lib.transform.vector.Pos;
@@ -27,11 +29,31 @@ import org.lwjgl.opengl.GL11;
  */
 public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstation implements ISimpleItemRenderer
 {
+    private Missile missile;
+
     @Override
     public Tile newTile()
     {
         return new TileSmallMissileWorkstationClient();
     }
+
+    @Override
+    public void setInventorySlotContents(int slot, ItemStack stack)
+    {
+        if (slot == INPUT_SLOT)
+        {
+            if (stack == null)
+            {
+                missile = null;
+            }
+            else if (!InventoryUtility.stacksMatchExact(getStackInSlot(slot), stack))
+            {
+                missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
+            }
+        }
+        super.setInventorySlotContents(slot, stack);
+    }
+
 
     @Override
     public boolean read(ByteBuf buf, int id, EntityPlayer player, PacketType type)
@@ -194,19 +216,40 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
         }
         GL11.glScaled(scale, scale, scale);
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
-        if (getWarheadItem() != null)
+        //Group_001 body
+        //Component_1_001 - 4 Body Fins
+        if (missile.getWarhead() != null)
         {
-
+            //Group_004 nose of warhead
+            //Group_005 warhead
+            Assets.SMALL_MISSILE_MODEL_2.renderOnly("Group_005");
+            if (missile.getWarhead().ex != null)
+            {
+                Assets.SMALL_MISSILE_MODEL_2.renderOnly("Group_004");
+            }
         }
-        if (getEngineItem() != null)
+        if (missile.getEngine() != null)
         {
-
+            //Group_002 - Engine thruster
+            //Group_003 - Engine case
+            //Component_3_001 - 8 Engine lower segments
+            //Component_2_001 - 4 Engine fins
+            Assets.SMALL_MISSILE_MODEL_2.renderOnly("Group_002", "Group_003");
+            for(int i = 1; i < 9; i++)
+            {
+                Assets.SMALL_MISSILE_MODEL_2.renderOnly("Component_3_00" + i);
+            }
+            for(int i = 1; i < 5; i++)
+            {
+                Assets.SMALL_MISSILE_MODEL_2.renderOnly("Component_2_00" + i);
+            }
         }
-        if (getGuidanceItem() != null)
+        if (missile.getGuidance() != null)
         {
             //TODO add model indication showing no guidance added
         }
-        Assets.SMALL_MISSILE_MODEL_2.renderAllExcept("Cube_Cube.002");
+        //Render body and fins
+        Assets.SMALL_MISSILE_MODEL_2.renderOnly("Group_001", "Component_1_001", "Component_1_002", "Component_1_003", "Component_1_004");
     }
 
     private void handleMissileRotationUD()

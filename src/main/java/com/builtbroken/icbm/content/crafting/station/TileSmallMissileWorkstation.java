@@ -88,10 +88,8 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     {
         super.firstTick();
         this.connectedBlockSide = ForgeDirection.getOrientation(world().getBlockMetadata(xi(), yi(), zi()));
-        if (connectedBlockSide == ForgeDirection.NORTH || connectedBlockSide == ForgeDirection.SOUTH)
-            this.rotation = getNextRotation();
         MultiBlockHelper.buildMultiBlock(world(), this, true, true);
-        //TODO validate rotation so data is not confused
+        world().markBlockForUpdate(xi(), yi(), zi());
     }
 
     @Override
@@ -452,33 +450,33 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
         {
             case UP:
             case DOWN:
-                if (getDirection() == ForgeDirection.NORTH)
+                if (rotation == ForgeDirection.NORTH)
                     newDir = ForgeDirection.EAST;
-                else if (getDirection() == ForgeDirection.EAST)
+                else if (rotation == ForgeDirection.EAST)
                     newDir = ForgeDirection.SOUTH;
-                else if (getDirection() == ForgeDirection.SOUTH)
+                else if (rotation == ForgeDirection.SOUTH)
                     newDir = ForgeDirection.WEST;
                 else
                     newDir = ForgeDirection.NORTH;
                 break;
             case EAST:
             case WEST:
-                if (getDirection() == ForgeDirection.NORTH)
+                if (rotation == ForgeDirection.NORTH)
                     newDir = ForgeDirection.DOWN;
-                else if (getDirection() == ForgeDirection.DOWN)
+                else if (rotation == ForgeDirection.DOWN)
                     newDir = ForgeDirection.SOUTH;
-                else if (getDirection() == ForgeDirection.SOUTH)
+                else if (rotation == ForgeDirection.SOUTH)
                     newDir = ForgeDirection.UP;
                 else
                     newDir = ForgeDirection.NORTH;
                 break;
             case NORTH:
             case SOUTH:
-                if (getDirection() == ForgeDirection.EAST)
+                if (rotation == ForgeDirection.EAST)
                     newDir = ForgeDirection.DOWN;
-                else if (getDirection() == ForgeDirection.DOWN)
+                else if (rotation == ForgeDirection.DOWN)
                     newDir = ForgeDirection.WEST;
-                else if (getDirection() == ForgeDirection.WEST)
+                else if (rotation == ForgeDirection.WEST)
                     newDir = ForgeDirection.UP;
                 else
                     newDir = ForgeDirection.EAST;
@@ -492,6 +490,26 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     {
         setDirectionDO(newDir, isServer());
     }
+
+    @Override
+    public ForgeDirection getDirection()
+    {
+        //Fixed invalid rotations
+        if(!isValidRotation(rotation))
+        {
+            for(int i = 0; i < 5; i++)
+            {
+                this.rotation = getNextRotation();
+                if(setDirectionDO(rotation, isServer()))
+                {
+                    return rotation;
+                }
+            }
+            InventoryUtility.dropBlockAsItem(world(), xi(), yi(), zi(), true);
+        }
+        return rotation;
+    }
+
 
     /**
      * Seperate version of {@link TileSmallMissileWorkstation#setDirection(ForgeDirection)} that returns true if it rotated.
