@@ -14,7 +14,6 @@ import com.builtbroken.mc.api.tile.IRotatable;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
-import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.Tile;
@@ -304,7 +303,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
             //Find slot to place or removes items from
             if (getMissileItem() == null)
             {
-                if (addItemToSlot(player, INPUT_SLOT))
+                if (InventoryUtility.addItemToSlot(player, inventory_module(), INPUT_SLOT))
                 {
                     disassemble();
                     player.addChatComponentMessage(new ChatComponentText("Missile added, and broken down"));
@@ -321,12 +320,12 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
             else if (player.isSneaking())
             {
                 assemble();
-                removeItemFromSlot(player, INPUT_SLOT);
+                InventoryUtility.removeItemFromSlot(player, inventory_module(), INPUT_SLOT);
                 player.addChatComponentMessage(new ChatComponentText("Missile remove, and assembled"));
             }
             else
             {
-                if (handleSlot(player, GUIDANCE_SLOT))
+                if (InventoryUtility.handleSlot(player, inventory_module(), GUIDANCE_SLOT))
                 {
 
                 }
@@ -370,79 +369,12 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                 }
 
                 //If we have a slot do action
-                handleSlot(player, slot);
+                InventoryUtility.handleSlot(player, inventory_module(), slot);
             }
         }
         return true;
     }
 
-    private boolean handleSlot(EntityPlayer player, int slot)
-    {
-        if (!addItemToSlot(player, slot))
-        {
-            return removeItemFromSlot(player, slot);
-        }
-        return true;
-    }
-
-    private boolean addItemToSlot(EntityPlayer player, int slot)
-    {
-        if (getStackInSlot(slot) == null && isItemValidForSlot(slot, player.getHeldItem()))
-        {
-            setInventorySlotContents(slot, player.getHeldItem().copy());
-            getStackInSlot(slot).stackSize = 1;
-            if (!player.capabilities.isCreativeMode)
-            {
-                player.getHeldItem().stackSize--;
-                if (player.getHeldItem().stackSize <= 0)
-                {
-                    player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
-                }
-            }
-            player.inventoryContainer.detectAndSendChanges();
-            return true;
-        }
-        return false;
-    }
-
-    private boolean removeItemFromSlot(EntityPlayer player, int slot)
-    {
-        if (slot >= 0 && slot < getSizeInventory())
-        {
-            boolean itemsMatch = InventoryUtility.stacksMatch(player.getHeldItem(), getStackInSlot(slot));
-            boolean spaceInHand = player.getHeldItem() == null || player.getHeldItem().stackSize < player.getHeldItem().getItem().getItemStackLimit(player.getHeldItem());
-            if (getStackInSlot(slot) != null)
-            {
-                if (player.getHeldItem() == null)
-                {
-                    player.inventory.setInventorySlotContents(player.inventory.currentItem, getStackInSlot(slot));
-                    setInventorySlotContents(slot, null);
-                }
-                else if (itemsMatch && spaceInHand)
-                {
-                    player.getHeldItem().stackSize++;
-                    getStackInSlot(slot).stackSize--;
-                    if (getStackInSlot(slot).stackSize <= 0)
-                    {
-                        setInventorySlotContents(slot, null);
-                    }
-                }
-                else if (!player.inventory.addItemStackToInventory(getStackInSlot(slot)))
-                {
-                    InventoryUtility.dropItemStack(new Location(player), getStackInSlot(slot));
-                    setInventorySlotContents(slot, null);
-                }
-                else
-                {
-                    setInventorySlotContents(slot, null);
-                }
-
-                player.inventoryContainer.detectAndSendChanges();
-                return true;
-            }
-        }
-        return false;
-    }
 
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack stack)

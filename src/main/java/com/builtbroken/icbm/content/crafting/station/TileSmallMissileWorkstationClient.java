@@ -50,14 +50,13 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
                 {
                     this.setInventorySlotContents(INPUT_SLOT, stack);
                 }
-                Pos s = toPos().add(rotation);
-                Pos e = toPos().sub(rotation);
-                world().markBlockRangeForRenderUpdate(s.xi(), s.yi(), s.zi(), e.xi(), e.yi(), e.zi());
+                worldObj.markBlockForUpdate(xi(), yi(), zi());
                 return true;
             }
             else if (id == 5)
             {
                 this.rotation = ForgeDirection.getOrientation(Math.min(0, Math.max(buf.readByte(), 5)));
+                worldObj.markBlockForUpdate(xi(), yi(), zi());
                 return true;
             }
         }
