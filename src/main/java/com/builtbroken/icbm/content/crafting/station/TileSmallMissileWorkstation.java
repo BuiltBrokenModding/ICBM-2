@@ -91,7 +91,8 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     {
         super.firstTick();
         this.connectedBlockSide = ForgeDirection.getOrientation(world().getBlockMetadata(xi(), yi(), zi()));
-        if (!isRotationValid())
+        //Force rotation update if it is invalid or blocked
+        if (!isRotationValid() || isRotationBlocked(rotation))
             this.rotation = getDirection();
         else
             MultiBlockHelper.buildMultiBlock(world(), this, true, true);
@@ -346,12 +347,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                         player.addChatComponentMessage(new ChatComponentText("I don't think that goes into here."));
                     }
                 }
-                else if (player.isSneaking())
-                {
-                    assemble();
-                    //TODO add sound effect when adding parts
-                    InventoryUtility.removeItemFromSlot(player, this, INPUT_SLOT);
-                }
+
                 else if (isItemValidForSlot(GUIDANCE_SLOT, player.getHeldItem()))
                 {
                     InventoryUtility.handleSlot(player, inventory_module(), GUIDANCE_SLOT);
@@ -368,6 +364,12 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                 {
                     player.addChatComponentMessage(new ChatComponentText("That doesn't go onto a missile"));
                 }
+            }
+            else if (player.isSneaking())
+            {
+                assemble();
+                //TODO add sound effect when adding parts
+                InventoryUtility.removeItemFromSlot(player, this, INPUT_SLOT);
             }
             else
             {
@@ -393,11 +395,11 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                 //Find slot to place or removes items from
                 if (getMissileItem() != null)
                 {
-                    if (pos.equals(new Pos(getDirection())))
+                    if (pos.equals(new Pos(getDirection().getOpposite())))
                     {
                         slot = WARHEAD_SLOT;
                     }
-                    else if (pos.equals(new Pos(getDirection().getOpposite())))
+                    else if (pos.equals(new Pos(getDirection())))
                     {
                         slot = ENGINE_SLOT;
                     }

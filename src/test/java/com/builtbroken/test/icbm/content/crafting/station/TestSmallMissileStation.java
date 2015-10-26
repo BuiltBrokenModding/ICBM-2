@@ -488,8 +488,8 @@ public class TestSmallMissileStation extends AbstractTileTest<TileSmallMissileWo
         tile.rotation = ForgeDirection.NORTH;
 
         //Test valid rotation, with 90 degree change, block updates, with some stuff blocked
-        world.setBlock(0, 10, 1, Blocks.dirt);
-        world.setBlock(0, 10, -1, Blocks.dirt);
+        world.setBlock(1, 10, 0, Blocks.dirt);
+        world.setBlock(-1, 10, 0, Blocks.dirt);
         assertFalse(tile.setDirectionDO(ForgeDirection.EAST, false));
         tile.invalidate();
         tile.rotation = ForgeDirection.NORTH;
