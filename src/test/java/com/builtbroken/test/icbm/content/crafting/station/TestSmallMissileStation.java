@@ -60,7 +60,7 @@ public class TestSmallMissileStation extends AbstractTileTest<TileSmallMissileWo
     public void testCoverage()
     {
         super.testCoverage();
-        checkNumberOfDeclaredMethods(TileSmallMissileWorkstation.class, 23);
+        checkNumberOfDeclaredMethods(TileSmallMissileWorkstation.class, 24);
     }
 
     @Test
