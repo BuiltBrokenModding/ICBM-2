@@ -1,8 +1,6 @@
 package com.builtbroken.test.icbm.content.crafting.station;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
-import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.station.TileSmallMissileWorkstation;
 import com.builtbroken.icbm.content.crafting.station.TileSmallMissileWorkstationClient;
 import com.builtbroken.icbm.content.missile.ItemMissile;
@@ -21,7 +19,6 @@ import com.builtbroken.mc.testing.junit.world.FakeWorld;
 import com.builtbroken.mc.testing.tile.AbstractTileTest;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.junit.Test;
@@ -63,7 +60,7 @@ public class TestSmallMissileStation extends AbstractTileTest<TileSmallMissileWo
     public void testCoverage()
     {
         super.testCoverage();
-        checkNumberOfDeclaredMethods(TileSmallMissileWorkstation.class, 24);
+        checkNumberOfDeclaredMethods(TileSmallMissileWorkstation.class, 23);
     }
 
     @Test
@@ -110,139 +107,6 @@ public class TestSmallMissileStation extends AbstractTileTest<TileSmallMissileWo
             //Clear block between cycles
             world.setBlockToAir(0, 10, 0);
         }
-    }
-
-    @Override
-    @Test
-    public void testUpdate()
-    {
-        FakeWorld world = FakeWorld.newWorld("TestUpdate");
-        world.setBlock(0, 10, 0, block);
-        TileSmallMissileWorkstation tile = ((TileSmallMissileWorkstation) world.getTileEntity(0, 10, 0));
-        tile.ticks = 5;
-
-        //Test eject when missile is missing
-        tile.setInventorySlotContents(tile.GUIDANCE_SLOT, new ItemStack(Items.apple));
-        tile.update();
-        assertTrue(tile.getStackInSlot(tile.GUIDANCE_SLOT) == null);
-
-        //Test eject when missile is not missing, item type doesn't matter
-        tile.setInventorySlotContents(tile.INPUT_SLOT, new ItemStack(Items.stick));
-        tile.setInventorySlotContents(tile.GUIDANCE_SLOT, new ItemStack(Items.apple));
-        tile.update();
-        assertTrue(tile.getStackInSlot(tile.GUIDANCE_SLOT) != null);
-        assertTrue(tile.getStackInSlot(tile.INPUT_SLOT) != null);
-    }
-
-    @Test
-    public void testEject()
-    {
-        FakeWorld world = FakeWorld.newWorld("TestEject");
-        world.setBlock(0, 10, 0, block);
-        TileSmallMissileWorkstation tile = ((TileSmallMissileWorkstation) world.getTileEntity(0, 10, 0));
-
-        //Test eject with items
-        tile.setInventorySlotContents(tile.GUIDANCE_SLOT, new ItemStack(Items.apple));
-        tile.setInventorySlotContents(tile.ENGINE_SLOT, new ItemStack(Items.apple));
-        tile.setInventorySlotContents(tile.WARHEAD_SLOT, new ItemStack(Items.apple));
-        tile.ejectCraftingItems();
-        assertTrue(tile.getStackInSlot(tile.GUIDANCE_SLOT) == null);
-        assertTrue(tile.getStackInSlot(tile.ENGINE_SLOT) == null);
-        assertTrue(tile.getStackInSlot(tile.WARHEAD_SLOT) == null);
-
-        //Test eject with out items
-        tile.ejectCraftingItems();
-        assertTrue(tile.getStackInSlot(tile.GUIDANCE_SLOT) == null);
-        assertTrue(tile.getStackInSlot(tile.ENGINE_SLOT) == null);
-        assertTrue(tile.getStackInSlot(tile.WARHEAD_SLOT) == null);
-    }
-
-    @Test
-    public void testAssemble()
-    {
-        FakeWorld world = FakeWorld.newWorld("TestAssemble");
-        world.setBlock(0, 10, 0, block);
-        TileSmallMissileWorkstation tile = ((TileSmallMissileWorkstation) world.getTileEntity(0, 10, 0));
-
-        String result;
-
-        //Test empty input slot
-        result = tile.assemble();
-        assertTrue(result.equals("slot.input.empty"));
-
-        //Test invalid input slot
-        tile.setInventorySlotContents(tile.INPUT_SLOT, new ItemStack(Items.apple));
-        result = tile.assemble();
-        assertTrue(result.equals("slot.input.invalid"));
-
-        //Valid input slot
-        tile.setInventorySlotContents(tile.INPUT_SLOT, MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.SMALL, null, null, null).toStack());
-        result = tile.assemble();
-        assertTrue(result.equals(""));
-
-        //Test warhead insert, with warhead in slot, with out warhead in missile, with invalid item
-        tile.setInventorySlotContents(tile.INPUT_SLOT, MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.SMALL, null, null, null).toStack());
-        tile.setInventorySlotContents(tile.WARHEAD_SLOT, new ItemStack(Items.apple));
-        result = tile.assemble();
-        assertTrue(InventoryUtility.stacksMatchExact(tile.getWarheadItem(), new ItemStack(Items.apple)));
-        assertTrue(tile.getMissileItem() != null);
-        assertTrue(((ItemMissile) tile.getMissileItem().getItem()).getWarhead(tile.getMissileItem()) == null);
-        assertTrue(tile.getEngineItem() == null);
-        assertTrue(tile.getGuidanceItem() == null);
-        assertTrue(result.equals(""));
-        tile.setInventorySlotContents(tile.WARHEAD_SLOT, null);
-
-        //Test guidance insert, with item in slot, with out guidance in missile, with invalid item
-        tile.setInventorySlotContents(tile.INPUT_SLOT, MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.SMALL, null, null, null).toStack());
-        tile.setInventorySlotContents(tile.GUIDANCE_SLOT, new ItemStack(Items.apple));
-        result = tile.assemble();
-        assertTrue(InventoryUtility.stacksMatchExact(tile.getGuidanceItem(), new ItemStack(Items.apple)));
-        assertTrue(tile.getMissileItem() != null);
-        assertTrue(((ItemMissile) tile.getMissileItem().getItem()).getWarhead(tile.getMissileItem()) == null);
-        assertTrue(tile.getEngineItem() == null);
-        assertTrue(tile.getWarheadItem() == null);
-        assertTrue(result.equals(""));
-        tile.setInventorySlotContents(tile.GUIDANCE_SLOT, null);
-
-        //Test engine insert, with item in slot, with out engine in missile, with invalid item
-        tile.setInventorySlotContents(tile.INPUT_SLOT, MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.SMALL, null, null, null).toStack());
-        tile.setInventorySlotContents(tile.ENGINE_SLOT, new ItemStack(Items.apple));
-        result = tile.assemble();
-        assertTrue(InventoryUtility.stacksMatchExact(tile.getEngineItem(), new ItemStack(Items.apple)));
-        assertTrue(tile.getMissileItem() != null);
-        assertTrue(((ItemMissile) tile.getMissileItem().getItem()).getWarhead(tile.getMissileItem()) == null);
-        assertTrue(tile.getWarheadItem() == null);
-        assertTrue(tile.getGuidanceItem() == null);
-        assertTrue(result.equals(""));
-        tile.setInventorySlotContents(tile.GUIDANCE_SLOT, null);
-
-        //TODO test valid item insert, valid item with item in missile, empty slot with item in missile... later
-        //Basic another 20 tests for this one method meh
-    }
-
-    @Test
-    public void testDisassemble()
-    {
-        //34 test cases needed... best estimate
-        FakeWorld world = FakeWorld.newWorld("TestDisassemble");
-        world.setBlock(0, 10, 0, block);
-        TileSmallMissileWorkstation tile = ((TileSmallMissileWorkstation) world.getTileEntity(0, 10, 0));
-
-        String result;
-
-        //Test empty input slot
-        result = tile.disassemble();
-        assertTrue(result.equals("slot.input.invalid"));
-
-        //Test empty input slot
-        tile.setInventorySlotContents(tile.INPUT_SLOT, new ItemStack(Items.apple));
-        result = tile.disassemble();
-        assertTrue(result.equals("slot.input.invalid"));
-
-        //Valid input slot
-        tile.setInventorySlotContents(tile.INPUT_SLOT, MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.SMALL, null, null, null).toStack());
-        result = tile.disassemble();
-        assertTrue(result.equals(""));
     }
 
     @Test

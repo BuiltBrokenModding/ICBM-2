@@ -2,20 +2,17 @@ package com.builtbroken.icbm.content.warhead;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.IModuleItem;
-import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.IExplosiveItem;
-import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -203,6 +200,12 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IModu
     @Override
     public Warhead getModule(ItemStack stack)
     {
-        return MissileModuleBuilder.INSTANCE.buildWarhead(stack);
+        if (stack != null)
+        {
+            ItemStack insert = stack.copy();
+            insert.stackSize = 1;
+            return MissileModuleBuilder.INSTANCE.buildWarhead(insert);
+        }
+        return null;
     }
 }

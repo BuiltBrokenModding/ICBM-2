@@ -1,7 +1,8 @@
-package com.builtbroken.icbm.content.crafting.missile.engine;
+package com.builtbroken.icbm.content.crafting.missile.guidance;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.crafting.missile.ItemAbstractModule;
+import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -16,9 +17,9 @@ import java.util.List;
  * Item for the modules to be contained in an inventory
  * Created by robert on 12/28/2014.
  */
-public class ItemEngineModules extends ItemAbstractModule
+public class ItemGuidanceModules extends ItemAbstractModule
 {
-    public ItemEngineModules()
+    public ItemGuidanceModules()
     {
         this.setHasSubtypes(true);
     }
@@ -26,7 +27,7 @@ public class ItemEngineModules extends ItemAbstractModule
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tab, List list)
     {
-        for (Engines engine : Engines.values())
+        for (GuidanceModules engine : GuidanceModules.values())
         {
             ItemStack stack = engine.newModuleStack();
             if (stack != null)
@@ -37,7 +38,7 @@ public class ItemEngineModules extends ItemAbstractModule
     @SideOnly(Side.CLIENT)
     public IIcon getIconFromDamage(int meta)
     {
-        return Engines.get(meta) != null ? Engines.get(meta).icon : this.itemIcon;
+        return GuidanceModules.get(meta) != null ? GuidanceModules.get(meta).icon : this.itemIcon;
     }
 
     @Override
@@ -45,7 +46,7 @@ public class ItemEngineModules extends ItemAbstractModule
     public void registerIcons(IIconRegister reg)
     {
         this.itemIcon = reg.registerIcon(ICBM.PREFIX + "engine");
-        for (Engines engine : Engines.values())
+        for (GuidanceModules engine : GuidanceModules.values())
         {
             engine.icon = reg.registerIcon(ICBM.PREFIX + engine.name);
         }

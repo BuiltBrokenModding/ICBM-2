@@ -8,7 +8,7 @@ import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
 import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
-import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadSmall;
+import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.tile.IRotatable;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
@@ -37,12 +37,12 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
 {
     //Static values
     public static final int INPUT_SLOT = 0;
-    public static final int WARHEAD_SLOT = 1;
-    public static final int ENGINE_SLOT = 2;
-    public static final int GUIDANCE_SLOT = 3;
+    //public static final int WARHEAD_SLOT = 1;
+    //public static final int ENGINE_SLOT = 2;
+    //public static final int GUIDANCE_SLOT = 3;
 
-    public static final int[] INPUTS = new int[]{INPUT_SLOT, WARHEAD_SLOT, ENGINE_SLOT, GUIDANCE_SLOT};
-    public static final int[] OUTPUTS = new int[]{INPUT_SLOT};
+    //public static final int[] INPUTS = new int[]{INPUT_SLOT, WARHEAD_SLOT, ENGINE_SLOT, GUIDANCE_SLOT};
+    //public static final int[] OUTPUTS = new int[]{INPUT_SLOT};
 
     /** Multi-block set for up-down row */
     public static HashMap<IPos3D, String> upDownMap;
@@ -67,8 +67,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
         northSouthMap.put(new Pos(0, 0, -1), EnumMultiblock.INVENTORY.getName() + "#RenderBlock=false");
     }
 
-    /** Missile object, create from the input slot stack */
-    public Missile missile; //TODO change assemble and disassemble to use this object to reduce object creation
+    private Missile missile; //TODO change assemble and disassemble to use this object to reduce object creation
 
     public TileSmallMissileWorkstation()
     {
@@ -141,106 +140,6 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
             InventoryUtility.dropItemStack(toLocation(), getStackInSlot(i));
             setInventorySlotContents(i, null);
         }
-    }
-
-
-    // Adds all components to the missile and sends it to the output slot
-    public String assemble()
-    {
-        ItemStack missile_stack = getMissileItem();
-        if (missile_stack == null)
-            return "slot.input.empty";
-        if (missile_stack.getItem() instanceof IModularMissileItem)
-        {
-            IModularMissileItem missile = (IModularMissileItem) missile_stack.getItem();
-
-            //Insert engine
-            if (getEngineItem() != null && missile.getEngine(missile_stack) == null)
-                if (missile.setEngine(missile_stack, getEngineItem(), true))
-                {
-                    missile.setEngine(missile_stack, getEngineItem(), false);
-                    setInventorySlotContents(ENGINE_SLOT, null);
-                }
-
-            //Insert warhead
-            if (getWarheadItem() != null && missile.getWarhead(missile_stack) == null)
-                if (missile.setWarhead(missile_stack, getWarheadItem(), true))
-                {
-                    missile.setWarhead(missile_stack, getWarheadItem(), false);
-                    setInventorySlotContents(WARHEAD_SLOT, null);
-                }
-
-            //Insert guidance
-            if (getGuidanceItem() != null && missile.getGuidance(missile_stack) == null)
-                if (missile.setGuidance(missile_stack, getGuidanceItem(), true))
-                {
-                    missile.setGuidance(missile_stack, getGuidanceItem(), false);
-                    setInventorySlotContents(GUIDANCE_SLOT, null);
-                }
-            //Move missile to output slot even if not finished
-            setInventorySlotContents(INPUT_SLOT, missile_stack);
-            return "";
-        }
-        return "slot.input.invalid";
-    }
-
-    /**
-     * Breaks down the missile into its parts. Called from the GUI or automation.
-     *
-     * @return error message
-     */
-    public String disassemble()
-    {
-        ItemStack missile_stack = getMissileItem();
-        ejectCraftingItems();
-        if (missile_stack != null && missile_stack.getItem() instanceof IModularMissileItem)
-        {
-            IModularMissileItem missile = (IModularMissileItem) missile_stack.getItem();
-
-            //Check if output slots are empty
-            if (missile.getEngine(missile_stack) != null && getEngineItem() != null)
-                return "slot.engine.full";
-            if (missile.getWarhead(missile_stack) != null && getWarheadItem() != null)
-                return "slot.warhead.full";
-            if (missile.getGuidance(missile_stack) != null && getGuidanceItem() != null)
-                return "slot.guidance.full";
-
-            //Remove items from missile
-            if (getWarheadItem() == null)
-                setInventorySlotContents(WARHEAD_SLOT, missile.getWarhead(missile_stack));
-            if (getEngineItem() == null)
-                setInventorySlotContents(ENGINE_SLOT, missile.getEngine(missile_stack));
-            if (getGuidanceItem() == null)
-                setInventorySlotContents(GUIDANCE_SLOT, missile.getGuidance(missile_stack));
-
-            //Clear items off of the missile
-            if (missile.getEngine(missile_stack) != null && !missile.setEngine(missile_stack, null, false))
-                return "missile.engine.error.set";
-            if (missile.getWarhead(missile_stack) != null && !missile.setWarhead(missile_stack, null, false))
-                return "missile.warhead.error.set";
-            if (missile.getGuidance(missile_stack) != null && !missile.setGuidance(missile_stack, null, false))
-                return "missile.guidance.error.set";
-
-            //Move missile to output slot
-            setInventorySlotContents(INPUT_SLOT, missile_stack);
-            return "";
-        }
-        return "slot.input.invalid";
-    }
-
-    public ItemStack getWarheadItem()
-    {
-        return getStackInSlot(WARHEAD_SLOT);
-    }
-
-    public ItemStack getEngineItem()
-    {
-        return getStackInSlot(ENGINE_SLOT);
-    }
-
-    public ItemStack getGuidanceItem()
-    {
-        return getStackInSlot(GUIDANCE_SLOT);
     }
 
     public ItemStack getMissileItem()
@@ -333,8 +232,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                     {
                         if (InventoryUtility.addItemToSlot(player, this, INPUT_SLOT))
                         {
-                            disassemble();
-                            //TODO add sound effect when removing parts
+                            updateMissile();
                         }
                         //Shouldn't happen as slot is empty and the item is valid
                         else
@@ -347,36 +245,79 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                         player.addChatComponentMessage(new ChatComponentText("I don't think that goes into here."));
                     }
                 }
+                else if(getMissile() != null)
+                {
+                    AbstractModule module = null;
 
-                else if (isItemValidForSlot(GUIDANCE_SLOT, player.getHeldItem()))
-                {
-                    InventoryUtility.handleSlot(player, inventory_module(), GUIDANCE_SLOT);
-                }
-                else if (isItemValidForSlot(ENGINE_SLOT, player.getHeldItem()))
-                {
-                    player.addChatComponentMessage(new ChatComponentText("Try clicking the engine section"));
-                }
-                else if (isItemValidForSlot(WARHEAD_SLOT, player.getHeldItem()))
-                {
-                    player.addChatComponentMessage(new ChatComponentText("Try clicking the front of the missile"));
-                }
-                else
-                {
-                    player.addChatComponentMessage(new ChatComponentText("That doesn't go onto a missile"));
+                    if (player.getHeldItem() != null)
+                        module = ((IModuleItem) player.getHeldItem().getItem()).getModule(player.getHeldItem());
+
+                    if (module instanceof Guidance)
+                    {
+                        if (getMissile().getGuidance() == null)
+                        {
+                            getMissile().setGuidance((Guidance) module);
+                            player.getHeldItem().stackSize--;
+                            if (player.getHeldItem().stackSize <= 0)
+                                player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+                            player.inventoryContainer.detectAndSendChanges();
+                            updateMissileItem();
+                        }
+                        else
+                        {
+                            player.addChatComponentMessage(new ChatComponentText("Guidance already set, right click with empty hand to remove."));
+                        }
+                    }
+                    else if (module instanceof RocketEngine)
+                    {
+                        player.addChatComponentMessage(new ChatComponentText("Try clicking the back of the missile"));
+                    }
+                    else if (module instanceof Warhead)
+                    {
+                        player.addChatComponentMessage(new ChatComponentText("Try clicking the front of the missile"));
+                    }
+                    else
+                    {
+                        player.addChatComponentMessage(new ChatComponentText("That doesn't go onto a missile"));
+                    }
                 }
             }
             else if (player.isSneaking())
             {
-                assemble();
                 //TODO add sound effect when adding parts
                 InventoryUtility.removeItemFromSlot(player, this, INPUT_SLOT);
+                updateMissile();
             }
-            else
+            else if (getMissile() != null && getMissile().getGuidance() != null)
             {
-                InventoryUtility.handleSlot(player, inventory_module(), GUIDANCE_SLOT);
+                ItemStack stack = getMissile().getGuidance().toStack();
+                player.inventory.setInventorySlotContents(player.inventory.currentItem, stack);
+                getMissile().setGuidance(null);
+                updateMissileItem();
+                player.inventoryContainer.detectAndSendChanges();
             }
         }
         return true;
+    }
+
+    private void updateMissile()
+    {
+        if(getMissileItem() != null)
+        {
+            this.missile = MissileModuleBuilder.INSTANCE.buildMissile(getMissileItem());
+        }
+        else
+        {
+            this.missile = null;
+        }
+    }
+
+    private void updateMissileItem()
+    {
+        if(getMissile() != null)
+        {
+            setInventorySlotContents(INPUT_SLOT, getMissile().toStack());
+        }
     }
 
     @Override
@@ -386,34 +327,78 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
         {
             //Get offset from center
             Pos pos = new Pos((TileEntity) tile).sub(xi(), yi(), zi());
-
             //Ensure pos is in our layout
-            if (getLayoutOfMultiBlock().containsKey(pos) || pos.equals(Pos.zero))
+            if (getLayoutOfMultiBlock().containsKey(pos))
             {
-                int slot = -1;
-
                 //Find slot to place or removes items from
-                if (getMissileItem() != null)
+                if (getMissile() != null)
                 {
+                    AbstractModule module = null;
+
+                    if (player.getHeldItem() != null)
+                        module = ((IModuleItem) player.getHeldItem().getItem()).getModule(player.getHeldItem());
+
                     if (pos.equals(new Pos(getDirection().getOpposite())))
                     {
-                        slot = WARHEAD_SLOT;
+                        if (module == null)
+                        {
+                            if(getMissile().getWarhead() != null)
+                            {
+                                ItemStack stack = getMissile().getWarhead().toStack();
+                                player.inventory.setInventorySlotContents(player.inventory.currentItem, stack);
+                                getMissile().setWarhead(null);
+                                updateMissileItem();
+                                player.inventoryContainer.detectAndSendChanges();
+                            }
+                        }
+                        else if (module instanceof Warhead)
+                        {
+                            getMissile().setWarhead((Warhead) module);
+                            reducePlayerHeldItem(player);
+                            updateMissileItem();
+                        }
+                        else
+                        {
+                            player.addChatComponentMessage(new ChatComponentText("Only warheads can fit on the tip."));
+                        }
                     }
                     else if (pos.equals(new Pos(getDirection())))
                     {
-                        slot = ENGINE_SLOT;
+                        //slot = ENGINE_SLOT;
+                        if (module == null)
+                        {
+                            if(getMissile().getEngine() != null)
+                            {
+                                ItemStack stack = getMissile().getEngine().toStack();
+                                player.inventory.setInventorySlotContents(player.inventory.currentItem, stack);
+                                getMissile().setEngine(null);
+                                updateMissileItem();
+                                player.inventoryContainer.detectAndSendChanges();
+                            }
+                        }
+                        else if (module instanceof RocketEngine)
+                        {
+                            getMissile().setEngine((RocketEngine) module);
+                            reducePlayerHeldItem(player);
+                            updateMissileItem();
+                        }
+                        else
+                        {
+                            player.addChatComponentMessage(new ChatComponentText("Only engines can fit in the end."));
+                        }
                     }
                 }
-                else
-                {
-                    slot = INPUT_SLOT;
-                }
-
-                //If we have a slot do action
-                InventoryUtility.handleSlot(player, inventory_module(), slot);
             }
         }
         return true;
+    }
+
+    private void reducePlayerHeldItem(EntityPlayer player)
+    {
+        player.getHeldItem().stackSize--;
+        if (player.getHeldItem().stackSize <= 0)
+            player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+        player.inventoryContainer.detectAndSendChanges();
     }
 
 
@@ -427,23 +412,6 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
             {
                 Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
                 return missile.casing == MissileCasings.SMALL;
-            }
-            //Modules slots
-            else if (stack.getItem() instanceof IModuleItem)
-            {
-                AbstractModule module = ((IModuleItem) stack.getItem()).getModule(stack);
-                if (module instanceof RocketEngine && slot == ENGINE_SLOT)
-                {
-                    return true;
-                }
-                else if (module instanceof Guidance && slot == GUIDANCE_SLOT)
-                {
-                    return true;
-                }
-                else if (module instanceof WarheadSmall && slot == WARHEAD_SLOT)
-                {
-                    return true;
-                }
             }
         }
         return false;
@@ -595,5 +563,15 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
             return true;
         }
         return false;
+    }
+
+    /** Missile object, create from the input slot stack */
+    public Missile getMissile()
+    {
+        if(getMissileItem() != null && missile == null)
+        {
+            missile = MissileModuleBuilder.INSTANCE.buildMissile(getMissileItem());
+        }
+        return missile;
     }
 }

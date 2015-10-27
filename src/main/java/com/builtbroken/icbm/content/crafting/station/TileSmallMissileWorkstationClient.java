@@ -197,17 +197,17 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
         //Group_001 body
         //Component_1_001 - 4 Body Fins
-        if (missile.getWarhead() != null)
+        if (getMissile().getWarhead() != null)
         {
             //Group_004 nose of warhead
             //Group_005 warhead
             Assets.SMALL_MISSILE_MODEL_2.renderOnly("Group_005");
-            if (missile.getWarhead().ex != null)
+            if (getMissile().getWarhead().ex != null)
             {
                 Assets.SMALL_MISSILE_MODEL_2.renderOnly("Group_004");
             }
         }
-        if (missile.getEngine() != null)
+        if (getMissile().getEngine() != null)
         {
             //Group_002 - Engine thruster
             //Group_003 - Engine case
@@ -223,7 +223,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
                 Assets.SMALL_MISSILE_MODEL_2.renderOnly("Component_2_00" + i);
             }
         }
-        if (missile.getGuidance() != null)
+        if (getMissile().getGuidance() != null)
         {
             //TODO add model indication showing no guidance added
         }
