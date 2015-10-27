@@ -245,7 +245,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                         player.addChatComponentMessage(new ChatComponentText("I don't think that goes into here."));
                     }
                 }
-                else if(getMissile() != null)
+                else if (getMissile() != null)
                 {
                     AbstractModule module = null;
 
@@ -302,7 +302,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
 
     private void updateMissile()
     {
-        if(getMissileItem() != null)
+        if (getMissileItem() != null)
         {
             this.missile = MissileModuleBuilder.INSTANCE.buildMissile(getMissileItem());
         }
@@ -314,7 +314,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
 
     private void updateMissileItem()
     {
-        if(getMissile() != null)
+        if (getMissile() != null)
         {
             setInventorySlotContents(INPUT_SLOT, getMissile().toStack());
         }
@@ -338,11 +338,11 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                     if (player.getHeldItem() != null)
                         module = ((IModuleItem) player.getHeldItem().getItem()).getModule(player.getHeldItem());
 
-                    if (pos.equals(new Pos(getDirection().getOpposite())))
+                    if (isWarheadSide(pos))
                     {
                         if (module == null)
                         {
-                            if(getMissile().getWarhead() != null)
+                            if (getMissile().getWarhead() != null)
                             {
                                 ItemStack stack = getMissile().getWarhead().toStack();
                                 player.inventory.setInventorySlotContents(player.inventory.currentItem, stack);
@@ -362,12 +362,12 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                             player.addChatComponentMessage(new ChatComponentText("Only warheads can fit on the tip."));
                         }
                     }
-                    else if (pos.equals(new Pos(getDirection())))
+                    else
                     {
                         //slot = ENGINE_SLOT;
                         if (module == null)
                         {
-                            if(getMissile().getEngine() != null)
+                            if (getMissile().getEngine() != null)
                             {
                                 ItemStack stack = getMissile().getEngine().toStack();
                                 player.inventory.setInventorySlotContents(player.inventory.currentItem, stack);
@@ -388,9 +388,18 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                         }
                     }
                 }
+                else if (player.getHeldItem() != null)
+                {
+                    return onPlayerRightClick(player, side, new Pos(hit));
+                }
             }
         }
         return true;
+    }
+
+    private boolean isWarheadSide(Pos pos)
+    {
+        return pos.toForgeDirection() == getDirection();
     }
 
     private void reducePlayerHeldItem(EntityPlayer player)
@@ -568,7 +577,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     /** Missile object, create from the input slot stack */
     public Missile getMissile()
     {
-        if(getMissileItem() != null && missile == null)
+        if (getMissileItem() != null && missile == null)
         {
             missile = MissileModuleBuilder.INSTANCE.buildMissile(getMissileItem());
         }
