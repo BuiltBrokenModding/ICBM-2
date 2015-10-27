@@ -238,22 +238,22 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
             case EAST:
                 GL11.glRotated(-90, 0, 0, 1);
                 // y x z
-                GL11.glTranslatef(-0.9f, -0.9f, 0f);
+                GL11.glTranslatef(-1.4f, -0.5f, 0.15f);
                 break;
             case WEST:
                 GL11.glRotated(90, 0, 0, 1);
                 // y x z
-                GL11.glTranslatef(0.9f, -0.9f, 0f);
+                GL11.glTranslatef(0.5f, -1.4f, 0.15f);
                 break;
             case NORTH:
                 GL11.glRotated(90, 1, 0, 0);
                 // x z y
-                GL11.glTranslatef(0f, -0.9f, -0.9f);
+                GL11.glTranslatef(0f, -0.6f, -1.2f);
                 break;
             case SOUTH:
                 GL11.glRotated(-90, 1, 0, 0);
                 // x z y
-                GL11.glTranslatef(0f, -0.9f, 0.9f);
+                GL11.glTranslatef(0f, -1.3f, 0.75f);
                 break;
         }
     }
