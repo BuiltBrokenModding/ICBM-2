@@ -70,7 +70,8 @@ info.icbm:trigger.name=Trigger
 
 
 ## Controller GUI error messages
-gui.icbm:controller.links.none.name=No silos linked
+gui.icbm:controller.links.none=No silos linked
+gui.icbm:controller.links.none.hint=Try using the Data Chip
 gui.icbm:controller.invalid.input.name=Invalid input
 
 ## Controller GUI buttons

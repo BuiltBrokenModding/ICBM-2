@@ -27,6 +27,7 @@ import java.util.Random;
  */
 public class MissileTracker implements IVirtualObject
 {
+    public static int MAX_SPAWN_OUT_Y = 400;
     private static HashMap<Integer, MissileTracker> trackers = new HashMap();
 
     private ArrayList<MissileTrackingData> missiles = new ArrayList();
@@ -87,7 +88,7 @@ public class MissileTracker implements IVirtualObject
 
         //Generate spawn in point
         Pos pos = location.toPos();
-        pos.sub(0, 100 + (100 * rand.nextInt()), 0);
+        pos.sub(0, 10 + (100 * rand.nextFloat()), 0);
         float accuracy = 100f;
         if (missile.getMissile() != null && missile.getMissile().getGuidance() != null)
         {
@@ -128,7 +129,7 @@ public class MissileTracker implements IVirtualObject
                         Entity entity = EntityList.createEntityFromNBT(data.m_save, world);
                         if (entity instanceof EntityMissile)
                         {
-                            spawnMissileOverTarget(((EntityMissile) entity).getMissile(), new Location(loc.world, loc.x(), 1000, loc.z()));
+                            spawnMissileOverTarget(((EntityMissile) entity).getMissile(), new Location(loc.world, loc.x(), MAX_SPAWN_OUT_Y, loc.z()));
                         }
                         else
                         {

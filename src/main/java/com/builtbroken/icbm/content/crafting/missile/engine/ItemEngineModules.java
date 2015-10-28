@@ -47,7 +47,7 @@ public class ItemEngineModules extends ItemAbstractModule implements IPostInit
             RocketEngineCoalPowered engine = new RocketEngineCoalPowered(new ItemStack(ICBM.itemEngineModules, 1, Engines.COAL_ENGINE.ordinal()));
             //Empty coal engine
             ItemStack engineStack = engine.toStack();
-            GameRegistry.addRecipe(new ShapedOreRecipe(engineStack, " F ", "LRC", 'R', Items.redstone, 'F', Blocks.furnace, 'L', Items.flint_and_steel, 'C', ItemSheetMetal.SheetMetal.CONE_SMALL));
+            GameRegistry.addRecipe(new ShapedOreRecipe(engineStack, " F ", "LRC", 'R', Items.redstone, 'F', Blocks.furnace, 'L', Items.flint_and_steel, 'C', ItemSheetMetal.SheetMetal.CONE_SMALL.stack()));
 
             //Coal fuel
             engine.getInventory().setInventorySlotContents(0, new ItemStack(Items.coal, 5));

@@ -114,7 +114,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
         super.updateMotion();
         if (target_pos != null)
         {
-            if (this.posY >= 1000)
+            if (this.posY >= MissileTracker.MAX_SPAWN_OUT_Y)
             {
                 MissileTracker.addToTracker(this);
             }

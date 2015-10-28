@@ -173,7 +173,8 @@ public class GuiController extends GuiContainerBase
 
         if (!editMode && (controller.launcherData == null || controller.launcherData.size() == 0))
         {
-            drawStringCentered("gui.icbm:controller.links.none", 85, 40);
+            drawStringCentered(LanguageUtility.getLocal("gui.icbm:controller.links.none"), 85, 40);
+            drawStringCentered(LanguageUtility.getLocal("gui.icbm:controller.links.none.hint"), 85, 50);
         }
     }
 

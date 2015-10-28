@@ -19,11 +19,8 @@ import net.minecraft.nbt.NBTTagCompound;
  */
 public abstract class Missile extends AbstractModule implements IMissileModule
 {
-
+    /** Size of the missile */
     public final MissileCasings casing;
-
-    public int body_length = 2;
-    public int visual_id = 0;
 
     private Warhead warhead;
     private Guidance guidance;
@@ -128,5 +125,11 @@ public abstract class Missile extends AbstractModule implements IMissileModule
     public RocketEngine getEngine()
     {
         return engine;
+    }
+
+    @Override
+    public int getMissileSize()
+    {
+        return casing.ordinal();
     }
 }
