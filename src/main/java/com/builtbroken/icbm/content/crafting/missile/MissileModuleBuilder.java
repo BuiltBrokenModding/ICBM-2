@@ -11,6 +11,7 @@ import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
+import com.builtbroken.mc.api.modules.IModule;
 import net.minecraft.item.ItemStack;
 
 import java.lang.reflect.InvocationTargetException;
@@ -69,7 +70,7 @@ public class MissileModuleBuilder extends ModuleBuilder
 
     public Missile buildMissile(ItemStack stack)
     {
-        AbstractModule module = super.build(stack);
+        IModule module = super.build(stack);
         if (module instanceof Missile)
         {
             return (Missile) module;
@@ -79,7 +80,7 @@ public class MissileModuleBuilder extends ModuleBuilder
 
     public Warhead buildWarhead(ItemStack stack)
     {
-        AbstractModule module = super.build(stack);
+        IModule module = super.build(stack);
         if (module instanceof Warhead)
         {
             return (Warhead) module;
@@ -89,7 +90,7 @@ public class MissileModuleBuilder extends ModuleBuilder
 
     public RocketEngine buildEngine(ItemStack stack)
     {
-        AbstractModule module = super.build(stack);
+        IModule module = super.build(stack);
         if (module instanceof RocketEngine)
         {
             return (RocketEngine) module;
@@ -99,7 +100,7 @@ public class MissileModuleBuilder extends ModuleBuilder
 
     public Guidance buildGuidance(ItemStack stack)
     {
-        AbstractModule module = super.build(stack);
+        IModule module = super.build(stack);
         if (module instanceof Guidance)
         {
             return (Guidance) module;

@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.crafting.missile.warhead;
 
+import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
@@ -14,10 +15,10 @@ import net.minecraft.world.World;
  * Container for explosive data to make implementing warhead like objects easier
  * Created by robert on 12/25/2014.
  */
-public abstract class Warhead extends AbstractModule
+public abstract class Warhead extends AbstractModule implements IWarhead
 {
     public IExplosiveHandler ex;
-    public int size = 1;
+    public double size = 1;
     public NBTTagCompound tag = new NBTTagCompound();
     public ItemStack explosive;
 
@@ -50,11 +51,24 @@ public abstract class Warhead extends AbstractModule
         return nbt;
     }
 
-    /**
-     * Triggers the warhead to set its explosive off
-     */
+    @Override
     public WorldChangeHelper.ChangeResult trigger(TriggerCause triggerCause, World world, double x, double y, double z)
     {
         return ExplosiveRegistry.triggerExplosive(world, x, y, z, ex, triggerCause, size + (size * casing.ordinal()) + 5, tag);
+    }
+
+    @Override
+    public boolean setExplosive(IExplosiveHandler ex, double size, NBTTagCompound nbt)
+    {
+        this.ex = ex;
+        this.size = size;
+        this.tag = nbt;
+        return true;
+    }
+
+    @Override
+    public IExplosiveHandler getExplosive()
+    {
+        return null;
     }
 }

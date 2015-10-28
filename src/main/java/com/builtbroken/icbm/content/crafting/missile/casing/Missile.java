@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.crafting.missile.casing;
 
-import com.builtbroken.icbm.api.IModuleContainer;
+import com.builtbroken.mc.api.modules.IModule;
+import com.builtbroken.mc.api.modules.IModuleContainer;
 import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
@@ -68,13 +69,13 @@ public abstract class Missile extends AbstractModule implements IModuleContainer
     }
 
     @Override
-    public boolean canInstallModule(ItemStack stack, AbstractModule module)
+    public boolean canInstallModule(ItemStack stack, IModule module)
     {
         return module instanceof RocketEngine || module instanceof Warhead || module instanceof Guidance;
     }
 
     @Override
-    public boolean installModule(ItemStack stack, AbstractModule module)
+    public boolean installModule(ItemStack stack, IModule module)
     {
         if (module instanceof RocketEngine && engine == null)
         {

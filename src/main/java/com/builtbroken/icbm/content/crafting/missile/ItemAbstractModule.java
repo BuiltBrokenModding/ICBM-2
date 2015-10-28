@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.crafting.missile;
 
-import com.builtbroken.icbm.api.IModuleItem;
-import com.builtbroken.icbm.content.crafting.AbstractModule;
+import com.builtbroken.mc.api.modules.IModule;
+import com.builtbroken.mc.api.modules.IModuleItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -16,16 +16,16 @@ public class ItemAbstractModule extends Item implements IModuleItem
     @Override
     public String getUnlocalizedName(ItemStack stack)
     {
-        AbstractModule module = getModule(stack);
+        IModule module = getModule(stack);
         if (module != null)
         {
-            return module.getUnlocaizedName();
+            return module.getUnlocalizedName();
         }
         return super.getUnlocalizedName(stack);
     }
 
     @Override
-    public AbstractModule getModule(ItemStack stack)
+    public IModule getModule(ItemStack stack)
     {
         if (stack != null)
         {

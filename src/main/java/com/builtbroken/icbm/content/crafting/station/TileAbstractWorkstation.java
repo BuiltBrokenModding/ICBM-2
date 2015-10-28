@@ -147,7 +147,7 @@ public abstract class TileAbstractWorkstation extends TileModuleMachine implemen
             if (!block.isAir(world(), (int) pos.x(), (int) pos.y(), (int) pos.z()))
             {
                 TileEntity tile = pos.getTileEntity(world());
-                if (tile instanceof IMultiTile && ((IMultiTile) tile).getHost() == this)
+                if (tile instanceof IMultiTile && (((IMultiTile) tile).getHost() == this || ((IMultiTile) tile).getHost() == null))
                 {
                     continue;
                 }

@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.warhead;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.api.IModuleItem;
+import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;

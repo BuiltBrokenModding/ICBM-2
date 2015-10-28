@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.crafting;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.core.Engine;
 import com.google.common.collect.HashBiMap;
 import net.minecraft.item.ItemStack;
@@ -91,7 +92,7 @@ public class ModuleBuilder
      *              to use to construct the module
      * @return the module or null if something went wrong
      */
-    public AbstractModule build(ItemStack stack)
+    public IModule build(ItemStack stack)
     {
         if (stack.getTagCompound() != null && stack.getTagCompound().hasKey(SAVE_ID))
         {

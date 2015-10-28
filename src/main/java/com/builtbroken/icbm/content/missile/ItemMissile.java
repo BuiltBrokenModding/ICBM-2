@@ -1,9 +1,11 @@
 package com.builtbroken.icbm.content.missile;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.api.*;
+import com.builtbroken.icbm.api.IAmmo;
+import com.builtbroken.icbm.api.IAmmoType;
+import com.builtbroken.icbm.api.IMissileItem;
+import com.builtbroken.icbm.api.IWeapon;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
-import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
@@ -13,6 +15,8 @@ import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.parts.MissileCraftingParts;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.IExplosiveItem;
+import com.builtbroken.mc.api.modules.IModule;
+import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
@@ -144,7 +148,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
         String engine_translation = LanguageUtility.getLocal("info." + ICBM.PREFIX + "engine.name") + ": ";
         if (missile.getEngine() != null)
         {
-            engine_translation += LanguageUtility.getLocal(missile.getEngine().getUnlocaizedName() + ".name");
+            engine_translation += LanguageUtility.getLocal(missile.getEngine().getUnlocalizedName() + ".name");
         }
         else
         {
@@ -256,7 +260,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
             {
                 if (stack != null && stack.getItem() instanceof IModuleItem)
                 {
-                    AbstractModule module = ((IModuleItem) stack.getItem()).getModule(stack);
+                    IModule module = ((IModuleItem) stack.getItem()).getModule(stack);
                     if (module instanceof RocketEngine)
                     {
                         if (!simulate)
@@ -297,7 +301,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
         {
             if (missile.getWarhead() == null && stack != null && stack.getItem() instanceof IModuleItem)
             {
-                AbstractModule module = ((IModuleItem) stack.getItem()).getModule(stack);
+                IModule module = ((IModuleItem) stack.getItem()).getModule(stack);
                 if (module instanceof Warhead)
                 {
                     if (!simulate)
@@ -337,7 +341,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
         {
             if (missile.getGuidance() == null && stack != null && stack.getItem() instanceof IModuleItem)
             {
-                AbstractModule module = ((IModuleItem) stack.getItem()).getModule(stack);
+                IModule module = ((IModuleItem) stack.getItem()).getModule(stack);
                 if (module instanceof Guidance)
                 {
                     if (!simulate)

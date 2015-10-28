@@ -1,8 +1,6 @@
 package com.builtbroken.icbm.content.crafting.station;
 
-import com.builtbroken.icbm.api.IModuleItem;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
-import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
@@ -10,6 +8,8 @@ import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
 import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.jlib.data.vector.IPos3D;
+import com.builtbroken.mc.api.modules.IModule;
+import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.api.tile.IRotatable;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
@@ -247,7 +247,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                 }
                 else if (getMissile() != null)
                 {
-                    AbstractModule module = null;
+                    IModule module = null;
 
                     if (player.getHeldItem() != null)
                         module = ((IModuleItem) player.getHeldItem().getItem()).getModule(player.getHeldItem());
@@ -333,12 +333,11 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                 //Find slot to place or removes items from
                 if (getMissile() != null)
                 {
-                    AbstractModule module = null;
+                    IModule module = null;
 
                     if (player.getHeldItem() != null)
                         module = ((IModuleItem) player.getHeldItem().getItem()).getModule(player.getHeldItem());
 
-                    player.addChatComponentMessage(new ChatComponentText("" + getDirection() + "  " + pos.toForgeDirection()));
                     if (isWarheadSide(pos))
                     {
                         if (module == null)
@@ -354,9 +353,16 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                         }
                         else if (module instanceof Warhead)
                         {
-                            getMissile().setWarhead((Warhead) module);
-                            reducePlayerHeldItem(player);
-                            updateMissileItem();
+                            if (missile.getWarhead() == null)
+                            {
+                                getMissile().setWarhead((Warhead) module);
+                                reducePlayerHeldItem(player);
+                                updateMissileItem();
+                            }
+                            else
+                            {
+                                player.addChatComponentMessage(new ChatComponentText("Warhead already installed."));
+                            }
                         }
                         else
                         {
@@ -379,9 +385,16 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                         }
                         else if (module instanceof RocketEngine)
                         {
-                            getMissile().setEngine((RocketEngine) module);
-                            reducePlayerHeldItem(player);
-                            updateMissileItem();
+                            if (missile.getEngine() == null)
+                            {
+                                getMissile().setEngine((RocketEngine) module);
+                                reducePlayerHeldItem(player);
+                                updateMissileItem();
+                            }
+                            else
+                            {
+                                player.addChatComponentMessage(new ChatComponentText("Engine already installed."));
+                            }
                         }
                         else
                         {

@@ -3,6 +3,7 @@ package com.builtbroken.icbm.content.crafting.station;
 import com.builtbroken.icbm.content.Assets;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.core.network.packet.PacketType;
+import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.Tile;
@@ -14,6 +15,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
@@ -27,6 +29,7 @@ import org.lwjgl.opengl.GL11;
  */
 public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstation implements ISimpleItemRenderer
 {
+    private AxisAlignedBB bounds;
 
     @Override
     public Tile newTile()
@@ -42,6 +45,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
             if (id == 1)
             {
                 this.rotation = ForgeDirection.getOrientation(buf.readByte());
+                this.bounds = null;
                 ItemStack stack = ByteBufUtils.readItemStack(buf);
                 if (InventoryUtility.stacksMatch(stack, new ItemStack(Items.apple)))
                 {
@@ -57,6 +61,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
             else if (id == 5)
             {
                 this.rotation = ForgeDirection.getOrientation(Math.min(0, Math.max(buf.readByte(), 5)));
+                this.bounds = null;
                 worldObj.markBlockForUpdate(xi(), yi(), zi());
                 return true;
             }
@@ -297,7 +302,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
             case DOWN:
                 GL11.glRotated(180, 0, 0, 1);
                 // ? -y ?
-                GL11.glTranslatef( 0f, -1.8f, 0f);
+                GL11.glTranslatef(0f, -1.8f, 0f);
                 break;
             case EAST:
                 GL11.glRotated(-90, 0, 0, 1);
@@ -310,5 +315,51 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
                 GL11.glTranslatef(0.45f, -0.9f, 0f);
                 break;
         }
+    }
+
+    @Override
+    public AxisAlignedBB getRenderBoundingBox()
+    {
+        if (bounds == null)
+        {
+            switch (connectedBlockSide)
+            {
+                case UP:
+                case DOWN:
+                    if (rotation == ForgeDirection.EAST || rotation == ForgeDirection.WEST)
+                    {
+                        bounds = new Cube(-1, 0, 0, 1, 0, 0).add(toPos()).toAABB();
+                    }
+                    else
+                    {
+                        bounds = new Cube(0, 0, -1, 0, 0, 1).add(toPos()).toAABB();
+                    }
+                    break;
+                case EAST:
+                case WEST:
+                    if (rotation == ForgeDirection.DOWN || rotation == ForgeDirection.UP)
+                    {
+                        bounds = new Cube(0, -1, 0, 0, 1, 0).add(toPos()).toAABB();
+                    }
+                    else
+                    {
+                        bounds = new Cube(0, 0, -1, 0, 0, 1).add(toPos()).toAABB();
+                    }
+                    break;
+                case NORTH:
+                case SOUTH:
+                    if (rotation == ForgeDirection.DOWN || rotation == ForgeDirection.UP)
+                    {
+                        bounds = new Cube(0, -1, 0, 0, 1, 0).add(toPos()).toAABB();
+                    }
+                    else
+                    {
+                        bounds = new Cube(0, 0, -1, 0, 0, 1).add(toPos()).toAABB();
+                    }
+                    break;
+            }
+            bounds = super.getRenderBoundingBox();
+        }
+        return bounds;
     }
 }
