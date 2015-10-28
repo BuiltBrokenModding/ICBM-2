@@ -1,10 +1,15 @@
 package com.builtbroken.icbm.content.crafting.missile.guidance;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.icbm.content.crafting.ModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
-import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngineCreative;
+import com.builtbroken.icbm.content.crafting.missile.guidance.chips.GuidanceChipOne;
+import com.builtbroken.icbm.content.crafting.missile.guidance.chips.GuidanceChipThree;
+import com.builtbroken.icbm.content.crafting.missile.guidance.chips.GuidanceChipTwo;
+import com.builtbroken.icbm.content.crafting.missile.guidance.clocks.GuidanceGearsDiamond;
+import com.builtbroken.icbm.content.crafting.missile.guidance.clocks.GuidanceGearsSteel;
+import com.builtbroken.icbm.content.crafting.missile.guidance.clocks.GuidanceGearsStone;
+import com.builtbroken.icbm.content.crafting.missile.guidance.clocks.GuidanceGearsWood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
@@ -15,14 +20,20 @@ import net.minecraft.util.IIcon;
 public enum GuidanceModules
 {
     //Engines
-    CREATIVE_ENGINE("engine.creative", RocketEngineCreative.class);
+    WOOD_GEARS("guidance.gears.wood", GuidanceGearsWood.class),
+    STONE_GEARS("guidance.gears.stone", GuidanceGearsStone.class),
+    STEEL_GEARS("guidance.gears.steel", GuidanceGearsSteel.class),
+    DIAMOND_GEARS("guidance.gears.diamond", GuidanceGearsDiamond.class),
+    CHIP_ONE("guidance.chip.one", GuidanceChipOne.class),
+    CHIP_TWO("guidance.chip.two", GuidanceChipTwo.class),
+    CHIP_THREE("guidance.chip.three", GuidanceChipThree.class);
 
     protected final String name;
-    protected final Class<? extends AbstractModule> clazz;
+    protected final Class<? extends Guidance> clazz;
 
     protected IIcon icon;
 
-    GuidanceModules(String name, Class<? extends AbstractModule> clazz)
+    GuidanceModules(String name, Class<? extends Guidance> clazz)
     {
         this.name = name;
         this.clazz = clazz;
@@ -44,7 +55,7 @@ public enum GuidanceModules
 
     public ItemStack newModuleStack()
     {
-        ItemStack stack = new ItemStack(ICBM.itemEngineModules, 1, ordinal());
+        ItemStack stack = new ItemStack(ICBM.itemGuidanceModules, 1, ordinal());
         stack.setTagCompound(new NBTTagCompound());
         stack.getTagCompound().setString(ModuleBuilder.SAVE_ID, "icbm." + name);
         return stack;

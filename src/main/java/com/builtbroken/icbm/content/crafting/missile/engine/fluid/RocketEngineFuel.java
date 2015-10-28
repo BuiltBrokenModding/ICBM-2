@@ -2,6 +2,7 @@ package com.builtbroken.icbm.content.crafting.missile.engine.fluid;
 
 import com.builtbroken.icbm.api.modules.IMissileModule;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
 /**
@@ -39,5 +40,14 @@ public class RocketEngineFuel extends RocketEngineFluid
             return 7f * tank.getFluidAmount();
         }
         return 0f;
+    }
+
+    @Override
+    public void initFuel()
+    {
+        if (FluidRegistry.getFluid("fuel") != null)
+        {
+            tank.fill(new FluidStack(FluidRegistry.getFluid("fuel"), 1000), true);
+        }
     }
 }

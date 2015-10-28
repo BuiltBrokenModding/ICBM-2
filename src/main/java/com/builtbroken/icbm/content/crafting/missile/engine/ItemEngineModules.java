@@ -3,6 +3,7 @@ package com.builtbroken.icbm.content.crafting.missile.engine;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.modules.IRocketEngine;
 import com.builtbroken.icbm.content.crafting.missile.ItemAbstractModule;
+import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.engine.fluid.RocketEngineFluid;
 import com.builtbroken.icbm.content.crafting.missile.engine.solid.RocketEngineCoalPowered;
 import com.builtbroken.icbm.content.crafting.missile.engine.solid.RocketEngineSolid;
@@ -82,9 +83,9 @@ public class ItemEngineModules extends ItemAbstractModule implements IPostInit
     {
         for (Engines engine : Engines.values())
         {
-            ItemStack stack = engine.newModuleStack();
-            if (stack != null)
-                list.add(stack);
+            RocketEngine e = MissileModuleBuilder.INSTANCE.buildEngine(engine.newModuleStack());
+            e.initFuel();
+            list.add(e.toStack());
         }
     }
 
@@ -116,7 +117,6 @@ public class ItemEngineModules extends ItemAbstractModule implements IPostInit
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister reg)
     {
-        this.itemIcon = reg.registerIcon(ICBM.PREFIX + "engine");
         for (Engines engine : Engines.values())
         {
             engine.icon = reg.registerIcon(ICBM.PREFIX + engine.name);

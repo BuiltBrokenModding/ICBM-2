@@ -73,4 +73,10 @@ public class RocketEngineCoalPowered extends RocketEngineSolid
         }
         return false;
     }
+
+    @Override
+    public void initFuel()
+    {
+        getInventory().setInventorySlotContents(0, new ItemStack(Items.coal, 64));
+    }
 }

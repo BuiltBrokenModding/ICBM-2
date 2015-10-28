@@ -8,6 +8,7 @@ import com.builtbroken.icbm.content.blast.fragment.BlastFragment;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
 import com.builtbroken.icbm.content.crafting.missile.engine.ItemEngineModules;
+import com.builtbroken.icbm.content.crafting.missile.guidance.ItemGuidanceModules;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.icbm.content.crafting.parts.ItemMissileParts;
 import com.builtbroken.icbm.content.crafting.parts.MissileCraftingParts;
@@ -118,6 +119,7 @@ public final class ICBM extends AbstractMod
     public static Item itemLinkTool;
     public static Item itemGPSTool;
     public static ItemEngineModules itemEngineModules;
+    public static ItemGuidanceModules itemGuidanceModules;
     public static Item itemMissileParts;
 
     public final ModCreativeTab CREATIVE_TAB;
@@ -186,6 +188,7 @@ public final class ICBM extends AbstractMod
         itemMissile = manager.newItem("missile", ItemMissile.class);
         itemRocketLauncher = manager.newItem("rocketLauncher", ItemRocketLauncher.class);
         itemEngineModules = manager.newItem("engineModules", ItemEngineModules.class);
+        itemGuidanceModules = manager.newItem("guidanceModules", ItemGuidanceModules.class);
         itemLinkTool = manager.newItem("siloLinker", ItemLinkTool.class);
         itemGPSTool = manager.newItem("gpsFlag", ItemGPSFlag.class);
         itemMissileParts = manager.newItem("missileParts", ItemMissileParts.class);

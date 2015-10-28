@@ -69,4 +69,10 @@ public class RocketEngineGunpowder extends RocketEngineSolid
         }
         return false;
     }
+
+    @Override
+    public void initFuel()
+    {
+        getInventory().setInventorySlotContents(0, new ItemStack(Items.gunpowder, 64));
+    }
 }

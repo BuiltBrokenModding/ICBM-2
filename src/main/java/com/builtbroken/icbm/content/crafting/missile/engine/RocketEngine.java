@@ -41,4 +41,13 @@ public abstract class RocketEngine extends MissileModule implements IRocketEngin
     {
 
     }
+
+    /**
+     * Loads max fuel, used for creative tab or spawned in items
+     */
+    public void initFuel()
+    {
+
+    }
+
 }

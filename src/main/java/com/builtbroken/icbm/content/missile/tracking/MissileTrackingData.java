@@ -21,7 +21,10 @@ public class MissileTrackingData
         missile.writeToNBTOptional(this.m_save);
         target = missile.target_pos;
         respawnTicks = (long) new Point(missile.posX, missile.posZ).distance(new Point(missile.target_pos.x(), missile.target_pos.z()));
-
+        if (missile.getMissile() != null && missile.getMissile().getEngine() != null)
+        {
+            respawnTicks = (long) ((respawnTicks / missile.getMissile().getEngine().getSpeed(missile.getMissile())) + 1);
+        }
     }
 
     public MissileTrackingData(World world, NBTTagCompound tag)
@@ -31,9 +34,9 @@ public class MissileTrackingData
             Entity entity = EntityList.createEntityFromNBT(tag.getCompoundTag("missile"), world);
             if (entity instanceof EntityMissile)
             {
-                if (((EntityMissile)entity).target_pos != null)
+                if (((EntityMissile) entity).target_pos != null)
                 {
-                    target = ((EntityMissile)entity).target_pos;
+                    target = ((EntityMissile) entity).target_pos;
                     respawnTicks = (long) new Point(((EntityMissile) entity).posX, ((EntityMissile) entity).posZ).distance(new Point(((EntityMissile) entity).target_pos.x(), ((EntityMissile) entity).target_pos.z()));
                 }
             }
