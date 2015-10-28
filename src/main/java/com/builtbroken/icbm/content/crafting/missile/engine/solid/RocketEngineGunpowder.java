@@ -12,11 +12,17 @@ import net.minecraftforge.oredict.OreDictionary;
  */
 public class RocketEngineGunpowder extends RocketEngineSolid
 {
-    public static float VALUE_OF_GUNPOWDER = 20f;
+    public static float VALUE_OF_GUNPOWDER = 8f;
 
     public RocketEngineGunpowder(ItemStack item)
     {
         super(item, "engine.gunpowder");
+    }
+
+    @Override
+    public float getSpeed(IMissileModule missile)
+    {
+        return 5f;
     }
 
     @Override

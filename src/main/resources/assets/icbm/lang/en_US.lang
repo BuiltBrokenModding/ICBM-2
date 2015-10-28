@@ -107,7 +107,11 @@ trigger.icbm:gps.name=Location
 trigger.icbm:time.name=Timer
 
 ## Modules
-module.icbm:engine.creative.name=Void Thruster
+module.icbm:engine.creative.name=Anti-gravity Motor
+module.icbm:engine.coal.name=Burner
+module.icbm:engine.oil.name=Oil Burner
+module.icbm:engine.fuel.name=Basic Thruster
+module.icbm:engine.gunpowder.name=Quick Booster
 
 ## ICBM Classic
 
