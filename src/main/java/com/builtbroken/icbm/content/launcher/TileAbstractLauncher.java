@@ -1,10 +1,10 @@
 package com.builtbroken.icbm.content.launcher;
 
 import com.builtbroken.icbm.api.ILauncher;
-import com.builtbroken.icbm.api.IMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.display.TileMissileContainer;
 import com.builtbroken.icbm.content.missile.EntityMissile;
+import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.tile.ILinkFeedback;
 import com.builtbroken.mc.api.tile.IPassCode;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
@@ -13,14 +13,12 @@ import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.lib.helper.MathUtility;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
-import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,28 +109,36 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         {
             if (isServer())
             {
-                //Create and setup missile
-                EntityMissile entity = new EntityMissile(world());
-                entity.setMissile(missile);
+                if (missile.canLaunch())
+                {
+                    //Create and setup missile
+                    EntityMissile entity = new EntityMissile(world());
+                    entity.setMissile(missile);
 
-                //Set location data
-                Pos start = new Pos(this).add(getMissileLaunchOffset());
-                entity.setPositionAndRotation(start.x(), start.y(), start.z(), 0, 0);
-                entity.motionY = 2;
+                    //Set location data
+                    Pos start = new Pos(this).add(getMissileLaunchOffset());
+                    entity.setPositionAndRotation(start.x(), start.y(), start.z(), 0, 0);
+                    entity.motionY = missile.getEngine().getSpeed(missile);
 
-                //Set target data
-                entity.setTarget(target, true);
-                entity.sourceOfProjectile = new Pos(this);
+                    //Set target data
+                    entity.setTarget(target, true);
+                    entity.sourceOfProjectile = new Pos(this);
 
-                //Spawn and start moving
-                world().spawnEntityInWorld(entity);
-                addLaunchReport(entity);
+                    //Spawn and start moving
+                    world().spawnEntityInWorld(entity);
+                    addLaunchReport(entity);
 
-                entity.setIntoMotion();
+                    entity.setIntoMotion();
 
-                //Empty inventory slot
-                this.setInventorySlotContents(0, null);
-                sendDescPacket();
+                    //Empty inventory slot
+                    this.setInventorySlotContents(0, null);
+                    sendDescPacket();
+                }
+                else if (missile.getWarhead() != null && world().rand.nextFloat() > 0.8f)
+                {
+                    //If the user is stupid enough to not install a warhead....
+                    missile.getWarhead().trigger(new TriggerCause.TriggerCauseFire(ForgeDirection.DOWN), world(), xi(), yi(), zi());
+                }
             }
             else
             {

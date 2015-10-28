@@ -4,7 +4,10 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.icbm.content.crafting.ModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
+import com.builtbroken.icbm.content.crafting.missile.engine.fluid.RocketEngineFuel;
+import com.builtbroken.icbm.content.crafting.missile.engine.fluid.RocketEngineOil;
 import com.builtbroken.icbm.content.crafting.missile.engine.solid.RocketEngineCoalPowered;
+import com.builtbroken.icbm.content.crafting.missile.engine.solid.RocketEngineGunpowder;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
@@ -14,13 +17,17 @@ import net.minecraft.util.IIcon;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 /**
+ * Enum of engines implemented by ICBM
  * Created by robert on 12/28/2014.
  */
 public enum Engines
 {
     //Engines
     CREATIVE_ENGINE("engine.creative", RocketEngineCreative.class),
-    COAL_ENGINE("engine.coal", RocketEngineCoalPowered.class);
+    COAL_ENGINE("engine.coal", RocketEngineCoalPowered.class),
+    OIL_ENGINE("engine.oil", RocketEngineOil.class),
+    FUEL_ENGINE("engine.fuel", RocketEngineFuel.class),
+    GUNPOWDER_ENGINE("engine.gunpowder", RocketEngineGunpowder.class);
 
     protected final String name;
     protected final Class<? extends AbstractModule> clazz;

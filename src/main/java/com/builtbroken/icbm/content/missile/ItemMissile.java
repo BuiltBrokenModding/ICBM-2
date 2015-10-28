@@ -164,7 +164,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     public boolean isAmmo(ItemStack stack)
     {
         Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
-        return missile != null && missile.getEngine() != null;
+        return missile != null && missile.canLaunch();
     }
 
     @Override

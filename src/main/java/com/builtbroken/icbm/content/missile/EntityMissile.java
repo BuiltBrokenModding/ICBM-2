@@ -63,7 +63,6 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     }
 
 
-
     /**
      * Fires a missile from the entity using its facing direction and location. For more
      * complex launching options create your own implementation.
@@ -101,17 +100,21 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     @Override
     public void setIntoMotion()
     {
-        ticksInAir = 1;
-        updateMotion();
+        if (missile != null && missile.canLaunch())
+        {
+            ticksInAir = 1;
+            updateMotion();
+            missile.getEngine().onLaunch(this, missile);
+        }
     }
 
     @Override
     protected void updateMotion()
     {
         super.updateMotion();
-        if(target_pos != null)
+        if (target_pos != null)
         {
-            if(this.posY >= 1000)
+            if (this.posY >= 1000)
             {
                 MissileTracker.addToTracker(this);
             }
@@ -168,10 +171,10 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     public void onImpactTile()
     {
         super.onImpactTile();
-        if(!noReport && sourceOfProjectile != null)
+        if (!noReport && sourceOfProjectile != null)
         {
             TileEntity tile = sourceOfProjectile.getTileEntity(worldObj);
-            if(tile instanceof TileAbstractLauncher)
+            if (tile instanceof TileAbstractLauncher)
             {
                 ((TileAbstractLauncher) tile).onImpactOfMissile(this);
             }
@@ -183,13 +186,17 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     public void setDead()
     {
         super.setDead();
-        if(!noReport && sourceOfProjectile != null)
+        if (!noReport && sourceOfProjectile != null)
         {
             TileEntity tile = sourceOfProjectile.getTileEntity(worldObj);
-            if(tile instanceof TileAbstractLauncher)
+            if (tile instanceof TileAbstractLauncher)
             {
                 ((TileAbstractLauncher) tile).onDeathOfMissile(this);
             }
+        }
+        if (missile != null && missile.getEngine() != null)
+        {
+            missile.getEngine().onDestroyed(this, missile);
         }
     }
 
@@ -205,7 +212,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     protected void decreaseMotion()
     {
         //TODO do handling per size
-        if(ticksInAir > 1000)
+        if (ticksInAir > 1000)
         {
             super.decreaseMotion();
         }

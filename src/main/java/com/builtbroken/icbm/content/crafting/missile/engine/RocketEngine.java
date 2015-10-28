@@ -1,11 +1,13 @@
 package com.builtbroken.icbm.content.crafting.missile.engine;
 
+import com.builtbroken.icbm.api.IMissile;
 import com.builtbroken.icbm.api.modules.IMissileModule;
 import com.builtbroken.icbm.api.modules.IRocketEngine;
 import com.builtbroken.icbm.content.crafting.missile.MissileModule;
 import net.minecraft.item.ItemStack;
 
 /**
+ * Prefab for create new engine types
  * Created by robert on 12/28/2014.
  */
 public abstract class RocketEngine extends MissileModule implements IRocketEngine
@@ -24,6 +26,19 @@ public abstract class RocketEngine extends MissileModule implements IRocketEngin
     @Override
     public float getMaxDistance(IMissileModule missile)
     {
-        return 100f;
+        return 1000f;
+    }
+
+
+    @Override
+    public void onLaunch(IMissile missile, IMissileModule missileModule)
+    {
+
+    }
+
+    @Override
+    public void onDestroyed(IMissile missile, IMissileModule missileModule)
+    {
+
     }
 }

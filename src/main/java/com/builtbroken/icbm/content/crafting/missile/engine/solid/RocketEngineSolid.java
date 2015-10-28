@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 
 /**
+ * Engine that uses items as fuel
  * Created by robert on 12/28/2014.
  */
 public class RocketEngineSolid extends RocketEngine implements IInventoryProvider
@@ -23,7 +24,7 @@ public class RocketEngineSolid extends RocketEngine implements IInventoryProvide
     @Override
     public IExternalInventory getInventory()
     {
-        if(inventory == null)
+        if (inventory == null)
         {
             inventory = new ExternalInventory(this, inventory_size);
         }

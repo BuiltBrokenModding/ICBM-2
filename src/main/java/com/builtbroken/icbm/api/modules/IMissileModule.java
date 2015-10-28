@@ -14,4 +14,12 @@ public interface IMissileModule extends IModuleContainer
      * @return size of the missile
      */
     int getMissileSize();
+
+    /**
+     * Checks if the missile can launch from a silo. Checks for
+     * engine installed, engine fuel, and guidance chip.
+     *
+     * @return true if it can launch.
+     */
+    boolean canLaunch();
 }

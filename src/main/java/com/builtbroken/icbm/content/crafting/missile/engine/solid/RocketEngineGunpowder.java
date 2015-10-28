@@ -1,24 +1,22 @@
 package com.builtbroken.icbm.content.crafting.missile.engine.solid;
 
 import com.builtbroken.icbm.api.modules.IMissileModule;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
 
 /**
- * Engine that runs off of burnable fuel items. Very ineffective but works at short range.
- * Created by robert on 12/28/2014.
+ * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
+ * Created by Dark(DarkGuardsman, Robert) on 10/28/2015.
  */
-public class RocketEngineCoalPowered extends RocketEngineSolid
+public class RocketEngineGunpowder extends RocketEngineSolid
 {
-    public static float VALUE_OF_COAL = 20f;
+    public static float VALUE_OF_GUNPOWDER = 20f;
 
-    public RocketEngineCoalPowered(ItemStack item)
+    public RocketEngineGunpowder(ItemStack item)
     {
-        super(item, "engine.coal");
+        super(item, "engine.gunpowder");
     }
 
     @Override
@@ -27,25 +25,17 @@ public class RocketEngineCoalPowered extends RocketEngineSolid
         ItemStack stack = getInventory().getStackInSlot(0);
         if (stack != null)
         {
-            if (stack.getItem() == Items.coal)
+            if (stack.getItem() == Items.gunpowder)
             {
-                return stack.stackSize * VALUE_OF_COAL;
-            }
-            else if (stack.getItem() == Item.getItemFromBlock(Blocks.coal_block))
-            {
-                return stack.stackSize * VALUE_OF_COAL * 10;
+                return stack.stackSize * VALUE_OF_GUNPOWDER;
             }
             int[] ids = OreDictionary.getOreIDs(stack);
             for (int i = 0; i < ids.length; i++)
             {
                 String id = OreDictionary.getOreName(i);
-                if (id.equalsIgnoreCase("blockCoal"))
+                if (id.equalsIgnoreCase("gunpowder"))
                 {
-                    return stack.stackSize * VALUE_OF_COAL * 10;
-                }
-                else if (id.equalsIgnoreCase("coal") || id.equalsIgnoreCase("charcoal"))
-                {
-                    return stack.stackSize * VALUE_OF_COAL;
+                    return stack.stackSize * VALUE_OF_GUNPOWDER;
                 }
             }
         }
@@ -57,7 +47,7 @@ public class RocketEngineCoalPowered extends RocketEngineSolid
     {
         if (stack != null)
         {
-            if (stack.getItem() == Items.coal || stack.getItem() == Item.getItemFromBlock(Blocks.coal_block))
+            if (stack.getItem() == Items.gunpowder)
             {
                 return true;
             }
@@ -65,7 +55,7 @@ public class RocketEngineCoalPowered extends RocketEngineSolid
             for (int i = 0; i < ids.length; i++)
             {
                 String id = OreDictionary.getOreName(i);
-                if (id.equalsIgnoreCase("blockCoal") || id.equalsIgnoreCase("coal") || id.equalsIgnoreCase("charcoal"))
+                if (id.equalsIgnoreCase("gunpowder"))
                 {
                     return true;
                 }
