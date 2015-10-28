@@ -338,6 +338,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                     if (player.getHeldItem() != null)
                         module = ((IModuleItem) player.getHeldItem().getItem()).getModule(player.getHeldItem());
 
+                    player.addChatComponentMessage(new ChatComponentText("" + getDirection() + "  " + pos.toForgeDirection()));
                     if (isWarheadSide(pos))
                     {
                         if (module == null)
@@ -399,6 +400,8 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
 
     private boolean isWarheadSide(Pos pos)
     {
+        if (rotation == ForgeDirection.NORTH || rotation == ForgeDirection.SOUTH)
+            return pos.toForgeDirection() == getDirection().getOpposite();
         return pos.toForgeDirection() == getDirection();
     }
 
