@@ -22,7 +22,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
  */
 public class RocketEngineCoalPowered extends RocketEngineSolid implements IPostInit
 {
-    public static float VALUE_OF_COAL = 20f;
+    public static float VALUE_OF_COAL = 5f;
 
     public RocketEngineCoalPowered(ItemStack item)
     {
@@ -32,32 +32,7 @@ public class RocketEngineCoalPowered extends RocketEngineSolid implements IPostI
     @Override
     public float getMaxDistance(IMissileModule missile)
     {
-        ItemStack stack = getInventory().getStackInSlot(0);
-        if (stack != null)
-        {
-            if (stack.getItem() == Items.coal)
-            {
-                return stack.stackSize * VALUE_OF_COAL;
-            }
-            else if (stack.getItem() == Item.getItemFromBlock(Blocks.coal_block))
-            {
-                return stack.stackSize * VALUE_OF_COAL * 10;
-            }
-            int[] ids = OreDictionary.getOreIDs(stack);
-            for (int i = 0; i < ids.length; i++)
-            {
-                String id = OreDictionary.getOreName(i);
-                if (id.equalsIgnoreCase("blockCoal"))
-                {
-                    return stack.stackSize * VALUE_OF_COAL * 10;
-                }
-                else if (id.equalsIgnoreCase("coal") || id.equalsIgnoreCase("charcoal"))
-                {
-                    return stack.stackSize * VALUE_OF_COAL;
-                }
-            }
-        }
-        return 0;
+        return getCoalItemCount() * VALUE_OF_COAL;
     }
 
     @Override
@@ -80,6 +55,36 @@ public class RocketEngineCoalPowered extends RocketEngineSolid implements IPostI
             }
         }
         return false;
+    }
+
+    private int getCoalItemCount()
+    {
+        ItemStack stack = getInventory().getStackInSlot(0);
+        if (stack != null)
+        {
+            if (stack.getItem() == Items.coal)
+            {
+                return stack.stackSize;
+            }
+            else if (stack.getItem() == Item.getItemFromBlock(Blocks.coal_block))
+            {
+                return stack.stackSize * 10;
+            }
+            int[] ids = OreDictionary.getOreIDs(stack);
+            for (int i = 0; i < ids.length; i++)
+            {
+                String id = OreDictionary.getOreName(i);
+                if (id.equalsIgnoreCase("blockCoal"))
+                {
+                    return stack.stackSize * 10;
+                }
+                else if (id.equalsIgnoreCase("coal") || id.equalsIgnoreCase("charcoal"))
+                {
+                    return stack.stackSize;
+                }
+            }
+        }
+        return 0;
     }
 
     @Override
