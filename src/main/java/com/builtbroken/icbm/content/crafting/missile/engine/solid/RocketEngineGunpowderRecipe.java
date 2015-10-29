@@ -48,7 +48,7 @@ public class RocketEngineGunpowderRecipe extends ShapelessOreRecipe
                 }
             }
         }
-        if (engine != null)
+        if (engine != null && gunpowderCount > 0)
         {
             RocketEngineGunpowder rocketEngine = new RocketEngineGunpowder(engine.copy());
             rocketEngine.load();

@@ -14,7 +14,7 @@ public class GuidanceGearsDiamond extends Guidance
 {
     public GuidanceGearsDiamond(ItemStack item)
     {
-        super(item, "guidance.gears");
+        super(item, "guidance.gears.diamond");
     }
 
     @Override

@@ -107,12 +107,21 @@ trigger.icbm:impact.name=Impact
 trigger.icbm:gps.name=Location
 trigger.icbm:time.name=Timer
 
-## Modules
+## Engine Modules
 module.icbm:engine.creative.name=Anti-gravity Motor
 module.icbm:engine.coal.name=Burner
 module.icbm:engine.oil.name=Oil Burner
 module.icbm:engine.fuel.name=Basic Thruster
 module.icbm:engine.gunpowder.name=Quick Booster
+
+## Guidance Modules
+module.icbm:guidance.gears.wood.name=Wooden Guidance Clock
+module.icbm:guidance.gears.stone.name=Stone Guidance Clock
+module.icbm:guidance.gears.iron.name=Iron Guidance Clock
+module.icbm:guidance.gears.diamond.name=Diamond Guidance Clock
+module.icbm:guidance.chip.1.name=Novice Guidance Chip
+module.icbm:guidance.chip.2.name=Guidance Chip
+module.icbm:guidance.chip.3.name=Improved Guidance Chip
 
 ## ICBM Classic
 

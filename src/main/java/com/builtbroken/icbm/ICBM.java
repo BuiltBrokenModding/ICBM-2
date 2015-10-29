@@ -8,6 +8,7 @@ import com.builtbroken.icbm.content.blast.fragment.BlastFragment;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
 import com.builtbroken.icbm.content.crafting.missile.engine.ItemEngineModules;
+import com.builtbroken.icbm.content.crafting.missile.guidance.GuidanceModules;
 import com.builtbroken.icbm.content.crafting.missile.guidance.ItemGuidanceModules;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.icbm.content.crafting.parts.ItemMissileParts;
@@ -197,6 +198,7 @@ public final class ICBM extends AbstractMod
         MissileCasings.register();
         WarheadCasings.register();
         Engines.register();
+        GuidanceModules.register();
 
         //Set tab item last so to avoid NPE
         CREATIVE_TAB.itemStack = new ItemStack(itemMissile);

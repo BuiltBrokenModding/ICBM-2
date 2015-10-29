@@ -7,7 +7,7 @@ import com.builtbroken.icbm.content.crafting.missile.guidance.chips.GuidanceChip
 import com.builtbroken.icbm.content.crafting.missile.guidance.chips.GuidanceChipThree;
 import com.builtbroken.icbm.content.crafting.missile.guidance.chips.GuidanceChipTwo;
 import com.builtbroken.icbm.content.crafting.missile.guidance.clocks.GuidanceGearsDiamond;
-import com.builtbroken.icbm.content.crafting.missile.guidance.clocks.GuidanceGearsSteel;
+import com.builtbroken.icbm.content.crafting.missile.guidance.clocks.GuidanceGearsIron;
 import com.builtbroken.icbm.content.crafting.missile.guidance.clocks.GuidanceGearsStone;
 import com.builtbroken.icbm.content.crafting.missile.guidance.clocks.GuidanceGearsWood;
 import net.minecraft.item.ItemStack;
@@ -15,6 +15,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 
 /**
+ * Enum of guidance modules register by ICBM
  * Created by robert on 12/28/2014.
  */
 public enum GuidanceModules
@@ -22,7 +23,7 @@ public enum GuidanceModules
     //Engines
     WOOD_GEARS("guidance.gears.wood", GuidanceGearsWood.class),
     STONE_GEARS("guidance.gears.stone", GuidanceGearsStone.class),
-    STEEL_GEARS("guidance.gears.steel", GuidanceGearsSteel.class),
+    STEEL_GEARS("guidance.gears.iron", GuidanceGearsIron.class),
     DIAMOND_GEARS("guidance.gears.diamond", GuidanceGearsDiamond.class),
     CHIP_ONE("guidance.chip.one", GuidanceChipOne.class),
     CHIP_TWO("guidance.chip.two", GuidanceChipTwo.class),
@@ -68,5 +69,9 @@ public enum GuidanceModules
 
     public static void register()
     {
+        for (GuidanceModules module : values())
+        {
+            MissileModuleBuilder.INSTANCE.register(ICBM.DOMAIN, module.name, module.clazz, true);
+        }
     }
 }
