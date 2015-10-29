@@ -73,6 +73,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
     public void renderInventoryItem(IItemRenderer.ItemRenderType type, ItemStack itemStack, Object... data)
     {
         GL11.glTranslatef(-0.5f, -0.5f, -0.5f);
+        GL11.glRotatef(-20f, 0, 1, 0);
         GL11.glScaled(.7f, .7f, .7f);
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
         Assets.SMALL_MISSILE_STATION_MODEL.renderAll();
