@@ -13,7 +13,7 @@ public class RocketEngineOil extends RocketEngineFluid
 {
     public RocketEngineOil(ItemStack item)
     {
-        super(item, "engine.oil", 50);
+        super(item, "engine.oil", 100);
     }
 
     @Override
