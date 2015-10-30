@@ -37,7 +37,7 @@ public class GuidanceGearsIron extends Guidance implements IPostInit
     @Override
     public void onPostInit()
     {
-        ItemStack guidance = GuidanceModules.WOOD_GEARS.newModuleStack();
-        GameRegistry.addRecipe(new ShapedOreRecipe(guidance, "GSG", "PCP", "GSG", 'G', "ironGear", 'S', "rodIron", 'P', "plateIron", 'C', Items.clock));
+        ItemStack guidance = GuidanceModules.IRON_GEARS.newModuleStack();
+        GameRegistry.addRecipe(new ShapedOreRecipe(guidance, "GSG", "PCP", "GSG", 'G', "gearIron", 'S', "rodIron", 'P', "plateIron", 'C', Items.clock));
     }
 }

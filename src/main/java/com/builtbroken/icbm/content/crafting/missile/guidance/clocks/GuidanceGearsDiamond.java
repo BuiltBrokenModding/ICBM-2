@@ -37,7 +37,7 @@ public class GuidanceGearsDiamond extends Guidance implements IPostInit
     @Override
     public void onPostInit()
     {
-        ItemStack guidance = GuidanceModules.WOOD_GEARS.newModuleStack();
-        GameRegistry.addRecipe(new ShapedOreRecipe(guidance, "GSG", "PCP", "GSG", 'G', "diamondGear", 'S', "rodDiamond", 'P', "plateIron", 'C', Items.clock));
+        ItemStack guidance = GuidanceModules.DIAMOND_GEARS.newModuleStack();
+        GameRegistry.addRecipe(new ShapedOreRecipe(guidance, "GSG", "PCP", "GSG", 'G', "gearDiamond", 'S', "rodDiamond", 'P', "plateIron", 'C', Items.clock));
     }
 }

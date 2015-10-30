@@ -23,7 +23,7 @@ public enum GuidanceModules
     //Engines
     WOOD_GEARS("guidance.gears.wood", GuidanceGearsWood.class),
     STONE_GEARS("guidance.gears.stone", GuidanceGearsStone.class),
-    STEEL_GEARS("guidance.gears.iron", GuidanceGearsIron.class),
+    IRON_GEARS("guidance.gears.iron", GuidanceGearsIron.class),
     DIAMOND_GEARS("guidance.gears.diamond", GuidanceGearsDiamond.class),
     CHIP_ONE("guidance.chip.one", GuidanceChipOne.class),
     CHIP_TWO("guidance.chip.two", GuidanceChipTwo.class),
