@@ -57,13 +57,6 @@ public class TestSmallMissileStation extends AbstractTileTest<TileSmallMissileWo
     }
 
     @Test
-    public void testCoverage()
-    {
-        super.testCoverage();
-        checkNumberOfDeclaredMethods(TileSmallMissileWorkstation.class, 24);
-    }
-
-    @Test
     public void testStructureMap()
     {
         //Test to ensure that the maps contain the correct data for the multi block
