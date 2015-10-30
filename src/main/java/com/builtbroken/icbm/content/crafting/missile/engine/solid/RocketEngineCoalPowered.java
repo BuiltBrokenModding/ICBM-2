@@ -14,7 +14,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+
+import static net.minecraftforge.oredict.RecipeSorter.Category.SHAPELESS;
 
 /**
  * Engine that runs off of burnable fuel items. Very ineffective but works at short range.
@@ -22,7 +25,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
  */
 public class RocketEngineCoalPowered extends RocketEngineSolid implements IPostInit
 {
-    public static float VALUE_OF_COAL = 5f;
+    public static float VALUE_OF_COAL = 15f;
 
     public RocketEngineCoalPowered(ItemStack item)
     {
@@ -98,18 +101,27 @@ public class RocketEngineCoalPowered extends RocketEngineSolid implements IPostI
     {
         if (Engine.itemSheetMetal != null)
         {
-            RocketEngineCoalPowered engine = new RocketEngineCoalPowered(new ItemStack(ICBM.itemEngineModules, 1, Engines.COAL_ENGINE.ordinal()));
+            RocketEngineCoalPowered engine = (RocketEngineCoalPowered) Engines.COAL_ENGINE.newModule();
             //Empty coal engine
             ItemStack engineStack = engine.toStack();
             GameRegistry.addRecipe(new ShapedOreRecipe(engineStack, " F ", "LRC", 'R', Items.redstone, 'F', Blocks.furnace, 'L', Items.flint_and_steel, 'C', ItemSheetMetal.SheetMetal.CONE_SMALL.stack()));
 
             //Coal fuel
-            engine.getInventory().setInventorySlotContents(0, new ItemStack(Items.coal, 5));
-            GameRegistry.addShapelessRecipe(engine.toStack(), engineStack, Items.coal, Items.coal, Items.coal, Items.coal, Items.coal);
+            engineStack = Engines.COAL_ENGINE.newModuleStack();
+            RecipeSorter.register(ICBM.PREFIX + "RocketCoalPowered", RocketEngineCoalPowered.class, SHAPELESS, "after:minecraft:shaped");
 
-            //Charcoal fuel
-            engine.getInventory().setInventorySlotContents(0, new ItemStack(Items.coal, 5, 1));
-            GameRegistry.addShapelessRecipe(engine.toStack(), engineStack, new ItemStack(Items.coal, 1, 1), new ItemStack(Items.coal, 1, 1), new ItemStack(Items.coal, 1, 1), new ItemStack(Items.coal, 1, 1), new ItemStack(Items.coal, 1, 1));
+            for (Object s : new Object[]{"blockCoal", new ItemStack(Items.coal, 1, 1), new ItemStack(Items.coal, 1, 0)})
+            {
+                GameRegistry.addRecipe(new RocketEngineCoalRecipe(engineStack, engineStack, s));
+                GameRegistry.addRecipe(new RocketEngineCoalRecipe(engineStack, engineStack, s, s));
+                GameRegistry.addRecipe(new RocketEngineCoalRecipe(engineStack, engineStack, s, s, s));
+                GameRegistry.addRecipe(new RocketEngineCoalRecipe(engineStack, engineStack, s, s, s, s));
+                GameRegistry.addRecipe(new RocketEngineCoalRecipe(engineStack, engineStack, s, s, s, s, s));
+                GameRegistry.addRecipe(new RocketEngineCoalRecipe(engineStack, engineStack, s, s, s, s, s, s));
+                GameRegistry.addRecipe(new RocketEngineCoalRecipe(engineStack, engineStack, s, s, s, s, s, s, s));
+                GameRegistry.addRecipe(new RocketEngineCoalRecipe(engineStack, engineStack, s, s, s, s, s, s, s, s));
+            }
+
         }
         else
         {

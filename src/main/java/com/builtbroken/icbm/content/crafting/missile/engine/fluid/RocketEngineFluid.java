@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.crafting.missile.engine.fluid;
 
 import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
+import com.builtbroken.mc.core.registry.implement.IPostInit;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
@@ -12,7 +13,7 @@ import net.minecraftforge.fluids.IFluidTank;
  * Fluid only version of the engine
  * Created by robert on 12/28/2014.
  */
-public class RocketEngineFluid extends RocketEngine implements IFluidTank
+public class RocketEngineFluid extends RocketEngine implements IFluidTank, IPostInit
 {
     protected FluidTank tank;
 
@@ -75,5 +76,11 @@ public class RocketEngineFluid extends RocketEngine implements IFluidTank
             nbt.setTag("fuelTank", tank.writeToNBT(new NBTTagCompound()));
         }
         return nbt;
+    }
+
+    @Override
+    public void onPostInit()
+    {
+
     }
 }

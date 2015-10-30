@@ -2,6 +2,7 @@ package com.builtbroken.icbm.content.crafting.missile.engine.fluid;
 
 import com.builtbroken.icbm.api.modules.IMissileModule;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -13,7 +14,7 @@ public class RocketEngineOil extends RocketEngineFluid
 {
     public RocketEngineOil(ItemStack item)
     {
-        super(item, "engine.oil", 100);
+        super(item, "engine.oil", FluidContainerRegistry.BUCKET_VOLUME);
     }
 
     @Override
@@ -37,7 +38,7 @@ public class RocketEngineOil extends RocketEngineFluid
     {
         if (tank.getFluidAmount() > 0)
         {
-            return 5f * tank.getFluidAmount();
+            return 2f * tank.getFluidAmount();
         }
         return 0f;
     }
@@ -47,7 +48,7 @@ public class RocketEngineOil extends RocketEngineFluid
     {
         if (FluidRegistry.getFluid("oil") != null)
         {
-            tank.fill(new FluidStack(FluidRegistry.getFluid("oil"), 1000), true);
+            tank.fill(new FluidStack(FluidRegistry.getFluid("oil"), tank.getCapacity()), true);
         }
     }
 }
