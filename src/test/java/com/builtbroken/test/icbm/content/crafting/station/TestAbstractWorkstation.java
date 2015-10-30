@@ -1,7 +1,7 @@
 package com.builtbroken.test.icbm.content.crafting.station;
 
 import com.builtbroken.icbm.content.crafting.station.TileAbstractWorkstation;
-import com.builtbroken.mc.testing.tile.AbstractTileTest;
+import com.builtbroken.mc.AbstractTileTest;
 
 /**
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
