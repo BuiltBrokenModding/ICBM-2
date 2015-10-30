@@ -9,7 +9,7 @@ import net.minecraft.init.Blocks;
 /**
  * Blast that will destroy everything ignoring resistance to explosives
  * as Antimatter + matter(everything) = nothing(energy but no objects). In
- * other words it doesn't actually destory the blocks using a normal blast. Instead
+ * other words it doesn't actually destroy the blocks using a normal blast. Instead
  * it simple null out the block at the location.
  * Created by robert on 3/25/2015.
  */
