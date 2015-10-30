@@ -54,7 +54,11 @@ public abstract class Warhead extends AbstractModule implements IWarhead
     @Override
     public WorldChangeHelper.ChangeResult trigger(TriggerCause triggerCause, World world, double x, double y, double z)
     {
-        return ExplosiveRegistry.triggerExplosive(world, x, y, z, ex, triggerCause, size + (size * casing.ordinal()) + 5, tag);
+        if(!world.isRemote)
+        {
+            return ExplosiveRegistry.triggerExplosive(world, x, y, z, ex, triggerCause, size + (size * casing.ordinal()) + 5, tag);
+        }
+        return WorldChangeHelper.ChangeResult.COMPLETED;
     }
 
     @Override

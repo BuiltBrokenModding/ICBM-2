@@ -31,13 +31,14 @@ public class RocketEngineCoalRecipe extends ShapelessOreRecipe
             ItemStack stack = grid.getStackInSlot(i);
             if (stack != null)
             {
+                //We can only insert one item type
                 if (stack.getItem() == Items.coal && stack.getItemDamage() == 0)
                 {
                     if (coalBlock > 0 || charCoal > 0)
                         return null;
                     coal += 1;
                 }
-                else if (stack.getItem() == Items.coal && stack.getItemDamage() == 0)
+                else if (stack.getItem() == Items.coal && stack.getItemDamage() == 1)
                 {
                     if (coal > 0 || coalBlock > 0)
                         return null;
@@ -49,7 +50,7 @@ public class RocketEngineCoalRecipe extends ShapelessOreRecipe
                         return null;
                     coalBlock += 1;
                 }
-                else if (stack.getItem() == ICBM.itemEngineModules && stack.getItemDamage() == Engines.GUNPOWDER_ENGINE.ordinal())
+                else if (stack.getItem() == ICBM.itemEngineModules && stack.getItemDamage() == Engines.COAL_ENGINE.ordinal())
                 {
                     if (engine == null)
                     {

@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.crafting.station;
 
+import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
@@ -12,13 +13,17 @@ import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.api.tile.IRotatable;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
+import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
+import com.builtbroken.mc.prefab.recipe.item.RecipeTool;
 import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.multiblock.EnumMultiblock;
 import com.builtbroken.mc.prefab.tile.multiblock.MultiBlockHelper;
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -33,7 +38,7 @@ import java.util.HashMap;
  * Workstation for the small missile
  * Created by DarkCow on 3/12/2015.
  */
-public class TileSmallMissileWorkstation extends TileAbstractWorkstation implements IPacketIDReceiver, IRotatable
+public class TileSmallMissileWorkstation extends TileAbstractWorkstation implements IPacketIDReceiver, IRotatable, IPostInit
 {
     //Static values
     public static final int INPUT_SLOT = 0;
@@ -598,5 +603,12 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
             missile = MissileModuleBuilder.INSTANCE.buildMissile(getMissileItem());
         }
         return missile;
+    }
+
+    @Override
+    public void onPostInit()
+    {
+        //TODO make recipe more complex, involving crafting each armature
+        GameRegistry.addRecipe(new RecipeTool(new ItemStack(ICBM.blockMissileWorkstation), "RRR", "HCD", "PPP", 'R', "rodIron", 'P', "plateIron", 'H', Engine.itemSimpleCraftingTools.getHammer(), 'D', Engine.itemSimpleCraftingTools.getDrill(), 'C', "circuitBasic"));
     }
 }
