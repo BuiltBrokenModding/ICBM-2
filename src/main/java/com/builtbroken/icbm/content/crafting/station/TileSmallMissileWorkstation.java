@@ -250,12 +250,14 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                         player.addChatComponentMessage(new ChatComponentText("I don't think that goes into here."));
                     }
                 }
-                else if (getMissile() != null)
+                else if (getMissile() != null && player.getHeldItem().getItem() instanceof IModule)
                 {
                     IModule module = null;
 
                     if (player.getHeldItem() != null)
+                    {
                         module = ((IModuleItem) player.getHeldItem().getItem()).getModule(player.getHeldItem());
+                    }
 
                     if (module instanceof Guidance)
                     {
@@ -336,7 +338,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
             if (getLayoutOfMultiBlock().containsKey(pos))
             {
                 //Find slot to place or removes items from
-                if (getMissile() != null)
+                if (getMissile() != null && player.getHeldItem().getItem() instanceof IModule)
                 {
                     IModule module = null;
 
