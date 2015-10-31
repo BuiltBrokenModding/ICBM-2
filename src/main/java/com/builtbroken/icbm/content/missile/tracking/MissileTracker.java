@@ -53,7 +53,7 @@ public class MissileTracker implements IVirtualObject
 
     public static void addToTracker(EntityMissile missile)
     {
-        debug("missile added to tracker " + missile);
+        debug("Adding missile " + missile);
         MissileTracker tracker = getTrackerForWorld(missile.worldObj);
         if (tracker != null)
             tracker.add(missile);
@@ -75,7 +75,7 @@ public class MissileTracker implements IVirtualObject
 
     public static void spawnMissileOverTarget(Missile data, Location location, EntityPlayer player)
     {
-        debug("spawning missile over target area. D:" + data + "  L:" + location + "  P:" + player);
+        debug((location.world.isRemote ? "Client" : "Server") + "spawning missile over target area. D:" + data + "  L:" + location + "  P:" + player);
         spawnMissileOverTarget(data, location);
     }
 
@@ -88,22 +88,22 @@ public class MissileTracker implements IVirtualObject
 
         //Generate spawn in point
         Pos pos = location.toPos();
-        pos.sub(0, 10 + (100 * rand.nextFloat()), 0);
+        pos = pos.sub(0, 10 + (100 * rand.nextFloat()), 0);
         float accuracy = 100f;
         if (missile.getMissile() != null && missile.getMissile().getGuidance() != null)
         {
             accuracy = missile.getMissile().getGuidance().getFallOffRange(missile.getMissile());
         }
         //Randomize by accuracy pattern
-        pos.add(accuracy * rand.nextFloat() - accuracy * rand.nextFloat(), 0, 0);
-        pos.add(0, accuracy * rand.nextFloat() - accuracy * rand.nextFloat(), 0);
-        pos.add(0, 0, accuracy * rand.nextFloat() - accuracy * rand.nextFloat());
+        pos = pos.add(accuracy * rand.nextFloat() - accuracy * rand.nextFloat(), 0, 0);
+        pos = pos.add(0, accuracy * rand.nextFloat() - accuracy * rand.nextFloat(), 0);
+        pos = pos.add(0, 0, accuracy * rand.nextFloat() - accuracy * rand.nextFloat());
         //Set new postion
         missile.setPosition(pos.x(), pos.y(), pos.z());
 
         //TODO aim missile at target
         //Pos m = new Pos(missile).toEulerAngle(location).toVector();
-        missile.setVelocity(0, -1, 0);
+        missile.motionY = -1;
         location.world.spawnEntityInWorld(missile);
         //TODO add chance for guidance to update aim and fire thrusters
         missile.setIntoMotion();

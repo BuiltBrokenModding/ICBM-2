@@ -50,4 +50,10 @@ public abstract class RocketEngine extends MissileModule implements IRocketEngin
 
     }
 
+    @Override
+    public String toString()
+    {
+        //TODO add hashcode
+        return getClass().getSimpleName();
+    }
 }

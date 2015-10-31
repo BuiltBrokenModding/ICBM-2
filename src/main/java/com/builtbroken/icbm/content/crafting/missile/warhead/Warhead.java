@@ -4,6 +4,7 @@ import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
+import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.world.edit.WorldChangeHelper;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
@@ -54,7 +55,11 @@ public abstract class Warhead extends AbstractModule implements IWarhead
     @Override
     public WorldChangeHelper.ChangeResult trigger(TriggerCause triggerCause, World world, double x, double y, double z)
     {
-        if(!world.isRemote)
+        if(world == null || Double.isNaN(x) || Double.isNaN(y) || Double.isNaN(z))
+        {
+            return WorldChangeHelper.ChangeResult.FAILED;
+        }
+        if (!world.isRemote)
         {
             return ExplosiveRegistry.triggerExplosive(world, x, y, z, ex, triggerCause, size + (size * casing.ordinal()) + 5, tag);
         }
@@ -74,5 +79,11 @@ public abstract class Warhead extends AbstractModule implements IWarhead
     public IExplosiveHandler getExplosive()
     {
         return null;
+    }
+
+    @Override
+    public String toString()
+    {
+        return LanguageUtility.capitalizeFirst(casing.name().toLowerCase()) + "Warhead[" + 1 + " x " + ex + "]";
     }
 }

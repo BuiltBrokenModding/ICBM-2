@@ -7,6 +7,7 @@ import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
 import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.mc.api.modules.IModule;
+import com.builtbroken.mc.lib.helper.LanguageUtility;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -131,5 +132,12 @@ public abstract class Missile extends AbstractModule implements IMissileModule
     public int getMissileSize()
     {
         return casing.ordinal();
+    }
+
+    @Override
+    public String toString()
+    {
+        //TODO maybe cache being in missile enum to save a little cpu time?
+        return LanguageUtility.capitalizeFirst(casing.name().toLowerCase()) + "Missile[" + getWarhead() + ", " + getGuidance() + ", " + getEngine() + "]";
     }
 }

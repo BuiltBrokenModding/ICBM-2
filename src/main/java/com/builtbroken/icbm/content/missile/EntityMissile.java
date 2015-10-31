@@ -125,6 +125,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
 
     private void spawnMissileSmoke()
     {
+        //TODO fix as it is showing up sideways
         if (this.worldObj.isRemote)
         {
             Pos position = new Pos(this);
@@ -164,7 +165,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     protected void onImpactEntity(Entity ent, float v)
     {
         super.onImpactEntity(ent, v);
-        onImpact();
+        onImpact(ent.posX, ent.posY, ent.posZ);
     }
 
     @Override
@@ -179,7 +180,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
                 ((TileAbstractLauncher) tile).onImpactOfMissile(this);
             }
         }
-        onImpact();
+        onImpact(xTile, yTile, zTile);
     }
 
     @Override
@@ -194,18 +195,19 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
                 ((TileAbstractLauncher) tile).onDeathOfMissile(this);
             }
         }
+    }
+
+    protected void onImpact(double x, double y, double z)
+    {
+        if (missile.getWarhead() != null)
+        {
+            missile.getWarhead().trigger(new TriggerCause.TriggerCauseEntity(this), worldObj, x, y, z);
+        }
         if (missile != null && missile.getEngine() != null)
         {
             missile.getEngine().onDestroyed(this, missile);
         }
-    }
-
-    protected void onImpact()
-    {
-        if (missile.getWarhead() != null)
-        {
-            missile.getWarhead().trigger(new TriggerCause.TriggerCauseEntity(this), worldObj, posX, posY, posZ);
-        }
+        this.setDead();
     }
 
     @Override

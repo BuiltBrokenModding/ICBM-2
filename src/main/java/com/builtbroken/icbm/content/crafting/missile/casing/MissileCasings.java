@@ -5,6 +5,7 @@ import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 
 /**
+ * Enum of missile sizes
  * Created by robert on 12/28/2014.
  */
 public enum MissileCasings

@@ -27,4 +27,11 @@ public abstract class Guidance extends MissileModule implements IGuidance
     {
         return 0.5f;
     }
+
+    @Override
+    public String toString()
+    {
+        //TODO add hashcode
+        return getClass().getSimpleName();
+    }
 }

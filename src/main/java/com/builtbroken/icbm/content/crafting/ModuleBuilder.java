@@ -122,7 +122,7 @@ public class ModuleBuilder
                             e.printStackTrace();
                     } catch (InvocationTargetException e)
                     {
-                        ICBM.INSTANCE.logger().error("ModuleBuilder failed to find to invoke constructor(ItemStack.class) for class " + idToCLassMap.get(id));
+                        ICBM.INSTANCE.logger().error("ModuleBuilder failed to invoke constructor(ItemStack.class) for class " + idToCLassMap.get(id));
                         if (Engine.runningAsDev)
                             e.printStackTrace();
                     }
