@@ -250,11 +250,11 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                         player.addChatComponentMessage(new ChatComponentText("I don't think that goes into here."));
                     }
                 }
-                else if (getMissile() != null && player.getHeldItem().getItem() instanceof IModule)
+                else if (getMissile() != null)
                 {
                     IModule module = null;
 
-                    if (player.getHeldItem() != null)
+                    if (player.getHeldItem().getItem() instanceof IModuleItem)
                     {
                         module = ((IModuleItem) player.getHeldItem().getItem()).getModule(player.getHeldItem());
                     }
@@ -338,18 +338,18 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
             if (getLayoutOfMultiBlock().containsKey(pos))
             {
                 //Find slot to place or removes items from
-                if (getMissile() != null && player.getHeldItem().getItem() instanceof IModule)
+                if (getMissile() != null)
                 {
                     IModule module = null;
 
-                    if (player.getHeldItem() != null)
+                    if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IModuleItem)
                         module = ((IModuleItem) player.getHeldItem().getItem()).getModule(player.getHeldItem());
 
                     if (isWarheadSide(pos))
                     {
                         if (module == null)
                         {
-                            if (getMissile().getWarhead() != null)
+                            if (player.getHeldItem() == null && getMissile().getWarhead() != null)
                             {
                                 ItemStack stack = getMissile().getWarhead().toStack();
                                 player.inventory.setInventorySlotContents(player.inventory.currentItem, stack);
@@ -381,7 +381,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                         //slot = ENGINE_SLOT;
                         if (module == null)
                         {
-                            if (getMissile().getEngine() != null)
+                            if (player.getHeldItem() == null && getMissile().getEngine() != null)
                             {
                                 ItemStack stack = getMissile().getEngine().toStack();
                                 player.inventory.setInventorySlotContents(player.inventory.currentItem, stack);
