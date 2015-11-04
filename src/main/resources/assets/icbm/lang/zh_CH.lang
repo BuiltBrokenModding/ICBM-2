@@ -1,0 +1,135 @@
+## Master language file
+itemGroup.ICBM=ICBM
+
+## Missile
+item.icbm:missile.name=导弹
+item.icbm:missile.empty.name=导弹外壳
+
+item.icbm:missile.micro.name=火箭
+item.icbm:missile.micro.empty.name=火箭外壳
+
+item.icbm:missile.small.name=小型导弹
+item.icbm:missile.small.empty.name=小型导弹外壳
+
+item.icbm:missile.standard.name=导弹
+item.icbm:missile.standard.empty.name=导弹外壳
+
+item.icbm:missile.medium.name=大型导弹
+item.icbm:missile.medium.empty.name=大型导弹外壳
+
+item.icbm:missile.large.name=ICBM
+item.icbm:missile.large.empty.name=ICBM外壳
+
+item.icbm:siloLinker.name=数据芯片
+
+item.icbm:gpsFlag.name=GPS数据芯片
+
+## Parts
+item.icbm:missileParts.name=导弹部件
+item.icbm:missileParts.smallMissileCasing.name=小型导弹外皮
+
+## Tiles
+tile.icbm:TileMissile.0.name=木制火箭展示
+tile.icbm:TileMissile.1.name=木制小型导弹展示
+
+tile.icbm:smallSilo.container.name=小型导弹发射井屏幕
+tile.icbm:smallSiloController.container.name=发射台指导屏幕
+
+tile.icbm:smallLauncher.name=便携导弹发射器
+tile.icbm:portableLauncher.container.name=便携导弹发射器
+tile.icbm:portableLauncher.container.invalidtarget=目标地点无效
+tile.icbm:portableLauncher.container.invaliddistance=目标距离必须是20至200之间
+
+tile.icbm:missileController.name=发射台控制器
+tile.icbm:smallsilo.name=小型导弹发射井
+tile.icbm:missileworkstation.name=导弹站
+
+## Explosives
+explosive.icbm:tnt.name=TNT
+explosive.icbm:snowmen.name=让它下雪！
+explosive.icbm:EndoThermic.name=吸热
+explosive.icbm:ExoThermic.name=放热
+explosive.icbm:ArrowFragment.name=箭
+explosive.icbm:Antimatter.name=反物质
+
+## Launcher
+item.icbm:rocketLauncher.name=手持发射台
+info.icbm:rocketlauncher.tooltip=发射小型导弹
+
+## Warhead
+tile.icbm:warhead.name=弹头
+tile.icbm:warhead.micro.name=微型弹头
+tile.icbm:warhead.small.name=小型弹头
+
+## Info
+info.icbm:engine.name=引擎
+info.icbm:warhead.name=弹头
+info.icbm:guidance.name=指导
+info.icbm:trigger.name=触发
+
+
+
+## Controller GUI error messages
+gui.icbm:controller.links.none=没有导弹发射井被连接
+gui.icbm:controller.links.none.hint=试用数据芯片
+gui.icbm:controller.invalid.input.name=输入无效
+
+## Controller GUI buttons
+gui.icbm:controller.launcher.name=发射台
+gui.icbm:controller.launcher.width=100
+gui.icbm:controller.launcher.x=0
+
+gui.icbm:controller.fire.name=发射
+gui.icbm:controller.fire.width=30
+gui.icbm:controller.fire.x=105
+
+gui.icbm:controller.update.name=更新
+gui.icbm:controller.update.width=30
+gui.icbm:controller.update.x=0
+
+gui.icbm:controller.back.name=回
+gui.icbm:controller.back.width=50
+gui.icbm:controller.back.x=100
+
+container.TileController.name=发射台控制器
+
+gui.icbm:workstation.assemble.name=组合
+gui.icbm:workstation.assemble.width=50
+
+gui.icbm:workstation.disassemble.name=拆卸
+gui.icbm:workstation.disassemble.width=70
+
+gui.icbm:workstation.mode.name=模式
+gui.icbm:workstation.mode.width=30
+
+## Triggers
+trigger.icbm:impact.name=撞击
+trigger.icbm:gps.name=地点
+trigger.icbm:time.name=计时器
+
+## Engine Modules
+module.icbm:engine.creative.name=反重力电机
+module.icbm:engine.coal.name=燃烧器
+module.icbm:engine.oil.name=油燃烧器
+module.icbm:engine.fuel.name=基本推进器
+module.icbm:engine.gunpowder.name=助推器
+
+## Guidance Modules
+module.icbm:guidance.gears.wood.name=木指导时钟
+module.icbm:guidance.gears.stone.name=石指导时钟
+module.icbm:guidance.gears.iron.name=铁指导时钟
+module.icbm:guidance.gears.diamond.name=钻石指导时钟
+module.icbm:guidance.chip.1.name=初学者指导芯片
+module.icbm:guidance.chip.2.name=指导芯片
+module.icbm:guidance.chip.3.name=改进指导芯片
+
+## ICBM Classic
+
+## ItemTracker
+item.icbmclassic:tracker.name=跟踪器
+item.icbmclassic:itemtracker.description=左键跟踪玩家
+item.icbmclassic:itemtracker.trackingmessage=正在跟踪：
+
+item.icbmclassic:radargun.name=雷达枪
+item.icbmclassic:radargun.description=右键描扫地点
+item.icbmclassic:radargun.trackingmessage=储存方块：
