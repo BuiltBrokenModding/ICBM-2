@@ -59,8 +59,8 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     @Override
     public void onPostInit()
     {
-        ItemStack micro_missile_empty = MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.MICRO, null, null, null).toStack();
-        ItemStack small_missile_empty = MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.SMALL, null, null, null).toStack();
+        ItemStack micro_missile_empty = MissileCasings.MICRO.newModuleStack();
+        ItemStack small_missile_empty = MissileCasings.SMALL.newModuleStack();
         if (Engine.itemSheetMetal != null && Engine.itemSheetMetalTools != null)
         {
             GameRegistry.addRecipe(new RecipeSheetMetal(micro_missile_empty, " rf", "rcf", " rf", 'c', ItemSheetMetal.SheetMetal.SMALL_CYLINDER.stack(), 'f', ItemSheetMetal.SheetMetal.FIN_MICRO.stack(), 'r', "rodIron"));
@@ -113,7 +113,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
         {
             if (size.enabled)
             {
-                list.add(MissileModuleBuilder.INSTANCE.buildMissile(size, null).toStack());
+                list.add(size.newModuleStack());
                 for (IExplosiveHandler ex : ExplosiveRegistry.getExplosives())
                 {
                     list.add(MissileModuleBuilder.INSTANCE.buildMissile(size, ex).toStack());

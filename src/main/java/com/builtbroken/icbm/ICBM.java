@@ -205,7 +205,7 @@ public final class ICBM extends AbstractMod
         GuidanceModules.register();
 
         //Set tab item last so to avoid NPE
-        CREATIVE_TAB.itemStack = new ItemStack(itemMissile);
+        CREATIVE_TAB.itemStack = MissileCasings.SMALL.newModuleStack();
     }
 
     @EventHandler

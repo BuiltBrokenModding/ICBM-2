@@ -78,7 +78,7 @@ public class ModuleBuilder
     public String getID(AbstractModule module)
     {
         Class<? extends AbstractModule> clazz = module.getClass();
-        if(idToCLassMap.inverse().containsKey(clazz))
+        if (idToCLassMap.inverse().containsKey(clazz))
         {
             return idToCLassMap.inverse().get(clazz);
         }
@@ -104,8 +104,7 @@ public class ModuleBuilder
                     try
                     {
                         return idToCLassMap.get(id).getConstructor(ItemStack.class).newInstance(stack).load();
-                    }
-                    catch (InstantiationException e)
+                    } catch (InstantiationException e)
                     {
                         ICBM.INSTANCE.logger().error("ModuleBuilder failed to create module from class " + idToCLassMap.get(id));
                         if (Engine.runningAsDev)
@@ -133,9 +132,15 @@ public class ModuleBuilder
                 }
             }
         }
+        else if (stack != null)
+        {
+            if (Engine.runningAsDev)
+                ICBM.INSTANCE.logger().error("ModuleBuilder failed to create module due to NBT data being " + (stack.getTagCompound() == null ? "null" : "invalid ") + " for item stack " + stack);
+        }
         else
         {
-            ICBM.INSTANCE.logger().error("ModuleBuilder failed to create module due to NBT data being " + ( stack.getTagCompound() == null ? "null" : "invalid ") + " for item stack " + stack);
+            if (Engine.runningAsDev)
+                ICBM.INSTANCE.logger().error("ModuleBuilder failed to create module due to stack being null");
         }
         return null;
     }

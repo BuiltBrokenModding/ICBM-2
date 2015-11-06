@@ -1,7 +1,9 @@
 package com.builtbroken.icbm.content.crafting.missile.engine.solid;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
+import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.items.ItemStackWrapper;
 import net.minecraft.inventory.InventoryCrafting;
@@ -56,22 +58,25 @@ public class RocketEngineCoalRecipe extends ShapelessOreRecipe
         if (engine != null && fuelStack != null)
         {
             //Load engine from ItemStack NBT
-            RocketEngineCoalPowered rocketEngine = new RocketEngineCoalPowered(engine.copy());
+            RocketEngine rocketEngine = MissileModuleBuilder.INSTANCE.buildEngine(engine);
             rocketEngine.load();
 
-            //Compare fuel item to current fuel store in engine
-            ItemStack slotStack = rocketEngine.getInventory().getStackInSlot(0);
-            if (slotStack == null || InventoryUtility.stacksMatch(slotStack, fuelStack))
+            if (rocketEngine instanceof RocketEngineCoalPowered)
             {
-                //Add existing fuel to fuel stack
-                if (slotStack != null)
-                    fuelStack.stackSize += slotStack.stackSize;
-
-                //Ensure max stack size is maintained
-                if (fuelStack.stackSize <= fuelStack.getMaxStackSize())
+                //Compare fuel item to current fuel store in engine
+                ItemStack slotStack = ((RocketEngineCoalPowered) rocketEngine).fuelStack();
+                if (slotStack == null || InventoryUtility.stacksMatch(slotStack, fuelStack))
                 {
-                    rocketEngine.getInventory().setInventorySlotContents(0, fuelStack);
-                    return rocketEngine.toStack();
+                    //Add existing fuel to fuel stack
+                    if (slotStack != null)
+                        fuelStack.stackSize += slotStack.stackSize;
+
+                    //Ensure max stack size is maintained
+                    if (fuelStack.stackSize <= fuelStack.getMaxStackSize())
+                    {
+                        ((RocketEngineCoalPowered) rocketEngine).getInventory().setInventorySlotContents(0, fuelStack);
+                        return rocketEngine.toStack();
+                    }
                 }
             }
         }

@@ -1,8 +1,11 @@
 package com.builtbroken.icbm.content.crafting.missile.casing;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.content.crafting.ModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 /**
  * Enum of missile sizes
@@ -27,6 +30,19 @@ public enum MissileCasings
         this.missile_clazz = missile_clazz;
         this.maxFlightTimeInTicks = maxFlightTicks;
         this.enabled = enabled;
+    }
+
+    public ItemStack newModuleStack()
+    {
+        ItemStack stack = new ItemStack(ICBM.itemMissile, 1, ordinal());
+        stack.setTagCompound(new NBTTagCompound());
+        stack.getTagCompound().setString(ModuleBuilder.SAVE_ID, "icbm.missile_" + name().toLowerCase());
+        return stack;
+    }
+
+    public Missile newModule()
+    {
+        return MissileModuleBuilder.INSTANCE.buildMissile(newModuleStack());
     }
 
     public static void register()

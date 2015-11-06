@@ -141,7 +141,7 @@ public class MissileModuleBuilder extends ModuleBuilder
     {
         try
         {
-            Missile missile = missileSize.missile_clazz.getConstructor(ItemStack.class).newInstance(new ItemStack(ICBM.itemMissile, 1, missileSize.ordinal()));
+            Missile missile = missileSize.missile_clazz.getConstructor(ItemStack.class).newInstance(missileSize.newModuleStack());
 
             //Engine
             missile.setEngine(engine);
