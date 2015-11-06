@@ -45,6 +45,7 @@ tile.icbm:smallsilo.name=Small Silo
 tile.icbm:missileworkstation.name=Missile Station
 
 ## Explosives
+explosive.error.null_ex.name=Empty
 explosive.icbm:tnt.name=TNT
 explosive.icbm:snowmen.name=Let it Snow!
 explosive.icbm:EndoThermic.name=Endothermic
