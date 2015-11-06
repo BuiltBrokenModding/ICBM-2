@@ -18,6 +18,7 @@ import net.minecraft.util.IIcon;
  */
 public enum Engines
 {
+    //https://en.wikipedia.org/wiki/Rocket_propellant
     //Engines
     CREATIVE_ENGINE("engine.creative", RocketEngineCreative.class),
     COAL_ENGINE("engine.coal", RocketEngineCoalPowered.class),

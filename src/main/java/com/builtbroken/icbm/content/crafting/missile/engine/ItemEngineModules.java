@@ -80,6 +80,7 @@ public class ItemEngineModules extends ItemAbstractModule implements IPostInit
         for (Engines engine : Engines.values())
         {
             RocketEngine e = MissileModuleBuilder.INSTANCE.buildEngine(engine.newModuleStack());
+            list.add(e.toStack().copy());
             e.initFuel();
             list.add(e.toStack());
         }

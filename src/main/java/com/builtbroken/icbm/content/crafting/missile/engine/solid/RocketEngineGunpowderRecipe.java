@@ -31,15 +31,12 @@ public class RocketEngineGunpowderRecipe extends ShapelessOreRecipe
                 }
                 else if (stack.getItem() == ICBM.itemEngineModules && stack.getItemDamage() == Engines.GUNPOWDER_ENGINE.ordinal())
                 {
-                    if (engine == null)
+                    if (engine != null)
                     {
-                        engine = stack;
-                    }
-                    else
-                    {
-                        //Should never happen
                         return null;
                     }
+                    engine = stack.copy();
+                    engine.stackSize = 1;
                 }
                 else
                 {
