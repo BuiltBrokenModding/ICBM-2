@@ -98,26 +98,34 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
             GameRegistry.addRecipe(new ShapedOreRecipe(small_warhead_empty, " p ", " n ", "ncn", 'p', Blocks.heavy_weighted_pressure_plate, 'n', Items.iron_ingot, 'r', Items.redstone, 'c', UniversalRecipe.CIRCUIT_T1.get()));
         }
 
+        final MissileModuleBuilder builder = MissileModuleBuilder.INSTANCE;
         //TNT explosive recipe
-        GameRegistry.addRecipe(new ShapelessOreRecipe(MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, ExplosiveRegistry.get("TNT")).toStack(), Items.gunpowder, Items.gunpowder, micro_warhead_empty));
-        GameRegistry.addRecipe(new ShapelessOreRecipe(MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, ExplosiveRegistry.get("TNT")).toStack(), Blocks.tnt, Blocks.tnt, Blocks.tnt, small_warhead_empty));
+        GameRegistry.addRecipe(new ShapelessOreRecipe(builder.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, ExplosiveRegistry.get("TNT")).toStack(), Items.gunpowder, Items.gunpowder, micro_warhead_empty));
+        GameRegistry.addRecipe(new ShapelessOreRecipe(builder.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, ExplosiveRegistry.get("TNT")).toStack(), Blocks.tnt, Blocks.tnt, Blocks.tnt, small_warhead_empty));
 
         //Fragment TODO add real recipe
-        GameRegistry.addRecipe(new ShapelessOreRecipe(MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, ExplosiveRegistry.get("ArrowFragment")).toStack(), Items.gunpowder, Items.arrow, Items.arrow, Items.arrow, Items.arrow, Items.arrow, micro_warhead_empty));
-        GameRegistry.addRecipe(new ShapelessOreRecipe(MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, ExplosiveRegistry.get("ArrowFragment")).toStack(), Items.gunpowder, Items.arrow, Items.arrow, Items.arrow, Items.arrow, Items.arrow, Items.arrow, small_warhead_empty));
+        GameRegistry.addRecipe(new ShapelessOreRecipe(builder.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, ExplosiveRegistry.get("ArrowFragment")).toStack(), Items.gunpowder, Items.arrow, Items.arrow, Items.arrow, Items.arrow, Items.arrow, micro_warhead_empty));
+        GameRegistry.addRecipe(new ShapelessOreRecipe(builder.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, ExplosiveRegistry.get("ArrowFragment")).toStack(), Items.gunpowder, Items.arrow, Items.arrow, Items.arrow, Items.arrow, Items.arrow, Items.arrow, small_warhead_empty));
 
         //Exo TODO add real recipe
-        GameRegistry.addRecipe(new ShapelessOreRecipe(MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, ExplosiveRegistry.get("ExoThermic")).toStack(), Items.fire_charge, Items.fire_charge, micro_warhead_empty));
-        GameRegistry.addRecipe(new ShapelessOreRecipe(MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, ExplosiveRegistry.get("ExoThermic")).toStack(), Items.fire_charge, Items.fire_charge, Items.fire_charge, Items.fire_charge, small_warhead_empty));
+        GameRegistry.addRecipe(new ShapelessOreRecipe(builder.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, ExplosiveRegistry.get("ExoThermic")).toStack(), Items.blaze_powder, Items.blaze_powder, micro_warhead_empty));
+        GameRegistry.addRecipe(new ShapelessOreRecipe(builder.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, ExplosiveRegistry.get("ExoThermic")).toStack(), Items.blaze_powder, Items.blaze_powder, Items.blaze_powder, Items.blaze_powder, small_warhead_empty));
 
         //Exo TODO add real recipe
-        GameRegistry.addRecipe(new ShapelessOreRecipe(MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, ExplosiveRegistry.get("EndoThermic")).toStack(), Blocks.ice, Blocks.ice, micro_warhead_empty));
-        GameRegistry.addRecipe(new ShapelessOreRecipe(MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, ExplosiveRegistry.get("EndoThermic")).toStack(), Blocks.ice, Blocks.ice, Blocks.ice, Blocks.ice, small_warhead_empty));
+        GameRegistry.addRecipe(new ShapelessOreRecipe(builder.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, ExplosiveRegistry.get("EndoThermic")).toStack(), Blocks.ice, Blocks.ice, micro_warhead_empty));
+        GameRegistry.addRecipe(new ShapelessOreRecipe(builder.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, ExplosiveRegistry.get("EndoThermic")).toStack(), Blocks.ice, Blocks.ice, Blocks.ice, Blocks.ice, small_warhead_empty));
 
         //Antimatter TODO add real recipe
-        GameRegistry.addRecipe(new ShapelessOreRecipe(MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, ExplosiveRegistry.get("Antimatter")).toStack(), Items.ender_eye, Items.ender_eye, Items.nether_star, Items.nether_star, micro_warhead_empty));
-        GameRegistry.addRecipe(new ShapelessOreRecipe(MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, ExplosiveRegistry.get("Antimatter")).toStack(), Items.ender_eye, Items.ender_eye, Items.nether_star, Items.nether_star, Items.nether_star, Items.nether_star, small_warhead_empty));
+        GameRegistry.addRecipe(new ShapelessOreRecipe(builder.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, ExplosiveRegistry.get("Antimatter")).toStack(), Items.ender_eye, Items.ender_eye, Items.nether_star, micro_warhead_empty));
+        GameRegistry.addRecipe(new ShapelessOreRecipe(builder.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, ExplosiveRegistry.get("Antimatter")).toStack(), Items.ender_eye, Items.ender_eye, Items.nether_star, Items.nether_star, small_warhead_empty));
 
+        //Antimatter TODO add real recipe
+        GameRegistry.addRecipe(new ShapelessOreRecipe(builder.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, ExplosiveRegistry.get("FireBomb")).toStack(), Items.gunpowder, Items.coal, micro_warhead_empty));
+        GameRegistry.addRecipe(new ShapelessOreRecipe(builder.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, ExplosiveRegistry.get("FireBomb")).toStack(), Items.gunpowder, Items.gunpowder, Items.coal, Items.coal, small_warhead_empty));
+
+        //Antimatter TODO add real recipe
+        GameRegistry.addRecipe(new ShapelessOreRecipe(builder.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, ExplosiveRegistry.get("FlashFire")).toStack(), Items.fire_charge, micro_warhead_empty));
+        GameRegistry.addRecipe(new ShapelessOreRecipe(builder.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, ExplosiveRegistry.get("FlashFire")).toStack(), Items.fire_charge, Items.fire_charge, small_warhead_empty));
     }
 
 
