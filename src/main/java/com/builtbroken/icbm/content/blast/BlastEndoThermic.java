@@ -4,6 +4,7 @@ import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.lib.world.edit.PlacementData;
 import com.builtbroken.mc.lib.world.heat.HeatedBlockRegistry;
+import com.builtbroken.mc.prefab.entity.damage.DamageSources;
 import com.builtbroken.mc.prefab.entity.selector.EntitySelectors;
 import com.builtbroken.mc.prefab.explosive.blast.BlastSimplePath;
 import net.minecraft.block.Block;
@@ -15,12 +16,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.List;
 
 /**
+ * Blast that removes energy from the environment making it very cold.
  * Created by robert on 2/24/2015.
  */
 public class BlastEndoThermic extends BlastSimplePath
 {
-    public static DamageSource frostDamage = new DamageSource("frost");
-
     @Override
     public BlockEdit changeBlock(Location location)
     {
@@ -73,6 +73,7 @@ public class BlastEndoThermic extends BlastSimplePath
     {
         if (!beforeBlocksPlaced)
         {
+            DamageSource source = DamageSources.THERMAL_DECREASE.getSource(this);
             List<Entity> list = EntitySelectors.LIVING_SELECTOR.selector().getEntities(this, size * 2);
             for (Entity entity : list)
             {
@@ -81,7 +82,7 @@ public class BlastEndoThermic extends BlastSimplePath
                 if (temp <= 250)
                 {
                     float damage = Math.max(1, 250 - temp) / 25;
-                    entity.attackEntityFrom(frostDamage, damage);
+                    entity.attackEntityFrom(source, damage);
                     if (entity.isBurning())
                         entity.extinguish();
                 }

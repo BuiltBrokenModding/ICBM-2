@@ -7,6 +7,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.IIcon;
 
 /**
+ * Enum of warhead casings
  * Created by robert on 1/16/2015.
  */
 public enum WarheadCasings
@@ -39,7 +40,7 @@ public enum WarheadCasings
 
     public static WarheadCasings get(int i)
     {
-        if(i >= 0 && i < values().length)
+        if (i >= 0 && i < values().length)
             return values()[i];
         return EXPLOSIVE_MICRO;
     }

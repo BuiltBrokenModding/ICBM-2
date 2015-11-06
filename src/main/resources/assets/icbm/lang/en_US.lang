@@ -51,6 +51,8 @@ explosive.icbm:EndoThermic.name=Endothermic
 explosive.icbm:ExoThermic.name=Exothermic
 explosive.icbm:ArrowFragment.name=Arrow
 explosive.icbm:Antimatter.name=Antimatter
+explosive.icbm:FireBomb.name=Fire Bomb
+explosive.icbm:FlashFire.name=Flash Fire
 
 ## Launcher
 item.icbm:rocketLauncher.name=Handheld Launcher

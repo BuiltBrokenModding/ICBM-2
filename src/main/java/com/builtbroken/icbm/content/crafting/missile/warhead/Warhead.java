@@ -4,6 +4,7 @@ import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.world.edit.WorldChangeHelper;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
@@ -18,17 +19,29 @@ import net.minecraft.world.World;
  */
 public abstract class Warhead extends AbstractModule implements IWarhead
 {
+    /** Handler used to trigger an explosion. */
     public IExplosiveHandler ex;
+    /** Size of the explosion. */
     public double size = 1;
+    /** Additional data for triggering an explosion. */
     public NBTTagCompound tag = new NBTTagCompound();
+    /** Explosive item used to ID the explosive handler. */
     public ItemStack explosive;
 
-    protected WarheadCasings casing;
+    /** Size of the warhead case. */
+    public final WarheadCasings casing;
 
+    /**
+     * Creates a new warhead instance.
+     *
+     * @param warhead - ItemStack that represents the warhead and it's data.
+     * @param casing  - size of the warhead.
+     */
     public Warhead(ItemStack warhead, WarheadCasings casing)
     {
         super(warhead, "warhead");
         this.casing = casing;
+        this.size = 1 + casing.ordinal();
     }
 
     @Override
@@ -55,13 +68,17 @@ public abstract class Warhead extends AbstractModule implements IWarhead
     @Override
     public WorldChangeHelper.ChangeResult trigger(TriggerCause triggerCause, World world, double x, double y, double z)
     {
-        if(world == null || Double.isNaN(x) || Double.isNaN(y) || Double.isNaN(z))
+        if (world == null || Double.isNaN(x) || Double.isNaN(y) || Double.isNaN(z))
         {
+            if (Engine.runningAsDev)
+            {
+                Engine.error("Warhead trigger with an invalid location " + world + " " + x + "x " + y + "y " + z + "z ");
+            }
             return WorldChangeHelper.ChangeResult.FAILED;
         }
         if (!world.isRemote)
         {
-            return ExplosiveRegistry.triggerExplosive(world, x, y, z, ex, triggerCause, size + (size * casing.ordinal()) + 5, tag);
+            return ExplosiveRegistry.triggerExplosive(world, x, y, z, ex, triggerCause, size, tag);
         }
         return WorldChangeHelper.ChangeResult.COMPLETED;
     }
@@ -78,7 +95,7 @@ public abstract class Warhead extends AbstractModule implements IWarhead
     @Override
     public IExplosiveHandler getExplosive()
     {
-        return null;
+        return ex;
     }
 
     @Override

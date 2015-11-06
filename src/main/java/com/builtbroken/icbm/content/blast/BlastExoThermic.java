@@ -4,6 +4,7 @@ import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.lib.world.edit.PlacementData;
 import com.builtbroken.mc.lib.world.heat.HeatedBlockRegistry;
+import com.builtbroken.mc.prefab.entity.damage.DamageSources;
 import com.builtbroken.mc.prefab.entity.selector.EntitySelectors;
 import com.builtbroken.mc.prefab.explosive.blast.BlastSimplePath;
 import net.minecraft.block.Block;
@@ -15,12 +16,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.List;
 
 /**
+ * Blast that releases a lot of energy into the environment making it very hot.
  * Created by robert on 2/24/2015.
  */
 public class BlastExoThermic extends BlastSimplePath
 {
-    public static DamageSource thermalDamage = new DamageSource("thermal").setFireDamage();
-
     @Override
     public BlockEdit changeBlock(Location location)
     {
@@ -76,13 +76,14 @@ public class BlastExoThermic extends BlastSimplePath
     {
         if (!beforeBlocksPlaced)
         {
+            DamageSource source = DamageSources.THERMAL_INCREASE.getSource(this);
             List<Entity> list = EntitySelectors.LIVING_SELECTOR.selector().getEntities(this, size * 2);
             for (Entity entity : list)
             {
                 double distance = entity.getDistance(x, y, z);
                 int temp = getTempForDistance(distance);
                 float damage = temp / 1000.0f;
-                if (entity.attackEntityFrom(thermalDamage, damage))
+                if (entity.attackEntityFrom(source, damage))
                 {
                     entity.setFire((int) damage);
                 }
