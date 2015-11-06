@@ -135,7 +135,7 @@ public class ModuleBuilder
         }
         else
         {
-            //ICBM.LOGGER.error("ModuleBuilder failed to create module due to NBT data being " + ( stack.getTagCompound() == null ? "null" : "invalid ") + " for item stack " + stack);
+            ICBM.INSTANCE.logger().error("ModuleBuilder failed to create module due to NBT data being " + ( stack.getTagCompound() == null ? "null" : "invalid ") + " for item stack " + stack);
         }
         return null;
     }

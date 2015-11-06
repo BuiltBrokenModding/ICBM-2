@@ -3,10 +3,8 @@ package com.builtbroken.icbm.content.crafting.missile.engine.solid;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import com.builtbroken.mc.prefab.items.ItemStackWrapper;
 import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -88,7 +86,7 @@ public class RocketEngineCoalRecipe extends ShapelessOreRecipe
      */
     public static boolean isFuel(ItemStack stack)
     {
-        return stack != null && stack.stackSize >= 1 && (stack.getItem() == Items.coal || stack.getItem() == Item.getItemFromBlock(Blocks.coal_block));
+        return stack != null && stack.stackSize >= 1 && RocketEngineCoalPowered.FUEL_DISTANCE_VALUE.containsKey(new ItemStackWrapper(stack));
     }
 
     @Override

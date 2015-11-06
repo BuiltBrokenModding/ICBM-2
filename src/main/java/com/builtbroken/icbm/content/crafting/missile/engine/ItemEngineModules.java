@@ -30,6 +30,7 @@ public class ItemEngineModules extends ItemAbstractModule implements IPostInit
     public ItemEngineModules()
     {
         this.setHasSubtypes(true);
+        this.setUnlocalizedName(ICBM.PREFIX + "engine");
     }
 
     @Override
@@ -79,8 +80,9 @@ public class ItemEngineModules extends ItemAbstractModule implements IPostInit
     {
         for (Engines engine : Engines.values())
         {
+            list.add(engine.newModuleStack());
+
             RocketEngine e = MissileModuleBuilder.INSTANCE.buildEngine(engine.newModuleStack());
-            list.add(e.toStack().copy());
             e.initFuel();
             list.add(e.toStack());
         }

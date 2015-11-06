@@ -43,6 +43,16 @@ public class RocketEngineSolid extends RocketEngine implements IInventoryProvide
         return true;
     }
 
+    /**
+     * Fuel in the rocket
+     *
+     * @return stack being used as fuel, or null if no fuel
+     */
+    public ItemStack fuelStack()
+    {
+        return inventory.getStackInSlot(0);
+    }
+
     @Override
     public void load(NBTTagCompound nbt)
     {
