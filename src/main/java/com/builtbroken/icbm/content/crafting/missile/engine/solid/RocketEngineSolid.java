@@ -50,7 +50,7 @@ public class RocketEngineSolid extends RocketEngine implements IInventoryProvide
      */
     public ItemStack fuelStack()
     {
-        return inventory != null ? inventory.getStackInSlot(0) : null;
+        return inventory != null ? getInventory().getStackInSlot(0) : null;
     }
 
     @Override
