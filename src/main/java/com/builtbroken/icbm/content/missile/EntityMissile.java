@@ -199,15 +199,30 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
 
     protected void onImpact(double x, double y, double z)
     {
+        if(!worldObj.isRemote)
+        {
+            if (missile.getWarhead() != null)
+            {
+                missile.getWarhead().trigger(new TriggerCause.TriggerCauseEntity(this), worldObj, x, y, z);
+            }
+            if (missile != null && missile.getEngine() != null)
+            {
+                missile.getEngine().onDestroyed(this, missile);
+            }
+            this.setDead();
+        }
+        else
+        {
+            doClientImpact(x, y, z);
+        }
+    }
+
+    protected void doClientImpact(double x, double y, double z)
+    {
         if (missile.getWarhead() != null)
         {
             missile.getWarhead().trigger(new TriggerCause.TriggerCauseEntity(this), worldObj, x, y, z);
         }
-        if (missile != null && missile.getEngine() != null)
-        {
-            missile.getEngine().onDestroyed(this, missile);
-        }
-        this.setDead();
     }
 
     @Override
