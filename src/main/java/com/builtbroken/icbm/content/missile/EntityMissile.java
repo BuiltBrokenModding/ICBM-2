@@ -122,7 +122,9 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
             }
         }
         if (this.ticksInAir > 0)
-        { this.spawnMissileSmoke(); }
+        {
+            this.spawnMissileSmoke();
+        }
     }
 
     private void spawnMissileSmoke()
@@ -201,6 +203,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
 
     protected void doClientImpact(double x, double y, double z)
     {
+        System.out.println("Impacted client side at " + x + " " + y + " " + z);
         if (missile.getWarhead() != null)
         {
             missile.getWarhead().trigger(new TriggerCause.TriggerCauseEntity(this), worldObj, x, y, z);

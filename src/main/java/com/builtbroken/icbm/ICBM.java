@@ -19,9 +19,11 @@ import com.builtbroken.icbm.content.debug.BlockExplosiveMarker;
 import com.builtbroken.icbm.content.debug.TileRotationTest;
 import com.builtbroken.icbm.content.display.TileMissile;
 import com.builtbroken.icbm.content.display.TileMissileDisplay;
+import com.builtbroken.icbm.content.launcher.block.BlockLauncherFrame;
 import com.builtbroken.icbm.content.launcher.controller.TileController;
 import com.builtbroken.icbm.content.launcher.items.ItemGPSFlag;
 import com.builtbroken.icbm.content.launcher.items.ItemLinkTool;
+import com.builtbroken.icbm.content.launcher.launcher.TileMediumLauncher;
 import com.builtbroken.icbm.content.launcher.launcher.TileSmallLauncher;
 import com.builtbroken.icbm.content.launcher.silo.TileSmallSilo;
 import com.builtbroken.icbm.content.missile.EntityMissile;
@@ -115,6 +117,8 @@ public final class ICBM extends AbstractMod
     public static Block blockSmallSilo;
     public static Block blockSiloController;
     public static Block blockMissileWorkstation;
+    public static Block blockMediumLauncher;
+    public static Block blockLauncherFrame;
 
     // Items
     public static Item itemMissile;
@@ -174,8 +178,12 @@ public final class ICBM extends AbstractMod
         // Functional Blocks
         blockWarhead = manager.newBlock(TileWarhead.class);
         blockMissileDisplay = manager.newBlock(TileMissileDisplay.class);
+        blockLauncherFrame = manager.newBlock("launcherFrame", BlockLauncherFrame.class);
+
+        //Launchers
         blockSmallLauncher = manager.newBlock(TileSmallLauncher.class);
         blockSmallSilo = manager.newBlock(TileSmallSilo.class);
+        blockMediumLauncher = manager.newBlock(TileMediumLauncher.class);
         //Missile workstation is loaded in the proxy
         blockSiloController = manager.newBlock("SiloController", TileController.class);
 
