@@ -26,7 +26,7 @@ public class BlockLauncherPart extends Block
     @SideOnly(Side.CLIENT)
     IIcon cpuTop;
 
-    protected BlockLauncherPart()
+    public BlockLauncherPart()
     {
         super(Material.iron);
         this.setBlockName(ICBM.PREFIX + "launcherPart");
@@ -43,7 +43,7 @@ public class BlockLauncherPart extends Block
                 //Detects all launcher frame blocks above it(up to max)
                 int count = 0;
                 Block block = world.getBlock(x, y + 1, z);
-                while (count < 5 && block == this)
+                while (count < 5 && block == ICBM.blockLauncherFrame)
                 {
                     count++;
                     block = world.getBlock(x, y + count, z);

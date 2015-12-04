@@ -92,9 +92,15 @@ public class BlockLaunchPad extends Block
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(Item item, CreativeTabs tab, List list)
     {
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 9; i++)
         {
             list.add(new ItemStack(item, 1, i));
         }
+    }
+
+    @Override
+    public int damageDropped(int meta)
+    {
+        return meta;
     }
 }

@@ -18,7 +18,7 @@ public abstract class TileAbstractLauncherPad extends TileAbstractLauncher
     {
         super(name, Material.iron, 1);
         this.isOpaque = false;
-        this.renderNormalBlock = false;
+        this.renderNormalBlock = true;
         this.renderTileEntity = true;
         this.itemBlock = ItemBlockLauncherPad.class;
     }

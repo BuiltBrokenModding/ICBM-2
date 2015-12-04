@@ -55,9 +55,25 @@ public class TileStandardLauncher extends TileAbstractLauncherPad
     {
         //Render launcher
         GL11.glPushMatrix();
-        Pos pos = new Pos(ForgeDirection.getOrientation(getMetadata())).add(center);
+        Pos pos = center;
+
+        switch (ForgeDirection.getOrientation(getMetadata()))
+        {
+            case NORTH:
+                pos = pos.add(0.7, -0.5, 1.9);
+                break;
+            case SOUTH:
+                pos = pos.add(0.7, -0.5, 3.86);
+                break;
+            case EAST:
+                pos = pos.add(1.7, -0.5, 2.86);
+                break;
+            case WEST:
+                pos = pos.add(-0.3, -0.5, 2.86);
+                break;
+        }
         GL11.glTranslatef(pos.xf(), pos.yf(), pos.zf());
-        GL11.glScalef(1.5f, 1.5f, 1.5f);
+        GL11.glRotatef(45f, 0, 1, 0);
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
         Assets.STANDARD_MISSILE_MODEL.renderAll();
         GL11.glPopMatrix();
