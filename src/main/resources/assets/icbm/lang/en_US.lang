@@ -44,6 +44,19 @@ tile.icbm:missileController.name=Launcher Controller
 tile.icbm:smallsilo.name=Small Silo
 tile.icbm:missileworkstation.name=Missile Station
 
+tile.icbm:decorLaunchPad.name=Launch Pad
+tile.icbm:decorLaunchPad.0.name=Launch Pad
+tile.icbm:decorLaunchPad.1.name=Launch Pad
+tile.icbm:decorLaunchPad.2.name=Launch Pad
+tile.icbm:decorLaunchPad.3.name=Launch Pad
+tile.icbm:decorLaunchPad.4.name=Launch Pad
+tile.icbm:decorLaunchPad.5.name=Launch Pad
+tile.icbm:decorLaunchPad.6.name=Launch Pad
+tile.icbm:decorLaunchPad.7.name=Launch Pad
+
+tile.icbm:launcherPart.name=Launcher Part
+tile.icbm:launcherPart.0.name=Launcher Computer
+
 ## Explosives
 explosive.error.null_ex.name=Empty
 explosive.icbm:tnt.name=TNT

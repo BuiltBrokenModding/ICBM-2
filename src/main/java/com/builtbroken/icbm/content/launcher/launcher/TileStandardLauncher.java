@@ -10,35 +10,36 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
 /**
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 12/2/2015.
  */
-public class TileMediumLauncher extends TileAbstractLauncherPad
+public class TileStandardLauncher extends TileAbstractLauncherPad
 {
-    public TileMediumLauncher()
+    public TileStandardLauncher()
     {
-        super("mediumlauncher");
+        super("standardlauncher");
     }
 
     @Override
     public boolean canAcceptMissile(Missile missile)
     {
-        return super.canAcceptMissile(missile) && missile.casing == MissileCasings.MEDIUM;
+        return super.canAcceptMissile(missile) && missile.casing == MissileCasings.STANDARD;
     }
 
     @Override
     public Tile newTile()
     {
-        return new TileMediumLauncher();
+        return new TileStandardLauncher();
     }
 
     @Override
     public String getInventoryName()
     {
-        return "tile.icbm:mediumLauncher.container";
+        return "tile.icbm:standardLauncher.container";
     }
 
     @SideOnly(Side.CLIENT)
@@ -50,11 +51,12 @@ public class TileMediumLauncher extends TileAbstractLauncherPad
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void renderDynamic(Pos pos, float frame, int pass)
+    public void renderDynamic(Pos center, float frame, int pass)
     {
         //Render launcher
         GL11.glPushMatrix();
-        GL11.glTranslatef(pos.xf() - 0.5f, pos.yf() + 0.5f, pos.zf() + 2.5f);
+        Pos pos = new Pos(ForgeDirection.getOrientation(getMetadata())).add(center);
+        GL11.glTranslatef(pos.xf(), pos.yf(), pos.zf());
         GL11.glScalef(1.5f, 1.5f, 1.5f);
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
         Assets.STANDARD_MISSILE_MODEL.renderAll();
