@@ -53,9 +53,11 @@ public class ISBRLauncherFrame implements ISimpleBlockRenderingHandler
         tess.draw();
         GL11.glPushMatrix();
         GL11.glTranslatef(x, y, z + 1);
+        GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glColor3f(1, 1, 1);
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
         Assets.LAUNCHER_FRAME_BLOCK_MODEL.renderAll();
+        GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glPopMatrix();
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
         tess.startDrawingQuads();
