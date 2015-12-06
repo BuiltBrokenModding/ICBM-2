@@ -4,6 +4,7 @@ import com.builtbroken.icbm.content.blast.BlastEndoThermic;
 import com.builtbroken.icbm.content.blast.BlastExoThermic;
 import com.builtbroken.icbm.content.blast.entity.BlastSnowman;
 import com.builtbroken.icbm.content.blast.explosive.BlastAntimatter;
+import com.builtbroken.icbm.content.blast.explosive.BlastEnderBlocks;
 import com.builtbroken.icbm.content.blast.fire.BlastFireBomb;
 import com.builtbroken.icbm.content.blast.fire.BlastFlashFire;
 import com.builtbroken.icbm.content.blast.fragment.BlastFragment;
@@ -19,7 +20,9 @@ import com.builtbroken.icbm.content.debug.BlockExplosiveMarker;
 import com.builtbroken.icbm.content.debug.TileRotationTest;
 import com.builtbroken.icbm.content.display.TileMissile;
 import com.builtbroken.icbm.content.display.TileMissileDisplay;
-import com.builtbroken.icbm.content.launcher.block.*;
+import com.builtbroken.icbm.content.launcher.block.BlockLaunchPad;
+import com.builtbroken.icbm.content.launcher.block.BlockLauncherFrame;
+import com.builtbroken.icbm.content.launcher.block.BlockLauncherPart;
 import com.builtbroken.icbm.content.launcher.controller.TileController;
 import com.builtbroken.icbm.content.launcher.items.ItemGPSFlag;
 import com.builtbroken.icbm.content.launcher.items.ItemLinkTool;
@@ -256,6 +259,7 @@ public final class ICBM extends AbstractMod
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Antimatter", new ExplosiveHandler("Antimatter", BlastAntimatter.class, 2));
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "FireBomb", new ExplosiveHandler("FireBomb", BlastFireBomb.class, 1));
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "FlashFire", new ExplosiveHandler("FlashFire", BlastFlashFire.class, 2));
+        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "EnderBlocks", new ExplosiveHandler("EnderBlocks", BlastEnderBlocks.class, 1));
 
         //Register Entities
         EntityRegistry.registerGlobalEntityID(EntityMissile.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());
