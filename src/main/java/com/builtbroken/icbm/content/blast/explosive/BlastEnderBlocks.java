@@ -28,25 +28,28 @@ public class BlastEnderBlocks extends BlastSimplePath
         //Sort threw list and find them new homes
         Iterator<IWorldEdit> it = list.iterator();
         List<IWorldEdit> newList = new ArrayList();
+        System.out.println(list.size());
+        for (IWorldEdit edit : list)
+        {
+            System.out.println(edit);
+        }
         while (it.hasNext())
         {
             IWorldEdit edit = it.next();
-            System.out.println(edit);
-            //TODO prevent loading chunks
-            //TODO add gravity to blocks
-            Location location = getRandomLocationChecked();
-            if (location != null)
+            if (!newList.contains(edit))
             {
-                System.out.println("\t" + location);
-                //Add place call
-                newList.add(new BlockEdit(location).set(edit.getBlock(), edit.getBlockMetadata(), false, true));
-                //Add remove call
-                newList.add(new BlockEdit(edit.world(), edit.x(), edit.y(), edit.z()).set(Blocks.air, 0, false, true));
+                //TODO prevent loading chunks
+                //TODO add gravity to blocks
+                Location location = getRandomLocationChecked();
+                if (location != null)
+                {
+                    //Add place call
+                    newList.add(new BlockEdit(location).set(edit.getBlock(), edit.getBlockMetadata(), false, true));
+                }
             }
-            //Remove old entry as it is just a placeholder
-            it.remove();
         }
         list.addAll(newList);
+        System.out.println("\t" + list.size());
     }
 
     /**
@@ -77,7 +80,6 @@ public class BlastEnderBlocks extends BlastSimplePath
     protected Location getRandomLocationChecked()
     {
         //TODO check for replaceable
-        //TODO find top most block if fails
         //TODO maybe pathfind?
         Location location;
         int i = 0;
@@ -115,37 +117,40 @@ public class BlastEnderBlocks extends BlastSimplePath
     @Override
     public boolean shouldPath(Location location)
     {
-        if (location.getHardness() < 0)
+        if (super.shouldPath(location))
         {
-            return false;
+            if (location.getHardness() < 0)
+            {
+                return false;
+            }
+            else if (location.getTileEntity() != null)
+            {
+                return false;
+            }
+            else if (location.isAirBlock())
+            {
+                return false;
+            }
+            //TODO look at other blocks that shouldn't be moved
+            //TODO make a teleportation blacklist
+            //TODO tap into existing mod's blacklists
+            //TODO fire teleportation event
+            //TODO break or don't teleport crops
+            Block block = location.getBlock();
+            if (block == Blocks.portal)
+            {
+                return false;
+            }
+            else if (block == Blocks.end_portal)
+            {
+                return false;
+            }
+            else if (block == Blocks.end_portal_frame)
+            {
+                return false;
+            }
+            return true;
         }
-        else if (location.getTileEntity() != null)
-        {
-            return false;
-        }
-        else if (location.isAirBlock())
-        {
-            return false;
-        }
-        //TODO look at other blocks that shouldn't be moved
-        //TODO make a teleportation blacklist
-        //TODO tap into existing mod's blacklists
-        //TODO fire teleportation event
-        //TODO break or don't teleport crops
-        Block block = location.getBlock();
-        if (block == Blocks.portal)
-        {
-            return false;
-        }
-        else if (block == Blocks.end_portal)
-        {
-            return false;
-        }
-        else if (block == Blocks.end_portal_frame)
-        {
-            return false;
-        }
-
-        return super.shouldPath(location);
+        return false;
     }
 }

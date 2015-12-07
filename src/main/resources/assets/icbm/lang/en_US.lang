@@ -68,6 +68,8 @@ explosive.icbm:ArrowFragment.name=Arrow
 explosive.icbm:Antimatter.name=Antimatter
 explosive.icbm:FireBomb.name=Fire Bomb
 explosive.icbm:FlashFire.name=Flash Fire
+explosive.icbm:TorchEater.name=Torch Eater
+explosive.icbm:EnderBlocks.name=Ender Blocks
 
 ## Launcher
 item.icbm:rocketLauncher.name=Handheld Launcher
