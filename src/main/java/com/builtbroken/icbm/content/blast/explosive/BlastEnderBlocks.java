@@ -31,18 +31,17 @@ public class BlastEnderBlocks extends BlastSimplePath
         while (it.hasNext())
         {
             IWorldEdit edit = it.next();
-            Block block = edit.getBlock();
-            if (edit.getTileEntity() == null && block.isAir(world, (int) edit.x(), (int) edit.y(), (int) edit.z()))
+            System.out.println(edit);
+            //TODO prevent loading chunks
+            //TODO add gravity to blocks
+            Location location = getRandomLocationChecked();
+            if (location != null)
             {
-                //TODO prevent loading chunks
-                Location location = getRandomLocationChecked();
-                if (location != null)
-                {
-                    //Add place call
-                    newList.add(new BlockEdit(location).set(edit.getBlock(), edit.getBlockMetadata(), false, true));
-                    //Add remove call
-                    newList.add(new BlockEdit(edit.world(), edit.x(), edit.y(), edit.z()).set(Blocks.air, 0, false, true));
-                }
+                System.out.println("\t" + location);
+                //Add place call
+                newList.add(new BlockEdit(location).set(edit.getBlock(), edit.getBlockMetadata(), false, true));
+                //Add remove call
+                newList.add(new BlockEdit(edit.world(), edit.x(), edit.y(), edit.z()).set(Blocks.air, 0, false, true));
             }
             //Remove old entry as it is just a placeholder
             it.remove();
@@ -57,7 +56,7 @@ public class BlastEnderBlocks extends BlastSimplePath
      */
     protected int getRandomRange()
     {
-        return world.rand.nextInt((int) (size * 5));
+        return world.rand.nextInt((int) (size * 20)) - world.rand.nextInt((int) (size * 20));
     }
 
     /**
@@ -67,7 +66,7 @@ public class BlastEnderBlocks extends BlastSimplePath
      */
     protected Location getRandomLocation()
     {
-        return new Location(world, getRandomRange(), Math.max(10, Math.min(getRandomRange(), 155)), getRandomRange());
+        return new Location(world, getRandomRange() + center.x(), Math.max(10, Math.min(getRandomRange() + center.y(), 255)), getRandomRange() + center.z());
     }
 
     /**
@@ -87,14 +86,30 @@ public class BlastEnderBlocks extends BlastSimplePath
             location = getRandomLocation();
         }
         while (i++ < 10 && !location.isAirBlock());
-        return !location.isAirBlock() ? location : null;
+        if (!location.isAirBlock())
+        {
+            int y = location.yi();
+            for (; y < 255; y++)
+            {
+                if (world.getBlock(location.xi(), y, location.zi()).isAir(world, location.xi(), y, location.zi()))
+                {
+                    break;
+                }
+            }
+            location = new Location(location.world, location.xi(), y, location.zi());
+        }
+        return location.isAirBlock() ? location : null;
     }
 
 
     @Override
     public BlockEdit changeBlock(Location location)
     {
-        return new BlockEdit(location).set(Blocks.air, 0, false, true);
+        if (location.getTileEntity() == null && !location.isAirBlock())
+        {
+            return new BlockEdit(location).set(Blocks.air, 0, false, true);
+        }
+        return null;
     }
 
     @Override
