@@ -36,16 +36,13 @@ public class BlastEnderBlocks extends BlastSimplePath
         while (it.hasNext())
         {
             IWorldEdit edit = it.next();
-            if (!newList.contains(edit))
+            //TODO prevent loading chunks
+            //TODO add gravity to blocks
+            Location location = getRandomLocationChecked();
+            if (location != null)
             {
-                //TODO prevent loading chunks
-                //TODO add gravity to blocks
-                Location location = getRandomLocationChecked();
-                if (location != null)
-                {
-                    //Add place call
-                    newList.add(new BlockEdit(location).set(edit.getBlock(), edit.getBlockMetadata(), false, true));
-                }
+                //Add place call
+                newList.add(new BlockEdit(location).set(edit.getBlock(), edit.getBlockMetadata(), false, true));
             }
         }
         list.addAll(newList);
