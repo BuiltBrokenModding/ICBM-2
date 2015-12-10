@@ -133,9 +133,14 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         addMicroWarheadRecipe("FlashFire", Items.fire_charge, micro_warhead_empty);
         GameRegistry.addRecipe(new WarheadRecipe(WarheadCasings.EXPLOSIVE_SMALL, "FlashFire", Items.fire_charge, Items.fire_charge, small_warhead_empty));
 
-        //Flash Fire TODO add real recipe
+        //TorchEater TODO add real recipe
         addMicroWarheadRecipe("TorchEater", Items.fermented_spider_eye, Items.ender_eye, micro_warhead_empty);
         GameRegistry.addRecipe(new WarheadRecipe(WarheadCasings.EXPLOSIVE_SMALL, "TorchEater", Items.fermented_spider_eye, Items.ender_eye, Items.fermented_spider_eye, small_warhead_empty));
+
+        //Ender Blocks TODO add real recipe
+        addMicroWarheadRecipe("EnderBlocks", Items.ender_pearl, Items.gold_nugget, micro_warhead_empty);
+        GameRegistry.addRecipe(new WarheadRecipe(WarheadCasings.EXPLOSIVE_SMALL, "EnderBlocks", Items.ender_pearl, Items.gold_nugget, Items.ender_pearl, Items.gold_nugget, small_warhead_empty));
+
     }
 
     /**
