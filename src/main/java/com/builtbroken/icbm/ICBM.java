@@ -10,6 +10,8 @@ import com.builtbroken.icbm.content.blast.explosive.BlastTorchEater;
 import com.builtbroken.icbm.content.blast.fire.BlastFireBomb;
 import com.builtbroken.icbm.content.blast.fire.BlastFlashFire;
 import com.builtbroken.icbm.content.blast.fragment.BlastFragment;
+import com.builtbroken.icbm.content.blast.util.BlastRegen;
+import com.builtbroken.icbm.content.blast.util.BlastRegenLocal;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
 import com.builtbroken.icbm.content.crafting.missile.engine.ItemEngineModules;
@@ -264,6 +266,8 @@ public final class ICBM extends AbstractMod
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "EnderBlocks", new ExplosiveHandler("EnderBlocks", BlastEnderBlocks.class, 1));
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "TorchEater", new ExplosiveHandler("TorchEater", BlastTorchEater.class, 3));
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "AntiPlant", new ExplosiveHandler("AntiPlant", BlastAntiPlant.class, 3));
+        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Regen", new ExplosiveHandler("Regen", BlastRegen.class, 8));
+        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "RegenLocal", new ExplosiveHandler("RegenLocal", BlastRegenLocal.class, 8));
 
         //Register Entities
         EntityRegistry.registerGlobalEntityID(EntityMissile.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());
