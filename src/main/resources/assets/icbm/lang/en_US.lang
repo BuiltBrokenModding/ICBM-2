@@ -70,6 +70,7 @@ explosive.icbm:FireBomb.name=Fire Bomb
 explosive.icbm:FlashFire.name=Flash Fire
 explosive.icbm:TorchEater.name=Torch Eater
 explosive.icbm:EnderBlocks.name=Ender Blocks
+explosive.icbm:AntiPlant.name=Anti-Plant Life
 
 ## Launcher
 item.icbm:rocketLauncher.name=Handheld Launcher

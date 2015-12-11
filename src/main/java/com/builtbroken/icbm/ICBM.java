@@ -3,6 +3,7 @@ package com.builtbroken.icbm;
 import com.builtbroken.icbm.content.blast.BlastEndoThermic;
 import com.builtbroken.icbm.content.blast.BlastExoThermic;
 import com.builtbroken.icbm.content.blast.entity.BlastSnowman;
+import com.builtbroken.icbm.content.blast.explosive.BlastAntiPlant;
 import com.builtbroken.icbm.content.blast.explosive.BlastAntimatter;
 import com.builtbroken.icbm.content.blast.explosive.BlastEnderBlocks;
 import com.builtbroken.icbm.content.blast.explosive.BlastTorchEater;
@@ -262,6 +263,7 @@ public final class ICBM extends AbstractMod
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "FlashFire", new ExplosiveHandler("FlashFire", BlastFlashFire.class, 2));
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "EnderBlocks", new ExplosiveHandler("EnderBlocks", BlastEnderBlocks.class, 1));
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "TorchEater", new ExplosiveHandler("TorchEater", BlastTorchEater.class, 3));
+        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "AntiPlant", new ExplosiveHandler("AntiPlant", BlastAntiPlant.class, 3));
 
         //Register Entities
         EntityRegistry.registerGlobalEntityID(EntityMissile.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());
