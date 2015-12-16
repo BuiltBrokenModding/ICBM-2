@@ -3,10 +3,7 @@ package com.builtbroken.icbm;
 import com.builtbroken.icbm.content.blast.BlastEndoThermic;
 import com.builtbroken.icbm.content.blast.BlastExoThermic;
 import com.builtbroken.icbm.content.blast.entity.BlastSnowman;
-import com.builtbroken.icbm.content.blast.explosive.BlastAntiPlant;
-import com.builtbroken.icbm.content.blast.explosive.BlastAntimatter;
-import com.builtbroken.icbm.content.blast.explosive.BlastEnderBlocks;
-import com.builtbroken.icbm.content.blast.explosive.BlastTorchEater;
+import com.builtbroken.icbm.content.blast.explosive.*;
 import com.builtbroken.icbm.content.blast.fire.BlastFireBomb;
 import com.builtbroken.icbm.content.blast.fire.BlastFlashFire;
 import com.builtbroken.icbm.content.blast.fragment.BlastFragment;
@@ -268,6 +265,14 @@ public final class ICBM extends AbstractMod
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "AntiPlant", new ExplosiveHandler("AntiPlant", BlastAntiPlant.class, 3));
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Regen", new ExplosiveHandler("Regen", BlastRegen.class, 8));
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "RegenLocal", new ExplosiveHandler("RegenLocal", BlastRegenLocal.class, 8));
+        if (Engine.runningAsDev)
+        {
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest1", new ExplosiveHandler("SimplePathTest1", BlastPathTester.class, 1));
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest2", new ExplosiveHandler("SimplePathTest2", BlastPathTester.class, 2));
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest3", new ExplosiveHandler("SimplePathTest3", BlastPathTester.class, 3));
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest10", new ExplosiveHandler("SimplePathTest10", BlastPathTester.class, 10));
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest20", new ExplosiveHandler("SimplePathTest20", BlastPathTester.class, 20));
+        }
 
         //Register Entities
         EntityRegistry.registerGlobalEntityID(EntityMissile.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());
