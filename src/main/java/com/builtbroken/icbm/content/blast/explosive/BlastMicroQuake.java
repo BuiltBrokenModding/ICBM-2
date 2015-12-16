@@ -11,12 +11,12 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Works like Reika's pile driver to break up the ground. Covers cobble stone to gravel, stone to cobble, gravel to sand, and can cause gas to leak to the surface.
+ * Works like Reika's pile driver to break up the ground. Coverts cobble stone to gravel, stone to cobble, gravel to sand, and can cause gas to leak to the surface.
  *
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 12/15/2015.
  */
-public class BlastPileDriver extends BlastSimplePath
+public class BlastMicroQuake extends BlastSimplePath
 {
     @Override
     public BlockEdit changeBlock(Location location)
@@ -62,5 +62,11 @@ public class BlastPileDriver extends BlastSimplePath
     {
         super.getEffectedBlocks(list);
         Collections.shuffle(list);
+    }
+
+    @Override
+    public boolean shouldPath(Location location)
+    {
+        return !location.isAirBlock() && super.shouldPath(location);
     }
 }

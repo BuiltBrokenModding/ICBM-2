@@ -265,6 +265,7 @@ public final class ICBM extends AbstractMod
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "AntiPlant", new ExplosiveHandler("AntiPlant", BlastAntiPlant.class, 3));
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Regen", new ExplosiveHandler("Regen", BlastRegen.class, 8));
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "RegenLocal", new ExplosiveHandler("RegenLocal", BlastRegenLocal.class, 8));
+        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "MicroQuake", new ExplosiveHandler("MicroQuake", BlastMicroQuake.class, 3));
         if (Engine.runningAsDev)
         {
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest1", new ExplosiveHandler("SimplePathTest1", BlastPathTester.class, 1));
