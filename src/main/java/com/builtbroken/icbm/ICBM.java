@@ -7,6 +7,7 @@ import com.builtbroken.icbm.content.blast.explosive.*;
 import com.builtbroken.icbm.content.blast.fire.BlastFireBomb;
 import com.builtbroken.icbm.content.blast.fire.BlastFlashFire;
 import com.builtbroken.icbm.content.blast.fragment.BlastFragment;
+import com.builtbroken.icbm.content.blast.thaum.ThaumBlastLoader;
 import com.builtbroken.icbm.content.blast.util.BlastRegen;
 import com.builtbroken.icbm.content.blast.util.BlastRegenLocal;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
@@ -50,6 +51,7 @@ import com.builtbroken.mc.prefab.explosive.ExplosiveHandler;
 import com.builtbroken.mc.prefab.recipe.item.sheetmetal.RecipeSheetMetal;
 import com.builtbroken.mc.prefab.tile.item.ItemBlockMetadata;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -184,6 +186,12 @@ public final class ICBM extends AbstractMod
         Engine.requestMultiBlock();
         Engine.requestSimpleTools();
         Engine.requestCircuits();
+
+        //Loads thaumcraft support
+        if (Loader.isModLoaded("Thaumcraft") && !getConfig().getBoolean("DisableThaumSupport", "ModSupport", false, "Allows disabling thaumcraft support, if issues arise or game play balance is required."))
+        {
+            loader.applyModule(ThaumBlastLoader.class);
+        }
 
         // Configs TODO load up using config system, and separate file
         ANTIMATTER_BREAK_UNBREAKABLE = getConfig().getBoolean("Antimatter_Destroy_Unbreakable", Configuration.CATEGORY_GENERAL, true, "Allows antimatter to break blocks that are unbreakable, bedrock for example.");
