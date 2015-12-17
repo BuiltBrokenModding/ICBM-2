@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * Rocket Launcher
  *
- * @author Calclavia
+ * @author Calclavia, DarkGuardsman
  */
 
 public class ItemRocketLauncher extends Item implements IWeapon, IPostInit
@@ -40,7 +40,7 @@ public class ItemRocketLauncher extends Item implements IWeapon, IPostInit
     public ItemRocketLauncher()
     {
         super();
-        this.setUnlocalizedName("rocketLauncher");
+        this.setUnlocalizedName(ICBM.PREFIX + "rocketLauncher");
     }
 
     @Override
@@ -111,7 +111,7 @@ public class ItemRocketLauncher extends Item implements IWeapon, IPostInit
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4)
     {
-        String str = LanguageUtility.getLocal("info.icbm:rocketlauncher.tooltip");
+        String str = LanguageUtility.getLocal("info.icbm:rocketLauncher.tooltip");
         list.add(str);
     }
 

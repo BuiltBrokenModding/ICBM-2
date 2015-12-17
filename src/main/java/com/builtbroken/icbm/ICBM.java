@@ -3,10 +3,13 @@ package com.builtbroken.icbm;
 import com.builtbroken.icbm.content.blast.BlastEndoThermic;
 import com.builtbroken.icbm.content.blast.BlastExoThermic;
 import com.builtbroken.icbm.content.blast.entity.BlastSnowman;
-import com.builtbroken.icbm.content.blast.explosive.BlastAntimatter;
+import com.builtbroken.icbm.content.blast.explosive.*;
 import com.builtbroken.icbm.content.blast.fire.BlastFireBomb;
 import com.builtbroken.icbm.content.blast.fire.BlastFlashFire;
 import com.builtbroken.icbm.content.blast.fragment.BlastFragment;
+import com.builtbroken.icbm.content.blast.thaum.ThaumBlastLoader;
+import com.builtbroken.icbm.content.blast.util.BlastRegen;
+import com.builtbroken.icbm.content.blast.util.BlastRegenLocal;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
 import com.builtbroken.icbm.content.crafting.missile.engine.ItemEngineModules;
@@ -19,10 +22,16 @@ import com.builtbroken.icbm.content.debug.BlockExplosiveMarker;
 import com.builtbroken.icbm.content.debug.TileRotationTest;
 import com.builtbroken.icbm.content.display.TileMissile;
 import com.builtbroken.icbm.content.display.TileMissileDisplay;
+import com.builtbroken.icbm.content.launcher.block.BlockLaunchPad;
+import com.builtbroken.icbm.content.launcher.block.BlockLauncherFrame;
+import com.builtbroken.icbm.content.launcher.block.BlockLauncherPart;
 import com.builtbroken.icbm.content.launcher.controller.TileController;
 import com.builtbroken.icbm.content.launcher.items.ItemGPSFlag;
 import com.builtbroken.icbm.content.launcher.items.ItemLinkTool;
+import com.builtbroken.icbm.content.launcher.launcher.TileLargeLauncher;
+import com.builtbroken.icbm.content.launcher.launcher.TileMediumLauncher;
 import com.builtbroken.icbm.content.launcher.launcher.TileSmallLauncher;
+import com.builtbroken.icbm.content.launcher.launcher.TileStandardLauncher;
 import com.builtbroken.icbm.content.launcher.silo.TileSmallSilo;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.ItemMissile;
@@ -35,12 +44,14 @@ import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
 import com.builtbroken.mc.lib.mod.AbstractMod;
 import com.builtbroken.mc.lib.mod.AbstractProxy;
 import com.builtbroken.mc.lib.mod.ModCreativeTab;
+import com.builtbroken.mc.lib.mod.compat.nei.NEIProxy;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.explosive.ExplosiveHandler;
 import com.builtbroken.mc.prefab.recipe.item.sheetmetal.RecipeSheetMetal;
 import com.builtbroken.mc.prefab.tile.item.ItemBlockMetadata;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -111,10 +122,21 @@ public final class ICBM extends AbstractMod
     public static Block blockExplosiveMarker;
     public static Block blockMissileDisplay;
     public static Block blockMissile;
-    public static Block blockSmallLauncher;
-    public static Block blockSmallSilo;
+
     public static Block blockSiloController;
     public static Block blockMissileWorkstation;
+
+    public static Block blockSmallPortableLauncher;
+
+    public static Block blockStandardLauncher;
+    public static Block blockMediumLauncher;
+    public static Block blockLargeLauncher;
+
+    public static Block blockSmallSilo;
+
+    public static Block blockLauncherFrame;
+    public static Block blockLauncherParts;
+    public static Block blockLaunchPad;
 
     // Items
     public static Item itemMissile;
@@ -165,6 +187,12 @@ public final class ICBM extends AbstractMod
         Engine.requestSimpleTools();
         Engine.requestCircuits();
 
+        //Loads thaumcraft support
+        if (Loader.isModLoaded("Thaumcraft") && !getConfig().getBoolean("DisableThaumSupport", "ModSupport", false, "Allows disabling thaumcraft support, if issues arise or game play balance is required."))
+        {
+            loader.applyModule(ThaumBlastLoader.class);
+        }
+
         // Configs TODO load up using config system, and separate file
         ANTIMATTER_BREAK_UNBREAKABLE = getConfig().getBoolean("Antimatter_Destroy_Unbreakable", Configuration.CATEGORY_GENERAL, true, "Allows antimatter to break blocks that are unbreakable, bedrock for example.");
         DEBUG_MISSILE_MANAGER = getConfig().getBoolean("Missile_Manager", "Debug", Engine.runningAsDev, "Adds additional info to the console");
@@ -174,8 +202,27 @@ public final class ICBM extends AbstractMod
         // Functional Blocks
         blockWarhead = manager.newBlock(TileWarhead.class);
         blockMissileDisplay = manager.newBlock(TileMissileDisplay.class);
-        blockSmallLauncher = manager.newBlock(TileSmallLauncher.class);
+        blockLauncherFrame = manager.newBlock("icbmLauncherFrame", BlockLauncherFrame.class, ItemBlockMetadata.class);
+        blockLauncherParts = manager.newBlock("icbmLauncherParts", BlockLauncherPart.class, ItemBlockMetadata.class);
+
+        //Decor Blocks
+        blockLaunchPad = manager.newBlock("icbmDecorLaunchPad", BlockLaunchPad.class, ItemBlockMetadata.class);
+
+        //Launchers
+        blockSmallPortableLauncher = manager.newBlock(TileSmallLauncher.class);
         blockSmallSilo = manager.newBlock(TileSmallSilo.class);
+        blockStandardLauncher = manager.newBlock(TileStandardLauncher.class);
+        blockMediumLauncher = manager.newBlock(TileMediumLauncher.class);
+        blockLargeLauncher = manager.newBlock(TileLargeLauncher.class);
+
+        //Clear launcher creative tab to prevent placement by user by mistake
+        blockStandardLauncher.setCreativeTab(null);
+        blockMediumLauncher.setCreativeTab(null);
+        blockLargeLauncher.setCreativeTab(null);
+        NEIProxy.hideItem(blockStandardLauncher);
+        NEIProxy.hideItem(blockMediumLauncher);
+        NEIProxy.hideItem(blockLargeLauncher);
+
         //Missile workstation is loaded in the proxy
         blockSiloController = manager.newBlock("SiloController", TileController.class);
 
@@ -221,6 +268,20 @@ public final class ICBM extends AbstractMod
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Antimatter", new ExplosiveHandler("Antimatter", BlastAntimatter.class, 2));
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "FireBomb", new ExplosiveHandler("FireBomb", BlastFireBomb.class, 1));
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "FlashFire", new ExplosiveHandler("FlashFire", BlastFlashFire.class, 2));
+        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "EnderBlocks", new ExplosiveHandler("EnderBlocks", BlastEnderBlocks.class, 1));
+        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "TorchEater", new ExplosiveHandler("TorchEater", BlastTorchEater.class, 3));
+        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "AntiPlant", new ExplosiveHandler("AntiPlant", BlastAntiPlant.class, 3));
+        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Regen", new ExplosiveHandler("Regen", BlastRegen.class, 8));
+        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "RegenLocal", new ExplosiveHandler("RegenLocal", BlastRegenLocal.class, 8));
+        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "MicroQuake", new ExplosiveHandler("MicroQuake", BlastMicroQuake.class, 3));
+        if (Engine.runningAsDev)
+        {
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest1", new ExplosiveHandler("SimplePathTest1", BlastPathTester.class, 1));
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest2", new ExplosiveHandler("SimplePathTest2", BlastPathTester.class, 2));
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest3", new ExplosiveHandler("SimplePathTest3", BlastPathTester.class, 3));
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest10", new ExplosiveHandler("SimplePathTest10", BlastPathTester.class, 10));
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest20", new ExplosiveHandler("SimplePathTest20", BlastPathTester.class, 20));
+        }
 
         //Register Entities
         EntityRegistry.registerGlobalEntityID(EntityMissile.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());

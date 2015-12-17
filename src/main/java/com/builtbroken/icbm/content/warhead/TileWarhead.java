@@ -132,6 +132,19 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         //Flash Fire TODO add real recipe
         addMicroWarheadRecipe("FlashFire", Items.fire_charge, micro_warhead_empty);
         GameRegistry.addRecipe(new WarheadRecipe(WarheadCasings.EXPLOSIVE_SMALL, "FlashFire", Items.fire_charge, Items.fire_charge, small_warhead_empty));
+
+        //TorchEater TODO add real recipe
+        addMicroWarheadRecipe("TorchEater", Items.fermented_spider_eye, Items.ender_eye, micro_warhead_empty);
+        GameRegistry.addRecipe(new WarheadRecipe(WarheadCasings.EXPLOSIVE_SMALL, "TorchEater", Items.fermented_spider_eye, Items.ender_eye, Items.fermented_spider_eye, small_warhead_empty));
+
+        //Ender Blocks TODO add real recipe
+        addMicroWarheadRecipe("EnderBlocks", Items.ender_pearl, Items.gold_nugget, micro_warhead_empty);
+        GameRegistry.addRecipe(new WarheadRecipe(WarheadCasings.EXPLOSIVE_SMALL, "EnderBlocks", Items.ender_pearl, Items.gold_nugget, Items.ender_pearl, Items.gold_nugget, small_warhead_empty));
+
+        //Anti-Plant TODO add real recipe
+        addMicroWarheadRecipe("AntiPlant", Items.fermented_spider_eye, Items.blaze_powder, Blocks.leaves, micro_warhead_empty);
+        GameRegistry.addRecipe(new WarheadRecipe(WarheadCasings.EXPLOSIVE_SMALL, "AntiPlant", Items.fermented_spider_eye, Items.blaze_powder, Blocks.leaves,Items.fermented_spider_eye, Items.blaze_powder, Blocks.leaves, small_warhead_empty));
+
     }
 
     /**
@@ -251,7 +264,9 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
             }
 
             if (power_side != -1)
+            {
                 explode(new TriggerCause.TriggerCauseRedstone(ForgeDirection.UNKNOWN, powerMax));
+            }
         }
     }
 
@@ -290,7 +305,9 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         }
 
         if (power_side != -1)
+        {
             explode(new TriggerCause.TriggerCauseRedstone(ForgeDirection.UNKNOWN, powerMax));
+        }
     }
 
     /*
@@ -303,9 +320,13 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         {
             exploding = true;
             if (getWarhead().trigger(triggerCause, world(), x(), y(), z()) == WorldChangeHelper.ChangeResult.COMPLETED)
+            {
                 world().setBlockToAir(xi(), yi(), zi());
+            }
             else
+            {
                 exploding = false;
+            }
         }
     }
 
@@ -344,7 +365,9 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         super.writeToNBT(nbt);
 
         if (getWarhead() != null && getWarhead().toStack() != null)
+        {
             nbt.setTag("itemWarhead", getWarhead().toStack().writeToNBT(new NBTTagCompound()));
+        }
     }
 
     @Override
@@ -365,7 +388,9 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         for (WarheadCasings size : WarheadCasings.values())
         {
             if (size.enabled)
+            {
                 list.add(MissileModuleBuilder.INSTANCE.buildWarhead(size, null).toStack());
+            }
         }
 
         for (IExplosiveHandler handler : ExplosiveRegistry.getExplosives())
@@ -373,7 +398,9 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
             for (WarheadCasings size : WarheadCasings.values())
             {
                 if (size.enabled)
+                {
                     list.add(MissileModuleBuilder.INSTANCE.buildWarhead(size, handler).toStack());
+                }
             }
         }
     }
@@ -464,7 +491,9 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         {
             warhead = getNewWarhead();
             if (warhead == null)
+            {
                 warhead = new WarheadStandard(toItemStack());
+            }
         }
         return warhead;
     }
@@ -475,26 +504,38 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         try
         {
             warhead = WarheadCasings.get(getMetadata()).warhead_clazz.getConstructor(ItemStack.class).newInstance(new ItemStack(this.getTileBlock(), 1, getMetadata()));
-        } catch (InvocationTargetException e)
+        }
+        catch (InvocationTargetException e)
         {
             ICBM.INSTANCE.logger().error("[TileWarhead]Failed invoke warhead constructor for class " + WarheadCasings.get(getMetadata()).warhead_clazz);
             if (Engine.runningAsDev)
+            {
                 e.printStackTrace();
-        } catch (NoSuchMethodException e)
+            }
+        }
+        catch (NoSuchMethodException e)
         {
             ICBM.INSTANCE.logger().error("[TileWarhead]Failed to find ItemStack constructor for warhead class " + WarheadCasings.get(getMetadata()).warhead_clazz);
             if (Engine.runningAsDev)
+            {
                 e.printStackTrace();
-        } catch (InstantiationException e)
+            }
+        }
+        catch (InstantiationException e)
         {
             ICBM.INSTANCE.logger().error("[TileWarhead]Failed to create new warhead instance for warhead class " + WarheadCasings.get(getMetadata()).warhead_clazz);
             if (Engine.runningAsDev)
+            {
                 e.printStackTrace();
-        } catch (IllegalAccessException e)
+            }
+        }
+        catch (IllegalAccessException e)
         {
             ICBM.INSTANCE.logger().error("[TileWarhead]Something prevented us from making a new instance of class " + WarheadCasings.get(getMetadata()).warhead_clazz);
             if (Engine.runningAsDev)
+            {
                 e.printStackTrace();
+            }
         }
 
         return warhead;

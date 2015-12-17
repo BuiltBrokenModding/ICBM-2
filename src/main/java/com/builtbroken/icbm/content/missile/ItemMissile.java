@@ -1,10 +1,7 @@
 package com.builtbroken.icbm.content.missile;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.api.IAmmo;
-import com.builtbroken.icbm.api.IAmmoType;
-import com.builtbroken.icbm.api.IMissileItem;
-import com.builtbroken.icbm.api.IWeapon;
+import com.builtbroken.icbm.api.*;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
@@ -135,9 +132,19 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
             list.add(ex_translation);
 
             List<String> l = new ArrayList();
-            ex.addInfoToItem(stack, l);
+            if (ex instanceof IWarheadHandler)
+            {
+                ((IWarheadHandler) ex).addInfoToItem(player, missile.getWarhead(), l);
+            }
+            else
+            {
+                ex.addInfoToItem(player, missile.getWarhead().toStack(), l);
+            }
+
             for (String s : l)
-            { list.add(s); }
+            {
+                list.add(s);
+            }
         }
         else
         {

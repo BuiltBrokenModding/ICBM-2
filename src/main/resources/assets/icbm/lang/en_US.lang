@@ -20,9 +20,13 @@ item.icbm:missile.medium.empty.name=Large Missile Casing
 item.icbm:missile.large.name=ICBM
 item.icbm:missile.large.empty.name=ICBM Casing
 
-item.icbm:siloLinker.name=Data Chip
 
+## Items
+item.icbm:siloLinker.name=Data Chip
 item.icbm:gpsFlag.name=GPS Data Chip
+
+item.icbm:rocketLauncher.name=Rocket Launcher
+info.icbm:rocketLauncher.tooltip=Fires micro missiles
 
 ## Parts
 item.icbm:missileParts.name=Missile Crafting Part
@@ -44,6 +48,20 @@ tile.icbm:missileController.name=Launcher Controller
 tile.icbm:smallsilo.name=Small Silo
 tile.icbm:missileworkstation.name=Missile Station
 
+tile.icbm:decorLaunchPad.name=Launch Pad
+tile.icbm:decorLaunchPad.0.name=North Edge
+tile.icbm:decorLaunchPad.1.name=South Edge
+tile.icbm:decorLaunchPad.2.name=West Edge
+tile.icbm:decorLaunchPad.3.name=East Edge
+tile.icbm:decorLaunchPad.4.name=SW Edge
+tile.icbm:decorLaunchPad.5.name=SE Edge
+tile.icbm:decorLaunchPad.6.name=NW Edge
+tile.icbm:decorLaunchPad.7.name=NE Edge
+tile.icbm:decorLaunchPad.8.name=Center
+
+tile.icbm:launcherPart.name=Launcher Part
+tile.icbm:launcherPart.0.name=Launcher Computer
+
 ## Explosives
 explosive.error.null_ex.name=Empty
 explosive.icbm:tnt.name=TNT
@@ -54,10 +72,10 @@ explosive.icbm:ArrowFragment.name=Arrow
 explosive.icbm:Antimatter.name=Antimatter
 explosive.icbm:FireBomb.name=Fire Bomb
 explosive.icbm:FlashFire.name=Flash Fire
+explosive.icbm:TorchEater.name=Torch Eater
+explosive.icbm:EnderBlocks.name=Ender Blocks
+explosive.icbm:AntiPlant.name=Anti-Plant Life
 
-## Launcher
-item.icbm:rocketLauncher.name=Handheld Launcher
-info.icbm:rocketlauncher.tooltip=Fires small missiles
 
 ## Warhead
 tile.icbm:warhead.name=Warhead

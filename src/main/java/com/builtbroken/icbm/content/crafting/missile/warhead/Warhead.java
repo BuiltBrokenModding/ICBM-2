@@ -24,7 +24,7 @@ public abstract class Warhead extends AbstractModule implements IWarhead
     /** Size of the explosion. */
     public double size = 1;
     /** Additional data for triggering an explosion. */
-    public NBTTagCompound tag = new NBTTagCompound();
+    public NBTTagCompound additionalExData = new NBTTagCompound();
     /** Explosive item used to ID the explosive handler. */
     public ItemStack explosive;
 
@@ -50,7 +50,7 @@ public abstract class Warhead extends AbstractModule implements IWarhead
         if (nbt.hasKey(ExplosiveItemUtility.EXPLOSIVE_SAVE))
             ex = ExplosiveItemUtility.getExplosive(nbt);
         if (nbt.hasKey("data"))
-            tag = nbt.getCompoundTag("data");
+            additionalExData = nbt.getCompoundTag("data");
         size = ExplosiveItemUtility.getSize(nbt);
     }
 
@@ -59,8 +59,8 @@ public abstract class Warhead extends AbstractModule implements IWarhead
     {
         if (ex != null)
             ExplosiveItemUtility.setExplosive(nbt, ex);
-        if (tag != null)
-            nbt.setTag("data", tag);
+        if (additionalExData != null)
+            nbt.setTag("data", additionalExData);
         ExplosiveItemUtility.setSize(nbt, size);
         return nbt;
     }
@@ -76,11 +76,7 @@ public abstract class Warhead extends AbstractModule implements IWarhead
             }
             return WorldChangeHelper.ChangeResult.FAILED;
         }
-        if (!world.isRemote)
-        {
-            return ExplosiveRegistry.triggerExplosive(world, x, y, z, ex, triggerCause, size, tag);
-        }
-        return WorldChangeHelper.ChangeResult.COMPLETED;
+        return ExplosiveRegistry.triggerExplosive(world, x, y, z, ex, triggerCause, size, additionalExData);
     }
 
     @Override
@@ -88,8 +84,20 @@ public abstract class Warhead extends AbstractModule implements IWarhead
     {
         this.ex = ex;
         this.size = size;
-        this.tag = nbt;
+        this.additionalExData = nbt;
         return true;
+    }
+
+    @Override
+    public NBTTagCompound getAdditionalExplosiveData()
+    {
+        return additionalExData;
+    }
+
+    @Override
+    public double getExplosiveSize()
+    {
+        return size;
     }
 
     @Override

@@ -1,0 +1,138 @@
+## Master language file
+itemGroup.ICBM=ICBM
+
+## Missile
+item.icbm:missile.name=Missile
+item.icbm:missile.empty.name=Corps de missile
+
+item.icbm:missile.micro.name=Fusée
+item.icbm:missile.micro.empty.name=Corps de fusée
+
+item.icbm:missile.small.name=Petit missile
+item.icbm:missile.small.empty.name=Corps de petit missile
+
+item.icbm:missile.standard.name=Missile
+item.icbm:missile.standard.empty.name=Corps de missile
+
+item.icbm:missile.medium.name=Gros missile
+item.icbm:missile.medium.empty.name=Corps de gros missile
+
+item.icbm:missile.large.name=MBIC
+item.icbm:missile.large.empty.name=Corps d'MBIC
+
+item.icbm:siloLinker.name=Mémoire
+
+item.icbm:gpsFlag.name=Mémoire GPS
+
+## Parts
+item.icbm:missileParts.name=Matériaux de fabrication de missile
+item.icbm:missileParts.smallMissileCasing.name=Enveloppe de petit missile
+
+## Tiles
+tile.icbm:TileMissile.0.name=Affichage de fusée en bois
+tile.icbm:TileMissile.1.name=Affichage de petit missile en bois
+
+tile.icbm:smallSilo.container.name=Small Silo Screen
+tile.icbm:smallSiloController.container.name=Launcher Guidance Screen
+
+tile.icbm:smallLauncher.name=Pas de tir portable de missile
+tile.icbm:portableLauncher.container.name=Pas de tir portable de missile
+tile.icbm:portableLauncher.container.invalidtarget=Coordonnées de cible erronées
+tile.icbm:portableLauncher.container.invaliddistance=La distance avec la cible doit être entre 20 et 200
+
+tile.icbm:missileController.name=Controleur de tir
+tile.icbm:smallsilo.name=Petit silo
+tile.icbm:missileworkstation.name=Station de missile
+
+## Explosives
+explosive.error.null_ex.name=Vide
+explosive.icbm:tnt.name=TNT
+explosive.icbm:snowmen.name=Qu'il neige !
+explosive.icbm:EndoThermic.name=Endothermique
+explosive.icbm:ExoThermic.name=Exothermique
+explosive.icbm:ArrowFragment.name=Flèche
+explosive.icbm:Antimatter.name=Antimatière
+explosive.icbm:FireBomb.name=Bombe à feu
+explosive.icbm:FlashFire.name=Feu clignotant
+
+## Launcher
+item.icbm:rocketLauncher.name=Handheld Launcher
+info.icbm:rocketlauncher.tooltip=Tire de petits missiles
+
+## Warhead
+tile.icbm:warhead.name=Etat major
+tile.icbm:warhead.micro.name=Micro état major
+tile.icbm:warhead.small.name=Petit état major
+
+## Info
+info.icbm:engine.name=Moteur
+info.icbm:warhead.name=Etat major
+info.icbm:guidance.name=Guidage
+info.icbm:trigger.name=Volet
+
+
+
+## Controller GUI error messages
+gui.icbm:controller.links.none=Pas de silos lié
+gui.icbm:controller.links.none.hint=Veuillez utiliser la mémoire
+gui.icbm:controller.invalid.input.name=Entrée erronée
+
+## Controller GUI buttons
+gui.icbm:controller.launcher.name=Pas de tir
+gui.icbm:controller.launcher.width=100
+gui.icbm:controller.launcher.x=0
+
+gui.icbm:controller.fire.name=Feu
+gui.icbm:controller.fire.width=30
+gui.icbm:controller.fire.x=105
+
+gui.icbm:controller.update.name=Mise à jour
+gui.icbm:controller.update.width=30
+gui.icbm:controller.update.x=0
+
+gui.icbm:controller.back.name=Retour
+gui.icbm:controller.back.width=50
+gui.icbm:controller.back.x=100
+
+container.TileController.name=Controleur de tir
+
+gui.icbm:workstation.assemble.name=Assemble
+gui.icbm:workstation.assemble.width=50
+
+gui.icbm:workstation.disassemble.name=Désassemble
+gui.icbm:workstation.disassemble.width=70
+
+gui.icbm:workstation.mode.name=Mode
+gui.icbm:workstation.mode.width=30
+
+## Triggers
+trigger.icbm:impact.name=Impacte
+trigger.icbm:gps.name=Coordonnées
+trigger.icbm:time.name=Chrono
+
+## Engine Modules
+module.icbm:engine.creative.name=Moteurs anti-gravité
+module.icbm:engine.coal.name=Brûleur
+module.icbm:engine.oil.name=Brûleur d'huile
+module.icbm:engine.fuel.name=Propulseur de base
+module.icbm:engine.gunpowder.name=Boosteur rapide
+
+## Guidance Modules
+module.icbm:guidance.gears.wood.name=Horloge de guidage en bois
+module.icbm:guidance.gears.stone.name=Horloge de guidage en pierre
+module.icbm:guidance.gears.iron.name=Horloge de guidage en fer
+module.icbm:guidance.gears.diamond.name=Horloge de guidage en diamant
+module.icbm:guidance.chip.1.name=Guidage de vaiseau débutant
+module.icbm:guidance.chip.2.name=Guidage de vaiseau
+module.icbm:guidance.chip.3.name=Guidage de vaiseau aguéri
+
+## ICBM Classic
+
+## ItemTracker
+item.icbmclassic:tracker.name=Suiveur
+item.icbmclassic:itemtracker.description=Cliquez droit pour suivre les joueurs
+item.icbmclassic:itemtracker.trackingmessage=Suivi actuel :
+
+item.icbmclassic:radargun.name=Antenne radar
+item.icbmclassic:radargun.description=Cliquez droit pour scanner une position
+item.icbmclassic:radargun.trackingmessage=Bloc contenu :

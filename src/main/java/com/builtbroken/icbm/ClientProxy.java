@@ -1,6 +1,7 @@
 package com.builtbroken.icbm;
 
 import com.builtbroken.icbm.content.crafting.station.TileSmallMissileWorkstationClient;
+import com.builtbroken.icbm.content.launcher.block.ISBRLauncherFrame;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.RenderMissile;
 import com.builtbroken.icbm.content.rocketlauncher.RenderRocketLauncher;
@@ -43,6 +44,7 @@ public class ClientProxy extends CommonProxy
         super.init();
 
         MinecraftForgeClient.registerItemRenderer(ICBM.itemRocketLauncher, new RenderRocketLauncher());
+        RenderingRegistry.registerBlockHandler(ISBRLauncherFrame.INSTANCE);
 
         RenderMissile render = new RenderMissile(0.5F);
         MinecraftForgeClient.registerItemRenderer(ICBM.itemMissile, render);
@@ -121,7 +123,8 @@ public class ClientProxy extends CommonProxy
                 List[] fxLayers = ReflectionHelper.getPrivateValue(EffectRenderer.class, renderer, 2);
 
                 return fxLayers[0];
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 ICBM.INSTANCE.logger().log(Level.ERROR, "Failed to use reflection on entity effects.");
                 e.printStackTrace();

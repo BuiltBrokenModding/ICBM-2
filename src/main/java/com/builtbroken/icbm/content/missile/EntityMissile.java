@@ -11,11 +11,13 @@ import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosive;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
+import com.builtbroken.mc.lib.render.fx.RocketFx;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.entity.EntityProjectile;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -120,38 +122,20 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
             }
         }
         if (this.ticksInAir > 0)
+        {
             this.spawnMissileSmoke();
+        }
     }
 
     private void spawnMissileSmoke()
     {
-        //TODO fix as it is showing up sideways
         if (this.worldObj.isRemote)
         {
-            Pos position = new Pos(this);
-            // The distance of the smoke relative
-            // to the missile.
-            double distance = -1.2f;
-
-            // The horizontal distance of the
-            // smoke.
-            double dH = Math.cos(Math.toRadians(this.rotationPitch)) * distance;
-            // The delta X and Z.
-            // The delta Y of the smoke.
-            Pos delta = new Pos(Math.sin(Math.toRadians(this.rotationYaw)) * dH, Math.sin(Math.toRadians(this.rotationPitch)) * distance, Math.cos(Math.toRadians(this.rotationYaw)) * dH);
-
-            position = position.add(delta);
-            this.worldObj.spawnParticle("flame", position.x(), position.y(), position.z(), 0, 0, 0);
-            ICBM.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
-
-            position = position.multiply(1 - 0.001 * Math.random());
-            ICBM.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
-
-            position = position.multiply(1 - 0.001 * Math.random());
-            ICBM.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
-
-            position = position.multiply(1 - 0.001 * Math.random());
-            ICBM.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
+            for (int i = 0; i < 4; i++)
+            {
+                RocketFx fx = new RocketFx(worldObj, this.posX, this.posY - 0.75, this.posZ, (this.rand.nextFloat() - 0.5f) / 8f, -.75 + this.motionY, (this.rand.nextFloat() - 0.5f) / 8f);
+                Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+            }
         }
     }
 
@@ -199,15 +183,31 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
 
     protected void onImpact(double x, double y, double z)
     {
+        if (!worldObj.isRemote)
+        {
+            if (missile.getWarhead() != null)
+            {
+                missile.getWarhead().trigger(new TriggerCause.TriggerCauseEntity(this), worldObj, x, y, z);
+            }
+            if (missile != null && missile.getEngine() != null)
+            {
+                missile.getEngine().onDestroyed(this, missile);
+            }
+            this.setDead();
+        }
+        else
+        {
+            doClientImpact(x, y, z);
+        }
+    }
+
+    protected void doClientImpact(double x, double y, double z)
+    {
+        System.out.println("Impacted client side at " + x + " " + y + " " + z);
         if (missile.getWarhead() != null)
         {
             missile.getWarhead().trigger(new TriggerCause.TriggerCauseEntity(this), worldObj, x, y, z);
         }
-        if (missile != null && missile.getEngine() != null)
-        {
-            missile.getEngine().onDestroyed(this, missile);
-        }
-        this.setDead();
     }
 
     @Override
