@@ -4,6 +4,7 @@ import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.prefab.explosive.blast.BlastSimplePath;
 import net.minecraft.block.Block;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import thaumcraft.common.config.ConfigBlocks;
 
 /**
@@ -21,6 +22,7 @@ public class BlastTaint extends BlastSimplePath
         //TODO corrupt blocks around it
         //TODO spawn taint creatures if size > 5
         //TODO randomize placement
+        /** {@link thaumcraft.common.lib.events.EventHandlerEntity#livingTick(LivingDeathEvent)} } */
         Block block = location.getBlock();
         int meta = location.getBlockMetadata();
         if (block == ConfigBlocks.blockFluxGoo && meta < 7)
