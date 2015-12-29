@@ -32,6 +32,11 @@ public class CommonProxy extends AbstractProxy
 
     }
 
+    public void spawnRocketTail(Entity entity)
+    {
+
+    }
+
     public IUpdatePlayerListBox getDaoDanShengYin(EntityMissile eDaoDan)
     {
         return null;

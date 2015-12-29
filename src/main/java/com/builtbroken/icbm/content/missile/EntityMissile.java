@@ -11,13 +11,11 @@ import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosive;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.lib.render.fx.RocketFx;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.entity.EntityProjectile;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -121,20 +119,11 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
                 MissileTracker.addToTracker(this);
             }
         }
-        if (this.ticksInAir > 0)
-        {
-            this.spawnMissileSmoke();
-        }
-    }
-
-    private void spawnMissileSmoke()
-    {
-        if (this.worldObj.isRemote)
+        if (worldObj.isRemote && this.ticksInAir > 0)
         {
             for (int i = 0; i < 4; i++)
             {
-                RocketFx fx = new RocketFx(worldObj, this.posX, this.posY - 0.75, this.posZ, (this.rand.nextFloat() - 0.5f) / 8f, -.75 + this.motionY, (this.rand.nextFloat() - 0.5f) / 8f);
-                Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+                ICBM.proxy.spawnRocketTail(this);
             }
         }
     }
