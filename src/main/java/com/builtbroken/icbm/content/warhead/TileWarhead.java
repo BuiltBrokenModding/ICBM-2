@@ -153,7 +153,7 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
      * @param exe   - explosive handler to use
      * @param parts - parts for the recipe
      */
-    private static void addMicroWarheadRecipe(String exe, Object... parts)
+    public static void addMicroWarheadRecipe(String exe, Object... parts)
     {
         //Create objects for use in recipe
         IExplosiveHandler ex = ExplosiveRegistry.get(exe);
