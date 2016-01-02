@@ -15,11 +15,9 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
-import thaumcraft.api.nodes.INode;
 import thaumcraft.api.nodes.NodeModifier;
 import thaumcraft.api.nodes.NodeType;
 import thaumcraft.common.Thaumcraft;
-import thaumcraft.common.config.ConfigBlocks;
 import thaumcraft.common.tiles.TileJarNode;
 import thaumcraft.common.tiles.TileNode;
 
@@ -70,69 +68,7 @@ public final class ExplosiveHandlerNode implements IWarheadHandler
         return null;
     }
 
-    /**
-     * Converts a node {@link TileNode} to a jar node {@link thaumcraft.common.tiles.TileJarNode}
-     */
-    public static boolean jarNode(World world, int x, int y, int z)
-    {
-        TileEntity tile = world.getTileEntity(x, y, z);
-        if (tile instanceof INode)
-        {
-            INode node = (INode) tile;
 
-            //Get node data
-            AspectList na = node.getAspects().copy();
-            int nodeType = node.getNodeType().ordinal();
-            int nodeModifier = -1;
-            if (node.getNodeModifier() != null)
-            {
-                nodeModifier = node.getNodeModifier().ordinal();
-            }
-
-            //Apply chance to change modifier
-            if (world.rand.nextFloat() < 0.75F)
-            {
-                if (node.getNodeModifier() == null)
-                {
-                    nodeModifier = NodeModifier.PALE.ordinal();
-                }
-                else if (node.getNodeModifier() == NodeModifier.BRIGHT)
-                {
-                    nodeModifier = -1;
-                }
-                else if (node.getNodeModifier() == NodeModifier.PALE)
-                {
-                    nodeModifier = NodeModifier.FADING.ordinal();
-                }
-            }
-
-            //More data
-            String nid = node.getId();
-            node.setAspects(new AspectList());
-
-            //Remove node and set block
-            world.removeTileEntity(x, y, z); //TODO check if needed
-            world.setBlock(x, y, z, ConfigBlocks.blockJar, 2, 3);
-
-            //Get jar tile
-            tile = world.getTileEntity(x, y, z);
-            TileJarNode jar = (TileJarNode) tile;
-
-            //Set jar data
-            jar.setAspects(na);
-            if (nodeModifier >= 0)
-            {
-                jar.setNodeModifier(NodeModifier.values()[nodeModifier]);
-            }
-            jar.setNodeType(NodeType.values()[nodeType]);
-            jar.setId(nid);
-
-            //Tick
-            world.addBlockEvent(x, y, z, ConfigBlocks.blockJar, 9, 0);
-            return true;
-        }
-        return false;
-    }
 
     @Override
     public void addInfoToItem(EntityPlayer player, ItemStack stack, List<String> lines)

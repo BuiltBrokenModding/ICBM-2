@@ -24,8 +24,6 @@ public class ThaumBlastLoader extends AbstractLoadable
     public void init()
     {
         super.init();
-
-
         try
         {
             ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "ThaumTaint", new ExplosiveHandler("ThaumTaint", BlastTaint.class, 2));
@@ -47,6 +45,9 @@ public class ThaumBlastLoader extends AbstractLoadable
 
         TileWarhead.addMicroWarheadRecipe("ThaumTaint", new ItemStack(ConfigItems.itemResource, 1, 11), new ItemStack(ConfigItems.itemResource, 1, 11));
         GameRegistry.addRecipe(new WarheadRecipe(WarheadCasings.EXPLOSIVE_SMALL, "ThaumTaint", new ItemStack(ConfigItems.itemResource, 1, 11), new ItemStack(ConfigItems.itemResource, 1, 11), new ItemStack(ConfigItems.itemResource, 1, 11), new ItemStack(ConfigItems.itemResource, 1, 11), small_warhead_empty));
+
+        TileWarhead.addMicroWarheadRecipe("ThaumTaintBottle", ConfigItems.itemBottleTaint, ConfigItems.itemBottleTaint);
+        GameRegistry.addRecipe(new WarheadRecipe(WarheadCasings.EXPLOSIVE_SMALL, "ThaumTaintBottle",ConfigItems.itemBottleTaint, ConfigItems.itemBottleTaint, ConfigItems.itemBottleTaint, ConfigItems.itemBottleTaint, small_warhead_empty));
 
     }
 }
