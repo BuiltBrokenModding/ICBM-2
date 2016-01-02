@@ -144,6 +144,12 @@ module.icbm:guidance.chip.1.name=Novice Guidance Chip
 module.icbm:guidance.chip.2.name=Guidance Chip
 module.icbm:guidance.chip.3.name=Improved Guidance Chip
 
+## Thaumcraft Support
+tc.research_category.ICBM=Thaumium Desolation
+thaumcraft.research.MicroTaintWarhead.name=Micro Taint Warhead
+thaumcraft.research.MicroTaintWarhead.page.1=By substituting Thaumium for Steel and imbuing it with a touch of Order, you have discovered how to create a Crowbar that is far more receptive to magic.
+
+
 ## ICBM Classic
 
 ## ItemTracker
