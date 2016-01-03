@@ -3,13 +3,10 @@ package com.builtbroken.icbm.content.blast.thaum;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
-import com.builtbroken.icbm.content.warhead.TileWarhead;
-import com.builtbroken.icbm.content.warhead.WarheadRecipe;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.mod.loadable.AbstractLoadable;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.explosive.ExplosiveHandler;
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import thaumcraft.api.ThaumcraftApi;
@@ -19,6 +16,7 @@ import thaumcraft.api.crafting.IArcaneRecipe;
 import thaumcraft.api.research.ResearchCategories;
 import thaumcraft.api.research.ResearchItem;
 import thaumcraft.api.research.ResearchPage;
+import thaumcraft.common.config.ConfigBlocks;
 import thaumcraft.common.config.ConfigItems;
 
 import java.util.HashMap;
@@ -58,46 +56,125 @@ public class ThaumBlastLoader extends AbstractLoadable
     public void postInit()
     {
         super.postInit();
+        taintWarheadRecipes();
+        taintBottleWarheadRecipes();
+        jarWarheadRecipes();
+        nodeWarheadRecipes();
+    }
+
+    private void taintBottleWarheadRecipes()
+    {
+        ItemStack taintBottleMicroMissile = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, ExplosiveRegistry.get("ThaumTaintBottle")).toStack();
+        ItemStack taintBottleSmallMissile = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, ExplosiveRegistry.get("ThaumTaintBottle")).toStack();
         ItemStack micro_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, null).toStack();
         ItemStack small_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, null).toStack();
 
-        TileWarhead.addMicroWarheadRecipe("ThaumTaintBottle", ConfigItems.itemBottleTaint, ConfigItems.itemBottleTaint);
-        GameRegistry.addRecipe(new WarheadRecipe(WarheadCasings.EXPLOSIVE_SMALL, "ThaumTaintBottle", ConfigItems.itemBottleTaint, ConfigItems.itemBottleTaint, ConfigItems.itemBottleTaint, ConfigItems.itemBottleTaint, small_warhead_empty));
+        IArcaneRecipe taintBottleMicroMissileRecipe = ThaumcraftApi.addArcaneCraftingRecipe("MicroTaintBottleWarhead", taintBottleMicroMissile,
+                new AspectList().add(Aspect.ORDER, 25).add(Aspect.FIRE, 25),
+                "I",
+                "M",
+                "I",
+                'I', ConfigItems.itemBottleTaint,
+                'M', micro_warhead_empty);
 
+        IArcaneRecipe taintBottleSmallMissileRecipe = ThaumcraftApi.addArcaneCraftingRecipe("SmallTaintBottleWarhead", taintBottleSmallMissile,
+                new AspectList().add(Aspect.ORDER, 25).add(Aspect.FIRE, 25),
+                " I ",
+                "IMI",
+                " I ",
+                'I', ConfigItems.itemBottleTaint,
+                'M', small_warhead_empty);
 
+        AspectList aspects = new AspectList();
+        aspects.add(Aspect.TOOL, 1).add(Aspect.MECHANISM, 2).add(Aspect.TRAVEL, 1).add(Aspect.TAINT, 5);
+
+        ResearchItem taintBottleMissilePage = new ResearchItemICBM("BottledTaintWarhead", ICBM.NAME, aspects, 0, 2, 3, taintBottleMicroMissile);
+        taintBottleMissilePage.setPages(new ResearchPage[]{getResearchPage("BottledTaintWarhead"), new ResearchPage(taintBottleMicroMissileRecipe), new ResearchPage(taintBottleSmallMissileRecipe)})
+                .setParents("BOTTLETAINT", "ENTROPICPROCESSING", "TaintWarhead")
+                .registerResearchItem();
+    }
+
+    private void jarWarheadRecipes()
+    {
+        ///Taint Warhead
+        ItemStack jarMicroMissile = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, ExplosiveRegistry.get("ThaumJar")).toStack();
+        ItemStack jarSmallMissile = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, ExplosiveRegistry.get("ThaumJar")).toStack();
+        ItemStack micro_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, null).toStack();
+        ItemStack small_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, null).toStack();
+
+        AspectList list = new AspectList().add(Aspect.ORDER, 75).add(Aspect.FIRE, 75).add(Aspect.EARTH, 75).add(Aspect.WATER, 75).add(Aspect.AIR, 75).add(Aspect.ENTROPY, 75);
+        IArcaneRecipe taintMicroMissileRecipe = ThaumcraftApi.addArcaneCraftingRecipe("JarWarhead", jarMicroMissile,
+                list,
+                "J",
+                "M",
+                'J', new ItemStack(ConfigBlocks.blockJar),
+                'M', micro_warhead_empty);
+
+        IArcaneRecipe taintSmallMissileRecipe = ThaumcraftApi.addArcaneCraftingRecipe("JarWarhead", jarSmallMissile,
+                list,
+                "J",
+                "M",
+                'J', new ItemStack(ConfigBlocks.blockJar),
+                'M', small_warhead_empty);
+
+        AspectList aspects = new AspectList();
+        aspects.add(Aspect.TOOL, 1).add(Aspect.MECHANISM, 2).add(Aspect.TRAVEL, 1);
+
+        ResearchItem taintMissilePage = new ResearchItemICBM("JarWarhead", ICBM.NAME, aspects, -1, 4, 3, jarMicroMissile);
+        taintMissilePage.setPages(new ResearchPage[]{getResearchPage("JarWarhead"), new ResearchPage(taintMicroMissileRecipe), new ResearchPage(taintSmallMissileRecipe)})
+                .setParents("NODEJAR")
+                .registerResearchItem();
+    }
+
+    private void nodeWarheadRecipes()
+    {
+        ItemStack micro_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, null).toStack();
+        ItemStack small_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, null).toStack();
+        ItemStack taintBottleMicroMissile = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, ExplosiveRegistry.get("ThaumNode")).toStack();
+
+        AspectList aspects = new AspectList();
+        aspects.add(Aspect.TOOL, 1).add(Aspect.MECHANISM, 2).add(Aspect.TRAVEL, 1);
+
+        InfusionRecipeJar recipeJar = new InfusionRecipeJar("NodeWarhead", 0, new AspectList().add(Aspect.ORDER, 25).add(Aspect.FIRE, 25), new ItemStack[]{micro_warhead_empty});
+        InfusionRecipeJar recipeJar1 = new InfusionRecipeJar("NodeWarhead", 0, new AspectList().add(Aspect.ORDER, 25).add(Aspect.FIRE, 25), new ItemStack[]{small_warhead_empty});
+
+        ResearchItem researchPage = new ResearchItemICBM("NodeWarhead", ICBM.NAME, aspects, -3, 4, 3, taintBottleMicroMissile);
+        researchPage.setPages(new ResearchPage[]{getResearchPage("NodeWarhead"), new ResearchPage(recipeJar), new ResearchPage(recipeJar1)})
+                .setParents("JarWarhead")
+                .registerResearchItem();
+    }
+
+    private void taintWarheadRecipes()
+    {
+        ///Taint Warhead
         ItemStack taintMicroMissile = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, ExplosiveRegistry.get("ThaumTaint")).toStack();
         ItemStack taintSmallMissile = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, ExplosiveRegistry.get("ThaumTaint")).toStack();
+        ItemStack micro_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, null).toStack();
+        ItemStack small_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, null).toStack();
 
-        IArcaneRecipe taintMicroMissileRecipe = ThaumcraftApi.addArcaneCraftingRecipe("MicroTaintWarhead", taintMicroMissile,
+        IArcaneRecipe taintMicroMissileRecipe = ThaumcraftApi.addArcaneCraftingRecipe("TaintWarhead", taintMicroMissile,
                 new AspectList().add(Aspect.ORDER, 25).add(Aspect.FIRE, 25),
                 "I",
                 "M",
                 "I",
                 'I', new ItemStack(ConfigItems.itemResource, 1, 11),
-                'R', micro_warhead_empty);
+                'M', micro_warhead_empty);
 
-        IArcaneRecipe taintSmallMissileRecipe = ThaumcraftApi.addArcaneCraftingRecipe("SmallTaintWarhead", taintSmallMissile,
+        IArcaneRecipe taintSmallMissileRecipe = ThaumcraftApi.addArcaneCraftingRecipe("TaintWarhead", taintSmallMissile,
                 new AspectList().add(Aspect.ORDER, 25).add(Aspect.FIRE, 25),
                 " I ",
                 "IMI",
                 " I ",
                 'I', new ItemStack(ConfigItems.itemResource, 1, 11),
-                'R', small_warhead_empty);
-
+                'M', small_warhead_empty);
 
         AspectList aspects = new AspectList();
-        aspects.add(Aspect.TOOL, 1).add(Aspect.MECHANISM, 2).add(Aspect.TRAVEL, 1);
+        aspects.add(Aspect.TOOL, 1).add(Aspect.MECHANISM, 2).add(Aspect.TRAVEL, 1).add(Aspect.TAINT, 2);
 
-        ResearchItem taintMicroMissilePage = new ResearchItemICBM("MicroTaintWarhead", ICBM.NAME, aspects, 0, 0, 3, taintMicroMissile);
-        taintMicroMissilePage.setPages(new ResearchPage[]{getResearchPage("MicroTaintWarhead"), new ResearchPage(taintMicroMissileRecipe)})
-                .setParentsHidden("THAUMIUM")
+        ResearchItem taintMissilePage = new ResearchItemICBM("TaintWarhead", ICBM.NAME, aspects, 0, 0, 3, taintMicroMissile);
+        taintMissilePage.setPages(new ResearchPage[]{getResearchPage("TaintWarhead"), new ResearchPage(taintMicroMissileRecipe), new ResearchPage(taintSmallMissileRecipe)})
+                .setParents("ENTROPICPROCESSING")
                 .registerResearchItem();
-
-        ResearchItem taintSmallMissilePage = new ResearchItemICBM("SmallTaintWarhead", ICBM.NAME, aspects, 0, 1, 3, taintSmallMissile);
-        taintSmallMissilePage.setPages(new ResearchPage[]{getResearchPage("SmallTaintWarhead"), new ResearchPage(taintSmallMissileRecipe)})
-                .setParentsHidden("THAUMIUM")
-                .registerResearchItem();
-
     }
 
     private static ResearchPage createResearchPage(String key, int pageNum)

@@ -75,6 +75,11 @@ explosive.icbm:FlashFire.name=Flash Fire
 explosive.icbm:TorchEater.name=Torch Eater
 explosive.icbm:EnderBlocks.name=Ender Blocks
 explosive.icbm:AntiPlant.name=Anti-Plant Life
+explosive.icbm:ThaumTaint.name=Taint Goo
+explosive.icbm:ThaumTaintBottle.name=Bottled Taint
+explosive.icbm:ThaumNode.name=Node Dispenser
+explosive.icbm:ThaumJar.name=Node Trapper
+
 
 
 ## Warhead
@@ -146,9 +151,18 @@ module.icbm:guidance.chip.3.name=Improved Guidance Chip
 
 ## Thaumcraft Support
 tc.research_category.ICBM=Thaumium Desolation
-thaumcraft.research.MicroTaintWarhead.name=Micro Taint Warhead
-thaumcraft.research.MicroTaintWarhead.page.1=By substituting Thaumium for Steel and imbuing it with a touch of Order, you have discovered how to create a Crowbar that is far more receptive to magic.
-
+thaumcraft.research.TaintWarhead.name=Taint Warhead
+thaumcraft.research.TaintWarhead.page.1=While playing with taint you have noticed that using a few aspect it can be contained inside of a warhead.
+thaumcraft.research.TaintWarhead.text=Let the fun begin
+thaumcraft.research.BottledTaintWarhead.name=Taint Warhead
+thaumcraft.research.BottledTaintWarhead.page.1=Spreading taint is no easy job and too slow with just goo. With the recent discovery of how to bottle taint the process is quicker. Still its a bit of a risk throwing these bottles yourself. Instead its a very simple task to shove a few bottles into a warhead.
+thaumcraft.research.BottledTaintWarhead.text=It only gets better
+thaumcraft.research.JarWarhead.name=Node Trapping Warhead
+thaumcraft.research.JarWarhead.page.1=It can be a pain to jar nodes, especially when they keep eating the glass. With this in mind a jar was mounted to the end of a missile.
+thaumcraft.research.JarWarhead.text=I have a jar of dirt
+thaumcraft.research.JarWarhead.name=Node Dispenser Warhead
+thaumcraft.research.JarWarhead.page.1=Missiles are useful to complete long range task. With this in mind the thought occurred to release nodes with missiles.
+thaumcraft.research.JarWarhead.text=Hungry Nodes
 
 ## ICBM Classic
 
