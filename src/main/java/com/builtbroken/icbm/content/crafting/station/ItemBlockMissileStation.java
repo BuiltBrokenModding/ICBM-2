@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.crafting.station;
 
+import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstation;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;

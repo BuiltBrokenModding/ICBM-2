@@ -1,6 +1,6 @@
 package com.builtbroken.icbm;
 
-import com.builtbroken.icbm.content.crafting.station.TileSmallMissileWorkstationClient;
+import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstationClient;
 import com.builtbroken.icbm.content.launcher.block.ISBRLauncherFrame;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.RenderMissile;
