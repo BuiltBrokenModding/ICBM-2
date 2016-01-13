@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.launcher.launcher;
+package com.builtbroken.icbm.content.launcher.launcher.small;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.Assets;

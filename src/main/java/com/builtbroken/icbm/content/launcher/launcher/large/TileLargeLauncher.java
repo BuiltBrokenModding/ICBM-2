@@ -1,8 +1,9 @@
-package com.builtbroken.icbm.content.launcher.launcher;
+package com.builtbroken.icbm.content.launcher.launcher.large;
 
 import com.builtbroken.icbm.content.Assets;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
+import com.builtbroken.icbm.content.launcher.launcher.TileAbstractLauncherPad;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.Tile;
@@ -16,36 +17,36 @@ import org.lwjgl.opengl.GL11;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 12/2/2015.
  */
-public class TileMediumLauncher extends TileAbstractLauncherPad
+public class TileLargeLauncher extends TileAbstractLauncherPad
 {
-    public TileMediumLauncher()
+    public TileLargeLauncher()
     {
-        super("mediumlauncher");
+        super("largelauncher");
     }
 
     @Override
     public boolean canAcceptMissile(Missile missile)
     {
-        return super.canAcceptMissile(missile) && missile.casing == MissileCasings.MEDIUM;
+        return super.canAcceptMissile(missile) && missile.casing == MissileCasings.LARGE;
     }
 
     @Override
     public Tile newTile()
     {
-        return new TileMediumLauncher();
+        return new TileLargeLauncher();
     }
 
     @Override
     public String getInventoryName()
     {
-        return "tile.icbm:mediumLauncher.container";
+        return "tile.icbm:largeLauncher.container";
     }
 
     @SideOnly(Side.CLIENT)
     public AxisAlignedBB getRenderBoundingBox()
     {
         //TODO modified to fit missile
-        return new Cube(-1, 0, -1, 2, 8, 2).add(x(), y(), z()).toAABB();
+        return new Cube(-1, 0, -1, 2, 64, 2).add(x(), y(), z()).toAABB();
     }
 
     @Override
