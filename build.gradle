@@ -25,11 +25,12 @@ plugins {
   id 'com.github.kt3k.coveralls' version '2.0.1'
 }
 
-apply from: 'https://raw.githubusercontent.com/BuiltBrokenModding/BuiltBrokenScripts/buildScripts/index.gradle'
+apply from: 'https://raw.githubusercontent.com/BuiltBrokenModding/BuiltBrokenScripts/buildScripts/index/index.gradle'
 apply plugin: 'forge'
 apply plugin: 'curseforge'
 apply plugin: 'com.github.kt3k.coveralls'
 apply plugin: 'jacoco'
+apply plugin: 'eclipse'
 apply from: 'https://raw.githubusercontent.com/BuiltBrokenModding/BuiltBrokenScripts/buildScripts/scripts/forge/deps.gradle'
 
 println "Current Minecraft version = " + minecraft.apiVersion
@@ -39,28 +40,6 @@ println "Current Java version = " + currentJvm
 
 minecraft {    
     replace "required-after:VoltzEngine", "required-after:VoltzEngine@[$voltz_engine_version,)"
-}
-
-processResources {
-    // this will ensure that this task is redone when the versions change.
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    // replace stuff in mcmod.info, nothing else
-	from(sourceSets.main.resources.srcDirs) {
-		//include '**/*.lang'
-		include '**/*.info'
-		include '**/*.properties'
-
-		expand 'version': project.version, 'mcversion': project.minecraft.version
-		// replace version and MCVersion
-	}
-
-	// copy everything else, thats not text
-	from(sourceSets.main.resources.srcDirs) {
-		exclude '**/*.info'
-		exclude '**/*.properties'
-	}
 }
 
 import org.ajoberstar.grgit.Grgit
@@ -78,19 +57,15 @@ jar {
             "Created-By": currentJvm,
             "Implementation-Title": archivesBaseName,
             "Implementation-Version": project.version,
-            "Git-Hash": gitHash,
+            "Git-Hash": gitHash
     )
 }
+
+jar.manifest.writeTo("$buildDir/Manifest.mf")
 
 dependencies 
 {
     compile "dev.builtbroken.voltzengine:VoltzEngine:1.7.10-$voltz_engine_version+:deobf-dev"
-}
-
-def getDate() {
-    def date = new Date()
-    def formattedDate = date.format('yyyyMMddHHmmss')
-    return formattedDate
 }
 
 jacocoTestReport {
