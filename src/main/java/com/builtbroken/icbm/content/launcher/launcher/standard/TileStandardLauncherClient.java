@@ -1,11 +1,8 @@
-package com.builtbroken.icbm.content.launcher.launcher;
+package com.builtbroken.icbm.content.launcher.launcher.standard;
 
 import com.builtbroken.icbm.content.Assets;
-import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
-import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Pos;
-import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -15,33 +12,12 @@ import org.lwjgl.opengl.GL11;
 
 /**
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
- * Created by Dark(DarkGuardsman, Robert) on 12/2/2015.
+ * Created by Dark(DarkGuardsman, Robert) on 1/13/2016.
  */
-public class TileStandardLauncher extends TileAbstractLauncherPad
+public class TileStandardLauncherClient extends TileStandardLauncher
 {
-    public TileStandardLauncher()
-    {
-        super("standardlauncher");
-    }
 
     @Override
-    public boolean canAcceptMissile(Missile missile)
-    {
-        return super.canAcceptMissile(missile) && missile.casing == MissileCasings.STANDARD;
-    }
-
-    @Override
-    public Tile newTile()
-    {
-        return new TileStandardLauncher();
-    }
-
-    @Override
-    public String getInventoryName()
-    {
-        return "tile.icbm:standardLauncher.container";
-    }
-
     @SideOnly(Side.CLIENT)
     public AxisAlignedBB getRenderBoundingBox()
     {

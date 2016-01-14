@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.crafting.station;
 
+import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstation;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;

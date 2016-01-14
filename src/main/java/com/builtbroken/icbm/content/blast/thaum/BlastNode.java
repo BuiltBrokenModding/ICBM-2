@@ -49,7 +49,7 @@ public class BlastNode implements IWorldChangeAction, IWorldPosition
     }
 
     @Override
-    public void handleBlockPlacement(IWorldEdit blocks)
+    public void handleBlockPlacement(final IWorldEdit blocks)
     {
         //TODO if fails to place drop items
         blocks.place();
@@ -57,6 +57,12 @@ public class BlastNode implements IWorldChangeAction, IWorldPosition
 
     @Override
     public void doEffectOther(boolean beforeBlocksPlaced)
+    {
+
+    }
+
+    @Override
+    public void killAction(boolean willSave)
     {
 
     }

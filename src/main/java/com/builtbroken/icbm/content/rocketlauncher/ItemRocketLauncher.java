@@ -91,6 +91,10 @@ public class ItemRocketLauncher extends Item implements IWeapon, IPostInit
                                 if (!player.capabilities.isCreativeMode)
                                 {
                                     ammo.consumeAmmo(this, itemStack, inventoryStack, 1);
+                                    if (inventoryStack.stackSize <= 0)
+                                    {
+                                        player.inventory.setInventorySlotContents(slot, null);
+                                    }
                                     player.inventoryContainer.detectAndSendChanges();
                                 }
 
@@ -144,13 +148,15 @@ public class ItemRocketLauncher extends Item implements IWeapon, IPostInit
         return false;
     }
 
-    @SideOnly(Side.CLIENT) @Override
+    @SideOnly(Side.CLIENT)
+    @Override
     public IIcon getIcon(ItemStack stack, int pass)
     {
         return Items.stone_shovel.getIcon(stack, pass);
     }
 
-    @SideOnly(Side.CLIENT) @Override
+    @SideOnly(Side.CLIENT)
+    @Override
     public void registerIcons(IIconRegister p_94581_1_)
     {
         //No icon to register

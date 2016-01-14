@@ -49,7 +49,9 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     public short getCode()
     {
         if (link_code == 0)
+        {
             link_code = MathUtility.randomShort();
+        }
         return link_code;
     }
 
@@ -57,9 +59,13 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     public void firstTick()
     {
         if (!target.isAboveBedrock())
+        {
             target = new Pos(this);
+        }
         if (link_code == 0)
+        {
             link_code = MathUtility.randomShort();
+        }
     }
 
     @Override
@@ -74,7 +80,14 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
             {
                 if (world().isBlockIndirectlyGettingPowered(xi(), yi(), zi()))
                 {
-                    fireMissile(target);
+                    if(fireMissile(target))
+                    {
+                        //TODO confirm missile launch to controllers?
+                    }
+                    else
+                    {
+                        //TODO make error effect or noise?
+                    }
                 }
             }
         }
@@ -96,62 +109,101 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         launcherReports = newList;
     }
 
-
-    public void fireMissile()
+    /**
+     * Can the missile be fired from the silo. Does not
+     * and should not check if a missile is functional,
+     * completed, or contained in the silo. This is
+     * only for logic controlling of the missile. Allowing
+     * for fails safes to be added such as detecting if
+     * missile doors are opened.
+     *
+     * @return true if the missile should fire.
+     */
+    public boolean canFireMissile()
     {
-        fireMissile(target);
+        return true;
     }
 
-    public void fireMissile(final Pos target)
+    /**
+     * Called to fire the missile at
+     * the stored location in the silo.
+     */
+    public boolean fireMissile()
     {
-        Missile missile = getMissile();
-        if (missile != null)
+        return fireMissile(target);
+    }
+
+    /**
+     * Called to fire the missile at a target.
+     *
+     * @param target - impact target, should not be null,
+     *               is not checked for sanity.
+     */
+    public boolean fireMissile(final Pos target)
+    {
+        if (canFireMissile())
         {
-            if (isServer())
+            //We have a missile?
+            Missile missile = getMissile();
+            if (missile != null)
             {
+                //Does it have an engine
                 if (missile.canLaunch())
                 {
-                    //Create and setup missile
-                    EntityMissile entity = new EntityMissile(world());
-                    entity.setMissile(missile);
+                    if (isServer())
+                    {
+                        //Create and setup missile
+                        EntityMissile entity = new EntityMissile(world());
+                        entity.setMissile(missile);
 
-                    //Set location data
-                    Pos start = new Pos(this).add(getMissileLaunchOffset());
-                    entity.setPositionAndRotation(start.x(), start.y(), start.z(), 0, 0);
-                    entity.motionY = missile.getEngine().getSpeed(missile);
+                        //Set location data
+                        Pos start = new Pos(this).add(getMissileLaunchOffset());
+                        entity.setPositionAndRotation(start.x(), start.y(), start.z(), 0, 0);
+                        entity.motionY = missile.getEngine().getSpeed(missile);
 
-                    //Set target data
-                    entity.setTarget(target, true);
-                    entity.sourceOfProjectile = new Pos(this);
+                        //Set target data
+                        entity.setTarget(target, true);
+                        entity.sourceOfProjectile = new Pos(this);
 
-                    //Spawn and start moving
-                    world().spawnEntityInWorld(entity);
-                    addLaunchReport(entity);
+                        //Spawn and start moving
+                        world().spawnEntityInWorld(entity);
+                        addLaunchReport(entity);
 
-                    entity.setIntoMotion();
+                        entity.setIntoMotion();
 
-                    //Empty inventory slot
-                    this.setInventorySlotContents(0, null);
-                    sendDescPacket();
+                        //Empty inventory slot
+                        this.setInventorySlotContents(0, null);
+                        sendDescPacket();
+                    }
+                    else
+                    {
+                        triggerLaunchingEffects();
+                    }
+                    return true;
                 }
+                //No engine can result in warhead detonating
                 else if (missile.getWarhead() != null && world().rand.nextFloat() > 0.8f)
                 {
                     //If the user is stupid enough to not install a warhead....
                     missile.getWarhead().trigger(new TriggerCause.TriggerCauseFire(ForgeDirection.DOWN), world(), xi(), yi(), zi());
                 }
             }
-            else
-            {
-                triggerLaunchingEffects();
-            }
         }
+        return false;
     }
 
+    /**
+     * Called to add a launch report for a missile.
+     *
+     * @param missile - missile to generate a report for.
+     */
     protected void addLaunchReport(EntityMissile missile)
     {
         launcherReports.add(new LauncherReport(missile));
         if (launcherReports.size() > 20)
+        {
             launcherReports.remove(0);
+        }
     }
 
     /**
@@ -204,6 +256,11 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         }
     }
 
+    /**
+     * Reports the death of the missile to the silo.
+     *
+     * @param missile - missile that died, no reason given.
+     */
     public void onDeathOfMissile(EntityMissile missile)
     {
         if (isServer() && missile != null)
@@ -255,11 +312,17 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     {
         super.readFromNBT(nbt);
         if (nbt.hasKey("target"))
+        {
             this.target = new Pos(nbt.getCompoundTag("target"));
+        }
         if (nbt.hasKey("link_code"))
+        {
             this.link_code = nbt.getShort("link_code");
+        }
         else
+        {
             this.link_code = (short) MathUtility.rand.nextInt(Short.MAX_VALUE);
+        }
 
         if (nbt.hasKey("launchReports"))
         {
@@ -279,9 +342,13 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     {
         super.writeToNBT(nbt);
         if (target != null)
+        {
             nbt.setTag("target", target.toNBT());
+        }
         if (link_code != 0)
+        {
             nbt.setShort("link_code", link_code);
+        }
 
         if (launcherReports != null && launcherReports.size() > 0)
         {

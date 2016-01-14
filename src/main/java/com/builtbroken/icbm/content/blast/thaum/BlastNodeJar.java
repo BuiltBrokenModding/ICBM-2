@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.blast.thaum;
 
+import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.lib.transform.vector.Location;
-import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.prefab.explosive.blast.BlastSimplePath;
 
 /**
@@ -12,9 +12,24 @@ import com.builtbroken.mc.prefab.explosive.blast.BlastSimplePath;
  */
 public class BlastNodeJar extends BlastSimplePath
 {
-    @Override
-    public BlockEdit changeBlock(Location location)
+    boolean found = false;
+
+    public boolean shouldPath(Location location)
     {
+        if(super.shouldPath(location))
+        {
+            return !found;
+        }
+        return false;
+    }
+
+    @Override
+    public IWorldEdit changeBlock(Location location)
+    {
+        if(!found)
+        {
+            return new BlockEditJar(location);
+        }
         return null;
     }
 }

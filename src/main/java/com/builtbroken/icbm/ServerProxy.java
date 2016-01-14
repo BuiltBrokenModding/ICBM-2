@@ -1,6 +1,6 @@
 package com.builtbroken.icbm;
 
-import com.builtbroken.icbm.content.crafting.station.TileSmallMissileWorkstation;
+import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstation;
 
 /**
  * Code that only loads on a dedicated server box

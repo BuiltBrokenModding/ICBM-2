@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.crafting.station;
+package com.builtbroken.icbm.content.crafting.station.small;
 
 import com.builtbroken.icbm.content.Assets;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;

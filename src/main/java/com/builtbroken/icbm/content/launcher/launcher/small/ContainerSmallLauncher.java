@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.launcher.launcher;
+package com.builtbroken.icbm.content.launcher.launcher.small;
 
 import com.builtbroken.mc.prefab.gui.ContainerBase;
 import net.minecraft.entity.player.EntityPlayer;

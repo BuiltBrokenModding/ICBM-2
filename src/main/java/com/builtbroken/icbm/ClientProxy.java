@@ -1,6 +1,6 @@
 package com.builtbroken.icbm;
 
-import com.builtbroken.icbm.content.crafting.station.TileSmallMissileWorkstationClient;
+import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstationClient;
 import com.builtbroken.icbm.content.launcher.block.ISBRLauncherFrame;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.RenderMissile;
@@ -98,6 +98,13 @@ public class ClientProxy extends CommonProxy
             fx.motionZ = motionZ;
             FMLClientHandler.instance().getClient().effectRenderer.addEffect(fx);
         }
+    }
+
+    @Override
+    public void spawnRocketTail(Entity entity)
+    {
+        RocketFx fx = new RocketFx(entity.worldObj, entity.posX, entity.posY - 0.75, entity.posZ, (entity.worldObj.rand.nextFloat() - 0.5f) / 8f, -.75 + entity.motionY, (entity.worldObj.rand.nextFloat() - 0.5f) / 8f);
+        Minecraft.getMinecraft().effectRenderer.addEffect(fx);
     }
 
     @Override
