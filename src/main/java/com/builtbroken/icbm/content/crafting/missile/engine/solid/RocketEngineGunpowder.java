@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.crafting.missile.engine.solid;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.api.modules.IMissileModule;
+import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -28,13 +28,13 @@ public class RocketEngineGunpowder extends RocketEngineSolid implements IPostIni
     }
 
     @Override
-    public float getSpeed(IMissileModule missile)
+    public float getSpeed(IMissile missile)
     {
         return 5f;
     }
 
     @Override
-    public float getMaxDistance(IMissileModule missile)
+    public float getMaxDistance(IMissile missile)
     {
         ItemStack stack = getInventory().getStackInSlot(0);
         if (stack != null)

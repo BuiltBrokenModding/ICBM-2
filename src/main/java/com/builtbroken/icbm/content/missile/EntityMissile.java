@@ -1,8 +1,8 @@
 package com.builtbroken.icbm.content.missile;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.api.IMissile;
-import com.builtbroken.icbm.api.IMissileItem;
+import com.builtbroken.icbm.api.missile.IMissileEntity;
+import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
@@ -26,7 +26,7 @@ import net.minecraft.world.World;
 /**
  * Basic missile like projectile that explodes on impact
  */
-public class EntityMissile extends EntityProjectile implements IExplosive, IMissile, IEntityAdditionalSpawnData
+public class EntityMissile extends EntityProjectile implements IExplosive, IMissileEntity, IEntityAdditionalSpawnData
 {
     private Missile missile;
 
@@ -83,9 +83,9 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
 
     public static void fireMissileByEntity(Entity entityMissile)
     {
-        if (entityMissile instanceof IMissile)
+        if (entityMissile instanceof IMissileEntity)
         {
-            ((IMissile) entityMissile).setIntoMotion();
+            ((IMissileEntity) entityMissile).setIntoMotion();
             entityMissile.worldObj.spawnEntityInWorld(entityMissile);
             entityMissile.worldObj.playSoundAtEntity(entityMissile, "icbm:icbm.missilelaunch", ICBM.missile_firing_volume, (1.0F + (entityMissile.worldObj.rand.nextFloat() - entityMissile.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
         }

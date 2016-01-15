@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.content.crafting.missile.engine;
 
-import com.builtbroken.icbm.api.modules.IMissileModule;
+import com.builtbroken.icbm.api.modules.IMissile;
 import net.minecraft.item.ItemStack;
 
 /**
@@ -20,13 +20,13 @@ public class RocketEngineCreative extends RocketEngine
     }
 
     @Override
-    public float getSpeed(IMissileModule missile)
+    public float getSpeed(IMissile missile)
     {
         return 2f;
     }
 
     @Override
-    public float getMaxDistance(IMissileModule missile)
+    public float getMaxDistance(IMissile missile)
     {
         return 10000f;
     }

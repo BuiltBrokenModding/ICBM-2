@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.crafting.missile.guidance;
 
 import com.builtbroken.icbm.api.modules.IGuidance;
-import com.builtbroken.icbm.api.modules.IMissileModule;
+import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.crafting.missile.MissileModule;
 import net.minecraft.item.ItemStack;
 
@@ -17,13 +17,13 @@ public abstract class Guidance extends MissileModule implements IGuidance
     }
 
     @Override
-    public float getFallOffRange(IMissileModule missile)
+    public float getFallOffRange(IMissile missile)
     {
         return 10f;
     }
 
     @Override
-    public float getChanceToFail(IMissileModule missile)
+    public float getChanceToFail(IMissile missile)
     {
         return 0.5f;
     }

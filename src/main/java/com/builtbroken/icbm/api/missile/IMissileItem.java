@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.api;
+package com.builtbroken.icbm.api.missile;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
@@ -11,7 +11,7 @@ public interface IMissileItem
 {
     /** Gets the entity that is the missile for any generic usage
      * @param stack - item stack version of the missile
-     * @return new entity that is an instanceof IMissile
+     * @return new entity that is an instanceof IMissileEntity
      */
     Entity getMissileEntity(ItemStack stack);
 
@@ -19,7 +19,7 @@ public interface IMissileItem
      * @param stack - item stack version of the missile
      * @param firedBy - entity that is going to fire the missile. Use the entity
      *                to line the missile up, and set any other info.
-     * @return new entity that is an instanceof IMissile
+     * @return new entity that is an instanceof IMissileEntity
      */
     Entity getMissileEntity(ItemStack stack, Entity firedBy);
 }

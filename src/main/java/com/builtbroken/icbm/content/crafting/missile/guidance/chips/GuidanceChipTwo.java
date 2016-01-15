@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.content.crafting.missile.guidance.chips;
 
-import com.builtbroken.icbm.api.modules.IMissileModule;
+import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
 import com.builtbroken.icbm.content.crafting.missile.guidance.GuidanceModules;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
@@ -21,13 +21,13 @@ public class GuidanceChipTwo extends Guidance implements IPostInit
     }
 
     @Override
-    public float getChanceToFail(IMissileModule missile)
+    public float getChanceToFail(IMissile missile)
     {
         return 0.03f;
     }
 
     @Override
-    public float getFallOffRange(IMissileModule missile)
+    public float getFallOffRange(IMissile missile)
     {
         return 40f;
     }
