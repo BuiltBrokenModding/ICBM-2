@@ -37,8 +37,6 @@ minecraft {
     replace "required-after:VoltzEngine", "required-after:VoltzEngine@[$voltz_engine_version,)"
 }
 
-jar.manifest.writeTo("$buildDir/Manifest.mf")
-
 dependencies 
 {
     compile "dev.builtbroken.voltzengine:VoltzEngine:1.7.10-$voltz_engine_version+:deobf-dev"
