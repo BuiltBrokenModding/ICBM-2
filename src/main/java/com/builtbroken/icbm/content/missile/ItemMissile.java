@@ -3,6 +3,7 @@ package com.builtbroken.icbm.content.missile;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.*;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
+import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;

@@ -1,12 +1,12 @@
 package com.builtbroken.icbm.api.modules;
 
-import com.builtbroken.icbm.api.IMissile;
+import com.builtbroken.icbm.api.missile.IMissileEntity;
 
 /**
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 10/28/2015.
  */
-public interface IRocketEngine
+public interface IRocketEngine extends IMissileModule
 {
     /**
      * Grabs the speed that the rocket will fly at
@@ -14,7 +14,7 @@ public interface IRocketEngine
      * @param missile - module containing this engine
      * @return meters / tick
      */
-    float getSpeed(IMissileModule missile);
+    float getSpeed(IMissile missile);
 
     /**
      * Grabs the speed that the rocket will fly at
@@ -22,7 +22,7 @@ public interface IRocketEngine
      * @param missile - module containing this engine
      * @return distance in meters
      */
-    float getMaxDistance(IMissileModule missile);
+    float getMaxDistance(IMissile missile);
 
     /**
      * Called when a missile is fired
@@ -30,7 +30,7 @@ public interface IRocketEngine
      * @param missile       - entity missile
      * @param missileModule - module missile
      */
-    void onLaunch(IMissile missile, IMissileModule missileModule);
+    void onLaunch(IMissileEntity missile, IMissile missileModule);
 
     /**
      * Called when the missile was destroyed. Take this time
@@ -39,5 +39,5 @@ public interface IRocketEngine
      * @param missile       - entity missile
      * @param missileModule - module missile
      */
-    void onDestroyed(IMissile missile, IMissileModule missileModule);
+    void onDestroyed(IMissileEntity missile, IMissile missileModule);
 }

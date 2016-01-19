@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.content.crafting.missile.guidance.clocks;
 
-import com.builtbroken.icbm.api.modules.IMissileModule;
+import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
 import com.builtbroken.icbm.content.crafting.missile.guidance.GuidanceModules;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
@@ -23,7 +23,7 @@ public class GuidanceGearsWood extends Guidance implements IPostInit
     }
 
     @Override
-    public float getFallOffRange(IMissileModule missile)
+    public float getFallOffRange(IMissile missile)
     {
         return 100f;
     }

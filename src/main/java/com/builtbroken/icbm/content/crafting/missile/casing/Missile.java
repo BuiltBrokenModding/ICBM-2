@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.content.crafting.missile.casing;
 
-import com.builtbroken.icbm.api.modules.IMissileModule;
+import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
@@ -18,7 +18,7 @@ import net.minecraft.nbt.NBTTagCompound;
  *
  * @author Darkguardsman
  */
-public abstract class Missile extends AbstractModule implements IMissileModule
+public abstract class Missile extends AbstractModule implements IMissile
 {
     /** Size of the missile */
     public final MissileCasings casing;

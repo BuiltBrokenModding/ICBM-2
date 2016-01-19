@@ -17,7 +17,6 @@ public class TileStandardLauncher extends TileAbstractLauncherPad
     /** Is the silo in crafting mode. */
     protected boolean isCrafting = false;
 
-
     public TileStandardLauncher()
     {
         super("standardlauncher");

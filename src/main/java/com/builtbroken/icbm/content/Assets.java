@@ -19,9 +19,12 @@ public final class Assets
     //Missile models
     public static final IModelCustom MICRO_MISSILE_MODEL = model("Rocket_Micro.obj");
     public static final IModelCustom SMALL_MISSILE_MODEL = model("Missile_Small.obj");
-    public static final IModelCustom SMALL_MISSILE_MODEL_2 = model("Missile_Small_scale.obj"); //Segmented model for crafting
     public static final IModelCustom STANDARD_MISSILE_MODEL = model("Missile_Standard.obj");
     public static final IModelCustom CLASSIC_MISSILE_MODEL = model("missile_conventional.tcn");
+
+    //Crafting missile models
+    public static final IModelCustom SMALL_MISSILE_MODEL_2 = model("Missile_Small_scale.obj"); //Segmented model for crafting
+    public static final IModelCustom STANDARD_MISSILE_MODEL_2 = model("Missile_Standard_Crafting.obj"); //Segmented model for crafting
 
     //Launcher Models
     public static final IModelCustom PORTABLE_LAUNCHER_MODEL = model("small_launcher.tcn");

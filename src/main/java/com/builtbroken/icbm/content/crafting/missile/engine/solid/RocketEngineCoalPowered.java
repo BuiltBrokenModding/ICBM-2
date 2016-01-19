@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.crafting.missile.engine.solid;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.api.modules.IMissileModule;
+import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
@@ -44,7 +44,7 @@ public class RocketEngineCoalPowered extends RocketEngineSolid implements IPostI
     }
 
     @Override
-    public float getMaxDistance(IMissileModule missile)
+    public float getMaxDistance(IMissile missile)
     {
         if (fuelStack() != null)
         {
@@ -58,7 +58,7 @@ public class RocketEngineCoalPowered extends RocketEngineSolid implements IPostI
     }
 
     @Override
-    public float getSpeed(IMissileModule missile)
+    public float getSpeed(IMissile missile)
     {
         if (fuelStack() != null)
         {

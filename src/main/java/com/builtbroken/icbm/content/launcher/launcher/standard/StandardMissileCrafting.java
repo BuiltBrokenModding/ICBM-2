@@ -1,6 +1,10 @@
 package com.builtbroken.icbm.content.launcher.launcher.standard;
 
+import com.builtbroken.icbm.api.modules.IGuidance;
+import com.builtbroken.icbm.api.modules.IRocketEngine;
+import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.mc.api.ISave;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.oredict.OreDictionary;
@@ -45,25 +49,38 @@ public class StandardMissileCrafting implements ISave
      * Checks if the item is part of the recipe,
      * and is still required by the recipe.
      *
-     * @param item - stack being added,
+     * @param stack - stack being added,
      *             can be null but will return false
      * @return true if the item can be added.
      */
-    public boolean canAddItem(ItemStack item)
+    public boolean canAddItem(ItemStack stack)
     {
-        if (item != null)
+        if (stack != null)
         {
-            if (isRod(item) && !frameCompleted)
+            if (isRod(stack) && !frameCompleted)
             {
                 return true;
             }
-            else if (isPlate(item) && !skinCompleted)
+            else if (isPlate(stack) && !skinCompleted)
             {
                 return true;
             }
-            //TODO add engine
-            //TODO add warhead
-            //TODO add CPU
+            else
+            {
+                Item item = stack.getItem();
+                if(item instanceof IRocketEngine)
+                {
+
+                }
+                else if(item instanceof IWarhead)
+                {
+
+                }
+                else if(item instanceof IGuidance)
+                {
+
+                }
+            }
         }
         return false;
     }

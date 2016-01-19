@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.content.crafting.missile.engine.fluid;
 
-import com.builtbroken.icbm.api.modules.IMissileModule;
+import com.builtbroken.icbm.api.modules.IMissile;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -28,13 +28,13 @@ public class RocketEngineOil extends RocketEngineFluid
     }
 
     @Override
-    public float getSpeed(IMissileModule missile)
+    public float getSpeed(IMissile missile)
     {
         return 0.3f;
     }
 
     @Override
-    public float getMaxDistance(IMissileModule missile)
+    public float getMaxDistance(IMissile missile)
     {
         if (tank.getFluidAmount() > 0)
         {
