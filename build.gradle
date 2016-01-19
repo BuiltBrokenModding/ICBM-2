@@ -33,32 +33,8 @@ apply plugin: 'jacoco'
 apply plugin: 'eclipse'
 apply from: 'https://raw.githubusercontent.com/BuiltBrokenModding/BuiltBrokenScripts/buildScripts/scripts/forge/deps.gradle'
 
-println "Current Minecraft version = " + minecraft.apiVersion
-
-def currentJvm = org.gradle.internal.jvm.Jvm.current()
-println "Current Java version = " + currentJvm
-
 minecraft {    
     replace "required-after:VoltzEngine", "required-after:VoltzEngine@[$voltz_engine_version,)"
-}
-
-import org.ajoberstar.grgit.Grgit
-
-def gitHash = 'unknown'
-if (new File(projectDir, '.git').exists()) 
-{
-    def repo = Grgit.open(project.file('.'))
-    gitHash = repo.log().find().abbreviatedId
-}
-
-jar {
-    manifest.mainAttributes(
-            "Built-By": System.getProperty('user.name'),
-            "Created-By": currentJvm,
-            "Implementation-Title": archivesBaseName,
-            "Implementation-Version": project.version,
-            "Git-Hash": gitHash
-    )
 }
 
 jar.manifest.writeTo("$buildDir/Manifest.mf")
