@@ -2,9 +2,11 @@ package com.builtbroken.icbm;
 
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstationClient;
 import com.builtbroken.icbm.content.launcher.block.ISBRLauncherFrame;
+import com.builtbroken.icbm.content.launcher.launcher.standard.TileStandardLauncherClient;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.RenderMissile;
 import com.builtbroken.icbm.content.rocketlauncher.RenderRocketLauncher;
+import com.builtbroken.mc.lib.mod.compat.nei.NEIProxy;
 import com.builtbroken.mc.lib.render.fx.*;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import cpw.mods.fml.client.FMLClientHandler;
@@ -36,6 +38,9 @@ public class ClientProxy extends CommonProxy
     {
         super.preInit();
         ICBM.blockMissileWorkstation = ICBM.INSTANCE.getManager().newBlock("SmallMissileWorkStation", TileSmallMissileWorkstationClient.class);
+        ICBM.blockStandardLauncher = ICBM.INSTANCE.getManager().newBlock("StandardMissileLauncher", TileStandardLauncherClient.class);
+        ICBM.blockStandardLauncher.setCreativeTab(null);
+        NEIProxy.hideItem(ICBM.blockStandardLauncher);
     }
 
     @Override

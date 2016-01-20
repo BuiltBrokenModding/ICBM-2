@@ -29,6 +29,12 @@ public abstract class Guidance extends MissileModule implements IGuidance
     }
 
     @Override
+    public int getMissileSize()
+    {
+        return -1;
+    }
+
+    @Override
     public String toString()
     {
         //TODO add hashcode

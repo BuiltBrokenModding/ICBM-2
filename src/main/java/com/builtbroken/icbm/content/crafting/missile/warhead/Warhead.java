@@ -107,6 +107,12 @@ public abstract class Warhead extends AbstractModule implements IWarhead
     }
 
     @Override
+    public int getMissileSize()
+    {
+        return -1;
+    }
+
+    @Override
     public String toString()
     {
         return LanguageUtility.capitalizeFirst(casing.name().toLowerCase()) + "Warhead[" + 1 + " x " + ex + "]";

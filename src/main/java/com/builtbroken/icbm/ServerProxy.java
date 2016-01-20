@@ -1,6 +1,7 @@
 package com.builtbroken.icbm;
 
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstation;
+import com.builtbroken.icbm.content.launcher.launcher.standard.TileStandardLauncher;
 
 /**
  * Code that only loads on a dedicated server box
@@ -15,5 +16,6 @@ public class ServerProxy extends CommonProxy
     {
         super.preInit();
         ICBM.blockMissileWorkstation = ICBM.INSTANCE.getManager().newBlock("SmallMissileWorkStation", TileSmallMissileWorkstation.class);
+        ICBM.blockStandardLauncher = ICBM.INSTANCE.getManager().newBlock("StandardMissileLauncher", TileStandardLauncher.class);
     }
 }

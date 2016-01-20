@@ -51,6 +51,12 @@ public abstract class RocketEngine extends MissileModule implements IRocketEngin
     }
 
     @Override
+    public int getMissileSize()
+    {
+        return -1;
+    }
+
+    @Override
     public String toString()
     {
         //TODO add hashcode

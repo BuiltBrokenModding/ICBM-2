@@ -31,7 +31,6 @@ import com.builtbroken.icbm.content.launcher.items.ItemLinkTool;
 import com.builtbroken.icbm.content.launcher.launcher.large.TileLargeLauncher;
 import com.builtbroken.icbm.content.launcher.launcher.medium.TileMediumLauncher;
 import com.builtbroken.icbm.content.launcher.launcher.small.TileSmallLauncher;
-import com.builtbroken.icbm.content.launcher.launcher.standard.TileStandardLauncher;
 import com.builtbroken.icbm.content.launcher.silo.TileSmallSilo;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.ItemMissile;
@@ -211,15 +210,13 @@ public final class ICBM extends AbstractMod
         //Launchers
         blockSmallPortableLauncher = manager.newBlock(TileSmallLauncher.class);
         blockSmallSilo = manager.newBlock(TileSmallSilo.class);
-        blockStandardLauncher = manager.newBlock(TileStandardLauncher.class);
         blockMediumLauncher = manager.newBlock(TileMediumLauncher.class);
         blockLargeLauncher = manager.newBlock(TileLargeLauncher.class);
 
         //Clear launcher creative tab to prevent placement by user by mistake
-        blockStandardLauncher.setCreativeTab(null);
+
         blockMediumLauncher.setCreativeTab(null);
         blockLargeLauncher.setCreativeTab(null);
-        NEIProxy.hideItem(blockStandardLauncher);
         NEIProxy.hideItem(blockMediumLauncher);
         NEIProxy.hideItem(blockLargeLauncher);
 
