@@ -32,13 +32,13 @@ public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufR
     //TODO add registry for recipe to allow other mods to add missiles to silos
 
     /** Number of rods to complete the frame */
-    private static final int MAX_ROD_COUNT = 128;
-    private static final int ROD_PER_LEVEL_COUNT = 16;
-    private static final int MAX_ROD_LEVEL_COUNT = MAX_ROD_COUNT / ROD_PER_LEVEL_COUNT;
+    public static final int MAX_ROD_COUNT = 128;
+    public static final int ROD_PER_LEVEL_COUNT = 16;
+    public static final int MAX_ROD_LEVEL_COUNT = MAX_ROD_COUNT / ROD_PER_LEVEL_COUNT;
 
-    private static final int MAX_PLATE_COUNT = 36;
-    private static final int PLATE_PER_LEVEL_COUNT = 4;
-    private static final int MAX_PLATE_LEVEL_COUNT = MAX_PLATE_COUNT / PLATE_PER_LEVEL_COUNT;
+    public static final int MAX_PLATE_COUNT = 36;
+    public static final int PLATE_PER_LEVEL_COUNT = 4;
+    public static final int MAX_PLATE_LEVEL_COUNT = MAX_PLATE_COUNT / PLATE_PER_LEVEL_COUNT;
 
     /** Count of rods added to recipe */
     protected int rodsContained = 0;

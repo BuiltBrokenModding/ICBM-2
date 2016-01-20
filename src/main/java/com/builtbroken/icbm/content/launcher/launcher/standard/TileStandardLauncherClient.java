@@ -3,6 +3,9 @@ package com.builtbroken.icbm.content.launcher.launcher.standard;
 import com.builtbroken.icbm.content.Assets;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
+import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
+import com.builtbroken.icbm.content.crafting.missile.guidance.GuidanceModules;
+import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.Tile;
@@ -33,6 +36,9 @@ public class TileStandardLauncherClient extends TileStandardLauncher
     private static GroupObject frame;
     private static GroupObject warhead;
     private static List<GroupObject> engine = new ArrayList();
+    private static GroupObject guidance;
+    private static GroupObject[][] skinLayers = new GroupObject[9][4];
+    private int tick = 0;
 
     @Override
     public Tile newTile()
@@ -115,14 +121,52 @@ public class TileStandardLauncherClient extends TileStandardLauncher
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
             //TODO render crafting progress
             //TODO render ghost of missile frame
-            // System.out.println(recipe.rodsContained);
+
+
+            //TODO -----------------------
+            tick++;
+            if (tick == 1)
+            {
+                recipe.frameCompleted = true;
+                recipe.warhead = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_STANDARD, null).toStack();
+                recipe.rocketEngine = Engines.COAL_ENGINE.newModuleStack();
+                recipe.rocketComputer = GuidanceModules.CHIP_ONE.newModuleStack();
+            }
+            if (recipe.platesContained >= StandardMissileCrafting.MAX_PLATE_COUNT)
+            {
+                tick = 0;
+                recipe.platesContained = 0;
+                recipe.skinCompleted = false;
+            }
+            if (tick % 100 == 0)
+            {
+                recipe.addPlates(1);
+            }
+            //TODO -----------------------
+
             if (recipe.frameCompleted)
             {
                 frame.render();
             }
+            if (recipe.platesContained > 0)
+            {
+                for (int i = 0; i < recipe.platesContained; i++)
+                {
+                    int layer = i / StandardMissileCrafting.PLATE_PER_LEVEL_COUNT;
+                    int set = i % StandardMissileCrafting.PLATE_PER_LEVEL_COUNT;
+                    if (layer < skinLayers.length)
+                    {
+                        skinLayers[layer][set].render();
+                    }
+                }
+            }
             if (recipe.warhead != null)
             {
                 warhead.render();
+            }
+            if (recipe.rocketComputer != null)
+            {
+                guidance.render();
             }
             if (recipe.rocketEngine != null)
             {
@@ -131,6 +175,8 @@ public class TileStandardLauncherClient extends TileStandardLauncher
                     o.render();
                 }
             }
+
+
             GL11.glPopMatrix();
         }
     }
@@ -144,13 +190,79 @@ public class TileStandardLauncherClient extends TileStandardLauncher
             {
                 frame = object;
             }
-            else if (object.name.contains("fual"))
+            else if (object.name.contains("CPcore"))
+            {
+                guidance = object;
+            }
+            else if (object.name.contains("fual") || object.name.contains("fire"))
             {
                 engine.add(object);
             }
             else if (object.name.contains("boom"))
             {
                 warhead = object;
+            }
+            else if (object.name.contains("skiln"))
+            {
+                String name = object.name.split("_")[0];
+
+                int set = 0;
+                int layer = 0;
+
+                if (name.contains("1"))
+                {
+                    layer = 0;
+                }
+                else if (name.contains("2"))
+                {
+                    layer = 1;
+                }
+                else if (name.contains("3"))
+                {
+                    layer = 2;
+                }
+                else if (name.contains("4"))
+                {
+                    layer = 3;
+                }
+                else if (name.contains("5"))
+                {
+                    layer = 4;
+                }
+                else if (name.contains("6"))
+                {
+                    layer = 5;
+                }
+                else if (name.contains("7"))
+                {
+                    layer = 6;
+                }
+                else if (name.contains("8"))
+                {
+                    layer = 7;
+                }
+                else if (name.contains("9"))
+                {
+                    layer = 8;
+                }
+
+                if (name.contains("RT"))
+                {
+                    set = 0;
+                }
+                else if (name.contains("LB"))
+                {
+                    set = 1;
+                }
+                else if (name.contains("RB"))
+                {
+                    set = 2;
+                }
+                else if (name.contains("LT"))
+                {
+                    set = 3;
+                }
+                skinLayers[layer][set] = object;
             }
         }
     }
