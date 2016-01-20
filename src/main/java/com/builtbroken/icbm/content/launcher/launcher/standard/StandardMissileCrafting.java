@@ -1,12 +1,16 @@
 package com.builtbroken.icbm.content.launcher.launcher.standard;
 
 import com.builtbroken.icbm.api.modules.IGuidance;
+import com.builtbroken.icbm.api.modules.IMissileModule;
 import com.builtbroken.icbm.api.modules.IRocketEngine;
 import com.builtbroken.icbm.api.modules.IWarhead;
+import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.mc.api.ISave;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.oredict.OreDictionary;
 
 /**
@@ -44,16 +48,23 @@ public class StandardMissileCrafting implements ISave
     /** Is the skin completed */
     protected boolean skinCompleted = false;
 
+    /** Engine of the missile */
+    protected ItemStack rocketEngine;
+    /** Flight computer or controller */
+    protected ItemStack rocketComputer;
+    /** Explosive part of the missile */
+    protected ItemStack warhead;
+
 
     /**
      * Checks if the item is part of the recipe,
      * and is still required by the recipe.
      *
      * @param stack - stack being added,
-     *             can be null but will return false
+     *              can be null but will return false
      * @return true if the item can be added.
      */
-    public boolean canAddItem(ItemStack stack)
+    public boolean canAddItem(final ItemStack stack)
     {
         if (stack != null)
         {
@@ -68,34 +79,58 @@ public class StandardMissileCrafting implements ISave
             else
             {
                 Item item = stack.getItem();
-                if(item instanceof IRocketEngine)
+                if (item instanceof IRocketEngine)
                 {
-
+                    return ((IMissileModule) item).getMissileSize() == MissileCasings.STANDARD.ordinal();
                 }
-                else if(item instanceof IWarhead)
+                else if (item instanceof IWarhead)
                 {
-
+                    return true;
                 }
-                else if(item instanceof IGuidance)
+                else if (item instanceof IGuidance)
                 {
-
+                    return true;
                 }
             }
         }
         return false;
     }
 
-    private boolean isRod(ItemStack stack)
+    /**
+     * Grabs the output message to display to the user about
+     * what item to add to the crafting recipe.
+     *
+     * @return chat component, not null, should be translated.
+     */
+    public IChatComponent getCurrentRecipeChat()
+    {
+        //TODO replace with translation keys
+        if (!frameCompleted)
+        {
+            return new ChatComponentText("Needs " + (MAX_ROD_COUNT - rodsContained) + " more rods.");
+        }
+        else if (!gutsCompleted)
+        {
+
+        }
+        else if (!skinCompleted)
+        {
+            return new ChatComponentText("Needs " + (MAX_PLATE_COUNT - platesContained) + " more metal sheets.");
+        }
+        return new ChatComponentText("Done click with wrench to finish");
+    }
+
+    private boolean isRod(final ItemStack stack)
     {
         return hasOreName("rodIron", stack);
     }
 
-    private boolean isPlate(ItemStack stack)
+    private boolean isPlate(final ItemStack stack)
     {
         return hasOreName("rodIron", stack);
     }
 
-    private boolean hasOreName(String name, ItemStack stack)
+    private boolean hasOreName(final String name, final ItemStack stack)
     {
         for (int id : OreDictionary.getOreIDs(stack))
         {
@@ -113,17 +148,69 @@ public class StandardMissileCrafting implements ISave
      * still checks for sanity at some level. Will
      * always consume item as it only checks type.
      *
-     * @param item
-     * @return
+     * @param stack - item being added
+     * @return true if the item was accepted
      */
-    public boolean addItem(ItemStack item)
+    public boolean addItem(final ItemStack stack)
     {
+        if (stack != null)
+        {
+            if (isRod(stack) && !frameCompleted)
+            {
+                int added = addRods(stack.stackSize);
+                stack.stackSize -= added;
+                return added > 0;
+            }
+            else if (isPlate(stack) && !skinCompleted)
+            {
+                int added = addPlates(stack.stackSize);
+                stack.stackSize -= added;
+                return added > 0;
+            }
+            else
+            {
+                Item item = stack.getItem();
+                if (item instanceof IRocketEngine)
+                {
+                    if (((IMissileModule) item).getMissileSize() == MissileCasings.STANDARD.ordinal())
+                    {
+                        if (rocketEngine == null)
+                        {
+                            rocketEngine = stack.copy();
+                            rocketEngine.stackSize = 1;
+                            stack.stackSize--;
+                            return true;
+                        }
+                    }
+                }
+                else if (item instanceof IWarhead)
+                {
+                    if (warhead == null)
+                    {
+                        warhead = stack.copy();
+                        warhead.stackSize = 1;
+                        stack.stackSize--;
+                        return true;
+                    }
+                }
+                else if (item instanceof IGuidance)
+                {
+                    if (rocketComputer == null)
+                    {
+                        rocketComputer = stack.copy();
+                        rocketComputer.stackSize = 1;
+                        stack.stackSize--;
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
     }
 
     protected int addRods(int count)
     {
-        if (!skinCompleted)
+        if (!frameCompleted)
         {
             int addition = Math.min(count, Math.max(MAX_ROD_COUNT - rodsContained, 0));
             if (addition > 0)
@@ -157,6 +244,16 @@ public class StandardMissileCrafting implements ISave
             return addition;
         }
         return 0;
+    }
+
+    /**
+     * Is the recipe finished
+     *
+     * @return true if the recipe is finished
+     */
+    public boolean isFinished()
+    {
+        return skinCompleted && frameCompleted && gutsCompleted;
     }
 
     @Override
