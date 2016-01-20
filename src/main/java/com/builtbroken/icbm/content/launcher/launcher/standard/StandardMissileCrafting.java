@@ -1,7 +1,6 @@
 package com.builtbroken.icbm.content.launcher.launcher.standard;
 
 import com.builtbroken.icbm.api.modules.IGuidance;
-import com.builtbroken.icbm.api.modules.IMissileModule;
 import com.builtbroken.icbm.api.modules.IRocketEngine;
 import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
@@ -95,17 +94,17 @@ public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufR
                     if (item instanceof IModuleItem)
                     {
                         IModule module = ((IModuleItem) item).getModule(stack);
-                        if (rocketEngine == null && module instanceof IRocketEngine)
+                        if (module instanceof IRocketEngine)
                         {
-                            return ((IMissileModule) item).getMissileSize() == MissileCasings.STANDARD.ordinal();
+                            return rocketEngine == null;
                         }
-                        else if (warhead == null && module instanceof IWarhead)
+                        else if (module instanceof IWarhead)
                         {
-                            return true;
+                            return warhead == null;
                         }
-                        else if (rocketComputer == null && module instanceof IGuidance)
+                        else if (module instanceof IGuidance)
                         {
-                            return true;
+                            return rocketComputer == null;
                         }
                     }
                 }
@@ -152,7 +151,7 @@ public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufR
 
     private boolean isPlate(final ItemStack stack)
     {
-        return hasOreName("rodIron", stack);
+        return hasOreName("plateIron", stack);
     }
 
     private boolean hasOreName(final String name, final ItemStack stack)
@@ -201,15 +200,12 @@ public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufR
                     IModule module = ((IModuleItem) item).getModule(stack);
                     if (module instanceof IRocketEngine)
                     {
-                        if (((IMissileModule) item).getMissileSize() == MissileCasings.STANDARD.ordinal())
+                        if (rocketEngine == null)
                         {
-                            if (rocketEngine == null)
-                            {
-                                rocketEngine = stack.copy();
-                                rocketEngine.stackSize = 1;
-                                stack.stackSize--;
-                                added = true;
-                            }
+                            rocketEngine = stack.copy();
+                            rocketEngine.stackSize = 1;
+                            stack.stackSize--;
+                            added = true;
                         }
                     }
                     else if (module instanceof IWarhead)
@@ -414,8 +410,16 @@ public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufR
     @Override
     public StandardMissileCrafting readBytes(ByteBuf buf)
     {
-        frameLevel = buf.readInt();
-        plateLevel = buf.readInt();
+        int plates = buf.readInt();
+        platesContained = 0;
+        skinCompleted = false;
+        addPlates(plates);
+
+        int rods = buf.readInt();
+        rodsContained = 0;
+        frameCompleted = false;
+        addRods(rods);
+
         ItemStack stack = ByteBufUtils.readItemStack(buf);
         if (stack.getItem() instanceof IModuleItem)
         {
@@ -437,8 +441,8 @@ public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufR
     @Override
     public ByteBuf writeBytes(ByteBuf buf)
     {
-        buf.writeInt(frameLevel);
-        buf.writeInt(plateLevel);
+        buf.writeInt(rodsContained);
+        buf.writeInt(platesContained);
         ByteBufUtils.writeItemStack(buf, warhead != null ? warhead : new ItemStack(Blocks.stone));
         ByteBufUtils.writeItemStack(buf, rocketComputer != null ? rocketComputer : new ItemStack(Blocks.stone));
         ByteBufUtils.writeItemStack(buf, rocketEngine != null ? rocketEngine : new ItemStack(Blocks.stone));

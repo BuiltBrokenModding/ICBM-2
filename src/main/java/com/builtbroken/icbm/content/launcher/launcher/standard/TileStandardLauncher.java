@@ -3,6 +3,7 @@ package com.builtbroken.icbm.content.launcher.launcher.standard;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.launcher.launcher.TileAbstractLauncherPad;
+import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.Tile;
@@ -10,6 +11,7 @@ import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 
 /**
@@ -127,11 +129,17 @@ public class TileStandardLauncher extends TileAbstractLauncherPad
     public void setInventorySlotContents(int slot, ItemStack stack)
     {
         //If something sets the missile while we are crafting, eject all items
-        if (slot == 0 && isCrafting)
+        if (isServer() && slot == 0 && isCrafting)
         {
             //TODO drop all crafting items
         }
         super.setInventorySlotContents(slot, stack);
+    }
+
+    @Override
+    public boolean read(ByteBuf buf, int id, EntityPlayer player, PacketType type)
+    {
+        return super.read(buf, id, player, type);
     }
 
     @Override
@@ -182,5 +190,29 @@ public class TileStandardLauncher extends TileAbstractLauncherPad
     public String getInventoryName()
     {
         return "tile.icbm:standardLauncher.container";
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound nbt)
+    {
+        super.readFromNBT(nbt);
+        if(nbt.hasKey("missileRecipe"))
+        {
+            isCrafting = true;
+            recipe = new StandardMissileCrafting();
+            recipe.load(nbt.getCompoundTag("missileRecipe"));
+        }
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound nbt)
+    {
+        super.writeToNBT(nbt);
+        if(recipe != null)
+        {
+            NBTTagCompound tag = new NBTTagCompound();
+            recipe.save(nbt);
+            nbt.setTag("missileRecipe", tag);
+        }
     }
 }

@@ -13,8 +13,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.client.model.obj.GroupObject;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
@@ -24,6 +28,11 @@ public class TileStandardLauncherClient extends TileStandardLauncher
 {
     private Missile missile;
     private AxisAlignedBB renderBounds;
+
+    private static boolean processedModel = false;
+    private static GroupObject frame;
+    private static GroupObject warhead;
+    private static List<GroupObject> engine = new ArrayList();
 
     @Override
     public Tile newTile()
@@ -44,7 +53,7 @@ public class TileStandardLauncherClient extends TileStandardLauncher
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void renderDynamic(Pos center, float frame, int pass)
+    public void renderDynamic(Pos center, float f, int pass)
     {
         if (missile != null)
         {
@@ -75,32 +84,74 @@ public class TileStandardLauncherClient extends TileStandardLauncher
         }
         else if (recipe != null)
         {
+            if (!processedModel)
+            {
+                processModel();
+            }
             //Render launcher
             GL11.glPushMatrix();
+
             Pos pos = center;
 
+            final float yf = 2.2f;
             switch (ForgeDirection.getOrientation(getMetadata()))
             {
                 case NORTH:
-                    pos = pos.add(0.7, -0.5, 1.9);
+                    pos = pos.add(-0.65, yf, 0.95);
                     break;
                 case SOUTH:
-                    pos = pos.add(0.7, -0.5, 3.86);
+                    pos = pos.add(-0.65, yf, 2.95);
                     break;
                 case EAST:
-                    pos = pos.add(1.7, -0.5, 2.86);
+                    pos = pos.add(.35, yf, 1.95);
                     break;
                 case WEST:
-                    pos = pos.add(-0.3, -0.5, 2.86);
+                    pos = pos.add(-1.65, yf, 1.95);
                     break;
             }
             GL11.glTranslatef(pos.xf(), pos.yf(), pos.zf());
             GL11.glRotatef(45f, 0, 1, 0);
+            GL11.glScalef(0.85f, 0.85f, 0.85f);
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
             //TODO render crafting progress
             //TODO render ghost of missile frame
-            Assets.STANDARD_MISSILE_MODEL_2.renderAll();
+            // System.out.println(recipe.rodsContained);
+            if (recipe.frameCompleted)
+            {
+                frame.render();
+            }
+            if (recipe.warhead != null)
+            {
+                warhead.render();
+            }
+            if (recipe.rocketEngine != null)
+            {
+                for (GroupObject o : engine)
+                {
+                    o.render();
+                }
+            }
             GL11.glPopMatrix();
+        }
+    }
+
+    private static void processModel()
+    {
+        processedModel = true;
+        for (GroupObject object : Assets.STANDARD_MISSILE_MODEL_2.groupObjects)
+        {
+            if (object.name.contains("frame"))
+            {
+                frame = object;
+            }
+            else if (object.name.contains("fual"))
+            {
+                engine.add(object);
+            }
+            else if (object.name.contains("boom"))
+            {
+                warhead = object;
+            }
         }
     }
 
@@ -132,7 +183,7 @@ public class TileStandardLauncherClient extends TileStandardLauncher
         if (missile != null || recipe != null)
         {
             //TODO modified to fit missile rotation
-            renderBounds = new Cube(-1, 0, -1, 2, 8, 2).add(x(), y(), z()).toAABB();
+            renderBounds = new Cube(-1, 0, -1, 2, 10, 2).add(x(), y(), z()).toAABB();
         }
     }
 }

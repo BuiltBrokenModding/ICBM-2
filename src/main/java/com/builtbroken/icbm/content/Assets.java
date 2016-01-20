@@ -7,6 +7,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.IModelCustom;
+import net.minecraftforge.client.model.obj.WavefrontObject;
 
 /**
  * Reference class for holding all model and textures used for rendering.
@@ -24,7 +25,7 @@ public final class Assets
 
     //Crafting missile models
     public static final IModelCustom SMALL_MISSILE_MODEL_2 = model("Missile_Small_scale.obj"); //Segmented model for crafting
-    public static final IModelCustom STANDARD_MISSILE_MODEL_2 = model("Missile_Standard_Crafting.obj"); //Segmented model for crafting
+    public static final WavefrontObject STANDARD_MISSILE_MODEL_2 = (WavefrontObject)model("Missile_Standard_Crafting.obj"); //Segmented model for crafting
 
     //Launcher Models
     public static final IModelCustom PORTABLE_LAUNCHER_MODEL = model("small_launcher.tcn");
