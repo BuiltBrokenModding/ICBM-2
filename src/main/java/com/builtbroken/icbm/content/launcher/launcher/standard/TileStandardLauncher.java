@@ -6,6 +6,8 @@ import com.builtbroken.icbm.content.launcher.launcher.TileAbstractLauncherPad;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.Tile;
+import cpw.mods.fml.common.network.ByteBufUtils;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
@@ -35,11 +37,24 @@ public class TileStandardLauncher extends TileAbstractLauncherPad
             {
                 if (recipe.isFinished())
                 {
-                    //TODO form rocket
-                    isCrafting = false;
+                    ItemStack stack = recipe.getMissileAsItem();
+                    if (stack != null)
+                    {
+                        //Make sure to disable crafting before setting slot
+                        isCrafting = false;
+                        setInventorySlotContents(0, stack);
+                        recipe = null;
+                        sendDescPacket();
+                    }
+                    else
+                    {
+                        //TODO add more detailed error report and eject invalid parts
+                        player.addChatComponentMessage(new ChatComponentText("Error missile stack is null"));
+                    }
                 }
                 else
                 {
+                    //Output missing recipe items
                     player.addChatComponentMessage(recipe.getCurrentRecipeChat());
                 }
             }
@@ -94,7 +109,7 @@ public class TileStandardLauncher extends TileAbstractLauncherPad
                             //Update inventory
                             player.inventory.setInventorySlotContents(player.inventory.currentItem, heldItem);
                             player.inventoryContainer.detectAndSendChanges();
-                            //TODO send client packet to update renderer
+                            sendDescPacket();
                         }
                     }
                 }
@@ -106,6 +121,43 @@ public class TileStandardLauncher extends TileAbstractLauncherPad
             }
         }
         return false;
+    }
+
+    @Override
+    public void setInventorySlotContents(int slot, ItemStack stack)
+    {
+        //If something sets the missile while we are crafting, eject all items
+        if (slot == 0 && isCrafting)
+        {
+            //TODO drop all crafting items
+        }
+        super.setInventorySlotContents(slot, stack);
+    }
+
+    @Override
+    public void writeDescPacket(ByteBuf buf)
+    {
+        if (getMissileItem() != null)
+        {
+            buf.writeByte(0);
+            ByteBufUtils.writeItemStack(buf, getMissileItem());
+        }
+        else if (isCrafting)
+        {
+            if (recipe != null)
+            {
+                buf.writeByte(1);
+                recipe.writeBytes(buf);
+            }
+            else
+            {
+                buf.writeByte(2);
+            }
+        }
+        else
+        {
+            buf.writeByte(3);
+        }
     }
 
     @Override

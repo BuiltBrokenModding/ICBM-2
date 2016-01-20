@@ -4,8 +4,13 @@ import com.builtbroken.icbm.api.modules.IGuidance;
 import com.builtbroken.icbm.api.modules.IMissileModule;
 import com.builtbroken.icbm.api.modules.IRocketEngine;
 import com.builtbroken.icbm.api.modules.IWarhead;
+import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
+import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.mc.api.ISave;
+import com.builtbroken.mc.core.network.IByteBufReader;
+import com.builtbroken.mc.core.network.IByteBufWriter;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,7 +24,7 @@ import net.minecraftforge.oredict.OreDictionary;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 1/13/2016.
  */
-public class StandardMissileCrafting implements ISave
+public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufReader
 {
     //TODO add registry for recipe to allow other mods to add missiles to silos
 
@@ -34,12 +39,14 @@ public class StandardMissileCrafting implements ISave
 
     /** Count of rods added to recipe */
     protected int rodsContained = 0;
+    /** Count of plates added to recipe */
+    protected int platesContained = 0;
+
     /** Level of frame completion, 8 total */
     protected int frameLevel = 0;
     /** Level of plate completion, 9 total */
     protected int plateLevel = 0;
-    /** Count of plates added to recipe */
-    protected int platesContained = 0;
+
 
     /** Is the frame completed */
     protected boolean frameCompleted = false;
@@ -111,7 +118,14 @@ public class StandardMissileCrafting implements ISave
         }
         else if (!gutsCompleted)
         {
-
+            if (rocketComputer == null)
+            {
+                return new ChatComponentText("Needs a guidance computer.");
+            }
+            else if (rocketEngine == null)
+            {
+                return new ChatComponentText("Needs a rocket engine.");
+            }
         }
         else if (!skinCompleted)
         {
@@ -135,7 +149,7 @@ public class StandardMissileCrafting implements ISave
         for (int id : OreDictionary.getOreIDs(stack))
         {
             String oreName = OreDictionary.getOreName(id);
-            if (name != null && !name.isEmpty() && name.toLowerCase().equals(name))
+            if (oreName != null && !oreName.isEmpty() && oreName.equalsIgnoreCase(name))
             {
                 return true;
             }
@@ -170,6 +184,7 @@ public class StandardMissileCrafting implements ISave
             else
             {
                 Item item = stack.getItem();
+                boolean added = false;
                 if (item instanceof IRocketEngine)
                 {
                     if (((IMissileModule) item).getMissileSize() == MissileCasings.STANDARD.ordinal())
@@ -179,7 +194,7 @@ public class StandardMissileCrafting implements ISave
                             rocketEngine = stack.copy();
                             rocketEngine.stackSize = 1;
                             stack.stackSize--;
-                            return true;
+                            added = true;
                         }
                     }
                 }
@@ -190,7 +205,7 @@ public class StandardMissileCrafting implements ISave
                         warhead = stack.copy();
                         warhead.stackSize = 1;
                         stack.stackSize--;
-                        return true;
+                        added = true;
                     }
                 }
                 else if (item instanceof IGuidance)
@@ -200,9 +215,15 @@ public class StandardMissileCrafting implements ISave
                         rocketComputer = stack.copy();
                         rocketComputer.stackSize = 1;
                         stack.stackSize--;
-                        return true;
+                        added = true;
                     }
                 }
+                //Warhead is optional as it can be added later if needed
+                if (rocketComputer != null && rocketEngine != null)
+                {
+                    this.gutsCompleted = true;
+                }
+                return added;
             }
         }
         return false;
@@ -256,15 +277,129 @@ public class StandardMissileCrafting implements ISave
         return skinCompleted && frameCompleted && gutsCompleted;
     }
 
+    public ItemStack getMissileAsItem()
+    {
+        Missile missile = getMissile();
+        if (missile != null)
+        {
+            return missile.toStack();
+        }
+        return null;
+    }
+
+    /**
+     * Generates a new missile instance from the recipes
+     * items provided(engine, warhead, computer).
+     *
+     * @return new missile instance
+     */
+    public Missile getMissile()
+    {
+        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.STANDARD, null, null, null);
+        if (warhead != null)
+        {
+            missile.setWarhead(MissileModuleBuilder.INSTANCE.buildWarhead(warhead));
+            if (missile.getWarhead() == null)
+            {
+                //Failed to set warhead
+                return null;
+            }
+        }
+        if (rocketEngine != null)
+        {
+            missile.setEngine(MissileModuleBuilder.INSTANCE.buildEngine(rocketEngine));
+            if (missile.getEngine() == null)
+            {
+                //Failed to set engine
+                return null;
+            }
+        }
+        if (rocketComputer != null)
+        {
+            missile.setGuidance(MissileModuleBuilder.INSTANCE.buildGuidance(rocketComputer));
+            if (missile.getGuidance() == null)
+            {
+                //Failed to set guidance
+                return null;
+            }
+        }
+        return missile;
+    }
+
     @Override
     public void load(NBTTagCompound nbt)
     {
-
+        int rods = nbt.getInteger("rodsContained");
+        int plates = nbt.getInteger("platesContained");
+        if (rods > 0)
+        {
+            addRods(rods);
+        }
+        if (plates > 0)
+        {
+            addPlates(plates);
+        }
+        if (nbt.hasKey("rocketComputer"))
+        {
+            rocketComputer = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("rocketComputer"));
+            if (rocketComputer != null && !(rocketComputer.getItem() instanceof IGuidance))
+            {
+                System.out.println("Error loading standard missile recipe progress. Guidance item is invalid, this will cause issues when constructing the missile.");
+            }
+        }
+        if (nbt.hasKey("rocketEngine"))
+        {
+            rocketEngine = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("rocketEngine"));
+            if (rocketEngine != null && !(rocketEngine.getItem() instanceof IRocketEngine))
+            {
+                System.out.println("Error loading standard missile recipe progress. Engine item is invalid, this will cause issues when constructing the missile.");
+            }
+        }
+        if (nbt.hasKey("warhead"))
+        {
+            warhead = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("rocketEngine"));
+            if (warhead != null && !(warhead.getItem() instanceof IWarhead))
+            {
+                System.out.println("Error loading standard missile recipe progress. Warhead item is invalid, this will cause issues when constructing the missile.");
+            }
+        }
     }
 
     @Override
     public NBTTagCompound save(NBTTagCompound nbt)
     {
-        return null;
+        nbt.setInteger("rodsContained", rodsContained);
+        nbt.setInteger("platesContained", platesContained);
+        if (rocketComputer != null)
+        {
+            NBTTagCompound cTag = new NBTTagCompound();
+            rocketComputer.writeToNBT(cTag);
+            nbt.setTag("rocketComputer", cTag);
+        }
+        if (rocketEngine != null)
+        {
+            NBTTagCompound cTag = new NBTTagCompound();
+            rocketEngine.writeToNBT(cTag);
+            nbt.setTag("rocketEngine", cTag);
+        }
+        if (warhead != null)
+        {
+            NBTTagCompound cTag = new NBTTagCompound();
+            warhead.writeToNBT(cTag);
+            nbt.setTag("warhead", cTag);
+        }
+        return nbt;
+    }
+
+    @Override
+    public StandardMissileCrafting readBytes(ByteBuf buf)
+    {
+        return this;
+    }
+
+    @Override
+    public ByteBuf writeBytes(ByteBuf buf)
+    {
+        return buf;
     }
 }
