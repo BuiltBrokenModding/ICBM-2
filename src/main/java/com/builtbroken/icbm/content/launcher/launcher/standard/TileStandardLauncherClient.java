@@ -33,7 +33,7 @@ public class TileStandardLauncherClient extends TileStandardLauncher
     private AxisAlignedBB renderBounds;
 
     private static boolean processedModel = false;
-    private static GroupObject frame;
+    private static GroupObject[] frame = new GroupObject[7];
     private static GroupObject warhead;
     private static List<GroupObject> engine = new ArrayList();
     private static GroupObject guidance;
@@ -127,7 +127,6 @@ public class TileStandardLauncherClient extends TileStandardLauncher
             tick++;
             if (tick == 1)
             {
-                recipe.frameCompleted = true;
                 recipe.warhead = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_STANDARD, null).toStack();
                 recipe.rocketEngine = Engines.COAL_ENGINE.newModuleStack();
                 recipe.rocketComputer = GuidanceModules.CHIP_ONE.newModuleStack();
@@ -136,6 +135,8 @@ public class TileStandardLauncherClient extends TileStandardLauncher
             {
                 tick = 0;
                 recipe.platesContained = 0;
+                recipe.rodsContained = 0;
+                recipe.frameCompleted = false;
                 recipe.skinCompleted = false;
             }
             if (tick % 100 == 0)
@@ -144,14 +145,38 @@ public class TileStandardLauncherClient extends TileStandardLauncher
             }
             //TODO -----------------------
 
+
+            //Render frame pieces
+            for (int i = 0; i < recipe.frameLevel && i < frame.length; i++)
+            {
+                frame[i].render();
+            }
+            //Only render guts of missile if frame is completed
             if (recipe.frameCompleted)
             {
-                frame.render();
+
+                if (recipe.warhead != null)
+                {
+                    warhead.render();
+                }
+                if (recipe.rocketComputer != null)
+                {
+                    guidance.render();
+                }
+                if (recipe.rocketEngine != null)
+                {
+                    for (GroupObject o : engine)
+                    {
+                        o.render();
+                    }
+                }
             }
+            //Render Skin
             if (recipe.platesContained > 0)
             {
                 for (int i = 0; i < recipe.platesContained; i++)
                 {
+                    //TODO fix layers as they are not perfect, could be naming of parts
                     int layer = i / StandardMissileCrafting.PLATE_PER_LEVEL_COUNT;
                     int set = i % StandardMissileCrafting.PLATE_PER_LEVEL_COUNT;
                     if (layer < skinLayers.length)
@@ -160,22 +185,6 @@ public class TileStandardLauncherClient extends TileStandardLauncher
                     }
                 }
             }
-            if (recipe.warhead != null)
-            {
-                warhead.render();
-            }
-            if (recipe.rocketComputer != null)
-            {
-                guidance.render();
-            }
-            if (recipe.rocketEngine != null)
-            {
-                for (GroupObject o : engine)
-                {
-                    o.render();
-                }
-            }
-
 
             GL11.glPopMatrix();
         }
@@ -188,7 +197,37 @@ public class TileStandardLauncherClient extends TileStandardLauncher
         {
             if (object.name.contains("frame"))
             {
-                frame = object;
+                String name = object.name.split("_")[0];
+                int layer = 0;
+                if (name.contains("1"))
+                {
+                    layer = 0;
+                }
+                else if (name.contains("2"))
+                {
+                    layer = 1;
+                }
+                else if (name.contains("3"))
+                {
+                    layer = 2;
+                }
+                else if (name.contains("4"))
+                {
+                    layer = 3;
+                }
+                else if (name.contains("5"))
+                {
+                    layer = 4;
+                }
+                else if (name.contains("6"))
+                {
+                    layer = 5;
+                }
+                else if (name.contains("7"))
+                {
+                    layer = 6;
+                }
+                frame[layer] = object;
             }
             else if (object.name.contains("CPcore"))
             {
