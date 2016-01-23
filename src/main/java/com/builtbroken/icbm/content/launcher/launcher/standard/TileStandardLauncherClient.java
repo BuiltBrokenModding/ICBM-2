@@ -3,9 +3,6 @@ package com.builtbroken.icbm.content.launcher.launcher.standard;
 import com.builtbroken.icbm.content.Assets;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
-import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
-import com.builtbroken.icbm.content.crafting.missile.guidance.GuidanceModules;
-import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.Tile;
@@ -121,30 +118,6 @@ public class TileStandardLauncherClient extends TileStandardLauncher
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
             //TODO render crafting progress
             //TODO render ghost of missile frame
-
-
-            //TODO -----------------------
-            tick++;
-            if (tick == 1)
-            {
-                recipe.warhead = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_STANDARD, null).toStack();
-                recipe.rocketEngine = Engines.COAL_ENGINE.newModuleStack();
-                recipe.rocketComputer = GuidanceModules.CHIP_ONE.newModuleStack();
-            }
-            if (recipe.platesContained >= StandardMissileCrafting.MAX_PLATE_COUNT)
-            {
-                tick = 0;
-                recipe.platesContained = 0;
-                recipe.rodsContained = 0;
-                recipe.frameCompleted = false;
-                recipe.skinCompleted = false;
-            }
-            if (tick % 100 == 0)
-            {
-                recipe.addPlates(1);
-            }
-            //TODO -----------------------
-
 
             //Render frame pieces
             for (int i = 0; i < recipe.frameLevel && i < frame.length; i++)

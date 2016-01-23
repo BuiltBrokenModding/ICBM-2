@@ -78,13 +78,13 @@ public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufR
     {
         if (stack != null)
         {
-            if (isRod(stack) && !frameCompleted)
+            if (isRod(stack))
             {
                 return rodsContained < MAX_ROD_COUNT;
             }
             else if (frameCompleted)
             {
-                if (isPlate(stack) && !skinCompleted)
+                if (isPlate(stack))
                 {
                     return platesContained < MAX_PLATE_COUNT;
                 }
@@ -249,7 +249,7 @@ public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufR
             {
                 rodsContained += addition;
                 frameLevel = rodsContained / ROD_PER_LEVEL_COUNT;
-                if (frameLevel >= MAX_ROD_LEVEL_COUNT)
+                if (rodsContained >= MAX_ROD_COUNT)
                 {
                     frameCompleted = true;
                 }
@@ -268,21 +268,22 @@ public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufR
             {
                 platesContained += addition;
                 plateLevel = platesContained / PLATE_PER_LEVEL_COUNT;
-                if (plateLevel >= MAX_PLATE_LEVEL_COUNT)
+                if (platesContained >= MAX_PLATE_COUNT)
                 {
                     skinCompleted = true;
                 }
             }
-            return addition;
+                //Failed to set guidance
+                return addition;
+            }
+            return 0;
         }
-        return 0;
-    }
 
-    /**
-     * Is the recipe finished
-     *
-     * @return true if the recipe is finished
-     */
+        /**
+         * Is the recipe finished
+         *
+         * @return true if the recipe is finished
+         */
     public boolean isFinished()
     {
         return skinCompleted && frameCompleted && gutsCompleted;
@@ -330,7 +331,6 @@ public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufR
             missile.setGuidance(MissileModuleBuilder.INSTANCE.buildGuidance(rocketComputer));
             if (missile.getGuidance() == null)
             {
-                //Failed to set guidance
                 return null;
             }
         }
