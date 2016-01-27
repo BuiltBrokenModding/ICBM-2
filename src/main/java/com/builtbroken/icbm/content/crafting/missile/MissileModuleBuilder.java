@@ -5,9 +5,10 @@ import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.icbm.content.crafting.ModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
-import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
+import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
 import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
+import com.builtbroken.icbm.content.crafting.missile.guidance.GuidanceModules;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
@@ -110,7 +111,7 @@ public class MissileModuleBuilder extends ModuleBuilder
 
     public Missile buildMissile(MissileCasings missileSize, IExplosiveHandler ex)
     {
-        return this.buildMissile(missileSize, ex, Engines.CREATIVE_ENGINE.newModule(), null);
+        return this.buildMissile(missileSize, ex, Engines.CREATIVE_ENGINE.newModule(), GuidanceModules.CHIP_THREE.newModule());
     }
 
     public Warhead buildWarhead(WarheadCasings size, IExplosiveHandler ex)

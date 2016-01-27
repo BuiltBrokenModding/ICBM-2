@@ -173,7 +173,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
 
                         //Empty inventory slot
                         this.setInventorySlotContents(0, null);
-                        sendDescPacket();
+                        onPostMissileFired(target);
                     }
                     else
                     {
@@ -200,6 +200,19 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
             }
         }
         return false;
+    }
+
+    /**
+     * Called after the missile has been launched
+     *
+     * @param target
+     */
+    protected void onPostMissileFired(final Pos target)
+    {
+        if (isServer())
+        {
+            sendDescPacket();
+        }
     }
 
     /**

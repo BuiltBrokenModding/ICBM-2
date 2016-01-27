@@ -84,11 +84,28 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         //Small warhead recipes
         ItemStack micro_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, null).toStack();
         ItemStack small_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, null).toStack();
+        ItemStack median_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MEDIUM, null).toStack();
 
         if (Engine.itemSheetMetal != null && Engine.itemSheetMetalTools != null)
         {
-            GameRegistry.addRecipe(new RecipeSheetMetal(micro_warhead_empty, " p ", "tch", " r ", 'p', Blocks.stone_pressure_plate, 'c', ItemSheetMetal.SheetMetal.CONE_MICRO.stack(), 'r', Items.redstone, 't', ItemSheetMetal.SheetMetal.THIRD.stack(), 'h', ItemSheetMetalTools.getHammer()));
-            GameRegistry.addRecipe(new RecipeSheetMetal(small_warhead_empty, " p ", "tch", " r ", 'p', Blocks.heavy_weighted_pressure_plate, 'c', ItemSheetMetal.SheetMetal.CONE_SMALL.stack(), 'r', Items.redstone, 't', ItemSheetMetal.SheetMetal.HALF.stack(), 'h', ItemSheetMetalTools.getHammer()));
+            GameRegistry.addRecipe(new RecipeSheetMetal(micro_warhead_empty, " p ", "tch", " r ",
+                    'p', Blocks.stone_pressure_plate,
+                    'c', ItemSheetMetal.SheetMetal.CONE_MICRO.stack(),
+                    'r', Items.redstone,
+                    't', ItemSheetMetal.SheetMetal.THIRD.stack(),
+                    'h', ItemSheetMetalTools.getHammer()));
+            GameRegistry.addRecipe(new RecipeSheetMetal(small_warhead_empty, " p ", "tch", " r ",
+                    'p', Blocks.heavy_weighted_pressure_plate,
+                    'c', ItemSheetMetal.SheetMetal.CONE_SMALL.stack(),
+                    'r', Items.redstone,
+                    't', ItemSheetMetal.SheetMetal.HALF.stack(),
+                    'h', ItemSheetMetalTools.getHammer()));
+            GameRegistry.addRecipe(new RecipeSheetMetal(median_warhead_empty, " p ", "tch", " r ",
+                    'p', Blocks.heavy_weighted_pressure_plate,
+                    'c', ItemSheetMetal.SheetMetal.CONE_MEDIUM.stack(),
+                    'r', Items.redstone,
+                    't', ItemSheetMetal.SheetMetal.FULL.stack(),
+                    'h', ItemSheetMetalTools.getHammer()));
         }
         else
         {

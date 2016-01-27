@@ -7,6 +7,7 @@ import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.launcher.launcher.TileAbstractLauncherPad;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.packet.PacketType;
+import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.Tile;
@@ -14,10 +15,12 @@ import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
@@ -257,6 +260,18 @@ public class TileStandardLauncher extends TileAbstractLauncherPad
         else
         {
             buf.writeByte(3);
+        }
+    }
+
+    @Override
+    protected void onPostMissileFired(final Pos target)
+    {
+        Location loc = toLocation().add(getMissileLaunchOffset());
+        Location botLoc = loc.sub(1);
+        Block block = botLoc.getBlock();
+        if(block.isFlammable(loc.world, botLoc.xi(), botLoc.yi(), botLoc.zi(), ForgeDirection.UP))
+        {
+            loc.setBlock(Blocks.fire);
         }
     }
 

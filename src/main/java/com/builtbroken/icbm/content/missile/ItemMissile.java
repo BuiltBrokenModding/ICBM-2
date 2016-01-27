@@ -114,7 +114,12 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
                 list.add(size.newModuleStack());
                 for (IExplosiveHandler ex : ExplosiveRegistry.getExplosives())
                 {
-                    list.add(MissileModuleBuilder.INSTANCE.buildMissile(size, ex).toStack());
+                    Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(size, ex);
+                    if(size == MissileCasings.MEDIUM)
+                    {
+                        missile.getWarhead().size = 10;
+                    }
+                    list.add(missile.toStack());
                 }
             }
         }

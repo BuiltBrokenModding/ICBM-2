@@ -58,11 +58,18 @@ public class BlockLauncherPart extends Block
                 {
                     //create standard launcher
                     new Pos(x, y, z).setBlock(world, ICBM.blockStandardLauncher, side);
-                    //This block is now gone, replaced by the launcher
+                    //TODO add translation key
+                    player.addChatComponentMessage(new ChatComponentText("Standard launcher created"));
                 }
-                else
+                else if (count > 5)
                 {
-                    player.addChatComponentMessage(new ChatComponentText("Detected only " + count + " tower blocks. You need 5 for standard launcher to build."));
+                    //TODO add translation key
+                    player.addChatComponentMessage(new ChatComponentText("Detected " + (count - 5) + " extra tower blocks. You need only 5 for standard launcher setup."));
+                }
+                else if (count < 5)
+                {
+                    //TODO add translation key
+                    player.addChatComponentMessage(new ChatComponentText("Detected " + (5 - count) + " missing tower blocks. You need 5 for standard launcher setup."));
                 }
             }
             return true;
