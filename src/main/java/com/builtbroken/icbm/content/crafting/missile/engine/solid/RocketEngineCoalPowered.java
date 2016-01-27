@@ -34,9 +34,9 @@ public class RocketEngineCoalPowered extends RocketEngineSolid implements IPostI
     /** Value of coal based items */
     public static float SPEED_OF_COAL = 0.5f;
     /** Map of fuels to distance value */
-    public static HashMap<ItemStackWrapper, Float> FUEL_DISTANCE_VALUE = new HashMap();
+    public static final HashMap<ItemStackWrapper, Float> FUEL_DISTANCE_VALUE = new HashMap();
     /** Map of fuels to speed value */
-    public static HashMap<ItemStackWrapper, Float> FUEL_SPEED_VALUE = new HashMap();
+    public static final HashMap<ItemStackWrapper, Float> FUEL_SPEED_VALUE = new HashMap();
 
     public RocketEngineCoalPowered(ItemStack item)
     {
@@ -103,88 +103,109 @@ public class RocketEngineCoalPowered extends RocketEngineSolid implements IPostI
     @Override
     public void onPostInit()
     {
+        //Empty coal engine
+        RocketEngineCoalPowered engine = (RocketEngineCoalPowered) Engines.COAL_ENGINE.newModule();
+        ItemStack engineStack = engine.toStack();
+
         if (Engine.itemSheetMetal != null)
         {
-            RocketEngineCoalPowered engine = (RocketEngineCoalPowered) Engines.COAL_ENGINE.newModule();
-            //Empty coal engine
-            ItemStack engineStack = engine.toStack();
             GameRegistry.addRecipe(new ShapedOreRecipe(engineStack, " F ", "LRC", 'R', Items.redstone, 'F', Blocks.furnace, 'L', Items.flint_and_steel, 'C', ItemSheetMetal.SheetMetal.CONE_SMALL.stack()));
-
-            //Coal fuel
-            engineStack = Engines.COAL_ENGINE.newModuleStack();
-            RecipeSorter.register(ICBM.PREFIX + "RocketCoalPowered", RocketEngineCoalRecipe.class, SHAPELESS, "after:minecraft:shaped");
-
-            //Add fuel types to map
-            List<ItemStack> oreStacks = OreDictionary.getOres("dustCoal");
-            for (ItemStack stack : oreStacks)
-            {
-                FUEL_DISTANCE_VALUE.put(new ItemStackWrapper(stack), VALUE_OF_COAL);
-                FUEL_SPEED_VALUE.put(new ItemStackWrapper(stack), SPEED_OF_COAL * 1.05f); // 5% gain
-            }
-
-            oreStacks = OreDictionary.getOres("treeLeaves");
-            for (ItemStack stack : oreStacks)
-            {
-                FUEL_DISTANCE_VALUE.put(new ItemStackWrapper(stack), 1f);
-                FUEL_SPEED_VALUE.put(new ItemStackWrapper(stack), SPEED_OF_COAL * 0.65f); // 35% loss
-            }
-
-            oreStacks = OreDictionary.getOres("treeSapling");
-            for (ItemStack stack : oreStacks)
-            {
-                FUEL_DISTANCE_VALUE.put(new ItemStackWrapper(stack), 1f);
-                FUEL_SPEED_VALUE.put(new ItemStackWrapper(stack), SPEED_OF_COAL * 0.65f); // 35% loss
-            }
-
-            oreStacks = OreDictionary.getOres("logWood");
-            for (ItemStack stack : oreStacks)
-            {
-                FUEL_DISTANCE_VALUE.put(new ItemStackWrapper(stack), VALUE_OF_COAL * 0.85f); // 15% loss
-                FUEL_SPEED_VALUE.put(new ItemStackWrapper(stack), SPEED_OF_COAL * 0.65f); // 35% loss
-            }
-
-            oreStacks = OreDictionary.getOres("plankWood");
-            for (ItemStack stack : oreStacks)
-            {
-                FUEL_DISTANCE_VALUE.put(new ItemStackWrapper(stack), VALUE_OF_COAL * 0.20f); // 80% loss
-                FUEL_SPEED_VALUE.put(new ItemStackWrapper(stack), SPEED_OF_COAL * 0.65f); // 35% loss
-            }
-
-            oreStacks = OreDictionary.getOres("stickWood");
-            for (ItemStack stack : oreStacks)
-            {
-                FUEL_DISTANCE_VALUE.put(new ItemStackWrapper(stack), VALUE_OF_COAL * 0.05f); // 95% loss
-                FUEL_SPEED_VALUE.put(new ItemStackWrapper(stack), SPEED_OF_COAL * 0.65f); // 35% loss
-            }
-
-            oreStacks = OreDictionary.getOres("fuelCoke");
-            for (ItemStack stack : oreStacks)
-            {
-                FUEL_DISTANCE_VALUE.put(new ItemStackWrapper(stack), VALUE_OF_COAL * 2f); // 100% gain
-                FUEL_SPEED_VALUE.put(new ItemStackWrapper(stack), SPEED_OF_COAL * 1.10f); // 10% gain
-            }
-
-            //TODO maybe find a better way to handle this
-            for (ItemStackWrapper wrapper : FUEL_DISTANCE_VALUE.keySet())
-            {
-                ItemStack s = wrapper.itemStack;
-                if (s != null && s.stackSize > 0)
-                {
-                    GameRegistry.addRecipe(new RocketEngineCoalRecipe(engineStack, engineStack, s));
-                    GameRegistry.addRecipe(new RocketEngineCoalRecipe(engineStack, engineStack, s, s));
-                    GameRegistry.addRecipe(new RocketEngineCoalRecipe(engineStack, engineStack, s, s, s));
-                    GameRegistry.addRecipe(new RocketEngineCoalRecipe(engineStack, engineStack, s, s, s, s));
-                    GameRegistry.addRecipe(new RocketEngineCoalRecipe(engineStack, engineStack, s, s, s, s, s));
-                    GameRegistry.addRecipe(new RocketEngineCoalRecipe(engineStack, engineStack, s, s, s, s, s, s));
-                    GameRegistry.addRecipe(new RocketEngineCoalRecipe(engineStack, engineStack, s, s, s, s, s, s, s));
-                    GameRegistry.addRecipe(new RocketEngineCoalRecipe(engineStack, engineStack, s, s, s, s, s, s, s, s));
-                }
-            }
-
         }
         else
         {
-            GameRegistry.addRecipe(new ShapedOreRecipe(Engines.COAL_ENGINE.newModuleStack(), "c", "f", "h", 'c', UniversalRecipe.CIRCUIT_T1.get(), 'f', Blocks.furnace, 'h', Blocks.hopper));
+            GameRegistry.addRecipe(new ShapedOreRecipe(engineStack, "c", "f", "h", 'c', UniversalRecipe.CIRCUIT_T1.get(), 'f', Blocks.furnace, 'h', Blocks.hopper));
         }
+
+        //Coal fuel
+        engineStack = Engines.COAL_ENGINE.newModuleStack();
+        RecipeSorter.register(ICBM.PREFIX + "RocketCoalPowered", RocketEngineCoalRecipe.class, SHAPELESS, "after:minecraft:shaped");
+
+        loadFuelValues();
+
+        //TODO maybe find a better way to handle this
+        for (ItemStackWrapper wrapper : FUEL_DISTANCE_VALUE.keySet())
+        {
+            ItemStack s = wrapper.itemStack;
+            if (s != null && s.stackSize > 0)
+            {
+                GameRegistry.addRecipe(new RocketEngineCoalRecipe(engineStack, engineStack, s));
+                GameRegistry.addRecipe(new RocketEngineCoalRecipe(engineStack, engineStack, s, s));
+                GameRegistry.addRecipe(new RocketEngineCoalRecipe(engineStack, engineStack, s, s, s));
+                GameRegistry.addRecipe(new RocketEngineCoalRecipe(engineStack, engineStack, s, s, s, s));
+                GameRegistry.addRecipe(new RocketEngineCoalRecipe(engineStack, engineStack, s, s, s, s, s));
+                GameRegistry.addRecipe(new RocketEngineCoalRecipe(engineStack, engineStack, s, s, s, s, s, s));
+                GameRegistry.addRecipe(new RocketEngineCoalRecipe(engineStack, engineStack, s, s, s, s, s, s, s));
+                GameRegistry.addRecipe(new RocketEngineCoalRecipe(engineStack, engineStack, s, s, s, s, s, s, s, s));
+            }
+        }
+
+
+    }
+
+    public static final void loadFuelValues()
+    {
+        //clear in case we are reloading values after normal MC loading phase
+        FUEL_DISTANCE_VALUE.clear();
+        FUEL_SPEED_VALUE.clear();
+
+        //Add fuel types to map
+        FUEL_DISTANCE_VALUE.put(new ItemStackWrapper(new ItemStack(Items.coal)), VALUE_OF_COAL);
+        FUEL_SPEED_VALUE.put(new ItemStackWrapper(new ItemStack(Items.coal)), SPEED_OF_COAL);
+
+        List<ItemStack> oreStacks = OreDictionary.getOres("dustCoal");
+        for (ItemStack stack : oreStacks)
+        {
+            FUEL_DISTANCE_VALUE.put(new ItemStackWrapper(stack), VALUE_OF_COAL);
+            FUEL_SPEED_VALUE.put(new ItemStackWrapper(stack), SPEED_OF_COAL * 1.05f); // 5% gain
+        }
+
+        oreStacks = OreDictionary.getOres("treeLeaves");
+        for (ItemStack stack : oreStacks)
+        {
+            FUEL_DISTANCE_VALUE.put(new ItemStackWrapper(stack), 1f);
+            FUEL_SPEED_VALUE.put(new ItemStackWrapper(stack), SPEED_OF_COAL * 0.65f); // 35% loss
+        }
+
+        oreStacks = OreDictionary.getOres("treeSapling");
+        for (ItemStack stack : oreStacks)
+        {
+            FUEL_DISTANCE_VALUE.put(new ItemStackWrapper(stack), 1f);
+            FUEL_SPEED_VALUE.put(new ItemStackWrapper(stack), SPEED_OF_COAL * 0.65f); // 35% loss
+        }
+
+        oreStacks = OreDictionary.getOres("logWood");
+        for (ItemStack stack : oreStacks)
+        {
+            FUEL_DISTANCE_VALUE.put(new ItemStackWrapper(stack), VALUE_OF_COAL * 0.85f); // 15% loss
+            FUEL_SPEED_VALUE.put(new ItemStackWrapper(stack), SPEED_OF_COAL * 0.65f); // 35% loss
+        }
+
+        oreStacks = OreDictionary.getOres("plankWood");
+        for (ItemStack stack : oreStacks)
+        {
+            FUEL_DISTANCE_VALUE.put(new ItemStackWrapper(stack), VALUE_OF_COAL * 0.20f); // 80% loss
+            FUEL_SPEED_VALUE.put(new ItemStackWrapper(stack), SPEED_OF_COAL * 0.65f); // 35% loss
+        }
+
+        oreStacks = OreDictionary.getOres("stickWood");
+        for (ItemStack stack : oreStacks)
+        {
+            FUEL_DISTANCE_VALUE.put(new ItemStackWrapper(stack), VALUE_OF_COAL * 0.05f); // 95% loss
+            FUEL_SPEED_VALUE.put(new ItemStackWrapper(stack), SPEED_OF_COAL * 0.65f); // 35% loss
+        }
+
+        oreStacks = OreDictionary.getOres("fuelCoke");
+        for (ItemStack stack : oreStacks)
+        {
+            FUEL_DISTANCE_VALUE.put(new ItemStackWrapper(stack), VALUE_OF_COAL * 2f); // 100% gain
+            FUEL_SPEED_VALUE.put(new ItemStackWrapper(stack), SPEED_OF_COAL * 1.10f); // 10% gain
+        }
+    }
+
+    @Override
+    public String toString()
+    {
+        //TODO add hashcode
+        return "CoalEngine[" + fuelStack() + "]";
     }
 }
