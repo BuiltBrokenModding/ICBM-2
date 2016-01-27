@@ -14,7 +14,7 @@ public enum WarheadCasings
 {
     EXPLOSIVE_MICRO(WarheadMicro.class, true),
     EXPLOSIVE_SMALL(WarheadSmall.class, true),
-    EXPLOSIVE_STANDARD(WarheadStandard.class, false),
+    EXPLOSIVE_STANDARD(WarheadStandard.class, true),
     EXPLOSIVE_MEDIUM(WarheadMedium.class, false),
     EXPLOSIVE_LARGE(WarheadLarge.class, false);
 
