@@ -114,11 +114,40 @@ public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufR
     }
 
     /**
+     * Checks if the item is part of the recipe,
+     *
+     * @param stack - stack being added,
+     *              can be null but will return false
+     * @return true if the item can be added.
+     */
+    public boolean isPartOfRecipe(final ItemStack stack)
+    {
+        if (stack != null)
+        {
+            if (isRod(stack) || isPlate(stack))
+            {
+                return true;
+            }
+            else
+            {
+                Item item = stack.getItem();
+                if (item instanceof IModuleItem)
+                {
+                    IModule module = ((IModuleItem) item).getModule(stack);
+                    return module instanceof IRocketEngine || module instanceof IWarhead || module instanceof IGuidance;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
      * Grabs the output message to display to the user about
      * what item to add to the crafting recipe.
      *
      * @return chat component, not null, should be translated.
      */
+
     public IChatComponent getCurrentRecipeChat()
     {
         //TODO replace with translation keys
@@ -273,17 +302,17 @@ public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufR
                     skinCompleted = true;
                 }
             }
-                //Failed to set guidance
-                return addition;
-            }
-            return 0;
+            //Failed to set guidance
+            return addition;
         }
+        return 0;
+    }
 
-        /**
-         * Is the recipe finished
-         *
-         * @return true if the recipe is finished
-         */
+    /**
+     * Is the recipe finished
+     *
+     * @return true if the recipe is finished
+     */
     public boolean isFinished()
     {
         return skinCompleted && frameCompleted && gutsCompleted;
@@ -410,15 +439,15 @@ public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufR
     @Override
     public StandardMissileCrafting readBytes(ByteBuf buf)
     {
-        int plates = buf.readInt();
-        platesContained = 0;
-        skinCompleted = false;
-        addPlates(plates);
-
         int rods = buf.readInt();
         rodsContained = 0;
         frameCompleted = false;
         addRods(rods);
+
+        int plates = buf.readInt();
+        platesContained = 0;
+        skinCompleted = false;
+        addPlates(plates);
 
         ItemStack stack = ByteBufUtils.readItemStack(buf);
         if (stack.getItem() instanceof IModuleItem)

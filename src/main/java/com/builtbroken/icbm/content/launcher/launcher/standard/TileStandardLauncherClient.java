@@ -127,7 +127,6 @@ public class TileStandardLauncherClient extends TileStandardLauncher
             //Only render guts of missile if frame is completed
             if (recipe.frameCompleted)
             {
-
                 if (recipe.warhead != null)
                 {
                     warhead.render();
@@ -143,18 +142,18 @@ public class TileStandardLauncherClient extends TileStandardLauncher
                         o.render();
                     }
                 }
-            }
-            //Render Skin
-            if (recipe.platesContained > 0)
-            {
-                for (int i = 0; i < recipe.platesContained; i++)
+                //Render Skin
+                if (recipe.platesContained > 0)
                 {
-                    //TODO fix layers as they are not perfect, could be naming of parts
-                    int layer = i / StandardMissileCrafting.PLATE_PER_LEVEL_COUNT;
-                    int set = i % StandardMissileCrafting.PLATE_PER_LEVEL_COUNT;
-                    if (layer < skinLayers.length)
+                    for (int i = 0; i < recipe.platesContained; i++)
                     {
-                        skinLayers[layer][set].render();
+                        //TODO fix layers as they are not perfect, could be naming of parts
+                        int layer = i / StandardMissileCrafting.PLATE_PER_LEVEL_COUNT;
+                        int set = i % StandardMissileCrafting.PLATE_PER_LEVEL_COUNT;
+                        if (layer < skinLayers.length)
+                        {
+                            skinLayers[layer][set].render();
+                        }
                     }
                 }
             }

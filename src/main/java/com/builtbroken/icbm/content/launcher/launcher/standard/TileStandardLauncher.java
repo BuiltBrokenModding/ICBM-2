@@ -1,5 +1,7 @@
 package com.builtbroken.icbm.content.launcher.launcher.standard;
 
+import com.builtbroken.icbm.api.crafting.IModularMissileItem;
+import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.launcher.launcher.TileAbstractLauncherPad;
@@ -9,6 +11,7 @@ import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -33,36 +36,32 @@ public class TileStandardLauncher extends TileAbstractLauncherPad
     @Override
     protected boolean onPlayerRightClickWrench(EntityPlayer player, int side, Pos hit)
     {
-        if (isCrafting)
+        if (recipe != null && isServer())
         {
-            if (recipe != null && isServer())
+            if (recipe.isFinished())
             {
-                if (recipe.isFinished())
+                ItemStack stack = recipe.getMissileAsItem();
+                if (stack != null)
                 {
-                    ItemStack stack = recipe.getMissileAsItem();
-                    if (stack != null)
-                    {
-                        //Make sure to disable crafting before setting slot
-                        isCrafting = false;
-                        setInventorySlotContents(0, stack);
-                        recipe = null;
-                        sendDescPacket();
-                    }
-                    else
-                    {
-                        //TODO add more detailed error report and eject invalid parts
-                        player.addChatComponentMessage(new ChatComponentText("Error missile stack is null"));
-                    }
+                    //Make sure to disable crafting before setting slot
+                    isCrafting = false;
+                    setInventorySlotContents(0, stack);
+                    recipe = null;
+                    sendDescPacket();
                 }
                 else
                 {
-                    //Output missing recipe items
-                    player.addChatComponentMessage(recipe.getCurrentRecipeChat());
+                    //TODO add more detailed error report and eject invalid parts
+                    player.addChatComponentMessage(new ChatComponentText("Error missile stack is null"));
                 }
             }
-            return true;
+            else
+            {
+                //Output missing recipe items
+                player.addChatComponentMessage(recipe.getCurrentRecipeChat());
+            }
         }
-        return false;
+        return true;
     }
 
     @Override
@@ -70,6 +69,51 @@ public class TileStandardLauncher extends TileAbstractLauncherPad
     {
         if (getMissile() == null)
         {
+            //Insert missile item if the player has one, normally should only work in creative mode
+            if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IModularMissileItem)
+            {
+                if (isServer())
+                {
+                    Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(player.getHeldItem());
+                    if (missile != null)
+                    {
+                        if (canAcceptMissile(missile))
+                        {
+                            ItemStack copy = player.getHeldItem().copy();
+                            copy.stackSize = 1;
+                            this.setInventorySlotContents(0, copy);
+                            if (!player.capabilities.isCreativeMode)
+                            {
+                                if (player.getHeldItem().stackSize <= 0)
+                                {
+                                    copy = player.getHeldItem().copy();
+                                    copy.stackSize--;
+                                    if (copy.stackSize <= 0)
+                                    {
+                                        player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+                                    }
+                                    else
+                                    {
+                                        player.inventory.setInventorySlotContents(player.inventory.currentItem, copy);
+                                    }
+                                }
+                                player.inventoryContainer.detectAndSendChanges();
+                            }
+                        }
+                        else
+                        {
+                            //TODO add translation key
+                            player.addChatComponentMessage(new ChatComponentText("Invalid missile size or type"));
+                        }
+                    }
+                    else
+                    {
+                        //TODO add translation key
+                        player.addChatComponentMessage(new ChatComponentText("Invalid missile item"));
+                    }
+                }
+                return true;
+            }
             //TODO implement recipe insertion or selection system
             this.isCrafting = true;
             if (recipe == null)
@@ -81,45 +125,58 @@ public class TileStandardLauncher extends TileAbstractLauncherPad
             ItemStack heldItem = player.getHeldItem();
             if (heldItem != null)
             {
-                heldItem = heldItem.copy();
-                if (recipe.canAddItem(heldItem))
+                if (recipe.isPartOfRecipe(player.getHeldItem()))
                 {
                     if (isServer())
                     {
-                        //Add item to recipe
-                        if (!recipe.addItem(heldItem))
+                        heldItem = heldItem.copy();
+                        if (recipe.canAddItem(heldItem))
                         {
-                            //TODO add translation key
-                            if (!recipe.isFinished())
+                            //Add item to recipe
+                            if (!recipe.addItem(heldItem))
                             {
-                                player.addChatComponentMessage(new ChatComponentText("Odd that should fit..."));
+
+                                if (!recipe.isFinished())
+                                {
+                                    //TODO add translation key
+                                    player.addChatComponentMessage(new ChatComponentText("Odd that should fit..."));
+                                }
+                                else
+                                {
+                                    //TODO add random finish messages
+                                    player.addChatComponentMessage(new ChatComponentText("Recipe finished, click with wrench or screwdriver."));
+                                }
                             }
-                            else
+                            //Check match to prevent ghost updates( updates when nothing happens)
+                            else if (!InventoryUtility.stacksMatchExact(player.getHeldItem(), heldItem))
                             {
-                                //TODO add random finish messages
-                                player.addChatComponentMessage(new ChatComponentText("Recipe finished click with wrench, or screwdriver."));
+                                //Null item if stackSize is zero
+                                if (heldItem.stackSize <= 0)
+                                {
+                                    heldItem = null;
+                                }
+                                //Update inventory
+                                player.inventory.setInventorySlotContents(player.inventory.currentItem, heldItem);
+                                player.inventoryContainer.detectAndSendChanges();
+                                sendDescPacket();
                             }
                         }
-                        //Check match to prevent ghost updates( updates when nothing happens)
-                        else if (!InventoryUtility.stacksMatchExact(player.getHeldItem(), heldItem))
+                        else
                         {
-                            //Null item if stackSize is zero
-                            if (heldItem.stackSize <= 0)
-                            {
-                                heldItem = null;
-                            }
-                            //Update inventory
-                            player.inventory.setInventorySlotContents(player.inventory.currentItem, heldItem);
-                            player.inventoryContainer.detectAndSendChanges();
-                            sendDescPacket();
+                            player.addChatComponentMessage(recipe.getCurrentRecipeChat());
                         }
                     }
+                    return true;
                 }
-                else if (isServer())
+                //If not a block output missing crafting items
+                else if (Block.getBlockFromItem(player.getHeldItem().getItem()) == null)
                 {
-                    player.addChatComponentMessage(recipe.getCurrentRecipeChat());
+                    if (isServer())
+                    {
+                        player.addChatComponentMessage(recipe.getCurrentRecipeChat());
+                    }
+                    return true;
                 }
-                return true;
             }
         }
         return false;
@@ -196,7 +253,7 @@ public class TileStandardLauncher extends TileAbstractLauncherPad
     public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
-        if(nbt.hasKey("missileRecipe"))
+        if (nbt.hasKey("missileRecipe"))
         {
             isCrafting = true;
             recipe = new StandardMissileCrafting();
@@ -208,7 +265,7 @@ public class TileStandardLauncher extends TileAbstractLauncherPad
     public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
-        if(recipe != null)
+        if (recipe != null)
         {
             NBTTagCompound tag = new NBTTagCompound();
             recipe.save(nbt);
