@@ -80,7 +80,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
             {
                 if (world().isBlockIndirectlyGettingPowered(xi(), yi(), zi()))
                 {
-                    if(fireMissile(target))
+                    if (fireMissile(target))
                     {
                         //TODO confirm missile launch to controllers?
                     }
@@ -181,11 +181,21 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
                     }
                     return true;
                 }
-                //No engine can result in warhead detonating
-                else if (missile.getWarhead() != null && world().rand.nextFloat() > 0.8f)
+                //No engine can result in warhead detonating due to ignition source shooting up into warhead cavity
+                else if (isServer() && missile.getEngine() == null && world().rand.nextFloat() > 0.9f)
                 {
-                    //If the user is stupid enough to not install a warhead....
-                    missile.getWarhead().trigger(new TriggerCause.TriggerCauseFire(ForgeDirection.DOWN), world(), xi(), yi(), zi());
+                    //If the user is stupid enough to not install an engine....
+                    if (missile.getWarhead() != null)
+                    {
+                        missile.getWarhead().trigger(new TriggerCause.TriggerCauseFire(ForgeDirection.DOWN), world(), xi(), yi(), zi());
+                        setInventorySlotContents(0, null);
+                    }
+                    else
+                    {
+                        //Location pos = toLocation().add(getMissileLaunchOffset());
+                        //ExplosiveRegistry.triggerExplosive(pos, ExplosiveRegistry.get("TNT"), new TriggerCause.TriggerCauseFire(ForgeDirection.DOWN), 2, null);
+                        //TODO set fire to missile damaging components
+                    }
                 }
             }
         }

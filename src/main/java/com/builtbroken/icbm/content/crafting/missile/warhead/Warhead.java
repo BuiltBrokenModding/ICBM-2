@@ -115,6 +115,6 @@ public abstract class Warhead extends AbstractModule implements IWarhead
     @Override
     public String toString()
     {
-        return LanguageUtility.capitalizeFirst(casing.name().toLowerCase()) + "Warhead[" + 1 + " x " + ex + "]";
+        return LanguageUtility.capitalizeFirst(casing.name().toLowerCase()) + "Warhead[" + 1 + " x " + ex.getID() + "]";
     }
 }

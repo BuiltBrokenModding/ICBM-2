@@ -5,6 +5,7 @@ import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.launcher.launcher.TileAbstractLauncherPad;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
@@ -13,6 +14,7 @@ import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
@@ -45,9 +47,8 @@ public class TileStandardLauncher extends TileAbstractLauncherPad
                 {
                     //Make sure to disable crafting before setting slot
                     isCrafting = false;
-                    setInventorySlotContents(0, stack);
+                    setInventorySlotContents(0, stack); //sends packet when slot is set
                     recipe = null;
-                    sendDescPacket();
                 }
                 else
                 {
@@ -67,6 +68,19 @@ public class TileStandardLauncher extends TileAbstractLauncherPad
     @Override
     public boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
     {
+        //Debug code
+        if (player.getHeldItem() != null && player.getHeldItem().getItem() == Items.stick)
+        {
+            if (Engine.runningAsDev)
+            {
+                if (isServer())
+                {
+                    player.addChatComponentMessage(new ChatComponentText("Missile: " + getMissile()));
+                }
+                return true;
+            }
+        }
+
         if (getMissile() == null)
         {
             //Insert missile item if the player has one, normally should only work in creative mode
@@ -183,14 +197,35 @@ public class TileStandardLauncher extends TileAbstractLauncherPad
     }
 
     @Override
+    public Pos getMissileLaunchOffset()
+    {
+        return new Pos(getDirection()).add(0.5);
+    }
+
+    @Override
     public void setInventorySlotContents(int slot, ItemStack stack)
     {
-        //If something sets the missile while we are crafting, eject all items
-        if (isServer() && slot == 0 && isCrafting)
+        if (slot == 0 && isServer())
         {
-            //TODO drop all crafting items
+            ItemStack stackPrev = getStackInSlot(slot);
+            super.setInventorySlotContents(slot, stack);
+            ItemStack newStack = getStackInSlot(slot);
+            if (isCrafting)
+            {
+                //If something sets the missile while we are crafting, eject all items
+                //TODO drop all crafting items
+            }
+            //Update client if missile changes
+            else if (!InventoryUtility.stacksMatch(stackPrev, newStack))
+            {
+                //TODO if called to often add delay or move to update loop to prevent spam
+                sendDescPacket();
+            }
         }
-        super.setInventorySlotContents(slot, stack);
+        else
+        {
+            super.setInventorySlotContents(slot, stack);
+        }
     }
 
     @Override
