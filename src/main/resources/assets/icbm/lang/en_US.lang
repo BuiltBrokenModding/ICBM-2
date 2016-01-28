@@ -41,6 +41,15 @@ item.icbm:explosivePart.powderStick.name=Powder Stick
 
 ## Explosive Items
 item.icbm:explosiveItem.name=Explosive Unit
+item.icbm:explosiveItem.ArrowFragment.name=Explosive Arrow Bundle
+item.icbm:explosiveItem.ExoThermic.name=Exothermic Charge
+item.icbm:explosiveItem.EndoThermic.name=Endothermic Charge
+item.icbm:explosiveItem.FireBomb.name=Fire Starter Charge
+item.icbm:explosiveItem.FlashFire.name=Fire Spread Charge
+item.icbm:explosiveItem.TorchEater.name=Torch Eating Charge
+item.icbm:explosiveItem.EnderBlocks.name=Ender Block Charge
+item.icbm:explosiveItem.Antimatter.name=Antimatter Charge
+item.icbm:explosiveItem.AntiPlant.name=Plant Killer Charge
 
 ## Tiles
 tile.icbm:TileMissile.0.name=Wooden Rocket Display

@@ -40,6 +40,16 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveHolderI
     }
 
     @Override
+    public String getUnlocalizedName(ItemStack stack)
+    {
+        if (stack.getItemDamage() >= 1 && stack.getItemDamage() < ExplosiveItems.values().length)
+        {
+            return super.getUnlocalizedName() + "." + ExplosiveItems.values()[stack.getItemDamage()].ex_name;
+        }
+        return super.getUnlocalizedName(stack);
+    }
+
+    @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister reg)
     {
@@ -151,8 +161,8 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveHolderI
         //Ender Blocks
         newRecipe(ExplosiveItems.ENDER_BLOCKS, "ZBM", "BEB", "MBZ", 'B', Items.gold_nugget, 'E', Items.ender_eye, 'Z', Items.ender_pearl, 'M', magicCharge);
 
-        //Ender Blocks
-        newRecipe(ExplosiveItems.ANTI_PLANT, "FTF", "BMB", "FTF", 'B', Items.blaze_powder, 'F', Items.fermented_spider_eye, 'B', Blocks.leaves, 'M', magicCharge);
+        //Anti Plant
+        newRecipe(ExplosiveItems.ANTI_PLANT, "FTF", "BMB", "FTF", 'T', Blocks.sapling, 'F', Items.fermented_spider_eye, 'B', Blocks.leaves, 'M', magicCharge);
     }
 
     private void newRecipe(ExplosiveItems item, Object... objects)
