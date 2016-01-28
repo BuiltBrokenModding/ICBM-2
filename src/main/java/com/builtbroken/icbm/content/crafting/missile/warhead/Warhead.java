@@ -117,4 +117,10 @@ public abstract class Warhead extends AbstractModule implements IWarhead
     {
         return LanguageUtility.capitalizeFirst(casing.name().toLowerCase()) + "Warhead[" + 1 + " x " + ex.getID() + "]";
     }
+
+    public Warhead setSize(double size)
+    {
+        this.size = size;
+        return this;
+    }
 }

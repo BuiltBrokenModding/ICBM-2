@@ -19,14 +19,14 @@ import net.minecraft.item.ItemStack;
  */
 public class WarheadRecipe extends RecipeShapelessTool
 {
-    public WarheadRecipe(WarheadCasings size, String ex, Object... recipe)
+    public WarheadRecipe(WarheadCasings casing, String ex, double size, Object... recipe)
     {
-        this(MissileModuleBuilder.INSTANCE.buildWarhead(size, ExplosiveRegistry.get(ex)), recipe);
+        this(MissileModuleBuilder.INSTANCE.buildWarhead(casing, ExplosiveRegistry.get(ex)).setSize(size), recipe);
     }
 
-    public WarheadRecipe(WarheadCasings size, IExplosiveHandler ex, Object... recipe)
+    public WarheadRecipe(WarheadCasings casing, IExplosiveHandler ex, double size, Object... recipe)
     {
-        this(MissileModuleBuilder.INSTANCE.buildWarhead(size, ex), recipe);
+        this(MissileModuleBuilder.INSTANCE.buildWarhead(casing, ex).setSize(size), recipe);
     }
 
     public WarheadRecipe(Warhead warhead, Object... recipe)

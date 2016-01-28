@@ -7,6 +7,8 @@ import com.builtbroken.icbm.content.blast.explosive.*;
 import com.builtbroken.icbm.content.blast.fire.BlastFireBomb;
 import com.builtbroken.icbm.content.blast.fire.BlastFlashFire;
 import com.builtbroken.icbm.content.blast.fragment.BlastFragment;
+import com.builtbroken.icbm.content.blast.item.ItemExplosive;
+import com.builtbroken.icbm.content.blast.item.ItemExplosiveParts;
 import com.builtbroken.icbm.content.blast.thaum.ThaumBlastLoader;
 import com.builtbroken.icbm.content.blast.util.BlastRegen;
 import com.builtbroken.icbm.content.blast.util.BlastRegenLocal;
@@ -37,14 +39,12 @@ import com.builtbroken.icbm.content.missile.ItemMissile;
 import com.builtbroken.icbm.content.missile.tracking.MissileTracker;
 import com.builtbroken.icbm.content.rocketlauncher.ItemRocketLauncher;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
-import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
 import com.builtbroken.mc.lib.mod.AbstractMod;
 import com.builtbroken.mc.lib.mod.AbstractProxy;
 import com.builtbroken.mc.lib.mod.ModCreativeTab;
 import com.builtbroken.mc.lib.mod.compat.nei.NEIProxy;
-import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.explosive.ExplosiveHandler;
 import com.builtbroken.mc.prefab.recipe.item.sheetmetal.RecipeSheetMetal;
@@ -145,26 +145,15 @@ public final class ICBM extends AbstractMod
     public static ItemEngineModules itemEngineModules;
     public static ItemGuidanceModules itemGuidanceModules;
     public static Item itemMissileParts;
+    public static Item itemExplosive;
+    public static Item itemExplosivePart;
 
     public final ModCreativeTab CREATIVE_TAB;
 
     public ICBM()
     {
         super(DOMAIN, "ICBM");
-        CREATIVE_TAB = new ModCreativeTab("ICBM");
-        CREATIVE_TAB.itemSorter = new ModCreativeTab.NameSorter()
-        {
-            @Override
-            public String getLabel(ItemStack stack)
-            {
-                IExplosiveHandler ex = ExplosiveItemUtility.getExplosive(stack);
-                if (ex != null)
-                {
-                    return ex.getID() + stack.getDisplayName();
-                }
-                return stack.getDisplayName();
-            }
-        };
+        CREATIVE_TAB = new ICBMCreativeTab();
         super.manager.setTab(CREATIVE_TAB);
     }
 
@@ -241,6 +230,9 @@ public final class ICBM extends AbstractMod
         itemLinkTool = manager.newItem("siloLinker", ItemLinkTool.class);
         itemGPSTool = manager.newItem("gpsFlag", ItemGPSFlag.class);
         itemMissileParts = manager.newItem("missileParts", ItemMissileParts.class);
+        itemExplosive = manager.newItem("explosiveUnit", ItemExplosive.class);
+        itemExplosivePart = manager.newItem("explosiveUnitParts", ItemExplosiveParts.class);
+        NEIProxy.hideItem(ItemExplosive.ExplosiveItems.NBT.newItem());
 
         // Register modules, need to do this or they will not build from ItemStacks
         MissileCasings.register();
@@ -250,12 +242,6 @@ public final class ICBM extends AbstractMod
 
         //Set tab item last so to avoid NPE
         CREATIVE_TAB.itemStack = MissileCasings.SMALL.newModuleStack();
-    }
-
-    @EventHandler
-    public void init(FMLInitializationEvent event)
-    {
-        super.init(event);
 
         //Create Explosives
         ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Snowmen", new ExplosiveHandler("snowmen", BlastSnowman.class, 1));
@@ -279,6 +265,12 @@ public final class ICBM extends AbstractMod
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest10", new ExplosiveHandler("SimplePathTest10", BlastPathTester.class, 10));
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest20", new ExplosiveHandler("SimplePathTest20", BlastPathTester.class, 20));
         }
+    }
+
+    @EventHandler
+    public void init(FMLInitializationEvent event)
+    {
+        super.init(event);
 
         //Register Entities
         EntityRegistry.registerGlobalEntityID(EntityMissile.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());
