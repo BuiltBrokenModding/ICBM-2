@@ -21,6 +21,8 @@ public enum WarheadCasings
     public final Class<? extends Warhead> warhead_clazz;
     public final boolean enabled;
 
+    private static boolean reg;
+
     @SideOnly(Side.CLIENT)
     public IIcon icon;
 
@@ -32,9 +34,13 @@ public enum WarheadCasings
 
     public static void register()
     {
-        for (WarheadCasings size : values())
+        if(!reg)
         {
-            MissileModuleBuilder.INSTANCE.register(ICBM.DOMAIN, "warhead_" + size.name().toLowerCase(), size.warhead_clazz);
+            reg = true;
+            for (WarheadCasings size : values())
+            {
+                MissileModuleBuilder.INSTANCE.register(ICBM.DOMAIN, "warhead_" + size.name().toLowerCase(), size.warhead_clazz);
+            }
         }
     }
 

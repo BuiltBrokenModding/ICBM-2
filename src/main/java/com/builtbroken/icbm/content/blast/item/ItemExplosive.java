@@ -37,6 +37,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveHolderI
         this.setMaxStackSize(10);
         this.setUnlocalizedName(ICBM.PREFIX + "explosiveItem");
         this.setTextureName(ICBM.PREFIX + "explosiveItem");
+        this.setHasSubtypes(true);
     }
 
     @Override
@@ -237,7 +238,6 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveHolderI
         public ItemStack newItem()
         {
             ItemStack stack = new ItemStack(ICBM.itemExplosive, 1, ordinal());
-            ExplosiveItemUtility.setSize(stack, sizePerUnit);
             return stack;
         }
 

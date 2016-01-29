@@ -27,6 +27,7 @@ public class ItemExplosiveParts extends Item implements IPostInit
     {
         this.setUnlocalizedName(ICBM.PREFIX + "explosivePart");
         this.setTextureName(ICBM.PREFIX + "explosivePart");
+        this.setHasSubtypes(true);
     }
 
     @Override

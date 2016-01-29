@@ -105,6 +105,7 @@ explosive.icbm:ThaumJar.name=Node Trapper
 tile.icbm:warhead.name=Warhead
 tile.icbm:warhead.micro.name=Micro Warhead
 tile.icbm:warhead.small.name=Small Warhead
+tile.icbm:warhead.standard.name=Warhead
 
 ## Info
 info.icbm:engine.name=Engine

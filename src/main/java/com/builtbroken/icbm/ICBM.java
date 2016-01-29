@@ -150,6 +150,8 @@ public final class ICBM extends AbstractMod
 
     public final ModCreativeTab CREATIVE_TAB;
 
+    private static boolean registerExplosives;
+
     public ICBM()
     {
         super(DOMAIN, "ICBM");
@@ -242,28 +244,41 @@ public final class ICBM extends AbstractMod
 
         //Set tab item last so to avoid NPE
         CREATIVE_TAB.itemStack = MissileCasings.SMALL.newModuleStack();
+        registerExplosives();
 
-        //Create Explosives
-        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Snowmen", new ExplosiveHandler("snowmen", BlastSnowman.class, 1));
-        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "ExoThermic", new ExplosiveHandler("ExoThermic", BlastExoThermic.class, 2));
-        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "EndoThermic", new ExplosiveHandler("EndoThermic", BlastEndoThermic.class, 2));
-        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "ArrowFragment", new ExplosiveHandler("ArrowFragment", BlastFragment.class, 2));
-        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Antimatter", new ExplosiveHandler("Antimatter", BlastAntimatter.class, 2));
-        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "FireBomb", new ExplosiveHandler("FireBomb", BlastFireBomb.class, 1));
-        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "FlashFire", new ExplosiveHandler("FlashFire", BlastFlashFire.class, 2));
-        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "EnderBlocks", new ExplosiveHandler("EnderBlocks", BlastEnderBlocks.class, 1));
-        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "TorchEater", new ExplosiveHandler("TorchEater", BlastTorchEater.class, 3));
-        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "AntiPlant", new ExplosiveHandler("AntiPlant", BlastAntiPlant.class, 3));
-        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Regen", new ExplosiveHandler("Regen", BlastRegen.class, 8));
-        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "RegenLocal", new ExplosiveHandler("RegenLocal", BlastRegenLocal.class, 8));
-        ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "MicroQuake", new ExplosiveHandler("MicroQuake", BlastMicroQuake.class, 3));
-        if (Engine.runningAsDev)
+    }
+
+    /**
+     * Registers the explosives. Under normal runtime never call
+     * this method outside of the ICBM.class.
+     */
+    public static void registerExplosives()
+    {
+        if (!registerExplosives)
         {
-            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest1", new ExplosiveHandler("SimplePathTest1", BlastPathTester.class, 1));
-            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest2", new ExplosiveHandler("SimplePathTest2", BlastPathTester.class, 2));
-            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest3", new ExplosiveHandler("SimplePathTest3", BlastPathTester.class, 3));
-            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest10", new ExplosiveHandler("SimplePathTest10", BlastPathTester.class, 10));
-            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest20", new ExplosiveHandler("SimplePathTest20", BlastPathTester.class, 20));
+            registerExplosives = true;
+            //Create Explosives
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Snowmen", new ExplosiveHandler("snowmen", BlastSnowman.class, 1));
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "ExoThermic", new ExplosiveHandler("ExoThermic", BlastExoThermic.class, 2));
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "EndoThermic", new ExplosiveHandler("EndoThermic", BlastEndoThermic.class, 2));
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "ArrowFragment", new ExplosiveHandler("ArrowFragment", BlastFragment.class, 2));
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Antimatter", new ExplosiveHandler("Antimatter", BlastAntimatter.class, 2));
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "FireBomb", new ExplosiveHandler("FireBomb", BlastFireBomb.class, 1));
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "FlashFire", new ExplosiveHandler("FlashFire", BlastFlashFire.class, 2));
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "EnderBlocks", new ExplosiveHandler("EnderBlocks", BlastEnderBlocks.class, 1));
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "TorchEater", new ExplosiveHandler("TorchEater", BlastTorchEater.class, 3));
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "AntiPlant", new ExplosiveHandler("AntiPlant", BlastAntiPlant.class, 3));
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Regen", new ExplosiveHandler("Regen", BlastRegen.class, 8));
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "RegenLocal", new ExplosiveHandler("RegenLocal", BlastRegenLocal.class, 8));
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "MicroQuake", new ExplosiveHandler("MicroQuake", BlastMicroQuake.class, 3));
+            if (Engine.runningAsDev)
+            {
+                ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest1", new ExplosiveHandler("SimplePathTest1", BlastPathTester.class, 1));
+                ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest2", new ExplosiveHandler("SimplePathTest2", BlastPathTester.class, 2));
+                ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest3", new ExplosiveHandler("SimplePathTest3", BlastPathTester.class, 3));
+                ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest10", new ExplosiveHandler("SimplePathTest10", BlastPathTester.class, 10));
+                ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest20", new ExplosiveHandler("SimplePathTest20", BlastPathTester.class, 20));
+            }
         }
     }
 

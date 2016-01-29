@@ -94,7 +94,7 @@ public class ModuleBuilder
      */
     public IModule build(ItemStack stack)
     {
-        if (stack.getTagCompound() != null && stack.getTagCompound().hasKey(SAVE_ID))
+        if (stack != null && stack.getTagCompound() != null && stack.getTagCompound().hasKey(SAVE_ID))
         {
             String id = stack.getTagCompound().getString(SAVE_ID);
             if (idToCLassMap.containsKey(id))
