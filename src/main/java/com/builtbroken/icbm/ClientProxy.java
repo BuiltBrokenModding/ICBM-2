@@ -108,7 +108,10 @@ public class ClientProxy extends CommonProxy
     @Override
     public void spawnRocketTail(Entity entity)
     {
-        RocketFx fx = new RocketFx(entity.worldObj, entity.posX, entity.posY - 0.75, entity.posZ, (entity.worldObj.rand.nextFloat() - 0.5f) / 8f, -.75 + entity.motionY, (entity.worldObj.rand.nextFloat() - 0.5f) / 8f);
+        Pos motion = new Pos(entity.motionX, entity.motionY, entity.motionZ).normalize();
+        Pos vel = new Pos((entity.worldObj.rand.nextFloat() - 0.5f) / 8f, (entity.worldObj.rand.nextFloat() - 0.5f) / 8f, (entity.worldObj.rand.nextFloat() - 0.5f) / 8f);
+        vel = vel.multiply(motion);
+        RocketFx fx = new RocketFx(entity.worldObj, entity.posX, entity.posY - 0.75, entity.posZ, vel.xf(), vel.yf(), vel.zf());
         Minecraft.getMinecraft().effectRenderer.addEffect(fx);
     }
 
