@@ -81,6 +81,8 @@ tile.icbm:decorLaunchPad.8.name=Center
 tile.icbm:launcherPart.name=Launcher Part
 tile.icbm:launcherPart.0.name=Launcher Computer
 
+tile.icbm:launcherFrame.0.name=Launcher Frame
+
 ## Explosives
 explosive.error.null_ex.name=Empty
 explosive.icbm:tnt.name=TNT

@@ -1,8 +1,15 @@
 package com.builtbroken.icbm.content.launcher.block;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.mc.core.Engine;
+import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
+import com.builtbroken.mc.core.content.tool.ItemSheetMetalTools;
+import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.WrenchUtility;
+import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.prefab.recipe.item.sheetmetal.RecipeSheetMetal;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -10,10 +17,12 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 /**
  * Mainly a placeholder block for creating launchers. In other words it can be used as a decoration as it has very little functionality.
@@ -21,7 +30,7 @@ import net.minecraftforge.common.util.ForgeDirection;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 12/4/2015.
  */
-public class BlockLauncherPart extends Block
+public class BlockLauncherPart extends Block implements IPostInit
 {
     @SideOnly(Side.CLIENT)
     IIcon cpuTop;
@@ -98,5 +107,18 @@ public class BlockLauncherPart extends Block
             return this.blockIcon;
         }
         return Blocks.hopper.getIcon(side, meta);
+    }
+
+    @Override
+    public void onPostInit()
+    {
+        if (Engine.itemSheetMetal != null && Engine.itemSheetMetalTools != null)
+        {
+            GameRegistry.addRecipe(new RecipeSheetMetal(new ItemStack(ICBM.blockLauncherParts, 1, 0), "RPH", "GCR", "DPR", 'C', UniversalRecipe.CIRCUIT_T2.get(), 'R', "rodIron", 'P', ItemSheetMetal.SheetMetal.FULL.stack(), 'H', ItemSheetMetalTools.getHammer(), 'D', ItemSheetMetalTools.getShears(), 'G', "gearIron"));
+        }
+        else
+        {
+            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.blockLauncherParts, 1, 0), "RPR", "PCP", "RPR", 'C', UniversalRecipe.CIRCUIT_T2.get(), 'R', UniversalRecipe.WIRE.get(), 'P', UniversalRecipe.PRIMARY_PLATE.get()));
+        }
     }
 }
