@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.content.crafting.station.small;
 
-import com.builtbroken.icbm.content.Assets;
+import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.lib.transform.region.Cube;

@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.content.launcher.launcher.standard;
 
-import com.builtbroken.icbm.content.Assets;
+import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.mc.lib.transform.region.Cube;

@@ -22,8 +22,8 @@ public class BlastRegen extends Blast
     public void getEffectedBlocks(List<IWorldEdit> list)
     {
         int chunks = ((int) size / 16) + 1;
-        int chunk_x = (x >> 4) - chunks;
-        int chunk_z = (z >> 4) - chunks;
+        int chunk_x = ((int)x >> 4) - chunks;
+        int chunk_z = ((int)z >> 4) - chunks;
 
         IChunkProvider provider = world.getChunkProvider();
         if (provider instanceof ChunkProviderServer)

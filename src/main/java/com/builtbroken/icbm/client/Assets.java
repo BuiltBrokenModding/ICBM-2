@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content;
+package com.builtbroken.icbm.client;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.mc.core.References;

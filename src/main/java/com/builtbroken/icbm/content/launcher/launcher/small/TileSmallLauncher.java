@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.launcher.launcher.small;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.Assets;
+import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;

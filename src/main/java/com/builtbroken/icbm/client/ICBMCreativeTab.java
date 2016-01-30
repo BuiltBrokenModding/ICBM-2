@@ -1,5 +1,6 @@
-package com.builtbroken.icbm;
+package com.builtbroken.icbm.client;
 
+import com.builtbroken.icbm.ICBM;
 import com.builtbroken.mc.lib.mod.ModCreativeTab;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;

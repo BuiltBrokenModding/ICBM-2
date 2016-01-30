@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.warhead;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.Assets;
+import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
@@ -471,10 +471,7 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister reg)
     {
-        for (WarheadCasings casing : WarheadCasings.values())
-        {
-            casing.icon = reg.registerIcon(ICBM.PREFIX + "warhead." + casing.name().replace("EXPLOSIVE_", "").toLowerCase());
-        }
+
     }
 
     @Override

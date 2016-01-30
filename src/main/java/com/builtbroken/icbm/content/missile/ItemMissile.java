@@ -11,7 +11,9 @@ import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
 import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.parts.MissileCraftingParts;
+import com.builtbroken.icbm.content.warhead.ItemBlockWarhead;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
+import com.builtbroken.mc.api.explosive.ITexturedExplosiveHandler;
 import com.builtbroken.mc.api.items.IExplosiveItem;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
@@ -46,6 +48,15 @@ import java.util.List;
  */
 public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissileItem, IPostInit, IModularMissileItem
 {
+    @SideOnly(Side.CLIENT)
+    IIcon microMissile;
+
+    @SideOnly(Side.CLIENT)
+    IIcon smallMissile;
+
+    @SideOnly(Side.CLIENT)
+    IIcon standardMissile;
+
     public ItemMissile()
     {
         this.setUnlocalizedName("missile");
@@ -115,7 +126,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
                 for (IExplosiveHandler ex : ExplosiveRegistry.getExplosives())
                 {
                     Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(size, ex);
-                    if(size == MissileCasings.MEDIUM)
+                    if (size == MissileCasings.MEDIUM)
                     {
                         missile.getWarhead().size = 10;
                     }
@@ -241,18 +252,73 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
         return null;
     }
 
-    @SideOnly(Side.CLIENT)
     @Override
-    public IIcon getIcon(ItemStack stack, int pass)
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister reg)
     {
-        return Items.stone_shovel.getIcon(stack, pass);
+        super.registerIcons(reg);
+        microMissile = reg.registerIcon(ICBM.PREFIX + "micro.missile");
+        smallMissile = reg.registerIcon(ICBM.PREFIX + "small.missile");
+        standardMissile = reg.registerIcon(ICBM.PREFIX + "standard.missile");
     }
 
-    @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons(IIconRegister p_94581_1_)
+    @SideOnly(Side.CLIENT)
+    public IIcon getIconFromDamage(int meta)
     {
-        //No icon to register
+        if (meta == 0)
+        {
+            return microMissile;
+        }
+        else if (meta == 1)
+        {
+            return smallMissile;
+        }
+        else if (meta == 2)
+        {
+            return standardMissile;
+        }
+        return microMissile;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IIcon getIcon(ItemStack stack, int pass)
+    {
+        if (pass == 1)
+        {
+            IExplosiveHandler handler = getExplosive(stack);
+            if (handler != null)
+            {
+                if (handler instanceof ITexturedExplosiveHandler)
+                {
+                    return ((ITexturedExplosiveHandler) handler).getBottomLeftCornerIcon(stack);
+                }
+                else
+                {
+                    return ItemBlockWarhead.tntIcon;
+                }
+            }
+            else
+            {
+                return ItemBlockWarhead.emptyIcon;
+            }
+        }
+        return getIconFromDamage(stack.getItemDamage());
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getRenderPasses(int metadata)
+    {
+        return 2;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean requiresMultipleRenderPasses()
+    {
+        return true;
     }
 
     @Override

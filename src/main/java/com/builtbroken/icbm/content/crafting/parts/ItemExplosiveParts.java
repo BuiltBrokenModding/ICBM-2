@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.blast.item;
+package com.builtbroken.icbm.content.crafting.parts;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.mc.core.registry.implement.IPostInit;

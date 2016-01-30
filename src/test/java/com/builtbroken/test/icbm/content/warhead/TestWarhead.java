@@ -1,7 +1,7 @@
 package com.builtbroken.test.icbm.content.warhead;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.blast.item.ItemExplosive;
+import com.builtbroken.icbm.content.crafting.parts.ItemExplosive;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;

@@ -100,7 +100,15 @@ explosive.icbm:ThaumTaint.name=Taint Goo
 explosive.icbm:ThaumTaintBottle.name=Bottled Taint
 explosive.icbm:ThaumNode.name=Node Dispenser
 explosive.icbm:ThaumJar.name=Node Trapper
+explosive.icbm:MicroQuake.name=Micro Quake
+explosive.icbm:Regen.name=Regen
 
+## Dev only Explosives, Optional to translate
+explosive.icbm:SimplePathTest1.name=Path Test
+explosive.icbm:SimplePathTest2.name=Path Test
+explosive.icbm:SimplePathTest3.name=Path Test
+explosive.icbm:SimplePathTest10.name=Path Test
+explosive.icbm:SimplePathTest20.name=Path Test
 
 
 ## Warhead

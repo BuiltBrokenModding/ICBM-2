@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.blast;
+package com.builtbroken.icbm.content.blast.temp;
 
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;

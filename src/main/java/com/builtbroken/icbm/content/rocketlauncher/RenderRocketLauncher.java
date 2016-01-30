@@ -1,13 +1,9 @@
 package com.builtbroken.icbm.content.rocketlauncher;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.Assets;
-import com.builtbroken.mc.lib.render.model.loader.EngineModelLoader;
+import com.builtbroken.icbm.client.Assets;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
 

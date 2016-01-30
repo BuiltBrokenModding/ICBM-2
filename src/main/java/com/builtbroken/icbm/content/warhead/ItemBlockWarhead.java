@@ -1,12 +1,13 @@
 package com.builtbroken.icbm.content.warhead;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
+import com.builtbroken.mc.api.explosive.ITexturedExplosiveHandler;
 import com.builtbroken.mc.api.items.IExplosiveItem;
+import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
@@ -14,11 +15,12 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.model.ModelBiped;
-import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -29,24 +31,85 @@ import java.util.List;
 
 public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IModuleItem
 {
+    @SideOnly(Side.CLIENT)
+    public static IIcon emptyIcon;
+    @SideOnly(Side.CLIENT)
+    public static IIcon tntIcon;
+
     public ItemBlockWarhead(Block block)
     {
         super(block);
         this.setHasSubtypes(true);
     }
 
-    @Override
-    public CreativeTabs[] getCreativeTabs()
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister reg)
     {
-        //TODO move empty warheads to parts tab
-        return new CreativeTabs[]{getCreativeTab()};
+        super.registerIcons(reg);
+        emptyIcon = reg.registerIcon(ICBM.PREFIX + "blank");
+        tntIcon = reg.registerIcon(ICBM.PREFIX + "ex.icon.tnt.unknown");
+        for (WarheadCasings casing : WarheadCasings.values())
+        {
+            casing.icon = reg.registerIcon(ICBM.PREFIX + "warhead." + casing.name().replace("EXPLOSIVE_", "").toLowerCase());
+        }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getSpriteNumber()
+    {
+        return 1;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIconFromDamage(int meta)
     {
-        return field_150939_a.getIcon(0, meta);
+        if (meta >= 0 && meta < WarheadCasings.values().length)
+        {
+            return WarheadCasings.values()[meta].icon;
+        }
+        return Items.apple.getIconFromDamage(meta);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IIcon getIcon(ItemStack stack, int pass)
+    {
+        if (pass == 1)
+        {
+            IExplosiveHandler handler = getExplosive(stack);
+            if (handler != null)
+            {
+                if (handler instanceof ITexturedExplosiveHandler)
+                {
+                    return ((ITexturedExplosiveHandler) handler).getBottomLeftCornerIcon(stack);
+                }
+                else
+                {
+                    return tntIcon;
+                }
+            }
+            else
+            {
+                return emptyIcon;
+            }
+        }
+        return getIconFromDamage(stack.getItemDamage());
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getRenderPasses(int metadata)
+    {
+        return 2;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean requiresMultipleRenderPasses()
+    {
+        return true;
     }
 
     @Override

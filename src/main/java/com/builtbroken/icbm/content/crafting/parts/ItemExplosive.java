@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.blast.item;
+package com.builtbroken.icbm.content.crafting.parts;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
@@ -208,7 +208,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveHolderI
     public enum ExplosiveItems
     {
         NBT(null, 1),
-        FRAG_ARROW("ArrowFragment", 5),
+        FRAG_ARROW("Fragment", 5),
         THERMIC_EXO("ExoThermic", 3),
         THERMIC_ENDO("EndoThermic", 3),
         FIRE_BOMB("FireBomb", 1),

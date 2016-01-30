@@ -1,14 +1,33 @@
-package com.builtbroken.icbm;
+package com.builtbroken.icbm.client;
 
+import com.builtbroken.icbm.CommonProxy;
+import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.content.blast.effect.ExAntiPlant;
+import com.builtbroken.icbm.content.blast.effect.ExEnderBlocks;
+import com.builtbroken.icbm.content.blast.effect.ExTorchEater;
+import com.builtbroken.icbm.content.blast.entity.ExplosiveHandlerSpawn;
+import com.builtbroken.icbm.content.blast.explosive.BlastPathTester;
+import com.builtbroken.icbm.content.blast.explosive.ExAntimatter;
+import com.builtbroken.icbm.content.blast.explosive.ExMicroQuake;
+import com.builtbroken.icbm.content.blast.fire.ExFireBomb;
+import com.builtbroken.icbm.content.blast.fire.ExFlashFire;
+import com.builtbroken.icbm.content.blast.fragment.ExFragment;
+import com.builtbroken.icbm.content.blast.temp.ExEndoThermic;
+import com.builtbroken.icbm.content.blast.temp.ExExoThermic;
+import com.builtbroken.icbm.content.blast.util.ExRegen;
+import com.builtbroken.icbm.content.blast.util.ExRegenLocal;
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstationClient;
 import com.builtbroken.icbm.content.launcher.block.ISBRLauncherFrame;
 import com.builtbroken.icbm.content.launcher.launcher.standard.TileStandardLauncherClient;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.RenderMissile;
 import com.builtbroken.icbm.content.rocketlauncher.RenderRocketLauncher;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.mod.compat.nei.NEIProxy;
 import com.builtbroken.mc.lib.render.fx.*;
 import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
+import com.builtbroken.mc.prefab.explosive.ExplosiveHandler;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -147,5 +166,32 @@ public class ClientProxy extends CommonProxy
             }
         }
         return null;
+    }
+
+    @Override
+    public void registerExplosives()
+    {
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "EntitySpawn", new ExplosiveHandlerSpawn());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "ExoThermic", new ExEndoThermic());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "EndoThermic", new ExExoThermic());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Fragment", new ExFragment());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "ArrowFragment", ExplosiveRegistry.get("Fragment"));
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Antimatter", new ExAntimatter());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "FireBomb", new ExFireBomb());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "FlashFire", new ExFlashFire());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "EnderBlocks", new ExEnderBlocks());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "TorchEater", new ExTorchEater());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "AntiPlant", new ExAntiPlant());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Regen", new ExRegen());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "RegenLocal", new ExRegenLocal());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "MicroQuake", new ExMicroQuake());
+        if (Engine.runningAsDev)
+        {
+            ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SimplePathTest1", new ExplosiveHandler("SimplePathTest1", BlastPathTester.class, 1));
+            ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SimplePathTest2", new ExplosiveHandler("SimplePathTest2", BlastPathTester.class, 2));
+            ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SimplePathTest3", new ExplosiveHandler("SimplePathTest3", BlastPathTester.class, 3));
+            ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SimplePathTest10", new ExplosiveHandler("SimplePathTest10", BlastPathTester.class, 10));
+            ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SimplePathTest20", new ExplosiveHandler("SimplePathTest20", BlastPathTester.class, 20));
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.blast.explosive;
+package com.builtbroken.icbm.content.blast.effect;
 
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.lib.transform.vector.Location;

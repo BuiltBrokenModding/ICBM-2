@@ -62,4 +62,9 @@ public class CommonProxy extends AbstractProxy
         // TODO Auto-generated method stub
 
     }
+
+    public void registerExplosives()
+    {
+
+    }
 }

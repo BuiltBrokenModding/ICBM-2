@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.launcher.controller;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.Assets;
+import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.api.items.IWorldPosItem;

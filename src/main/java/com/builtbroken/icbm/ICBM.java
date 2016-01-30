@@ -1,23 +1,29 @@
 package com.builtbroken.icbm;
 
-import com.builtbroken.icbm.content.blast.BlastEndoThermic;
-import com.builtbroken.icbm.content.blast.BlastExoThermic;
-import com.builtbroken.icbm.content.blast.entity.BlastSnowman;
-import com.builtbroken.icbm.content.blast.explosive.*;
-import com.builtbroken.icbm.content.blast.fire.BlastFireBomb;
-import com.builtbroken.icbm.content.blast.fire.BlastFlashFire;
-import com.builtbroken.icbm.content.blast.fragment.BlastFragment;
-import com.builtbroken.icbm.content.blast.item.ItemExplosive;
-import com.builtbroken.icbm.content.blast.item.ItemExplosiveParts;
+import com.builtbroken.icbm.client.ICBMCreativeTab;
+import com.builtbroken.icbm.content.blast.effect.ExAntiPlant;
+import com.builtbroken.icbm.content.blast.effect.ExEnderBlocks;
+import com.builtbroken.icbm.content.blast.effect.ExTorchEater;
+import com.builtbroken.icbm.content.blast.entity.ExplosiveHandlerSpawn;
+import com.builtbroken.icbm.content.blast.explosive.BlastPathTester;
+import com.builtbroken.icbm.content.blast.explosive.ExAntimatter;
+import com.builtbroken.icbm.content.blast.explosive.ExMicroQuake;
+import com.builtbroken.icbm.content.blast.fire.ExFireBomb;
+import com.builtbroken.icbm.content.blast.fire.ExFlashFire;
+import com.builtbroken.icbm.content.blast.fragment.ExFragment;
+import com.builtbroken.icbm.content.blast.temp.ExEndoThermic;
+import com.builtbroken.icbm.content.blast.temp.ExExoThermic;
 import com.builtbroken.icbm.content.blast.thaum.ThaumBlastLoader;
-import com.builtbroken.icbm.content.blast.util.BlastRegen;
-import com.builtbroken.icbm.content.blast.util.BlastRegenLocal;
+import com.builtbroken.icbm.content.blast.util.ExRegen;
+import com.builtbroken.icbm.content.blast.util.ExRegenLocal;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
 import com.builtbroken.icbm.content.crafting.missile.engine.ItemEngineModules;
 import com.builtbroken.icbm.content.crafting.missile.guidance.GuidanceModules;
 import com.builtbroken.icbm.content.crafting.missile.guidance.ItemGuidanceModules;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
+import com.builtbroken.icbm.content.crafting.parts.ItemExplosive;
+import com.builtbroken.icbm.content.crafting.parts.ItemExplosiveParts;
 import com.builtbroken.icbm.content.crafting.parts.ItemMissileParts;
 import com.builtbroken.icbm.content.crafting.parts.MissileCraftingParts;
 import com.builtbroken.icbm.content.debug.BlockExplosiveMarker;
@@ -39,10 +45,10 @@ import com.builtbroken.icbm.content.missile.ItemMissile;
 import com.builtbroken.icbm.content.missile.tracking.MissileTracker;
 import com.builtbroken.icbm.content.rocketlauncher.ItemRocketLauncher;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
+import com.builtbroken.icbm.server.CommandICBM;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
 import com.builtbroken.mc.lib.mod.AbstractMod;
-import com.builtbroken.mc.lib.mod.AbstractProxy;
 import com.builtbroken.mc.lib.mod.ModCreativeTab;
 import com.builtbroken.mc.lib.mod.compat.nei.NEIProxy;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
@@ -105,7 +111,7 @@ public final class ICBM extends AbstractMod
     @Instance(DOMAIN)
     public static ICBM INSTANCE;
 
-    @SidedProxy(clientSide = "com.builtbroken.icbm.ClientProxy", serverSide = "com.builtbroken.icbm.ServerProxy")
+    @SidedProxy(clientSide = "com.builtbroken.icbm.client.ClientProxy", serverSide = "com.builtbroken.icbm.server.ServerProxy")
     public static CommonProxy proxy;
 
 
@@ -244,7 +250,7 @@ public final class ICBM extends AbstractMod
 
         //Set tab item last so to avoid NPE
         CREATIVE_TAB.itemStack = MissileCasings.SMALL.newModuleStack();
-        registerExplosives();
+        getProxy().registerExplosives();
 
     }
 
@@ -258,19 +264,20 @@ public final class ICBM extends AbstractMod
         {
             registerExplosives = true;
             //Create Explosives
-            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Snowmen", new ExplosiveHandler("snowmen", BlastSnowman.class, 1));
-            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "ExoThermic", new ExplosiveHandler("ExoThermic", BlastExoThermic.class, 2));
-            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "EndoThermic", new ExplosiveHandler("EndoThermic", BlastEndoThermic.class, 2));
-            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "ArrowFragment", new ExplosiveHandler("ArrowFragment", BlastFragment.class, 2));
-            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Antimatter", new ExplosiveHandler("Antimatter", BlastAntimatter.class, 2));
-            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "FireBomb", new ExplosiveHandler("FireBomb", BlastFireBomb.class, 1));
-            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "FlashFire", new ExplosiveHandler("FlashFire", BlastFlashFire.class, 2));
-            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "EnderBlocks", new ExplosiveHandler("EnderBlocks", BlastEnderBlocks.class, 1));
-            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "TorchEater", new ExplosiveHandler("TorchEater", BlastTorchEater.class, 3));
-            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "AntiPlant", new ExplosiveHandler("AntiPlant", BlastAntiPlant.class, 3));
-            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Regen", new ExplosiveHandler("Regen", BlastRegen.class, 8));
-            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "RegenLocal", new ExplosiveHandler("RegenLocal", BlastRegenLocal.class, 8));
-            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "MicroQuake", new ExplosiveHandler("MicroQuake", BlastMicroQuake.class, 3));
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "EntitySpawn", new ExplosiveHandlerSpawn());
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "ExoThermic", new ExEndoThermic());
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "EndoThermic", new ExExoThermic());
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Fragment", new ExFragment());
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "ArrowFragment", ExplosiveRegistry.get("Fragment"));
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Antimatter", new ExAntimatter());
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "FireBomb", new ExFireBomb());
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "FlashFire", new ExFlashFire());
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "EnderBlocks", new ExEnderBlocks());
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "TorchEater", new ExTorchEater());
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "AntiPlant", new ExAntiPlant());
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Regen", new ExRegen());
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "RegenLocal", new ExRegenLocal());
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "MicroQuake", new ExMicroQuake());
             if (Engine.runningAsDev)
             {
                 ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest1", new ExplosiveHandler("SimplePathTest1", BlastPathTester.class, 1));
@@ -336,7 +343,7 @@ public final class ICBM extends AbstractMod
     }
 
     @Override
-    public AbstractProxy getProxy()
+    public CommonProxy getProxy()
     {
         return proxy;
     }

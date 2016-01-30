@@ -1,4 +1,4 @@
-package com.builtbroken.icbm;
+package com.builtbroken.icbm.server;
 
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
