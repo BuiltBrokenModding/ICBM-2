@@ -7,6 +7,7 @@ import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.IExplosiveItem;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
 import cpw.mods.fml.relauncher.Side;
@@ -38,10 +39,11 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IModu
     public CreativeTabs[] getCreativeTabs()
     {
         //TODO move empty warheads to parts tab
-        return new CreativeTabs[]{ getCreativeTab() };
+        return new CreativeTabs[]{getCreativeTab()};
     }
 
-    @Override @SideOnly(Side.CLIENT)
+    @Override
+    @SideOnly(Side.CLIENT)
     public IIcon getIconFromDamage(int meta)
     {
         return field_150939_a.getIcon(0, meta);
@@ -56,7 +58,7 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IModu
     @Override
     public String getUnlocalizedName()
     {
-        return "tile."+ ICBM.PREFIX + "warhead";
+        return "tile." + ICBM.PREFIX + "warhead";
     }
 
     @Override
@@ -69,7 +71,7 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IModu
     public IExplosiveHandler getExplosive(ItemStack itemStack)
     {
         Warhead warhead = getModule(itemStack);
-        if(warhead != null)
+        if (warhead != null)
         {
             return warhead.ex;
         }
@@ -81,8 +83,12 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IModu
     {
         super.addInformation(stack, player, lines, b);
         Warhead warhead = getModule(stack);
-        if(warhead != null)
+        if (warhead != null)
         {
+            if (Engine.runningAsDev)
+            {
+                lines.add("ExItem: " + warhead.explosive);
+            }
             ExplosiveItemUtility.addInformation(warhead.toStack(), warhead.ex, player, lines, b);
         }
         else
@@ -177,13 +183,14 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IModu
         return false;
     }
 
-    @SideOnly(Side.CLIENT) @Override
+    @SideOnly(Side.CLIENT)
+    @Override
     public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, int armorSlot)
     {
         return null;
     }
 
-   @Override
+    @Override
     public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack)
     {
         //TODO maybe block swing?
