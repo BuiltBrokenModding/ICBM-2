@@ -1,10 +1,9 @@
 package com.builtbroken.icbm.content.display;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.Assets;
+import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
-import com.builtbroken.mc.lib.render.RenderUtility;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.Tile;
@@ -95,8 +94,9 @@ public class TileMissile extends Tile implements IPostInit, ISimpleItemRenderer
     public void renderDynamic(Pos pos, float frame, int pass)
     {
         GL11.glPushMatrix();
-        GL11.glTranslatef(pos.xf() + 0.5f, pos.yf(), pos.zf() + 0.5f);
-        GL11.glScaled(.0015625f, .0015625f, .0015625f);
+        GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() - 0.35f, pos.zf() + 0.5f);
+        float scale = .0013f;
+        GL11.glScaled(scale, scale, scale);
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_MISSILE_TEXTURE);
         Assets.SMALL_MISSILE_MODEL.renderAll();
         GL11.glPopMatrix();

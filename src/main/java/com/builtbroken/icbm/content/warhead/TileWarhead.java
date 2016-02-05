@@ -1,21 +1,22 @@
 package com.builtbroken.icbm.content.warhead;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.Assets;
+import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
+import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadStandard;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosive;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.api.tile.IRemovable;
 import com.builtbroken.mc.core.Engine;
+import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
+import com.builtbroken.mc.core.content.tool.ItemSheetMetalTools;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.WrenchUtility;
-import com.builtbroken.mc.lib.helper.recipe.RecipeUtility;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Location;
@@ -23,6 +24,8 @@ import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.WorldChangeHelper;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
+import com.builtbroken.mc.prefab.items.ItemStackWrapper;
+import com.builtbroken.mc.prefab.recipe.item.sheetmetal.RecipeSheetMetal;
 import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -39,18 +42,20 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.Explosion;
-import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.lwjgl.opengl.GL11;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static net.minecraftforge.oredict.RecipeSorter.Category.SHAPELESS;
 
 /**
  * Block version of the warhead placed at the end of a missile
@@ -66,6 +71,7 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
     public TileWarhead()
     {
         super("warhead", Material.iron);
+        this.textureName = "warhead";
         this.hardness = 100;
         this.renderNormalBlock = false;
         this.renderType = -1;
@@ -78,22 +84,86 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
     @Override
     public void onPostInit()
     {
-        //Small warhead recipes
-        ItemStack micro_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, null).toStack();
-        micro_warhead_empty.stackSize = 8;
-        GameRegistry.addRecipe(new ShapedOreRecipe(micro_warhead_empty.copy(), " p "," n ", "nrn",'p', Blocks.stone_pressure_plate, 'n', Items.iron_ingot, 'r', Items.redstone));
-        micro_warhead_empty.stackSize = 1;
+        //Register specialized recipe handlers
+        RecipeSorter.register(ICBM.PREFIX + "warhead", WarheadRecipe.class, SHAPELESS, "after:minecraft:shaped");
+        RecipeSorter.register(ICBM.PREFIX + "microMissile", MicroMissileRecipe.class, SHAPELESS, "after:minecraft:shaped");
 
-        GameRegistry.addRecipe(new ShapelessOreRecipe(MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, ExplosiveRegistry.get("TNT")).toStack(), Items.gunpowder, micro_warhead_empty));
-
-
-        ItemStack small_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, null).toStack();
-        GameRegistry.addRecipe(new ShapedOreRecipe(small_warhead_empty, " p "," n ", "ncn", 'p', Blocks.heavy_weighted_pressure_plate, 'n', Items.iron_ingot, 'r', Items.redstone, 'c', UniversalRecipe.CIRCUIT_T1.get()));
-
-        GameRegistry.addRecipe(new ShapelessOreRecipe(MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, ExplosiveRegistry.get("TNT")).toStack(), Blocks.tnt, small_warhead_empty));
-
+        List<IRecipe> recipes = new ArrayList();
+        getRecipes(recipes);
+        for(IRecipe recipe : recipes)
+        {
+            GameRegistry.addRecipe(recipe);
+        }
     }
 
+    public static void getRecipes(final List<IRecipe> recipes)
+    {
+        //Small warhead recipes
+        ItemStack micro_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, null).toStack();
+        ItemStack small_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, null).toStack();
+        ItemStack medium_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MEDIUM, null).toStack();
+
+        if (Engine.itemSheetMetal != null && Engine.itemSheetMetalTools != null)
+        {
+            recipes.add(new RecipeSheetMetal(micro_warhead_empty, " p ", "tch", " r ",
+                    'p', Blocks.stone_pressure_plate,
+                    'c', ItemSheetMetal.SheetMetal.CONE_MICRO.stack(),
+                    'r', Items.redstone,
+                    't', ItemSheetMetal.SheetMetal.THIRD.stack(),
+                    'h', ItemSheetMetalTools.getHammer()));
+            recipes.add(new RecipeSheetMetal(small_warhead_empty, " p ", "tch", " r ",
+                    'p', Blocks.heavy_weighted_pressure_plate,
+                    'c', ItemSheetMetal.SheetMetal.CONE_SMALL.stack(),
+                    'r', Items.redstone,
+                    't', ItemSheetMetal.SheetMetal.HALF.stack(),
+                    'h', ItemSheetMetalTools.getHammer()));
+            recipes.add(new RecipeSheetMetal(medium_warhead_empty, " p ", "tch", " r ",
+                    'p', Blocks.heavy_weighted_pressure_plate,
+                    'c', ItemSheetMetal.SheetMetal.CONE_MEDIUM.stack(),
+                    'r', Items.redstone,
+                    't', ItemSheetMetal.SheetMetal.FULL.stack(),
+                    'h', ItemSheetMetalTools.getHammer()));
+        }
+        else
+        {
+            //Vanilla micro warhead recipes
+            micro_warhead_empty.stackSize = 8;
+            recipes.add(new ShapedOreRecipe(micro_warhead_empty, " p ", " n ", "nrn", 'p', Blocks.stone_pressure_plate, 'n', Items.iron_ingot, 'r', Items.redstone));
+            micro_warhead_empty.stackSize = 1;
+
+            //Vanilla small warhead recipes
+            recipes.add(new ShapedOreRecipe(small_warhead_empty, " p ", " n ", "ncn", 'p', Blocks.heavy_weighted_pressure_plate, 'n', Items.iron_ingot, 'r', Items.redstone, 'c', UniversalRecipe.CIRCUIT_T1.get()));
+        }
+
+        for (IExplosiveHandler handler : ExplosiveRegistry.getExplosives())
+        {
+           getRecipes(handler, recipes);
+        }
+    }
+
+    public static void getRecipes(IExplosiveHandler handler, List<IRecipe> recipes)
+    {
+        final ItemStack micro_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, null).toStack();
+        final ItemStack small_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, null).toStack();
+        final ItemStack medium_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_STANDARD, null).toStack();
+
+        List<ItemStackWrapper> items = ExplosiveRegistry.getItems(handler);
+        if (items != null)
+        {
+            for (ItemStackWrapper wrapper : items)
+            {
+                ItemStack stack = wrapper.itemStack.copy();
+                stack.stackSize = 1;
+                double size = ExplosiveRegistry.getExplosiveSize(wrapper);
+
+                WarheadRecipe microWarheadRecipe = new WarheadRecipe(WarheadCasings.EXPLOSIVE_MICRO, handler, size, stack, micro_warhead_empty);
+                recipes.add(microWarheadRecipe);
+                recipes.add(new MicroMissileRecipe(handler, MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.MICRO, null).toStack(), microWarheadRecipe.getRecipeOutput()));
+                recipes.add(new WarheadRecipe(WarheadCasings.EXPLOSIVE_SMALL, handler, size, stack, small_warhead_empty));
+                recipes.add(new WarheadRecipe(WarheadCasings.EXPLOSIVE_STANDARD, handler, size, stack, medium_warhead_empty));
+            }
+        }
+    }
 
 
     @Override
@@ -193,7 +263,9 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
             }
 
             if (power_side != -1)
+            {
                 explode(new TriggerCause.TriggerCauseRedstone(ForgeDirection.UNKNOWN, powerMax));
+            }
         }
     }
 
@@ -232,7 +304,9 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         }
 
         if (power_side != -1)
+        {
             explode(new TriggerCause.TriggerCauseRedstone(ForgeDirection.UNKNOWN, powerMax));
+        }
     }
 
     /*
@@ -245,9 +319,13 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         {
             exploding = true;
             if (getWarhead().trigger(triggerCause, world(), x(), y(), z()) == WorldChangeHelper.ChangeResult.COMPLETED)
+            {
                 world().setBlockToAir(xi(), yi(), zi());
+            }
             else
+            {
                 exploding = false;
+            }
         }
     }
 
@@ -286,7 +364,9 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         super.writeToNBT(nbt);
 
         if (getWarhead() != null && getWarhead().toStack() != null)
+        {
             nbt.setTag("itemWarhead", getWarhead().toStack().writeToNBT(new NBTTagCompound()));
+        }
     }
 
     @Override
@@ -307,7 +387,20 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         for (WarheadCasings size : WarheadCasings.values())
         {
             if (size.enabled)
+            {
                 list.add(MissileModuleBuilder.INSTANCE.buildWarhead(size, null).toStack());
+            }
+        }
+
+        for (IExplosiveHandler handler : ExplosiveRegistry.getExplosives())
+        {
+            for (WarheadCasings size : WarheadCasings.values())
+            {
+                if (size.enabled)
+                {
+                    list.add(MissileModuleBuilder.INSTANCE.buildWarhead(size, handler).toStack());
+                }
+            }
         }
     }
 
@@ -346,27 +439,27 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
     }
 
     /**
-    @SideOnly(Side.CLIENT)
-    public void renderInventoryItem(IItemRenderer.ItemRenderType type, ItemStack itemStack, Object... data)
-    {
-        //Translate and rotate
-        if (type == IItemRenderer.ItemRenderType.EQUIPPED)
-        {
-            GL11.glTranslatef(1f, 0.3f, 0.5f);
-        }
-        else if (type == IItemRenderer.ItemRenderType.EQUIPPED_FIRST_PERSON)
-        {
-            GL11.glTranslatef(1.15f, 1f, 0.5f);
-        }
-
-        //Scale
-        if (type == IItemRenderer.ItemRenderType.ENTITY)
-        {
-            GL11.glScalef(0.5f, 0.5f, 0.5f);
-        }
-
-        renderDynamic(new Pos(), 0, 0);
-    } */
+     * @SideOnly(Side.CLIENT) public void renderInventoryItem(IItemRenderer.ItemRenderType type, ItemStack itemStack, Object... data)
+     * {
+     * //Translate and rotate
+     * if (type == IItemRenderer.ItemRenderType.EQUIPPED)
+     * {
+     * GL11.glTranslatef(1f, 0.3f, 0.5f);
+     * }
+     * else if (type == IItemRenderer.ItemRenderType.EQUIPPED_FIRST_PERSON)
+     * {
+     * GL11.glTranslatef(1.15f, 1f, 0.5f);
+     * }
+     * <p/>
+     * //Scale
+     * if (type == IItemRenderer.ItemRenderType.ENTITY)
+     * {
+     * GL11.glScalef(0.5f, 0.5f, 0.5f);
+     * }
+     * <p/>
+     * renderDynamic(new Pos(), 0, 0);
+     * }
+     */
 
     @SideOnly(Side.CLIENT)
     public IIcon getIcon()
@@ -374,16 +467,15 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         return Blocks.iron_block.getIcon(0, 0);
     }
 
-    @Override @SideOnly(Side.CLIENT)
+    @Override
+    @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister reg)
     {
-        for(WarheadCasings casing : WarheadCasings.values())
-        {
-            casing.icon = reg.registerIcon(ICBM.PREFIX + "warhead." + casing.name().replace("EXPLOSIVE_", "").toLowerCase());
-        }
+
     }
 
-    @Override @SideOnly(Side.CLIENT)
+    @Override
+    @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta)
     {
         return WarheadCasings.get(meta).icon;
@@ -395,7 +487,9 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         {
             warhead = getNewWarhead();
             if (warhead == null)
+            {
                 warhead = new WarheadStandard(toItemStack());
+            }
         }
         return warhead;
     }
@@ -406,26 +500,38 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         try
         {
             warhead = WarheadCasings.get(getMetadata()).warhead_clazz.getConstructor(ItemStack.class).newInstance(new ItemStack(this.getTileBlock(), 1, getMetadata()));
-        } catch (InvocationTargetException e)
+        }
+        catch (InvocationTargetException e)
         {
             ICBM.INSTANCE.logger().error("[TileWarhead]Failed invoke warhead constructor for class " + WarheadCasings.get(getMetadata()).warhead_clazz);
             if (Engine.runningAsDev)
+            {
                 e.printStackTrace();
-        } catch (NoSuchMethodException e)
+            }
+        }
+        catch (NoSuchMethodException e)
         {
             ICBM.INSTANCE.logger().error("[TileWarhead]Failed to find ItemStack constructor for warhead class " + WarheadCasings.get(getMetadata()).warhead_clazz);
             if (Engine.runningAsDev)
+            {
                 e.printStackTrace();
-        } catch (InstantiationException e)
+            }
+        }
+        catch (InstantiationException e)
         {
             ICBM.INSTANCE.logger().error("[TileWarhead]Failed to create new warhead instance for warhead class " + WarheadCasings.get(getMetadata()).warhead_clazz);
             if (Engine.runningAsDev)
+            {
                 e.printStackTrace();
-        } catch (IllegalAccessException e)
+            }
+        }
+        catch (IllegalAccessException e)
         {
             ICBM.INSTANCE.logger().error("[TileWarhead]Something prevented us from making a new instance of class " + WarheadCasings.get(getMetadata()).warhead_clazz);
             if (Engine.runningAsDev)
+            {
                 e.printStackTrace();
+            }
         }
 
         return warhead;

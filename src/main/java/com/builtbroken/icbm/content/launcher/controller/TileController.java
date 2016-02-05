@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.launcher.controller;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.Assets;
+import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.api.items.IWorldPosItem;
@@ -10,9 +10,10 @@ import com.builtbroken.mc.api.tile.ILinkFeedback;
 import com.builtbroken.mc.api.tile.ILinkable;
 import com.builtbroken.mc.api.tile.IPassCode;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
-import com.builtbroken.mc.core.network.packet.AbstractPacket;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
+import com.builtbroken.mc.core.registry.implement.IPostInit;
+import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
@@ -20,6 +21,7 @@ import com.builtbroken.mc.prefab.gui.ContainerDummy;
 import com.builtbroken.mc.prefab.tile.TileModuleMachine;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.ByteBufUtils;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -28,6 +30,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -35,6 +38,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -44,7 +48,7 @@ import java.util.List;
  * Used to link several launchers together to be controlled from a single terminal
  * Created by robert on 4/3/2015.
  */
-public class TileController extends TileModuleMachine implements ILinkable, IPacketIDReceiver, IGuiTile, ISimpleItemRenderer
+public class TileController extends TileModuleMachine implements ILinkable, IPacketIDReceiver, IGuiTile, ISimpleItemRenderer, IPostInit
 {
     public static double MAX_LINK_DISTANCE = 100;
     public static int MAX_LAUNCHER_LINK = 6; //changed to 6 due to current GUI size and no GUI paging
@@ -68,6 +72,18 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
         this.renderNormalBlock = false;
         this.renderTileEntity = true;
         this.isOpaque = false;
+    }
+
+    @Override
+    public void onPostInit()
+    {
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.blockSiloController), "IGI", "CGC", "ICI", 'I', Items.iron_ingot, 'G', Blocks.chest, 'C', UniversalRecipe.CIRCUIT_T1.get()));
+    }
+
+    @Override
+    public String getInventoryName()
+    {
+        return "tile.icbm:smallSiloController.container.name";
     }
 
     /**
@@ -114,18 +130,20 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
     }
 
     @Override
-    public String link(Location pos, short code)
+    public String link(Location loc, short code)
     {
         //Validate location data
-        if (pos.world != world())
+        if (loc.world != world())
             return "link.error.world.match";
+
+        Pos pos = loc.toPos();
         if (!pos.isAboveBedrock())
             return "link.error.pos.invalid";
         if (distance(pos) > MAX_LINK_DISTANCE)
             return "link.error.pos.distance.max";
 
         //Compare tile pass code
-        TileEntity tile = pos.getTileEntity();
+        TileEntity tile = pos.getTileEntity(loc.world());
         if (!(tile instanceof TileAbstractLauncher))
             return "link.error.tile.invalid";
         if (((IPassCode) tile).getCode() != code)
@@ -136,7 +154,7 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
         {
             if (launcherLocations.size() < MAX_LAUNCHER_LINK)
             {
-                launcherLocations.add(pos.toVector3());
+                launcherLocations.add(pos);
                 ((ILinkFeedback) tile).onLinked(toLocation());
                 return "";
             }
@@ -202,7 +220,7 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
     @Override
     public boolean read(ByteBuf buf, int id, EntityPlayer player, PacketType type)
     {
-        if(!super.read(buf, id, player, type))
+        if (!super.read(buf, id, player, type))
         {
             if (isClient())
             {
@@ -311,7 +329,7 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
         {
             NBTTagList list = new NBTTagList();
             for (Pos pos : launcherLocations)
-                list.appendTag(pos.toIntNBT());
+            { list.appendTag(pos.toIntNBT()); }
             nbt.setTag("locations", list);
         }
     }
@@ -349,12 +367,19 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
         //Render launcher
         GL11.glPushMatrix();
         GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.5f, pos.zf() + 0.5f);
-        switch(facing)
+        switch (facing)
         {
-            case EAST: break;
-            case WEST: GL11.glRotatef(180f, 0, 1f, 0); break;
-            case SOUTH: GL11.glRotatef(-90f, 0, 1f, 0); break;
-            default: GL11.glRotatef(90f, 0, 1f, 0); break;
+            case EAST:
+                break;
+            case WEST:
+                GL11.glRotatef(180f, 0, 1f, 0);
+                break;
+            case SOUTH:
+                GL11.glRotatef(-90f, 0, 1f, 0);
+                break;
+            default:
+                GL11.glRotatef(90f, 0, 1f, 0);
+                break;
         }
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.LAUNCHER_CONTROLLER_TEXTURE);
         Assets.LAUNCHER_CONTROLLER_MODEL.renderOnly("screen");

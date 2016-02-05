@@ -1,18 +1,18 @@
 package com.builtbroken.icbm.content.launcher.controller;
 
-import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.mc.core.References;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
 import com.builtbroken.mc.prefab.gui.GuiContainerBase;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 
-/**
+/** Main GUI for the small missile silo controller
  * Created by robert on 2/20/2015.
  */
 public class GuiController extends GuiContainerBase
@@ -28,6 +28,7 @@ public class GuiController extends GuiContainerBase
 
     boolean editMode = false;
     int editMissile = 0;
+    long lastClickTime = 0;
 
     private int ticks = 0;
     private static int updateGuiTicks = 100;
@@ -70,19 +71,19 @@ public class GuiController extends GuiContainerBase
             }
         } else
         {
-            this.buttonList.add(new GuiButton(0, x, y, 30, 20, LanguageUtility.getLocalName("gui.icbm:controller.back")));
-            this.buttonList.add(new GuiButton(1, x + 100, y + 100, 50, 20, LanguageUtility.getLocalName("gui.icbm:controller.update")));
+            this.buttonList.add(new GuiButton(0, x + 65, y + 35, 30, 20, LanguageUtility.getLocalName("gui.icbm:controller.back")));
+            this.buttonList.add(new GuiButton(1, x + 100, y + 35, 50, 20, LanguageUtility.getLocalName("gui.icbm:controller.update")));
 
             x = guiLeft + 10;
-            y = guiTop + 60;
+            y = guiTop + 25;
 
             TileEntity tile = controller.launcherData.get(editMissile).location.getTileEntity();
 
             if (tile instanceof TileAbstractLauncher && ((TileAbstractLauncher) tile).target != null)
             {
-                this.x_field = this.newField(x, y, 30, 20, "" + ((TileAbstractLauncher) tile).target.xi());
-                this.y_field = this.newField(x + 35, y, 30, 20, "" + ((TileAbstractLauncher) tile).target.yi());
-                this.z_field = this.newField(x + 75, y, 30, 20, "" + ((TileAbstractLauncher) tile).target.zi());
+                this.x_field = this.newField(x, y, 40, 20, "" + ((TileAbstractLauncher) tile).target.xi());
+                this.y_field = this.newField(x + 45, y, 40, 20, "" + ((TileAbstractLauncher) tile).target.yi());
+                this.z_field = this.newField(x + 90, y, 40, 20, "" + ((TileAbstractLauncher) tile).target.zi());
             }
         }
     }
@@ -111,7 +112,10 @@ public class GuiController extends GuiContainerBase
     protected void actionPerformed(GuiButton button)
     {
         super.actionPerformed(button);
+        //Prevents double click when GUI is reloaded
+        if(Minecraft.getSystemTime() - lastClickTime < 2) return;
         this.errorString = "";
+
         if (!editMode)
         {
             if (button.id >= 0 && button.id < buttons.length)
@@ -136,6 +140,7 @@ public class GuiController extends GuiContainerBase
                 editMissile = -1;
                 editMode = false;
                 initGui();
+
             } else if (button.id == 1)
             {
                 TileEntity tile = controller.launcherData.get(editMissile).location.getTileEntity();
@@ -151,6 +156,8 @@ public class GuiController extends GuiContainerBase
                 }
             }
         }
+
+        lastClickTime = Minecraft.getSystemTime();
     }
 
     @Override
@@ -166,7 +173,8 @@ public class GuiController extends GuiContainerBase
 
         if (!editMode && (controller.launcherData == null || controller.launcherData.size() == 0))
         {
-            drawStringCentered("gui.icbm:controller.links.none", 85, 40);
+            drawStringCentered(LanguageUtility.getLocal("gui.icbm:controller.links.none"), 85, 40);
+            drawStringCentered(LanguageUtility.getLocal("gui.icbm:controller.links.none.hint"), 85, 50);
         }
     }
 

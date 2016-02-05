@@ -4,9 +4,12 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.IAmmo;
 import com.builtbroken.icbm.api.IAmmoType;
 import com.builtbroken.icbm.api.IWeapon;
+import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
+import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
@@ -18,6 +21,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,10 +29,10 @@ import java.util.List;
 /**
  * Rocket Launcher
  *
- * @author Calclavia
+ * @author Calclavia, DarkGuardsman
  */
 
-public class ItemRocketLauncher extends Item implements IWeapon
+public class ItemRocketLauncher extends Item implements IWeapon, IPostInit
 {
     private static final int firingDelay = 1000;
     private HashMap<String, Long> clickTimePlayer = new HashMap<String, Long>();
@@ -36,7 +40,13 @@ public class ItemRocketLauncher extends Item implements IWeapon
     public ItemRocketLauncher()
     {
         super();
-        this.setUnlocalizedName("rocketLauncher");
+        this.setUnlocalizedName(ICBM.PREFIX + "rocketLauncher");
+    }
+
+    @Override
+    public void onPostInit()
+    {
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.itemRocketLauncher), "III", " FC", "III", 'I', Items.iron_ingot, 'F', Items.flint, 'C', UniversalRecipe.CIRCUIT_T1.get()));
     }
 
     @Override
@@ -81,6 +91,10 @@ public class ItemRocketLauncher extends Item implements IWeapon
                                 if (!player.capabilities.isCreativeMode)
                                 {
                                     ammo.consumeAmmo(this, itemStack, inventoryStack, 1);
+                                    if (inventoryStack.stackSize <= 0)
+                                    {
+                                        player.inventory.setInventorySlotContents(slot, null);
+                                    }
                                     player.inventoryContainer.detectAndSendChanges();
                                 }
 
@@ -101,7 +115,7 @@ public class ItemRocketLauncher extends Item implements IWeapon
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4)
     {
-        String str = LanguageUtility.getLocal("info.icbm:rocketlauncher.tooltip");
+        String str = LanguageUtility.getLocal("info.icbm:rocketLauncher.tooltip");
         list.add(str);
     }
 
@@ -134,13 +148,15 @@ public class ItemRocketLauncher extends Item implements IWeapon
         return false;
     }
 
-    @SideOnly(Side.CLIENT) @Override
+    @SideOnly(Side.CLIENT)
+    @Override
     public IIcon getIcon(ItemStack stack, int pass)
     {
         return Items.stone_shovel.getIcon(stack, pass);
     }
 
-    @SideOnly(Side.CLIENT) @Override
+    @SideOnly(Side.CLIENT)
+    @Override
     public void registerIcons(IIconRegister p_94581_1_)
     {
         //No icon to register

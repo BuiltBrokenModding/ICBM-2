@@ -4,10 +4,10 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.mc.api.IVirtualObject;
-import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.handler.SaveManager;
 import com.builtbroken.mc.lib.helper.NBTUtility;
 import com.builtbroken.mc.lib.transform.vector.Location;
+import com.builtbroken.mc.lib.transform.vector.Pos;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,13 +19,15 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Random;
 
 /**
+ * Tick handler that tracks the missiles as they fly outside of the loaded map
  * Created by robert on 2/9/2015.
  */
 public class MissileTracker implements IVirtualObject
 {
+    public static int MAX_SPAWN_OUT_Y = 400;
     private static HashMap<Integer, MissileTracker> trackers = new HashMap();
 
     private ArrayList<MissileTrackingData> missiles = new ArrayList();
@@ -51,7 +53,7 @@ public class MissileTracker implements IVirtualObject
 
     public static void addToTracker(EntityMissile missile)
     {
-        debug("missile added to tracker " + missile);
+        debug("Adding missile " + missile);
         MissileTracker tracker = getTrackerForWorld(missile.worldObj);
         if (tracker != null)
             tracker.add(missile);
@@ -73,16 +75,40 @@ public class MissileTracker implements IVirtualObject
 
     public static void spawnMissileOverTarget(Missile data, Location location, EntityPlayer player)
     {
-        debug("spawning missile over target area. D:" + data +"  L:" + location + "  P:" + player);
+        debug((location.world.isRemote ? "Client" : "Server") + "spawning missile over target area. D:" + data + "  L:" + location + "  P:" + player);
+        spawnMissileOverTarget(data, location);
+    }
+
+    public static void spawnMissileOverTarget(Missile missileModuleData, Location location)
+    {
         EntityMissile missile = new EntityMissile(location.world);
-        missile.setMissile(data);
-        missile.setPosition(location.x() + (10 * location.world.rand.nextFloat()), 500 + (100 * location.world.rand.nextFloat()), location.z() + (10 * location.world.rand.nextFloat()));
+        missile.setMissile(missileModuleData);
+
+        Random rand = location.world.rand;
+
+        //Generate spawn in point
+        Pos pos = location.toPos();
+        pos = pos.sub(0, 10 + (100 * rand.nextFloat()), 0);
+        float accuracy = 100f;
+        if (missile.getMissile() != null && missile.getMissile().getGuidance() != null)
+        {
+            accuracy = missile.getMissile().getGuidance().getFallOffRange(missile.getMissile());
+        }
+        //Randomize by accuracy pattern
+        pos = pos.add(accuracy * rand.nextFloat() - accuracy * rand.nextFloat(), 0, 0);
+        pos = pos.add(0, accuracy * rand.nextFloat() - accuracy * rand.nextFloat(), 0);
+        pos = pos.add(0, 0, accuracy * rand.nextFloat() - accuracy * rand.nextFloat());
+        //Set new postion
+        missile.setPosition(pos.x(), pos.y(), pos.z());
 
         //TODO aim missile at target
         //Pos m = new Pos(missile).toEulerAngle(location).toVector();
-        missile.setVelocity(0, -1, 0);
+        missile.motionY = -1;
         location.world.spawnEntityInWorld(missile);
+        //TODO add chance for guidance to update aim and fire thrusters
         missile.setIntoMotion();
+
+        debug("Spawned in missile[" + missile.getUniqueID() + "]  over target " + location + " with data" + missileModuleData);
     }
 
     public boolean update(World world)
@@ -103,15 +129,7 @@ public class MissileTracker implements IVirtualObject
                         Entity entity = EntityList.createEntityFromNBT(data.m_save, world);
                         if (entity instanceof EntityMissile)
                         {
-                            EntityMissile missile = (EntityMissile) entity;
-                            missile.setPosition(data.target.x() + (10 * world.rand.nextFloat()), 500 + (100 * world.rand.nextFloat()), data.target.z() + (10 * world.rand.nextFloat()));
-                            //TODO change to simulate terminal velocity based on drop height
-                            missile.setVelocity(0, -2, 0);
-                            missile.setIntoMotion();
-
-                            world.spawnEntityInWorld(missile);
-
-                            debug("Spawned in missile[" + missile.getUniqueID() + "]  " + data);
+                            spawnMissileOverTarget(((EntityMissile) entity).getMissile(), new Location(loc.world, loc.x(), MAX_SPAWN_OUT_Y, loc.z()));
                         }
                         else
                         {
@@ -185,7 +203,7 @@ public class MissileTracker implements IVirtualObject
 
     protected static void debug(String msg)
     {
-        if(ICBM.DEBUG_MISSILE_MANAGER)
+        if (ICBM.DEBUG_MISSILE_MANAGER)
             ICBM.INSTANCE.logger().info("[MissileTracker]" + msg);
     }
 }

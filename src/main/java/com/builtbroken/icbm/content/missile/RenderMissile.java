@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.missile;
 
 import com.builtbroken.icbm.api.ICustomMissileRender;
-import com.builtbroken.icbm.content.Assets;
+import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import cpw.mods.fml.client.FMLClientHandler;
@@ -15,7 +15,6 @@ import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
-/** @author Calclavia */
 public class RenderMissile extends Render implements IItemRenderer
 {
     public RenderMissile(float f)
@@ -34,7 +33,7 @@ public class RenderMissile extends Render implements IItemRenderer
         float yaw = interpolateRotation(-entity.prevRotationYaw + 90, -entity.rotationYaw + 90, f1);
 
         GL11.glRotatef(yaw, 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(interpolateRotation(entity.prevRotationPitch, entity.rotationPitch, f1) + 90, 0.0F, 0.0F, 1.0F);
+        GL11.glRotatef(interpolateRotation(entity.prevRotationPitch, entity.rotationPitch, f1) - 90, 0.0F, 0.0F, 1.0F);
 
         if (!(missile instanceof ICustomMissileRender) || !((ICustomMissileRender) missile).renderMissileInWorld())
         {
@@ -64,7 +63,7 @@ public class RenderMissile extends Render implements IItemRenderer
     @Override
     public boolean shouldUseRenderHelper(IItemRenderer.ItemRenderType type, ItemStack item, IItemRenderer.ItemRendererHelper helper)
     {
-        return item.getItem() instanceof ItemMissile;
+        return type != ItemRenderType.INVENTORY;
     }
 
     @Override
@@ -97,7 +96,6 @@ public class RenderMissile extends Render implements IItemRenderer
 
             GL11.glRotatef(yaw, 0, 1f, 0f);
             GL11.glRotatef(pitch, 0, 0f, 1f);
-
 
 
             if (!(missile instanceof ICustomMissileRender) || !((ICustomMissileRender) missile).renderMissileItem(type, item, data))

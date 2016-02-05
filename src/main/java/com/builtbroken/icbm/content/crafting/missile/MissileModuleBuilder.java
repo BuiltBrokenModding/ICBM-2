@@ -5,12 +5,14 @@ import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.icbm.content.crafting.ModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
-import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
+import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
 import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
+import com.builtbroken.icbm.content.crafting.missile.guidance.GuidanceModules;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
+import com.builtbroken.mc.api.modules.IModule;
 import net.minecraft.item.ItemStack;
 
 import java.lang.reflect.InvocationTargetException;
@@ -69,7 +71,7 @@ public class MissileModuleBuilder extends ModuleBuilder
 
     public Missile buildMissile(ItemStack stack)
     {
-        AbstractModule module = super.build(stack);
+        IModule module = super.build(stack);
         if (module instanceof Missile)
         {
             return (Missile) module;
@@ -79,7 +81,7 @@ public class MissileModuleBuilder extends ModuleBuilder
 
     public Warhead buildWarhead(ItemStack stack)
     {
-        AbstractModule module = super.build(stack);
+        IModule module = super.build(stack);
         if (module instanceof Warhead)
         {
             return (Warhead) module;
@@ -89,7 +91,7 @@ public class MissileModuleBuilder extends ModuleBuilder
 
     public RocketEngine buildEngine(ItemStack stack)
     {
-        AbstractModule module = super.build(stack);
+        IModule module = super.build(stack);
         if (module instanceof RocketEngine)
         {
             return (RocketEngine) module;
@@ -99,7 +101,7 @@ public class MissileModuleBuilder extends ModuleBuilder
 
     public Guidance buildGuidance(ItemStack stack)
     {
-        AbstractModule module = super.build(stack);
+        IModule module = super.build(stack);
         if (module instanceof Guidance)
         {
             return (Guidance) module;
@@ -109,7 +111,7 @@ public class MissileModuleBuilder extends ModuleBuilder
 
     public Missile buildMissile(MissileCasings missileSize, IExplosiveHandler ex)
     {
-        return this.buildMissile(missileSize, ex, Engines.CREATIVE_ENGINE.newModule(), null);
+        return this.buildMissile(missileSize, ex, Engines.CREATIVE_ENGINE.newModule(), GuidanceModules.CHIP_THREE.newModule());
     }
 
     public Warhead buildWarhead(WarheadCasings size, IExplosiveHandler ex)
@@ -140,7 +142,7 @@ public class MissileModuleBuilder extends ModuleBuilder
     {
         try
         {
-            Missile missile = missileSize.missile_clazz.getConstructor(ItemStack.class).newInstance(new ItemStack(ICBM.itemMissile, 1, missileSize.ordinal()));
+            Missile missile = missileSize.missile_clazz.getConstructor(ItemStack.class).newInstance(missileSize.newModuleStack());
 
             //Engine
             missile.setEngine(engine);

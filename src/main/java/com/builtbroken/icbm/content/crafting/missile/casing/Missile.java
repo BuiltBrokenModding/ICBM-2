@@ -1,11 +1,13 @@
 package com.builtbroken.icbm.content.crafting.missile.casing;
 
-import com.builtbroken.icbm.api.IModuleContainer;
+import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
 import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
+import com.builtbroken.mc.api.modules.IModule;
+import com.builtbroken.mc.lib.helper.LanguageUtility;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -16,18 +18,14 @@ import net.minecraft.nbt.NBTTagCompound;
  *
  * @author Darkguardsman
  */
-public abstract class Missile extends AbstractModule implements IModuleContainer
+public abstract class Missile extends AbstractModule implements IMissile
 {
-
+    /** Size of the missile */
     public final MissileCasings casing;
-
-    public int body_length = 2;
-    public int visual_id = 0;
 
     private Warhead warhead;
     private Guidance guidance;
     private RocketEngine engine;
-
 
 
     public Missile(ItemStack stack, MissileCasings casing)
@@ -68,30 +66,36 @@ public abstract class Missile extends AbstractModule implements IModuleContainer
     }
 
     @Override
-    public boolean canInstallModule(ItemStack stack, AbstractModule module)
+    public boolean canInstallModule(ItemStack stack, IModule module)
     {
         return module instanceof RocketEngine || module instanceof Warhead || module instanceof Guidance;
     }
 
     @Override
-    public boolean installModule(ItemStack stack, AbstractModule module)
+    public boolean installModule(ItemStack stack, IModule module)
     {
         if (module instanceof RocketEngine && engine == null)
         {
-            setEngine((RocketEngine)module);
+            setEngine((RocketEngine) module);
             return getEngine() == module;
         }
         else if (module instanceof Warhead && warhead == null)
         {
-            setWarhead((Warhead)module);
+            setWarhead((Warhead) module);
             return getWarhead() == module;
         }
         else if (module instanceof Guidance && guidance == null)
         {
-            setGuidance((Guidance)module);
+            setGuidance((Guidance) module);
             return getGuidance() == module;
         }
         return false;
+    }
+
+    @Override
+    public boolean canLaunch()
+    {
+        return getEngine() != null && getEngine().getMaxDistance(this) > 0 && getEngine().getSpeed(this) > 0;
     }
 
     public void setWarhead(Warhead warhead)
@@ -122,5 +126,18 @@ public abstract class Missile extends AbstractModule implements IModuleContainer
     public RocketEngine getEngine()
     {
         return engine;
+    }
+
+    @Override
+    public int getMissileSize()
+    {
+        return casing.ordinal();
+    }
+
+    @Override
+    public String toString()
+    {
+        //TODO maybe cache being in missile enum to save a little cpu time?
+        return LanguageUtility.capitalizeFirst(casing.name().toLowerCase()) + "Missile[" + getWarhead() + ", " + getGuidance() + ", " + getEngine() + "]";
     }
 }

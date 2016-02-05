@@ -3,18 +3,26 @@ package com.builtbroken.icbm.content.missile;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.*;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
-import com.builtbroken.icbm.content.crafting.AbstractModule;
+import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
 import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
+import com.builtbroken.icbm.content.crafting.parts.MissileCraftingParts;
+import com.builtbroken.icbm.content.warhead.ItemBlockWarhead;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
+import com.builtbroken.mc.api.explosive.ITexturedExplosiveHandler;
 import com.builtbroken.mc.api.items.IExplosiveItem;
+import com.builtbroken.mc.api.modules.IModule;
+import com.builtbroken.mc.api.modules.IModuleItem;
+import com.builtbroken.mc.core.Engine;
+import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
+import com.builtbroken.mc.prefab.recipe.item.sheetmetal.RecipeSheetMetal;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -40,6 +48,15 @@ import java.util.List;
  */
 public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissileItem, IPostInit, IModularMissileItem
 {
+    @SideOnly(Side.CLIENT)
+    IIcon microMissile;
+
+    @SideOnly(Side.CLIENT)
+    IIcon smallMissile;
+
+    @SideOnly(Side.CLIENT)
+    IIcon standardMissile;
+
     public ItemMissile()
     {
         this.setUnlocalizedName("missile");
@@ -51,7 +68,17 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     @Override
     public void onPostInit()
     {
-        GameRegistry.addShapedRecipe(MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.SMALL, ExplosiveRegistry.get("TNT")).toStack(), "ITI", "IAI", "IFI", 'A', Items.arrow, 'I', Items.iron_ingot, 'T', Blocks.tnt, 'F', Blocks.furnace);
+        ItemStack micro_missile_empty = MissileCasings.MICRO.newModuleStack();
+        ItemStack small_missile_empty = MissileCasings.SMALL.newModuleStack();
+        if (Engine.itemSheetMetal != null && Engine.itemSheetMetalTools != null)
+        {
+            GameRegistry.addRecipe(new RecipeSheetMetal(micro_missile_empty, " rf", "rcf", " rf", 'c', ItemSheetMetal.SheetMetal.SMALL_CYLINDER.stack(), 'f', ItemSheetMetal.SheetMetal.FIN_MICRO.stack(), 'r', "rodIron"));
+            GameRegistry.addRecipe(new RecipeSheetMetal(small_missile_empty, "rrf", "rcf", "rrf", 'c', MissileCraftingParts.SMALL_MISSILE_CASE.stack(), 'f', ItemSheetMetal.SheetMetal.FIN_SMALL.stack(), 'r', "rodIron"));
+        }
+        else
+        {
+            GameRegistry.addShapedRecipe(MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.SMALL, ExplosiveRegistry.get("TNT")).toStack(), "ITI", "IAI", "IFI", 'A', Items.arrow, 'I', Items.iron_ingot, 'T', Blocks.tnt, 'F', Blocks.furnace);
+        }
     }
 
     @Override
@@ -95,10 +122,15 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
         {
             if (size.enabled)
             {
-                list.add(MissileModuleBuilder.INSTANCE.buildMissile(size, null).toStack());
+                list.add(size.newModuleStack());
                 for (IExplosiveHandler ex : ExplosiveRegistry.getExplosives())
                 {
-                    list.add(MissileModuleBuilder.INSTANCE.buildMissile(size, ex).toStack());
+                    Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(size, ex);
+                    if (size == MissileCasings.MEDIUM)
+                    {
+                        missile.getWarhead().size = 10;
+                    }
+                    list.add(missile.toStack());
                 }
             }
         }
@@ -117,9 +149,19 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
             list.add(ex_translation);
 
             List<String> l = new ArrayList();
-            ex.addInfoToItem(stack, l);
+            if (ex instanceof IWarheadHandler)
+            {
+                ((IWarheadHandler) ex).addInfoToItem(player, missile.getWarhead(), l);
+            }
+            else
+            {
+                ex.addInfoToItem(player, missile.getWarhead().toStack(), l);
+            }
+
             for (String s : l)
+            {
                 list.add(s);
+            }
         }
         else
         {
@@ -130,7 +172,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
         String engine_translation = LanguageUtility.getLocal("info." + ICBM.PREFIX + "engine.name") + ": ";
         if (missile.getEngine() != null)
         {
-            engine_translation += LanguageUtility.getLocal(missile.getEngine().getUnlocaizedName() + ".name");
+            engine_translation += LanguageUtility.getLocal(missile.getEngine().getUnlocalizedName() + ".name");
         }
         else
         {
@@ -146,7 +188,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     public boolean isAmmo(ItemStack stack)
     {
         Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
-        return missile != null && missile.getEngine() != null;
+        return missile != null && missile.canLaunch();
     }
 
     @Override
@@ -210,18 +252,73 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
         return null;
     }
 
-    @SideOnly(Side.CLIENT)
     @Override
-    public IIcon getIcon(ItemStack stack, int pass)
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister reg)
     {
-        return Items.stone_shovel.getIcon(stack, pass);
+        super.registerIcons(reg);
+        microMissile = reg.registerIcon(ICBM.PREFIX + "micro.missile");
+        smallMissile = reg.registerIcon(ICBM.PREFIX + "small.missile");
+        standardMissile = reg.registerIcon(ICBM.PREFIX + "standard.missile");
     }
 
-    @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons(IIconRegister p_94581_1_)
+    @SideOnly(Side.CLIENT)
+    public IIcon getIconFromDamage(int meta)
     {
-        //No icon to register
+        if (meta == 0)
+        {
+            return microMissile;
+        }
+        else if (meta == 1)
+        {
+            return smallMissile;
+        }
+        else if (meta == 2)
+        {
+            return standardMissile;
+        }
+        return microMissile;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IIcon getIcon(ItemStack stack, int pass)
+    {
+        if (pass == 1)
+        {
+            IExplosiveHandler handler = getExplosive(stack);
+            if (handler != null)
+            {
+                if (handler instanceof ITexturedExplosiveHandler)
+                {
+                    return ((ITexturedExplosiveHandler) handler).getBottomLeftCornerIcon(stack);
+                }
+                else
+                {
+                    return ItemBlockWarhead.tntIcon;
+                }
+            }
+            else
+            {
+                return ItemBlockWarhead.emptyIcon;
+            }
+        }
+        return getIconFromDamage(stack.getItemDamage());
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getRenderPasses(int metadata)
+    {
+        return 2;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean requiresMultipleRenderPasses()
+    {
+        return true;
     }
 
     @Override
@@ -238,11 +335,11 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
         Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(m_stack);
         if (missile != null)
         {
-            if(missile.getEngine() == null)
+            if (missile.getEngine() == null)
             {
-                if(stack != null && stack.getItem() instanceof IModuleItem)
+                if (stack != null && stack.getItem() instanceof IModuleItem)
                 {
-                    AbstractModule module = ((IModuleItem) stack.getItem()).getModule(stack);
+                    IModule module = ((IModuleItem) stack.getItem()).getModule(stack);
                     if (module instanceof RocketEngine)
                     {
                         if (!simulate)
@@ -254,7 +351,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
                     }
                 }
             }
-            else if(stack  == null)
+            else if (stack == null)
             {
                 if (!simulate)
                 {
@@ -281,9 +378,9 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
         Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(m_stack);
         if (missile != null)
         {
-            if(missile.getWarhead() == null && stack != null && stack.getItem() instanceof IModuleItem)
+            if (missile.getWarhead() == null && stack != null && stack.getItem() instanceof IModuleItem)
             {
-                AbstractModule module = ((IModuleItem) stack.getItem()).getModule(stack);
+                IModule module = ((IModuleItem) stack.getItem()).getModule(stack);
                 if (module instanceof Warhead)
                 {
                     if (!simulate)
@@ -294,7 +391,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
                     return true;
                 }
             }
-            else if(stack == null)
+            else if (stack == null)
             {
                 if (!simulate)
                 {
@@ -321,9 +418,9 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
         Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(m_stack);
         if (missile != null)
         {
-            if(missile.getGuidance() == null && stack != null && stack.getItem() instanceof IModuleItem)
+            if (missile.getGuidance() == null && stack != null && stack.getItem() instanceof IModuleItem)
             {
-                AbstractModule module = ((IModuleItem) stack.getItem()).getModule(stack);
+                IModule module = ((IModuleItem) stack.getItem()).getModule(stack);
                 if (module instanceof Guidance)
                 {
                     if (!simulate)
@@ -334,7 +431,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
                     return true;
                 }
             }
-            else if(stack == null)
+            else if (stack == null)
             {
                 if (!simulate)
                 {

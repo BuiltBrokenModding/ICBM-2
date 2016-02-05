@@ -1,7 +1,8 @@
 package com.builtbroken.icbm.content.crafting;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.api.IModuleContainer;
+import com.builtbroken.mc.api.modules.IModule;
+import com.builtbroken.mc.api.modules.IModuleContainer;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.mc.api.ISave;
 import cpw.mods.fml.relauncher.Side;
@@ -14,7 +15,7 @@ import net.minecraft.util.IIcon;
 /**
  * Created by robert on 12/28/2014.
  */
-public class AbstractModule implements ISave
+public class AbstractModule implements ISave, IModule
 {
     /** ItemStack that represents this module */
     protected ItemStack item;
@@ -26,7 +27,7 @@ public class AbstractModule implements ISave
         this.name = name;
     }
 
-    public String getUnlocaizedName()
+    public String getUnlocalizedName()
     {
         return "module." + ICBM.PREFIX + name;
     }

@@ -32,6 +32,11 @@ public class CommonProxy extends AbstractProxy
 
     }
 
+    public void spawnRocketTail(Entity entity)
+    {
+
+    }
+
     public IUpdatePlayerListBox getDaoDanShengYin(EntityMissile eDaoDan)
     {
         return null;
@@ -55,6 +60,11 @@ public class CommonProxy extends AbstractProxy
     public void spawnShock(World world, Pos startVec, Pos targetVec, int duration)
     {
         // TODO Auto-generated method stub
+
+    }
+
+    public void registerExplosives()
+    {
 
     }
 }

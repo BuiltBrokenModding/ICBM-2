@@ -1,8 +1,8 @@
 package com.builtbroken.icbm.content.missile;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.api.IMissile;
-import com.builtbroken.icbm.api.IMissileItem;
+import com.builtbroken.icbm.api.missile.IMissileEntity;
+import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
@@ -26,7 +26,7 @@ import net.minecraft.world.World;
 /**
  * Basic missile like projectile that explodes on impact
  */
-public class EntityMissile extends EntityProjectile implements IExplosive, IMissile, IEntityAdditionalSpawnData
+public class EntityMissile extends EntityProjectile implements IExplosive, IMissileEntity, IEntityAdditionalSpawnData
 {
     private Missile missile;
 
@@ -63,7 +63,6 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     }
 
 
-
     /**
      * Fires a missile from the entity using its facing direction and location. For more
      * complex launching options create your own implementation.
@@ -84,9 +83,9 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
 
     public static void fireMissileByEntity(Entity entityMissile)
     {
-        if (entityMissile instanceof IMissile)
+        if (entityMissile instanceof IMissileEntity)
         {
-            ((IMissile) entityMissile).setIntoMotion();
+            ((IMissileEntity) entityMissile).setIntoMotion();
             entityMissile.worldObj.spawnEntityInWorld(entityMissile);
             entityMissile.worldObj.playSoundAtEntity(entityMissile, "icbm:icbm.missilelaunch", ICBM.missile_firing_volume, (1.0F + (entityMissile.worldObj.rand.nextFloat() - entityMissile.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
         }
@@ -101,53 +100,31 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     @Override
     public void setIntoMotion()
     {
-        ticksInAir = 1;
-        updateMotion();
+        if (missile != null && missile.canLaunch())
+        {
+            ticksInAir = 1;
+            updateMotion();
+            missile.getEngine().onLaunch(this, missile);
+        }
     }
 
     @Override
     protected void updateMotion()
     {
         super.updateMotion();
-        if(target_pos != null)
+        if (target_pos != null)
         {
-            if(this.posY >= 1000)
+            if (this.posY >= MissileTracker.MAX_SPAWN_OUT_Y)
             {
                 MissileTracker.addToTracker(this);
             }
         }
-        if (this.ticksInAir > 0)
-            this.spawnMissileSmoke();
-    }
-
-    private void spawnMissileSmoke()
-    {
-        if (this.worldObj.isRemote)
+        if (worldObj.isRemote && this.ticksInAir > 0)
         {
-            Pos position = new Pos(this);
-            // The distance of the smoke relative
-            // to the missile.
-            double distance = -1.2f;
-
-            // The horizontal distance of the
-            // smoke.
-            double dH = Math.cos(Math.toRadians(this.rotationPitch)) * distance;
-            // The delta X and Z.
-            // The delta Y of the smoke.
-            Pos delta = new Pos(Math.sin(Math.toRadians(this.rotationYaw)) * dH, Math.sin(Math.toRadians(this.rotationPitch)) * distance, Math.cos(Math.toRadians(this.rotationYaw)) * dH);
-
-            position = position.add(delta);
-            this.worldObj.spawnParticle("flame", position.x(), position.y(), position.z(), 0, 0, 0);
-            ICBM.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
-
-            position = position.multiply(1 - 0.001 * Math.random());
-            ICBM.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
-
-            position = position.multiply(1 - 0.001 * Math.random());
-            ICBM.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
-
-            position = position.multiply(1 - 0.001 * Math.random());
-            ICBM.proxy.spawnParticle("missile_smoke", this.worldObj, position, 4, 2);
+            for (int i = 0; i < 4; i++)
+            {
+                ICBM.proxy.spawnRocketTail(this);
+            }
         }
     }
 
@@ -161,43 +138,64 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     protected void onImpactEntity(Entity ent, float v)
     {
         super.onImpactEntity(ent, v);
-        onImpact();
+        onImpact(ent.posX, ent.posY, ent.posZ);
     }
 
     @Override
     public void onImpactTile()
     {
         super.onImpactTile();
-        if(!noReport && sourceOfProjectile != null)
+        if (!noReport && sourceOfProjectile != null)
         {
             TileEntity tile = sourceOfProjectile.getTileEntity(worldObj);
-            if(tile instanceof TileAbstractLauncher)
+            if (tile instanceof TileAbstractLauncher)
             {
                 ((TileAbstractLauncher) tile).onImpactOfMissile(this);
             }
         }
-        onImpact();
+        onImpact(xTile, yTile, zTile);
     }
 
     @Override
     public void setDead()
     {
         super.setDead();
-        if(!noReport && sourceOfProjectile != null)
+        if (!noReport && sourceOfProjectile != null)
         {
             TileEntity tile = sourceOfProjectile.getTileEntity(worldObj);
-            if(tile instanceof TileAbstractLauncher)
+            if (tile instanceof TileAbstractLauncher)
             {
                 ((TileAbstractLauncher) tile).onDeathOfMissile(this);
             }
         }
     }
 
-    protected void onImpact()
+    protected void onImpact(double x, double y, double z)
     {
+        if (!worldObj.isRemote)
+        {
+            if (missile.getWarhead() != null)
+            {
+                missile.getWarhead().trigger(new TriggerCause.TriggerCauseEntity(this), worldObj, x, y, z);
+            }
+            if (missile != null && missile.getEngine() != null)
+            {
+                missile.getEngine().onDestroyed(this, missile);
+            }
+            this.setDead();
+        }
+        else
+        {
+            doClientImpact(x, y, z);
+        }
+    }
+
+    protected void doClientImpact(double x, double y, double z)
+    {
+        System.out.println("Impacted client side at " + x + " " + y + " " + z);
         if (missile.getWarhead() != null)
         {
-            missile.getWarhead().trigger(new TriggerCause.TriggerCauseEntity(this), worldObj, posX, posY, posZ);
+            missile.getWarhead().trigger(new TriggerCause.TriggerCauseEntity(this), worldObj, x, y, z);
         }
     }
 
@@ -205,7 +203,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     protected void decreaseMotion()
     {
         //TODO do handling per size
-        if(ticksInAir > 1000)
+        if (ticksInAir > 1000)
         {
             super.decreaseMotion();
         }
