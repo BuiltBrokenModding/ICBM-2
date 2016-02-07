@@ -13,9 +13,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
@@ -35,6 +37,13 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
     public Tile newTile()
     {
         return new TileSmallMissileWorkstationClient();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IIcon getIcon()
+    {
+        return Blocks.iron_block.getIcon(0, 0);
     }
 
     @Override

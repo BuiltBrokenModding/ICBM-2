@@ -122,7 +122,7 @@ info.icbm:engine.name=Engine
 info.icbm:warhead.name=Warhead
 info.icbm:guidance.name=Guidance
 info.icbm:trigger.name=Trigger
-
+info.icbm:missileStation.placement.blocked=Placement Blocked
 
 
 ## Controller GUI error messages

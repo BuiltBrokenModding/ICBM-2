@@ -8,7 +8,6 @@ import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
 import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
-import com.builtbroken.icbm.content.crafting.station.ItemBlockMissileStation;
 import com.builtbroken.icbm.content.crafting.station.TileAbstractWorkstation;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.modules.IModule;
@@ -99,9 +98,13 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
         this.connectedBlockSide = ForgeDirection.getOrientation(world().getBlockMetadata(xi(), yi(), zi()));
         //Force rotation update if it is invalid or blocked
         if (!isRotationValid() || isRotationBlocked(rotation))
+        {
             this.rotation = getDirection();
+        }
         else
+        {
             MultiBlockHelper.buildMultiBlock(world(), this, true, true);
+        }
         world().markBlockForUpdate(xi(), yi(), zi());
     }
 
@@ -166,6 +169,18 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
 
     @Override
     public HashMap<IPos3D, String> getLayoutOfMultiBlock(ForgeDirection dir)
+    {
+        return getLayoutOfMultiBlock(dir, connectedBlockSide);
+    }
+
+    /**
+     * Grabs the layout of the structure for the given rotation and side
+     *
+     * @param dir
+     * @param connectedBlockSide
+     * @return
+     */
+    public static HashMap<IPos3D, String> getLayoutOfMultiBlock(ForgeDirection dir, ForgeDirection connectedBlockSide)
     {
         switch (connectedBlockSide)
         {
@@ -268,7 +283,9 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                             getMissile().setGuidance((Guidance) module);
                             player.getHeldItem().stackSize--;
                             if (player.getHeldItem().stackSize <= 0)
+                            {
                                 player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+                            }
                             player.inventoryContainer.detectAndSendChanges();
                             updateMissileItem();
                         }
@@ -345,7 +362,9 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                     IModule module = null;
 
                     if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IModuleItem)
+                    {
                         module = ((IModuleItem) player.getHeldItem().getItem()).getModule(player.getHeldItem());
+                    }
 
                     if (isWarheadSide(pos))
                     {
@@ -423,7 +442,9 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     private boolean isWarheadSide(Pos pos)
     {
         if (rotation == ForgeDirection.NORTH || rotation == ForgeDirection.SOUTH)
+        {
             return pos.toForgeDirection() == getDirection().getOpposite();
+        }
         return pos.toForgeDirection() == getDirection();
     }
 
@@ -431,7 +452,9 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     {
         player.getHeldItem().stackSize--;
         if (player.getHeldItem().stackSize <= 0)
+        {
             player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+        }
         player.inventoryContainer.detectAndSendChanges();
     }
 
@@ -496,35 +519,59 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
             case UP:
             case DOWN:
                 if (rotation == ForgeDirection.NORTH)
+                {
                     newDir = ForgeDirection.EAST;
+                }
                 else if (rotation == ForgeDirection.EAST)
+                {
                     newDir = ForgeDirection.SOUTH;
+                }
                 else if (rotation == ForgeDirection.SOUTH)
+                {
                     newDir = ForgeDirection.WEST;
+                }
                 else
+                {
                     newDir = ForgeDirection.NORTH;
+                }
                 break;
             case EAST:
             case WEST:
                 if (rotation == ForgeDirection.NORTH)
+                {
                     newDir = ForgeDirection.DOWN;
+                }
                 else if (rotation == ForgeDirection.DOWN)
+                {
                     newDir = ForgeDirection.SOUTH;
+                }
                 else if (rotation == ForgeDirection.SOUTH)
+                {
                     newDir = ForgeDirection.UP;
+                }
                 else
+                {
                     newDir = ForgeDirection.NORTH;
+                }
                 break;
             case NORTH:
             case SOUTH:
                 if (rotation == ForgeDirection.EAST)
+                {
                     newDir = ForgeDirection.DOWN;
+                }
                 else if (rotation == ForgeDirection.DOWN)
+                {
                     newDir = ForgeDirection.WEST;
+                }
                 else if (rotation == ForgeDirection.WEST)
+                {
                     newDir = ForgeDirection.UP;
+                }
                 else
+                {
                     newDir = ForgeDirection.EAST;
+                }
                 break;
         }
         return newDir;
@@ -593,7 +640,9 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
                 rotation = newDir;
             }
             if (sendPacket)
+            {
                 sendPacket(new PacketTile(this, 5, (byte) rotation.ordinal()));
+            }
             return true;
         }
         return false;
