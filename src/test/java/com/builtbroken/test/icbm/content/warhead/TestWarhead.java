@@ -113,15 +113,5 @@ public class TestWarhead extends AbstractTileTest<TileWarhead>
             assertNotNull(recipe);
             assertNotNull(recipe.getRecipeOutput());
         }
-
-        for (ItemExplosive.ExplosiveItems exItem : ItemExplosive.ExplosiveItems.values())
-        {
-            if (exItem.ex_name != null)
-            {
-                List<IRecipe> exRecipes = new ArrayList();
-                TileWarhead.getRecipes(exItem.getExplosive(), exRecipes);
-                assertTrue(exItem.getExplosive().toString(), exRecipes.size() == 4);
-            }
-        }
     }
 }

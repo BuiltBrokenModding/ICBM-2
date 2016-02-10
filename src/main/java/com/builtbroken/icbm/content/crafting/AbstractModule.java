@@ -48,8 +48,9 @@ public class AbstractModule implements ISave, IModule
 
     public final ItemStack save()
     {
-        save(item);
-        return item;
+        ItemStack stack = item.copy();
+        save(stack);
+        return stack;
     }
 
     /** Saves to an ItemStack's NBT, can be used to clone to an itemstakc */
@@ -63,8 +64,9 @@ public class AbstractModule implements ISave, IModule
 
     public ItemStack toStack()
     {
-        save(item);
-        return item;
+        ItemStack stack = item.copy();
+        save(stack);
+        return stack;
     }
 
     @Override
