@@ -217,7 +217,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
             //Group_004 nose of warhead
             //Group_005 warhead
             Assets.SMALL_MISSILE_MODEL_2.renderOnly("Group_005");
-            if (getMissile().getWarhead().ex != null)
+            if (getMissile().getWarhead().getExplosive() != null)
             {
                 Assets.SMALL_MISSILE_MODEL_2.renderOnly("Group_004");
             }

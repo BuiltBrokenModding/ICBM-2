@@ -99,9 +99,9 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
     public static void getRecipes(final List<IRecipe> recipes)
     {
         //Small warhead recipes
-        ItemStack micro_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, null).toStack();
-        ItemStack small_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, null).toStack();
-        ItemStack medium_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MEDIUM, null).toStack();
+        ItemStack micro_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, (ItemStack)null).toStack();
+        ItemStack small_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, (ItemStack)null).toStack();
+        ItemStack medium_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MEDIUM, (ItemStack)null).toStack();
 
         if (Engine.itemSheetMetal != null && Engine.itemSheetMetalTools != null)
         {
@@ -143,9 +143,9 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
 
     public static void getRecipes(IExplosiveHandler handler, List<IRecipe> recipes)
     {
-        final ItemStack micro_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, null).toStack();
-        final ItemStack small_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, null).toStack();
-        final ItemStack medium_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_STANDARD, null).toStack();
+        final ItemStack micro_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, (ItemStack)null).toStack();
+        final ItemStack small_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, (ItemStack)null).toStack();
+        final ItemStack medium_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_STANDARD, (ItemStack)null).toStack();
 
         List<ItemStackWrapper> items = ExplosiveRegistry.getItems(handler);
         if (items != null)
@@ -158,7 +158,7 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
 
                 WarheadRecipe microWarheadRecipe = new WarheadRecipe(WarheadCasings.EXPLOSIVE_MICRO, handler, size, stack, micro_warhead_empty);
                 recipes.add(microWarheadRecipe);
-                recipes.add(new MicroMissileRecipe(handler, MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.MICRO, null).toStack(), microWarheadRecipe.getRecipeOutput()));
+                recipes.add(new MicroMissileRecipe(wrapper.itemStack, MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.MICRO, (ItemStack)null).toStack(), microWarheadRecipe.getRecipeOutput()));
                 recipes.add(new WarheadRecipe(WarheadCasings.EXPLOSIVE_SMALL, handler, size, stack, small_warhead_empty));
                 recipes.add(new WarheadRecipe(WarheadCasings.EXPLOSIVE_STANDARD, handler, size, stack, medium_warhead_empty));
             }
@@ -378,7 +378,7 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
     @Override
     public IExplosiveHandler getExplosive()
     {
-        return getWarhead().ex;
+        return getWarhead().getExplosive();
     }
 
     @Override
@@ -388,7 +388,7 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         {
             if (size.enabled)
             {
-                list.add(MissileModuleBuilder.INSTANCE.buildWarhead(size, null).toStack());
+                list.add(MissileModuleBuilder.INSTANCE.buildWarhead(size, (ItemStack)null).toStack());
             }
         }
 

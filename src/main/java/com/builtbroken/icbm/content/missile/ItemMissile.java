@@ -22,6 +22,7 @@ import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
+import com.builtbroken.mc.prefab.items.ItemStackWrapper;
 import com.builtbroken.mc.prefab.recipe.item.sheetmetal.RecipeSheetMetal;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -77,7 +78,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
         }
         else
         {
-            GameRegistry.addShapedRecipe(MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.SMALL, ExplosiveRegistry.get("TNT")).toStack(), "ITI", "IAI", "IFI", 'A', Items.arrow, 'I', Items.iron_ingot, 'T', Blocks.tnt, 'F', Blocks.furnace);
+            GameRegistry.addShapedRecipe(MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.SMALL, new ItemStack(Blocks.tnt)).toStack(), "ITI", "IAI", "IFI", 'A', Items.arrow, 'I', Items.iron_ingot, 'T', Blocks.tnt, 'F', Blocks.furnace);
         }
     }
 
@@ -112,7 +113,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     public IExplosiveHandler getExplosive(ItemStack itemStack)
     {
         Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(itemStack);
-        return missile.getWarhead() != null ? missile.getWarhead().ex : null;
+        return missile.getWarhead() != null ? missile.getWarhead().getExplosive() : null;
     }
 
     @Override
@@ -125,12 +126,12 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
                 list.add(size.newModuleStack());
                 for (IExplosiveHandler ex : ExplosiveRegistry.getExplosives())
                 {
-                    Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(size, ex);
-                    if (size == MissileCasings.MEDIUM)
+                    List<ItemStackWrapper> items = ExplosiveRegistry.getItems(ex);
+                    for (ItemStackWrapper wrapper : items)
                     {
-                        missile.getWarhead().size = 10;
+                        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(size, wrapper.itemStack);
+                        list.add(missile.toStack());
                     }
-                    list.add(missile.toStack());
                 }
             }
         }
@@ -141,7 +142,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     {
         super.addInformation(stack, player, list, bool);
         Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
-        IExplosiveHandler ex = missile.getWarhead() != null ? missile.getWarhead().ex : null;
+        IExplosiveHandler ex = missile.getWarhead() != null ? missile.getWarhead().getExplosive() : null;
         String ex_translation = LanguageUtility.getLocal("info." + ICBM.PREFIX + "warhead.name") + ": ";
         if (ex != null)
         {

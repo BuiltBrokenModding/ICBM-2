@@ -14,6 +14,12 @@ public class WarheadMedium extends Warhead
     }
 
     @Override
+    public int getMaxExplosives()
+    {
+        return 64;
+    }
+
+    @Override
     public int getMissileSize()
     {
         return MissileCasings.MEDIUM.ordinal();

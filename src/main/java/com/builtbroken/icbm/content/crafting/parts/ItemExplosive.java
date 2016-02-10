@@ -122,6 +122,16 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveHolderI
     }
 
     @Override
+    public double getExplosiveSize(ItemStack stack)
+    {
+        if (stack.getItemDamage() >= 1 && stack.getItemDamage() < ExplosiveItems.values().length)
+        {
+            return ExplosiveItems.values()[stack.getItemDamage()].getSize(stack.getMaxStackSize());
+        }
+        return ExplosiveItemUtility.getSize(stack);
+    }
+
+    @Override
     public IExplosiveHandler getExplosive(ItemStack stack)
     {
         if (stack.getItemDamage() >= 1 && stack.getItemDamage() < ExplosiveItems.values().length)
@@ -223,6 +233,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveHolderI
         public IIcon icon;
 
         private static HashMap<IExplosiveHandler, ExplosiveItems> cache;
+        private static HashMap<Integer, Double> stackSizeToExplosiveSize = new HashMap();
 
         ExplosiveItems(String ex_name, double sizePerUnit)
         {
@@ -235,10 +246,37 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveHolderI
             return ExplosiveRegistry.get(ex_name);
         }
 
+        /**
+         * Get the explosive size for the stack size
+         *
+         * @param stackSize
+         * @return
+         */
+        public double getSize(int stackSize)
+        {
+            if (!stackSizeToExplosiveSize.containsKey(stackSize))
+            {
+                //http://www.calculatorsoup.com/calculators/geometry-solids/sphere.php
+                //Get volume of a single unit
+                double volume = (4 / 3) * Math.PI * sizePerUnit * sizePerUnit * sizePerUnit;
+                //Scale the volume by the # of explosives
+                double newVolume = volume * stackSize;
+                //Find new radius from volume
+                double newSize = Math.pow((3 * newVolume) / (4 * Math.PI), 1 / 3);
+                //Cache, round to two places for sanity
+                stackSizeToExplosiveSize.put(stackSize, (int) (newSize * 100) / 100.00);
+            }
+            return stackSizeToExplosiveSize.get(stackSize);
+        }
+
+        /**
+         * Creates a new item for the type
+         *
+         * @return new ItemStack
+         */
         public ItemStack newItem()
         {
-            ItemStack stack = new ItemStack(ICBM.itemExplosive, 1, ordinal());
-            return stack;
+            return new ItemStack(ICBM.itemExplosive, 1, ordinal());
         }
 
         public static ItemStack get(IExplosiveHandler handler)

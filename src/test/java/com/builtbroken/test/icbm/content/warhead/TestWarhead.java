@@ -76,20 +76,20 @@ public class TestWarhead extends AbstractTileTest<TileWarhead>
     {
         for (WarheadCasings casing : WarheadCasings.values())
         {
-            Warhead warhead = MissileModuleBuilder.INSTANCE.buildWarhead(casing, null);
+            Warhead warhead = MissileModuleBuilder.INSTANCE.buildWarhead(casing, (ItemStack)null);
             assertNotNull(warhead);
             assertNotNull(warhead.toStack());
             assertNotNull(warhead.toStack().getItem());
-            assertNull(warhead.ex);
+            assertNull(warhead.getExplosive());
             assertNull(warhead.explosive);
-            assertTrue(warhead.additionalExData.hasNoTags());
+            assertTrue(warhead.getAdditionalExplosiveData() == null || warhead.getAdditionalExplosiveData().hasNoTags());
             for (IExplosiveHandler ex : ExplosiveRegistry.getExplosives())
             {
                 warhead = MissileModuleBuilder.INSTANCE.buildWarhead(casing, ex);
                 assertNotNull(warhead);
                 assertNotNull(warhead.toStack());
                 assertNotNull(warhead.toStack().getItem());
-                assertEquals(warhead.ex, ex);
+                assertEquals(warhead.getExplosive(), ex);
             }
             for (ItemExplosive.ExplosiveItems exItem : ItemExplosive.ExplosiveItems.values())
             {
@@ -100,7 +100,7 @@ public class TestWarhead extends AbstractTileTest<TileWarhead>
                     assertNotNull(warhead);
                     assertNotNull(warhead.toStack());
                     assertNotNull(warhead.toStack().getItem());
-                    assertEquals(warhead.ex, exItem.getExplosive());
+                    assertEquals(warhead.getExplosive(), exItem.getExplosive());
                 }
             }
         }

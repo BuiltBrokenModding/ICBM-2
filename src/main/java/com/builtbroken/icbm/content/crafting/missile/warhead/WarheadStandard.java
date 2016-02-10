@@ -14,6 +14,12 @@ public class WarheadStandard extends Warhead
     }
 
     @Override
+    public int getMaxExplosives()
+    {
+        return 20;
+    }
+
+    @Override
     public int getMissileSize()
     {
         return MissileCasings.STANDARD.ordinal();

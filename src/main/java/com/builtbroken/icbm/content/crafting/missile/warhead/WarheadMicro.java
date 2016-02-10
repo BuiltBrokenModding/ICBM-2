@@ -14,6 +14,12 @@ public class WarheadMicro extends Warhead
     }
 
     @Override
+    public int getMaxExplosives()
+    {
+        return 1;
+    }
+
+    @Override
     public int getMissileSize()
     {
         return MissileCasings.MICRO.ordinal();

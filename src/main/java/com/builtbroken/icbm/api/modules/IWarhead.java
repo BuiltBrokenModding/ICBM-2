@@ -40,4 +40,19 @@ public interface IWarhead extends IMissileModule, IExplosiveHolder
      * @return true if the item was added
      */
     boolean setExplosive(ItemStack stack);
+
+    /**
+     * Gets the explosive contained in the warhead.
+     *
+     * @return original stack of the explosive
+     */
+    ItemStack getExplosiveStack();
+
+    /**
+     * Gets the max stack size allowed for the contained explosive.
+     * -1, will denote unlimited capacity.
+     *
+     * @return stack limit for explosives, normally returns inventory size
+     */
+    int getMaxExplosives();
 }

@@ -136,7 +136,7 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IModu
         Warhead warhead = getModule(itemStack);
         if (warhead != null)
         {
-            return warhead.ex;
+            return warhead.getExplosive();
         }
         return null;
     }
@@ -152,7 +152,7 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IModu
             {
                 lines.add("ExItem: " + warhead.explosive);
             }
-            ExplosiveItemUtility.addInformation(warhead.toStack(), warhead.ex, player, lines, b);
+            ExplosiveItemUtility.addInformation(warhead.toStack(), warhead.getExplosive(), player, lines, b);
         }
         else
         {
