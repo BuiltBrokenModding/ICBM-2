@@ -23,9 +23,9 @@ public class WarheadRecipe extends RecipeShapelessTool
 {
     private final Warhead craftingResult;
 
-    public WarheadRecipe(WarheadCasings casing, IExplosiveHandler ex, Object... recipe)
+    public WarheadRecipe(WarheadCasings casing, ItemStack stack, Object... recipe)
     {
-        this(MissileModuleBuilder.INSTANCE.buildWarhead(casing, ex), recipe);
+        this(MissileModuleBuilder.INSTANCE.buildWarhead(casing, stack), recipe);
     }
 
     public WarheadRecipe(Warhead warhead, Object... recipe)

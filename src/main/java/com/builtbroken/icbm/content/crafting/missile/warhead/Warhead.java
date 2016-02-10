@@ -5,7 +5,6 @@ import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.IExplosiveHolderItem;
-import com.builtbroken.mc.api.items.IExplosiveItem;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.world.edit.WorldChangeHelper;
@@ -139,21 +138,13 @@ public abstract class Warhead extends AbstractModule implements IWarhead, Clonea
     @Override
     public double getExplosiveSize()
     {
-        if (explosive != null && explosive.getItem() instanceof IExplosiveHolderItem)
-        {
-            return ((IExplosiveHolderItem) explosive.getItem()).getExplosiveSize(explosive);
-        }
-        return -1;
+        return ExplosiveRegistry.getExplosiveSize(explosive);
     }
 
     @Override
     public IExplosiveHandler getExplosive()
     {
-        if (explosive != null && explosive.getItem() instanceof IExplosiveItem)
-        {
-            return ((IExplosiveItem) explosive.getItem()).getExplosive(explosive);
-        }
-        return null;
+        return ExplosiveRegistry.get(explosive);
     }
 
     @Override

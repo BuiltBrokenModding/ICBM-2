@@ -135,13 +135,13 @@ public class ThaumBlastLoader extends AbstractLoadable
         AspectList aspects = new AspectList();
         aspects.add(Aspect.TOOL, 1).add(Aspect.MECHANISM, 2).add(Aspect.TRAVEL, 1);
 
-        InfusionRecipeJar recipeJar = new InfusionRecipeJar("NodeWarhead", 0, new AspectList().add(Aspect.ORDER, 25).add(Aspect.FIRE, 25), new ItemStack[]{micro_warhead_empty});
-        InfusionRecipeJar recipeJar1 = new InfusionRecipeJar("NodeWarhead", 0, new AspectList().add(Aspect.ORDER, 25).add(Aspect.FIRE, 25), new ItemStack[]{small_warhead_empty});
+        //InfusionRecipeJar recipeJar = new InfusionRecipeJar("NodeWarhead", 0, new AspectList().add(Aspect.ORDER, 25).add(Aspect.FIRE, 25), new ItemStack[]{micro_warhead_empty});
+        //InfusionRecipeJar recipeJar1 = new InfusionRecipeJar("NodeWarhead", 0, new AspectList().add(Aspect.ORDER, 25).add(Aspect.FIRE, 25), new ItemStack[]{small_warhead_empty});
 
-        ResearchItem researchPage = new ResearchItemICBM("NodeWarhead", ICBM.NAME, aspects, -3, 4, 3, taintBottleMicroMissile);
-        researchPage.setPages(new ResearchPage[]{getResearchPage("NodeWarhead"), new ResearchPage(recipeJar), new ResearchPage(recipeJar1)})
-                .setParents("JarWarhead")
-                .registerResearchItem();
+        //ResearchItem researchPage = new ResearchItemICBM("NodeWarhead", ICBM.NAME, aspects, -3, 4, 3, taintBottleMicroMissile);
+       // researchPage.setPages(new ResearchPage[]{getResearchPage("NodeWarhead"), new ResearchPage(recipeJar), new ResearchPage(recipeJar1)})
+        //        .setParents("JarWarhead")
+         //       .registerResearchItem();
     }
 
     private void taintWarheadRecipes()

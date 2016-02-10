@@ -196,12 +196,26 @@ public class MissileModuleBuilder extends ModuleBuilder
      */
     public Warhead buildWarhead(WarheadCasings size, ItemStack explosive)
     {
+        Warhead warhead = buildWarhead(size);
+        if (explosive != null)
+        {
+            warhead.setExplosive(explosive);
+        }
+        return warhead;
+    }
+
+    /**
+     * Builds a warhead using a size given
+     *
+     * @param size - casing size
+     * @return new Warhead instance of the size
+     */
+    public Warhead buildWarhead(WarheadCasings size)
+    {
         //TODO replace reflection
         try
         {
-            Warhead warhead = size.warhead_clazz.getConstructor(ItemStack.class).newInstance(new ItemStack(ICBM.blockWarhead, 1, size.ordinal()));
-            warhead.setExplosive(explosive);
-            return warhead;
+            return size.warhead_clazz.getConstructor(ItemStack.class).newInstance(new ItemStack(ICBM.blockWarhead, 1, size.ordinal()));
         }
         catch (InstantiationException e)
         {

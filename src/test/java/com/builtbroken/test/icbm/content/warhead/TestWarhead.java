@@ -1,12 +1,11 @@
 package com.builtbroken.test.icbm.content.warhead;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.crafting.parts.ItemExplosive;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
+import com.builtbroken.icbm.content.crafting.parts.ItemExplosive;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
-import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.items.ItemStackWrapper;
 import com.builtbroken.mc.testing.junit.VoltzTestRunner;
@@ -77,26 +76,22 @@ public class TestWarhead extends AbstractTileTest<TileWarhead>
         for (WarheadCasings casing : WarheadCasings.values())
         {
             Warhead warhead = MissileModuleBuilder.INSTANCE.buildWarhead(casing, (ItemStack)null);
+
+            //Test default casing creation & init values
             assertNotNull(warhead);
             assertNotNull(warhead.toStack());
             assertNotNull(warhead.toStack().getItem());
             assertNull(warhead.getExplosive());
             assertNull(warhead.explosive);
             assertTrue(warhead.getAdditionalExplosiveData() == null || warhead.getAdditionalExplosiveData().hasNoTags());
-            for (IExplosiveHandler ex : ExplosiveRegistry.getExplosives())
-            {
-                warhead = MissileModuleBuilder.INSTANCE.buildWarhead(casing, ex);
-                assertNotNull(warhead);
-                assertNotNull(warhead.toStack());
-                assertNotNull(warhead.toStack().getItem());
-                assertEquals(warhead.getExplosive(), ex);
-            }
+
+            //Test warhead creation with explosive items
             for (ItemExplosive.ExplosiveItems exItem : ItemExplosive.ExplosiveItems.values())
             {
                 if (exItem.ex_name != null)
                 {
                     assertTrue(exItem.ex_name, exItem.getExplosive() != null);
-                    warhead = MissileModuleBuilder.INSTANCE.buildWarhead(casing, exItem.getExplosive());
+                    warhead = MissileModuleBuilder.INSTANCE.buildWarhead(casing, exItem.newItem());
                     assertNotNull(warhead);
                     assertNotNull(warhead.toStack());
                     assertNotNull(warhead.toStack().getItem());
