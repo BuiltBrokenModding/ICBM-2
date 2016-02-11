@@ -23,7 +23,7 @@ public class AbstractModule implements ISave, IModule
 
     public AbstractModule(ItemStack item, String name)
     {
-        this.item = item;
+        this.item = item.copy();
         this.name = name;
     }
 

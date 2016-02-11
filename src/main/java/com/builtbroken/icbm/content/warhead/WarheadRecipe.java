@@ -1,17 +1,16 @@
 package com.builtbroken.icbm.content.warhead;
 
-import com.builtbroken.icbm.api.modules.IWarhead;
-import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
-import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
+import com.builtbroken.icbm.content.crafting.parts.ItemExplosive;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
-import com.builtbroken.mc.prefab.recipe.item.RecipeShapelessTool;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.world.World;
 
 /**
  * Simple recipe for crafting warheads with explosive materials. Designed to prevent overriding the explosive in the warhead by mistake.
@@ -19,38 +18,63 @@ import net.minecraft.item.ItemStack;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 11/6/2015.
  */
-public class WarheadRecipe extends RecipeShapelessTool
+public class WarheadRecipe implements IRecipe
 {
+    //TODO replace dependency on shapeless recipe with custom build using only interface
     private final Warhead craftingResult;
+    private final ItemStack inputTarget;
 
-    public WarheadRecipe(WarheadCasings casing, ItemStack stack, Object... recipe)
+    public WarheadRecipe(Warhead warhead, ItemStack inputTarget)
     {
-        this(MissileModuleBuilder.INSTANCE.buildWarhead(casing, stack), recipe);
-    }
-
-    public WarheadRecipe(Warhead warhead, Object... recipe)
-    {
-        super(warhead.toStack(), recipe);
-        craftingResult = warhead;
+        this.craftingResult = warhead;
+        this.inputTarget = inputTarget;
     }
 
     @Override
-    public boolean itemMatches(ItemStack target, ItemStack input, boolean strict)
+    public boolean matches(InventoryCrafting grid, World world)
     {
-        if (!super.itemMatches(target, input, strict))
+        if(inputTarget.getItem() instanceof ItemExplosive && inputTarget.getItemDamage() == 4 && grid.getStackInSlot(1) != null && grid.getStackInSlot(1).getItemDamage() == 4)
         {
-            if (target != null && target.getItem() instanceof IModuleItem && input != null && input.getItem() instanceof IModuleItem)
+            int i = 1;
+        }
+        boolean warhead = false;
+        boolean ex = false;
+        for (int x = 0; x < grid.getSizeInventory(); x++)
+        {
+            ItemStack slotStack = grid.getStackInSlot(x);
+            if (slotStack != null)
             {
-                IModule targetModule = ((IModuleItem) target.getItem()).getModule(target);
-                IModule inputModule = ((IModuleItem) input.getItem()).getModule(input);
-                if (targetModule instanceof IWarhead && inputModule instanceof IWarhead)
+                if (slotStack.getItem() instanceof IModuleItem)
                 {
-                    return ((IWarhead) targetModule).getExplosive() == ((IWarhead) inputModule).getExplosive();
+                    IModule module = ((IModuleItem) slotStack.getItem()).getModule(slotStack);
+                    if (module instanceof Warhead)
+                    {
+                        if (warhead)
+                        {
+                            return false;
+                        }
+                        else if (((Warhead) module).getExplosive() == null || InventoryUtility.stacksMatch(((Warhead) module).getExplosiveStack(), inputTarget))
+                        {
+                            warhead = true;
+                        }
+                        else
+                        {
+                            //Warhead explosives do not match, return null to prevent overriding explosive values
+                            return false;
+                        }
+                    }
+                }
+                else if (InventoryUtility.stacksMatch(slotStack, inputTarget))
+                {
+                    ex = true;
+                }
+                else
+                {
+                    return false;
                 }
             }
-            return false;
         }
-        return true;
+        return warhead && ex;
     }
 
     @Override
@@ -120,5 +144,17 @@ public class WarheadRecipe extends RecipeShapelessTool
             }
         }
         return null;
+    }
+
+    @Override
+    public int getRecipeSize()
+    {
+        return 2;
+    }
+
+    @Override
+    public ItemStack getRecipeOutput()
+    {
+        return craftingResult.toStack();
     }
 }
