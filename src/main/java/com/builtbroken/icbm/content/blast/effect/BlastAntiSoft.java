@@ -13,7 +13,7 @@ import net.minecraft.init.Blocks;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 12/7/2015.
  */
-public class BlastAntiSoft extends BlastSimplePath
+public class BlastAntiSoft extends BlastSimplePath<BlastAntiSoft>
 {
     @Override
     public BlockEdit changeBlock(Location location)

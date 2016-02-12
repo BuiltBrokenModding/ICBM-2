@@ -126,7 +126,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
     {
         if (stack.getItemDamage() >= 1 && stack.getItemDamage() < ExplosiveItems.values().length)
         {
-            return ExplosiveItems.values()[stack.getItemDamage()].getSize(stack.getMaxStackSize());
+            return ExplosiveItems.values()[stack.getItemDamage()].getSize(stack.stackSize);
         }
         return ExplosiveItemUtility.getSize(stack);
     }
@@ -256,15 +256,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         {
             if (!stackSizeToExplosiveSize.containsKey(stackSize))
             {
-                //http://www.calculatorsoup.com/calculators/geometry-solids/sphere.php
-                //Get volume of a single unit
-                double volume = (4 / 3) * Math.PI * sizePerUnit * sizePerUnit * sizePerUnit;
-                //Scale the volume by the # of explosives
-                double newVolume = volume * stackSize;
-                //Find new radius from volume
-                double newSize = Math.pow((3 * newVolume) / (4 * Math.PI), 1 / 3);
-                //Cache, round to two places for sanity
-                stackSizeToExplosiveSize.put(stackSize, (int) (newSize * 100) / 100.00);
+                stackSizeToExplosiveSize.put(stackSize, ((double) ((int) (ExplosiveRegistry.getExplosiveSize(sizePerUnit, stackSize) * 100))) / 100.00);
             }
             return stackSizeToExplosiveSize.get(stackSize);
         }

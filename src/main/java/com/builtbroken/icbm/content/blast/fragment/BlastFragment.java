@@ -4,13 +4,11 @@ import com.builtbroken.mc.lib.helper.MathUtility;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.explosive.blast.Blast;
 import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.MathHelper;
 
 /**
  * Created by robert on 2/25/2015.
  */
-public class BlastFragment extends Blast
+public class BlastFragment extends Blast<BlastFragment>
 {
     @Override
     public void doEffectOther(boolean beforeBlocksPlaced)

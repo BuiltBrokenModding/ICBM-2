@@ -55,7 +55,7 @@ public abstract class ExplosiveHandlerICBM<B extends Blast> extends AbstractExpl
             blast.setLocation(world, x, y, z);
             blast.setCause(triggerCause);
             blast.setYield(size * multi);
-            blast.additionBlastData = tag;
+            blast.setAdditionBlastData(tag);
         }
         return blast;
     }
