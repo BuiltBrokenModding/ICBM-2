@@ -6,7 +6,7 @@ import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.mod.loadable.AbstractLoadable;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
-import com.builtbroken.mc.prefab.explosive.ExplosiveHandler;
+import com.builtbroken.mc.prefab.explosive.ExplosiveHandlerGeneric;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import thaumcraft.api.ThaumcraftApi;
@@ -38,10 +38,10 @@ public class ThaumBlastLoader extends AbstractLoadable
         super.init();
         try
         {
-            ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "ThaumTaint", new ExplosiveHandler("ThaumTaint", BlastTaint.class, 2));
-            ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "ThaumTaintBottle", new ExplosiveHandler("ThaumTaintBottle", BlastTaintBottle.class, 5));
+            ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "ThaumTaint", new ExplosiveHandlerGeneric("ThaumTaint", BlastTaint.class, 2));
+            ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "ThaumTaintBottle", new ExplosiveHandlerGeneric("ThaumTaintBottle", BlastTaintBottle.class, 5));
             ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "ThaumNode", new ExplosiveHandlerNode());
-            ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "ThaumJar", new ExplosiveHandler("ThaumJar", BlastNodeJar.class, 2));
+            ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "ThaumJar", new ExplosiveHandlerGeneric("ThaumJar", BlastNodeJar.class, 2));
         }
         catch (Exception e)
         {
