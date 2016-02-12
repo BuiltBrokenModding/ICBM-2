@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.warhead;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.IWarheadHandler;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
@@ -9,7 +10,6 @@ import com.builtbroken.mc.api.explosive.ITexturedExplosiveHandler;
 import com.builtbroken.mc.api.items.IExplosiveContainerItem;
 import com.builtbroken.mc.api.items.IExplosiveItem;
 import com.builtbroken.mc.api.modules.IModuleItem;
-import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
@@ -141,11 +141,15 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IExpl
         Warhead warhead = getModule(stack);
         if (warhead != null)
         {
-            if (Engine.runningAsDev)
+            IExplosiveHandler ex = warhead.getExplosive();
+            if (ex instanceof IWarheadHandler)
             {
-                lines.add("ExItem: " + warhead.explosive);
+                ((IWarheadHandler) ex).addInfoToItem(player, warhead, lines);
             }
-            ExplosiveItemUtility.addInformation(stack, warhead.getExplosive(), player, lines, b);
+            else
+            {
+                ExplosiveItemUtility.addInformation(stack, ex, player, lines, b);
+            }
         }
         else
         {
@@ -158,13 +162,6 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IExpl
     {
         //TODO evil laugh, allow the player to eat the bomb
         return stack;
-    }
-
-    @Override
-    public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer player, EntityLivingBase entity)
-    {
-        //TODO allow placing on entities
-        return false;
     }
 
 

@@ -18,6 +18,7 @@ import com.builtbroken.mc.api.items.IExplosiveItem;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.core.Engine;
+import com.builtbroken.mc.core.References;
 import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
@@ -160,13 +161,37 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     {
         super.addInformation(stack, player, list, bool);
         Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
+
+
+        //Guidance localization
+        String guidance_translation = LanguageUtility.getLocal("info." + ICBM.PREFIX + "guidance.name") + ": ";
+        if (missile.getEngine() != null)
+        {
+            guidance_translation += LanguageUtility.getLocal(missile.getGuidance().getUnlocalizedName() + ".name");
+        }
+        else
+        {
+            guidance_translation += "----";
+        }
+
+        list.add(guidance_translation);
+
+        //Engine localization
+        String engine_translation = LanguageUtility.getLocal("info." + ICBM.PREFIX + "engine.name") + ": ";
+        if (missile.getEngine() != null)
+        {
+            engine_translation += LanguageUtility.getLocal(missile.getEngine().getUnlocalizedName() + ".name");
+        }
+        else
+        {
+            engine_translation += "----";
+        }
+        list.add(engine_translation);
+
+
         IExplosiveHandler ex = missile.getWarhead() != null ? missile.getWarhead().getExplosive() : null;
-        String ex_translation = LanguageUtility.getLocal("info." + ICBM.PREFIX + "warhead.name") + ": ";
         if (ex != null)
         {
-            ex_translation += LanguageUtility.getLocal(ex.getTranslationKey() + ".name");
-            list.add(ex_translation);
-
             List<String> l = new ArrayList();
             if (ex instanceof IWarheadHandler)
             {
@@ -184,23 +209,10 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
         }
         else
         {
+            String ex_translation = LanguageUtility.getLocal("info." + References.PREFIX + "explosive.name") + ": ";
             ex_translation += "----";
             list.add(ex_translation);
         }
-
-        String engine_translation = LanguageUtility.getLocal("info." + ICBM.PREFIX + "engine.name") + ": ";
-        if (missile.getEngine() != null)
-        {
-            engine_translation += LanguageUtility.getLocal(missile.getEngine().getUnlocalizedName() + ".name");
-        }
-        else
-        {
-            engine_translation += "----";
-        }
-
-        list.add(engine_translation);
-
-
     }
 
     @Override
