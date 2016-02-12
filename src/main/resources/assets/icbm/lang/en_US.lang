@@ -120,7 +120,6 @@ tile.icbm:warhead.standard.name=Warhead
 ## Info
 info.icbm:engine.name=Engine
 info.icbm:warhead.name=Warhead
-info.icbm:warhead.size.name=Yield: %.2fm radius
 info.icbm:guidance.name=Guidance
 info.icbm:trigger.name=Trigger
 info.icbm:missileStation.placement.blocked=Placement Blocked
