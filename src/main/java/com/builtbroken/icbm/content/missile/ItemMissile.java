@@ -36,6 +36,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
@@ -117,6 +118,20 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     }
 
     @Override
+    public NBTTagCompound getAdditionalExplosiveData(ItemStack itemStack)
+    {
+        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(itemStack);
+        return missile.getWarhead() != null ? missile.getWarhead().getAdditionalExplosiveData() : null;
+    }
+
+    @Override
+    public double getExplosiveSize(ItemStack itemStack)
+    {
+        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(itemStack);
+        return missile.getWarhead() != null ? missile.getWarhead().getExplosiveSize() : 0;
+    }
+
+    @Override
     public void getSubItems(Item item, CreativeTabs tab, List list)
     {
         for (MissileCasings size : MissileCasings.values())
@@ -127,7 +142,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
                 for (IExplosiveHandler ex : ExplosiveRegistry.getExplosives())
                 {
                     List<ItemStackWrapper> items = ExplosiveRegistry.getItems(ex);
-                    if(items != null)
+                    if (items != null)
                     {
                         for (ItemStackWrapper wrapper : items)
                         {

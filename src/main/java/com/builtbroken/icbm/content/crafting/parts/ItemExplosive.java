@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.crafting.parts;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.api.items.IExplosiveHolderItem;
+import com.builtbroken.mc.api.items.IExplosiveItem;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.core.registry.implement.IRegistryInit;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
@@ -30,7 +30,7 @@ import java.util.List;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 1/27/2016.
  */
-public class ItemExplosive extends ItemNBTExplosive implements IExplosiveHolderItem, IPostInit, IRegistryInit
+public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, IPostInit, IRegistryInit
 {
     public ItemExplosive()
     {

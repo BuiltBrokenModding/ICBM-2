@@ -1,7 +1,6 @@
 package com.builtbroken.icbm.content.warhead;
 
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
-import com.builtbroken.icbm.content.crafting.parts.ItemExplosive;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
@@ -23,22 +22,26 @@ public class WarheadRecipe implements IRecipe
     //TODO replace dependency on shapeless recipe with custom build using only interface
     private final Warhead craftingResult;
     private final ItemStack inputTarget;
+    private final int size;
 
-    public WarheadRecipe(Warhead warhead, ItemStack inputTarget)
+    public WarheadRecipe(Warhead warhead, ItemStack inputTarget, int size)
     {
         this.craftingResult = warhead;
         this.inputTarget = inputTarget;
+        this.size = size;
+    }
+
+    public WarheadRecipe(Warhead warhead, ItemStack inputTarget)
+    {
+        this(warhead, inputTarget, 2);
     }
 
     @Override
     public boolean matches(InventoryCrafting grid, World world)
     {
-        if(inputTarget.getItem() instanceof ItemExplosive && inputTarget.getItemDamage() == 4 && grid.getStackInSlot(1) != null && grid.getStackInSlot(1).getItemDamage() == 4)
-        {
-            int i = 1;
-        }
-        boolean warhead = false;
+        Warhead warhead = null;
         boolean ex = false;
+        int ex_count = 0;
         for (int x = 0; x < grid.getSizeInventory(); x++)
         {
             ItemStack slotStack = grid.getStackInSlot(x);
@@ -49,13 +52,17 @@ public class WarheadRecipe implements IRecipe
                     IModule module = ((IModuleItem) slotStack.getItem()).getModule(slotStack);
                     if (module instanceof Warhead)
                     {
-                        if (warhead)
+                        if (warhead != null)
                         {
                             return false;
                         }
-                        else if (((Warhead) module).getExplosive() == null || InventoryUtility.stacksMatch(((Warhead) module).getExplosiveStack(), inputTarget))
+                        else if (((Warhead) module).getExplosiveStack() == null || InventoryUtility.stacksMatch(((Warhead) module).getExplosiveStack(), inputTarget))
                         {
-                            warhead = true;
+                            warhead = ((Warhead) module);
+                            if (warhead.getExplosiveStack() != null)
+                            {
+                                ex_count = warhead.getExplosiveStack().stackSize;
+                            }
                         }
                         else
                         {
@@ -66,6 +73,7 @@ public class WarheadRecipe implements IRecipe
                 }
                 else if (InventoryUtility.stacksMatch(slotStack, inputTarget))
                 {
+                    ex_count++;
                     ex = true;
                 }
                 else
@@ -74,7 +82,7 @@ public class WarheadRecipe implements IRecipe
                 }
             }
         }
-        return warhead && ex;
+        return warhead != null && ex && warhead.getMaxExplosives() >= ex_count;
     }
 
     @Override
@@ -134,7 +142,7 @@ public class WarheadRecipe implements IRecipe
         {
             if (warhead.getExplosiveStack() == null)
             {
-                warhead.setExplosive(explosive.copy());
+                warhead.setExplosiveStack(explosive.copy());
                 return warhead.toStack();
             }
             else if (warhead.getExplosiveStack().stackSize + explosive.stackSize <= warhead.getMaxExplosives())
@@ -149,7 +157,7 @@ public class WarheadRecipe implements IRecipe
     @Override
     public int getRecipeSize()
     {
-        return 2;
+        return size;
     }
 
     @Override

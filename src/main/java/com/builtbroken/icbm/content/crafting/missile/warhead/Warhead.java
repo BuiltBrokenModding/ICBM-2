@@ -5,13 +5,11 @@ import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.IExplosiveHolderItem;
+import com.builtbroken.mc.api.items.IExplosiveItem;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.world.edit.WorldChangeHelper;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -43,17 +41,27 @@ public abstract class Warhead extends AbstractModule implements IWarhead, Clonea
     @Override
     public void load(NBTTagCompound nbt)
     {
-        if (nbt.hasKey("exItem"))
+        explosive = loadExplosiveItemFromNBT(nbt);
+    }
+
+    /**
+     * Loads the explosive item from the item save for the warhead.
+     *
+     * @param nbt - warhead save data
+     * @return new ItemStack as long as the nbt has the tag exItem
+     */
+    public static ItemStack loadExplosiveItemFromNBT(NBTTagCompound nbt)
+    {
+        if (nbt != null && nbt.hasKey("exItem"))
         {
-            Side side = FMLCommonHandler.instance().getSide();
-            Item item = Item.getItemById(4660);
-            Item item2 = Item.getItemById(4313);
-            explosive = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("exItem"));
+            ItemStack explosive = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("exItem"));
             if (explosive == null)
             {
-                Engine.error("Failed to load explosive item in warhead " + this);
+                Engine.error("Failed to load explosive item in warhead");
             }
+            return explosive;
         }
+        return null;
     }
 
     @Override
@@ -61,9 +69,6 @@ public abstract class Warhead extends AbstractModule implements IWarhead, Clonea
     {
         if (explosive != null)
         {
-            int id = Item.getIdFromItem(explosive.getItem());
-            short s = (short)id;
-            Item item = Item.getItemById(id);
             nbt.setTag("exItem", explosive.writeToNBT(new NBTTagCompound()));
         }
         return nbt;
@@ -89,6 +94,13 @@ public abstract class Warhead extends AbstractModule implements IWarhead, Clonea
     }
 
     @Override
+    public boolean setExplosiveStack(ItemStack stack)
+    {
+        this.explosive = stack != null ? stack.copy() : stack;
+        return true;
+    }
+
+    @Deprecated
     public boolean setExplosive(IExplosiveHandler ex, double size, NBTTagCompound nbt)
     {
         if (explosive != null && explosive.getItem() instanceof IExplosiveHolderItem)
@@ -96,13 +108,6 @@ public abstract class Warhead extends AbstractModule implements IWarhead, Clonea
             return ((IExplosiveHolderItem) explosive.getItem()).setExplosive(explosive, ex, size, nbt);
         }
         return false;
-    }
-
-    @Override
-    public boolean setExplosive(ItemStack stack)
-    {
-        this.explosive = stack != null ? stack.copy() : stack;
-        return true;
     }
 
     @Override
@@ -115,9 +120,9 @@ public abstract class Warhead extends AbstractModule implements IWarhead, Clonea
     public NBTTagCompound getAdditionalExplosiveData()
     {
         //TODO if presents an issue merge warhead nbt with item nbt in case mods code to the warhead nbt
-        if (explosive != null && explosive.getItem() instanceof IExplosiveHolderItem)
+        if (explosive != null && explosive.getItem() instanceof IExplosiveItem)
         {
-            return ((IExplosiveHolderItem) explosive.getItem()).getAdditionalExplosiveData(explosive);
+            return ((IExplosiveItem) explosive.getItem()).getAdditionalExplosiveData(explosive);
         }
         return null;
     }
@@ -155,7 +160,7 @@ public abstract class Warhead extends AbstractModule implements IWarhead, Clonea
 
     public void copyDataInto(Warhead warhead)
     {
-        if(explosive != null)
+        if (explosive != null)
         {
             warhead.explosive = explosive.copy();
         }

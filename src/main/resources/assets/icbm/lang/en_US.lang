@@ -120,6 +120,7 @@ tile.icbm:warhead.standard.name=Warhead
 ## Info
 info.icbm:engine.name=Engine
 info.icbm:warhead.name=Warhead
+info.icbm:warhead.size.name=Yield: %.2fm radius
 info.icbm:guidance.name=Guidance
 info.icbm:trigger.name=Trigger
 info.icbm:missileStation.placement.blocked=Placement Blocked
@@ -193,14 +194,3 @@ thaumcraft.research.JarWarhead.text=I have a jar of dirt
 thaumcraft.research.JarWarhead.name=Node Dispenser Warhead
 thaumcraft.research.JarWarhead.page.1=Missiles are useful to complete long range task. With this in mind the thought occurred to release nodes with missiles.
 thaumcraft.research.JarWarhead.text=Hungry Nodes
-
-## ICBM Classic
-
-## ItemTracker
-item.icbmclassic:tracker.name=Tracker
-item.icbmclassic:itemtracker.description=Left click to track players
-item.icbmclassic:itemtracker.trackingmessage=Now tracking:
-
-item.icbmclassic:radargun.name=Radar Gun
-item.icbmclassic:radargun.description=Right click to scan a position
-item.icbmclassic:radargun.trackingmessage=Stored block:

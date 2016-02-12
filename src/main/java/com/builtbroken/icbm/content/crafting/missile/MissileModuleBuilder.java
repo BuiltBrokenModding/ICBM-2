@@ -150,7 +150,7 @@ public class MissileModuleBuilder extends ModuleBuilder
             ItemStack explosive = getExplosiveItem(ex);
             if (explosive != null)
             {
-                warhead.setExplosive(explosive);
+                warhead.setExplosiveStack(explosive);
             }
             else
             {
@@ -199,7 +199,7 @@ public class MissileModuleBuilder extends ModuleBuilder
         Warhead warhead = buildWarhead(size);
         if (explosive != null)
         {
-            warhead.setExplosive(explosive);
+            warhead.setExplosiveStack(explosive);
         }
         return warhead;
     }

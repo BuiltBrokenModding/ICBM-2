@@ -135,6 +135,18 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     }
 
     @Override
+    public NBTTagCompound getAdditionalExplosiveData()
+    {
+        return getMissile() != null && getMissile().getWarhead() != null ? getMissile().getWarhead().getAdditionalExplosiveData() : null;
+    }
+
+    @Override
+    public double getExplosiveSize()
+    {
+        return getMissile() != null && getMissile().getWarhead() != null ? getMissile().getWarhead().getExplosiveSize() : 0;
+    }
+
+    @Override
     protected void onImpactEntity(Entity ent, float v)
     {
         super.onImpactEntity(ent, v);
