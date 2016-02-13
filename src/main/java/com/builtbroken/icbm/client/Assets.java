@@ -48,6 +48,7 @@ public final class Assets
     public static final ResourceLocation MICRO_MISSILE_TEXTURE = texture("Rocket_Micro");
     public static final ResourceLocation SMALL_MISSILE_TEXTURE = texture("Missile_Small");
     public static final ResourceLocation CLASSIC_MISSILE_TEXTURE = texture("missile_condensed");
+    public static final ResourceLocation STANDARD_MISSILE_TEXTURE = texture("missile_standard/missile_standard");
     public static final ResourceLocation RPG_TEXTURE = texture("rocketLauncher");
     public static final ResourceLocation LAUNCHER_CONTROLLER_TEXTURE = texture("LauncherController");
     public static final ResourceLocation WEAPON_CASE_TEXTURE = texture("WeaponCase");

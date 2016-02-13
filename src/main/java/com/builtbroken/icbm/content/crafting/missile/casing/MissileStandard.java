@@ -27,7 +27,7 @@ public class MissileStandard extends Missile implements ICustomMissileRender
     @SideOnly(Side.CLIENT)
     public boolean renderMissileItem(IItemRenderer.ItemRenderType type, ItemStack stack, Object... data)
     {
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.STANDARD_MISSILE_TEXTURE);
 
 
         if (type == IItemRenderer.ItemRenderType.INVENTORY)
@@ -58,7 +58,7 @@ public class MissileStandard extends Missile implements ICustomMissileRender
     @SideOnly(Side.CLIENT)
     public boolean renderMissileInWorld()
     {
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.STANDARD_MISSILE_TEXTURE);
         GL11.glScalef(worldScale, worldScale, worldScale);
         Assets.STANDARD_MISSILE_MODEL.renderAll();
         return true;

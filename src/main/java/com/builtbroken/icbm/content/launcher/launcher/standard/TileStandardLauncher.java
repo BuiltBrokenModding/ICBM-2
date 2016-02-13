@@ -30,8 +30,13 @@ public class TileStandardLauncher extends TileAbstractLauncherPad
 {
     /** Is the silo in crafting mode. */
     protected boolean isCrafting = false;
+    /** Places blocks near the missile so to create collisions */
+    protected boolean buildMissileBlocks = false;
+    /** Called to remove blocks near the missile to remove collision */
+    protected boolean destroyMissileBlocks = false;
     /** Current recipe and progress. */
     protected StandardMissileCrafting recipe;
+
 
     public TileStandardLauncher()
     {
@@ -49,9 +54,8 @@ public class TileStandardLauncher extends TileAbstractLauncherPad
                 if (stack != null)
                 {
                     //Make sure to disable crafting before setting slot
-                    isCrafting = false;
+                    disableCraftingMode();
                     setInventorySlotContents(0, stack); //sends packet when slot is set
-                    recipe = null;
                 }
                 else
                 {
@@ -67,6 +71,7 @@ public class TileStandardLauncher extends TileAbstractLauncherPad
         }
         return true;
     }
+
 
     @Override
     public boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
@@ -132,7 +137,7 @@ public class TileStandardLauncher extends TileAbstractLauncherPad
                 return true;
             }
             //TODO implement recipe insertion or selection system
-            this.isCrafting = true;
+            triggerCraftingMode();
             if (recipe == null)
             {
                 this.recipe = new StandardMissileCrafting();
@@ -213,16 +218,29 @@ public class TileStandardLauncher extends TileAbstractLauncherPad
             ItemStack stackPrev = getStackInSlot(slot);
             super.setInventorySlotContents(slot, stack);
             ItemStack newStack = getStackInSlot(slot);
-            if (isCrafting)
+            if (isCrafting && recipe != null)
             {
                 //If something sets the missile while we are crafting, eject all items
                 //TODO drop all crafting items
+                recipe.dropItems(this.toLocation().add(getMissileLaunchOffset()));
             }
             //Update client if missile changes
             else if (!InventoryUtility.stacksMatch(stackPrev, newStack))
             {
                 //TODO if called to often add delay or move to update loop to prevent spam
                 sendDescPacket();
+            }
+
+            if (getMissileItem() != null)
+            {
+                buildMissileBlocks = true;
+                destroyMissileBlocks = false;
+                disableCraftingMode();
+            }
+            else
+            {
+                buildMissileBlocks = false;
+                destroyMissileBlocks = true;
             }
         }
         else
@@ -269,7 +287,7 @@ public class TileStandardLauncher extends TileAbstractLauncherPad
         Location loc = toLocation().add(getMissileLaunchOffset());
         Location botLoc = loc.sub(1);
         Block block = botLoc.getBlock();
-        if(block.isFlammable(loc.world, botLoc.xi(), botLoc.yi(), botLoc.zi(), ForgeDirection.UP))
+        if (block.isFlammable(loc.world, botLoc.xi(), botLoc.yi(), botLoc.zi(), ForgeDirection.UP))
         {
             loc.setBlock(Blocks.fire);
         }
@@ -305,7 +323,7 @@ public class TileStandardLauncher extends TileAbstractLauncherPad
         super.readFromNBT(nbt);
         if (nbt.hasKey("missileRecipe"))
         {
-            isCrafting = true;
+            triggerCraftingMode();
             recipe = new StandardMissileCrafting();
             recipe.load(nbt.getCompoundTag("missileRecipe"));
         }
@@ -320,6 +338,23 @@ public class TileStandardLauncher extends TileAbstractLauncherPad
             NBTTagCompound tag = new NBTTagCompound();
             recipe.save(nbt);
             nbt.setTag("missileRecipe", tag);
+        }
+    }
+
+    protected void triggerCraftingMode()
+    {
+        this.isCrafting = true;
+        buildMissileBlocks = true;
+    }
+
+    protected void disableCraftingMode()
+    {
+        this.isCrafting = false;
+        this.recipe = null;
+        if (getMissileItem() == null)
+        {
+            destroyMissileBlocks = true;
+            buildMissileBlocks = false;
         }
     }
 }

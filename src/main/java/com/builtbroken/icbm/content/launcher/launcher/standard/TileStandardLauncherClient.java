@@ -35,7 +35,6 @@ public class TileStandardLauncherClient extends TileStandardLauncher
     private static List<GroupObject> engine = new ArrayList();
     private static GroupObject guidance;
     private static GroupObject[][] skinLayers = new GroupObject[9][4];
-    private int tick = 0;
 
     @Override
     public Tile newTile()
@@ -81,7 +80,7 @@ public class TileStandardLauncherClient extends TileStandardLauncher
             }
             GL11.glTranslatef(pos.xf(), pos.yf(), pos.zf());
             GL11.glRotatef(45f, 0, 1, 0);
-            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.STANDARD_MISSILE_TEXTURE);
             Assets.STANDARD_MISSILE_MODEL.renderAll();
             GL11.glPopMatrix();
         }
