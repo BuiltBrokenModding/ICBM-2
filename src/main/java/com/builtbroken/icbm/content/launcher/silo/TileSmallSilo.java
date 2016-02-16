@@ -196,7 +196,7 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
         return true;
     }
 
-    private void breakDownStructure(boolean doDrops)
+    private final void breakDownStructure(boolean doDrops)
     {
         if (!_destroyingStructure)
         {
