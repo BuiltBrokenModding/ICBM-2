@@ -21,7 +21,6 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -156,13 +155,6 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
     }
 
     @Override
-    public void onRemove(Block block, int par6)
-    {
-        super.onRemove(block, par6);
-        breakDownStructure(true);
-    }
-
-    @Override
     public boolean onMultiTileBroken(IMultiTile tileMulti, Object source, boolean harvest)
     {
         if (!_destroyingStructure && tileMulti instanceof TileEntity)
@@ -171,7 +163,7 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
 
             if (tileMapCache.containsKey(pos))
             {
-                breakDownStructure(harvest);
+                MultiBlockHelper.destroyMultiBlockStructure(this, harvest, false, true);
                 return true;
             }
         }
@@ -193,28 +185,13 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
     @Override
     public boolean removeByPlayer(EntityPlayer player, boolean willHarvest)
     {
-        breakDownStructure(willHarvest);
-        return true;
-    }
-
-    private final void breakDownStructure(boolean doDrops)
-    {
-        if (!_destroyingStructure)
+        MultiBlockHelper.destroyMultiBlockStructure(this, false, false, false);
+        if (willHarvest && getMissileItem() != null)
         {
-            _destroyingStructure = true;
-            ItemStack drop = toItemStack();
-            MultiBlockHelper.destroyMultiBlockStructure(this, false, false, true);
-            if (doDrops && worldObj.getTileEntity(xi(), yi(), zi()) == this)
-            {
-                InventoryUtility.dropItemStack(toLocation(), drop);
-                if (getMissileItem() != null)
-                {
-                    InventoryUtility.dropItemStack(toLocation(), getMissileItem());
-                    setInventorySlotContents(0, null);
-                }
-            }
-            _destroyingStructure = false;
+            InventoryUtility.dropItemStack(toLocation(), getMissileItem());
+            setInventorySlotContents(0, null);
         }
+        return super.removeByPlayer(player, willHarvest);
     }
 
     @Override

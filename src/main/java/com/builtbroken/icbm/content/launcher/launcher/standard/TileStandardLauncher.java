@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.launcher.launcher.standard;
 
+import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
@@ -26,6 +27,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.HashMap;
@@ -95,6 +97,12 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
                 MultiBlockHelper.destroyMultiBlockStructure(this, false, true, false);
             }
         }
+    }
+
+    @Override
+    public ItemStack getPickBlock(MovingObjectPosition target)
+    {
+        return new ItemStack(ICBM.blockLauncherParts, 1, 0);
     }
 
     @Override
@@ -476,6 +484,16 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
     public void onRemove(Block block, int par6)
     {
         super.onRemove(block, par6);
+        if (getMissileItem() != null)
+        {
+            InventoryUtility.dropItemStack(toLocation(), getMissileItem());
+            setInventorySlotContents(0, null);
+        }
+        if (recipe != null)
+        {
+            recipe.dropItems(toLocation());
+            recipe = null;
+        }
         MultiBlockHelper.destroyMultiBlockStructure(this, false, true, false);
     }
 
@@ -483,6 +501,16 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
     public boolean removeByPlayer(EntityPlayer player, boolean willHarvest)
     {
         MultiBlockHelper.destroyMultiBlockStructure(this, false, true, false);
+        if (getMissileItem() != null)
+        {
+            InventoryUtility.dropItemStack(toLocation(), getMissileItem());
+            setInventorySlotContents(0, null);
+        }
+        if (recipe != null)
+        {
+            recipe.dropItems(toLocation());
+            recipe = null;
+        }
         return super.removeByPlayer(player, willHarvest);
     }
 }
