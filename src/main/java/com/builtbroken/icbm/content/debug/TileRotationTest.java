@@ -15,6 +15,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
 /**
@@ -42,7 +43,7 @@ public class TileRotationTest extends TileMissileContainer implements ILauncher
             if (missile == null)
             {
                 missile = new EntityMissile(world());
-                missile.setMissile(MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.MICRO, null));
+                missile.setMissile(MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.MICRO, (ItemStack)null));
                 missile.setIntoMotion();
                 missile.setPosition(x() + 0.5, y() + 3, z() + 0.5);
                 world().spawnEntityInWorld(missile);

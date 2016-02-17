@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.crafting.parts;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.api.items.IExplosiveHolderItem;
+import com.builtbroken.mc.api.items.IExplosiveItem;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.core.registry.implement.IRegistryInit;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
@@ -30,7 +30,7 @@ import java.util.List;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 1/27/2016.
  */
-public class ItemExplosive extends ItemNBTExplosive implements IExplosiveHolderItem, IPostInit, IRegistryInit
+public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, IPostInit, IRegistryInit
 {
     public ItemExplosive()
     {
@@ -119,6 +119,16 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveHolderI
             return true;
         }
         return false;
+    }
+
+    @Override
+    public double getExplosiveSize(ItemStack stack)
+    {
+        if (stack.getItemDamage() >= 1 && stack.getItemDamage() < ExplosiveItems.values().length)
+        {
+            return ExplosiveItems.values()[stack.getItemDamage()].getSize(stack.stackSize);
+        }
+        return ExplosiveItemUtility.getSize(stack);
     }
 
     @Override
@@ -223,6 +233,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveHolderI
         public IIcon icon;
 
         private static HashMap<IExplosiveHandler, ExplosiveItems> cache;
+        private static HashMap<Integer, Double> stackSizeToExplosiveSize = new HashMap();
 
         ExplosiveItems(String ex_name, double sizePerUnit)
         {
@@ -235,10 +246,29 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveHolderI
             return ExplosiveRegistry.get(ex_name);
         }
 
+        /**
+         * Get the explosive size for the stack size
+         *
+         * @param stackSize
+         * @return
+         */
+        public double getSize(int stackSize)
+        {
+            if (!stackSizeToExplosiveSize.containsKey(stackSize))
+            {
+                stackSizeToExplosiveSize.put(stackSize, ((double) ((int) (ExplosiveRegistry.getExplosiveSize(sizePerUnit, stackSize) * 100))) / 100.00);
+            }
+            return stackSizeToExplosiveSize.get(stackSize);
+        }
+
+        /**
+         * Creates a new item for the type
+         *
+         * @return new ItemStack
+         */
         public ItemStack newItem()
         {
-            ItemStack stack = new ItemStack(ICBM.itemExplosive, 1, ordinal());
-            return stack;
+            return new ItemStack(ICBM.itemExplosive, 1, ordinal());
         }
 
         public static ItemStack get(IExplosiveHandler handler)

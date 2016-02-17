@@ -16,7 +16,7 @@ import java.util.List;
  * Blast the set everything on fire in a large area.
  * Created by robert on 2/3/2015.
  */
-public class BlastFlashFire extends BlastSimplePath
+public class BlastFlashFire extends BlastSimplePath<BlastFlashFire>
 {
     @Override
     public BlockEdit changeBlock(Location location)

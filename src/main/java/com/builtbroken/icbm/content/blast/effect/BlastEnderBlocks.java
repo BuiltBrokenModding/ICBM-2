@@ -18,7 +18,7 @@ import java.util.List;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 12/6/2015.
  */
-public class BlastEnderBlocks extends BlastSimplePath
+public class BlastEnderBlocks extends BlastSimplePath<BlastEnderBlocks>
 {
     @Override
     public void getEffectedBlocks(List<IWorldEdit> list)

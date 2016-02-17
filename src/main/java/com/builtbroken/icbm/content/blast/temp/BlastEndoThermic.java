@@ -19,7 +19,7 @@ import java.util.List;
  * Blast that removes energy from the environment making it very cold.
  * Created by robert on 2/24/2015.
  */
-public class BlastEndoThermic extends BlastSimplePath
+public class BlastEndoThermic extends BlastSimplePath<BlastEndoThermic>
 {
     @Override
     public BlockEdit changeBlock(Location location)

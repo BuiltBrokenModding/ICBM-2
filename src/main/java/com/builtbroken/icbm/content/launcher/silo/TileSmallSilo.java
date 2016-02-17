@@ -13,6 +13,7 @@ import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.multiblock.EnumMultiblock;
 import com.builtbroken.mc.prefab.tile.multiblock.MultiBlockHelper;
@@ -196,12 +197,22 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
         return true;
     }
 
-    private void breakDownStructure(boolean doDrops)
+    private final void breakDownStructure(boolean doDrops)
     {
         if (!_destroyingStructure)
         {
             _destroyingStructure = true;
-            MultiBlockHelper.destroyMultiBlockStructure(this, doDrops);
+            ItemStack drop = toItemStack();
+            MultiBlockHelper.destroyMultiBlockStructure(this, false, false, true);
+            if (doDrops && worldObj.getTileEntity(xi(), yi(), zi()) == this)
+            {
+                InventoryUtility.dropItemStack(toLocation(), drop);
+                if (getMissileItem() != null)
+                {
+                    InventoryUtility.dropItemStack(toLocation(), getMissileItem());
+                    setInventorySlotContents(0, null);
+                }
+            }
             _destroyingStructure = false;
         }
     }

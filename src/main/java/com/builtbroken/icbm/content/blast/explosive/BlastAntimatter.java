@@ -13,7 +13,7 @@ import net.minecraft.init.Blocks;
  * it simple null out the block at the location.
  * Created by robert on 3/25/2015.
  */
-public class BlastAntimatter extends BlastSimplePath
+public class BlastAntimatter extends BlastSimplePath<BlastAntimatter>
 {
     //TODO add delay secondary blast trigger that uses energy released to destroy more blocks
 

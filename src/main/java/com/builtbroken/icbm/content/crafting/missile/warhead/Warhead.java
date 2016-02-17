@@ -9,7 +9,6 @@ import com.builtbroken.mc.api.items.IExplosiveItem;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.world.edit.WorldChangeHelper;
-import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,12 +20,6 @@ import net.minecraft.world.World;
  */
 public abstract class Warhead extends AbstractModule implements IWarhead, Cloneable
 {
-    /** Handler used to trigger an explosion. */
-    public IExplosiveHandler ex;
-    /** Size of the explosion. */
-    public double size = 1;
-    /** Additional data for triggering an explosion. */
-    public NBTTagCompound additionalExData = new NBTTagCompound();
     /** Explosive item used to ID the explosive handler. */
     public ItemStack explosive;
 
@@ -43,43 +36,41 @@ public abstract class Warhead extends AbstractModule implements IWarhead, Clonea
     {
         super(warhead, "warhead");
         this.casing = casing;
-        this.size = 1 + casing.ordinal();
     }
 
     @Override
     public void load(NBTTagCompound nbt)
     {
-        if (nbt.hasKey(ExplosiveItemUtility.EXPLOSIVE_SAVE))
+        explosive = loadExplosiveItemFromNBT(nbt);
+    }
+
+    /**
+     * Loads the explosive item from the item save for the warhead.
+     *
+     * @param nbt - warhead save data
+     * @return new ItemStack as long as the nbt has the tag exItem
+     */
+    public static ItemStack loadExplosiveItemFromNBT(NBTTagCompound nbt)
+    {
+        if (nbt != null && nbt.hasKey("exItem"))
         {
-            ex = ExplosiveItemUtility.getExplosive(nbt);
+            ItemStack explosive = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("exItem"));
+            if (explosive == null)
+            {
+                Engine.error("Failed to load explosive item in warhead");
+            }
+            return explosive;
         }
-        if (nbt.hasKey("data"))
-        {
-            additionalExData = nbt.getCompoundTag("data");
-        }
-        if (nbt.hasKey("exItem"))
-        {
-            explosive = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("exItem"));
-        }
-        size = ExplosiveItemUtility.getSize(nbt);
+        return null;
     }
 
     @Override
     public NBTTagCompound save(NBTTagCompound nbt)
     {
-        if (ex != null)
-        {
-            ExplosiveItemUtility.setExplosive(nbt, ex);
-        }
-        if (additionalExData != null)
-        {
-            nbt.setTag("data", additionalExData);
-        }
         if (explosive != null)
         {
             nbt.setTag("exItem", explosive.writeToNBT(new NBTTagCompound()));
         }
-        ExplosiveItemUtility.setSize(nbt, size);
         return nbt;
     }
 
@@ -103,56 +94,49 @@ public abstract class Warhead extends AbstractModule implements IWarhead, Clonea
     }
 
     @Override
-    public boolean setExplosive(IExplosiveHandler ex, double size, NBTTagCompound nbt)
-    {
-        this.ex = ex;
-        this.size = size;
-        this.additionalExData = nbt;
-        return true;
-    }
-
-    @Override
-    public boolean setExplosive(ItemStack stack)
+    public boolean setExplosiveStack(ItemStack stack)
     {
         this.explosive = stack != null ? stack.copy() : stack;
         return true;
     }
 
-    public Warhead setSize(double size)
+    @Deprecated
+    public boolean setExplosive(IExplosiveHandler ex, double size, NBTTagCompound nbt)
     {
-        this.size = size;
-        return this;
+        if (explosive != null && explosive.getItem() instanceof IExplosiveHolderItem)
+        {
+            return ((IExplosiveHolderItem) explosive.getItem()).setExplosive(explosive, ex, size, nbt);
+        }
+        return false;
+    }
+
+    @Override
+    public ItemStack getExplosiveStack()
+    {
+        return explosive;
     }
 
     @Override
     public NBTTagCompound getAdditionalExplosiveData()
     {
         //TODO if presents an issue merge warhead nbt with item nbt in case mods code to the warhead nbt
-        if (explosive != null && explosive.getItem() instanceof IExplosiveHolderItem)
+        if (explosive != null && explosive.getItem() instanceof IExplosiveItem)
         {
-            return ((IExplosiveHolderItem) explosive.getItem()).getAdditionalExplosiveData(explosive);
+            return ((IExplosiveItem) explosive.getItem()).getAdditionalExplosiveData(explosive);
         }
-        return additionalExData;
+        return null;
     }
 
     @Override
     public double getExplosiveSize()
     {
-        if (explosive != null && explosive.getItem() instanceof IExplosiveHolderItem)
-        {
-            return ((IExplosiveHolderItem) explosive.getItem()).getExplosiveSize(explosive);
-        }
-        return size;
+        return ExplosiveRegistry.getExplosiveSize(explosive);
     }
 
     @Override
     public IExplosiveHandler getExplosive()
     {
-        if (explosive != null && explosive.getItem() instanceof IExplosiveItem)
-        {
-            return ((IExplosiveItem) explosive.getItem()).getExplosive(explosive);
-        }
-        return ex;
+        return ExplosiveRegistry.get(explosive);
     }
 
     @Override
@@ -164,7 +148,11 @@ public abstract class Warhead extends AbstractModule implements IWarhead, Clonea
     @Override
     public String toString()
     {
-        return LanguageUtility.capitalizeFirst(casing.name().toLowerCase()) + "Warhead[" + 1 + " x " + ex.getID() + "]";
+        if (explosive != null)
+        {
+            return LanguageUtility.capitalizeFirst(casing.name().toLowerCase()) + "Warhead[" + explosive.getDisplayName() + " x " + explosive.stackSize + "]";
+        }
+        return LanguageUtility.capitalizeFirst(casing.name().toLowerCase()) + "Warhead[" + explosive + "]";
     }
 
     @Override
@@ -172,9 +160,13 @@ public abstract class Warhead extends AbstractModule implements IWarhead, Clonea
 
     public void copyDataInto(Warhead warhead)
     {
-        warhead.ex = ex;
-        warhead.additionalExData = additionalExData;
-        warhead.size = size;
-        warhead.explosive = explosive;
+        if (explosive != null)
+        {
+            warhead.explosive = explosive.copy();
+        }
+        else
+        {
+            warhead.explosive = null;
+        }
     }
 }

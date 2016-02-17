@@ -6,7 +6,7 @@ import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.mod.loadable.AbstractLoadable;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
-import com.builtbroken.mc.prefab.explosive.ExplosiveHandler;
+import com.builtbroken.mc.prefab.explosive.ExplosiveHandlerGeneric;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import thaumcraft.api.ThaumcraftApi;
@@ -38,10 +38,10 @@ public class ThaumBlastLoader extends AbstractLoadable
         super.init();
         try
         {
-            ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "ThaumTaint", new ExplosiveHandler("ThaumTaint", BlastTaint.class, 2));
-            ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "ThaumTaintBottle", new ExplosiveHandler("ThaumTaintBottle", BlastTaintBottle.class, 5));
+            ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "ThaumTaint", new ExplosiveHandlerGeneric("ThaumTaint", BlastTaint.class, 2));
+            ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "ThaumTaintBottle", new ExplosiveHandlerGeneric("ThaumTaintBottle", BlastTaintBottle.class, 5));
             ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "ThaumNode", new ExplosiveHandlerNode());
-            ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "ThaumJar", new ExplosiveHandler("ThaumJar", BlastNodeJar.class, 2));
+            ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "ThaumJar", new ExplosiveHandlerGeneric("ThaumJar", BlastNodeJar.class, 2));
         }
         catch (Exception e)
         {
@@ -66,8 +66,8 @@ public class ThaumBlastLoader extends AbstractLoadable
     {
         ItemStack taintBottleMicroMissile = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, ExplosiveRegistry.get("ThaumTaintBottle")).toStack();
         ItemStack taintBottleSmallMissile = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, ExplosiveRegistry.get("ThaumTaintBottle")).toStack();
-        ItemStack micro_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, null).toStack();
-        ItemStack small_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, null).toStack();
+        ItemStack micro_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, (ItemStack)null).toStack();
+        ItemStack small_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, (ItemStack)null).toStack();
 
         IArcaneRecipe taintBottleMicroMissileRecipe = ThaumcraftApi.addArcaneCraftingRecipe("MicroTaintBottleWarhead", taintBottleMicroMissile,
                 new AspectList().add(Aspect.ORDER, 25).add(Aspect.FIRE, 25),
@@ -99,8 +99,8 @@ public class ThaumBlastLoader extends AbstractLoadable
         ///Taint Warhead
         ItemStack jarMicroMissile = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, ExplosiveRegistry.get("ThaumJar")).toStack();
         ItemStack jarSmallMissile = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, ExplosiveRegistry.get("ThaumJar")).toStack();
-        ItemStack micro_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, null).toStack();
-        ItemStack small_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, null).toStack();
+        ItemStack micro_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, (ItemStack)null).toStack();
+        ItemStack small_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, (ItemStack)null).toStack();
 
         AspectList list = new AspectList().add(Aspect.ORDER, 75).add(Aspect.FIRE, 75).add(Aspect.EARTH, 75).add(Aspect.WATER, 75).add(Aspect.AIR, 75).add(Aspect.ENTROPY, 75);
         IArcaneRecipe taintMicroMissileRecipe = ThaumcraftApi.addArcaneCraftingRecipe("JarWarhead", jarMicroMissile,
@@ -128,20 +128,20 @@ public class ThaumBlastLoader extends AbstractLoadable
 
     private void nodeWarheadRecipes()
     {
-        ItemStack micro_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, null).toStack();
-        ItemStack small_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, null).toStack();
+        ItemStack micro_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, (ItemStack)null).toStack();
+        ItemStack small_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, (ItemStack)null).toStack();
         ItemStack taintBottleMicroMissile = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, ExplosiveRegistry.get("ThaumNode")).toStack();
 
         AspectList aspects = new AspectList();
         aspects.add(Aspect.TOOL, 1).add(Aspect.MECHANISM, 2).add(Aspect.TRAVEL, 1);
 
-        InfusionRecipeJar recipeJar = new InfusionRecipeJar("NodeWarhead", 0, new AspectList().add(Aspect.ORDER, 25).add(Aspect.FIRE, 25), new ItemStack[]{micro_warhead_empty});
-        InfusionRecipeJar recipeJar1 = new InfusionRecipeJar("NodeWarhead", 0, new AspectList().add(Aspect.ORDER, 25).add(Aspect.FIRE, 25), new ItemStack[]{small_warhead_empty});
+        //InfusionRecipeJar recipeJar = new InfusionRecipeJar("NodeWarhead", 0, new AspectList().add(Aspect.ORDER, 25).add(Aspect.FIRE, 25), new ItemStack[]{micro_warhead_empty});
+        //InfusionRecipeJar recipeJar1 = new InfusionRecipeJar("NodeWarhead", 0, new AspectList().add(Aspect.ORDER, 25).add(Aspect.FIRE, 25), new ItemStack[]{small_warhead_empty});
 
-        ResearchItem researchPage = new ResearchItemICBM("NodeWarhead", ICBM.NAME, aspects, -3, 4, 3, taintBottleMicroMissile);
-        researchPage.setPages(new ResearchPage[]{getResearchPage("NodeWarhead"), new ResearchPage(recipeJar), new ResearchPage(recipeJar1)})
-                .setParents("JarWarhead")
-                .registerResearchItem();
+        //ResearchItem researchPage = new ResearchItemICBM("NodeWarhead", ICBM.NAME, aspects, -3, 4, 3, taintBottleMicroMissile);
+       // researchPage.setPages(new ResearchPage[]{getResearchPage("NodeWarhead"), new ResearchPage(recipeJar), new ResearchPage(recipeJar1)})
+        //        .setParents("JarWarhead")
+         //       .registerResearchItem();
     }
 
     private void taintWarheadRecipes()
@@ -149,8 +149,8 @@ public class ThaumBlastLoader extends AbstractLoadable
         ///Taint Warhead
         ItemStack taintMicroMissile = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, ExplosiveRegistry.get("ThaumTaint")).toStack();
         ItemStack taintSmallMissile = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, ExplosiveRegistry.get("ThaumTaint")).toStack();
-        ItemStack micro_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, null).toStack();
-        ItemStack small_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, null).toStack();
+        ItemStack micro_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, (ItemStack)null).toStack();
+        ItemStack small_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, (ItemStack)null).toStack();
 
         IArcaneRecipe taintMicroMissileRecipe = ThaumcraftApi.addArcaneCraftingRecipe("TaintWarhead", taintMicroMissile,
                 new AspectList().add(Aspect.ORDER, 25).add(Aspect.FIRE, 25),

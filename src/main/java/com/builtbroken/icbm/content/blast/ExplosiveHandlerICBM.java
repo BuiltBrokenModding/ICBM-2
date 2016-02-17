@@ -4,6 +4,7 @@ import com.builtbroken.mc.api.edit.IWorldChangeAction;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.prefab.explosive.AbstractExplosiveHandler;
 import com.builtbroken.mc.prefab.explosive.blast.Blast;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
@@ -36,9 +37,15 @@ public abstract class ExplosiveHandlerICBM<B extends Blast> extends AbstractExpl
             blast.setLocation(world, x, y, z);
             blast.setCause(triggerCause);
             blast.setYield(size * multi);
-            blast.additionBlastData = tag;
+            blast.setAdditionBlastData(tag);
         }
         return blast;
+    }
+
+    @Override
+    protected double getYieldModifier(ItemStack stack)
+    {
+        return multi;
     }
 
     /**

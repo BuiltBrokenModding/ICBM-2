@@ -1,16 +1,19 @@
 package com.builtbroken.icbm.content.warhead;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.IWarheadHandler;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.explosive.ITexturedExplosiveHandler;
+import com.builtbroken.mc.api.items.IExplosiveContainerItem;
 import com.builtbroken.mc.api.items.IExplosiveItem;
 import com.builtbroken.mc.api.modules.IModuleItem;
-import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
+import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
+import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -24,12 +27,13 @@ import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 import java.util.List;
 
-public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IModuleItem
+public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IExplosiveContainerItem, IModuleItem
 {
     @SideOnly(Side.CLIENT)
     public static IIcon emptyIcon;
@@ -131,28 +135,21 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IModu
     }
 
     @Override
-    public IExplosiveHandler getExplosive(ItemStack itemStack)
-    {
-        Warhead warhead = getModule(itemStack);
-        if (warhead != null)
-        {
-            return warhead.ex;
-        }
-        return null;
-    }
-
-    @Override
     public void addInformation(ItemStack stack, EntityPlayer player, List lines, boolean b)
     {
         super.addInformation(stack, player, lines, b);
         Warhead warhead = getModule(stack);
         if (warhead != null)
         {
-            if (Engine.runningAsDev)
+            IExplosiveHandler ex = warhead.getExplosive();
+            if (ex instanceof IWarheadHandler)
             {
-                lines.add("ExItem: " + warhead.explosive);
+                ((IWarheadHandler) ex).addInfoToItem(player, warhead, lines);
             }
-            ExplosiveItemUtility.addInformation(warhead.toStack(), warhead.ex, player, lines, b);
+            else
+            {
+                ExplosiveItemUtility.addInformation(stack, ex, player, lines, b);
+            }
         }
         else
         {
@@ -165,13 +162,6 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IModu
     {
         //TODO evil laugh, allow the player to eat the bomb
         return stack;
-    }
-
-    @Override
-    public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer player, EntityLivingBase entity)
-    {
-        //TODO allow placing on entities
-        return false;
     }
 
 
@@ -277,5 +267,57 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IModu
             return MissileModuleBuilder.INSTANCE.buildWarhead(insert);
         }
         return null;
+    }
+
+    @Override
+    public NBTTagCompound getAdditionalExplosiveData(ItemStack stack)
+    {
+        ItemStack explosive = getExplosiveStack(stack);
+        if (explosive != null && explosive.getItem() instanceof IExplosiveItem)
+        {
+            return ((IExplosiveItem) explosive.getItem()).getAdditionalExplosiveData(explosive);
+        }
+        return null;
+    }
+
+    @Override
+    public double getExplosiveSize(ItemStack stack)
+    {
+        ItemStack explosive = getExplosiveStack(stack);
+        if (explosive != null)
+        {
+            return ExplosiveRegistry.getExplosiveSize(explosive);
+        }
+        return 0;
+    }
+
+    @Override
+    public IExplosiveHandler getExplosive(ItemStack stack)
+    {
+        ItemStack explosive = getExplosiveStack(stack);
+        if (explosive != null)
+        {
+            return ExplosiveRegistry.get(explosive);
+        }
+        return null;
+    }
+
+    @Override
+    public ItemStack getExplosiveStack(ItemStack stack)
+    {
+        return Warhead.loadExplosiveItemFromNBT(stack.getTagCompound());
+    }
+
+    @Override
+    public boolean setExplosiveStack(ItemStack stack, ItemStack explosive)
+    {
+        Warhead warhead = getModule(stack);
+        if (warhead != null && !InventoryUtility.stacksMatchExact(getExplosiveStack(stack), explosive))
+        {
+            warhead.setExplosiveStack(explosive);
+            warhead.save(stack);
+            return true;
+        }
+        return false;
     }
 }

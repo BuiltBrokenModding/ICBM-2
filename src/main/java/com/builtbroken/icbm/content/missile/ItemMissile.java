@@ -18,10 +18,12 @@ import com.builtbroken.mc.api.items.IExplosiveItem;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.core.Engine;
+import com.builtbroken.mc.core.References;
 import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
+import com.builtbroken.mc.prefab.items.ItemStackWrapper;
 import com.builtbroken.mc.prefab.recipe.item.sheetmetal.RecipeSheetMetal;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -35,6 +37,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
@@ -77,7 +80,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
         }
         else
         {
-            GameRegistry.addShapedRecipe(MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.SMALL, ExplosiveRegistry.get("TNT")).toStack(), "ITI", "IAI", "IFI", 'A', Items.arrow, 'I', Items.iron_ingot, 'T', Blocks.tnt, 'F', Blocks.furnace);
+            GameRegistry.addShapedRecipe(MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.SMALL, new ItemStack(Blocks.tnt)).toStack(), "ITI", "IAI", "IFI", 'A', Items.arrow, 'I', Items.iron_ingot, 'T', Blocks.tnt, 'F', Blocks.furnace);
         }
     }
 
@@ -112,7 +115,21 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     public IExplosiveHandler getExplosive(ItemStack itemStack)
     {
         Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(itemStack);
-        return missile.getWarhead() != null ? missile.getWarhead().ex : null;
+        return missile.getWarhead() != null ? missile.getWarhead().getExplosive() : null;
+    }
+
+    @Override
+    public NBTTagCompound getAdditionalExplosiveData(ItemStack itemStack)
+    {
+        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(itemStack);
+        return missile.getWarhead() != null ? missile.getWarhead().getAdditionalExplosiveData() : null;
+    }
+
+    @Override
+    public double getExplosiveSize(ItemStack itemStack)
+    {
+        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(itemStack);
+        return missile.getWarhead() != null ? missile.getWarhead().getExplosiveSize() : 0;
     }
 
     @Override
@@ -125,12 +142,15 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
                 list.add(size.newModuleStack());
                 for (IExplosiveHandler ex : ExplosiveRegistry.getExplosives())
                 {
-                    Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(size, ex);
-                    if (size == MissileCasings.MEDIUM)
+                    List<ItemStackWrapper> items = ExplosiveRegistry.getItems(ex);
+                    if (items != null)
                     {
-                        missile.getWarhead().size = 10;
+                        for (ItemStackWrapper wrapper : items)
+                        {
+                            Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(size, wrapper.itemStack);
+                            list.add(missile.toStack());
+                        }
                     }
-                    list.add(missile.toStack());
                 }
             }
         }
@@ -141,13 +161,37 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     {
         super.addInformation(stack, player, list, bool);
         Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
-        IExplosiveHandler ex = missile.getWarhead() != null ? missile.getWarhead().ex : null;
-        String ex_translation = LanguageUtility.getLocal("info." + ICBM.PREFIX + "warhead.name") + ": ";
+
+
+        //Guidance localization
+        String guidance_translation = LanguageUtility.getLocal("info." + ICBM.PREFIX + "guidance.name") + ": ";
+        if (missile.getEngine() != null)
+        {
+            guidance_translation += LanguageUtility.getLocal(missile.getGuidance().getUnlocalizedName() + ".name");
+        }
+        else
+        {
+            guidance_translation += "----";
+        }
+
+        list.add(guidance_translation);
+
+        //Engine localization
+        String engine_translation = LanguageUtility.getLocal("info." + ICBM.PREFIX + "engine.name") + ": ";
+        if (missile.getEngine() != null)
+        {
+            engine_translation += LanguageUtility.getLocal(missile.getEngine().getUnlocalizedName() + ".name");
+        }
+        else
+        {
+            engine_translation += "----";
+        }
+        list.add(engine_translation);
+
+
+        IExplosiveHandler ex = missile.getWarhead() != null ? missile.getWarhead().getExplosive() : null;
         if (ex != null)
         {
-            ex_translation += LanguageUtility.getLocal(ex.getTranslationKey() + ".name");
-            list.add(ex_translation);
-
             List<String> l = new ArrayList();
             if (ex instanceof IWarheadHandler)
             {
@@ -165,23 +209,10 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
         }
         else
         {
+            String ex_translation = LanguageUtility.getLocal("info." + References.PREFIX + "explosive.name") + ": ";
             ex_translation += "----";
             list.add(ex_translation);
         }
-
-        String engine_translation = LanguageUtility.getLocal("info." + ICBM.PREFIX + "engine.name") + ": ";
-        if (missile.getEngine() != null)
-        {
-            engine_translation += LanguageUtility.getLocal(missile.getEngine().getUnlocalizedName() + ".name");
-        }
-        else
-        {
-            engine_translation += "----";
-        }
-
-        list.add(engine_translation);
-
-
     }
 
     @Override

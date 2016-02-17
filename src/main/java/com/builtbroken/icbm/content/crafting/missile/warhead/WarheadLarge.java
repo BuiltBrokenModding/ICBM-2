@@ -14,6 +14,12 @@ public class WarheadLarge extends Warhead
     }
 
     @Override
+    public int getMaxExplosives()
+    {
+        return 128;
+    }
+
+    @Override
     public int getMissileSize()
     {
         return MissileCasings.LARGE.ordinal();

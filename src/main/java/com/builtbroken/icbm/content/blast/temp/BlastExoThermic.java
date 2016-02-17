@@ -19,7 +19,7 @@ import java.util.List;
  * Blast that releases a lot of energy into the environment making it very hot.
  * Created by robert on 2/24/2015.
  */
-public class BlastExoThermic extends BlastSimplePath
+public class BlastExoThermic extends BlastSimplePath<BlastExoThermic>
 {
     @Override
     public BlockEdit changeBlock(Location location)

@@ -9,17 +9,25 @@ import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.mc.api.ISave;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IByteBufReader;
 import com.builtbroken.mc.core.network.IByteBufWriter;
+import com.builtbroken.mc.lib.transform.vector.Location;
+import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraftforge.oredict.OreDictionary;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Recipe to craft a standard missile in silo
@@ -31,6 +39,8 @@ public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufR
 {
     //TODO add registry for recipe to allow other mods to add missiles to silos
 
+    public static final String ROD_ORE_NAME = "rodIron";
+    public static final String PLATE_ORE_NAME = "plateIron";
     /** Number of rods to complete the frame */
     public static final int MAX_ROD_COUNT = 128;
     public static final int ROD_PER_LEVEL_COUNT = 16;
@@ -64,6 +74,8 @@ public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufR
     protected ItemStack rocketComputer;
     /** Explosive part of the missile */
     protected ItemStack warhead;
+
+    protected List<ItemStack> itemsUsed = new ArrayList();
 
 
     /**
@@ -175,12 +187,12 @@ public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufR
 
     private boolean isRod(final ItemStack stack)
     {
-        return hasOreName("rodIron", stack);
+        return hasOreName(ROD_ORE_NAME, stack);
     }
 
     private boolean isPlate(final ItemStack stack)
     {
-        return hasOreName("plateIron", stack);
+        return hasOreName(PLATE_ORE_NAME, stack);
     }
 
     private boolean hasOreName(final String name, final ItemStack stack)
@@ -217,6 +229,8 @@ public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufR
             else if (isPlate(stack) && !skinCompleted)
             {
                 int added = addPlates(stack.stackSize);
+                ItemStack stackAdd = stack.copy();
+                storeItem(stackAdd, added);
                 stack.stackSize -= added;
                 return added > 0;
             }
@@ -267,6 +281,76 @@ public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufR
             }
         }
         return false;
+    }
+
+    /**
+     * Used to add ore dictionary items to the items used list.
+     * Mainly just used to load items from save for legacy saves.
+     *
+     * @param oreName - ore dictionary name, should contain valid ItemStack.
+     *                If not item stack is found it will be ignored.
+     * @param count   - number of items to add.
+     */
+    protected void addItems(String oreName, int count)
+    {
+        int tempR = count;
+        ItemStack oreStack = null;
+        List<ItemStack> items = OreDictionary.getOres(oreName);
+        if (items != null)
+        {
+            for (ItemStack s : items)
+            {
+                if (s != null)
+                {
+                    oreStack = s.copy();
+                }
+            }
+        }
+        while (tempR > 0)
+        {
+            ItemStack stack = oreStack.copy();
+            stack.stackSize = Math.min(tempR, oreStack.getMaxStackSize());
+            tempR -= stack.stackSize;
+            if (stack.stackSize > 0)
+            {
+                addItem(stack);
+            }
+        }
+    }
+
+    /**
+     * Stores items used in crafting so the exact items
+     * can be returned or dropped.
+     *
+     * @param stack
+     * @param added
+     */
+    protected void storeItem(ItemStack stack, int added)
+    {
+        ItemStack stackAdd = stack.copy();
+        stackAdd.stackSize = added;
+        if (stackAdd.stackSize > 0)
+        {
+            for (ItemStack item : itemsUsed)
+            {
+                int room = item.getMaxStackSize() - item.stackSize;
+                if (room > 0 && InventoryUtility.stacksMatch(item, stackAdd))
+                {
+                    item.stackSize += Math.min(room, stackAdd.stackSize);
+                    stackAdd.stackSize -= Math.min(room, stackAdd.stackSize);
+                    if (stackAdd.stackSize <= 0)
+                    {
+                        stackAdd = null;
+                        break;
+                    }
+                }
+            }
+            //Anything left
+            if (stackAdd != null && stackAdd.stackSize > 0)
+            {
+                itemsUsed.add(stackAdd);
+            }
+        }
     }
 
     protected int addRods(int count)
@@ -403,6 +487,34 @@ public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufR
                 System.out.println("Error loading standard missile recipe progress. Warhead item is invalid, this will cause issues when constructing the missile.");
             }
         }
+        if (nbt.hasKey("itemsUsed", 10))
+        {
+            itemsUsed.clear();
+            NBTTagList list = nbt.getTagList("itemsUsed", 10);
+            for (int i = 0; i < list.tagCount(); i++)
+            {
+                ItemStack stack = ItemStack.loadItemStackFromNBT(list.getCompoundTagAt(i));
+                if (stack != null)
+                {
+                    itemsUsed.add(stack);
+                }
+                else
+                {
+                    Engine.error("Failed to load ItemStack from nbt for " + this + "\n" + list.getStringTagAt(i));
+                }
+            }
+        }
+        else
+        {
+            if (rods > 0)
+            {
+                addItems(ROD_ORE_NAME, rods);
+            }
+            if (plates > 0)
+            {
+                addItems(PLATE_ORE_NAME, plates);
+            }
+        }
     }
 
     @Override
@@ -433,21 +545,25 @@ public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufR
         {
             this.gutsCompleted = true;
         }
+
+        if (itemsUsed != null && !itemsUsed.isEmpty())
+        {
+            NBTTagList list = new NBTTagList();
+            for (ItemStack stack : itemsUsed)
+            {
+                list.appendTag(stack.writeToNBT(new NBTTagCompound()));
+            }
+            nbt.setTag("itemsUsed", list);
+        }
         return nbt;
     }
 
     @Override
     public StandardMissileCrafting readBytes(ByteBuf buf)
     {
-        int rods = buf.readInt();
-        rodsContained = 0;
-        frameCompleted = false;
-        addRods(rods);
-
-        int plates = buf.readInt();
-        platesContained = 0;
-        skinCompleted = false;
-        addPlates(plates);
+        clear();
+        addRods(buf.readInt());
+        addPlates(buf.readInt());
 
         ItemStack stack = ByteBufUtils.readItemStack(buf);
         if (stack.getItem() instanceof IModuleItem)
@@ -476,5 +592,54 @@ public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufR
         ByteBufUtils.writeItemStack(buf, rocketComputer != null ? rocketComputer : new ItemStack(Blocks.stone));
         ByteBufUtils.writeItemStack(buf, rocketEngine != null ? rocketEngine : new ItemStack(Blocks.stone));
         return buf;
+    }
+
+    /**
+     * Called to drop all stored items on the ground
+     *
+     * @param location - place to drop the items
+     */
+    public void dropItems(Location location)
+    {
+        if (rocketEngine != null)
+        {
+            InventoryUtility.dropItemStack(location, rocketEngine);
+            rocketEngine = null;
+        }
+        if (rocketComputer != null)
+        {
+            InventoryUtility.dropItemStack(location, rocketComputer);
+            rocketComputer = null;
+        }
+        if (warhead != null)
+        {
+            InventoryUtility.dropItemStack(location, warhead);
+            warhead = null;
+        }
+        if (itemsUsed != null & !itemsUsed.isEmpty())
+        {
+            Iterator<ItemStack> it = itemsUsed.iterator();
+            while (it.hasNext())
+            {
+                ItemStack stack = it.next();
+                if (stack != null && stack.stackSize > 0)
+                {
+                    InventoryUtility.dropItemStack(location, stack);
+                }
+                it.remove();
+            }
+        }
+        clear();
+    }
+
+    protected void clear()
+    {
+        rodsContained = 0;
+        platesContained = 0;
+        frameCompleted = false;
+        skinCompleted = false;
+        gutsCompleted = false;
+        frameLevel = 0;
+        plateLevel = 0;
     }
 }

@@ -41,7 +41,7 @@ item.icbm:explosivePart.powderStick.name=Powder Stick
 
 ## Explosive Items
 item.icbm:explosiveItem.name=Explosive Unit
-item.icbm:explosiveItem.ArrowFragment.name=Explosive Arrow Bundle
+item.icbm:explosiveItem.Fragment.name=Fragmentation Charge
 item.icbm:explosiveItem.ExoThermic.name=Exothermic Charge
 item.icbm:explosiveItem.EndoThermic.name=Endothermic Charge
 item.icbm:explosiveItem.FireBomb.name=Fire Starter Charge
@@ -89,7 +89,7 @@ explosive.icbm:tnt.name=TNT
 explosive.icbm:snowmen.name=Let it Snow!
 explosive.icbm:EndoThermic.name=Endothermic
 explosive.icbm:ExoThermic.name=Exothermic
-explosive.icbm:ArrowFragment.name=Arrow
+explosive.icbm:Fragment.name=Fragment
 explosive.icbm:Antimatter.name=Antimatter
 explosive.icbm:FireBomb.name=Fire Bomb
 explosive.icbm:FlashFire.name=Flash Fire
@@ -193,14 +193,3 @@ thaumcraft.research.JarWarhead.text=I have a jar of dirt
 thaumcraft.research.JarWarhead.name=Node Dispenser Warhead
 thaumcraft.research.JarWarhead.page.1=Missiles are useful to complete long range task. With this in mind the thought occurred to release nodes with missiles.
 thaumcraft.research.JarWarhead.text=Hungry Nodes
-
-## ICBM Classic
-
-## ItemTracker
-item.icbmclassic:tracker.name=Tracker
-item.icbmclassic:itemtracker.description=Left click to track players
-item.icbmclassic:itemtracker.trackingmessage=Now tracking:
-
-item.icbmclassic:radargun.name=Radar Gun
-item.icbmclassic:radargun.description=Right click to scan a position
-item.icbmclassic:radargun.trackingmessage=Stored block:

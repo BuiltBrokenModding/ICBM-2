@@ -27,7 +27,7 @@ import com.builtbroken.mc.lib.mod.compat.nei.NEIProxy;
 import com.builtbroken.mc.lib.render.fx.*;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
-import com.builtbroken.mc.prefab.explosive.ExplosiveHandler;
+import com.builtbroken.mc.prefab.explosive.ExplosiveHandlerGeneric;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -187,11 +187,11 @@ public class ClientProxy extends CommonProxy
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "MicroQuake", new ExMicroQuake());
         if (Engine.runningAsDev)
         {
-            ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SimplePathTest1", new ExplosiveHandler("SimplePathTest1", BlastPathTester.class, 1));
-            ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SimplePathTest2", new ExplosiveHandler("SimplePathTest2", BlastPathTester.class, 2));
-            ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SimplePathTest3", new ExplosiveHandler("SimplePathTest3", BlastPathTester.class, 3));
-            ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SimplePathTest10", new ExplosiveHandler("SimplePathTest10", BlastPathTester.class, 10));
-            ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SimplePathTest20", new ExplosiveHandler("SimplePathTest20", BlastPathTester.class, 20));
+            ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SimplePathTest1", new ExplosiveHandlerGeneric("SimplePathTest1", BlastPathTester.class, 1));
+            ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SimplePathTest2", new ExplosiveHandlerGeneric("SimplePathTest2", BlastPathTester.class, 2));
+            ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SimplePathTest3", new ExplosiveHandlerGeneric("SimplePathTest3", BlastPathTester.class, 3));
+            ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SimplePathTest10", new ExplosiveHandlerGeneric("SimplePathTest10", BlastPathTester.class, 10));
+            ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SimplePathTest20", new ExplosiveHandlerGeneric("SimplePathTest20", BlastPathTester.class, 20));
         }
     }
 }

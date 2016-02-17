@@ -12,7 +12,7 @@ import net.minecraftforge.common.util.ForgeDirection;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 11/6/2015.
  */
-public class BlastFireBomb extends BlastSimplePath
+public class BlastFireBomb extends BlastSimplePath<BlastFireBomb>
 {
     @Override
     public BlockEdit changeBlock(Location location)

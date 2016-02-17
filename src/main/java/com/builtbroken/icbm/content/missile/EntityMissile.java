@@ -94,7 +94,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     @Override
     public String getCommandSenderName()
     {
-        return getMissile() == null ? "Unknown-Missile" : getMissile().getWarhead() == null ? "Missile-Module" : "Missile with " + getMissile().getWarhead().ex.toString() + " warhead";
+        return getMissile() == null ? "Unknown-Missile" : getMissile().getWarhead() == null ? "Missile-Module" : "Missile with " + getMissile().getWarhead().getExplosive().toString() + " warhead";
     }
 
     @Override
@@ -131,7 +131,19 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     @Override
     public IExplosiveHandler getExplosive()
     {
-        return getMissile() != null && getMissile().getWarhead() != null ? getMissile().getWarhead().ex : null;
+        return getMissile() != null && getMissile().getWarhead() != null ? getMissile().getWarhead().getExplosive() : null;
+    }
+
+    @Override
+    public NBTTagCompound getAdditionalExplosiveData()
+    {
+        return getMissile() != null && getMissile().getWarhead() != null ? getMissile().getWarhead().getAdditionalExplosiveData() : null;
+    }
+
+    @Override
+    public double getExplosiveSize()
+    {
+        return getMissile() != null && getMissile().getWarhead() != null ? getMissile().getWarhead().getExplosiveSize() : 0;
     }
 
     @Override

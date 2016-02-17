@@ -58,7 +58,8 @@ import java.util.List;
 import static net.minecraftforge.oredict.RecipeSorter.Category.SHAPELESS;
 
 /**
- * Block version of the warhead placed at the end of a missile
+ * Block version of the warhead placed on the end of a missile. Can be used
+ * like tnt for a localized explosion.
  *
  * @author Darkguardsman
  */
@@ -90,18 +91,23 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
 
         List<IRecipe> recipes = new ArrayList();
         getRecipes(recipes);
-        for(IRecipe recipe : recipes)
+        for (IRecipe recipe : recipes)
         {
             GameRegistry.addRecipe(recipe);
         }
     }
 
+    /**
+     * Grabs all recipes for the tile
+     *
+     * @param recipes - list to add recipes to
+     */
     public static void getRecipes(final List<IRecipe> recipes)
     {
         //Small warhead recipes
-        ItemStack micro_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, null).toStack();
-        ItemStack small_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, null).toStack();
-        ItemStack medium_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MEDIUM, null).toStack();
+        ItemStack micro_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, (ItemStack) null).toStack();
+        ItemStack small_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, (ItemStack) null).toStack();
+        ItemStack medium_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MEDIUM, (ItemStack) null).toStack();
 
         if (Engine.itemSheetMetal != null && Engine.itemSheetMetalTools != null)
         {
@@ -137,30 +143,52 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
 
         for (IExplosiveHandler handler : ExplosiveRegistry.getExplosives())
         {
-           getRecipes(handler, recipes);
+            getRecipes(handler, recipes);
         }
     }
 
+    /**
+     * Gets a list of warhead recipes for the given explosive. Will return
+     * an empty list if the explosive has no items registered.
+     *
+     * @param handler - explosive, with valid items
+     * @param recipes - list to add recipes to
+     */
     public static void getRecipes(IExplosiveHandler handler, List<IRecipe> recipes)
     {
-        final ItemStack micro_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, null).toStack();
-        final ItemStack small_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, null).toStack();
-        final ItemStack medium_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_STANDARD, null).toStack();
-
+        System.out.println("Generating warhead recipes for " + handler);
         List<ItemStackWrapper> items = ExplosiveRegistry.getItems(handler);
         if (items != null)
         {
+            System.out.println("\tFound " + items.size() + " items for recipes");
+
             for (ItemStackWrapper wrapper : items)
             {
-                ItemStack stack = wrapper.itemStack.copy();
-                stack.stackSize = 1;
-                double size = ExplosiveRegistry.getExplosiveSize(wrapper);
+                if (wrapper != null && wrapper.itemStack != null)
+                {
+                    System.out.println("\t" + wrapper.itemStack);
+                    ItemStack stack = wrapper.itemStack.copy();
+                    stack.stackSize = 1;
 
-                WarheadRecipe microWarheadRecipe = new WarheadRecipe(WarheadCasings.EXPLOSIVE_MICRO, handler, size, stack, micro_warhead_empty);
-                recipes.add(microWarheadRecipe);
-                recipes.add(new MicroMissileRecipe(handler, MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.MICRO, null).toStack(), microWarheadRecipe.getRecipeOutput()));
-                recipes.add(new WarheadRecipe(WarheadCasings.EXPLOSIVE_SMALL, handler, size, stack, small_warhead_empty));
-                recipes.add(new WarheadRecipe(WarheadCasings.EXPLOSIVE_STANDARD, handler, size, stack, medium_warhead_empty));
+                    final Warhead micro_warhead = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, stack);
+
+                    WarheadRecipe microWarheadRecipe = new WarheadRecipe(micro_warhead, stack);
+                    recipes.add(microWarheadRecipe);
+                    recipes.add(new MicroMissileRecipe(wrapper.itemStack, MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.MICRO, (ItemStack) null).toStack(), microWarheadRecipe.getRecipeOutput()));
+
+                    //TODO remove when warhead crafting table is added
+                    for (WarheadCasings casing : new WarheadCasings[]{WarheadCasings.EXPLOSIVE_SMALL, WarheadCasings.EXPLOSIVE_STANDARD})
+                    {
+                        for (int i = 2; i <= 9; i++)
+                        {
+                            recipes.add(new WarheadRecipe(MissileModuleBuilder.INSTANCE.buildWarhead(casing, stack.copy()), stack, 2));
+                        }
+                    }
+                }
+                else
+                {
+                    Engine.error("Wrapper stack for explosive " + handler + " is invalid " + wrapper);
+                }
             }
         }
     }
@@ -378,7 +406,19 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
     @Override
     public IExplosiveHandler getExplosive()
     {
-        return getWarhead().ex;
+        return getWarhead().getExplosive();
+    }
+
+    @Override
+    public NBTTagCompound getAdditionalExplosiveData()
+    {
+        return getWarhead().getAdditionalExplosiveData();
+    }
+
+    @Override
+    public double getExplosiveSize()
+    {
+        return getWarhead().getExplosiveSize();
     }
 
     @Override
@@ -388,17 +428,24 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         {
             if (size.enabled)
             {
-                list.add(MissileModuleBuilder.INSTANCE.buildWarhead(size, null).toStack());
+                list.add(MissileModuleBuilder.INSTANCE.buildWarhead(size, (ItemStack) null).toStack());
             }
         }
 
         for (IExplosiveHandler handler : ExplosiveRegistry.getExplosives())
         {
-            for (WarheadCasings size : WarheadCasings.values())
+            List<ItemStackWrapper> items = ExplosiveRegistry.getItems(handler);
+            if (items != null)
             {
-                if (size.enabled)
+                for(ItemStackWrapper wrapper : items)
                 {
-                    list.add(MissileModuleBuilder.INSTANCE.buildWarhead(size, handler).toStack());
+                    for (WarheadCasings size : WarheadCasings.values())
+                    {
+                        if (size.enabled)
+                        {
+                            list.add(MissileModuleBuilder.INSTANCE.buildWarhead(size, wrapper.itemStack).toStack());
+                        }
+                    }
                 }
             }
         }

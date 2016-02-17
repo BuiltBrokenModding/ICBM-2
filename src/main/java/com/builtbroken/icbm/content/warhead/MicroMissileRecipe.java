@@ -6,7 +6,6 @@ import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
-import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
@@ -20,14 +19,9 @@ import net.minecraft.item.ItemStack;
  */
 public class MicroMissileRecipe extends RecipeShapelessOre
 {
-    public MicroMissileRecipe(IExplosiveHandler ex, Object... recipe)
+    public MicroMissileRecipe(ItemStack stack, Object... recipe)
     {
-        this(MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.MICRO, ex).toStack(), recipe);
-    }
-
-    public MicroMissileRecipe(ItemStack result, Object... recipe)
-    {
-        super(result, recipe);
+        super(MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.MICRO, stack).toStack(), recipe);
     }
 
     @Override
