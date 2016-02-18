@@ -29,7 +29,7 @@ public class TestCoalEngine extends AbstractTest
     @Test
     public void testCoal()
     {
-        RocketEngineCoalPowered engine = new RocketEngineCoalPowered(null);
+        RocketEngineCoalPowered engine = new RocketEngineCoalPowered(new ItemStack(Items.blaze_powder));
         ItemStack stack = new ItemStack(Items.coal, 10);
         engine.getInventory().setInventorySlotContents(0, stack);
         //Ensure new wrapper references work regardless of stack size change
@@ -42,7 +42,7 @@ public class TestCoalEngine extends AbstractTest
     @Test
     public void testFuelDistance()
     {
-        RocketEngineCoalPowered engine = new RocketEngineCoalPowered(null);
+        RocketEngineCoalPowered engine = new RocketEngineCoalPowered(new ItemStack(Items.blaze_powder));
         for (ItemStackWrapper wrapper : RocketEngineCoalPowered.FUEL_DISTANCE_VALUE.keySet())
         {
             //Ensure we store no null values
@@ -68,7 +68,7 @@ public class TestCoalEngine extends AbstractTest
     @Test
     public void testFuelSpeed()
     {
-        RocketEngineCoalPowered engine = new RocketEngineCoalPowered(null);
+        RocketEngineCoalPowered engine = new RocketEngineCoalPowered(new ItemStack(Items.blaze_powder));
         for (ItemStackWrapper wrapper : RocketEngineCoalPowered.FUEL_SPEED_VALUE.keySet())
         {
             //Ensure we store no null values

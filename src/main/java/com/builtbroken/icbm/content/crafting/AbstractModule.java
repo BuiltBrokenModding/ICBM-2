@@ -23,6 +23,14 @@ public class AbstractModule implements ISave, IModule
 
     public AbstractModule(ItemStack item, String name)
     {
+        if (item == null)
+        {
+            throw new IllegalArgumentException("Item for module can not be null");
+        }
+        if (name == null || name.isEmpty())
+        {
+            throw new IllegalArgumentException("Name for a module can not be null or empty");
+        }
         this.item = item.copy();
         this.name = name;
     }
@@ -42,8 +50,10 @@ public class AbstractModule implements ISave, IModule
     /** Loads from an ItemStack's NBT, can be used to clone modules */
     public final void load(ItemStack stack)
     {
-        if(stack.getTagCompound() != null)
+        if (stack.getTagCompound() != null)
+        {
             load(stack.getTagCompound());
+        }
     }
 
     public final ItemStack save()
