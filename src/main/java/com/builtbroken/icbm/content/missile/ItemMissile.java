@@ -10,6 +10,7 @@ import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
 import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
+import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.icbm.content.crafting.parts.MissileCraftingParts;
 import com.builtbroken.icbm.content.warhead.ItemBlockWarhead;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
@@ -147,7 +148,10 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
                     {
                         for (ItemStackWrapper wrapper : items)
                         {
-                            Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(size, wrapper.itemStack);
+                            Warhead warhead = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.values()[size.ordinal()], wrapper.itemStack);
+                            warhead.explosive.stackSize = warhead.getMaxExplosives();
+                            Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(size, (ItemStack)null);
+                            missile.setWarhead(warhead);
                             list.add(missile.toStack());
                         }
                     }
