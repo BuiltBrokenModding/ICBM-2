@@ -1,6 +1,8 @@
 package com.builtbroken.icbm.content.blast.effect;
 
+import com.builtbroken.icbm.ICBM;
 import com.builtbroken.mc.api.edit.IWorldEdit;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.prefab.explosive.blast.BlastSimplePath;
@@ -29,6 +31,7 @@ public class BlastEnderBlocks extends BlastSimplePath<BlastEnderBlocks>
         Iterator<IWorldEdit> it = list.iterator();
         List<IWorldEdit> newList = new ArrayList();
         System.out.println(list.size());
+
         for (IWorldEdit edit : list)
         {
             System.out.println(edit);
@@ -36,6 +39,10 @@ public class BlastEnderBlocks extends BlastSimplePath<BlastEnderBlocks>
         while (it.hasNext())
         {
             IWorldEdit edit = it.next();
+            if(Engine.runningAsDev && edit instanceof BlockEdit)
+            {
+                ((BlockEdit)edit).newBlock = ICBM.blockExplosiveMarker;
+            }
             //TODO prevent loading chunks
             //TODO add gravity to blocks
             Location location = getRandomLocationChecked();
