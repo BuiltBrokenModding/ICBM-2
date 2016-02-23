@@ -40,6 +40,7 @@ import com.builtbroken.icbm.content.launcher.launcher.large.TileLargeLauncher;
 import com.builtbroken.icbm.content.launcher.launcher.medium.TileMediumLauncher;
 import com.builtbroken.icbm.content.launcher.launcher.small.TileSmallLauncher;
 import com.builtbroken.icbm.content.launcher.silo.TileSmallSilo;
+import com.builtbroken.icbm.content.launcher.silo.TileStandardSilo;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.ItemMissile;
 import com.builtbroken.icbm.content.missile.tracking.MissileTracker;
@@ -138,6 +139,7 @@ public final class ICBM extends AbstractMod
     public static Block blockLargeLauncher;
 
     public static Block blockSmallSilo;
+    public static Block blockStandardSilo;
 
     public static Block blockLauncherFrame;
     public static Block blockLauncherParts;
@@ -207,6 +209,7 @@ public final class ICBM extends AbstractMod
         //Launchers
         blockSmallPortableLauncher = manager.newBlock(TileSmallLauncher.class);
         blockSmallSilo = manager.newBlock(TileSmallSilo.class);
+        blockStandardSilo = manager.newBlock(TileStandardSilo.class);
         blockMediumLauncher = manager.newBlock(TileMediumLauncher.class);
         blockLargeLauncher = manager.newBlock(TileLargeLauncher.class);
 

@@ -1,6 +1,5 @@
 package com.builtbroken.icbm.content.launcher.silo;
 
-import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
@@ -10,7 +9,6 @@ import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
-import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
@@ -18,7 +16,6 @@ import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.multiblock.EnumMultiblock;
 import com.builtbroken.mc.prefab.tile.multiblock.MultiBlockHelper;
 import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
@@ -31,17 +28,17 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import org.lwjgl.opengl.GL11;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
- * Small 2 block tall self contained launcher for small missiles.
- * Created by robert on 3/28/2015.
+ * 7 block tall silo tube that requires a user to build a casing to contain the missile.
+ *
+ * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
+ * Created by Dark(DarkGuardsman, Robert) on 2/23/2016.
  */
-public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRenderer, IMultiTileHost, IPostInit
+public class TileStandardSilo extends TileAbstractLauncher implements ISimpleItemRenderer, IMultiTileHost, IPostInit
 {
     public static HashMap<IPos3D, String> tileMapCache = new HashMap();
 
@@ -49,13 +46,17 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
     {
         tileMapCache.put(new Pos(0, 1, 0), EnumMultiblock.TILE.getName());
         tileMapCache.put(new Pos(0, 2, 0), EnumMultiblock.TILE.getName());
+        tileMapCache.put(new Pos(0, 3, 0), EnumMultiblock.TILE.getName());
+        tileMapCache.put(new Pos(0, 4, 0), EnumMultiblock.TILE.getName());
+        tileMapCache.put(new Pos(0, 5, 0), EnumMultiblock.TILE.getName());
+        tileMapCache.put(new Pos(0, 6, 0), EnumMultiblock.TILE.getName());
     }
 
     private boolean _destroyingStructure = false;
 
-    public TileSmallSilo()
+    public TileStandardSilo()
     {
-        super("smallsilo", Material.iron, 1);
+        super("standardsilo", Material.iron, 1);
         this.isOpaque = false;
         this.renderNormalBlock = false;
         this.renderTileEntity = true;
@@ -64,19 +65,19 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
     @Override
     public void onPostInit()
     {
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.blockSmallSilo), "I I", "I I", "CBC", 'I', Blocks.iron_bars, 'B', Blocks.iron_block, 'C', UniversalRecipe.CIRCUIT_T1.get()));
+
     }
 
     @Override
     public boolean canAcceptMissile(Missile missile)
     {
-        return super.canAcceptMissile(missile) && missile.casing == MissileCasings.SMALL;
+        return super.canAcceptMissile(missile) && missile.casing == MissileCasings.STANDARD;
     }
 
     @Override
     public Tile newTile()
     {
-        return new TileSmallSilo();
+        return new TileStandardSilo();
     }
 
     @SideOnly(Side.CLIENT)
@@ -95,7 +96,7 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
     @Override
     public String getInventoryName()
     {
-        return "tile.icbm:smallSilo.container";
+        return "tile.icbm:standardSilo.container";
     }
 
     @Override
@@ -104,13 +105,14 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
         GL11.glTranslatef(-0.5f, -0.5f, -0.5f);
         GL11.glScaled(.8f, .8f, .8f);
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
+        GL11.glColor3f(1.0f, 0f, 0f);
         Assets.SMALL_SILO_MODEL.renderOnly("base", "botCorner1", "botCorner2", "botCorner3", "botCorner4");
     }
 
     @SideOnly(Side.CLIENT)
     public AxisAlignedBB getRenderBoundingBox()
     {
-        return new Cube(0, 0, 0, 1, 3, 1).add(x(), y(), z()).toAABB();
+        return new Cube(0, 0, 0, 1, 7, 1).add(x(), y(), z()).toAABB();
     }
 
     @Override
@@ -119,19 +121,19 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
     {
         //Render launcher
         GL11.glPushMatrix();
-        GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.5f, pos.zf() + 0.5f);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
-        Assets.SMALL_SILO_MODEL.renderAll();
+        GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.3f, pos.zf() + 0.5f);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.STANDARD_SILO_TEXTURE);
+        Assets.STANDARD_SILO_MODEL.renderAll();
         GL11.glPopMatrix();
 
         //Render missile
         if (getMissile() != null)
         {
             GL11.glPushMatrix();
-            GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.5f, pos.zf() + 0.5f);
-            GL11.glScaled(.0015625f, .0015625f, .0015625f);
+            GL11.glTranslatef(pos.xf() - 1.02f, pos.yf() + 0.25f, pos.zf() + 2.325f);
+            //TODO rotate
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_MISSILE_TEXTURE);
-            Assets.SMALL_MISSILE_MODEL.renderAll();
+            Assets.STANDARD_MISSILE_MODEL.renderAll();
             GL11.glPopMatrix();
         }
     }
@@ -140,7 +142,7 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
     public void firstTick()
     {
         super.firstTick();
-        MultiBlockHelper.buildMultiBlock(world(), this, true);
+        MultiBlockHelper.buildMultiBlock(world(), this, true, true);
     }
 
     @Override
@@ -216,12 +218,6 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
     @Override
     public HashMap<IPos3D, String> getLayoutOfMultiBlock()
     {
-        HashMap<IPos3D, String> map = new HashMap();
-        Pos center = new Pos(this);
-        for (Map.Entry<IPos3D, String> entry : tileMapCache.entrySet())
-        {
-            map.put(center.add(entry.getKey()), entry.getValue());
-        }
-        return map;
+        return tileMapCache;
     }
 }

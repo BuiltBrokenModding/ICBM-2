@@ -58,6 +58,9 @@ tile.icbm:TileMissile.1.name=Wooden Small Missile Display
 tile.icbm:smallSilo.container.name=Small Silo Screen
 tile.icbm:smallSiloController.container.name=Launcher Guidance Screen
 
+tile.icbm:standardSilo.name=Standard Silo
+tile.icbm:standardSilo.container.name=Standard Silo Screen
+
 tile.icbm:smallLauncher.name=Portable Missile Launcher
 tile.icbm:portableLauncher.container.name=Portable Missile Launcher
 tile.icbm:portableLauncher.container.invalidtarget=Invalid Target Location

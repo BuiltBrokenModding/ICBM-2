@@ -30,6 +30,7 @@ public final class Assets
     //Launcher Models
     public static final IModelCustom PORTABLE_LAUNCHER_MODEL = model("small_launcher.tcn");
     public static final IModelCustom SMALL_SILO_MODEL = model("SmallSilo.tcn");
+    public static final IModelCustom STANDARD_SILO_MODEL = model("StandardSilo.obj");
 
     //Weapon Models
     public static final IModelCustom RPG_MODEL = model("rocketLauncher.tcn");
@@ -49,9 +50,11 @@ public final class Assets
     public static final ResourceLocation SMALL_MISSILE_TEXTURE = texture("Missile_Small");
     public static final ResourceLocation CLASSIC_MISSILE_TEXTURE = texture("missile_condensed");
     public static final ResourceLocation STANDARD_MISSILE_TEXTURE = texture("missile_standard/missile_standard");
+    public static final ResourceLocation STANDARD_MISSILE_FINS_TEXTURE = texture("missile_standard/missile_standard_fins");
     public static final ResourceLocation RPG_TEXTURE = texture("rocketLauncher");
     public static final ResourceLocation LAUNCHER_CONTROLLER_TEXTURE = texture("LauncherController");
     public static final ResourceLocation WEAPON_CASE_TEXTURE = texture("WeaponCase");
+    public static final ResourceLocation STANDARD_SILO_TEXTURE = texture("StandardSilo");
 
 
     public static IModelCustom model(String name)
