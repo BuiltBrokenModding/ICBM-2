@@ -461,7 +461,7 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
     @Override
     public boolean onMultiTileActivated(IMultiTile tile, EntityPlayer player, int side, IPos3D hit)
     {
-        return false;
+        return onPlayerActivated(player, side, new Pos(hit));
     }
 
     @Override
