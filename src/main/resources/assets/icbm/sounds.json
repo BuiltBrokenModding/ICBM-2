@@ -17,5 +17,11 @@
       "sounds":[
          "explosive/explosion1"
       ]
+   },
+    "icbm.engine.main":{
+      "category":"neutral",
+      "sounds":[
+         "engine/rocketEngineloop"
+      ]
    }
 }

@@ -30,7 +30,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 12/4/2015.
  */
-public class BlockLauncherPart extends Block implements IPostInit
+public final class BlockLauncherPart extends Block implements IPostInit
 {
     @SideOnly(Side.CLIENT)
     IIcon cpuTop;
@@ -54,8 +54,11 @@ public class BlockLauncherPart extends Block implements IPostInit
                 Block block = world.getBlock(x, y + 1, z);
                 while (count < 5 && block == ICBM.blockLauncherFrame)
                 {
+                    //Increase count
                     count++;
+                    //Get next block above last
                     block = world.getBlock(x, y + count, z);
+                    //Detects for clear path near launcher
                     Pos pos = new Pos(x, y + count, z).add(ForgeDirection.getOrientation(side));
                     if (!pos.isAirBlock(world))
                     {

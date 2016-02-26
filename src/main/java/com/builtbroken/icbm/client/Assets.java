@@ -43,6 +43,7 @@ public final class Assets
 
     //Block Models
     public static final IModelCustom LAUNCHER_FRAME_BLOCK_MODEL = model("launchertowerblock.obj");
+    public static final WavefrontObject LAUNCHER_FRAME_BLOCK_TOP_MODEL = (WavefrontObject) model("Launchertowerblockhead.obj");
 
     //Textures
     public static final ResourceLocation GREY_FAKE_TEXTURE = texture("grey");

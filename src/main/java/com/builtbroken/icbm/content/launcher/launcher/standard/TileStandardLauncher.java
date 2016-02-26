@@ -5,6 +5,7 @@ import com.builtbroken.icbm.api.crafting.IModularMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
+import com.builtbroken.icbm.content.launcher.block.BlockLauncherFrame;
 import com.builtbroken.icbm.content.launcher.launcher.TileAbstractLauncherPad;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
@@ -49,6 +50,7 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
     protected StandardMissileCrafting recipe;
 
     private ForgeDirection dir_cache;
+    private int frameUpdateCheckTick = 1;
 
     static
     {
@@ -74,6 +76,7 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
     public void firstTick()
     {
         super.firstTick();
+        frameUpdateCheckTick = 10 + (int) (30 * Math.random());
         if (isCrafting || getMissileItem() != null)
         {
             buildMissileBlocks = true;
@@ -95,6 +98,36 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
             {
                 destroyMissileBlocks = false;
                 MultiBlockHelper.destroyMultiBlockStructure(this, false, true, false);
+            }
+        }
+        //Check to ensure the frame is still intact
+        if (ticks % frameUpdateCheckTick == 0)
+        {
+            //Check if broken by counting number of frames
+            int count = 0;
+            Block block = world().getBlock(xi(), yi() + 1, zi());
+            while (count < 6 && block == ICBM.blockLauncherFrame)
+            {
+                //Increase count
+                count++;
+                //Get next block above last
+                block = world().getBlock(xi(), yi() + count, zi());
+            }
+            //If we do not have 5 blocks drop the missile and set the block back to CPU
+            if (count != 6)
+            {
+                dropItems();
+                world().setBlock(xi(), yi(), zi(), ICBM.blockLauncherParts);
+            }
+            else
+            {
+                //Updates top block meta for older versions of ICBM
+                int meta = world().getBlockMetadata(xi(), yi() + 6, zi());
+                int dMeta = BlockLauncherFrame.getMetaForDirection(getDirection());
+                if (meta != dMeta)
+                {
+                    worldObj.setBlockMetadataWithNotify(xi(), yi() + 6, zi(), dMeta, 3);
+                }
             }
         }
     }
@@ -484,16 +517,7 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
     public void onRemove(Block block, int par6)
     {
         super.onRemove(block, par6);
-        if (getMissileItem() != null)
-        {
-            InventoryUtility.dropItemStack(toLocation(), getMissileItem());
-            setInventorySlotContents(0, null);
-        }
-        if (recipe != null)
-        {
-            recipe.dropItems(toLocation());
-            recipe = null;
-        }
+        dropItems();
         MultiBlockHelper.destroyMultiBlockStructure(this, false, true, false);
     }
 
@@ -501,6 +525,12 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
     public boolean removeByPlayer(EntityPlayer player, boolean willHarvest)
     {
         MultiBlockHelper.destroyMultiBlockStructure(this, false, true, false);
+        dropItems();
+        return super.removeByPlayer(player, willHarvest);
+    }
+
+    protected final void dropItems()
+    {
         if (getMissileItem() != null)
         {
             InventoryUtility.dropItemStack(toLocation(), getMissileItem());
@@ -511,6 +541,5 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
             recipe.dropItems(toLocation());
             recipe = null;
         }
-        return super.removeByPlayer(player, willHarvest);
     }
 }

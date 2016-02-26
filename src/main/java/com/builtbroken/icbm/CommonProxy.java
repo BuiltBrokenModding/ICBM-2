@@ -37,6 +37,11 @@ public class CommonProxy extends AbstractProxy
 
     }
 
+    public void playRocketAudio(Entity entity)
+    {
+
+    }
+
     public IUpdatePlayerListBox getDaoDanShengYin(EntityMissile eDaoDan)
     {
         return null;

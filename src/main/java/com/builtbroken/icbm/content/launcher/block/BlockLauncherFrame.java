@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 /**
@@ -24,7 +25,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 12/2/2015.
  */
-public class BlockLauncherFrame extends Block implements IPostInit
+public final class BlockLauncherFrame extends Block implements IPostInit
 {
     public BlockLauncherFrame()
     {
@@ -56,6 +57,37 @@ public class BlockLauncherFrame extends Block implements IPostInit
     public int getRenderType()
     {
         return ISBRLauncherFrame.INSTANCE.ID;
+    }
+
+
+
+    @Override
+    public int damageDropped(int meta)
+    {
+        //meta 0, 1, 2, 3, 4 -> 0 meta drop
+        return 0;
+    }
+
+    /**
+     * Used to get the meta value for top block rotation
+     *
+     * @param dir - forge direction
+     * @return 1-4
+     */
+    public static int getMetaForDirection(ForgeDirection dir)
+    {
+        switch (dir)
+        {
+            case NORTH:
+                return 1;
+            case SOUTH:
+                return 2;
+            case EAST:
+                return 3;
+            case WEST:
+                return 4;
+        }
+        return 0;
     }
 
     @Override

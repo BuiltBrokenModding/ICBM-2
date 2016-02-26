@@ -29,14 +29,15 @@ As well your pull request will not be merged until you agree to our CLA.
 By submitting anything to the repo you agree to the provided CLA and everything it applies
 https://docs.google.com/document/d/105N6q63OJnzrWjMbydFYFUlHmK6spc8P8da8qkduFRs/edit?usp=sharing
 
+###Team
+* Darkguardsman     - Owner, Head Devloper
+* Dmodoomsirus      - Gradle Tech
+* Dragonlorder      - Asset Developer
+* Graugger          - Asset Developer
 
 ##Credits
 If not listed don't fear we are still compiling the credits list after it got removed
-###Developers
-* Darkguardsman(Owner)
 
-
-###Credits
 * Adaptivity        - Russian Translations
 * Archelf           - Assets
 * Archadia          - Code, Assets
@@ -47,7 +48,6 @@ If not listed don't fear we are still compiling the credits list after it got re
 * Doppelgangerous   - Concepts
 * DryTaste          - Assets
 * Francogp          - Old Spanish Translations
-* Freesound.org     - Sound Assets
 * Graugger          - Concepts
 * Gravitythief      - Code
 * Jonathan T.       - ???
@@ -59,9 +59,12 @@ If not listed don't fear we are still compiling the credits list after it got re
 * Tgame14           - Code
 * Vexatos           - German Translations
 * Wdtod             - Laser Sentry Model
-* Wildex999
+* Wildex999         - ???
 * Hennamann         - Code, Norwegian Translations 
 * VictiniX888       - Chinese Translations
+
+### Freesound.org Audio Credits
+* qubodup           - https://www.freesound.org/people/qubodup/sounds/146770/
 
 ## Download Locations
 * http://builtbroken.com/pages/icbm/

@@ -135,6 +135,12 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
+    public void playRocketAudio(Entity entity)
+    {
+        entity.worldObj.playSoundAtEntity(entity, "icbm:engine.main", ICBM.missile_firing_volume, 1.0F);
+    }
+
+    @Override
     public void spawnShock(World world, Pos startVec, Pos targetVec)
     {
         FMLClientHandler.instance().getClient().effectRenderer.addEffect(new FXElectricBolt(world, startVec, targetVec, 0));

@@ -120,6 +120,7 @@ public final class ICBM extends AbstractMod
     public static boolean DEBUG_MISSILE_MANAGER = false;
 
     public static float missile_firing_volume = 1f;
+    public static float missile_engine_volume = 1f;
 
     public static int ENTITY_ID_PREFIX = 50;
 
