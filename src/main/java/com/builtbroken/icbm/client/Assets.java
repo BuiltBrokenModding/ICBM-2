@@ -56,6 +56,8 @@ public final class Assets
     public static final ResourceLocation LAUNCHER_CONTROLLER_TEXTURE = texture("LauncherController");
     public static final ResourceLocation WEAPON_CASE_TEXTURE = texture("WeaponCase");
     public static final ResourceLocation STANDARD_SILO_TEXTURE = texture("StandardSilo");
+    public static final ResourceLocation LAUNCHER_FRAME_TEXTURE = texture("Launchertowerblock");
+    public static final ResourceLocation LAUNCHER_FRAME_TOP_TEXTURE = texture("Launchertowerblockhead");
 
 
     public static IModelCustom model(String name)

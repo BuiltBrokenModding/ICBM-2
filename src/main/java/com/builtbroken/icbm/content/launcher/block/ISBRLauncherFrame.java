@@ -56,14 +56,14 @@ public final class ISBRLauncherFrame implements ISimpleBlockRenderingHandler
         if (meta == 0)
         {
             GL11.glTranslatef(x, y, z + 1);
-            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.LAUNCHER_FRAME_TEXTURE);
             Assets.LAUNCHER_FRAME_BLOCK_MODEL.renderAll();
         }
         else if (meta == 1 || meta == 2 || meta == 3 || meta == 4)
         {
             try
             {
-                if (true || west == null)
+                if (west == null)
                 {
                     for (GroupObject object : Assets.LAUNCHER_FRAME_BLOCK_TOP_MODEL.groupObjects)
                     {
@@ -87,7 +87,7 @@ public final class ISBRLauncherFrame implements ISimpleBlockRenderingHandler
                     }
                 }
                 GL11.glTranslatef(x + 0.5f, y + 0.4f, z + 0.5f);
-                FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
+                FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.LAUNCHER_FRAME_TOP_TEXTURE);
                 final float moveValue = .09f;
                 switch (meta)
                 {
