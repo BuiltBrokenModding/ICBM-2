@@ -279,7 +279,7 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
     @Override
     public Pos getMissileLaunchOffset()
     {
-        return new Pos(getDirection()).add(0.5);
+        return new Pos(getDirection()).add(0.5, 7, 0.5);
     }
 
     @Override
