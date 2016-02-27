@@ -1,6 +1,8 @@
 ##What is ICBM?
 
---NOTE--The current 1.7.10 versions are complete rewrites of ICBM, most things from 1.6.4 are not implemented yet. There are plans to implement missing content later, either in ICBM or in separate mods. --NOTE--
+#### NOTE
+
+**The current 1.7.10 versions are complete rewrites of ICBM, most things from 1.6.4 are not implemented yet. There are plans to implement missing content later, either in ICBM or in separate mods.**
 
 ICBM is a Minecraft Mod that introduces intercontinental ballistic missiles to Minecraft.
 
@@ -30,7 +32,7 @@ By submitting anything to the repo you agree to the provided CLA and everything 
 https://docs.google.com/document/d/105N6q63OJnzrWjMbydFYFUlHmK6spc8P8da8qkduFRs/edit?usp=sharing
 
 ###Team
-* Darkguardsman     - Owner, Head Devloper
+* Darkguardsman     - Owner, Head Developer
 * Dmodoomsirus      - Gradle Tech
 * Dragonlorder      - Asset Developer
 * Graugger          - Asset Developer
