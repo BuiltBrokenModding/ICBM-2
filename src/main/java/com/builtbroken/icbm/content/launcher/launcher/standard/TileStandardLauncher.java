@@ -7,6 +7,7 @@ import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.launcher.block.BlockLauncherFrame;
 import com.builtbroken.icbm.content.launcher.launcher.TileAbstractLauncherPad;
+import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
@@ -387,14 +388,76 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
     }
 
     @Override
-    protected void onPostMissileFired(final Pos target)
+    protected void onPostMissileFired(final Pos target, EntityMissile entity)
     {
-        Location loc = toLocation().add(getMissileLaunchOffset());
-        Location botLoc = loc.sub(1);
-        Block block = botLoc.getBlock();
-        if (block.isFlammable(loc.world, botLoc.xi(), botLoc.yi(), botLoc.zi(), ForgeDirection.UP))
+        super.onPostMissileFired(target, entity);
+        //clear missile collision box
+        MultiBlockHelper.destroyMultiBlockStructure(this, false, true, false);
+
+        //Set ground on fire for lolz
+        if (entity.getMissile() != null && entity.getMissile().getEngine() != null && entity.getMissile().getEngine().generatesFire(entity, entity.getMissile()))
         {
-            loc.setBlock(Blocks.fire);
+            final Location center = toLocation().add(getDirection());
+
+            //set location around launcher on fire
+            for (int x = -1; x < 2; x++)
+            {
+                for (int z = -1; z < 2; z++)
+                {
+                    if (world().rand.nextFloat() < 0.3f)
+                    {
+                        final Location pos = center.add(x, 0, z);
+                        Block block = pos.getBlock();
+
+                        //Do not set fire to frame or CPU
+                        if (block != ICBM.blockStandardLauncher)
+                        {
+                            if (pos.isAirBlock())
+                            {
+                                if (pos.sub(0, 1, 0).isSideSolid(ForgeDirection.UP))
+                                {
+                                    pos.setBlock(Blocks.fire);
+                                }
+                                else
+                                {
+                                    for (int i = 0; i < 3; i++)
+                                    {
+                                        Location posBellow = pos.add(0, -i, 0);
+                                        if (posBellow.isAirBlock())
+                                        {
+                                            if (posBellow.sub(0, 1, 0).isSideSolid(ForgeDirection.UP))
+                                            {
+                                                posBellow.setBlock(Blocks.fire);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                Location posBellow = center;
+                                for (int i = 0; i < 3; i++)
+                                {
+                                    Location posUp = pos.add(0, i, 0);
+                                    if (posUp.isAirBlock())
+                                    {
+                                        if (posBellow.isSideSolid(ForgeDirection.UP))
+                                        {
+                                            posUp.setBlock(Blocks.fire);
+                                        }
+                                        else
+                                        {
+                                            break;
+                                        }
+                                    }
+                                    posBellow = posUp;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 

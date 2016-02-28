@@ -40,4 +40,16 @@ public interface IRocketEngine extends IMissileModule
      * @param missileModule - module missile
      */
     void onDestroyed(IMissileEntity missile, IMissile missileModule);
+
+    /**
+     * Called to see if the engine creates fire particles, trail, or blocks
+     * when running. This is used to set the ground on fire if the engine
+     * is pointed at the ground. As well catch entities on fire behind
+     * the missile.
+     *
+     * @param missile       - missile entity, may be null if item is being checked
+     * @param missileModule - missile module, may be null in rare cases
+     * @return true if the engine generates fire
+     */
+    boolean generatesFire(IMissileEntity missile, IMissile missileModule);
 }

@@ -42,6 +42,12 @@ public abstract class RocketEngine extends MissileModule implements IRocketEngin
 
     }
 
+    @Override
+    public boolean generatesFire(IMissileEntity missile, IMissile missileModule)
+    {
+        return true;
+    }
+
     /**
      * Loads max fuel, used for creative tab or spawned in items
      */

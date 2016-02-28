@@ -1,5 +1,7 @@
 package com.builtbroken.icbm.content.crafting.missile.engine.fluid;
 
+import com.builtbroken.icbm.api.missile.IMissileEntity;
+import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import net.minecraft.item.ItemStack;
@@ -57,6 +59,12 @@ public class RocketEngineFluid extends RocketEngine implements IFluidTank, IPost
     public FluidStack drain(int maxDrain, boolean doDrain)
     {
         return tank.drain(maxDrain, doDrain);
+    }
+
+    @Override
+    public boolean generatesFire(IMissileEntity missile, IMissile missileModule)
+    {
+        return tank != null && tank.getFluidAmount() > 0;
     }
 
     @Override

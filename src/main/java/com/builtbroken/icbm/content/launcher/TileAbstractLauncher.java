@@ -173,7 +173,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
 
                         //Empty inventory slot
                         this.setInventorySlotContents(0, null);
-                        onPostMissileFired(target);
+                        onPostMissileFired(target, entity);
                     }
                     else
                     {
@@ -206,8 +206,9 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
      * Called after the missile has been launched
      *
      * @param target
+     * @param entity
      */
-    protected void onPostMissileFired(final Pos target)
+    protected void onPostMissileFired(final Pos target, EntityMissile entity)
     {
         if (isServer())
         {

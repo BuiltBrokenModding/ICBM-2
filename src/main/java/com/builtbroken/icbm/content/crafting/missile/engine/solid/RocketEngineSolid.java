@@ -1,5 +1,7 @@
 package com.builtbroken.icbm.content.crafting.missile.engine.solid;
 
+import com.builtbroken.icbm.api.missile.IMissileEntity;
+import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
 import com.builtbroken.mc.api.tile.IInventoryProvider;
 import com.builtbroken.mc.prefab.inventory.ExternalInventory;
@@ -51,6 +53,12 @@ public class RocketEngineSolid extends RocketEngine implements IInventoryProvide
     public ItemStack fuelStack()
     {
         return inventory != null ? getInventory().getStackInSlot(0) : null;
+    }
+
+    @Override
+    public boolean generatesFire(IMissileEntity missile, IMissile missileModule)
+    {
+        return fuelStack() != null && fuelStack().stackSize > 0;
     }
 
     @Override
