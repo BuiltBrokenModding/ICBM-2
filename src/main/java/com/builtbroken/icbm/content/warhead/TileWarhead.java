@@ -107,7 +107,7 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         //Small warhead recipes
         ItemStack micro_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, (ItemStack) null).toStack();
         ItemStack small_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_SMALL, (ItemStack) null).toStack();
-        ItemStack medium_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MEDIUM, (ItemStack) null).toStack();
+        ItemStack medium_warhead_empty = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_STANDARD, (ItemStack) null).toStack();
 
         if (Engine.itemSheetMetal != null && Engine.itemSheetMetalTools != null)
         {
