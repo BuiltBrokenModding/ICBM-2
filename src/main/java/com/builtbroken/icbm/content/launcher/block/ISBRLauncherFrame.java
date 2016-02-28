@@ -38,7 +38,7 @@ public final class ISBRLauncherFrame implements ISimpleBlockRenderingHandler
         GL11.glPushMatrix();
         GL11.glScalef(1f, 1f, 1f);
         GL11.glTranslatef(-0.5F, -0.5F, 0.5F);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.LAUNCHER_FRAME_TEXTURE);
         Assets.LAUNCHER_FRAME_BLOCK_MODEL.renderAll();
         GL11.glPopMatrix();
     }
