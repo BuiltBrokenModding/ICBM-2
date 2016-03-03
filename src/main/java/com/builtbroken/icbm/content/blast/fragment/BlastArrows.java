@@ -8,7 +8,7 @@ import net.minecraft.entity.projectile.EntityArrow;
 /**
  * Created by robert on 2/25/2015.
  */
-public class BlastFragment extends Blast<BlastFragment>
+public class BlastArrows extends Blast<BlastArrows>
 {
     @Override
     public void doEffectOther(boolean beforeBlocksPlaced)

@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.crafting.parts;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.content.blast.fragment.IFragmentExplosiveHandler;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.IExplosiveItem;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
@@ -43,7 +44,14 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
     @Override
     public String getUnlocalizedName(ItemStack stack)
     {
-        if (stack.getItemDamage() >= 1 && stack.getItemDamage() < ExplosiveItems.values().length)
+        if (stack.getItemDamage() == ExplosiveItems.FRAGMENT.ordinal())
+        {
+            if (getExplosive(stack) instanceof IFragmentExplosiveHandler)
+            {
+                return ((IFragmentExplosiveHandler) ExplosiveItems.FRAGMENT.getExplosive()).getFragmentLocalization(stack);
+            }
+        }
+        else if (stack.getItemDamage() >= 1 && stack.getItemDamage() < ExplosiveItems.values().length)
         {
             return super.getUnlocalizedName() + "." + ExplosiveItems.values()[stack.getItemDamage()].ex_name;
         }
@@ -64,9 +72,20 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
     @Override
     public IIcon getIcon(ItemStack stack, int pass)
     {
-        if (stack.getItemDamage() >= 1 && stack.getItemDamage() < ExplosiveItems.values().length)
+        if (stack.getItemDamage() == ExplosiveItems.FRAGMENT.ordinal())
+        {
+            if (getExplosive(stack) instanceof IFragmentExplosiveHandler)
+            {
+                return ((IFragmentExplosiveHandler) ExplosiveItems.FRAGMENT.getExplosive()).getFragmentIcon(stack, pass);
+            }
+        }
+        else if (stack.getItemDamage() >= 1 && stack.getItemDamage() < ExplosiveItems.values().length)
         {
             return ExplosiveItems.values()[stack.getItemDamage()].icon;
+        }
+        else if (getExplosive(stack) instanceof IFragmentExplosiveHandler)
+        {
+            return ((IFragmentExplosiveHandler) getExplosive(stack)).getFragmentIcon(stack, pass);
         }
         return itemIcon;
     }
@@ -74,6 +93,13 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
     @Override
     public int getRenderPasses(int metadata)
     {
+        if (metadata == ExplosiveItems.FRAGMENT.ordinal())
+        {
+            if (ExplosiveItems.FRAGMENT.getExplosive() instanceof IFragmentExplosiveHandler)
+            {
+                return ((IFragmentExplosiveHandler) ExplosiveItems.FRAGMENT.getExplosive()).getFragmentNumberOfPasses();
+            }
+        }
         return 1;
     }
 
@@ -149,7 +175,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         final ItemStack arrowBundle = ItemExplosiveParts.ExplosiveParts.ARROW_BUNDLE.newItem();
 
         //Fragment arrow explosive
-        newRecipe(ExplosiveItems.FRAG_ARROW, "A A", " G ", "A A", 'A', arrowBundle, 'G', explosiveCharge);
+        newRecipe(ExplosiveItems.FRAGMENT, "A A", " G ", "A A", 'A', arrowBundle, 'G', explosiveCharge);
 
         //Exothermic explosive TODO add tech based recipe
         newRecipe(ExplosiveItems.THERMIC_EXO, " B ", "BMB", " B ", 'B', Items.blaze_powder, 'M', magicCharge);
@@ -218,7 +244,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
     public enum ExplosiveItems
     {
         NBT(null, 1),
-        FRAG_ARROW("Fragment", 5),
+        FRAGMENT("Fragment", 5),
         THERMIC_EXO("ExoThermic", 3),
         THERMIC_ENDO("EndoThermic", 3),
         FIRE_BOMB("FireBomb", 1),
