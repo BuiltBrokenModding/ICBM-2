@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.launcher.silo;
 
+import com.builtbroken.icbm.api.ICustomMissileRender;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
@@ -132,8 +133,10 @@ public class TileStandardSilo extends TileAbstractLauncher implements ISimpleIte
             GL11.glPushMatrix();
             GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 2.75f, pos.zf() + 0.5f);
             //TODO rotate
-            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_MISSILE_TEXTURE);
-            Assets.STANDARD_MISSILE_MODEL.renderAll();
+            if (getMissile() instanceof ICustomMissileRender)
+            {
+                ((ICustomMissileRender) getMissile()).renderMissileInWorld();
+            }
             GL11.glPopMatrix();
         }
     }

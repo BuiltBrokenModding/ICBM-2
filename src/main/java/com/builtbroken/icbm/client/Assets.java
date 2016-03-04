@@ -11,26 +11,26 @@ import net.minecraftforge.client.model.obj.WavefrontObject;
 
 /**
  * Reference class for holding all model and textures used for rendering.
- *
+ * <p/>
  * Created by Dark (DarkGuardsman, Robert) on 3/1/2015.
  */
 @SideOnly(Side.CLIENT)
 public final class Assets
 {
     //Missile models
-    public static final IModelCustom MICRO_MISSILE_MODEL = model("Rocket_Micro.obj");
-    public static final IModelCustom SMALL_MISSILE_MODEL = model("Missile_Small.obj");
-    public static final IModelCustom STANDARD_MISSILE_MODEL = model("Missile_Standard.obj");
+    public static final WavefrontObject MICRO_MISSILE_MODEL = (WavefrontObject) model("Rocket_Micro.obj");
+    public static final WavefrontObject SMALL_MISSILE_MODEL = (WavefrontObject) model("Missile_Small.obj");
+    public static final WavefrontObject STANDARD_MISSILE_MODEL = (WavefrontObject) model("Missile_Standard.obj");
     public static final IModelCustom CLASSIC_MISSILE_MODEL = model("missile_conventional.tcn");
 
     //Crafting missile models
-    public static final IModelCustom SMALL_MISSILE_MODEL_2 = model("Missile_Small_scale.obj"); //Segmented model for crafting
-    public static final WavefrontObject STANDARD_MISSILE_MODEL_2 = (WavefrontObject)model("Missile_Standard_Crafting.obj"); //Segmented model for crafting
+    public static final WavefrontObject SMALL_MISSILE_MODEL_2 = (WavefrontObject) model("Missile_Small_scale.obj"); //Segmented model for crafting
+    public static final WavefrontObject STANDARD_MISSILE_MODEL_2 = (WavefrontObject) model("Missile_Standard_Crafting.obj"); //Segmented model for crafting
 
     //Launcher Models
     public static final IModelCustom PORTABLE_LAUNCHER_MODEL = model("small_launcher.tcn");
     public static final IModelCustom SMALL_SILO_MODEL = model("SmallSilo.tcn");
-    public static final IModelCustom STANDARD_SILO_MODEL = model("StandardSilo.obj");
+    public static final WavefrontObject STANDARD_SILO_MODEL = (WavefrontObject) model("StandardSilo.obj");
 
     //Weapon Models
     public static final IModelCustom RPG_MODEL = model("rocketLauncher.tcn");
@@ -38,11 +38,11 @@ public final class Assets
     //Machine Models
     public static final IModelCustom LAUNCHER_CONTROLLER_MODEL = model("LauncherController.tcn");
     public static final IModelCustom WEAPON_CASE_MODEL = model("WeaponCase.tcn");
-    public static final IModelCustom SMALL_MISSILE_STATION_MODEL = model("smallMissileStation.obj");
-    public static final IModelCustom SMALL_WARHEAD_STATION_MODEL = model("smallWarheadStation.obj");
+    public static final WavefrontObject SMALL_MISSILE_STATION_MODEL = (WavefrontObject) model("smallMissileStation.obj");
+    public static final WavefrontObject SMALL_WARHEAD_STATION_MODEL = (WavefrontObject) model("smallWarheadStation.obj");
 
     //Block Models
-    public static final IModelCustom LAUNCHER_FRAME_BLOCK_MODEL = model("launchertowerblock.obj");
+    public static final WavefrontObject LAUNCHER_FRAME_BLOCK_MODEL = (WavefrontObject) model("launchertowerblock.obj");
     public static final WavefrontObject LAUNCHER_FRAME_BLOCK_TOP_MODEL = (WavefrontObject) model("Launchertowerblockhead.obj");
 
     //Textures

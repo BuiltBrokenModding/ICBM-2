@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.launcher.launcher.standard;
 
+import com.builtbroken.icbm.api.ICustomMissileRender;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
@@ -64,8 +65,10 @@ public class TileStandardLauncherClient extends TileStandardLauncher
             Pos pos = center.add(getDirection()).add(0.5, 1.9, 0.5);
             GL11.glTranslatef(pos.xf(), pos.yf(), pos.zf());
             GL11.glRotatef(45f, 0, 1, 0);
-            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.STANDARD_MISSILE_TEXTURE);
-            Assets.STANDARD_MISSILE_MODEL.renderAll();
+            if (missile instanceof ICustomMissileRender)
+            {
+                ((ICustomMissileRender) missile).renderMissileInWorld();
+            }
             GL11.glPopMatrix();
         }
         else if (recipe != null)
