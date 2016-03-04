@@ -1,6 +1,8 @@
 package com.builtbroken.icbm.content.crafting.parts;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.content.blast.fragment.ExFragment;
+import com.builtbroken.icbm.content.blast.fragment.Fragments;
 import com.builtbroken.icbm.content.blast.fragment.IFragmentExplosiveHandler;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.IExplosiveItem;
@@ -175,7 +177,9 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         final ItemStack arrowBundle = ItemExplosiveParts.ExplosiveParts.ARROW_BUNDLE.newItem();
 
         //Fragment arrow explosive
-        newRecipe(ExplosiveItems.FRAGMENT, "A A", " G ", "A A", 'A', arrowBundle, 'G', explosiveCharge);
+        ItemStack arrowFrag = ExplosiveItems.FRAGMENT.newItem();
+        arrowFrag.setTagCompound(ExFragment.setFragmentType(new NBTTagCompound(), Fragments.ARROW));
+        GameRegistry.addRecipe(new ShapedOreRecipe(arrowFrag, "A A", " G ", "A A", 'A', arrowBundle, 'G', explosiveCharge));
 
         //Exothermic explosive TODO add tech based recipe
         newRecipe(ExplosiveItems.THERMIC_EXO, " B ", "BMB", " B ", 'B', Items.blaze_powder, 'M', magicCharge);
@@ -237,7 +241,19 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
     {
         for (int i = 1; i < ExplosiveItems.values().length; i++)
         {
-            list.add(ExplosiveItems.values()[i].newItem());
+            if (i == ExplosiveItems.FRAGMENT.ordinal())
+            {
+                for (Fragments frag : Fragments.values())
+                {
+                    ItemStack stack = ExplosiveItems.values()[i].newItem();
+                    stack.setTagCompound(ExFragment.setFragmentType(new NBTTagCompound(), frag));
+                    list.add(stack);
+                }
+            }
+            else
+            {
+                list.add(ExplosiveItems.values()[i].newItem());
+            }
         }
     }
 

@@ -40,13 +40,13 @@ public class ECFragment extends ExFragment implements IFragmentExplosiveHandler
     @Override
     public int getFragmentNumberOfPasses()
     {
-        return 2;
+        return 1;
     }
 
     @Override
     public String getFragmentLocalization(ItemStack stack)
     {
-        return "item.icbm:explosiveItem.fragment";
+        return "item.icbm:explosiveItem.fragment." + getFragmentType(stack).name().toLowerCase();
     }
 
     @Override
@@ -61,16 +61,18 @@ public class ECFragment extends ExFragment implements IFragmentExplosiveHandler
     }
 
     @Override
-    public void registerExplosiveHandlerIcons(IIconRegister reg)
+    public void registerExplosiveHandlerIcons(IIconRegister reg, boolean blocks)
     {
-        corner_icon = reg.registerIcon(ICBM.PREFIX + "fragment.corner");
-        back_icon = reg.registerIcon(ICBM.PREFIX + "fragment.background");
-
-        for (Fragments frag : Fragments.values())
+        if (!blocks)
         {
-            String name = frag.name().toLowerCase();
-            corner_icons.put(name, reg.registerIcon(ICBM.PREFIX + "fragment.corner." + name));
-            icons.put(name, reg.registerIcon(ICBM.PREFIX + "fragment.background." + name));
+            back_icon = reg.registerIcon(ICBM.PREFIX + "fragment.background");
+            corner_icon = reg.registerIcon(ICBM.PREFIX + "ex.icon.fragment");
+            for (Fragments frag : Fragments.values())
+            {
+                String name = frag.name().toLowerCase();
+                corner_icons.put(name, reg.registerIcon(ICBM.PREFIX + "ex.icon.fragment." + name));
+                icons.put(name, reg.registerIcon(ICBM.PREFIX + "fragment.background." + name));
+            }
         }
     }
 }

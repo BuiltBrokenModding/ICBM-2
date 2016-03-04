@@ -2,6 +2,7 @@ package com.builtbroken.icbm.client;
 
 import com.builtbroken.icbm.CommonProxy;
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.client.blast.ECFragment;
 import com.builtbroken.icbm.content.blast.effect.ExAntiPlant;
 import com.builtbroken.icbm.content.blast.effect.ExEnderBlocks;
 import com.builtbroken.icbm.content.blast.effect.ExTorchEater;
@@ -11,7 +12,6 @@ import com.builtbroken.icbm.content.blast.explosive.ExAntimatter;
 import com.builtbroken.icbm.content.blast.explosive.ExMicroQuake;
 import com.builtbroken.icbm.content.blast.fire.ExFireBomb;
 import com.builtbroken.icbm.content.blast.fire.ExFlashFire;
-import com.builtbroken.icbm.content.blast.fragment.ExFragment;
 import com.builtbroken.icbm.content.blast.temp.ExEndoThermic;
 import com.builtbroken.icbm.content.blast.temp.ExExoThermic;
 import com.builtbroken.icbm.content.blast.util.ExRegen;
@@ -180,7 +180,7 @@ public class ClientProxy extends CommonProxy
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "EntitySpawn", new ExplosiveHandlerSpawn());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "ExoThermic", new ExEndoThermic());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "EndoThermic", new ExExoThermic());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Fragment", new ExFragment());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Fragment", new ECFragment());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "ArrowFragment", ExplosiveRegistry.get("Fragment"));
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Antimatter", new ExAntimatter());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "FireBomb", new ExFireBomb());

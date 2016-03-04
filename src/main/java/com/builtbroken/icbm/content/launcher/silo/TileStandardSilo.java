@@ -130,7 +130,7 @@ public class TileStandardSilo extends TileAbstractLauncher implements ISimpleIte
         if (getMissile() != null)
         {
             GL11.glPushMatrix();
-            GL11.glTranslatef(pos.xf() - 1.02f, pos.yf() + 0.25f, pos.zf() + 2.325f);
+            GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 2.75f, pos.zf() + 0.5f);
             //TODO rotate
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_MISSILE_TEXTURE);
             Assets.STANDARD_MISSILE_MODEL.renderAll();

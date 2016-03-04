@@ -42,9 +42,29 @@ public class ExFragment extends ExplosiveHandlerICBM<Blast>
      * @param nbt - save file
      * @return valid string, reference from an enum
      */
-    protected Fragments getFragmentType(NBTTagCompound nbt)
+    public static Fragments getFragmentType(NBTTagCompound nbt)
     {
+        if (nbt != null && nbt.hasKey("fragmentType"))
+        {
+            int i = nbt.getInteger("fragmentType");
+            if (i > 0 && i < Fragments.values().length)
+            {
+                return Fragments.values()[i];
+            }
+        }
         return Fragments.ARROW;
     }
 
+    public static NBTTagCompound setFragmentType(NBTTagCompound nbt, Fragments frag)
+    {
+        if (frag != null)
+        {
+            nbt.setInteger("fragmentType", frag.ordinal());
+        }
+        else if (nbt.hasKey("fragmentType"))
+        {
+            nbt.removeTag("fragmentType");
+        }
+        return nbt;
+    }
 }

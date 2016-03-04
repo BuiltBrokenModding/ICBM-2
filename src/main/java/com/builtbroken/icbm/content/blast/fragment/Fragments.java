@@ -12,7 +12,7 @@ public enum Fragments
     ARROW(new FragmentGen()
     {
         @Override
-        public double scaleData(double velocity)
+        public float scaleData(float velocity)
         {
             return 0;
         }
@@ -26,7 +26,7 @@ public enum Fragments
     COBBLESTONE(new FragmentGen()
     {
         @Override
-        public double scaleData(double velocity)
+        public float scaleData(float velocity)
         {
             return Math.max(Math.min(0, velocity * 5), 10);
         }
@@ -40,7 +40,7 @@ public enum Fragments
     WOOD(new FragmentGen()
     {
         @Override
-        public double scaleData(double velocity)
+        public float scaleData(float velocity)
         {
             return Math.max(Math.min(0, velocity * 5), 10);
         }
@@ -54,7 +54,7 @@ public enum Fragments
     BLAZE(new FragmentGen()
     {
         @Override
-        public double scaleData(double velocity)
+        public float scaleData(float velocity)
         {
             return 0;
         }
@@ -73,15 +73,32 @@ public enum Fragments
         this.gen = gen;
     }
 
+    /**
+     * Gets a new blast
+     *
+     * @param tag - save data
+     * @return new blast, never null
+     */
     public Blast newBlast(NBTTagCompound tag)
     {
         return gen.getBlast(tag);
     }
 
+    /**
+     * Modifies the damage based on speed
+     *
+     * @param velocity
+     * @return
+     */
+    public float scaleDamage(float velocity)
+    {
+        return gen.scaleData(velocity);
+    }
+
 
     private interface FragmentGen
     {
-        double scaleData(double velocity);
+        float scaleData(float velocity);
 
         Blast getBlast(NBTTagCompound tag);
     }

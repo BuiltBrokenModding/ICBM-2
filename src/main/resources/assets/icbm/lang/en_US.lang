@@ -51,6 +51,11 @@ item.icbm:explosiveItem.EnderBlocks.name=Ender Block Charge
 item.icbm:explosiveItem.Antimatter.name=Antimatter Charge
 item.icbm:explosiveItem.AntiPlant.name=Plant Killer Charge
 
+item.icbm:explosiveItem.fragment.arrow.name=Arrow Bundle Charge
+item.icbm:explosiveItem.fragment.cobblestone.name=Cobblestone Frag Charge
+item.icbm:explosiveItem.fragment.wood.name=Wood Frag Charge
+item.icbm:explosiveItem.fragment.blaze.name=Blaze Frag Charge
+
 ## Tiles
 tile.icbm:TileMissile.0.name=Wooden Rocket Display
 tile.icbm:TileMissile.1.name=Wooden Small Missile Display
@@ -105,6 +110,10 @@ explosive.icbm:ThaumNode.name=Node Dispenser
 explosive.icbm:ThaumJar.name=Node Trapper
 explosive.icbm:MicroQuake.name=Micro Quake
 explosive.icbm:Regen.name=Regen
+
+## Damage
+damage.fragment.cobblestone=%s was stoned to death by cobble fragments
+damage.fragment.wood=%s was killed by a pack of splinters
 
 ## Dev only Explosives, Optional to translate
 explosive.icbm:SimplePathTest1.name=Path Test
