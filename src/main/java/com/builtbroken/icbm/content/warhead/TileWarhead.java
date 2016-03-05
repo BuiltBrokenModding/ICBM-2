@@ -156,17 +156,17 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
      */
     public static void getRecipes(IExplosiveHandler handler, List<IRecipe> recipes)
     {
-        System.out.println("Generating warhead recipes for " + handler);
+        //System.out.println("Generating warhead recipes for " + handler);
         List<ItemStackWrapper> items = ExplosiveRegistry.getItems(handler);
         if (items != null)
         {
-            System.out.println("\tFound " + items.size() + " items for recipes");
+            //System.out.println("\tFound " + items.size() + " items for recipes");
 
             for (ItemStackWrapper wrapper : items)
             {
                 if (wrapper != null && wrapper.itemStack != null)
                 {
-                    System.out.println("\t" + wrapper.itemStack);
+                    //System.out.println("\t" + wrapper.itemStack);
                     ItemStack stack = wrapper.itemStack.copy();
                     stack.stackSize = 1;
 
@@ -437,13 +437,15 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
             List<ItemStackWrapper> items = ExplosiveRegistry.getItems(handler);
             if (items != null)
             {
-                for(ItemStackWrapper wrapper : items)
+                for (ItemStackWrapper wrapper : items)
                 {
                     for (WarheadCasings size : WarheadCasings.values())
                     {
                         if (size.enabled)
                         {
-                            list.add(MissileModuleBuilder.INSTANCE.buildWarhead(size, wrapper.itemStack).toStack());
+                            Warhead warhead = MissileModuleBuilder.INSTANCE.buildWarhead(size, wrapper.itemStack);
+                            warhead.explosive.stackSize = warhead.getMaxExplosives();
+                            list.add(warhead.toStack());
                         }
                     }
                 }
@@ -543,6 +545,7 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
 
     public Warhead getNewWarhead()
     {
+        //TODO replace with better solution
         Warhead warhead = null;
         try
         {
