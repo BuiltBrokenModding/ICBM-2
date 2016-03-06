@@ -12,6 +12,7 @@ import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosive;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.lib.world.radar.RadarRegistry;
 import com.builtbroken.mc.prefab.entity.EntityProjectile;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
@@ -49,6 +50,16 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
         super(entity.worldObj, entity, 1);
         this.setSize(.5F, .5F);
         this.inAirKillTime = 144000 /* 2 hours */;
+    }
+
+    @Override
+    public void onUpdate()
+    {
+        super.onUpdate();
+        if(ticksInAir == 1)
+        {
+            RadarRegistry.add(this);
+        }
     }
 
 
@@ -209,6 +220,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     @Override
     public void setDead()
     {
+        RadarRegistry.remove(this);
         super.setDead();
         if (!noReport && sourceOfProjectile != null)
         {

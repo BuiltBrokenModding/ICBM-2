@@ -23,9 +23,9 @@ public class EntityTargetingSelector implements IEntitySelector
     public boolean isEntityApplicable(Entity entity)
     {
         //TODO ray trace targets
-        if(entity instanceof IMissileEntity)
+        if (entity instanceof IMissileEntity)
         {
-
+            return true;
         }
         return false;
     }

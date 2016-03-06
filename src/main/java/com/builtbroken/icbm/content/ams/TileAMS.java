@@ -44,16 +44,17 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver
     public void update()
     {
         super.update();
+        if (selector == null)
+        {
+            selector = new EntityTargetingSelector(this);
+        }
+        if (target == null)
+        {
+            target = getClosestTarget();
+        }
+
         if (isServer() && ticks % 3 == 0)
         {
-            if (selector == null)
-            {
-                selector = new EntityTargetingSelector(this);
-            }
-            if (target == null)
-            {
-                target = getClosestTarget();
-            }
             if (target != null)
             {
                 Pos aimPoint = new Pos(this.target);

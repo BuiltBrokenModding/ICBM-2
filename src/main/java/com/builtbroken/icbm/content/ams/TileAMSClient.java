@@ -65,6 +65,7 @@ public class TileAMSClient extends TileAMS
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.AMS_TEXTURE);
         base.render();
 
+        GL11.glTranslatef(0, 0.5f, 0);
         GL11.glRotatef((float) render_pitch, 0, 0, 1);
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.AMS_TOP_TEXTURE);
         turret.render();
