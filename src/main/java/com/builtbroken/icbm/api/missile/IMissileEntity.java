@@ -1,6 +1,5 @@
 package com.builtbroken.icbm.api.missile;
 
-import com.builtbroken.jlib.data.vector.IPos3D;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.DamageSource;
 
@@ -16,11 +15,10 @@ public interface IMissileEntity
     /**
      * Sets the target of the missile to an exact location.
      *
-     * @param location - target location
-     * @param ark      - should the missile ark towards the target. Not
-     *                 all missiles support this option.
+     * @param ark - should the missile ark towards the target. Not
+     *            all missiles support this option.
      */
-    void setTarget(IPos3D location, boolean ark);
+    void setTarget(double x, double y, double z, boolean ark);
 
     /**
      * Sets the target of the missile to an entity.
@@ -34,9 +32,9 @@ public interface IMissileEntity
     /**
      * Called to find where this missile is heading towards.
      *
-     * @return location data, if null the missile has no target
+     * @return location data as 3 int array, if null the missile has no target
      */
-    IPos3D getCurrentTarget();
+    int[] getCurrentTarget();
 
     /**
      * Called when the missile is destroyed by something before it can impact it's target. Use this in place

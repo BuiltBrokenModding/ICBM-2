@@ -51,28 +51,49 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
         this.inAirKillTime = 144000 /* 2 hours */;
     }
 
-    @Override
+
     public void setTarget(IPos3D target, boolean ark)
     {
         this.target_pos = target;
     }
 
     @Override
-    public void setTarget(Entity entity, boolean track)
+    public void setTarget(double x, double y, double z, boolean ark)
     {
-        setTarget(new Pos(entity), false);
+        this.target_pos = new Pos(x, y, z);
     }
 
     @Override
-    public IPos3D getCurrentTarget()
+    public void setTarget(Entity entity, boolean track)
+    {
+        //TODO center to entity center if EntityLivingBase
+        setTarget(new Pos(entity), false);
+    }
+
+    public IPos3D getCurrentTargetPos()
     {
         return this.target_pos;
+    }
+
+    @Override
+    public int[] getCurrentTarget()
+    {
+        if (this.target_pos != null)
+        {
+            return new int[]{(int) target_pos.x(), (int) target_pos.y(), (int) target_pos.z()};
+        }
+        return null;
     }
 
     @Override
     public void destroyMissile(Object source, DamageSource damage, float scaleExplosion, boolean allowDetonationOfWarhead, boolean allowDetonationOfEngine, boolean allowDetonationOfOther)
     {
         //TODO implement
+        if (allowDetonationOfWarhead && getMissile().getWarhead() != null)
+        {
+            getMissile().getWarhead().trigger(new TriggerCauseMissileDestroyed(source, damage, scaleExplosion), worldObj, posX, posY, posZ);
+        }
+        setDead();
     }
 
 
@@ -138,7 +159,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
             {
                 ICBM.proxy.spawnRocketTail(this);
             }
-            if(this.ticksInAir % 5 == 0)
+            if (this.ticksInAir % 5 == 0)
             {
 
             }

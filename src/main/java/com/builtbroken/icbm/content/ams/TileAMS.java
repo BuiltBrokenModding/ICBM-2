@@ -1,6 +1,9 @@
 package com.builtbroken.icbm.content.ams;
 
+import com.builtbroken.icbm.api.missile.IMissileEntity;
+import com.builtbroken.jlib.helpers.MathHelper;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
+import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.lib.transform.rotation.EulerAngle;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.radar.RadarRegistry;
@@ -9,7 +12,7 @@ import com.builtbroken.mc.prefab.tile.TileModuleMachine;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.DamageSource;
 
 import java.util.List;
 
@@ -20,7 +23,12 @@ import java.util.List;
 public class TileAMS extends TileModuleMachine implements IPacketIDReceiver
 {
     protected EulerAngle aim = new EulerAngle(0, 0, 0);
+    protected EulerAngle currentAim = new EulerAngle(0, 0, 0);
+
     protected EntityTargetingSelector selector;
+    protected Entity target = null;
+
+    long lastRotationUpdate = System.nanoTime();
 
     public TileAMS()
     {
@@ -42,15 +50,47 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver
             {
                 selector = new EntityTargetingSelector(this);
             }
-            List<Entity> list = RadarRegistry.getAllLivingObjectsWithin(world(), x() + 0.5, y() + 0.5, z() + 0.5, 300, selector);
-            EntityPlayer player = world().getClosestPlayer(x(), y(), z(), 50);
-            if (player != null)
+            if (target == null)
             {
-                Pos target = new Pos(player.posX + (player.width / 2), player.posY + (player.height / 2), player.posZ + (player.width / 2));
-                aim = toPos().add(0.5).toEulerAngle(target);
+                target = getClosestTarget();
+            }
+            if (target != null)
+            {
+                Pos aimPoint = new Pos(this.target);
+                aim = toPos().add(0.5).toEulerAngle(aimPoint);
                 sendDescPacket();
+
+                //Update server rotation value, can be independent from client
+                long delta = System.nanoTime() - lastRotationUpdate;
+                currentAim.yaw_$eq(MathHelper.lerp(aim.yaw() % 360, aim.yaw(), (double) delta / 50000000.0));
+                currentAim.pitch_$eq(MathHelper.lerp(aim.pitch() % 360, aim.pitch(), (double) delta / 50000000.0));
+                lastRotationUpdate = System.nanoTime();
+
+                if (aim.isWithin(currentAim, 1))
+                {
+                    fireAt(target);
+                }
             }
         }
+    }
+
+    private void fireAt(Entity target)
+    {
+        if (target instanceof IMissileEntity)
+        {
+            ((IMissileEntity) target).destroyMissile(this, DamageSource.generic, 0.1f, true, true, true);
+            sendPacket(new PacketTile(this, 2));
+        }
+    }
+
+    protected Entity getClosestTarget()
+    {
+        List<Entity> list = RadarRegistry.getAllLivingObjectsWithin(world(), x() + 0.5, y() + 0.5, z() + 0.5, 300, selector);
+        if (!list.isEmpty())
+        {
+            return list.get(0);
+        }
+        return null;
     }
 
     @Override

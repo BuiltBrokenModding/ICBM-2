@@ -88,7 +88,7 @@ public abstract class Warhead extends AbstractModule implements IWarhead, Clonea
                 }
                 return WorldChangeHelper.ChangeResult.FAILED;
             }
-            return ExplosiveRegistry.triggerExplosive(world, x, y, z, getExplosive(), triggerCause, getExplosiveSize(), getAdditionalExplosiveData());
+            return ExplosiveRegistry.triggerExplosive(world, x, y, z, getExplosive(), triggerCause, getExplosiveSize() * triggerCause.effectScaleChange, getAdditionalExplosiveData());
         }
         return WorldChangeHelper.ChangeResult.FAILED; //Maybe switch to completed or better error result
     }

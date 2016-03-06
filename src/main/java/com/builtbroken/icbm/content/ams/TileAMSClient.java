@@ -2,12 +2,16 @@ package com.builtbroken.icbm.content.ams;
 
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.jlib.helpers.MathHelper;
+import com.builtbroken.mc.core.network.packet.PacketType;
+import com.builtbroken.mc.lib.render.fx.RocketFx;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.model.obj.GroupObject;
 import org.lwjgl.opengl.GL11;
 
@@ -66,6 +70,29 @@ public class TileAMSClient extends TileAMS
         turret.render();
 
         GL11.glPopMatrix();
+    }
+
+    @Override
+    public boolean read(ByteBuf buf, int id, EntityPlayer player, PacketType type)
+    {
+        if (!super.read(buf, id, player, type))
+        {
+            if (id == 2)
+            {
+                fireWeaponEffect();
+                return true;
+            }
+            return false;
+        }
+        return true;
+    }
+
+    protected void fireWeaponEffect()
+    {
+        Pos aimVector = aim.toVector();
+        Pos pos = new Pos(x(), y(), z()).add(0.5).add(aimVector);
+        RocketFx fx = new RocketFx(world(), pos.x(), pos.y(), pos.z(), aimVector.x() * 0.2, aimVector.y() * 0.2, aimVector.z() * 0.2);
+        Minecraft.getMinecraft().effectRenderer.addEffect(fx);
     }
 
     @Override
