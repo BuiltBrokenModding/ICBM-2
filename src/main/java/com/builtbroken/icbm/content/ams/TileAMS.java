@@ -84,7 +84,7 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver
 
     private void fireAt(Entity target)
     {
-        if(world().rand.nextFloat() > 0.4)
+        if (world().rand.nextFloat() > 0.4)
         {
             if (target instanceof IMissileEntity)
             {
