@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.ams;
 
+import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.missile.IMissileEntity;
 import com.builtbroken.jlib.helpers.MathHelper;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
@@ -77,6 +78,12 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver
                     currentAim.yaw_$eq(EulerAngle.clampAngleTo360(MathHelper.lerp(currentAim.yaw(), aim.yaw(), (double) delta / 50000000.0)));
                     currentAim.pitch_$eq(EulerAngle.clampAngleTo360(MathHelper.lerp(currentAim.pitch(), aim.pitch(), (double) delta / 50000000.0)));
                     lastRotationUpdate = System.nanoTime();
+
+                    EulerAngle diff = aim.absoluteDifference(currentAim);
+                    if (diff.yaw() > 2 || diff.pitch() > 2)
+                    {
+                        worldObj.playSoundEffect(x() + 0.5, y() + 0.2, z() + 0.5, "icbm:icbm.servo", ICBM.ams_rotation_volume, 1.0F);
+                    }
                 }
 
                 if (ticks % 10 == 0 && aim.isWithin(currentAim, 1))
@@ -89,6 +96,8 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver
 
     private void fireAt(Entity target)
     {
+        //TODO move to tip of gun for better effect
+        worldObj.playSoundEffect(x() + 0.5, y() + 0.5, z() + 0.5, "icbm:icbm.gun", ICBM.ams_gun_volume, 1.0F);
         if (world().rand.nextFloat() > 0.4)
         {
             if (target instanceof IMissileEntity)

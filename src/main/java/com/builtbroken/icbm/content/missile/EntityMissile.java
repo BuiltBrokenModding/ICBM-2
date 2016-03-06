@@ -12,6 +12,7 @@ import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosive;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.lib.world.edit.WorldChangeHelper;
 import com.builtbroken.mc.lib.world.radar.RadarRegistry;
 import com.builtbroken.mc.prefab.entity.EntityProjectile;
 import cpw.mods.fml.common.network.ByteBufUtils;
@@ -56,7 +57,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     public void onUpdate()
     {
         super.onUpdate();
-        if(ticksInAir == 1)
+        if (ticksInAir == 1)
         {
             RadarRegistry.add(this);
         }
@@ -102,7 +103,11 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
         //TODO implement
         if (allowDetonationOfWarhead && getMissile().getWarhead() != null)
         {
-            getMissile().getWarhead().trigger(new TriggerCauseMissileDestroyed(source, damage, scaleExplosion), worldObj, posX, posY, posZ);
+            WorldChangeHelper.ChangeResult result = getMissile().getWarhead().trigger(new TriggerCauseMissileDestroyed(source, damage, scaleExplosion), worldObj, posX, posY, posZ);
+            if (result == WorldChangeHelper.ChangeResult.COMPLETED || result == WorldChangeHelper.ChangeResult.PARTIAL_COMPLETE_WITH_FAILURE)
+            {
+                worldObj.playSoundEffect(posX, posY, posZ, "random.explode", 2.0F, 0.5F + worldObj.rand.nextFloat() * 0.2F);
+            }
         }
         setDead();
     }
@@ -132,7 +137,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
         {
             ((IMissileEntity) entityMissile).setIntoMotion();
             entityMissile.worldObj.spawnEntityInWorld(entityMissile);
-           // entityMissile.worldObj.playSoundAtEntity(entityMissile, "icbm:icbm.missilelaunch", ICBM.missile_firing_volume, (1.0F + (entityMissile.worldObj.rand.nextFloat() - entityMissile.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+            entityMissile.worldObj.playSoundAtEntity(entityMissile, "icbm:icbm.missilelaunch", ICBM.missile_firing_volume, (1.0F + (entityMissile.worldObj.rand.nextFloat() - entityMissile.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
         }
     }
 

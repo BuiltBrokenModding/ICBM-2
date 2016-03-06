@@ -1,6 +1,5 @@
 package com.builtbroken.icbm.content.ams;
 
-import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.jlib.helpers.MathHelper;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
@@ -36,21 +35,6 @@ public class TileAMSClient extends TileAMS implements ISimpleItemRenderer
     public Tile newTile()
     {
         return new TileAMSClient();
-    }
-
-    @Override
-    public void update()
-    {
-        super.update();
-        if (isClient() && ticks % 3 == 0)
-        {
-            int deltaYaw = (int) (render_yaw - aim.yaw());
-            int deltaPitch = (int) (render_pitch - aim.pitch());
-            if (deltaPitch > 2 || deltaYaw > 2)
-            {
-                worldObj.playSoundEffect(x() + 0.5, y() + 0.2, z() + 0.5, "icbm:icbm.servo", ICBM.ams_rotation_volume, 1.0F);
-            }
-        }
     }
 
     @Override
@@ -147,7 +131,6 @@ public class TileAMSClient extends TileAMS implements ISimpleItemRenderer
         //Pos pos = new Pos(x(), y(), z()).add(0.5).add(aimVector);
         //RocketFx fx = new RocketFx(world(), pos.x(), pos.y(), pos.z(), aimVector.x() * 0.2, aimVector.y() * 0.2, aimVector.z() * 0.2);
         //Minecraft.getMinecraft().effectRenderer.addEffect(fx);
-        worldObj.playSoundEffect(x() + 0.5, y() + 0.5, z() + 0.5, "icbm:icbm.gun", ICBM.ams_gun_volume, 1.0F);
     }
 
     @Override
