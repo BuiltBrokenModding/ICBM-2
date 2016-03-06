@@ -21,6 +21,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 /**
@@ -60,6 +61,18 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     public void setTarget(Entity entity, boolean track)
     {
         setTarget(new Pos(entity), false);
+    }
+
+    @Override
+    public IPos3D getCurrentTarget()
+    {
+        return this.target_pos;
+    }
+
+    @Override
+    public void destroyMissile(Object source, DamageSource damage, float scaleExplosion, boolean allowDetonationOfWarhead, boolean allowDetonationOfEngine, boolean allowDetonationOfOther)
+    {
+        //TODO implement
     }
 
 
