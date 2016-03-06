@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.launcher.items;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
-import com.builtbroken.mc.api.items.IWorldPosItem;
+import com.builtbroken.mc.api.items.tools.IWorldPosItem;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;

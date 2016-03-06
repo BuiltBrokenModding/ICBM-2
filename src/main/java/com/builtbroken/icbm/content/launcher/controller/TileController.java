@@ -4,7 +4,7 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
-import com.builtbroken.mc.api.items.IWorldPosItem;
+import com.builtbroken.mc.api.items.tools.IWorldPosItem;
 import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.api.tile.ILinkFeedback;
 import com.builtbroken.mc.api.tile.ILinkable;

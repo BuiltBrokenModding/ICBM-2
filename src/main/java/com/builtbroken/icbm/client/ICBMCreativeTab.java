@@ -22,6 +22,7 @@ public class ICBMCreativeTab extends ModCreativeTab
     public void displayAllReleventItems(List list)
     {
         //Put most used items at top
+        add(list, ICBM.blockAMS);
         add(list, ICBM.blockLauncherFrame);
         add(list, ICBM.blockSmallSilo);
         add(list, ICBM.blockStandardSilo);

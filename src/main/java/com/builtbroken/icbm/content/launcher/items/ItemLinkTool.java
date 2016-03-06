@@ -2,8 +2,8 @@ package com.builtbroken.icbm.content.launcher.items;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.jlib.lang.TextColor;
-import com.builtbroken.mc.api.items.IPassCodeItem;
-import com.builtbroken.mc.api.items.IWorldPosItem;
+import com.builtbroken.mc.api.items.tools.IPassCodeItem;
+import com.builtbroken.mc.api.items.tools.IWorldPosItem;
 import com.builtbroken.mc.api.tile.ILinkable;
 import com.builtbroken.mc.api.tile.IPassCode;
 import com.builtbroken.mc.core.registry.implement.IPostInit;

@@ -40,6 +40,7 @@ public final class Assets
     public static final IModelCustom WEAPON_CASE_MODEL = model("WeaponCase.tcn");
     public static final WavefrontObject SMALL_MISSILE_STATION_MODEL = (WavefrontObject) model("smallMissileStation.obj");
     public static final WavefrontObject SMALL_WARHEAD_STATION_MODEL = (WavefrontObject) model("smallWarheadStation.obj");
+    public static final WavefrontObject AMS_MODEL = (WavefrontObject) model("AMS.obj");
 
     //Block Models
     public static final WavefrontObject LAUNCHER_FRAME_BLOCK_MODEL = (WavefrontObject) model("launchertowerblock.obj");
@@ -58,6 +59,8 @@ public final class Assets
     public static final ResourceLocation STANDARD_SILO_TEXTURE = texture("StandardSilo");
     public static final ResourceLocation LAUNCHER_FRAME_TEXTURE = texture("Launchertowerblock");
     public static final ResourceLocation LAUNCHER_FRAME_TOP_TEXTURE = texture("Launchertowerblockhead");
+    public static final ResourceLocation AMS_TOP_TEXTURE = texture("AMSTop");
+    public static final ResourceLocation AMS_TEXTURE = texture("AMSBottom");
 
 
     public static IModelCustom model(String name)

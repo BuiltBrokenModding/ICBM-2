@@ -1,9 +1,9 @@
 package com.builtbroken.icbm.content.rocketlauncher;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.api.IAmmo;
-import com.builtbroken.icbm.api.IAmmoType;
-import com.builtbroken.icbm.api.IWeapon;
+import com.builtbroken.mc.api.items.weapons.IAmmo;
+import com.builtbroken.mc.api.items.weapons.IAmmoType;
+import com.builtbroken.mc.api.items.weapons.IReloadableWeapon;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
@@ -32,7 +32,7 @@ import java.util.List;
  * @author Calclavia, DarkGuardsman
  */
 
-public class ItemRocketLauncher extends Item implements IWeapon, IPostInit
+public class ItemRocketLauncher extends Item implements IReloadableWeapon, IPostInit
 {
     private static final int firingDelay = 1000;
     private HashMap<String, Long> clickTimePlayer = new HashMap<String, Long>();

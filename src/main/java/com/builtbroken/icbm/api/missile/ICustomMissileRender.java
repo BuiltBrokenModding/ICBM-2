@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.api;
+package com.builtbroken.icbm.api.missile;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;

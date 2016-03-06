@@ -147,6 +147,8 @@ public final class ICBM extends AbstractMod
     public static Block blockLauncherParts;
     public static Block blockLaunchPad;
 
+    public static Block blockAMS;
+
     // Items
     public static Item itemMissile;
     public static Item itemRocketLauncher;
@@ -214,6 +216,8 @@ public final class ICBM extends AbstractMod
         blockStandardSilo = manager.newBlock(TileStandardSilo.class);
         blockMediumLauncher = manager.newBlock(TileMediumLauncher.class);
         blockLargeLauncher = manager.newBlock(TileLargeLauncher.class);
+
+
 
         //Clear launcher creative tab to prevent placement by user by mistake
 

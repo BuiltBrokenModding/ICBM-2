@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.content.crafting.missile.casing;
 
-import com.builtbroken.icbm.api.ICustomMissileRender;
+import com.builtbroken.icbm.api.missile.ICustomMissileRender;
 import com.builtbroken.icbm.client.Assets;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;

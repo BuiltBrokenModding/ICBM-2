@@ -5,7 +5,7 @@ import com.builtbroken.icbm.content.blast.fragment.ExFragment;
 import com.builtbroken.icbm.content.blast.fragment.Fragments;
 import com.builtbroken.icbm.content.blast.fragment.IFragmentExplosiveHandler;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.api.items.IExplosiveItem;
+import com.builtbroken.mc.api.items.explosives.IExplosiveItem;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.core.registry.implement.IRegistryInit;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;

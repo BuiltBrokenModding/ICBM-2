@@ -15,7 +15,10 @@ import com.builtbroken.icbm.content.crafting.parts.MissileCraftingParts;
 import com.builtbroken.icbm.content.warhead.ItemBlockWarhead;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.explosive.ITexturedExplosiveHandler;
-import com.builtbroken.mc.api.items.IExplosiveItem;
+import com.builtbroken.mc.api.items.explosives.IExplosiveItem;
+import com.builtbroken.mc.api.items.weapons.IAmmo;
+import com.builtbroken.mc.api.items.weapons.IAmmoType;
+import com.builtbroken.mc.api.items.weapons.IReloadableWeapon;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.core.Engine;
@@ -256,13 +259,13 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     }
 
     @Override
-    public void fireAmmo(IWeapon weapon, ItemStack weaponStack, ItemStack ammoStack, Entity firingEntity)
+    public void fireAmmo(IReloadableWeapon weapon, ItemStack weaponStack, ItemStack ammoStack, Entity firingEntity)
     {
         EntityMissile.fireMissileByEntity(firingEntity, ammoStack);
     }
 
     @Override
-    public void consumeAmmo(IWeapon weapon, ItemStack weaponStack, ItemStack ammoStack, int shotsFired)
+    public void consumeAmmo(IReloadableWeapon weapon, ItemStack weaponStack, ItemStack ammoStack, int shotsFired)
     {
         ammoStack.stackSize -= shotsFired;
     }

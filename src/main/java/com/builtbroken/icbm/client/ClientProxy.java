@@ -3,6 +3,7 @@ package com.builtbroken.icbm.client;
 import com.builtbroken.icbm.CommonProxy;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.client.blast.ECFragment;
+import com.builtbroken.icbm.content.ams.TileAMSClient;
 import com.builtbroken.icbm.content.blast.effect.ExAntiPlant;
 import com.builtbroken.icbm.content.blast.effect.ExEnderBlocks;
 import com.builtbroken.icbm.content.blast.effect.ExTorchEater;
@@ -58,6 +59,7 @@ public class ClientProxy extends CommonProxy
         super.preInit();
         ICBM.blockMissileWorkstation = ICBM.INSTANCE.getManager().newBlock("SmallMissileWorkStation", TileSmallMissileWorkstationClient.class);
         ICBM.blockStandardLauncher = ICBM.INSTANCE.getManager().newBlock("StandardMissileLauncher", TileStandardLauncherClient.class);
+        ICBM.blockAMS = ICBM.INSTANCE.getManager().newBlock("ICBMxAMS", TileAMSClient.class);
         ICBM.blockStandardLauncher.setCreativeTab(null);
         NEIProxy.hideItem(ICBM.blockStandardLauncher);
     }

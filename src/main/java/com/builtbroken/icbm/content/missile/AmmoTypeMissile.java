@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.missile;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.api.IAmmoType;
+import com.builtbroken.mc.api.items.weapons.IAmmoType;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 
 /**

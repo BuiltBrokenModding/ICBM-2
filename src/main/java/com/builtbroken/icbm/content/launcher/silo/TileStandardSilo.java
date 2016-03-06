@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.content.launcher.silo;
 
-import com.builtbroken.icbm.api.ICustomMissileRender;
+import com.builtbroken.icbm.api.missile.ICustomMissileRender;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
