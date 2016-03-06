@@ -44,16 +44,23 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver
     public void update()
     {
         super.update();
+        //Set selector if missing
         if (selector == null)
         {
             selector = new EntityTargetingSelector(this);
         }
+        //Clear target if invalid
+        if (target != null && target.isDead)
+        {
+            target = null;
+        }
+        //Get new target
         if (target == null)
         {
             target = getClosestTarget();
         }
 
-        if (isServer() && ticks % 3 == 0)
+        if (isServer())
         {
             if (target != null)
             {
@@ -67,7 +74,7 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver
                 currentAim.pitch_$eq(MathHelper.lerp(aim.pitch() % 360, aim.pitch(), (double) delta / 50000000.0));
                 lastRotationUpdate = System.nanoTime();
 
-                if (aim.isWithin(currentAim, 1))
+                if (ticks % 10 == 0 && aim.isWithin(currentAim, 1))
                 {
                     fireAt(target);
                 }
@@ -77,10 +84,14 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver
 
     private void fireAt(Entity target)
     {
-        if (target instanceof IMissileEntity)
+        if(world().rand.nextFloat() > 0.4)
         {
-            ((IMissileEntity) target).destroyMissile(this, DamageSource.generic, 0.1f, true, true, true);
-            sendPacket(new PacketTile(this, 2));
+            if (target instanceof IMissileEntity)
+            {
+                ((IMissileEntity) target).destroyMissile(this, DamageSource.generic, 0.1f, true, true, true);
+                sendPacket(new PacketTile(this, 2));
+                target = null;
+            }
         }
     }
 
