@@ -122,6 +122,8 @@ public final class ICBM extends AbstractMod
 
     public static float missile_firing_volume = 1f;
     public static float missile_engine_volume = 1f;
+    public static float ams_gun_volume = 1f;
+    public static float ams_rotation_volume = 1f;
 
     public static int ENTITY_ID_PREFIX = 50;
 
@@ -198,7 +200,10 @@ public final class ICBM extends AbstractMod
         // Configs TODO load up using config system, and separate file
         ANTIMATTER_BREAK_UNBREAKABLE = getConfig().getBoolean("Antimatter_Destroy_Unbreakable", Configuration.CATEGORY_GENERAL, true, "Allows antimatter to break blocks that are unbreakable, bedrock for example.");
         DEBUG_MISSILE_MANAGER = getConfig().getBoolean("Missile_Manager", "Debug", Engine.runningAsDev, "Adds additional info to the console");
-        missile_firing_volume = getConfig().getFloat("missile_firing_volume", "volume", 1.0F, 0, 4, "How loud the missile is when fired from launchers");
+        missile_firing_volume = getConfig().getFloat("missile_firing", "volume", 1.0F, 0, 1, "How loud the missile is when fired from launchers");
+        missile_engine_volume = getConfig().getFloat("missile_engine", "volume", 1.0F, 0, 1, "How loud the missile engine is while running");
+        ams_gun_volume = getConfig().getFloat("ams_gun", "volume", 1.0F, 0, 4, "How loud the gun firing is for the AMS turret");
+        ams_rotation_volume = getConfig().getFloat("ams_rotation", "volume", 1.0F, 0, 1, "How loud the rotation audio is for the AMS turret");
 
 
         // Functional Blocks
@@ -216,7 +221,6 @@ public final class ICBM extends AbstractMod
         blockStandardSilo = manager.newBlock(TileStandardSilo.class);
         blockMediumLauncher = manager.newBlock(TileMediumLauncher.class);
         blockLargeLauncher = manager.newBlock(TileLargeLauncher.class);
-
 
 
         //Clear launcher creative tab to prevent placement by user by mistake

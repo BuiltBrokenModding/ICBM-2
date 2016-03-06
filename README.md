@@ -24,8 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 ##Pull Requests
-For 1.6.4 please pull request from now on to the 1.6.4 branch. 
-As well your pull request will not be merged until you agree to our CLA.
+Before your pull request is accepted you must sign the Contributor License Agreement(CLA)
 
 ##Contributions
 By submitting anything to the repo you agree to the provided CLA and everything it applies
@@ -67,6 +66,9 @@ If not listed don't fear we are still compiling the credits list after it got re
 
 ### Freesound.org Audio Credits
 * qubodup           - https://www.freesound.org/people/qubodup/sounds/146770/
+* Bird_man          - https://www.freesound.org/people/Bird_man/sounds/275151/
+* LG                - https://www.freesound.org/people/LG/sounds/18726/
+
 
 ## Download Locations
 * http://builtbroken.com/pages/icbm/

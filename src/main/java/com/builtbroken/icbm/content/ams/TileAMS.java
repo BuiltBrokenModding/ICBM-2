@@ -44,35 +44,40 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver
     public void update()
     {
         super.update();
-        //Set selector if missing
-        if (selector == null)
-        {
-            selector = new EntityTargetingSelector(this);
-        }
-        //Clear target if invalid
-        if (target != null && target.isDead)
-        {
-            target = null;
-        }
-        //Get new target
-        if (target == null)
-        {
-            target = getClosestTarget();
-        }
-
         if (isServer())
         {
+            //Set selector if missing
+            if (selector == null)
+            {
+                selector = new EntityTargetingSelector(this);
+            }
+            //Clear target if invalid
+            if (target != null && target.isDead)
+            {
+                target = null;
+            }
+            //Get new target
+            if (target == null)
+            {
+                target = getClosestTarget();
+            }
             if (target != null)
             {
-                Pos aimPoint = new Pos(this.target);
-                aim = toPos().add(0.5).toEulerAngle(aimPoint);
-                sendDescPacket();
+                if (ticks % 3 == 0)
+                {
+                    Pos aimPoint = new Pos(this.target);
+                    aim = toPos().add(0.5).toEulerAngle(aimPoint);
+                    aim.yaw_$eq(EulerAngle.clampAngleTo360(aim.yaw()));
+                    aim.pitch_$eq(EulerAngle.clampAngleTo360(aim.pitch()));
 
-                //Update server rotation value, can be independent from client
-                long delta = System.nanoTime() - lastRotationUpdate;
-                currentAim.yaw_$eq(MathHelper.lerp(aim.yaw() % 360, aim.yaw(), (double) delta / 50000000.0));
-                currentAim.pitch_$eq(MathHelper.lerp(aim.pitch() % 360, aim.pitch(), (double) delta / 50000000.0));
-                lastRotationUpdate = System.nanoTime();
+                    sendDescPacket();
+
+                    //Update server rotation value, can be independent from client
+                    long delta = System.nanoTime() - lastRotationUpdate;
+                    currentAim.yaw_$eq(EulerAngle.clampAngleTo360(MathHelper.lerp(currentAim.yaw(), aim.yaw(), (double) delta / 50000000.0)));
+                    currentAim.pitch_$eq(EulerAngle.clampAngleTo360(MathHelper.lerp(currentAim.pitch(), aim.pitch(), (double) delta / 50000000.0)));
+                    lastRotationUpdate = System.nanoTime();
+                }
 
                 if (ticks % 10 == 0 && aim.isWithin(currentAim, 1))
                 {
@@ -90,7 +95,10 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver
             {
                 ((IMissileEntity) target).destroyMissile(this, DamageSource.generic, 0.1f, true, true, true);
                 sendPacket(new PacketTile(this, 2));
-                target = null;
+                this.target = null;
+                currentAim.yaw_$eq(0);
+                currentAim.pitch_$eq(0);
+                sendDescPacket();
             }
         }
     }
@@ -109,8 +117,8 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver
     public void writeDescPacket(ByteBuf buf)
     {
         super.writeDescPacket(buf);
-        buf.writeDouble(aim.yaw());
-        buf.writeDouble(aim.pitch());
+        buf.writeInt((int) aim.yaw());
+        buf.writeInt((int) aim.pitch());
     }
 
     @Override

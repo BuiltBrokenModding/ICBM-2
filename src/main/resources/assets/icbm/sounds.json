@@ -23,5 +23,17 @@
       "sounds":[
          "engine/rocketEngineloop"
       ]
+   },
+    "icbm.servo":{
+      "category":"neutral",
+      "sounds":[
+         "servo"
+      ]
+   },
+    "icbm.gun":{
+      "category":"neutral",
+      "sounds":[
+         "gun"
+      ]
    }
 }

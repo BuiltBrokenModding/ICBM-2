@@ -132,7 +132,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
         {
             ((IMissileEntity) entityMissile).setIntoMotion();
             entityMissile.worldObj.spawnEntityInWorld(entityMissile);
-            entityMissile.worldObj.playSoundAtEntity(entityMissile, "icbm:icbm.missilelaunch", ICBM.missile_firing_volume, (1.0F + (entityMissile.worldObj.rand.nextFloat() - entityMissile.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+           // entityMissile.worldObj.playSoundAtEntity(entityMissile, "icbm:icbm.missilelaunch", ICBM.missile_firing_volume, (1.0F + (entityMissile.worldObj.rand.nextFloat() - entityMissile.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
         }
     }
 

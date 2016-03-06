@@ -139,7 +139,7 @@ public class ClientProxy extends CommonProxy
     @Override
     public void playRocketAudio(Entity entity)
     {
-        entity.worldObj.playSoundAtEntity(entity, "icbm:engine.main", ICBM.missile_firing_volume, 1.0F);
+        entity.worldObj.playSoundAtEntity(entity, "icbm:engine.main", ICBM.missile_engine_volume, 1.0F);
     }
 
     @Override
