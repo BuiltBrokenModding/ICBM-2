@@ -66,6 +66,7 @@ If not listed don't fear we are still compiling the credits list after it got re
 
 ### Freesound.org Audio Credits
 * qubodup           - https://www.freesound.org/people/qubodup/sounds/146770/
+                    - https://www.freesound.org/people/qubodup/sounds/67542/
 * Bird_man          - https://www.freesound.org/people/Bird_man/sounds/275151/
 * LG                - https://www.freesound.org/people/LG/sounds/18726/
 

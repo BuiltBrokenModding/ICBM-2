@@ -2,8 +2,7 @@
  "icbm.missilelaunch":{
       "category":"neutral",
       "sounds":[
-         "missile/missilelaunch1",
-         "missile/missilelaunch2"
+         "missile/tow"
       ]
    },
    "icbm.missileflight":{
