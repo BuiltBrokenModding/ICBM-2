@@ -2,6 +2,7 @@ package com.builtbroken.icbm.content.ams;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.missile.IMissileEntity;
+import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.jlib.helpers.MathHelper;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
@@ -102,7 +103,14 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver
         {
             if (target instanceof IMissileEntity)
             {
-                ((IMissileEntity) target).destroyMissile(this, DamageSource.generic, 0.1f, true, true, true);
+                if (target instanceof EntityMissile)
+                {
+                    target.attackEntityFrom(DamageSource.generic, world().rand.nextFloat() * 5f);
+                }
+                else
+                {
+                    ((IMissileEntity) target).destroyMissile(this, DamageSource.generic, 0.1f, true, true, true);
+                }
                 sendPacket(new PacketTile(this, 2));
                 this.target = null;
                 currentAim.yaw_$eq(0);

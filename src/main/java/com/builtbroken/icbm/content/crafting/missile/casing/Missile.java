@@ -140,4 +140,13 @@ public abstract class Missile extends AbstractModule implements IMissile
         //TODO maybe cache being in missile enum to save a little cpu time?
         return LanguageUtility.capitalizeFirst(casing.name().toLowerCase()) + "Missile[" + getWarhead() + ", " + getGuidance() + ", " + getEngine() + "]";
     }
+
+    /**
+     * Max number of hit points the missile has
+     * @return
+     */
+    public float getMaxHitPoints()
+    {
+        return casing.getMaxHitPoints();
+    }
 }

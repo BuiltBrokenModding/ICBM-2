@@ -24,6 +24,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 /**
@@ -54,6 +55,12 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     }
 
     @Override
+    protected void entityInit()
+    {
+        this.dataWatcher.addObject(6, Float.valueOf(1.0F));
+    }
+
+    @Override
     public void onUpdate()
     {
         super.onUpdate();
@@ -61,6 +68,41 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
         {
             RadarRegistry.add(this);
         }
+    }
+
+    @Override
+    public boolean attackEntityFrom(DamageSource source, float damage)
+    {
+        if (!worldObj.isRemote && !isEntityInvulnerable() && damage > 0)
+        {
+            setHealth(getHealth() - damage);
+            if (getHealth() <= 0)
+            {
+                destroyMissile(this, DamageSource.generic, 0.1f, true, true, true);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public void heal(float hp)
+    {
+        float f1 = this.getHealth();
+
+        if (f1 > 0.0F)
+        {
+            this.setHealth(f1 + hp);
+        }
+    }
+
+    public final float getHealth()
+    {
+        return this.dataWatcher.getWatchableObjectFloat(6);
+    }
+
+    public void setHealth(float hp)
+    {
+        this.dataWatcher.updateObject(6, Float.valueOf(MathHelper.clamp_float(hp, 0.0F, missile != null ? missile.getMaxHitPoints() : 10)));
     }
 
 
