@@ -140,4 +140,10 @@ public class TileAMSClient extends TileAMS implements ISimpleItemRenderer
         aim.yaw_$eq(buf.readInt());
         aim.pitch_$eq(buf.readInt());
     }
+
+    @Override
+    public Object getClientGuiElement(int ID, EntityPlayer player)
+    {
+        return new GuiAMSTurret(player, this);
+    }
 }
