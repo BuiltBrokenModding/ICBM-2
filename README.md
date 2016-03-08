@@ -65,10 +65,11 @@ If not listed don't fear we are still compiling the credits list after it got re
 * VictiniX888       - Chinese Translations
 
 ### Freesound.org Audio Credits
-* qubodup           - https://www.freesound.org/people/qubodup/sounds/146770/
-                    - https://www.freesound.org/people/qubodup/sounds/67542/
-* Bird_man          - https://www.freesound.org/people/Bird_man/sounds/275151/
-* LG                - https://www.freesound.org/people/LG/sounds/18726/
+* qubodup               - https://www.freesound.org/people/qubodup/sounds/146770/
+                        - https://www.freesound.org/people/qubodup/sounds/67542/
+* Bird_man              - https://www.freesound.org/people/Bird_man/sounds/275151/
+* LG                    - https://www.freesound.org/people/LG/sounds/18726/
+* Yap_Audio_Production  - https://www.freesound.org/people/Yap_Audio_Production/sounds/218482/
 
 
 ## Download Locations

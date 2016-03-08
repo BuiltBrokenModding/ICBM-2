@@ -15,6 +15,7 @@ import com.builtbroken.mc.lib.world.radar.RadarRegistry;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.TileModuleMachine;
+import com.builtbroken.mc.prefab.tile.module.TileModuleInventory;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -22,8 +23,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraftforge.oredict.OreDictionary;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
@@ -137,27 +141,72 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
      */
     protected void fireAt(Entity target)
     {
-        //TODO move to tip of gun for better effect
-        worldObj.playSoundEffect(x() + 0.5, y() + 0.5, z() + 0.5, "icbm:icbm.gun", ICBM.ams_gun_volume, 1.0F);
-        if (world().rand.nextFloat() > 0.4)
+        if (eatAmmo())
         {
-            if (target instanceof IMissileEntity)
+            //TODO move to tip of gun for better effect
+            worldObj.playSoundEffect(x() + 0.5, y() + 0.5, z() + 0.5, "icbm:icbm.gun", ICBM.ams_gun_volume, 1.0F);
+            if (world().rand.nextFloat() > 0.4)
             {
-                if (target instanceof EntityMissile)
+                if (target instanceof IMissileEntity)
                 {
-                    target.attackEntityFrom(DamageSource.generic, world().rand.nextFloat() * 5f);
+                    if (target instanceof EntityMissile)
+                    {
+                        target.attackEntityFrom(DamageSource.generic, world().rand.nextFloat() * 5f);
+                    }
+                    else
+                    {
+                        ((IMissileEntity) target).destroyMissile(this, DamageSource.generic, 0.1f, true, true, true);
+                    }
+                    sendPacket(new PacketTile(this, 2));
+                    this.target = null;
+                    currentAim.yaw_$eq(0);
+                    currentAim.pitch_$eq(0);
+                    sendDescPacket();
                 }
-                else
-                {
-                    ((IMissileEntity) target).destroyMissile(this, DamageSource.generic, 0.1f, true, true, true);
-                }
-                sendPacket(new PacketTile(this, 2));
-                this.target = null;
-                currentAim.yaw_$eq(0);
-                currentAim.pitch_$eq(0);
-                sendDescPacket();
             }
         }
+        else
+        {
+            worldObj.playSoundEffect(x() + 0.5, y() + 0.5, z() + 0.5, "icbm:icbm.gun.empty", ICBM.ams_gun_volume, 1.0F);
+        }
+    }
+
+    /**
+     * Called to consume ammo from the inventory
+     *
+     * @return true if ammo was consumed
+     */
+    protected boolean eatAmmo()
+    {
+        if (getInventory() instanceof TileModuleInventory && !((TileModuleInventory) getInventory()).isEmpty())
+        {
+            Iterator<Map.Entry<Integer, ItemStack>> it = ((TileModuleInventory) getInventory()).iterator();
+            while (it.hasNext())
+            {
+                Map.Entry<Integer, ItemStack> e = it.next();
+                if (e != null && e.getValue() != null)
+                {
+                    ItemStack stack = e.getValue();
+                    if (stack.stackSize > 0)
+                    {
+                        for (int id : OreDictionary.getOreIDs(stack))
+                        {
+                            String name = OreDictionary.getOreName(id);
+                            if (name.startsWith("nugget"))
+                            {
+                                stack.stackSize--;
+                                return true;
+                            }
+                        }
+                    }
+                    if (stack.stackSize <= 0)
+                    {
+                        it.remove();
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     /**
