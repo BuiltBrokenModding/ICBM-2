@@ -91,8 +91,7 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
                     currentAim.pitch_$eq(EulerAngle.clampAngleTo360(MathHelper.lerp(currentAim.pitch(), aim.pitch(), (double) delta / 50000000.0)));
                     lastRotationUpdate = System.nanoTime();
 
-                    EulerAngle diff = aim.absoluteDifference(currentAim);
-                    if (diff.yaw() > 2 || diff.pitch() > 2)
+                    if (!aim.isWithin(currentAim, 5))
                     {
                         worldObj.playSoundEffect(x() + 0.5, y() + 0.2, z() + 0.5, "icbm:icbm.servo", ICBM.ams_rotation_volume, 1.0F);
                     }
@@ -217,7 +216,7 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
      */
     protected Entity getClosestTarget()
     {
-        List<Entity> list = RadarRegistry.getAllLivingObjectsWithin(world(), new Cube(toPos().add(200, 10, 200), toPos().add(200, 200, 200)), selector);
+        List<Entity> list = RadarRegistry.getAllLivingObjectsWithin(world(), new Cube(toPos().add(-200, -10, -200), toPos().add(200, 200, 200)), selector);
         if (!list.isEmpty())
         {
             //TODO find closest target
