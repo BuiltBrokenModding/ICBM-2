@@ -13,9 +13,9 @@ import net.minecraft.nbt.NBTTagCompound;
  */
 public enum MissileCasings
 {
-    MICRO(WarheadCasings.EXPLOSIVE_MICRO, MissileMicro.class, 3, 1200, true),
-    SMALL(WarheadCasings.EXPLOSIVE_SMALL, MissileSmall.class, 10, 12000, true),
-    STANDARD(WarheadCasings.EXPLOSIVE_STANDARD, MissileStandard.class, 100, 72000, true),
+    MICRO(WarheadCasings.EXPLOSIVE_MICRO, MissileMicro.class, 1200, 3, true),
+    SMALL(WarheadCasings.EXPLOSIVE_SMALL, MissileSmall.class, 12000, 10, true),
+    STANDARD(WarheadCasings.EXPLOSIVE_STANDARD, MissileStandard.class, 72000, 100, true),
     MEDIUM(WarheadCasings.EXPLOSIVE_MEDIUM, MissileMedium.class, 360000, 700, false),
     LARGE(WarheadCasings.EXPLOSIVE_LARGE, MissileLarge.class, 1440000, 2000, false);
 
