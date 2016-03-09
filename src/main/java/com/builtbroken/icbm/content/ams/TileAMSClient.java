@@ -137,8 +137,8 @@ public class TileAMSClient extends TileAMS implements ISimpleItemRenderer
     public void readDescPacket(ByteBuf buf)
     {
         super.readDescPacket(buf);
-        aim.yaw_$eq(buf.readInt());
-        aim.pitch_$eq(buf.readInt());
+        aim.setYaw(buf.readInt());
+        aim.setPitch(buf.readInt());
     }
 
     @Override

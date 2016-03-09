@@ -3,7 +3,6 @@ package com.builtbroken.icbm.content.ams;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.missile.IMissileEntity;
 import com.builtbroken.icbm.content.missile.EntityMissile;
-import com.builtbroken.jlib.helpers.MathHelper;
 import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
@@ -35,8 +34,8 @@ import java.util.Map;
  */
 public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGuiTile
 {
-    protected EulerAngle aim = new EulerAngle(0, 0, 0);
-    protected EulerAngle currentAim = new EulerAngle(0, 0, 0);
+    protected final EulerAngle aim = new EulerAngle(0, 0, 0);
+    protected final EulerAngle currentAim = new EulerAngle(0, 0, 0);
 
     protected EntityTargetingSelector selector;
     protected Entity target = null;
@@ -74,29 +73,25 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
             {
                 target = getClosestTarget();
             }
+
+            if (ticks % 5 == 0 && !aim.isWithin(currentAim, 5))
+            {
+                System.out.println("\n" + currentAim + "\n" + aim + "\n");
+                worldObj.playSoundEffect(x() + 0.5, y() + 0.2, z() + 0.5, "icbm:icbm.servo", ICBM.ams_rotation_volume, 1.0F);
+            }
+
+            //Update server rotation value, can be independent from client
+            currentAim.lerp(aim, (System.nanoTime() - lastRotationUpdate) / 50000000.0).clampTo360();
+            lastRotationUpdate = System.nanoTime();
+
             if (target != null)
             {
                 if (ticks % 3 == 0)
                 {
                     Pos aimPoint = new Pos(this.target);
-                    aim = toPos().add(0.5).toEulerAngle(aimPoint);
-                    aim.yaw_$eq(EulerAngle.clampAngleTo360(aim.yaw()));
-                    aim.pitch_$eq(EulerAngle.clampAngleTo360(aim.pitch()));
-
+                    aim.set(toPos().add(0.5).toEulerAngle(aimPoint).clampTo360());
                     sendDescPacket();
-
-                    //Update server rotation value, can be independent from client
-                    long delta = System.nanoTime() - lastRotationUpdate;
-                    currentAim.yaw_$eq(EulerAngle.clampAngleTo360(MathHelper.lerp(currentAim.yaw(), aim.yaw(), (double) delta / 50000000.0)));
-                    currentAim.pitch_$eq(EulerAngle.clampAngleTo360(MathHelper.lerp(currentAim.pitch(), aim.pitch(), (double) delta / 50000000.0)));
-                    lastRotationUpdate = System.nanoTime();
-
-                    if (!aim.isWithin(currentAim, 5))
-                    {
-                        worldObj.playSoundEffect(x() + 0.5, y() + 0.2, z() + 0.5, "icbm:icbm.servo", ICBM.ams_rotation_volume, 1.0F);
-                    }
                 }
-
                 if (ticks % 10 == 0 && aim.isWithin(currentAim, 1))
                 {
                     fireAt(target);
@@ -158,8 +153,8 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
                     }
                     sendPacket(new PacketTile(this, 2));
                     this.target = null;
-                    currentAim.yaw_$eq(0);
-                    currentAim.pitch_$eq(0);
+                    currentAim.setYaw(0);
+                    currentAim.setPitch(0);
                     sendDescPacket();
                 }
             }
@@ -216,7 +211,7 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
      */
     protected Entity getClosestTarget()
     {
-        List<Entity> list = RadarRegistry.getAllLivingObjectsWithin(world(), new Cube(toPos().add(-200, -10, -200), toPos().add(200, 200, 200)), selector);
+        List<Entity> list = RadarRegistry.getAllLivingObjectsWithin(world(), new Cube(toPos().add(-100, -10, -100), toPos().add(100, 200, 100)), selector);
         if (!list.isEmpty())
         {
             //TODO find closest target
