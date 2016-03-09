@@ -2,8 +2,12 @@ package com.builtbroken.icbm.content.ams;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.missile.IMissileEntity;
+import com.builtbroken.icbm.content.launcher.controller.TileController;
+import com.builtbroken.icbm.content.launcher.fof.IFoFStation;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.mc.api.tile.IGuiTile;
+import com.builtbroken.mc.api.tile.ILinkable;
+import com.builtbroken.mc.api.tile.IPassCode;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.lib.transform.region.Cube;
@@ -19,9 +23,11 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -33,16 +39,32 @@ import java.util.Map;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 3/5/2016.
  */
-public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGuiTile
+public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGuiTile, ILinkable
 {
-    protected final double ROTATION_TIME = 50000000.0;
+    protected static final double ROTATION_TIME = 50000000.0;
+
+    /** Desired aim angle, updated every tick if target != null */
     protected final EulerAngle aim = new EulerAngle(0, 0, 0);
+    /** Current aim angle, updated each tick */
     protected final EulerAngle currentAim = new EulerAngle(0, 0, 0);
 
+    /** Current selector used to filter missiles */
     protected EntityTargetingSelector selector;
+    /** Current target */
     protected Entity target = null;
 
-    long lastRotationUpdate = System.nanoTime();
+    /** Location of FoF station */
+    public Pos fofStationPos;
+    /** Cached fof station tile */
+    public IFoFStation fofStation;
+
+    /** Last time rotation was updated, used in {@link EulerAngle#lerp(EulerAngle, double)} function for smooth rotation */
+    protected long lastRotationUpdate = System.nanoTime();
+
+    /** User set rotation yaw when target is null */
+    protected int desiredRotationYaw = 0;
+    /** User set rotation pitch when target is null */
+    protected int desiredRotationPitch = 0;
 
     public TileAMS()
     {
@@ -93,11 +115,11 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
                 {
                     Pos aimPoint = new Pos(this.target);
                     aim.set(toPos().add(0.5).toEulerAngle(aimPoint).clampTo360());
-                    sendDescPacket();
+                    sendAimPacket();
                 }
 
                 //Fires weapon, if aimed every, 10 ticks
-                if (ticks % 10 == 0 && aim.isWithin(currentAim, 1))
+                if (ticks % 5 == 0 && aim.isWithin(currentAim, 1))
                 {
                     fireAt(target);
                 }
@@ -116,23 +138,26 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
         {
             //TODO move to tip of gun for better effect
             worldObj.playSoundEffect(x() + 0.5, y() + 0.5, z() + 0.5, "icbm:icbm.gun", ICBM.ams_gun_volume, 1.0F);
-            if (world().rand.nextFloat() > 0.4)
+            if (world().rand.nextFloat() > 0.3)
             {
                 if (target instanceof IMissileEntity)
                 {
-                    if (target instanceof EntityMissile)
+                    if (target instanceof EntityMissile || target instanceof EntityLivingBase)
                     {
-                        target.attackEntityFrom(DamageSource.generic, world().rand.nextFloat() * 5f);
+                        target.attackEntityFrom(DamageSource.generic, 3 + world().rand.nextFloat() * 2f);
                     }
                     else
                     {
                         ((IMissileEntity) target).destroyMissile(this, DamageSource.generic, 0.1f, true, true, true);
                     }
                     sendPacket(new PacketTile(this, 2));
-                    this.target = null;
-                    currentAim.setYaw(0);
-                    currentAim.setPitch(0);
-                    sendAimPacket();
+                    if (target.isDead)
+                    {
+                        this.target = null;
+                        currentAim.setYaw(0);
+                        currentAim.setPitch(0);
+                        sendAimPacket();
+                    }
                 }
             }
         }
@@ -218,6 +243,68 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
         return null;
     }
 
+    public IFoFStation getFoFStation()
+    {
+        if ((fofStation == null || fofStation instanceof TileEntity && ((TileEntity) fofStation).isInvalid()) && fofStationPos != null)
+        {
+            TileEntity tile = fofStationPos.getTileEntity(world());
+            if (tile instanceof IFoFStation)
+            {
+                fofStation = (IFoFStation) tile;
+            }
+            else
+            {
+                fofStationPos = null;
+            }
+        }
+        return fofStation;
+    }
+
+    @Override
+    public String link(Location loc, short code)
+    {
+        //Validate location data
+        if (loc.world != world())
+        {
+            return "link.error.world.match";
+        }
+
+        Pos pos = loc.toPos();
+        if (!pos.isAboveBedrock())
+        {
+            return "link.error.pos.invalid";
+        }
+        if (distance(pos) > TileController.MAX_LINK_DISTANCE)
+        {
+            return "link.error.pos.distance.max";
+        }
+
+        //Compare tile pass code
+        TileEntity tile = pos.getTileEntity(loc.world());
+        if (((IPassCode) tile).getCode() != code)
+        {
+            return "link.error.code.match";
+        }
+        else if (tile instanceof IFoFStation)
+        {
+            IFoFStation station = getFoFStation();
+            if (station == tile)
+            {
+                return "link.error.tile.already.added";
+            }
+            else
+            {
+                fofStation = (IFoFStation) tile;
+                fofStationPos = new Pos(tile);
+            }
+            return "";
+        }
+        else
+        {
+            return "link.error.tile.invalid";
+        }
+    }
+
     @Override
     protected boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
     {
@@ -266,6 +353,11 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
         {
             currentAim.readFromNBT(nbt.getCompoundTag("currentAim"));
         }
+
+        if (nbt.hasKey("fofStationPos"))
+        {
+            fofStationPos = new Pos(nbt.getCompoundTag("fofStationPos"));
+        }
     }
 
     @Override
@@ -274,6 +366,10 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
         super.writeToNBT(nbt);
         nbt.setTag("aim", aim.toNBT());
         nbt.setTag("currentAim", currentAim.toNBT());
+        if (fofStationPos != null)
+        {
+            nbt.setTag("fofStationPos", fofStationPos.toNBT());
+        }
     }
 
     @Override

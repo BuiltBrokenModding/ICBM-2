@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.missile;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.missile.IFoF;
 import com.builtbroken.icbm.api.missile.IMissileEntity;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
@@ -30,7 +31,7 @@ import net.minecraft.world.World;
 /**
  * Basic missile like projectile that explodes on impact
  */
-public class EntityMissile extends EntityProjectile implements IExplosive, IMissileEntity, IEntityAdditionalSpawnData
+public class EntityMissile extends EntityProjectile implements IExplosive, IMissileEntity, IEntityAdditionalSpawnData, IFoF
 {
     private Missile missile;
 
@@ -39,6 +40,8 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
 
     //Used to prevent reporting when de-spawning
     public boolean noReport = false;
+
+    public String fofTag = "";
 
     public EntityMissile(World w)
     {
@@ -338,6 +341,11 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
             ItemStack stack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("missileStack"));
             setMissile(MissileModuleBuilder.INSTANCE.buildMissile(stack));
         }
+
+        if (nbt.hasKey("fofTag"))
+        {
+            fofTag = nbt.getString("fofTag");
+        }
     }
 
     @Override
@@ -348,6 +356,10 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
         {
             ItemStack stack = getMissile().toStack();
             nbt.setTag("missileStack", stack.writeToNBT(new NBTTagCompound()));
+        }
+        if (fofTag != null && !fofTag.isEmpty())
+        {
+            nbt.setString("fofTag", fofTag);
         }
     }
 
@@ -363,5 +375,11 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     public void readSpawnData(ByteBuf additionalData)
     {
         readEntityFromNBT(ByteBufUtils.readTag(additionalData));
+    }
+
+    @Override
+    public String getFoFTag()
+    {
+        return fofTag;
     }
 }

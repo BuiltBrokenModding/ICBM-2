@@ -3,9 +3,12 @@ package com.builtbroken.icbm.content.launcher;
 import com.builtbroken.icbm.api.ILauncher;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.display.TileMissileContainer;
+import com.builtbroken.icbm.content.launcher.controller.TileController;
+import com.builtbroken.icbm.content.launcher.fof.IFoFStation;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.tile.ILinkFeedback;
+import com.builtbroken.mc.api.tile.ILinkable;
 import com.builtbroken.mc.api.tile.IPassCode;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
@@ -18,6 +21,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
@@ -27,11 +31,18 @@ import java.util.List;
  * Prefab for all missile launchers and silos.
  * Created by robert on 1/18/2015.
  */
-public abstract class TileAbstractLauncher extends TileMissileContainer implements ILauncher, IPacketIDReceiver, IPassCode, ILinkFeedback
+public abstract class TileAbstractLauncher extends TileMissileContainer implements ILauncher, IPacketIDReceiver, IPassCode, ILinkFeedback, ILinkable
 {
+    /** Current target location */
     public Pos target = new Pos(0, -1, 0);
+
+    public Pos fofStationPos;
+    public IFoFStation fofStation;
+
+    /** Security code used to prevent remote linking */
     protected short link_code;
 
+    /** List of launch reports, records what missiles did */
     protected List<LauncherReport> launcherReports = new ArrayList();
 
     public TileAbstractLauncher(String name, Material mat, int slots)
@@ -53,6 +64,72 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
             link_code = MathUtility.randomShort();
         }
         return link_code;
+    }
+
+    @Override
+    public String link(Location loc, short code)
+    {
+        //Validate location data
+        if (loc.world != world())
+        {
+            return "link.error.world.match";
+        }
+
+        Pos pos = loc.toPos();
+        if (!pos.isAboveBedrock())
+        {
+            return "link.error.pos.invalid";
+        }
+        if (distance(pos) > TileController.MAX_LINK_DISTANCE)
+        {
+            return "link.error.pos.distance.max";
+        }
+
+        //Compare tile pass code
+        TileEntity tile = pos.getTileEntity(loc.world());
+        if (((IPassCode) tile).getCode() != code)
+        {
+            return "link.error.code.match";
+        }
+        if (tile instanceof TileController)
+        {
+            return ((TileController) tile).link(toLocation(), getCode());
+        }
+        else if (tile instanceof IFoFStation)
+        {
+            IFoFStation station = getFoFStation();
+            if (station == tile)
+            {
+                return "link.error.tile.already.added";
+            }
+            else
+            {
+                fofStation = (IFoFStation) tile;
+                fofStationPos = new Pos(tile);
+            }
+            return "";
+        }
+        else
+        {
+            return "link.error.tile.invalid";
+        }
+    }
+
+    public IFoFStation getFoFStation()
+    {
+        if ((fofStation == null || fofStation instanceof TileEntity && ((TileEntity) fofStation).isInvalid()) && fofStationPos != null)
+        {
+            TileEntity tile = fofStationPos.getTileEntity(world());
+            if (tile instanceof IFoFStation)
+            {
+                fofStation = (IFoFStation) tile;
+            }
+            else
+            {
+                fofStationPos = null;
+            }
+        }
+        return fofStation;
     }
 
     @Override
@@ -155,6 +232,10 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
                         //Create and setup missile
                         EntityMissile entity = new EntityMissile(world());
                         entity.setMissile(missile);
+                        if (fofStation != null)
+                        {
+                            entity.fofTag = fofStation.getProvidedFoFTag();
+                        }
 
                         //Set location data
                         Pos start = new Pos(this).add(getMissileLaunchOffset());
@@ -359,6 +440,11 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
                 launcherReports.add(new LauncherReport(list.getCompoundTagAt(i)));
             }
         }
+
+        if (nbt.hasKey("fofStationPos"))
+        {
+            fofStationPos = new Pos(nbt.getCompoundTag("fofStationPos"));
+        }
     }
 
     @Override
@@ -382,6 +468,11 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
                 list.appendTag(report.save());
             }
             nbt.setTag("launchReports", list);
+        }
+
+        if (fofStationPos != null)
+        {
+            nbt.setTag("fofStationPos", fofStationPos.toNBT());
         }
     }
 }
