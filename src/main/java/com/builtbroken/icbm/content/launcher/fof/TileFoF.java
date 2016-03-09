@@ -81,13 +81,6 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
     }
 
     @Override
-    public void update()
-    {
-        super.update();
-    }
-
-
-    @Override
     public String getProvidedFoFTag()
     {
         return userFoFID;
@@ -144,7 +137,7 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
     @Override
     public boolean onMultiTileBroken(IMultiTile tileMulti, Object source, boolean harvest)
     {
-        if (tileMulti instanceof TileEntity && ((TileEntity) tileMulti).xCoord == xCoord && ((TileEntity) tileMulti).yCoord == (yCoord + 1) && ((TileEntity) tileMulti).zCoord == zCoord)
+        if (!breaking && tileMulti instanceof TileEntity && ((TileEntity) tileMulti).xCoord == xCoord && ((TileEntity) tileMulti).yCoord == (yCoord + 1) && ((TileEntity) tileMulti).zCoord == zCoord)
         {
             breaking = true;
             Location loc = toLocation();

@@ -151,6 +151,8 @@ public final class ICBM extends AbstractMod
 
     public static Block blockAMS;
 
+    public static Block blockFoFStation;
+
     // Items
     public static Item itemMissile;
     public static Item itemRocketLauncher;
