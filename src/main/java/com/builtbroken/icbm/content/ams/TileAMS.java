@@ -21,6 +21,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -34,6 +35,7 @@ import java.util.Map;
  */
 public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGuiTile
 {
+    protected final double ROTATION_TIME = 50000000.0;
     protected final EulerAngle aim = new EulerAngle(0, 0, 0);
     protected final EulerAngle currentAim = new EulerAngle(0, 0, 0);
 
@@ -74,55 +76,30 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
                 target = getClosestTarget();
             }
 
+            //Sound effect for rotation
             if (ticks % 5 == 0 && !aim.isWithin(currentAim, 5))
             {
-                System.out.println("\n" + currentAim + "\n" + aim + "\n");
                 worldObj.playSoundEffect(x() + 0.5, y() + 0.2, z() + 0.5, "icbm:icbm.servo", ICBM.ams_rotation_volume, 1.0F);
             }
 
             //Update server rotation value, can be independent from client
-            currentAim.lerp(aim, (System.nanoTime() - lastRotationUpdate) / 50000000.0).clampTo360();
+            currentAim.lerp(aim, (System.nanoTime() - lastRotationUpdate) / ROTATION_TIME).clampTo360();
             lastRotationUpdate = System.nanoTime();
 
             if (target != null)
             {
+                //Updates aim point every 3 ticks
                 if (ticks % 3 == 0)
                 {
                     Pos aimPoint = new Pos(this.target);
                     aim.set(toPos().add(0.5).toEulerAngle(aimPoint).clampTo360());
                     sendDescPacket();
                 }
+
+                //Fires weapon, if aimed every, 10 ticks
                 if (ticks % 10 == 0 && aim.isWithin(currentAim, 1))
                 {
                     fireAt(target);
-                }
-            }
-        }
-    }
-
-    @Override
-    protected boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
-    {
-        if (isServer())
-        {
-            openGui(player, ICBM.INSTANCE);
-        }
-        return true;
-    }
-
-    @Override
-    public void onRemove(Block block, int par6)
-    {
-        if (isServer())
-        {
-            Location loc = toLocation();
-            for (int slot = 0; slot < getInventory().getSizeInventory(); slot++)
-            {
-                ItemStack stack = getInventory().getStackInSlotOnClosing(slot);
-                if (stack != null)
-                {
-                    InventoryUtility.dropItemStack(loc, stack);
-                    getInventory().setInventorySlotContents(slot, null);
                 }
             }
         }
@@ -155,7 +132,7 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
                     this.target = null;
                     currentAim.setYaw(0);
                     currentAim.setPitch(0);
-                    sendDescPacket();
+                    sendAimPacket();
                 }
             }
         }
@@ -163,6 +140,11 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
         {
             worldObj.playSoundEffect(x() + 0.5, y() + 0.5, z() + 0.5, "icbm:icbm.gun.empty", ICBM.ams_gun_volume, 1.0F);
         }
+    }
+
+    protected void sendAimPacket()
+    {
+        sendPacket(new PacketTile(this, 3, aim));
     }
 
     /**
@@ -181,22 +163,37 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
                 if (e != null && e.getValue() != null)
                 {
                     ItemStack stack = e.getValue();
-                    if (stack.stackSize > 0)
+                    if (isAmmo(stack))
                     {
-                        for (int id : OreDictionary.getOreIDs(stack))
-                        {
-                            String name = OreDictionary.getOreName(id);
-                            if (name.startsWith("nugget"))
-                            {
-                                stack.stackSize--;
-                                return true;
-                            }
-                        }
+                        stack.stackSize--;
+                        return true;
                     }
                     if (stack.stackSize <= 0)
                     {
                         it.remove();
                     }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks if the stack is valid ammo
+     *
+     * @param stack - compare stack, never null
+     * @return true if stack is ammo
+     */
+    public boolean isAmmo(ItemStack stack)
+    {
+        if (stack.stackSize > 0)
+        {
+            for (int id : OreDictionary.getOreIDs(stack))
+            {
+                String name = OreDictionary.getOreName(id);
+                if (name.startsWith("nugget"))
+                {
+                    return true;
                 }
             }
         }
@@ -222,11 +219,61 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
     }
 
     @Override
+    protected boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
+    {
+        if (isServer())
+        {
+            openGui(player, ICBM.INSTANCE);
+        }
+        return true;
+    }
+
+    @Override
+    public void onRemove(Block block, int par6)
+    {
+        if (isServer())
+        {
+            Location loc = toLocation();
+            for (int slot = 0; slot < getInventory().getSizeInventory(); slot++)
+            {
+                ItemStack stack = getInventory().getStackInSlotOnClosing(slot);
+                if (stack != null)
+                {
+                    InventoryUtility.dropItemStack(loc, stack);
+                    getInventory().setInventorySlotContents(slot, null);
+                }
+            }
+        }
+    }
+
+    @Override
     public void writeDescPacket(ByteBuf buf)
     {
         super.writeDescPacket(buf);
-        buf.writeInt((int) aim.yaw());
-        buf.writeInt((int) aim.pitch());
+        aim.writeBytes(buf);
+        currentAim.writeBytes(buf);
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound nbt)
+    {
+        super.readFromNBT(nbt);
+        if (nbt.hasKey("aim"))
+        {
+            aim.readFromNBT(nbt.getCompoundTag("aim"));
+        }
+        if (nbt.hasKey("currentAim"))
+        {
+            currentAim.readFromNBT(nbt.getCompoundTag("currentAim"));
+        }
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound nbt)
+    {
+        super.writeToNBT(nbt);
+        nbt.setTag("aim", aim.toNBT());
+        nbt.setTag("currentAim", currentAim.toNBT());
     }
 
     @Override

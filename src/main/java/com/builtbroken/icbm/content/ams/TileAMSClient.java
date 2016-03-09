@@ -1,10 +1,8 @@
 package com.builtbroken.icbm.content.ams;
 
 import com.builtbroken.icbm.client.Assets;
-import com.builtbroken.jlib.helpers.MathHelper;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.core.network.packet.PacketType;
-import com.builtbroken.mc.lib.transform.rotation.EulerAngle;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.client.FMLClientHandler;
@@ -23,13 +21,8 @@ import org.lwjgl.opengl.GL11;
  */
 public class TileAMSClient extends TileAMS implements ISimpleItemRenderer
 {
-    double render_yaw = 0;
-    double render_pitch = 0;
-
-    long lastRenderFrame = System.nanoTime();
-
-    static GroupObject turret;
-    static GroupObject base;
+    private static GroupObject turret;
+    private static GroupObject base;
 
     @Override
     public Tile newTile()
@@ -70,17 +63,14 @@ public class TileAMSClient extends TileAMS implements ISimpleItemRenderer
     public void renderDynamic(Pos pos, float frame, int pass)
     {
         //Lerp rotation values so not to have snapping effects(looks bad)
-        long delta = System.nanoTime() - lastRenderFrame;
-        if (Math.abs(render_yaw - aim.yaw()) > 1)
+        if (!currentAim.isWithin(aim, 1))
         {
-            render_yaw = EulerAngle.clampAngleTo360(MathHelper.lerp((int) render_yaw % 360, aim.yaw(), (double) delta / 50000000.0));
+            currentAim.lerp(aim, (System.nanoTime() - lastRotationUpdate) / ROTATION_TIME);
+            currentAim.clampTo360();
         }
-        if (Math.abs(render_pitch - aim.pitch()) > 1)
-        {
-            render_pitch = EulerAngle.clampAngleTo360(MathHelper.lerp((int) render_pitch % 360, aim.pitch(), (double) delta / 50000000.0));
-        }
-        lastRenderFrame = System.nanoTime();
+        lastRotationUpdate = System.nanoTime();
 
+        //Get render pieces if missing
         if (turret == null || base == null)
         {
             for (GroupObject object : Assets.AMS_MODEL.groupObjects)
@@ -98,12 +88,12 @@ public class TileAMSClient extends TileAMS implements ISimpleItemRenderer
         GL11.glPushMatrix();
         GL11.glTranslatef(pos.xf() + 0.5f, pos.yf(), pos.zf() + 0.5f);
 
-        GL11.glRotatef((float) ((render_yaw + 90f) % 360), 0, 1, 0);
+        GL11.glRotatef((float) ((currentAim.yaw() + 90f) % 360), 0, 1, 0);
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.AMS_TEXTURE);
         base.render();
 
         GL11.glTranslatef(0, 0.5f, 0);
-        GL11.glRotatef((float) render_pitch, 0, 0, 1);
+        GL11.glRotatef((float) currentAim.pitch(), 0, 0, 1);
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.AMS_TOP_TEXTURE);
         turret.render();
 
@@ -118,6 +108,11 @@ public class TileAMSClient extends TileAMS implements ISimpleItemRenderer
             if (id == 2)
             {
                 fireWeaponEffect();
+                return true;
+            }
+            else if (id == 3)
+            {
+                aim.readByteBuf(buf);
                 return true;
             }
             return false;
@@ -137,8 +132,8 @@ public class TileAMSClient extends TileAMS implements ISimpleItemRenderer
     public void readDescPacket(ByteBuf buf)
     {
         super.readDescPacket(buf);
-        aim.setYaw(buf.readInt());
-        aim.setPitch(buf.readInt());
+        aim.readByteBuf(buf);
+        currentAim.readByteBuf(buf);
     }
 
     @Override
