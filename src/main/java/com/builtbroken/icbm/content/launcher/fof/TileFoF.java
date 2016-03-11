@@ -7,17 +7,26 @@ import com.builtbroken.jlib.lang.EnglishLetters;
 import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
+import com.builtbroken.mc.core.network.IPacketIDReceiver;
+import com.builtbroken.mc.core.network.packet.PacketType;
+import com.builtbroken.mc.lib.access.AccessProfile;
+import com.builtbroken.mc.lib.access.GlobalAccessSystem;
+import com.builtbroken.mc.lib.access.IProfileContainer;
+import com.builtbroken.mc.lib.access.Permissions;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
+import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.TileModuleMachine;
 import com.builtbroken.mc.prefab.tile.multiblock.EnumMultiblock;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.StringUtils;
 
 import java.util.HashMap;
 
@@ -27,7 +36,7 @@ import java.util.HashMap;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 3/9/2016.
  */
-public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHost, IFoFStation
+public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHost, IFoFStation, IPacketIDReceiver, IProfileContainer
 {
     private static final HashMap<IPos3D, String> STRUCTURE = new HashMap();
 
@@ -36,10 +45,14 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
         STRUCTURE.put(new Pos(0, 1, 0), EnumMultiblock.TILE.getName());
     }
 
-    /** Main ID used for FoF system */
+    /**
+     * Main ID used for FoF system
+     */
     protected String userFoFID;
 
     private boolean breaking = false;
+    private AccessProfile profile;
+    private String globalProfileID;
 
     public TileFoF()
     {
@@ -48,6 +61,12 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
         this.resistance = 50f;
         //this.renderNormalBlock = false;
         this.addInventoryModule(2);
+    }
+
+    @Override
+    public Tile newTile()
+    {
+        return new TileFoF();
     }
 
     @Override
@@ -77,7 +96,35 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
                     }
                 }
             }
+
+            if (profile == null)
+            {
+                if (!StringUtils.isNullOrEmpty(globalProfileID))
+                {
+                    profile = GlobalAccessSystem.getOrCreateProfile(globalProfileID, true);
+                }
+                else
+                {
+                    profile = new AccessProfile().generateNew("Default", this);
+                }
+            }
         }
+    }
+
+    @Override
+    public boolean read(ByteBuf buf, int id, EntityPlayer player, PacketType type)
+    {
+        if (!super.read(buf, id, player, type))
+        {
+            if (isServer())
+            {
+                if(id == 2)
+                {
+
+                }
+            }
+        }
+        return true;
     }
 
     @Override
@@ -104,6 +151,14 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
         {
             userFoFID = nbt.getString("fofID");
         }
+        if (nbt.hasKey("globalAccessID"))
+        {
+            globalProfileID = nbt.getString("globalAccessID");
+        }
+        else if (nbt.hasKey("localProfile"))
+        {
+            profile = new AccessProfile(nbt.getCompoundTag("localProfile"));
+        }
     }
 
     @Override
@@ -113,6 +168,17 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
         if (userFoFID != null && !userFoFID.isEmpty())
         {
             nbt.setString("fofID", userFoFID);
+        }
+        if (StringUtils.isNullOrEmpty(globalProfileID))
+        {
+            if (profile != null)
+            {
+                nbt.setTag("localProfile", profile.save(new NBTTagCompound()));
+            }
+        }
+        else
+        {
+            nbt.setString("globalAccessID", globalProfileID);
         }
     }
 
@@ -181,5 +247,33 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
     public HashMap<IPos3D, String> getLayoutOfMultiBlock()
     {
         return STRUCTURE;
+    }
+
+    @Override
+    public AccessProfile getAccessProfile()
+    {
+        return profile;
+    }
+
+    @Override
+    public void setAccessProfile(AccessProfile profile)
+    {
+        if (profile != null)
+        {
+            profile.addContainer(this);
+        }
+        this.profile = profile;
+    }
+
+    @Override
+    public boolean canAccess(String username)
+    {
+        return getAccessProfile() == null || getAccessProfile().getUserAccess(username).hasNode(Permissions.machineOpen.toString());
+    }
+
+    @Override
+    public void onProfileChange()
+    {
+        //TODO kick users out of GUI if they do not have access anymore
     }
 }
