@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.launcher.fof;
 
+import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.missile.IFoF;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.jlib.helpers.MathHelper;
@@ -8,6 +9,7 @@ import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
+import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.lib.access.AccessProfile;
 import com.builtbroken.mc.lib.access.GlobalAccessSystem;
@@ -19,6 +21,8 @@ import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.TileModuleMachine;
 import com.builtbroken.mc.prefab.tile.multiblock.EnumMultiblock;
+import com.builtbroken.mc.prefab.tile.multiblock.MultiBlockHelper;
+import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -96,18 +100,7 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
                     }
                 }
             }
-
-            if (profile == null)
-            {
-                if (!StringUtils.isNullOrEmpty(globalProfileID))
-                {
-                    profile = GlobalAccessSystem.getOrCreateProfile(globalProfileID, true);
-                }
-                else
-                {
-                    profile = new AccessProfile().generateNew("Default", this);
-                }
-            }
+            MultiBlockHelper.buildMultiBlock(world(), this);
         }
     }
 
@@ -118,13 +111,67 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
         {
             if (isServer())
             {
-                if(id == 2)
+                //Set FoF ID
+                if (id == 2)
                 {
+                    if (hasNode(player, Permissions.machineConfigure.toString()))
+                    {
+                        String change = ByteBufUtils.readUTF8String(buf);
+                        if (buf.readBoolean())
+                        {
 
+                        }
+                        this.userFoFID = change;
+                        sendPacketToGuiUsers(new PacketTile(this, 1, "confirm"));
+                    }
+                    else
+                    {
+                        sendPacketToGuiUsers(new PacketTile(this, 1, "missing.perm"));
+                    }
+                    return true;
+                }
+                //Enable permission system
+                else if (id == 3)
+                {
+                    if (buf.readBoolean())
+                    {
+                        initProfile();
+                    }
+                    else
+                    {
+                        profile = null;
+                        globalProfileID = null;
+                    }
+                    sendPacketToGuiUsers(new PacketTile(this, 1, "confirm"));
+                    return true;
                 }
             }
         }
         return true;
+    }
+
+    @Override
+    public void doUpdateGuiUsers()
+    {
+        if (ticks % 20 == 0 && userFoFID != null)
+        {
+            sendPacket(new PacketTile(this, 3, userFoFID));
+        }
+    }
+
+    protected void initProfile()
+    {
+        if (profile == null)
+        {
+            if (!StringUtils.isNullOrEmpty(globalProfileID))
+            {
+                profile = GlobalAccessSystem.getOrCreateProfile(globalProfileID, true);
+            }
+            else
+            {
+                profile = new AccessProfile().generateNew("Default", this);
+            }
+        }
     }
 
     @Override
@@ -222,6 +269,7 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
     {
         breaking = true;
         world().setBlockToAir(xCoord, yCoord + 1, zCoord);
+        setAccessProfile(null);
         breaking = false;
     }
 
@@ -235,6 +283,16 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
     public boolean onMultiTileActivated(IMultiTile tile, EntityPlayer player, int side, IPos3D hit)
     {
         return onPlayerActivated(player, side, hit instanceof Pos ? (Pos) hit : new Pos(hit));
+    }
+
+    @Override
+    protected boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
+    {
+        if (isServer())
+        {
+            openGui(player, ICBM.INSTANCE);
+        }
+        return true;
     }
 
     @Override
@@ -258,6 +316,10 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
     @Override
     public void setAccessProfile(AccessProfile profile)
     {
+        if (this.profile != null)
+        {
+            profile.removeContainer(this);
+        }
         if (profile != null)
         {
             profile.addContainer(this);
@@ -269,6 +331,18 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
     public boolean canAccess(String username)
     {
         return getAccessProfile() == null || getAccessProfile().getUserAccess(username).hasNode(Permissions.machineOpen.toString());
+    }
+
+    @Override
+    public boolean hasNode(EntityPlayer player, String node)
+    {
+        return getAccessProfile() == null || getAccessProfile().hasNode(player, node);
+    }
+
+    @Override
+    public boolean hasNode(String username, String node)
+    {
+        return getAccessProfile() == null || getAccessProfile().hasNode(username, node);
     }
 
     @Override
