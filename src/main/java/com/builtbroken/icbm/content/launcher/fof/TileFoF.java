@@ -46,6 +46,7 @@ import java.util.List;
  */
 public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHost, IFoFStation, IPacketIDReceiver, IProfileContainer
 {
+    /** Structure map cache... bit pointless but saves a little ram */
     private static final HashMap<IPos3D, String> STRUCTURE = new HashMap();
 
     static
@@ -58,13 +59,17 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
     /** Archive of past FoF ids that should still be considered active but will not be applied to new objects. */
     protected List<String> archivedFoFIDs = new ArrayList();
 
+    /** Toggle to note the tile is currently breaking down it's multi-block, used to prevent duplication and infinite loops */
     private boolean breaking = false;
+    /** Current access profile used for user permissions */
     private AccessProfile profile;
+    /** Global profile ID used to load access profile */
     private String globalProfileID;
 
     public TileFoF()
     {
         super("ICBMxFoF", Material.iron);
+        this.itemBlock = ItemBlockFoF.class;
         this.hardness = 15f;
         this.resistance = 50f;
         //this.renderNormalBlock = false;
@@ -85,27 +90,40 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
         {
             if (userFoFID == null || userFoFID.isEmpty())
             {
-                userFoFID = "";
-                //Generate random default string
-                int[] l = MathHelper.generateRandomIntArray(world().rand, EnglishLetters.values().length - 1 + 10, 10 + world().rand.nextInt(20));
-                for (int i : l)
-                {
-                    if (i <= 10)
-                    {
-                        userFoFID += i - 1;
-                    }
-                    else if (world().rand.nextBoolean())
-                    {
-                        userFoFID += EnglishLetters.values()[i - 10].name();
-                    }
-                    else
-                    {
-                        userFoFID += EnglishLetters.values()[i - 10].name().toLowerCase();
-                    }
-                }
+                userFoFID = getRandomString();
             }
-            MultiBlockHelper.buildMultiBlock(world(), this);
+            MultiBlockHelper.buildMultiBlock(world(), this, true, true);
         }
+    }
+
+    /**
+     * Generates a random string containing numbers and letters between a length of 10 - 30
+     * 1,264,020,397,516,800 to 2,730,903,391,116,338,302,840,472,139,202,560,000,000 possible permutations
+     * using this method. Not including the number of permutation if capital letters are considered.
+     *
+     * @return new String
+     */
+    protected String getRandomString()
+    {
+        String string = "";
+        //Generate random default string
+        int[] l = MathHelper.generateRandomIntArray(world().rand, EnglishLetters.values().length + 9, 10 + world().rand.nextInt(20));
+        for (int i : l)
+        {
+            if (i < 10)
+            {
+                string += i;
+            }
+            else if (world().rand.nextBoolean())
+            {
+                string += EnglishLetters.values()[i - 10].name();
+            }
+            else
+            {
+                string += EnglishLetters.values()[i - 10].name().toLowerCase();
+            }
+        }
+        return string;
     }
 
     @Override

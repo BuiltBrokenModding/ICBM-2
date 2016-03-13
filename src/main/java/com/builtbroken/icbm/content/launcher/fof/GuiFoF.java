@@ -60,6 +60,7 @@ public class GuiFoF extends GuiContainerBase
         }
         else
         {
+            //TODO add line wrapper up to 2 additional lines of info
             drawString(renderString.substring(0, 25) + "...", 5, 65, color != null ? Colors.getIntFromColor(color) : 4210752);
         }
     }
@@ -70,6 +71,10 @@ public class GuiFoF extends GuiContainerBase
         if (button.id == 0 && userFoFIDField.getText() != null)
         {
             fof.sendPacketToServer(new PacketTile(fof, 2, userFoFIDField.getText(), saveCheckBox.isChecked()));
+        }
+        else if(button.id == 2)
+        {
+            fof.sendPacketToServer(new PacketTile(fof, 5));
         }
     }
 
