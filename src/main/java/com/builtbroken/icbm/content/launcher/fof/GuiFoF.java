@@ -18,9 +18,9 @@ import java.awt.*;
  */
 public class GuiFoF extends GuiContainerBase
 {
-    protected TileFoF fof;
+    protected final TileFoF fof;
 
-    protected String message = "sdasdasdasdasdasdasdasdasdasdasd";
+    protected String message = "default";
 
     protected GuiTextField userFoFIDField;
     protected GuiCheckBox saveCheckBox;
@@ -28,16 +28,17 @@ public class GuiFoF extends GuiContainerBase
     public GuiFoF(TileFoF fof, EntityPlayer player)
     {
         super(new ContainerFoF(player, fof));
+        this.fof = fof;
     }
 
     @Override
     public void initGui()
     {
         super.initGui();
-        userFoFIDField = new GuiTextField(Minecraft.getMinecraft().fontRenderer, 130, 60, 160, 15);
+        userFoFIDField = new GuiTextField(Minecraft.getMinecraft().fontRenderer, guiLeft + 10, guiTop + 20, 160, 15);
         fields.add(userFoFIDField);
-        buttonList.add(new GuiButton(0, 240, 80, 50, 20, "Update"));
-        saveCheckBox = new GuiCheckBox(1, 160, 80, "Archive", true);
+        buttonList.add(new GuiButton(0, guiLeft + 120, guiTop + 40, 50, 20, "Update"));
+        saveCheckBox = new GuiCheckBox(1, guiLeft + 40, guiTop + 40, "Archive", true);
         buttonList.add(saveCheckBox);
     }
 
@@ -68,7 +69,7 @@ public class GuiFoF extends GuiContainerBase
     {
         if (button.id == 0 && userFoFIDField.getText() != null)
         {
-            fof.sendPacket(new PacketTile(fof, 2, userFoFIDField.getText(), saveCheckBox.isChecked()));
+            fof.sendPacketToServer(new PacketTile(fof, 2, userFoFIDField.getText(), saveCheckBox.isChecked()));
         }
     }
 

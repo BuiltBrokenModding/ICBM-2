@@ -8,6 +8,7 @@ import com.builtbroken.jlib.lang.EnglishLetters;
 import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
@@ -28,11 +29,14 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Friend or foe controller, used to sync FoF tags between launchers, AMS, and other tiles.
@@ -49,10 +53,10 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
         STRUCTURE.put(new Pos(0, 1, 0), EnumMultiblock.TILE.getName());
     }
 
-    /**
-     * Main ID used for FoF system
-     */
+    /** Main ID used for FoF system */
     protected String userFoFID;
+    /** Archive of past FoF ids that should still be considered active but will not be applied to new objects. */
+    protected List<String> archivedFoFIDs = new ArrayList();
 
     private boolean breaking = false;
     private AccessProfile profile;
@@ -117,9 +121,9 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
                     if (hasNode(player, Permissions.machineConfigure.toString()))
                     {
                         String change = ByteBufUtils.readUTF8String(buf);
-                        if (buf.readBoolean())
+                        if (buf.readBoolean() && !archivedFoFIDs.contains(userFoFID))
                         {
-
+                            archivedFoFIDs.add(userFoFID);
                         }
                         this.userFoFID = change;
                         sendPacketToGuiUsers(new PacketTile(this, 1, "confirm"));
@@ -146,6 +150,7 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
                     return true;
                 }
             }
+            return false;
         }
         return true;
     }
@@ -155,7 +160,7 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
     {
         if (ticks % 20 == 0 && userFoFID != null)
         {
-            sendPacket(new PacketTile(this, 3, userFoFID));
+            sendPacketToGuiUsers(new PacketTile(this, 3, userFoFID));
         }
     }
 
@@ -291,6 +296,10 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
         if (isServer())
         {
             openGui(player, ICBM.INSTANCE);
+            if (player instanceof EntityPlayerMP)
+            {
+                Engine.instance.packetHandler.sendToPlayer(new PacketTile(this, 3, userFoFID), (EntityPlayerMP) player);
+            }
         }
         return true;
     }
