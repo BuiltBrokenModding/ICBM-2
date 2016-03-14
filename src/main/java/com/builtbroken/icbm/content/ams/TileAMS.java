@@ -5,6 +5,7 @@ import com.builtbroken.icbm.api.missile.IMissileEntity;
 import com.builtbroken.icbm.content.launcher.controller.TileController;
 import com.builtbroken.icbm.content.fof.IFoFStation;
 import com.builtbroken.icbm.content.missile.EntityMissile;
+import com.builtbroken.mc.api.items.tools.IWorldPosItem;
 import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.api.tile.ILinkable;
 import com.builtbroken.mc.api.tile.IPassCode;
@@ -281,7 +282,7 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
 
         //Compare tile pass code
         TileEntity tile = pos.getTileEntity(loc.world());
-        if (((IPassCode) tile).getCode() != code)
+        if (tile instanceof IPassCode && ((IPassCode) tile).getCode() != code)
         {
             return "link.error.code.match";
         }
@@ -308,6 +309,9 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
     @Override
     protected boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
     {
+        if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IWorldPosItem)
+            return false;
+
         if (isServer())
         {
             openGui(player, ICBM.INSTANCE);

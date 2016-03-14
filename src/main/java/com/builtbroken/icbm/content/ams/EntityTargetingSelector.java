@@ -1,6 +1,5 @@
 package com.builtbroken.icbm.content.ams;
 
-import com.builtbroken.icbm.api.missile.IFoF;
 import com.builtbroken.icbm.api.missile.IMissileEntity;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
@@ -26,12 +25,9 @@ public class EntityTargetingSelector implements IEntitySelector
         //TODO ray trace targets
         if (entity instanceof IMissileEntity)
         {
-            if (entity instanceof IFoF && ams.fofStation != null)
+            if (ams.getFoFStation().isFriendly(entity))
             {
-                if (((IFoF) entity).getFoFTag() == ams.fofStation.getProvidedFoFTag())
-                {
-                    return false;
-                }
+                return false;
             }
             return true;
         }

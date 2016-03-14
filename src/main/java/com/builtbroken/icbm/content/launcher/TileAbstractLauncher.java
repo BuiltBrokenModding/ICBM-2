@@ -7,6 +7,7 @@ import com.builtbroken.icbm.content.launcher.controller.TileController;
 import com.builtbroken.icbm.content.fof.IFoFStation;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.mc.api.event.TriggerCause;
+import com.builtbroken.mc.api.items.tools.IWorldPosItem;
 import com.builtbroken.mc.api.tile.ILinkFeedback;
 import com.builtbroken.mc.api.tile.ILinkable;
 import com.builtbroken.mc.api.tile.IPassCode;
@@ -57,6 +58,16 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     }
 
     @Override
+    public boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
+    {
+        if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IWorldPosItem)
+        {
+            return false;
+        }
+        return super.onPlayerRightClick(player, side, hit);
+    }
+
+    @Override
     public short getCode()
     {
         if (link_code == 0)
@@ -87,11 +98,11 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
 
         //Compare tile pass code
         TileEntity tile = pos.getTileEntity(loc.world());
-        if (((IPassCode) tile).getCode() != code)
+        if (tile instanceof IPassCode && ((IPassCode) tile).getCode() != code)
         {
             return "link.error.code.match";
         }
-        if (tile instanceof TileController)
+        else if (tile instanceof TileController)
         {
             return ((TileController) tile).link(toLocation(), getCode());
         }

@@ -241,7 +241,14 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
     {
         if (entity instanceof IFoF)
         {
-            return ((IFoF) entity).getFoFTag() != null && ((IFoF) entity).getFoFTag().equals(getProvidedFoFTag());
+            if (((IFoF) entity).getFoFTag() != null)
+            {
+                if (((IFoF) entity).getFoFTag().equals(getProvidedFoFTag()))
+                {
+                    return true;
+                }
+                return archivedFoFIDs.contains(((IFoF) entity).getFoFTag());
+            }
         }
         return false;
     }
@@ -268,7 +275,7 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
     public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
-        if (StringUtils.isNullOrEmpty(userFoFID))
+        if (!StringUtils.isNullOrEmpty(userFoFID))
         {
             nbt.setString("fofID", userFoFID);
         }

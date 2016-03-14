@@ -341,7 +341,6 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
             ItemStack stack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("missileStack"));
             setMissile(MissileModuleBuilder.INSTANCE.buildMissile(stack));
         }
-
         if (nbt.hasKey("fofTag"))
         {
             fofTag = nbt.getString("fofTag");
