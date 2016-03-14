@@ -13,7 +13,9 @@ import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
+import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.access.*;
+import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
@@ -22,15 +24,18 @@ import com.builtbroken.mc.prefab.tile.TileModuleMachine;
 import com.builtbroken.mc.prefab.tile.multiblock.EnumMultiblock;
 import com.builtbroken.mc.prefab.tile.multiblock.MultiBlockHelper;
 import cpw.mods.fml.common.network.ByteBufUtils;
+import cpw.mods.fml.common.registry.GameRegistry;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.StringUtils;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +47,7 @@ import java.util.List;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 3/9/2016.
  */
-public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHost, IFoFStation, IPacketIDReceiver, IProfileContainer
+public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHost, IFoFStation, IPacketIDReceiver, IProfileContainer, IPostInit
 {
     /** Structure map cache... bit pointless but saves a little ram */
     private static final HashMap<IPos3D, String> STRUCTURE = new HashMap();
@@ -261,6 +266,17 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
         {
             userFoFID = nbt.getString("fofID");
         }
+        if (nbt.hasKey("fofArchive"))
+        {
+            archivedFoFIDs.clear();
+            NBTTagCompound tag = nbt.getCompoundTag("fofArchive");
+            int size = tag.getInteger("size");
+            for (int i = 0; i < size; i++)
+            {
+                archivedFoFIDs.add(tag.getString("" + i));
+            }
+
+        }
         if (nbt.hasKey("globalAccessID"))
         {
             globalProfileID = nbt.getString("globalAccessID");
@@ -278,6 +294,16 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
         if (!StringUtils.isNullOrEmpty(userFoFID))
         {
             nbt.setString("fofID", userFoFID);
+        }
+        if (!archivedFoFIDs.isEmpty())
+        {
+            NBTTagCompound tag = new NBTTagCompound();
+            tag.setInteger("size", archivedFoFIDs.size());
+            for (int i = 0; i < archivedFoFIDs.size(); i++)
+            {
+                tag.setString("" + i, archivedFoFIDs.get(i));
+            }
+            nbt.setTag("fofArchive", tag);
         }
         if (StringUtils.isNullOrEmpty(globalProfileID))
         {
@@ -417,5 +443,11 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
     public void onProfileChange()
     {
         //TODO kick users out of GUI if they do not have access anymore
+    }
+
+    @Override
+    public void onPostInit()
+    {
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.blockFoFStation), "RCR", "PRP", 'C', ICBM.blockSiloController, 'R', UniversalRecipe.CIRCUIT_T2.get(), 'P', UniversalRecipe.PRIMARY_PLATE.get()));
     }
 }
