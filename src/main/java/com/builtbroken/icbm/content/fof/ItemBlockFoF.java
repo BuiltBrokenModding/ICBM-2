@@ -21,7 +21,7 @@ public class ItemBlockFoF extends ItemBlock
     @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float xx, float yy, float zz)
     {
-        if (stack.stackSize == 0)
+        if (stack.stackSize > 0)
         {
             Block block = world.getBlock(x, y, z);
 
