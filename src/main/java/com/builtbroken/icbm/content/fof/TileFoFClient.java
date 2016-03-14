@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.launcher.fof;
+package com.builtbroken.icbm.content.fof;
 
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;

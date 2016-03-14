@@ -4,7 +4,7 @@ import com.builtbroken.icbm.CommonProxy;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.ams.TileAMS;
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstation;
-import com.builtbroken.icbm.content.launcher.fof.TileFoF;
+import com.builtbroken.icbm.content.fof.TileFoF;
 import com.builtbroken.icbm.content.launcher.launcher.standard.TileStandardLauncher;
 
 /**

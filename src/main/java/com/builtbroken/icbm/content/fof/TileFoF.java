@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.launcher.fof;
+package com.builtbroken.icbm.content.fof;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.missile.IFoF;
@@ -235,7 +235,7 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
     public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
-        if (userFoFID != null && !userFoFID.isEmpty())
+        if (StringUtils.isNullOrEmpty(userFoFID))
         {
             nbt.setString("fofID", userFoFID);
         }

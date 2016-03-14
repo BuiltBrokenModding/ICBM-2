@@ -4,7 +4,7 @@ import com.builtbroken.icbm.api.ILauncher;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.display.TileMissileContainer;
 import com.builtbroken.icbm.content.launcher.controller.TileController;
-import com.builtbroken.icbm.content.launcher.fof.IFoFStation;
+import com.builtbroken.icbm.content.fof.IFoFStation;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.tile.ILinkFeedback;

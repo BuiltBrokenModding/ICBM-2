@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.launcher.fof;
+package com.builtbroken.icbm.content.fof;
 
 import net.minecraft.entity.Entity;
 
