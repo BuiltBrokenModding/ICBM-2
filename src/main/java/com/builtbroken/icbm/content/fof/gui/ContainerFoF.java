@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.fof;
+package com.builtbroken.icbm.content.fof.gui;
 
 import com.builtbroken.mc.prefab.gui.ContainerBase;
 import net.minecraft.entity.player.EntityPlayer;

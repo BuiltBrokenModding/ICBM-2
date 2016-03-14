@@ -2,6 +2,7 @@ package com.builtbroken.icbm.content.fof;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.missile.IFoF;
+import com.builtbroken.icbm.content.fof.gui.ContainerFoF;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.jlib.helpers.MathHelper;
 import com.builtbroken.jlib.lang.EnglishLetters;
@@ -12,10 +13,7 @@ import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
-import com.builtbroken.mc.lib.access.AccessProfile;
-import com.builtbroken.mc.lib.access.GlobalAccessSystem;
-import com.builtbroken.mc.lib.access.IProfileContainer;
-import com.builtbroken.mc.lib.access.Permissions;
+import com.builtbroken.mc.lib.access.*;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
@@ -133,7 +131,7 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
         {
             if (isServer())
             {
-                //Set FoF ID
+                //Set FoF ID, Main Gui
                 if (id == 2)
                 {
                     if (hasNode(player, Permissions.machineConfigure.toString()))
@@ -152,25 +150,55 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
                     }
                     return true;
                 }
-                //Enable permission system
+                //Enable permission system, GuiSettings
                 else if (id == 3)
                 {
-                    if (buf.readBoolean())
+                    if (hasNode(player, Permissions.machineConfigure.toString()))
                     {
-                        initProfile();
+                        if (buf.readBoolean())
+                        {
+                            initProfile();
+                            getAccessProfile().getOwnerGroup().addMember(new AccessUser(player));
+                        }
+                        else
+                        {
+                            profile = null;
+                            globalProfileID = null;
+                            sendDescPacket();
+                        }
+                        sendPacketToGuiUsers(new PacketTile(this, 1, "[1]confirm"));
                     }
                     else
                     {
-                        profile = null;
-                        globalProfileID = null;
+                        sendPacketToGuiUsers(new PacketTile(this, 1, "[2]missing.perm"));
                     }
-                    sendPacketToGuiUsers(new PacketTile(this, 1, "confirm"));
+                }
+                //Clear FoF id archive, GuiSettings
+                else if (id == 4)
+                {
+                    if (hasNode(player, Permissions.machineConfigure.toString()))
+                    {
+                        int s = archivedFoFIDs.size();
+                        archivedFoFIDs.clear();
+                        sendPacketToGuiUsers(new PacketTile(this, 1, "[2]removed.ids{" + s + "}"));
+                    }
+                    else
+                    {
+                        sendPacketToGuiUsers(new PacketTile(this, 1, "[2]missing.perm"));
+                    }
                     return true;
                 }
             }
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void writeDescPacket(ByteBuf buf)
+    {
+        super.writeDescPacket(buf);
+        buf.writeBoolean(profile != null);
     }
 
     @Override
@@ -193,7 +221,12 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
             else
             {
                 profile = new AccessProfile().generateNew("Default", this);
+                if (this.username != null)
+                {
+                    profile.getOwnerGroup().addMember(new AccessUser(this.username, this.owner));
+                }
             }
+            sendDescPacket();
         }
     }
 
@@ -345,13 +378,14 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
     {
         if (this.profile != null)
         {
-            profile.removeContainer(this);
+            this.profile.removeContainer(this);
         }
+
+        this.profile = profile;
         if (profile != null)
         {
             profile.addContainer(this);
         }
-        this.profile = profile;
     }
 
     @Override

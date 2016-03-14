@@ -1,6 +1,8 @@
 package com.builtbroken.icbm.content.fof;
 
 import com.builtbroken.icbm.client.Assets;
+import com.builtbroken.icbm.content.fof.gui.GuiFoF;
+import com.builtbroken.icbm.content.fof.gui.GuiSettings;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
@@ -26,6 +28,8 @@ import org.lwjgl.opengl.GL11;
  */
 public class TileFoFClient extends TileFoF implements ISimpleItemRenderer
 {
+    public boolean hasProfile = false;
+
     protected void sendFoFIDChange(String change, boolean archive)
     {
         sendPacket(new PacketTile(this, 2, change != null ? change : "", archive));
@@ -62,10 +66,48 @@ public class TileFoFClient extends TileFoF implements ISimpleItemRenderer
                         return true;
                     }
                 }
+                else if (screen instanceof GuiSettings)
+                {
+                    GuiSettings gui = (GuiSettings) screen;
+                    if (id == 1)
+                    {
+                        String message = ByteBufUtils.readUTF8String(buf);
+                        String s = message.contains("[") ? message.substring(message.indexOf("["), message.indexOf("]") + 1) : null;
+                        int pos = 0;
+                        String renderString = message;
+                        if (s != null)
+                        {
+                            renderString = renderString.replace(s, "");
+                            s = s.substring(1, 2);
+                            try
+                            {
+                                pos = Integer.parseInt(s);
+                            }
+                            catch (NumberFormatException e)
+                            {
+
+                            }
+                        }
+                        gui.setMessage(renderString);
+                        gui.pos = pos;
+                        if (pos == 1 && message.contains("confirm"))
+                        {
+                            gui.initGui();
+                        }
+                        return true;
+                    }
+                }
             }
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void readDescPacket(ByteBuf buf)
+    {
+        super.readDescPacket(buf);
+        this.hasProfile = buf.readBoolean();
     }
 
     @Override

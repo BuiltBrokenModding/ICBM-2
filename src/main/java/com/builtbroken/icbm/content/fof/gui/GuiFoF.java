@@ -1,5 +1,6 @@
-package com.builtbroken.icbm.content.fof;
+package com.builtbroken.icbm.content.fof.gui;
 
+import com.builtbroken.icbm.content.fof.TileFoFClient;
 import com.builtbroken.jlib.data.Colors;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
@@ -18,14 +19,14 @@ import java.awt.*;
  */
 public class GuiFoF extends GuiContainerBase
 {
-    protected final TileFoF fof;
+    protected final TileFoFClient fof;
 
-    protected String message = "default";
+    public String message = "default";
 
     protected GuiTextField userFoFIDField;
     protected GuiCheckBox saveCheckBox;
 
-    public GuiFoF(TileFoF fof, EntityPlayer player)
+    public GuiFoF(TileFoFClient fof, EntityPlayer player)
     {
         super(new ContainerFoF(player, fof));
         this.fof = fof;
@@ -40,6 +41,8 @@ public class GuiFoF extends GuiContainerBase
         buttonList.add(new GuiButton(0, guiLeft + 120, guiTop + 40, 50, 20, "Update"));
         saveCheckBox = new GuiCheckBox(1, guiLeft + 40, guiTop + 40, "Archive", true);
         buttonList.add(saveCheckBox);
+
+        buttonList.add(new GuiButton(2, guiLeft + 120, guiTop + 5, 50, 15, "Settings"));
     }
 
 
@@ -74,7 +77,7 @@ public class GuiFoF extends GuiContainerBase
         }
         else if(button.id == 2)
         {
-            fof.sendPacketToServer(new PacketTile(fof, 5));
+            Minecraft.getMinecraft().displayGuiScreen(new GuiSettings(this));
         }
     }
 
