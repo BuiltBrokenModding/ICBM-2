@@ -75,6 +75,9 @@ tile.icbm:missileController.name=Launcher Controller
 tile.icbm:smallsilo.name=Small Silo
 tile.icbm:missileworkstation.name=Missile Station
 
+tile.icbm:ICBMxFoF.name=FoF Station
+tile.icbm:ICBMxAMS.name=AMS Turret
+
 tile.icbm:decorLaunchPad.name=Launch Pad
 tile.icbm:decorLaunchPad.0.name=North Edge
 tile.icbm:decorLaunchPad.1.name=South Edge
