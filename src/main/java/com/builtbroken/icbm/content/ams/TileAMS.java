@@ -79,6 +79,8 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
         this.resistance = 50f;
         this.itemBlock = ItemBlockAMS.class;
         this.renderNormalBlock = false;
+        this.renderTileEntity = true;
+        this.renderType = -1;
         this.addInventoryModule(10);
     }
 
@@ -144,7 +146,9 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
         {
             //TODO move to tip of gun for better effect
             worldObj.playSoundEffect(x() + 0.5, y() + 0.5, z() + 0.5, "icbm:icbm.gun", ICBM.ams_gun_volume, 1.0F);
-            if (world().rand.nextFloat() > 0.3)
+            float rand = world().rand.nextFloat();
+            System.out.println(rand);
+            if (rand >= 0.3)
             {
                 if (target instanceof IMissileEntity)
                 {

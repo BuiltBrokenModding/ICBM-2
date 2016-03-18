@@ -76,12 +76,14 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     @Override
     public boolean attackEntityFrom(DamageSource source, float damage)
     {
+        boolean i = !worldObj.isRemote;
         if (!worldObj.isRemote && !isEntityInvulnerable() && damage > 0)
         {
-            setHealth(getHealth() - damage);
+            setHealth(Math.max(0, getHealth() - damage));
             if (getHealth() <= 0)
             {
                 destroyMissile(this, DamageSource.generic, 0.1f, true, true, true);
+                setDead();
             }
             return true;
         }
@@ -345,6 +347,10 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
         {
             fofTag = nbt.getString("fofTag");
         }
+        if (nbt.hasKey("health"))
+        {
+            this.setHealth(nbt.getFloat("health"));
+        }
     }
 
     @Override
@@ -359,6 +365,10 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
         if (fofTag != null && !fofTag.isEmpty())
         {
             nbt.setString("fofTag", fofTag);
+        }
+        if (getHealth() > 0)
+        {
+            nbt.setFloat("health", getHealth());
         }
     }
 

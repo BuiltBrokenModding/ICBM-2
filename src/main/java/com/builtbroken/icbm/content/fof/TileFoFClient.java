@@ -121,7 +121,7 @@ public class TileFoFClient extends TileFoF implements ISimpleItemRenderer
     {
         //Render launcher
         GL11.glPushMatrix();
-        GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 1.5f, pos.zf() + 0.5f);
+        GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.5f, pos.zf() + 0.5f);
         switch (getDirection())
         {
             case EAST:
@@ -136,10 +136,8 @@ public class TileFoFClient extends TileFoF implements ISimpleItemRenderer
                 GL11.glRotatef(90f, 0, 1f, 0);
                 break;
         }
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.LAUNCHER_CONTROLLER_TEXTURE);
-        Assets.LAUNCHER_CONTROLLER_MODEL.renderOnly("screen");
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.WEAPON_CASE_TEXTURE);
-        Assets.LAUNCHER_CONTROLLER_MODEL.renderAllExcept("screen");
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.FoF_STATION_TEXTURE);
+        Assets.FoF_STATION_MODEL.renderAll();
         GL11.glPopMatrix();
     }
 
