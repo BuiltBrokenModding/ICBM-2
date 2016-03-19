@@ -17,6 +17,7 @@ import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.lib.helper.MathUtility;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
+import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -42,6 +43,9 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
 
     /** Security code used to prevent remote linking */
     protected short link_code;
+
+    /** User customized display name for the launcher */
+    protected String customName;
 
     /** List of launch reports, records what missiles did */
     protected List<LauncherReport> launcherReports = new ArrayList();
@@ -406,7 +410,37 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
             this.target = new Pos(buf);
             return true;
         }
+        else if (id == 22)
+        {
+            this.customName = ByteBufUtils.readUTF8String(buf);
+            return true;
+        }
         return super.read(buf, id, player, type);
+    }
+
+    /**
+     * Sets a custom name for the launcher. Never call from packet
+     * handling as this auto sends packets. You will create
+     * a packet infinite loop. That can not be stopped.
+     *
+     * @param name - valid name
+     */
+    public void setCustomName(String name)
+    {
+        this.customName = name;
+        if (isClient())
+        {
+            sendPacketToServer(new PacketTile(this, 22, name));
+        }
+        else
+        {
+            sendDescPacket();
+        }
+    }
+
+    public String getCustomName()
+    {
+        return customName;
     }
 
     @Override
@@ -414,6 +448,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     {
         super.readDescPacket(buf);
         target = new Pos(buf);
+        customName = ByteBufUtils.readUTF8String(buf);
     }
 
     @Override
@@ -421,6 +456,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     {
         super.writeDescPacket(buf);
         target.writeByteBuf(buf);
+        ByteBufUtils.writeUTF8String(buf, "" + customName);
     }
 
     @Override
@@ -456,6 +492,11 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         {
             fofStationPos = new Pos(nbt.getCompoundTag("fofStationPos"));
         }
+
+        if(nbt.hasKey("customName"))
+        {
+            customName = nbt.getString("customName");
+        }
     }
 
     @Override
@@ -484,6 +525,11 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         if (fofStationPos != null)
         {
             nbt.setTag("fofStationPos", fofStationPos.toNBT());
+        }
+
+        if(customName != null && !customName.isEmpty())
+        {
+            nbt.setString("customName", customName);
         }
     }
 }

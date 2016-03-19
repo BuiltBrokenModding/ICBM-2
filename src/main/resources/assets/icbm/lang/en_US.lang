@@ -145,6 +145,10 @@ info.icbm:guidance.name=Guidance
 info.icbm:trigger.name=Trigger
 info.icbm:missileStation.placement.blocked.name=Placement Blocked
 
+## Controller GUI
+tile.icbm:smallSiloController.container.name=Launcher
+gui.icbm:controller.launcherName.name=Custom Name
+gui.icbm:controller.target.name=Target Location
 
 ## Controller GUI error messages
 gui.icbm:controller.links.none=No silos linked
@@ -152,21 +156,11 @@ gui.icbm:controller.links.none.hint=Try using the Data Chip
 gui.icbm:controller.invalid.input.name=Invalid input
 
 ## Controller GUI buttons
+gui.icbm:controller.silo.name=Silo
 gui.icbm:controller.launcher.name=Launcher
-gui.icbm:controller.launcher.width=100
-gui.icbm:controller.launcher.x=0
-
 gui.icbm:controller.fire.name=Fire
-gui.icbm:controller.fire.width=30
-gui.icbm:controller.fire.x=105
-
 gui.icbm:controller.update.name=Update
-gui.icbm:controller.update.width=30
-gui.icbm:controller.update.x=0
-
 gui.icbm:controller.back.name=Back
-gui.icbm:controller.back.width=50
-gui.icbm:controller.back.x=100
 
 container.TileController.name=Launcher Controller
 
