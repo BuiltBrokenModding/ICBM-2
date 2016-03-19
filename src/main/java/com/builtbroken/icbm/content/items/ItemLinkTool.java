@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.launcher.items;
+package com.builtbroken.icbm.content.items;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.jlib.lang.TextColor;
@@ -26,6 +26,8 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
+import java.util.List;
+
 /**
  * Created by robert on 4/15/2015.
  */
@@ -43,6 +45,21 @@ public class ItemLinkTool extends ItemWorldPos implements IWorldPosItem, IPassCo
     public void onPostInit()
     {
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.itemLinkTool), " I ", "BCB", "ICI", 'I', Items.iron_ingot, 'B', Blocks.wooden_button, 'C', UniversalRecipe.CIRCUIT_T2.get()));
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void addInformation(ItemStack stack, EntityPlayer player, List lines, boolean b)
+    {
+        String localization = LanguageUtility.getLocal(getUnlocalizedName() + ".info");
+        if(localization != null && !localization.isEmpty())
+        {
+            String[] split = localization.split(",");
+            for(String line : split)
+            {
+                lines.add(line.trim());
+            }
+        }
     }
 
     @SideOnly(Side.CLIENT)

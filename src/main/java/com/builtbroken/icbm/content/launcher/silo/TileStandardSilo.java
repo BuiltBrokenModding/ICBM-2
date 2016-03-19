@@ -58,6 +58,7 @@ public class TileStandardSilo extends TileAbstractLauncher implements ISimpleIte
     public TileStandardSilo()
     {
         super("standardsilo", Material.iron, 1);
+        this.itemBlock = ItemBlockStandardSilo.class;
         this.isOpaque = false;
         this.renderNormalBlock = false;
         this.renderTileEntity = true;
@@ -169,7 +170,7 @@ public class TileStandardSilo extends TileAbstractLauncher implements ISimpleIte
 
             if (tileMapCache.containsKey(pos))
             {
-                MultiBlockHelper.destroyMultiBlockStructure(this, harvest, false, true);
+                MultiBlockHelper.destroyMultiBlockStructure(this, harvest, true, true);
                 return true;
             }
         }
@@ -191,7 +192,7 @@ public class TileStandardSilo extends TileAbstractLauncher implements ISimpleIte
     @Override
     public boolean removeByPlayer(EntityPlayer player, boolean willHarvest)
     {
-        MultiBlockHelper.destroyMultiBlockStructure(this, false, false, false);
+        MultiBlockHelper.destroyMultiBlockStructure(this, false, true, false);
         if (willHarvest && getMissileItem() != null)
         {
             InventoryUtility.dropItemStack(toLocation(), getMissileItem());

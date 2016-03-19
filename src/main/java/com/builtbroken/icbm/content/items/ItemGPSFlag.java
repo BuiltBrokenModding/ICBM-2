@@ -1,8 +1,10 @@
-package com.builtbroken.icbm.content.launcher.items;
+package com.builtbroken.icbm.content.items;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
+import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
+import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
@@ -20,6 +22,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+
+import java.util.List;
 
 /**
  * Basic item that can stored the location it right clicks
@@ -43,6 +47,21 @@ public class ItemGPSFlag extends ItemWorldPos implements IWorldPosItem, IPostIni
 
     @SideOnly(Side.CLIENT)
     @Override
+    public void addInformation(ItemStack stack, EntityPlayer player, List lines, boolean b)
+    {
+        String localization = LanguageUtility.getLocal(getUnlocalizedName() + ".info");
+        if (localization != null && !localization.isEmpty())
+        {
+            String[] split = localization.split(",");
+            for (String line : split)
+            {
+                lines.add(line.trim());
+            }
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
     public void registerIcons(IIconRegister reg)
     {
         this.itemIcon = reg.registerIcon(ICBM.PREFIX + "gpsflag.unlinked");
@@ -53,7 +72,9 @@ public class ItemGPSFlag extends ItemWorldPos implements IWorldPosItem, IPostIni
     public IIcon getIconFromDamage(int meta)
     {
         if (meta == 1)
+        {
             return this.linked_icon;
+        }
         return this.itemIcon;
     }
 
@@ -74,10 +95,20 @@ public class ItemGPSFlag extends ItemWorldPos implements IWorldPosItem, IPostIni
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hit_x, float hit_y, float hit_z)
     {
         if (world.isRemote)
+        {
             return true;
+        }
 
         Location location = new Location(world, x, y, z);
         TileEntity tile = location.getTileEntity();
+        if (tile instanceof IMultiTile)
+        {
+            IMultiTileHost host = ((IMultiTile) tile).getHost();
+            if (host instanceof TileEntity)
+            {
+                tile = (TileEntity) host;
+            }
+        }
 
         if (player.isSneaking())
         {
@@ -86,14 +117,16 @@ public class ItemGPSFlag extends ItemWorldPos implements IWorldPosItem, IPostIni
             stack.setItemDamage(1);
             player.inventoryContainer.detectAndSendChanges();
             return true;
-        } else
+        }
+        else
         {
             Location storedLocation = getLocation(stack);
             if (storedLocation == null || !storedLocation.isAboveBedrock())
             {
                 LanguageUtility.addChatToPlayer(player, "gps.error.pos.invalid");
                 return true;
-            } else if (tile instanceof TileAbstractLauncher)
+            }
+            else if (tile instanceof TileAbstractLauncher)
             {
                 ((TileAbstractLauncher) tile).setTarget(storedLocation.toPos());
                 LanguageUtility.addChatToPlayer(player, "gps.data.transferred");

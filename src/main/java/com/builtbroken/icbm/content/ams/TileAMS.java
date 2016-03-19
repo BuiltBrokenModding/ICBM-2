@@ -5,6 +5,7 @@ import com.builtbroken.icbm.api.missile.IMissileEntity;
 import com.builtbroken.icbm.content.launcher.controller.TileController;
 import com.builtbroken.icbm.content.fof.IFoFStation;
 import com.builtbroken.icbm.content.missile.EntityMissile;
+import com.builtbroken.icbm.content.prefab.ItemBlockICBM;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
 import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.api.tile.ILinkable;
@@ -76,10 +77,10 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
 
     public TileAMS()
     {
-        super("ICMBxAMS", Material.iron);
+        super("AMS", Material.iron);
         this.hardness = 15f;
         this.resistance = 50f;
-        this.itemBlock = ItemBlockAMS.class;
+        this.itemBlock = ItemBlockICBM.class;
         this.renderNormalBlock = false;
         this.addInventoryModule(10);
     }

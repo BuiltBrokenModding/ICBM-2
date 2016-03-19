@@ -56,6 +56,7 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
     public TileSmallSilo()
     {
         super("smallsilo", Material.iron, 1);
+        this.itemBlock = ItemBlockSmallSilo.class;
         this.isOpaque = false;
         this.renderNormalBlock = false;
         this.renderTileEntity = true;

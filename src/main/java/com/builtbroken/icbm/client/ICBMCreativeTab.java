@@ -23,6 +23,7 @@ public class ICBMCreativeTab extends ModCreativeTab
     {
         //Put most used items at top
         add(list, ICBM.blockAMS);
+        add(list, ICBM.blockFoFStation);
         add(list, ICBM.blockLauncherFrame);
         add(list, ICBM.blockSmallSilo);
         add(list, ICBM.blockStandardSilo);

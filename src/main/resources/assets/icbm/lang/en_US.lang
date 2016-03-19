@@ -23,7 +23,9 @@ item.icbm:missile.large.empty.name=ICBM Casing
 
 ## Items
 item.icbm:siloLinker.name=Data Chip
+item.icbm:siloLinker.info=Used to link machines , Shift+Right click to start , Right click to finish
 item.icbm:gpsFlag.name=GPS Data Chip
+item.icbm:gpsFlag.info=Shift+Right click to save , Right click to transfer to a machine , Sneak+Right click air to clear
 
 item.icbm:rocketLauncher.name=Rocket Launcher
 info.icbm:rocketLauncher.tooltip=Fires micro missiles
@@ -60,23 +62,27 @@ item.icbm:explosiveItem.fragment.blaze.name=Blaze Frag Charge
 tile.icbm:TileMissile.0.name=Wooden Rocket Display
 tile.icbm:TileMissile.1.name=Wooden Small Missile Display
 
-tile.icbm:smallSilo.container.name=Small Silo Screen
-tile.icbm:smallSiloController.container.name=Launcher Guidance Screen
-
-tile.icbm:standardSilo.name=Standard Silo
-tile.icbm:standardSilo.container.name=Standard Silo Screen
-
 tile.icbm:smallLauncher.name=Portable Missile Launcher
 tile.icbm:portableLauncher.container.name=Portable Missile Launcher
 tile.icbm:portableLauncher.container.invalidtarget=Invalid Target Location
 tile.icbm:portableLauncher.container.invaliddistance=Target distance needs to be between 20 and 200
 
 tile.icbm:missileController.name=Launcher Controller
+
 tile.icbm:smallsilo.name=Small Silo
+tile.icbm:smallsilo.info=3 blocks tall , Loads small missiles
+tile.icbm:smallSilo.container.name=Small Silo Screen
+
+tile.icbm:standardsilo.name=Standard Silo
+tile.icbm:standardsilo.info=7 blocks tall , Loads standard missiles
+tile.icbm:standardsilo.container.name=Standard Silo Screen
+
 tile.icbm:missileworkstation.name=Missile Station
 
 tile.icbm:ICBMxFoF.name=FoF Station
-tile.icbm:ICBMxAMS.name=AMS Turret
+tile.icbm:ICBMxFoF.info=Links to silo or AMS , Prevents friendly fire from AMS
+tile.icbm:AMS.name=AMS Turret
+tile.icbm:AMS.info=Shoots down missiles , Uses nuggets for ammo
 
 tile.icbm:decorLaunchPad.name=Launch Pad
 tile.icbm:decorLaunchPad.0.name=North Edge
@@ -137,7 +143,7 @@ info.icbm:engine.name=Engine
 info.icbm:warhead.name=Warhead
 info.icbm:guidance.name=Guidance
 info.icbm:trigger.name=Trigger
-info.icbm:missileStation.placement.blocked=Placement Blocked
+info.icbm:missileStation.placement.blocked.name=Placement Blocked
 
 
 ## Controller GUI error messages
