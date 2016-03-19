@@ -75,7 +75,7 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
         this.itemBlock = ItemBlockFoF.class;
         this.hardness = 15f;
         this.resistance = 50f;
-        //this.renderNormalBlock = false;
+        this.renderNormalBlock = false;
         this.addInventoryModule(2);
     }
 

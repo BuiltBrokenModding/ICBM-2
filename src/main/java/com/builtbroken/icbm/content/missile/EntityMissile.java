@@ -67,7 +67,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     public void onUpdate()
     {
         super.onUpdate();
-        if (ticksInAir == 1)
+        if (ticksInAir == 5 && !worldObj.isRemote)
         {
             RadarRegistry.add(this);
         }
@@ -76,7 +76,6 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     @Override
     public boolean attackEntityFrom(DamageSource source, float damage)
     {
-        boolean i = !worldObj.isRemote;
         if (!worldObj.isRemote && !isEntityInvulnerable() && damage > 0)
         {
             setHealth(Math.max(0, getHealth() - damage));
@@ -209,11 +208,12 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     protected void updateMotion()
     {
         super.updateMotion();
-        if (target_pos != null)
+        if (target_pos != null && !worldObj.isRemote)
         {
             if (this.posY >= MissileTracker.MAX_SPAWN_OUT_Y)
             {
                 MissileTracker.addToTracker(this);
+                RadarRegistry.remove(this);
             }
         }
         if (worldObj.isRemote && this.ticksInAir > 0)
@@ -272,7 +272,10 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     @Override
     public void setDead()
     {
-        RadarRegistry.remove(this);
+        if(!worldObj.isRemote)
+        {
+            RadarRegistry.remove(this);
+        }
         super.setDead();
         if (!noReport && sourceOfProjectile != null)
         {

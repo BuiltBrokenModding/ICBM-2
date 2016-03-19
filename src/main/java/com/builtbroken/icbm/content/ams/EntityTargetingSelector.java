@@ -25,7 +25,7 @@ public class EntityTargetingSelector implements IEntitySelector
         //TODO ray trace targets
         if (entity instanceof IMissileEntity)
         {
-            if (ams.getFoFStation().isFriendly(entity))
+            if (ams.getFoFStation() != null && ams.getFoFStation().isFriendly(entity))
             {
                 return false;
             }

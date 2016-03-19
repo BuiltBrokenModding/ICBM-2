@@ -59,6 +59,8 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
     /** Current target */
     protected Entity target = null;
 
+    protected Cube fireArea = null;
+
     /** Location of FoF station */
     public Pos fofStationPos;
     /** Cached fof station tile */
@@ -79,8 +81,6 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
         this.resistance = 50f;
         this.itemBlock = ItemBlockAMS.class;
         this.renderNormalBlock = false;
-        this.renderTileEntity = true;
-        this.renderType = -1;
         this.addInventoryModule(10);
     }
 
@@ -94,6 +94,10 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
             if (selector == null)
             {
                 selector = new EntityTargetingSelector(this);
+            }
+            if(fireArea == null)
+            {
+                fireArea = new Cube(toPos().add(-100, -10, -100), toPos().add(100, 200, 100));
             }
             //Clear target if invalid
             if (target != null && target.isDead)
@@ -243,12 +247,15 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
      */
     protected Entity getClosestTarget()
     {
-        List<Entity> list = RadarRegistry.getAllLivingObjectsWithin(world(), new Cube(toPos().add(-100, -10, -100), toPos().add(100, 200, 100)), selector);
-        if (!list.isEmpty())
+        if(fireArea != null)
         {
-            //TODO find closest target
-            //TODO line of sight check
-            return list.get(0);
+            List<Entity> list = RadarRegistry.getAllLivingObjectsWithin(world(), fireArea, selector);
+            if (!list.isEmpty())
+            {
+                //TODO find closest target
+                //TODO line of sight check
+                return list.get(0);
+            }
         }
         return null;
     }

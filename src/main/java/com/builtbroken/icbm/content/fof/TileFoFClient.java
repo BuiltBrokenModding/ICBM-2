@@ -16,6 +16,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
@@ -29,6 +30,7 @@ import org.lwjgl.opengl.GL11;
 public class TileFoFClient extends TileFoF implements ISimpleItemRenderer
 {
     public boolean hasProfile = false;
+    public AxisAlignedBB renderBounds;
 
     protected void sendFoFIDChange(String change, boolean archive)
     {
@@ -160,5 +162,15 @@ public class TileFoFClient extends TileFoF implements ISimpleItemRenderer
     public Object getClientGuiElement(int ID, EntityPlayer player)
     {
         return new GuiFoF(this, player);
+    }
+
+    @Override
+    public AxisAlignedBB getRenderBoundingBox()
+    {
+        if (renderBounds == null)
+        {
+            renderBounds = AxisAlignedBB.getBoundingBox(x(), y(), z(), x() + 1, y() + 2, z() + 1);
+        }
+        return renderBounds;
     }
 }
