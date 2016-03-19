@@ -232,18 +232,19 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
                 }
                 return true;
             }
-            //TODO implement recipe insertion or selection system
-            triggerCraftingMode();
-            if (recipe == null)
+            if (StandardMissileCrafting.isPartOfRecipe(player.getHeldItem()))
             {
-                this.recipe = new StandardMissileCrafting();
-            }
+                //TODO implement recipe insertion or selection system
+                if (recipe == null)
+                {
+                    triggerCraftingMode();
+                    this.recipe = new StandardMissileCrafting();
+                    player.addChatComponentMessage(new ChatComponentText("Starting crafting for new missile"));
+                }
 
-            //Insert recipe items
-            ItemStack heldItem = player.getHeldItem();
-            if (heldItem != null)
-            {
-                if (recipe.isPartOfRecipe(player.getHeldItem()))
+                //Insert recipe items
+                ItemStack heldItem = player.getHeldItem();
+                if (heldItem != null)
                 {
                     if (isServer())
                     {
@@ -253,7 +254,6 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
                             //Add item to recipe
                             if (!recipe.addItem(heldItem))
                             {
-
                                 if (!recipe.isFinished())
                                 {
                                     //TODO add translation key
@@ -283,17 +283,17 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
                         {
                             player.addChatComponentMessage(recipe.getCurrentRecipeChat());
                         }
+                        return true;
                     }
-                    return true;
-                }
-                //If not a block output missing crafting items
-                else if (Block.getBlockFromItem(player.getHeldItem().getItem()) == null)
-                {
-                    if (isServer())
+                    //If not a block output missing crafting items
+                    else if (Block.getBlockFromItem(player.getHeldItem().getItem()) == null)
                     {
-                        player.addChatComponentMessage(recipe.getCurrentRecipeChat());
+                        if (isServer())
+                        {
+                            player.addChatComponentMessage(recipe.getCurrentRecipeChat());
+                        }
+                        return true;
                     }
-                    return true;
                 }
             }
         }

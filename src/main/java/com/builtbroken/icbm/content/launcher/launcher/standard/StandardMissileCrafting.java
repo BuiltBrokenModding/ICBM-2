@@ -132,7 +132,7 @@ public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufR
      *              can be null but will return false
      * @return true if the item can be added.
      */
-    public boolean isPartOfRecipe(final ItemStack stack)
+    public static boolean isPartOfRecipe(final ItemStack stack)
     {
         if (stack != null)
         {
@@ -185,17 +185,17 @@ public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufR
         return new ChatComponentText("Done click with wrench to finish");
     }
 
-    private boolean isRod(final ItemStack stack)
+    private static boolean isRod(final ItemStack stack)
     {
         return hasOreName(ROD_ORE_NAME, stack);
     }
 
-    private boolean isPlate(final ItemStack stack)
+    private static boolean isPlate(final ItemStack stack)
     {
         return hasOreName(PLATE_ORE_NAME, stack);
     }
 
-    private boolean hasOreName(final String name, final ItemStack stack)
+    private static boolean hasOreName(final String name, final ItemStack stack)
     {
         for (int id : OreDictionary.getOreIDs(stack))
         {

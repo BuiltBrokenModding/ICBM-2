@@ -9,10 +9,10 @@ import net.minecraft.nbt.NBTTagCompound;
  */
 public enum Fragments
 {
-    ARROW(new FragmentGen()
+    ARROW("ex.icon.fragment.arrow", "fragment.background.arrow", new FragmentGen()
     {
         @Override
-        public float scaleData(float velocity)
+        public float scaleDamage(float velocity)
         {
             return 0;
         }
@@ -23,10 +23,10 @@ public enum Fragments
             return new BlastArrows();
         }
     }),
-    COBBLESTONE(new FragmentGen()
+    COBBLESTONE("ex.icon.fragment.cobblestone", "fragment.background.cobblestone", new FragmentGen()
     {
         @Override
-        public float scaleData(float velocity)
+        public float scaleDamage(float velocity)
         {
             return Math.max(Math.min(0, velocity * 5), 10);
         }
@@ -37,10 +37,10 @@ public enum Fragments
             return null;
         }
     }),
-    WOOD(new FragmentGen()
+    WOOD("ex.icon.fragment.wood", "fragment.background.wood", new FragmentGen()
     {
         @Override
-        public float scaleData(float velocity)
+        public float scaleDamage(float velocity)
         {
             return Math.max(Math.min(0, velocity * 5), 10);
         }
@@ -51,10 +51,10 @@ public enum Fragments
             return null;
         }
     }),
-    BLAZE(new FragmentGen()
+    BLAZE("ex.icon.fragment.blaze", "fragment.background.blaze", new FragmentGen()
     {
         @Override
-        public float scaleData(float velocity)
+        public float scaleDamage(float velocity)
         {
             return 0;
         }
@@ -67,9 +67,13 @@ public enum Fragments
     });
 
     private final FragmentGen gen;
+    public final String icon_name;
+    public final String corner_icon_name;
 
-    Fragments(FragmentGen gen)
+    Fragments(String corner_icon_name, String icon_name, FragmentGen gen)
     {
+        this.icon_name = icon_name;
+        this.corner_icon_name = corner_icon_name;
         this.gen = gen;
     }
 
@@ -92,13 +96,13 @@ public enum Fragments
      */
     public float scaleDamage(float velocity)
     {
-        return gen.scaleData(velocity);
+        return gen.scaleDamage(velocity);
     }
 
 
     private interface FragmentGen
     {
-        float scaleData(float velocity);
+        float scaleDamage(float velocity);
 
         Blast getBlast(NBTTagCompound tag);
     }

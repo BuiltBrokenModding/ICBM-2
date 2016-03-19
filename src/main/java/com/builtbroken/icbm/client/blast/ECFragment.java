@@ -65,12 +65,11 @@ public class ECFragment extends ExFragment implements IFragmentExplosiveHandler
     {
         if (!blocks)
         {
-            back_icon = reg.registerIcon(ICBM.PREFIX + "fragment.background");
+            back_icon = reg.registerIcon(ICBM.PREFIX + "tnt-icon-2");
             for (Fragments frag : Fragments.values())
             {
-                String name = frag.name().toLowerCase();
-                corner_icons.put(frag, reg.registerIcon(ICBM.PREFIX + "ex.icon.fragment." + name));
-                icons.put(frag, reg.registerIcon(ICBM.PREFIX + "fragment.background." + name));
+                corner_icons.put(frag, reg.registerIcon(ICBM.PREFIX + frag.corner_icon_name));
+                icons.put(frag, reg.registerIcon(ICBM.PREFIX + frag.icon_name));
             }
             corner_icon = corner_icons.get(Fragments.COBBLESTONE);
         }
