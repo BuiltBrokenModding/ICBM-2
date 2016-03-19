@@ -19,8 +19,8 @@ public class ECFragment extends ExFragment implements IFragmentExplosiveHandler
 {
     IIcon corner_icon;
     IIcon back_icon;
-    Map<String, IIcon> icons = new HashMap();
-    Map<String, IIcon> corner_icons = new HashMap();
+    Map<Fragments, IIcon> icons = new HashMap();
+    Map<Fragments, IIcon> corner_icons = new HashMap();
 
     @Override
     public IIcon getFragmentIcon(ItemStack stack, int layer)
@@ -40,7 +40,7 @@ public class ECFragment extends ExFragment implements IFragmentExplosiveHandler
     @Override
     public int getFragmentNumberOfPasses()
     {
-        return 1;
+        return 2;
     }
 
     @Override
@@ -66,13 +66,13 @@ public class ECFragment extends ExFragment implements IFragmentExplosiveHandler
         if (!blocks)
         {
             back_icon = reg.registerIcon(ICBM.PREFIX + "fragment.background");
-            corner_icon = reg.registerIcon(ICBM.PREFIX + "ex.icon.fragment");
             for (Fragments frag : Fragments.values())
             {
                 String name = frag.name().toLowerCase();
-                corner_icons.put(name, reg.registerIcon(ICBM.PREFIX + "ex.icon.fragment." + name));
-                icons.put(name, reg.registerIcon(ICBM.PREFIX + "fragment.background." + name));
+                corner_icons.put(frag, reg.registerIcon(ICBM.PREFIX + "ex.icon.fragment." + name));
+                icons.put(frag, reg.registerIcon(ICBM.PREFIX + "fragment.background." + name));
             }
+            corner_icon = corner_icons.get(Fragments.COBBLESTONE);
         }
     }
 }
