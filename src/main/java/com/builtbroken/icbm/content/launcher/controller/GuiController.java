@@ -8,6 +8,7 @@ import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
 import com.builtbroken.mc.prefab.gui.GuiContainerBase;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -135,7 +136,17 @@ public class GuiController extends GuiContainerBase
         {
             reloadData();
         }
-        drawStringCentered(LanguageUtility.getLocalName(controller.getInventoryName()), 85, 10);
+        String name = LanguageUtility.getLocalName(controller.getInventoryName());
+        if (editMode)
+        {
+            Block block = controller.launcherData.get(editMissile).location.getBlock();
+            String localization = block.getLocalizedName();
+            if (!localization.contains("tile."))
+            {
+                name = localization;
+            }
+        }
+        drawStringCentered(name, 85, 10);
 
 
         if (!editMode && (controller.launcherData == null || controller.launcherData.size() == 0))
