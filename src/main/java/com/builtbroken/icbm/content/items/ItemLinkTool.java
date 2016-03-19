@@ -6,6 +6,8 @@ import com.builtbroken.mc.api.items.tools.IPassCodeItem;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
 import com.builtbroken.mc.api.tile.ILinkable;
 import com.builtbroken.mc.api.tile.IPassCode;
+import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
+import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
@@ -99,6 +101,15 @@ public class ItemLinkTool extends ItemWorldPos implements IWorldPosItem, IPassCo
 
         Location location = new Location(world, x, y, z);
         TileEntity tile = location.getTileEntity();
+
+        if (tile instanceof IMultiTile)
+        {
+            IMultiTileHost host = ((IMultiTile) tile).getHost();
+            if (host instanceof TileEntity)
+            {
+                tile = (TileEntity) host;
+            }
+        }
 
         if (player.isSneaking())
         {
