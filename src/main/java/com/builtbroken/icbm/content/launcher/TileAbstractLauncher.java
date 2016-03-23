@@ -168,6 +168,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         super.update();
         if (isServer())
         {
+            //TODO do count down rather than every 1 second
             if (ticks % 20 == 0)
             {
                 if (world().isBlockIndirectlyGettingPowered(xi(), yi(), zi()))
