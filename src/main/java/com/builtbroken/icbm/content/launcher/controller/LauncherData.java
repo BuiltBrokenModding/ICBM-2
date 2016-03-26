@@ -1,6 +1,5 @@
 package com.builtbroken.icbm.content.launcher.controller;
 
-import com.builtbroken.icbm.content.crafting.missile.MissileModule;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
@@ -16,8 +15,8 @@ import net.minecraft.nbt.NBTTagCompound;
  */
 public class LauncherData
 {
-    protected Location location;
-    protected Missile missile;
+    public Location location;
+    public Missile missile;
 
     public LauncherData(TileAbstractLauncher launcher)
     {

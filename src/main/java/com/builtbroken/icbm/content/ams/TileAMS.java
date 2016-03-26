@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.ams;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.missile.IMissileEntity;
-import com.builtbroken.icbm.content.launcher.controller.TileController;
+import com.builtbroken.icbm.content.launcher.controller.local.TileController;
 import com.builtbroken.icbm.content.fof.IFoFStation;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.prefab.ItemBlockICBM;

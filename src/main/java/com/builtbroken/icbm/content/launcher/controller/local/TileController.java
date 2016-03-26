@@ -1,8 +1,9 @@
-package com.builtbroken.icbm.content.launcher.controller;
+package com.builtbroken.icbm.content.launcher.controller.local;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
+import com.builtbroken.icbm.content.launcher.controller.LauncherData;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
 import com.builtbroken.mc.api.tile.IGuiTile;
@@ -55,11 +56,7 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
 
     //TODO auto connect to any launcher next to the controller
     //TODO default to rear connection first
-    //TODO add rotation
-    //TODO add model
     //TODO add OC support
-    //TODO add data cables to restrict linking
-    //TODO add upgrade cards (Wireless linking, Link capacity, Guidance, Missile tracking)
     protected List<Pos> launcherLocations = new ArrayList<Pos>();
 
     //Only used client side at the moment

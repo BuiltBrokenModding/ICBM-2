@@ -45,6 +45,7 @@ public final class BlockLauncherPart extends Block implements IPostInit
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float xx, float yy, float zz)
     {
         int meta = world.getBlockMetadata(x, y, z);
+        //Launcher CPU
         if (meta == 0 && WrenchUtility.isHoldingWrench(player) && player.isSneaking() && side != 0 && side != 1)
         {
             if (!world.isRemote)
@@ -85,6 +86,12 @@ public final class BlockLauncherPart extends Block implements IPostInit
                 }
             }
             return true;
+        }
+        //Antenna for linking missile areas
+        else if(meta == 1 && WrenchUtility.isHoldingWrench(player) && player.isSneaking() && side != 0 && side != 1)
+        {
+            //TODO get bottom most block and turn into an antenna tile
+            //TODO then tell tile to scan structure blocks
         }
         return false;
     }

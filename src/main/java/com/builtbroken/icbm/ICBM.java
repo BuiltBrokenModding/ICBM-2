@@ -34,7 +34,7 @@ import com.builtbroken.icbm.content.display.TileMissileDisplay;
 import com.builtbroken.icbm.content.launcher.block.BlockLaunchPad;
 import com.builtbroken.icbm.content.launcher.block.BlockLauncherFrame;
 import com.builtbroken.icbm.content.launcher.block.BlockLauncherPart;
-import com.builtbroken.icbm.content.launcher.controller.TileController;
+import com.builtbroken.icbm.content.launcher.controller.local.TileController;
 import com.builtbroken.icbm.content.items.ItemGPSFlag;
 import com.builtbroken.icbm.content.items.ItemLinkTool;
 import com.builtbroken.icbm.content.launcher.launcher.large.TileLargeLauncher;

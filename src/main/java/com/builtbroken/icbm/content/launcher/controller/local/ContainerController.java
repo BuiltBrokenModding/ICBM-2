@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.launcher.controller;
+package com.builtbroken.icbm.content.launcher.controller.local;
 
 import com.builtbroken.mc.prefab.gui.ContainerBase;
 import net.minecraft.entity.player.EntityPlayer;

@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.launcher.controller;
+package com.builtbroken.icbm.content.launcher.controller.local;
 
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.icbm.content.launcher.silo.TileSmallSilo;
@@ -79,7 +79,7 @@ public class GuiController extends GuiContainerBase
                         {
                             if (n.length() > 12)
                             {
-                                n = n.substring(0, 11) + "..";
+                                n = n.substring(0, 11) + "src/test";
                             }
                             name = n;
                         }
