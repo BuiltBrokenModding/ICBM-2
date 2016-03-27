@@ -1,7 +1,6 @@
 package com.builtbroken.icbm.mods.oc;
 
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
-import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.icbm.content.launcher.controller.direct.TileSiloController;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.Tile;
@@ -12,9 +11,7 @@ import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
@@ -22,6 +19,9 @@ import net.minecraftforge.common.util.ForgeDirection;
  */
 public class TileSiloControllerOC extends TileSiloController implements Environment, Analyzable
 {
+    //TODO add detailed data about the missile and launcher
+    //TODO allow setting launcher name
+    //TODO allow detonating warhead in silo, hacking :P
     private Node node;
 
     @Override
@@ -35,28 +35,16 @@ public class TileSiloControllerOC extends TileSiloController implements Environm
     {
         super.firstTick();
         Network.joinOrCreateNetwork(this);
-        node = Network.newNode(this, Visibility.Network).withComponent("icbmSiloConnector", Visibility.Network).withConnector().create();
+
     }
 
     @Override
     public void update()
     {
+        super.update();
         if (ticks % 5 == 0 && node != null && node.network() == null)
         {
             Network.joinOrCreateNetwork(this);
-        }
-        if (ticks % 20 == 0 && launcher == null)
-        {
-            for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-            {
-                Pos pos = toPos().add(dir);
-                TileEntity tile = pos.getTileEntity(world());
-                if (tile instanceof TileAbstractLauncher)
-                {
-                    launcher = (TileAbstractLauncher) tile;
-                    break;
-                }
-            }
         }
     }
 
@@ -69,6 +57,10 @@ public class TileSiloControllerOC extends TileSiloController implements Environm
     @Override
     public Node node()
     {
+        if(node == null)
+        {
+            node = Network.newNode(this, Visibility.Network).withComponent("icbmSiloConnector", Visibility.Network).withConnector().create();
+        }
         return node;
     }
 

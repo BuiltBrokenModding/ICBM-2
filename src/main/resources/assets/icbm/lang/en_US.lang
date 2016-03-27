@@ -73,6 +73,12 @@ tile.icbm:smallsilo.name=Small Silo
 tile.icbm:smallsilo.info=3 blocks tall , Loads small missiles
 tile.icbm:smallSilo.container.name=Small Silo Screen
 
+tile.icbm:siloController.name=Silo Control Computer
+tile.icbm:siloController.info=Controls a silo directly , Is placed next to the silo, Uses redstone to fire missile, Supports Open Computers if installed
+tile.icbm:siloController.container.name=Silo Control Computer
+tile.icbm:siloController.msg.redstone.enabled=Redstone support enabled
+tile.icbm:siloController.msg.redstone.disabled=Redstone support disabled
+
 tile.icbm:standardsilo.name=Standard Silo
 tile.icbm:standardsilo.info=7 blocks tall , Loads standard missiles
 tile.icbm:standardsilo.container.name=Standard Silo Screen
