@@ -31,12 +31,13 @@ import com.builtbroken.icbm.content.debug.BlockExplosiveMarker;
 import com.builtbroken.icbm.content.debug.TileRotationTest;
 import com.builtbroken.icbm.content.display.TileMissile;
 import com.builtbroken.icbm.content.display.TileMissileDisplay;
+import com.builtbroken.icbm.content.items.ItemGPSFlag;
+import com.builtbroken.icbm.content.items.ItemLinkTool;
 import com.builtbroken.icbm.content.launcher.block.BlockLaunchPad;
 import com.builtbroken.icbm.content.launcher.block.BlockLauncherFrame;
 import com.builtbroken.icbm.content.launcher.block.BlockLauncherPart;
+import com.builtbroken.icbm.content.launcher.controller.direct.TileSiloController;
 import com.builtbroken.icbm.content.launcher.controller.local.TileController;
-import com.builtbroken.icbm.content.items.ItemGPSFlag;
-import com.builtbroken.icbm.content.items.ItemLinkTool;
 import com.builtbroken.icbm.content.launcher.launcher.large.TileLargeLauncher;
 import com.builtbroken.icbm.content.launcher.launcher.medium.TileMediumLauncher;
 import com.builtbroken.icbm.content.launcher.launcher.small.TileSmallLauncher;
@@ -47,11 +48,14 @@ import com.builtbroken.icbm.content.missile.ItemMissile;
 import com.builtbroken.icbm.content.missile.tracking.MissileTracker;
 import com.builtbroken.icbm.content.rocketlauncher.ItemRocketLauncher;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
+import com.builtbroken.icbm.mods.cc.CCProxyICBM;
+import com.builtbroken.icbm.mods.oc.OCProxyICBM;
 import com.builtbroken.icbm.server.CommandICBM;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
 import com.builtbroken.mc.lib.mod.AbstractMod;
 import com.builtbroken.mc.lib.mod.ModCreativeTab;
+import com.builtbroken.mc.lib.mod.compat.Mods;
 import com.builtbroken.mc.lib.mod.compat.nei.NEIProxy;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.explosive.ExplosiveHandlerGeneric;
@@ -107,7 +111,7 @@ public final class ICBM extends AbstractMod
     public static final String BUILD_VERSION = "@BUILD@";
     public static final String VERSION = MAJOR_VERSION + "." + MINOR_VERSION + "." + REVISION_VERSION + "." + BUILD_VERSION;
     //http://www.minecraftforge.net/wiki/Developing_Addons_for_Existing_Mods
-    public static final String DEPENDENCIES = "required-after:VoltzEngine";
+    public static final String DEPENDENCIES = "required-after:VoltzEngine;after:OpenComputers";
 
 
     @Instance(DOMAIN)
@@ -135,6 +139,7 @@ public final class ICBM extends AbstractMod
 
     public static Block blockSiloController;
     public static Block blockMissileWorkstation;
+    public static Block blockDirectSiloController;
 
     public static Block blockSmallPortableLauncher;
 
@@ -173,6 +178,7 @@ public final class ICBM extends AbstractMod
         super(DOMAIN, "ICBM");
         CREATIVE_TAB = new ICBMCreativeTab();
         super.manager.setTab(CREATIVE_TAB);
+        fireProxyPreInit = false;
     }
 
 
@@ -181,8 +187,9 @@ public final class ICBM extends AbstractMod
     {
         super.preInit(event);
         MinecraftForge.EVENT_BUS.register(this);
-        MinecraftForge.EVENT_BUS.register(proxy);
         FMLCommonHandler.instance().bus().register(this);
+
+
 
         //Request Engine to load items for use
         Engine.heatedRockRequested = true;
@@ -193,6 +200,8 @@ public final class ICBM extends AbstractMod
         Engine.requestSimpleTools();
         Engine.requestCircuits();
 
+        loader.applyModule(OCProxyICBM.class, Mods.OC.isLoaded());
+        loader.applyModule(CCProxyICBM.class, Mods.CC.isLoaded());
         //Loads thaumcraft support
         if (Loader.isModLoaded("Thaumcraft") && !getConfig().getBoolean("DisableThaumSupport", "ModSupport", false, "Allows disabling thaumcraft support, if issues arise or game play balance is required."))
         {
@@ -207,12 +216,18 @@ public final class ICBM extends AbstractMod
         ams_gun_volume = getConfig().getFloat("ams_gun", "volume", 1.0F, 0, 4, "How loud the gun firing is for the AMS turret");
         ams_rotation_volume = getConfig().getFloat("ams_rotation", "volume", 1.0F, 0, 1, "How loud the rotation audio is for the AMS turret");
 
+        //Fire loader late to allow configs and loaders to setup
+        loader.preInit();
 
         // Functional Blocks
         blockWarhead = manager.newBlock(TileWarhead.class);
         blockMissileDisplay = manager.newBlock(TileMissileDisplay.class);
         blockLauncherFrame = manager.newBlock("icbmLauncherFrame", BlockLauncherFrame.class, ItemBlockMetadata.class);
         blockLauncherParts = manager.newBlock("icbmLauncherParts", BlockLauncherPart.class, ItemBlockMetadata.class);
+        if(blockDirectSiloController == null)
+        {
+            blockDirectSiloController = manager.newBlock("icbmDirectSiloConnector", TileSiloController.class);
+        }
 
         //Decor Blocks
         blockLaunchPad = manager.newBlock("icbmDecorLaunchPad", BlockLaunchPad.class, ItemBlockMetadata.class);
@@ -226,7 +241,6 @@ public final class ICBM extends AbstractMod
 
 
         //Clear launcher creative tab to prevent placement by user by mistake
-
         blockMediumLauncher.setCreativeTab(null);
         blockLargeLauncher.setCreativeTab(null);
         NEIProxy.hideItem(blockMediumLauncher);
@@ -266,7 +280,6 @@ public final class ICBM extends AbstractMod
         //Set tab item last so to avoid NPE
         CREATIVE_TAB.itemStack = MissileCasings.SMALL.newModuleStack();
         getProxy().registerExplosives();
-
     }
 
     /**
@@ -307,20 +320,19 @@ public final class ICBM extends AbstractMod
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
-        super.init(event);
-
         //Register Entities
         EntityRegistry.registerGlobalEntityID(EntityMissile.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());
         EntityRegistry.registerModEntity(EntityMissile.class, "ICBMMissile", ENTITY_ID_PREFIX + 3, this, 500, 1, true);
 
         EntityRegistry.registerGlobalEntityID(EntityFragment.class, "ICBMFragment", EntityRegistry.findGlobalUniqueEntityId());
         EntityRegistry.registerModEntity(EntityFragment.class, "ICBMFragment", ENTITY_ID_PREFIX + 4, this, 500, 1, true);
+
+        super.init(event);
     }
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-        super.postInit(event);
         /** LOAD. */
         ArrayList dustCharcoal = OreDictionary.getOres("dustCharcoal");
         ArrayList dustCoal = OreDictionary.getOres("dustCoal");
@@ -358,6 +370,7 @@ public final class ICBM extends AbstractMod
         {
             logger().error("In order to craft the missile casing you need to enable sheet metal tools and parts in Voltz Engine");
         }
+        super.postInit(event);
     }
 
     @Override
