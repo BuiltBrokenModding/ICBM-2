@@ -8,4 +8,5 @@ package com.builtbroken.icbm.content.launcher.controller.remote.antenna;
  */
 public class TileAntenna
 {
+
 }

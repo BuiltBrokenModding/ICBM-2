@@ -40,6 +40,8 @@ public class TileSmallLauncher extends TileAbstractLauncher implements ISimpleIt
     public TileSmallLauncher()
     {
         super("smallLauncher", Material.anvil, 1);
+        this.hardness = 10f;
+        this.resistance = 10f;
         this.bounds = new Cube(0, 0, 0, 1, .5, 1);
         this.isOpaque = false;
         this.renderNormalBlock = false;

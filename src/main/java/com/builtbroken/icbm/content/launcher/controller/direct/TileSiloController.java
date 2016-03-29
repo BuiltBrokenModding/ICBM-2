@@ -3,10 +3,12 @@ package com.builtbroken.icbm.content.launcher.controller.direct;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.icbm.content.prefab.ItemBlockICBM;
+import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.prefab.gui.ContainerDummy;
 import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.TileMachine;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -32,7 +34,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 3/26/2016.
  */
-public class TileSiloController extends TileMachine implements IPostInit, IPacketIDReceiver
+public class TileSiloController extends TileMachine implements IPostInit, IPacketIDReceiver, IGuiTile
 {
     @SideOnly(Side.CLIENT)
     private static IIcon top;
@@ -142,5 +144,17 @@ public class TileSiloController extends TileMachine implements IPostInit, IPacke
     public void onPostInit()
     {
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.blockDirectSiloController), "ITI", "ZCZ", "RER", 'C', UniversalRecipe.CIRCUIT_T2.get(), 'I', Items.iron_ingot, 'R', Items.redstone, 'T', Blocks.redstone_torch, 'Z', UniversalRecipe.WIRE.get(), 'E', Items.ender_eye));
+    }
+
+    @Override
+    public Object getServerGuiElement(int ID, EntityPlayer player)
+    {
+        return new ContainerDummy();
+    }
+
+    @Override
+    public Object getClientGuiElement(int ID, EntityPlayer player)
+    {
+        return new GuiSiloController(player, this);
     }
 }

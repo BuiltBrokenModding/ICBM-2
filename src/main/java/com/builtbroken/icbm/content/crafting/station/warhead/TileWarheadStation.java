@@ -12,5 +12,7 @@ public class TileWarheadStation extends TileModuleMachine
     public TileWarheadStation()
     {
         super("warheadStation", Material.iron);
+        this.resistance = 10f;
+        this.hardness = 10f;
     }
 }

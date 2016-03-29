@@ -42,7 +42,7 @@ public class TileSiloControllerOC extends TileSiloController implements Environm
     public void update()
     {
         super.update();
-        if (ticks % 5 == 0 && node != null && node.network() == null)
+        if (ticks % 5 == 0 && node() != null && node().network() == null)
         {
             Network.joinOrCreateNetwork(this);
         }
@@ -51,7 +51,7 @@ public class TileSiloControllerOC extends TileSiloController implements Environm
     @Override
     public Node[] onAnalyze(EntityPlayer entityPlayer, int i, float v, float v1, float v2)
     {
-        return new Node[]{node};
+        return new Node[]{node()};
     }
 
     @Override
@@ -85,9 +85,9 @@ public class TileSiloControllerOC extends TileSiloController implements Environm
     public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
-        if (nbt.hasKey("OCNode") && node != null && node.host() == this)
+        if (nbt.hasKey("OCNode") && node() != null && node().host() == this)
         {
-            node.load(nbt.getCompoundTag("OCNode"));
+            node().load(nbt.getCompoundTag("OCNode"));
         }
     }
 
@@ -95,10 +95,10 @@ public class TileSiloControllerOC extends TileSiloController implements Environm
     public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
-        if (node != null && node.host() == this)
+        if (node() != null && node().host() == this)
         {
             NBTTagCompound tag = new NBTTagCompound();
-            node.save(tag);
+            node().save(tag);
             nbt.setTag("OCNode", tag);
         }
     }
@@ -107,9 +107,9 @@ public class TileSiloControllerOC extends TileSiloController implements Environm
     public void onChunkUnload()
     {
         super.onChunkUnload();
-        if (node != null)
+        if (node() != null)
         {
-            node.remove();
+            node().remove();
         }
     }
 
@@ -117,9 +117,9 @@ public class TileSiloControllerOC extends TileSiloController implements Environm
     public void invalidate()
     {
         super.invalidate();
-        if (node != null)
+        if (node() != null)
         {
-            node.remove();
+            node().remove();
         }
     }
 

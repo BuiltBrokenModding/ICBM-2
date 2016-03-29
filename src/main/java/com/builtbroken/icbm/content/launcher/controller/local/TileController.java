@@ -65,6 +65,8 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
     public TileController()
     {
         super("missileController", Material.iron);
+        this.hardness = 10f;
+        this.resistance = 10f;
         this.addInventoryModule(2);
         this.renderNormalBlock = false;
         this.renderTileEntity = true;

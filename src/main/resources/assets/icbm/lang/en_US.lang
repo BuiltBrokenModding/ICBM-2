@@ -69,6 +69,8 @@ tile.icbm:portableLauncher.container.invaliddistance=Target distance needs to be
 
 tile.icbm:missileController.name=Launcher Controller
 
+tile.icbm:standardlauncher.name=Standard Launcher
+
 tile.icbm:smallsilo.name=Small Silo
 tile.icbm:smallsilo.info=3 blocks tall , Loads small missiles
 tile.icbm:smallSilo.container.name=Small Silo Screen

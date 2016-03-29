@@ -78,6 +78,8 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     public TileSmallMissileWorkstation()
     {
         super("missileworkstation", Material.iron);
+        this.resistance = 10f;
+        this.hardness = 10f;
         this.addInventoryModule(5);
         this.itemBlock = ItemBlockMissileStation.class;
         this.renderNormalBlock = false;

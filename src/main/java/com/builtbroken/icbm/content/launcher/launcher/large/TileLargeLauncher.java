@@ -22,6 +22,8 @@ public class TileLargeLauncher extends TileAbstractLauncherPad
     public TileLargeLauncher()
     {
         super("largelauncher");
+        this.hardness = 10f;
+        this.resistance = 10f;
     }
 
     @Override

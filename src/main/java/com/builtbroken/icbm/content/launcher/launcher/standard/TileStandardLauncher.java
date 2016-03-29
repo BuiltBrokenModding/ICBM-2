@@ -71,6 +71,8 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
     public TileStandardLauncher()
     {
         super("standardlauncher");
+        this.hardness = 10f;
+        this.resistance = 10f;
     }
 
     @Override

@@ -74,6 +74,7 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         super("warhead", Material.iron);
         this.textureName = "warhead";
         this.hardness = 100;
+        this.resistance = 10f;
         this.renderNormalBlock = false;
         this.renderType = -1;
         this.renderTileEntity = true;
