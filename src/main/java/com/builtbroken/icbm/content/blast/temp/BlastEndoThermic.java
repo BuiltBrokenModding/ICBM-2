@@ -53,11 +53,12 @@ public class BlastEndoThermic extends BlastSimplePath<BlastEndoThermic>
         if (super.shouldPathTo(last, next))
         {
             if (last.isAirBlock() && next.isAirBlock())
+            {
                 return last.sub(next).toForgeDirection() != ForgeDirection.UP;
-            PlacementData data = HeatedBlockRegistry.getResultWarmUp(next.getBlock(), getTempForDistance(next.distance(x, y, z)));
-            PlacementData dataLast = HeatedBlockRegistry.getResultWarmUp(last.getBlock(), getTempForDistance(last.distance(x, y, z)));
-            if ((data == null || data.block() == null) && (dataLast == null || dataLast.block() == null))
-                return false;
+            }
+            //TODO check if the block has thermal properties
+            //TODO if yes then check if it allows heat transfer
+            //TODO if allows heat transfer we can path
             return true;
         }
         return false;
@@ -84,7 +85,9 @@ public class BlastEndoThermic extends BlastSimplePath<BlastEndoThermic>
                     float damage = Math.max(1, 250 - temp) / 25;
                     entity.attackEntityFrom(source, damage);
                     if (entity.isBurning())
+                    {
                         entity.extinguish();
+                    }
                 }
             }
         }
