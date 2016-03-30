@@ -18,7 +18,7 @@ notifications:
       - "Build details : %{build_url} : duration : %{duration}"
 install: true
 script:
-  - ./gradlew clean build coveralls jacocoTestReport -PbambooshortPlanName=BBM-Dev -Pdmodcurse=61545 -S -i --refresh-dependencies
+  - ./gradlew clean build coveralls jacocoTestReport -PbambooshortPlanName=BBM -Pdmodcurse=61545 -S -i --refresh-dependencies
 jdk:
   - oraclejdk7
 after_success:
