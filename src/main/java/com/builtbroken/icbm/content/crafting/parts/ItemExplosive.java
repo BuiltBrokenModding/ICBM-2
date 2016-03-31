@@ -8,6 +8,7 @@ import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.explosives.IExplosiveItem;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.core.registry.implement.IRegistryInit;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.explosive.ItemNBTExplosive;
@@ -200,10 +201,10 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         newRecipe(ExplosiveItems.TORCH_EATER, "TBM", "BEB", "MBT", 'B', Items.fermented_spider_eye, 'E', Items.ender_eye, 'T', Blocks.torch, 'M', magicCharge);
 
         //Ender Blocks
-        newRecipe(ExplosiveItems.ENDER_BLOCKS, "ZBM", "BEB", "MBZ", 'B', Items.gold_nugget, 'E', Items.ender_eye, 'Z', Items.ender_pearl, 'M', magicCharge);
+        newRecipe(ExplosiveItems.ENDER_BLOCKS, "ZBM", "BEB", "MBZ", 'B', OreNames.NUGGET_GOLD, 'E', Items.ender_eye, 'Z', Items.ender_pearl, 'M', magicCharge);
 
         //Anti Plant
-        newRecipe(ExplosiveItems.ANTI_PLANT, "FTF", "BMB", "FTF", 'T', Blocks.sapling, 'F', Items.fermented_spider_eye, 'B', Blocks.leaves, 'M', magicCharge);
+        newRecipe(ExplosiveItems.ANTI_PLANT, "FTF", "BMB", "FTF", 'T', OreNames.SAPLING, 'F', Items.fermented_spider_eye, 'B', OreNames.LEAVES, 'M', magicCharge);
     }
 
     private void newRecipe(ExplosiveItems item, Object... objects)
@@ -268,7 +269,9 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         TORCH_EATER("TorchEater", 4),
         ENDER_BLOCKS("EnderBlocks", 2),
         ANTIMATTER("Antimatter", 5),
-        ANTI_PLANT("AntiPlant", 4);
+        ANTI_PLANT("AntiPlant", 4),
+        REGEN("Regen", 1),
+        REGEN_LOCAL("RegenLocal", 1);
 
         public final String ex_name;
         public final double sizePerUnit;
@@ -298,7 +301,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         {
             if (!stackSizeToExplosiveSize.containsKey(stackSize))
             {
-                stackSizeToExplosiveSize.put(stackSize, ((double) ((int) (ExplosiveRegistry.getExplosiveSize(sizePerUnit, stackSize) * 100))) / 100.00);
+                stackSizeToExplosiveSize.put(stackSize, ExplosiveRegistry.getExplosiveSize(sizePerUnit, stackSize));
             }
             return stackSizeToExplosiveSize.get(stackSize);
         }

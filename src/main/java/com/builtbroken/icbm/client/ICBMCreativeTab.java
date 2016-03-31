@@ -43,6 +43,12 @@ public class ICBMCreativeTab extends ModCreativeTab
         add(list, ICBM.itemExplosivePart);
     }
 
+    @Override
+    public boolean hasSearchBar()
+    {
+        return true;
+    }
+
     private void add(List list, Item item)
     {
         item.getSubItems(item, this, list);
