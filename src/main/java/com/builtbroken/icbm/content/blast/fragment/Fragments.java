@@ -9,7 +9,7 @@ import net.minecraft.nbt.NBTTagCompound;
  */
 public enum Fragments
 {
-    ARROW("ex.icon.fragment.arrow", "fragment.background.arrow", new FragmentGen()
+    ARROW("ex.icon.fragment.arrow", "fragment.background.arrow", "blank", new FragmentGen()
     {
         @Override
         public float scaleDamage(float velocity)
@@ -23,7 +23,7 @@ public enum Fragments
             return new BlastArrows();
         }
     }),
-    COBBLESTONE("ex.icon.fragment.cobblestone", "fragment.background.cobblestone", new FragmentGen()
+    COBBLESTONE("ex.icon.fragment.cobblestone", "fragment.background.cobblestone", "blank", new FragmentGen()
     {
         @Override
         public float scaleDamage(float velocity)
@@ -37,7 +37,7 @@ public enum Fragments
             return null;
         }
     }),
-    WOOD("ex.icon.fragment.wood", "fragment.background.wood", new FragmentGen()
+    WOOD("ex.icon.fragment.wood", "fragment.background.wood", "tnt-icon-2", new FragmentGen()
     {
         @Override
         public float scaleDamage(float velocity)
@@ -51,7 +51,7 @@ public enum Fragments
             return null;
         }
     }),
-    BLAZE("ex.icon.fragment.blaze", "fragment.background.blaze", new FragmentGen()
+    BLAZE("ex.icon.fragment.blaze", "fragment.background.blaze", "tnt-icon-2", new FragmentGen()
     {
         @Override
         public float scaleDamage(float velocity)
@@ -69,11 +69,13 @@ public enum Fragments
     private final FragmentGen gen;
     public final String icon_name;
     public final String corner_icon_name;
+    public final String back_ground_icon_name;
 
-    Fragments(String corner_icon_name, String icon_name, FragmentGen gen)
+    Fragments(String corner_icon_name, String icon_name, String back_ground_icon_name, FragmentGen gen)
     {
         this.icon_name = icon_name;
         this.corner_icon_name = corner_icon_name;
+        this.back_ground_icon_name = back_ground_icon_name;
         this.gen = gen;
     }
 
