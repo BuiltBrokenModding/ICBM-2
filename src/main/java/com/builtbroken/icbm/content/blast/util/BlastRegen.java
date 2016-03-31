@@ -80,4 +80,16 @@ public class BlastRegen extends Blast<BlastRegen>
     {
         return 50;
     }
+
+    @Override
+    public void displayEffectForEdit(IWorldEdit blocks)
+    {
+
+    }
+
+    @Override
+    public void playAudioForEdit(IWorldEdit blocks)
+    {
+
+    }
 }

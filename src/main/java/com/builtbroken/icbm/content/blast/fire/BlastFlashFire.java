@@ -1,5 +1,7 @@
 package com.builtbroken.icbm.content.blast.fire;
 
+import com.builtbroken.mc.api.edit.IWorldEdit;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.prefab.entity.damage.DamageSources;
@@ -68,6 +70,36 @@ public class BlastFlashFire extends BlastSimplePath<BlastFlashFire>
                     entity.setFire((int) damage);
                 }
             }
+        }
+    }
+
+    @Override
+    public void doStartDisplay()
+    {
+        //Mainly just to disable default effects
+    }
+
+    @Override
+    public void doEndDisplay()
+    {
+        //Mainly just to disable default effects
+    }
+
+    @Override
+    public void displayEffectForEdit(IWorldEdit blocks)
+    {
+        if (!world.isRemote)
+        {
+            Engine.proxy.spawnParticle("lava", world, blocks.x(), blocks.y(), blocks.z(), 0.0D, 0.0D, 0.0D);
+        }
+    }
+
+    @Override
+    public void playAudioForEdit(IWorldEdit blocks)
+    {
+        if (!world.isRemote)
+        {
+            world.playSoundEffect(blocks.x(), blocks.y(), blocks.z(), "liquid.lavapop", 0.2F + world.rand.nextFloat() * 0.2F, 0.9F + world.rand.nextFloat() * 0.15F);
         }
     }
 }

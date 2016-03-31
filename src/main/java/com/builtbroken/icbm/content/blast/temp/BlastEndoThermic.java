@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.blast.temp;
 
+import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.lib.world.edit.PlacementData;
@@ -91,5 +92,29 @@ public class BlastEndoThermic extends BlastSimplePath<BlastEndoThermic>
                 }
             }
         }
+    }
+
+    @Override
+    public void doStartDisplay()
+    {
+        //Mainly just to disable default effects
+    }
+
+    @Override
+    public void doEndDisplay()
+    {
+        //Mainly just to disable default effects
+    }
+
+    @Override
+    public void displayEffectForEdit(IWorldEdit blocks)
+    {
+
+    }
+
+    @Override
+    public void playAudioForEdit(IWorldEdit blocks)
+    {
+
     }
 }

@@ -1,10 +1,18 @@
 package com.builtbroken.icbm.content.blast.explosive;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.lib.transform.vector.Location;
+import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
+import com.builtbroken.mc.prefab.entity.selector.EntityDistanceSelector;
 import com.builtbroken.mc.prefab.explosive.blast.BlastSimplePath;
+import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
+
+import java.util.List;
 
 /**
  * Blast that will destroy everything ignoring resistance to explosives
@@ -31,5 +39,34 @@ public class BlastAntimatter extends BlastSimplePath<BlastAntimatter>
         if (!ICBM.ANTIMATTER_BREAK_UNBREAKABLE && location.getHardness() < 0)
             return false;
         return super.shouldPath(location);
+    }
+
+    @Override
+    public void doEffectOther(boolean beforeBlocksPlaced)
+    {
+        if (!beforeBlocksPlaced)
+        {
+            //TODO wright own version of getEntitiesWithinAABB that takes a filter and cuboid(or Vector3 to Vector3)
+            //TODO ensure that the entity is in line of sight
+            //TODO ensure that the entity can be pathed by the explosive
+            AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(x - size - 1, y - size - 1, z - size - 1, x + size + 1, y + size + 1, z + size + 1);
+            List list = world.selectEntitiesWithinAABB(Entity.class, bounds, new EntityDistanceSelector(new Pos(x, y, z), size + 1, true));
+            if (list != null && !list.isEmpty())
+            {
+                damageEntities(list, new DamageSource("antimatter").setExplosion().setDamageBypassesArmor(), 10);
+            }
+        }
+    }
+
+    @Override
+    public void displayEffectForEdit(IWorldEdit blocks)
+    {
+
+    }
+
+    @Override
+    public void playAudioForEdit(IWorldEdit blocks)
+    {
+
     }
 }

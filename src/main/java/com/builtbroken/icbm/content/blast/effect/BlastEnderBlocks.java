@@ -3,9 +3,11 @@ package com.builtbroken.icbm.content.blast.effect;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.core.Engine;
+import com.builtbroken.mc.core.network.packet.PacketSpawnEnderStream;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.prefab.explosive.blast.BlastSimplePath;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 
@@ -30,18 +32,13 @@ public class BlastEnderBlocks extends BlastSimplePath<BlastEnderBlocks>
         //Sort threw list and find them new homes
         Iterator<IWorldEdit> it = list.iterator();
         List<IWorldEdit> newList = new ArrayList();
-        System.out.println(list.size());
 
-        for (IWorldEdit edit : list)
-        {
-            System.out.println(edit);
-        }
         while (it.hasNext())
         {
             IWorldEdit edit = it.next();
-            if(Engine.runningAsDev && edit instanceof BlockEdit)
+            if (Engine.runningAsDev && edit instanceof BlockEdit)
             {
-                ((BlockEdit)edit).newBlock = ICBM.blockExplosiveMarker;
+                ((BlockEdit) edit).newBlock = ICBM.blockExplosiveMarker;
             }
             //TODO prevent loading chunks
             //TODO add gravity to blocks
@@ -53,7 +50,6 @@ public class BlastEnderBlocks extends BlastSimplePath<BlastEnderBlocks>
             }
         }
         list.addAll(newList);
-        System.out.println("\t" + list.size());
     }
 
     /**
@@ -156,5 +152,35 @@ public class BlastEnderBlocks extends BlastSimplePath<BlastEnderBlocks>
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void doStartDisplay()
+    {
+        //Mainly just to disable default effects
+    }
+
+    @Override
+    public void doEndDisplay()
+    {
+        //Mainly just to disable default effects
+    }
+
+    @Override
+    public void displayEffectForEdit(IWorldEdit blocks)
+    {
+        if (!world.isRemote)
+        {
+            Engine.instance.packetHandler.sendToAllAround(new PacketSpawnEnderStream(world.provider.dimensionId, x, y, z, blocks.x(), blocks.y(), blocks.z()), new NetworkRegistry.TargetPoint(world.provider.dimensionId, blocks.x(), blocks.y(), blocks.z(), 90));
+        }
+    }
+
+    @Override
+    public void playAudioForEdit(IWorldEdit blocks)
+    {
+        if (!world.isRemote)
+        {
+            world.playSoundEffect(blocks.x(), blocks.y(), blocks.z(), "mob.endermen.portal", 2.0F, 1.0F);
+        }
     }
 }

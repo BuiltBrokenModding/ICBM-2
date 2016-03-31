@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.blast.fragment;
 
+import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.lib.helper.MathUtility;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.explosive.blast.Blast;
@@ -39,5 +40,17 @@ public class BlastArrows extends Blast<BlastArrows>
     public int shouldThreadAction()
     {
         return -1;
+    }
+
+    @Override
+    public void displayEffectForEdit(IWorldEdit blocks)
+    {
+
+    }
+
+    @Override
+    public void playAudioForEdit(IWorldEdit blocks)
+    {
+
     }
 }

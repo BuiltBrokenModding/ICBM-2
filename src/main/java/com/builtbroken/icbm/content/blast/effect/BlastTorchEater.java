@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.blast.effect;
 
+import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.prefab.explosive.blast.BlastSimplePath;
@@ -24,5 +25,17 @@ public class BlastTorchEater extends BlastSimplePath<BlastTorchEater>
             return new BlockEdit(location).set(Blocks.air, 0, true, true);
         }
         return null;
+    }
+
+    @Override
+    public void displayEffectForEdit(IWorldEdit blocks)
+    {
+
+    }
+
+    @Override
+    public void playAudioForEdit(IWorldEdit blocks)
+    {
+
     }
 }
