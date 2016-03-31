@@ -17,6 +17,7 @@ import com.builtbroken.mc.core.content.tool.ItemSheetMetalTools;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.WrenchUtility;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Location;
@@ -135,11 +136,11 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         {
             //Vanilla micro warhead recipes
             micro_warhead_empty.stackSize = 8;
-            recipes.add(new ShapedOreRecipe(micro_warhead_empty, " p ", " n ", "nrn", 'p', Blocks.stone_pressure_plate, 'n', Items.iron_ingot, 'r', Items.redstone));
+            recipes.add(new ShapedOreRecipe(micro_warhead_empty, " p ", " n ", "nrn", 'p', Blocks.stone_pressure_plate, 'n', OreNames.INGOT_IRON, 'r', OreNames.REDSTONE));
             micro_warhead_empty.stackSize = 1;
 
             //Vanilla small warhead recipes
-            recipes.add(new ShapedOreRecipe(small_warhead_empty, " p ", " n ", "ncn", 'p', Blocks.heavy_weighted_pressure_plate, 'n', Items.iron_ingot, 'r', Items.redstone, 'c', UniversalRecipe.CIRCUIT_T1.get()));
+            recipes.add(new ShapedOreRecipe(small_warhead_empty, " p ", " n ", "ncn", 'p', Blocks.heavy_weighted_pressure_plate, 'n', OreNames.INGOT_IRON, 'r', OreNames.REDSTONE, 'c', UniversalRecipe.CIRCUIT_T1.get()));
         }
 
         for (IExplosiveHandler handler : ExplosiveRegistry.getExplosives())

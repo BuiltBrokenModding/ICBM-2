@@ -10,6 +10,7 @@ import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Pos;
@@ -65,7 +66,7 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
     @Override
     public void onPostInit()
     {
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.blockSmallSilo), "I I", "I I", "CBC", 'I', Blocks.iron_bars, 'B', Blocks.iron_block, 'C', UniversalRecipe.CIRCUIT_T1.get()));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.blockSmallSilo), "I I", "I I", "CBC", 'I', Blocks.iron_bars, 'B', OreNames.BLOCK_IRON, 'C', UniversalRecipe.CIRCUIT_T1.get()));
     }
 
     @Override

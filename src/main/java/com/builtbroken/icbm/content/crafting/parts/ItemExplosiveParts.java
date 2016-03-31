@@ -2,6 +2,7 @@ package com.builtbroken.icbm.content.crafting.parts;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -80,8 +81,8 @@ public class ItemExplosiveParts extends Item implements IPostInit
         //TODO add ore dictionary support
         GameRegistry.addRecipe(new ShapedOreRecipe(ExplosiveParts.ARROW_TUBE.newItem(), "PAP", 'P', Items.paper, 'A', Items.arrow));
         GameRegistry.addRecipe(new ShapedOreRecipe(ExplosiveParts.ARROW_BUNDLE.newItem(), "AAA", "AAA", 'A', ExplosiveParts.ARROW_TUBE.newItem()));
-        GameRegistry.addRecipe(new ShapedOreRecipe(ExplosiveParts.GUNPOWDER_CHARGE.newItem(), "SGS", "GRG", "SGS", 'P', Items.paper, 'G', ExplosiveParts.POWDER_STICK.newItem(), 'R', Items.redstone, 'S', Items.string));
-        GameRegistry.addRecipe(new ShapedOreRecipe(ExplosiveParts.MAGIC_CHARGE.newItem(), "PSP", "GRG", "PSP", 'P', Items.paper, 'G', Items.experience_bottle, 'R', Items.redstone, 'S', Items.string));
+        GameRegistry.addRecipe(new ShapedOreRecipe(ExplosiveParts.GUNPOWDER_CHARGE.newItem(), "SGS", "GRG", "SGS", 'P', Items.paper, 'G', ExplosiveParts.POWDER_STICK.newItem(), 'R', OreNames.REDSTONE, 'S', OreNames.STRING));
+        GameRegistry.addRecipe(new ShapedOreRecipe(ExplosiveParts.MAGIC_CHARGE.newItem(), "PSP", "GRG", "PSP", 'P', Items.paper, 'G', Items.experience_bottle, 'R', OreNames.REDSTONE, 'S', OreNames.STRING));
         GameRegistry.addRecipe(new ShapedOreRecipe(ExplosiveParts.POWDER_STICK.newItem(), "PGP", 'P', Items.paper, 'G', Items.gunpowder));
     }
 

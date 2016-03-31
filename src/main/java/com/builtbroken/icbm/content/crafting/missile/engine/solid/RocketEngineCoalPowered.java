@@ -6,6 +6,7 @@ import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.prefab.items.ItemStackWrapper;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -109,7 +110,7 @@ public class RocketEngineCoalPowered extends RocketEngineSolid implements IPostI
 
         if (Engine.itemSheetMetal != null)
         {
-            GameRegistry.addRecipe(new ShapedOreRecipe(engineStack, " F ", "LRC", 'R', Items.redstone, 'F', Blocks.furnace, 'L', Items.flint_and_steel, 'C', ItemSheetMetal.SheetMetal.CONE_SMALL.stack()));
+            GameRegistry.addRecipe(new ShapedOreRecipe(engineStack, " F ", "LRC", 'R', OreNames.REDSTONE, 'F', Blocks.furnace, 'L', OreNames.FLINT, 'C', ItemSheetMetal.SheetMetal.CONE_SMALL.stack()));
         }
         else
         {
@@ -159,35 +160,35 @@ public class RocketEngineCoalPowered extends RocketEngineSolid implements IPostI
             FUEL_SPEED_VALUE.put(new ItemStackWrapper(stack), SPEED_OF_COAL * 1.05f); // 5% gain
         }
 
-        oreStacks = OreDictionary.getOres("treeLeaves");
+        oreStacks = OreDictionary.getOres(OreNames.LEAVES);
         for (ItemStack stack : oreStacks)
         {
             FUEL_DISTANCE_VALUE.put(new ItemStackWrapper(stack), 1f);
             FUEL_SPEED_VALUE.put(new ItemStackWrapper(stack), SPEED_OF_COAL * 0.65f); // 35% loss
         }
 
-        oreStacks = OreDictionary.getOres("treeSapling");
+        oreStacks = OreDictionary.getOres(OreNames.SAPLING);
         for (ItemStack stack : oreStacks)
         {
             FUEL_DISTANCE_VALUE.put(new ItemStackWrapper(stack), 1f);
             FUEL_SPEED_VALUE.put(new ItemStackWrapper(stack), SPEED_OF_COAL * 0.65f); // 35% loss
         }
 
-        oreStacks = OreDictionary.getOres("logWood");
+        oreStacks = OreDictionary.getOres(OreNames.LOG);
         for (ItemStack stack : oreStacks)
         {
             FUEL_DISTANCE_VALUE.put(new ItemStackWrapper(stack), VALUE_OF_COAL * 0.85f); // 15% loss
             FUEL_SPEED_VALUE.put(new ItemStackWrapper(stack), SPEED_OF_COAL * 0.65f); // 35% loss
         }
 
-        oreStacks = OreDictionary.getOres("plankWood");
+        oreStacks = OreDictionary.getOres(OreNames.WOOD);
         for (ItemStack stack : oreStacks)
         {
             FUEL_DISTANCE_VALUE.put(new ItemStackWrapper(stack), VALUE_OF_COAL * 0.20f); // 80% loss
             FUEL_SPEED_VALUE.put(new ItemStackWrapper(stack), SPEED_OF_COAL * 0.65f); // 35% loss
         }
 
-        oreStacks = OreDictionary.getOres("stickWood");
+        oreStacks = OreDictionary.getOres(OreNames.WOOD_STICK);
         for (ItemStack stack : oreStacks)
         {
             FUEL_DISTANCE_VALUE.put(new ItemStackWrapper(stack), VALUE_OF_COAL * 0.05f); // 95% loss

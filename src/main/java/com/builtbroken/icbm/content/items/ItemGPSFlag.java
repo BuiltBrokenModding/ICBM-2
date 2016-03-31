@@ -7,6 +7,7 @@ import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.prefab.items.ItemWorldPos;
@@ -16,7 +17,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
@@ -42,7 +42,7 @@ public class ItemGPSFlag extends ItemWorldPos implements IWorldPosItem, IPostIni
     @Override
     public void onPostInit()
     {
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.itemGPSTool), " I ", "BCB", "ICI", 'I', Items.iron_ingot, 'B', Blocks.wooden_button, 'C', UniversalRecipe.CIRCUIT_T1.get()));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.itemGPSTool), " I ", "BCB", "ICI", 'I', OreNames.INGOT_IRON, 'B', Blocks.wooden_button, 'C', UniversalRecipe.CIRCUIT_T1.get()));
     }
 
     @SideOnly(Side.CLIENT)

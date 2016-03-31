@@ -14,6 +14,7 @@ import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Location;
@@ -31,7 +32,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -76,7 +76,7 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
     @Override
     public void onPostInit()
     {
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.blockSiloController), "IGI", "CGC", "ICI", 'I', Items.iron_ingot, 'G', Blocks.chest, 'C', UniversalRecipe.CIRCUIT_T1.get()));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.blockSiloController), "IGI", "CGC", "ICI", 'I', OreNames.INGOT_IRON, 'G', Blocks.chest, 'C', UniversalRecipe.CIRCUIT_T1.get()));
     }
 
     @Override

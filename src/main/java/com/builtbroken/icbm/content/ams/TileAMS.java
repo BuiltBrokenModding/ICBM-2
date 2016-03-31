@@ -13,6 +13,7 @@ import com.builtbroken.mc.api.tile.IPassCode;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.rotation.EulerAngle;
@@ -414,6 +415,6 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
     @Override
     public void onPostInit()
     {
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.blockAMS), "RPP", "RCP", "PTP", 'C', UniversalRecipe.CIRCUIT_T2.get(), 'P', UniversalRecipe.PRIMARY_PLATE.get(), 'R', "rodIron", 'T', Blocks.dropper));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.blockAMS), "RPP", "RCP", "PTP", 'C', UniversalRecipe.CIRCUIT_T2.get(), 'P', UniversalRecipe.PRIMARY_PLATE.get(), 'R', OreNames.INGOT_IRON, 'T', Blocks.dropper));
     }
 }

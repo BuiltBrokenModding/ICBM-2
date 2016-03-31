@@ -4,6 +4,7 @@ import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
 import com.builtbroken.icbm.content.crafting.missile.guidance.GuidanceModules;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -36,6 +37,6 @@ public class GuidanceChipTwo extends Guidance implements IPostInit
     public void onPostInit()
     {
         ItemStack guidance = GuidanceModules.CHIP_TWO.newModuleStack();
-        GameRegistry.addRecipe(new ShapedOreRecipe(guidance, "CrC", "wtw", "CrC", 't', "circuitAdvanced", 'r', Items.redstone, 'w', "wireCopper", 'C', "gearIron"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(guidance, "CrC", "wtw", "CrC", 't', "circuitAdvanced", 'r', Items.redstone, 'w', OreNames.WIRE_COPPER, 'C', OreNames.GEAR_IRON));
     }
 }

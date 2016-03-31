@@ -6,6 +6,7 @@ import com.builtbroken.icbm.content.prefab.ItemBlockICBM;
 import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
@@ -143,7 +144,7 @@ public class TileSiloController extends TileMachine implements IPostInit, IPacke
     @Override
     public void onPostInit()
     {
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.blockDirectSiloController), "ITI", "ZCZ", "RER", 'C', UniversalRecipe.CIRCUIT_T2.get(), 'I', Items.iron_ingot, 'R', Items.redstone, 'T', Blocks.redstone_torch, 'Z', UniversalRecipe.WIRE.get(), 'E', Items.ender_eye));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.blockDirectSiloController), "ITI", "ZCZ", "RER", 'C', UniversalRecipe.CIRCUIT_T2.get(), 'I', OreNames.INGOT_IRON, 'R', OreNames.REDSTONE, 'T', Blocks.redstone_torch, 'Z', UniversalRecipe.WIRE.get(), 'E', Items.ender_eye));
     }
 
     @Override

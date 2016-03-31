@@ -6,6 +6,7 @@ import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
 import com.builtbroken.mc.core.content.tool.ItemSheetMetalTools;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.WrenchUtility;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.recipe.item.sheetmetal.RecipeSheetMetal;
@@ -121,7 +122,7 @@ public final class BlockLauncherPart extends Block implements IPostInit
     {
         if (Engine.itemSheetMetal != null && Engine.itemSheetMetalTools != null)
         {
-            GameRegistry.addRecipe(new RecipeSheetMetal(new ItemStack(ICBM.blockLauncherParts, 1, 0), "RPH", "GCR", "DPR", 'C', UniversalRecipe.CIRCUIT_T2.get(), 'R', "rodIron", 'P', ItemSheetMetal.SheetMetal.FULL.stack(), 'H', ItemSheetMetalTools.getHammer(), 'D', ItemSheetMetalTools.getShears(), 'G', "gearIron"));
+            GameRegistry.addRecipe(new RecipeSheetMetal(new ItemStack(ICBM.blockLauncherParts, 1, 0), "RPH", "GCR", "DPR", 'C', UniversalRecipe.CIRCUIT_T2.get(), 'R', OreNames.ROD_IRON, 'P', ItemSheetMetal.SheetMetal.FULL.stack(), 'H', ItemSheetMetalTools.getHammer(), 'D', ItemSheetMetalTools.getShears(), 'G', OreNames.GEAR_IRON));
         }
         else
         {

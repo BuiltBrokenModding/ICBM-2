@@ -4,6 +4,7 @@ import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
 import com.builtbroken.icbm.content.crafting.missile.guidance.GuidanceModules;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -32,6 +33,6 @@ public class GuidanceGearsWood extends Guidance implements IPostInit
     public void onPostInit()
     {
         ItemStack guidance = GuidanceModules.WOOD_GEARS.newModuleStack();
-        GameRegistry.addRecipe(new ShapedOreRecipe(guidance, "GSG", "PCP", "GSG", 'G', "gearWood", 'S', "stickWood", 'P', "plankWood", 'C', Items.clock));
+        GameRegistry.addRecipe(new ShapedOreRecipe(guidance, "GSG", "PCP", "GSG", 'G', OreNames.GEAR_WOOD, 'S', OreNames.WOOD_STICK, 'P', OreNames.WOOD, 'C', Items.clock));
     }
 }

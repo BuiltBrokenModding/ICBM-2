@@ -10,6 +10,7 @@ import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Pos;
@@ -51,7 +52,7 @@ public class TileSmallLauncher extends TileAbstractLauncher implements ISimpleIt
     @Override
     public void onPostInit()
     {
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.blockSmallPortableLauncher), "IIB", "IIB", "CBC", 'I', Items.iron_ingot, 'B', Blocks.iron_block, 'C', UniversalRecipe.CIRCUIT_T1.get()));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.blockSmallPortableLauncher), "IIB", "IIB", "CBC", 'I', OreNames.INGOT_IRON, 'B', OreNames.BLOCK_IRON, 'C', UniversalRecipe.CIRCUIT_T1.get()));
     }
 
     @Override

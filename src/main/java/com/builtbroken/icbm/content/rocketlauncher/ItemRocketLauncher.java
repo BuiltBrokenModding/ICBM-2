@@ -6,6 +6,7 @@ import com.builtbroken.mc.api.items.weapons.IAmmoType;
 import com.builtbroken.mc.api.items.weapons.IReloadableWeapon;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -46,7 +47,7 @@ public class ItemRocketLauncher extends Item implements IReloadableWeapon, IPost
     @Override
     public void onPostInit()
     {
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.itemRocketLauncher), "III", " FC", "III", 'I', Items.iron_ingot, 'F', Items.flint, 'C', UniversalRecipe.CIRCUIT_T1.get()));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.itemRocketLauncher), "III", " FC", "III", 'I', OreNames.INGOT_IRON, 'F', OreNames.FLINT, 'C', UniversalRecipe.CIRCUIT_T1.get()));
     }
 
     @Override
