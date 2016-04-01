@@ -209,7 +209,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
                 break;
         }
         GL11.glScaled(scale, scale, scale);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_MISSILE_TEXTURE);
         //Group_001 body
         //Component_1_001 - 4 Body Fins
         if (getMissile().getWarhead() != null)
