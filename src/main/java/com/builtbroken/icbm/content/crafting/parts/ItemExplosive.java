@@ -272,7 +272,8 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         ANTI_PLANT("AntiPlant", 4),
         REGEN("Regen", 1),
         REGEN_LOCAL("RegenLocal", 1),
-        PLANT_LIFE("PlantLife", 4);
+        PLANT_LIFE("PlantLife", 4),
+        CAKE("Cake", 1);
 
         public final String ex_name;
         public final double sizePerUnit;

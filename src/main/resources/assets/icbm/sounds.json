@@ -40,5 +40,11 @@
       "sounds":[
          "gunclick"
       ]
+   },
+   "icbm.tada":{
+      "category":"neutral",
+      "sounds":[
+         "tada"
+      ]
    }
 }

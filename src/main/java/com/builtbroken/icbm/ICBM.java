@@ -13,6 +13,8 @@ import com.builtbroken.icbm.content.blast.fire.ExFireBomb;
 import com.builtbroken.icbm.content.blast.fire.ExFlashFire;
 import com.builtbroken.icbm.content.blast.fragment.EntityFragment;
 import com.builtbroken.icbm.content.blast.fragment.ExFragment;
+import com.builtbroken.icbm.content.blast.item.BlockFakeCake;
+import com.builtbroken.icbm.content.blast.item.ExCake;
 import com.builtbroken.icbm.content.blast.temp.ExEndoThermic;
 import com.builtbroken.icbm.content.blast.temp.ExExoThermic;
 import com.builtbroken.icbm.content.blast.thaum.ThaumBlastLoader;
@@ -91,6 +93,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Main Mod class for ICBM, Loads up everything needs when called by FML/Forge
@@ -158,6 +161,7 @@ public final class ICBM extends AbstractMod
     public static Block blockAMS;
 
     public static Block blockFoFStation;
+    public static Block blockCake;
 
     // Items
     public static Item itemMissile;
@@ -174,12 +178,16 @@ public final class ICBM extends AbstractMod
 
     private static boolean registerExplosives;
 
+    public static boolean APRIL_FIRST;
+
     public ICBM()
     {
         super(DOMAIN, "ICBM");
         CREATIVE_TAB = new ICBMCreativeTab();
         super.manager.setTab(CREATIVE_TAB);
         fireProxyPreInit = false;
+        Calendar now = Calendar.getInstance();
+        APRIL_FIRST = (now.get(Calendar.MONTH) + 1) == 4 && now.get(Calendar.DAY_OF_MONTH) == 1;
     }
 
 
@@ -189,7 +197,6 @@ public final class ICBM extends AbstractMod
         super.preInit(event);
         MinecraftForge.EVENT_BUS.register(this);
         FMLCommonHandler.instance().bus().register(this);
-
 
 
         //Request Engine to load items for use
@@ -225,7 +232,7 @@ public final class ICBM extends AbstractMod
         blockMissileDisplay = manager.newBlock(TileMissileDisplay.class);
         blockLauncherFrame = manager.newBlock("icbmLauncherFrame", BlockLauncherFrame.class, ItemBlockMetadata.class);
         blockLauncherParts = manager.newBlock("icbmLauncherParts", BlockLauncherPart.class, ItemBlockMetadata.class);
-        if(blockDirectSiloController == null)
+        if (blockDirectSiloController == null)
         {
             blockDirectSiloController = manager.newBlock("icbmDirectSiloConnector", TileSiloController.class);
         }
@@ -239,6 +246,9 @@ public final class ICBM extends AbstractMod
         blockStandardSilo = manager.newBlock(TileStandardSilo.class);
         blockMediumLauncher = manager.newBlock(TileMediumLauncher.class);
         blockLargeLauncher = manager.newBlock(TileLargeLauncher.class);
+
+        //Troll blocks
+        blockCake = manager.newBlock("ICBMxFakeCake", BlockFakeCake.class);
 
 
         //Clear launcher creative tab to prevent placement by user by mistake
@@ -308,6 +318,7 @@ public final class ICBM extends AbstractMod
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Regen", new ExRegen());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "RegenLocal", new ExRegenLocal());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "MicroQuake", new ExMicroQuake());
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Cake", new ExCake());
             if (Engine.runningAsDev)
             {
                 ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest1", new ExplosiveHandlerGeneric("SimplePathTest1", BlastPathTester.class, 1));

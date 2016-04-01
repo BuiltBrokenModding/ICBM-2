@@ -2,6 +2,7 @@ package com.builtbroken.icbm.client;
 
 import com.builtbroken.icbm.CommonProxy;
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.client.blast.ECCake;
 import com.builtbroken.icbm.client.blast.ECFragment;
 import com.builtbroken.icbm.content.ams.TileAMSClient;
 import com.builtbroken.icbm.content.blast.effect.ExAntiPlant;
@@ -19,8 +20,8 @@ import com.builtbroken.icbm.content.blast.temp.ExExoThermic;
 import com.builtbroken.icbm.content.blast.util.ExRegen;
 import com.builtbroken.icbm.content.blast.util.ExRegenLocal;
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstationClient;
-import com.builtbroken.icbm.content.launcher.block.ISBRLauncherFrame;
 import com.builtbroken.icbm.content.fof.TileFoFClient;
+import com.builtbroken.icbm.content.launcher.block.ISBRLauncherFrame;
 import com.builtbroken.icbm.content.launcher.launcher.standard.TileStandardLauncherClient;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.RenderMissile;
@@ -198,6 +199,7 @@ public class ClientProxy extends CommonProxy
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Regen", new ExRegen());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "RegenLocal", new ExRegenLocal());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "MicroQuake", new ExMicroQuake());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Cake", new ECCake());
         if (Engine.runningAsDev)
         {
             ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SimplePathTest1", new ExplosiveHandlerGeneric("SimplePathTest1", BlastPathTester.class, 1));
