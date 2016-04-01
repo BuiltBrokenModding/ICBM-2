@@ -7,7 +7,6 @@ import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.prefab.explosive.blast.Blast;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
@@ -45,7 +44,7 @@ public class BlastCake extends Blast<BlastCake>
     @Override
     public void doEffectOther(boolean beforeBlocksPlaced)
     {
-        if (ICBM.APRIL_FIRST)
+        if (!beforeBlocksPlaced && ICBM.APRIL_FIRST)
         {
             AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(x - 100, y - 100, z - 100, z + 100, y + 100, z + 100);
             List<Entity> entities = world.getEntitiesWithinAABB(EntityPlayer.class, bb);
@@ -53,7 +52,7 @@ public class BlastCake extends Blast<BlastCake>
             {
                 if (entity instanceof EntityPlayer)
                 {
-                    ((EntityPlayerMP) entity).addChatComponentMessage(new ChatComponentText("The cake is a lie, or is it..."));
+                    ((EntityPlayer) entity).addChatComponentMessage(new ChatComponentText("The cake is a lie, or is it..."));
                 }
             }
         }
