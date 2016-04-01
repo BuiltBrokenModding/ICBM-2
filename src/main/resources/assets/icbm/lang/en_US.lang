@@ -52,6 +52,9 @@ item.icbm:explosiveItem.TorchEater.name=Torch Eating Charge
 item.icbm:explosiveItem.EnderBlocks.name=Ender Block Charge
 item.icbm:explosiveItem.Antimatter.name=Antimatter Charge
 item.icbm:explosiveItem.AntiPlant.name=Plant Killer Charge
+item.icbm:explosiveItem.PlantLife.name=Plant Life Charge
+item.icbm:explosiveItem.Regen.name=Regen Charge
+item.icbm:explosiveItem.RegenLocal.name=Limited Regen Charge
 
 item.icbm:explosiveItem.fragment.arrow.name=Arrow Bundle Charge
 item.icbm:explosiveItem.fragment.cobblestone.name=Cobblestone Frag Charge
@@ -121,6 +124,7 @@ explosive.icbm:FlashFire.name=Flash Fire
 explosive.icbm:TorchEater.name=Torch Eater
 explosive.icbm:EnderBlocks.name=Ender Blocks
 explosive.icbm:AntiPlant.name=Anti-Plant Life
+explosive.icbm:PlantLife.name=Plant Life
 explosive.icbm:ThaumTaint.name=Taint Goo
 explosive.icbm:ThaumTaintBottle.name=Bottled Taint
 explosive.icbm:ThaumNode.name=Node Dispenser

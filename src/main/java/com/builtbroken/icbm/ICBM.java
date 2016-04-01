@@ -3,6 +3,7 @@ package com.builtbroken.icbm;
 import com.builtbroken.icbm.client.ICBMCreativeTab;
 import com.builtbroken.icbm.content.blast.effect.ExAntiPlant;
 import com.builtbroken.icbm.content.blast.effect.ExEnderBlocks;
+import com.builtbroken.icbm.content.blast.effect.ExPlantLife;
 import com.builtbroken.icbm.content.blast.effect.ExTorchEater;
 import com.builtbroken.icbm.content.blast.entity.ExplosiveHandlerSpawn;
 import com.builtbroken.icbm.content.blast.explosive.BlastPathTester;
@@ -303,6 +304,7 @@ public final class ICBM extends AbstractMod
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "EnderBlocks", new ExEnderBlocks());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "TorchEater", new ExTorchEater());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "AntiPlant", new ExAntiPlant());
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "PlantLife", new ExPlantLife());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Regen", new ExRegen());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "RegenLocal", new ExRegenLocal());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "MicroQuake", new ExMicroQuake());

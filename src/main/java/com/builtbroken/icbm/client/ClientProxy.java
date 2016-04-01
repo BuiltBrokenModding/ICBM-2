@@ -6,6 +6,7 @@ import com.builtbroken.icbm.client.blast.ECFragment;
 import com.builtbroken.icbm.content.ams.TileAMSClient;
 import com.builtbroken.icbm.content.blast.effect.ExAntiPlant;
 import com.builtbroken.icbm.content.blast.effect.ExEnderBlocks;
+import com.builtbroken.icbm.content.blast.effect.ExPlantLife;
 import com.builtbroken.icbm.content.blast.effect.ExTorchEater;
 import com.builtbroken.icbm.content.blast.entity.ExplosiveHandlerSpawn;
 import com.builtbroken.icbm.content.blast.explosive.BlastPathTester;
@@ -192,6 +193,7 @@ public class ClientProxy extends CommonProxy
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "FlashFire", new ExFlashFire());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "EnderBlocks", new ExEnderBlocks());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "TorchEater", new ExTorchEater());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "PlantLife", new ExPlantLife());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "AntiPlant", new ExAntiPlant());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Regen", new ExRegen());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "RegenLocal", new ExRegenLocal());
