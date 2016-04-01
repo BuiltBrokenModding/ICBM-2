@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.launcher.controller.local;
 
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
+import com.builtbroken.icbm.content.launcher.controller.LauncherData;
 import com.builtbroken.icbm.content.launcher.silo.TileSmallSilo;
 import com.builtbroken.icbm.content.launcher.silo.TileStandardSilo;
 import com.builtbroken.mc.core.References;
@@ -67,7 +68,7 @@ public class GuiController extends GuiContainerBase
 
                     String buttonName = launcherName;
                     String name = "" + i;
-                    TileEntity tile = controller.launcherData.get(i).location.getTileEntity();
+                    TileEntity tile = controller.launcherData.get(i).location.getTileEntity(controller.world());
                     if (tile instanceof TileAbstractLauncher)
                     {
                         if (tile instanceof TileSmallSilo || tile instanceof TileStandardSilo)
@@ -109,7 +110,7 @@ public class GuiController extends GuiContainerBase
             x = guiLeft + 10;
             y = guiTop + 42;
 
-            TileEntity tile = controller.launcherData.get(editMissile).location.getTileEntity();
+            TileEntity tile = controller.launcherData.get(editMissile).location.getTileEntity(controller.world());
 
             if (tile instanceof TileAbstractLauncher && ((TileAbstractLauncher) tile).target != null)
             {
@@ -139,11 +140,21 @@ public class GuiController extends GuiContainerBase
         String name = LanguageUtility.getLocalName(controller.getInventoryName());
         if (editMode)
         {
-            Block block = controller.launcherData.get(editMissile).location.getBlock();
-            String localization = block.getLocalizedName();
-            if (!localization.contains("tile."))
+            if(controller != null && controller.launcherData != null && controller.launcherData.size() > editMissile)
             {
-                name = localization;
+                LauncherData data = controller.launcherData.get(editMissile);
+                if(data.location != null)
+                {
+                    Block block = data.location.getBlock(controller.world());
+                    if(block != null)
+                    {
+                        String localization = block.getLocalizedName();
+                        if (localization != null && !localization.contains("tile."))
+                        {
+                            name = localization;
+                        }
+                    }
+                }
             }
         }
         drawStringCentered(name, 85, 10);
@@ -169,7 +180,7 @@ public class GuiController extends GuiContainerBase
         }
         else if (this.x_field != null && this.y_field != null && this.z_field != null && this.x_field.isFocused() && this.y_field.isFocused() && this.z_field.isFocused())
         {
-            TileEntity tile = controller.launcherData.get(editMissile).location.getTileEntity();
+            TileEntity tile = controller.launcherData.get(editMissile).location.getTileEntity(controller.world());
 
             if (tile instanceof TileAbstractLauncher && ((TileAbstractLauncher) tile).target != null)
             {
@@ -222,7 +233,7 @@ public class GuiController extends GuiContainerBase
             }
             else if (button.id == 1)
             {
-                TileEntity tile = controller.launcherData.get(editMissile).location.getTileEntity();
+                TileEntity tile = controller.launcherData.get(editMissile).location.getTileEntity(controller.world());
                 if (tile instanceof TileAbstractLauncher)
                 {
                     try

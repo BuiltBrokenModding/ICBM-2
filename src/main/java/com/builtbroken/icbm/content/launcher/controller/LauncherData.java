@@ -3,7 +3,7 @@ package com.builtbroken.icbm.content.launcher.controller;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
-import com.builtbroken.mc.lib.transform.vector.Location;
+import com.builtbroken.mc.lib.transform.vector.Pos;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -15,19 +15,19 @@ import net.minecraft.nbt.NBTTagCompound;
  */
 public class LauncherData
 {
-    public Location location;
+    public Pos location;
     public Missile missile;
 
     public LauncherData(TileAbstractLauncher launcher)
     {
-        location = launcher.toLocation();
+        location = launcher.toPos();
         missile = launcher.getMissile();
     }
 
     //Load
     public LauncherData(NBTTagCompound tag)
     {
-        location = new Location(tag);
+        location = new Pos(tag);
         ItemStack stack = ItemStack.loadItemStackFromNBT(tag);
         if(stack != null)
         {

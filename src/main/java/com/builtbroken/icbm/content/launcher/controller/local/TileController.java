@@ -282,7 +282,10 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
             //Construct launcher data structure
             for (TileAbstractLauncher launcher : getLaunchers())
             {
-                list.appendTag(new LauncherData(launcher).toNBT());
+                if(launcher.world() == world())
+                {
+                    list.appendTag(new LauncherData(launcher).toNBT());
+                }
             }
             nbt.setTag("launcherData", list);
 
