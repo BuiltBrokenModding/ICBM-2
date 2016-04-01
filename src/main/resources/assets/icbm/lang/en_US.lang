@@ -132,7 +132,7 @@ explosive.icbm:ThaumNode.name=Node Dispenser
 explosive.icbm:ThaumJar.name=Node Trapper
 explosive.icbm:MicroQuake.name=Micro Quake
 explosive.icbm:Regen.name=Regen
-explosive.icbm:Cake.name=Cake
+explosive.icbm:cake.name=Cake
 
 ## Damage
 damage.fragment.cobblestone=%s was stoned to death by cobble fragments
