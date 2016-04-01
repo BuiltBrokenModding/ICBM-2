@@ -76,11 +76,11 @@ public class GuiController extends GuiContainerBase
                             buttonName = siloName;
                         }
                         String n = ((TileAbstractLauncher) tile).getCustomName();
-                        if (n != null && !n.isEmpty())
+                        if (n != null && !n.isEmpty() && !n.equals("null")) //Not sure why null value shows up as a string in this case
                         {
                             if (n.length() > 12)
                             {
-                                n = n.substring(0, 11) + "src/test";
+                                n = n.substring(0, 11) + "..";
                             }
                             name = n;
                         }

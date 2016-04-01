@@ -174,15 +174,9 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
     }
 
     @Override
-    public boolean canPlaceBlockAt()
-    {
-        return super.canPlaceBlockAt() && world().getBlock(xi(), yi() + 1, zi()).isReplaceable(world(), xi(), yi() + 1, zi()) && world().getBlock(xi(), yi() + 2, zi()).isReplaceable(world(), xi(), yi() + 2, zi());
-    }
-
-    @Override
     public boolean canPlaceBlockOnSide(ForgeDirection side)
     {
-        return side == ForgeDirection.UP && canPlaceBlockAt();
+        return side == ForgeDirection.UP;
     }
 
     @Override
