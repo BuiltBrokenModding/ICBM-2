@@ -34,6 +34,7 @@ public final class BlockLauncherFrame extends Block implements IPostInit
         this.setBlockName(ICBM.PREFIX + "launcherFrame");
         this.setResistance(20);
         this.setHardness(20);
+        this.lightOpacity = 2;
     }
 
     @Override

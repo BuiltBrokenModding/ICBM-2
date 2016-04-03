@@ -50,7 +50,7 @@ public final class ISBRLauncherFrame implements ISimpleBlockRenderingHandler
         Tessellator tess = Tessellator.instance;
         tess.draw();
         GL11.glPushMatrix();
-        GL11.glEnable(GL11.GL_LIGHTING);
+        //GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glColor3f(1, 1, 1);
 
         if (meta == 0)
@@ -118,7 +118,7 @@ public final class ISBRLauncherFrame implements ISimpleBlockRenderingHandler
                 e.printStackTrace();
             }
         }
-        GL11.glDisable(GL11.GL_LIGHTING);
+        //GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glPopMatrix();
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
         tess.startDrawingQuads();
