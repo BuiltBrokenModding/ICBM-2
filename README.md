@@ -51,6 +51,7 @@ If not listed don't fear we are still compiling the credits list after it got re
 * Francogp          - Old Spanish Translations
 * Graugger          - Concepts
 * Gravitythief      - Code
+* hublad			- Pl_PL Translations
 * Jonathan T.       - ???
 * ObsidianWalker    - Old Italian Translations
 * Maxwolf           - Code

@@ -1,0 +1,231 @@
+## Master language file by hublad
+itemGroup.ICBM=Międzykontynentalne Pociski Balistyczne
+
+## Missile
+item.icbm:missile.name=Pocisk
+item.icbm:missile.empty.name=Korpus Pocisku
+
+item.icbm:missile.micro.name=Rakieta
+item.icbm:missile.micro.empty.name=Korpus Rakiety
+
+item.icbm:missile.small.name=Mały Pocisk
+item.icbm:missile.small.empty.name=Korpus Małego Pocisku
+
+item.icbm:missile.standard.name=Pocisk 
+item.icbm:missile.standard.empty.name=Korpus Pocisku 
+
+item.icbm:missile.medium.name=Duży Pocisk 
+item.icbm:missile.medium.empty.name=Korpus Dużego Pocisku
+
+item.icbm:missile.large.name=Międzykontynentalny Pocisk Balistyczny
+item.icbm:missile.large.empty.name=Korpus Międzykontynentalnego Pocisku Balistycznego
+
+
+## Items
+item.icbm:siloLinker.name=Chip z danymi
+item.icbm:siloLinker.info=Używany do łączenia maszyn , Shift+PPM aby zacząć , PPM aby zakończyć
+item.icbm:gpsFlag.name=Chip z danymi GPS
+item.icbm:gpsFlag.info=Shift+PPM aby zapisać , PPM aby przesłać do maszyny , Skradanie+PPM w powietrzu aby wyczyścić
+
+item.icbm:rocketLauncher.name=Wyrzutnia Rakiet
+info.icbm:rocketLauncher.tooltip=Strzela Rakietami
+
+## Parts
+item.icbm:missileParts.name=Część Konstrukcyjna Pocisku
+item.icbm:missileParts.smallMissileCasing.name=Motyw Małej Rakiety
+
+item.icbm:explosivePart.name=Część Eksplodująca
+item.icbm:explosivePart.arrowTube.name=Rurka ze Strzałami
+item.icbm:explosivePart.arrowBundle.name=Pakiet Strzał
+item.icbm:explosivePart.gunpowderCharge.name=Ładunek Prochowy
+item.icbm:explosivePart.magicCharge.name=Ładunek Magiczny
+item.icbm:explosivePart.powderStick.name=Proch w Laskach
+
+## Explosive Items
+item.icbm:explosiveItem.name=Element Eksplodujący
+item.icbm:explosiveItem.Fragment.name=Ładunek Odłamkowy
+item.icbm:explosiveItem.ExoThermic.name=Ładunek Exotermiczny
+item.icbm:explosiveItem.EndoThermic.name=Ładunek Endotermiczny
+item.icbm:explosiveItem.FireBomb.name=Ładunek Podpalający
+item.icbm:explosiveItem.FlashFire.name=Ładunek Rozpraszający Ogień
+item.icbm:explosiveItem.TorchEater.name=Ładunek Niszczący Pochodnie
+item.icbm:explosiveItem.EnderBlocks.name=Ładunek Ender Bloków
+item.icbm:explosiveItem.Antimatter.name=Ładunek Antymaterii
+item.icbm:explosiveItem.AntiPlant.name=Ładunek Anty-Roślinny
+item.icbm:explosiveItem.PlantLife.name=Ładunek Roślinny
+item.icbm:explosiveItem.Regen.name=Ładunek Regeneracyjny
+item.icbm:explosiveItem.RegenLocal.name=Ograniczony Ładunek Regeneracyjny
+item.icbm:explosiveItem.Cake.name=Pakiet Tortowy
+
+item.icbm:explosiveItem.fragment.arrow.name=Ładunek z Pakietem Strzał
+item.icbm:explosiveItem.fragment.cobblestone.name=Ładunek Odłamkowy z Brukowcem
+item.icbm:explosiveItem.fragment.wood.name=Ładunek Odłamkowy z Drewnem
+item.icbm:explosiveItem.fragment.blaze.name=Ładunek Odłamkowy
+
+## Tiles
+tile.icbm:TileMissile.0.name=Drewniana Figurka Rakiety
+tile.icbm:TileMissile.1.name=Drewniana Figurka Małego Pocisku 
+
+tile.icbm:smallLauncher.name=Przenośna Wyrzutnia1
+tile.icbm:portableLauncher.container.name=Przenośna Wyrzutnia
+tile.icbm:portableLauncher.container.invalidtarget=Niewłaściwa lokalizacja celu
+tile.icbm:portableLauncher.container.invaliddistance=Odległość do celu musi być w granicach od 20 do 200 bloków
+
+tile.icbm:missileController.name=Kontroler Wyrzutni
+
+tile.icbm:standardlauncher.name=Silos Rakietowy
+
+tile.icbm:smallsilo.name=Mały Silos
+tile.icbm:smallsilo.info=Wysoki na 3 bloki , Obsługuje małe pociski
+tile.icbm:smallSilo.container.name=Osłona Małego Silosu
+
+tile.icbm:siloController.name=Komputer Sterujący Silosu
+tile.icbm:siloController.info=Kontroluje silos bezpośrednio , Jest ustawiony zaraz obok silosu, Wykorzystuje redstone do strzelania pocisków, Wspiera Open Computer jeżeli jest zainstalowany
+tile.icbm:siloController.container.name=Komputer Sterujący Silosu
+tile.icbm:siloController.msg.redstone.enabled=Wspieranie redstona włączone
+tile.icbm:siloController.msg.redstone.disabled=Wspieranie redstona wyłączone
+
+tile.icbm:standardsilo.name=Standardowy Silos
+tile.icbm:standardsilo.info=Wysoki na 7 bloków , Obsługuje standardowe pociski
+tile.icbm:standardsilo.container.name=Osłona Standardowego Silosu
+
+tile.icbm:missileworkstation.name=Stanowisko Pocisku
+
+tile.icbm:ICBMxFoF.name=Stacja FoF
+tile.icbm:ICBMxFoF.info=Łączy się z silosem albo Tarczą Antyrakietową , Zapobiega bratobójczemu ogniowi z Tarczy Antyrakietowej
+tile.icbm:AMS.name=Tarcza Antyrakietowa
+tile.icbm:AMS.info=Zestrzeliwuje nadlatujące pociski , Używa samorodków złota jako amunicji
+
+tile.icbm:decorLaunchPad.name=Kompleks Startowy
+tile.icbm:decorLaunchPad.0.name=Krawędź Północna
+tile.icbm:decorLaunchPad.1.name=Krawędź Południowa
+tile.icbm:decorLaunchPad.2.name=Krawędź Zachodnia
+tile.icbm:decorLaunchPad.3.name=Krawędź Zachodnia
+tile.icbm:decorLaunchPad.4.name=Krawędź Poł-Zac
+tile.icbm:decorLaunchPad.5.name=Krawędź Poł-Wsc
+tile.icbm:decorLaunchPad.6.name=Krawędź Pół-Zac 
+tile.icbm:decorLaunchPad.7.name=Krawędź Pół-Wsc 
+tile.icbm:decorLaunchPad.8.name=Centrum
+
+tile.icbm:launcherPart.name=Część Wyrzutni
+tile.icbm:launcherPart.0.name=Komputer Wyrzutni
+
+tile.icbm:launcherFrame.0.name=Szkielet Wyrzutni
+
+## Explosives
+explosive.error.null_ex.name=Pusty
+explosive.icbm:tnt.name=TNT
+explosive.icbm:snowmen.name=Niech zacznie padać śnieg!
+explosive.icbm:EndoThermic.name=Endotermiczny
+explosive.icbm:ExoThermic.name=Exotermiczny
+explosive.icbm:Fragment.name=Odłamkowy
+explosive.icbm:Antimatter.name=Antymateria
+explosive.icbm:FireBomb.name=Ognista Bomba
+explosive.icbm:FlashFire.name=Ognisty Wybuchowy
+explosive.icbm:TorchEater.name=Zjadacz Pochodni
+explosive.icbm:EnderBlocks.name=Bloki Enderu
+explosive.icbm:AntiPlant.name=Anty-Roślinny
+explosive.icbm:PlantLife.name=Roślinny
+explosive.icbm:ThaumTaint.name=Skażone Coś
+explosive.icbm:ThaumTaintBottle.name=Skaza w Butelce
+explosive.icbm:ThaumNode.name=Node Dispenser
+explosive.icbm:ThaumJar.name=Node Trapper
+explosive.icbm:MicroQuake.name=Micro Quake
+explosive.icbm:Regen.name=Regeneracyjny
+explosive.icbm:cake.name=Tortowy
+
+## Damage
+damage.fragment.cobblestone=%s został ukamieniowany na śmierć przez kawałki bruku
+damage.fragment.wood=%s został zabity przez bande odłamków
+
+## Dev only Explosives, Optional to translate
+explosive.icbm:SimplePathTest1.name=Path Test
+explosive.icbm:SimplePathTest2.name=Path Test
+explosive.icbm:SimplePathTest3.name=Path Test
+explosive.icbm:SimplePathTest10.name=Path Test
+explosive.icbm:SimplePathTest20.name=Path Test
+
+
+## Warhead
+tile.icbm:warhead.name=Głowica Bojowa
+tile.icbm:warhead.micro.name=Mikro Głowica Bojowa
+tile.icbm:warhead.small.name=Mała Głowica Bojowa
+tile.icbm:warhead.standard.name=Głowica Bojowa
+
+## Info
+info.icbm:engine.name=Silnik
+info.icbm:warhead.name=Głowica Bojowa
+info.icbm:guidance.name=Kierowanie
+info.icbm:trigger.name=Spust
+info.icbm:missileStation.placement.blocked.name=Lokalizacja Zablokowana
+
+## Controller GUI
+tile.icbm:smallSiloController.container.name=Wyrzutnia
+gui.icbm:controller.launcherName.name=Własna Nazwa
+gui.icbm:controller.target.name=Lokalizacja Celu
+
+## Controller GUI error messages
+gui.icbm:controller.links.none=Nie połączony z żadnym silosem
+gui.icbm:controller.links.none.hint=Spróbój użyć chipu z danymi
+gui.icbm:controller.invalid.input.name=Nieprawidłowe dane
+
+## Controller GUI buttons
+gui.icbm:controller.silo.name=Silos
+gui.icbm:controller.launcher.name=Wyrzutnia
+gui.icbm:controller.fire.name=Ognia
+gui.icbm:controller.update.name=Aktualizuj
+gui.icbm:controller.back.name=Wstecz
+
+container.TileController.name=Kontroler Wyrzutni
+
+gui.icbm:workstation.assemble.name=Montuj
+gui.icbm:workstation.assemble.width=50
+
+gui.icbm:workstation.disassemble.name=Rozmontuj
+gui.icbm:workstation.disassemble.width=70
+
+gui.icbm:workstation.mode.name=Tryb
+gui.icbm:workstation.mode.width=30
+
+## Triggers
+trigger.icbm:impact.name=Uderzenie
+trigger.icbm:gps.name=Lokacja
+trigger.icbm:time.name=Włącznik Czasowy
+
+## Engine Modules
+module.icbm:engine.creative.name=Napęd Anty-Grawitacyjny
+module.icbm:engine.coal.name=Palnik
+module.icbm:engine.oil.name=Palnik Olejowy
+module.icbm:engine.fuel.name=Podstawowy Silnik Rakietowy
+module.icbm:engine.gunpowder.name=Silnik startowy
+
+## Guidance Modules
+module.icbm:guidance.gears.wood.name=Drewniany Zegar Naprowadzający
+module.icbm:guidance.gears.stone.name=Kamienny Zegar Naprowadzający
+module.icbm:guidance.gears.iron.name=Żelazny Zegar Naprowadzający
+module.icbm:guidance.gears.diamond.name=Diamentowy Zegar Naprowadzający
+module.icbm:guidance.chip.1.name=Podstawowy Chip Naprowadzający
+module.icbm:guidance.chip.2.name=Chip Naprowadzający
+module.icbm:guidance.chip.3.name=Ulepszony Chip Naprowadzający
+
+## FoF station GUI
+gui.fof.message.default=Użyj okna aby ustawić id
+gui.fof.message.confirm=Działanie Ukończone
+gui.fof.message.wip=error:Not implemented yet
+gui.fof.message.missing.perm=error:Odmówiono dostępu
+gui.fof.message.removed.ids=Usunięto %s pozycji
+
+## Thaumcraft Support
+tc.research_category.ICBM=Thaumium Desolation
+thaumcraft.research.TaintWarhead.name=Taint Warhead
+thaumcraft.research.TaintWarhead.page.1=While playing with taint you have noticed that using a few aspect it can be contained inside of a warhead.
+thaumcraft.research.TaintWarhead.text=Let the fun begin
+thaumcraft.research.BottledTaintWarhead.name=Taint Warhead
+thaumcraft.research.BottledTaintWarhead.page.1=Spreading taint is no easy job and too slow with just goo. With the recent discovery of how to bottle taint the process is quicker. Still its a bit of a risk throwing these bottles yourself. Instead its a very simple task to shove a few bottles into a warhead.
+thaumcraft.research.BottledTaintWarhead.text=It only gets better
+thaumcraft.research.JarWarhead.name=Node Trapping Warhead
+thaumcraft.research.JarWarhead.page.1=It can be a pain to jar nodes, especially when they keep eating the glass. With this in mind a jar was mounted to the end of a missile.
+thaumcraft.research.JarWarhead.text=I have a jar of dirt
+thaumcraft.research.JarWarhead.name=Node Dispenser Warhead
+thaumcraft.research.JarWarhead.page.1=Missiles are useful to complete long range task. With this in mind the thought occurred to release nodes with missiles.
+thaumcraft.research.JarWarhead.text=Hungry Nodes
