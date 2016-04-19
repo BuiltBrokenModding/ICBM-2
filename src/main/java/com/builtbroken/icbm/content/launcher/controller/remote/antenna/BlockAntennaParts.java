@@ -83,6 +83,7 @@ public class BlockAntennaParts extends BlockContainer implements IPostInit, IReg
                             if (!pos.setBlock(world, this, 2) && pos.getBlockMetadata(world) != 2)
                             {
                                 ICBM.INSTANCE.logger().error("Failed to update antenna rod to base " + pos);
+                                player.addChatComponentMessage(new ChatComponentText("Error: See log for details!"));
                             }
                         }
                         else
@@ -90,15 +91,11 @@ public class BlockAntennaParts extends BlockContainer implements IPostInit, IReg
                             if (!pos.setBlock(world, this, 1) && pos.getBlockMetadata(world) != 1)
                             {
                                 ICBM.INSTANCE.logger().error("Failed to update antenna rod to active rod " + pos);
+                                player.addChatComponentMessage(new ChatComponentText("Error: See log for details!"));
                             }
                         }
                     }
-                    TileEntity tile = world.getTileEntity(x, lowestY, z);
-                    if (tile instanceof TileAntenna)
-                    {
-                        ((TileAntenna) tile).doInitScan();
-                    }
-                    player.addChatComponentMessage(new ChatComponentText("Scan completed and antenna setup, access based block for additional settings."));
+                    player.addChatComponentMessage(new ChatComponentText("Base antenna frame complete, base is still scanning for blocks so may be a few seconds before ready."));
                 }
             }
             return true;
