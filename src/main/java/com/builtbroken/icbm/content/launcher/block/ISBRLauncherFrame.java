@@ -51,7 +51,7 @@ public final class ISBRLauncherFrame implements ISimpleBlockRenderingHandler
         tess.draw();
         GL11.glPushMatrix();
         //GL11.glEnable(GL11.GL_LIGHTING);
-        GL11.glColor3f(1, 1, 1);
+        //GL11.glColor3f(1, 1, 1);
 
         if (meta == 0)
         {

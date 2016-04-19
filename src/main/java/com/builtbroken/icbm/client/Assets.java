@@ -44,8 +44,16 @@ public final class Assets
     public static final WavefrontObject FoF_STATION_MODEL = (WavefrontObject) model("FoFComp.obj");
 
     //Block Models
-    public static final WavefrontObject LAUNCHER_FRAME_BLOCK_MODEL = (WavefrontObject) model("launchertowerblock.obj");
+    public static final WavefrontObject LAUNCHER_FRAME_BLOCK_MODEL = (WavefrontObject) model("Tower_Block.obj");
     public static final WavefrontObject LAUNCHER_FRAME_BLOCK_TOP_MODEL = (WavefrontObject) model("Launchertowerblockhead.obj");
+
+    //Antenna models
+    public static final WavefrontObject ANTENNA_TOWER_MODEL = (WavefrontObject) model("antenna/AntennaTower.obj");
+    public static final WavefrontObject ANTENNA_PIKE_MODEL = (WavefrontObject) model("antenna/AntennaPike.obj");
+    public static final WavefrontObject ANTENNA_NOTCH_MODEL = (WavefrontObject) model("antenna/AntennaNotch.obj");
+    public static final WavefrontObject ANTENNA_INTERSECTION_MODEL = (WavefrontObject) model("antenna/AntennaIntersection.obj");
+    public static final WavefrontObject ANTENNA_BASE_MODEL = (WavefrontObject) model("antenna/AntennaBase.obj");
+    public static final WavefrontObject ANTENNA_ARM_MODEL = (WavefrontObject) model("antenna/AntennaArm.obj");
 
     //Textures
     public static final ResourceLocation GREY_FAKE_TEXTURE = texture("grey");
@@ -58,11 +66,12 @@ public final class Assets
     public static final ResourceLocation LAUNCHER_CONTROLLER_TEXTURE = texture("LauncherController");
     public static final ResourceLocation WEAPON_CASE_TEXTURE = texture("WeaponCase");
     public static final ResourceLocation STANDARD_SILO_TEXTURE = texture("StandardSilo");
-    public static final ResourceLocation LAUNCHER_FRAME_TEXTURE = texture("Launchertowerblock");
+    public static final ResourceLocation LAUNCHER_FRAME_TEXTURE = texture("Tower_Block");
     public static final ResourceLocation LAUNCHER_FRAME_TOP_TEXTURE = texture("Launchertowerblockhead");
     public static final ResourceLocation AMS_TOP_TEXTURE = texture("AMSTop");
     public static final ResourceLocation AMS_TEXTURE = texture("AMSBottom");
     public static final ResourceLocation FoF_STATION_TEXTURE = texture("FoFComp");
+    public static final ResourceLocation ANTENNA_TEXTURE = texture("antenna");
 
     public static IModelCustom model(String name)
     {

@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.client;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.mod.ModCreativeTab;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -26,7 +27,11 @@ public class ICBMCreativeTab extends ModCreativeTab
         add(list, ICBM.blockFoFStation);
         add(list, ICBM.blockLauncherFrame);
         add(list, ICBM.blockSmallSilo);
-        add(list, ICBM.blockStandardSilo);
+        add(list, ICBM.blockAntenna);
+        if (Engine.runningAsDev)
+        {
+            add(list, ICBM.blockStandardSilo);
+        }
         add(list, ICBM.blockSiloController);
         add(list, ICBM.blockSmallPortableLauncher);
         add(list, ICBM.blockMissileWorkstation);
