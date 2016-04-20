@@ -38,6 +38,7 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IRadioWave
         if (network == null)
         {
             network = new AntennaNetwork();
+            network.add(this);
             network.base = this;
         }
         if (connections.isEmpty())
@@ -90,7 +91,6 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IRadioWave
 
         network.updateBounds();
         RadioRegistry.addOrUpdate(this);
-        this.invalidate();
     }
 
     @Override
@@ -98,11 +98,19 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IRadioWave
     {
         super.updateEntity();
         //Sanity check to ensure structure is still good, roughly 2 mins with a slight random
-        if (ticks % randomTick == 0)
+        if (!world().isRemote)
         {
-            randomTick = MathHelper.rand.nextInt(200) + 1000;
-            if (ticks != 30 || !hasInitScanned) //Skip first check
+            if(ticks >= randomTick)
             {
+                int addition = MathHelper.rand.nextInt(200) + 1000;
+                if (addition + ticks < 0) //stack underflow
+                {
+                    randomTick = addition - (Integer.MAX_VALUE - ticks);
+                }
+                else
+                {
+                    randomTick = ticks + addition;
+                }
                 doInitScan();
             }
         }
@@ -112,7 +120,10 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IRadioWave
     public void invalidate()
     {
         super.invalidate();
-        network.kill();
+        if(network != null)
+        {
+            network.kill();
+        }
         RadioRegistry.remove(this);
     }
 

@@ -73,17 +73,20 @@ public class BlockAntennaParts extends BlockContainer implements IPostInit, IReg
     @Override
     public void breakBlock(World world, int x, int y, int z, Block block, int meta)
     {
-        TileEntity tile = world.getTileEntity(x, y, z);
-        if (tile instanceof TileAntennaPart && ((TileAntennaPart) tile).network != null)
+        if(!world.isRemote)
         {
-            ((TileAntennaPart) tile).network.split((TileAntennaPart) tile);
-            if (((TileAntennaPart) tile).connections.size() > 0)
+            TileEntity tile = world.getTileEntity(x, y, z);
+            if (tile instanceof TileAntennaPart && ((TileAntennaPart) tile).network != null)
             {
-                for (TileEntity t : ((TileAntennaPart) tile).connections.values())
+                ((TileAntennaPart) tile).network.split((TileAntennaPart) tile);
+                if (((TileAntennaPart) tile).connections.size() > 0)
                 {
-                    if (t instanceof TileAntennaPart)
+                    for (TileEntity t : ((TileAntennaPart) tile).connections.values())
                     {
-                        ((TileAntennaPart) t).doConnectionUpdate = true;
+                        if (t instanceof TileAntennaPart)
+                        {
+                            ((TileAntennaPart) t).doConnectionUpdate = true;
+                        }
                     }
                 }
             }

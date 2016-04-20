@@ -231,22 +231,11 @@ public class AntennaNetwork extends ArrayList<TileAntennaPart>
      */
     public void split(TileAntennaPart splitPoint)
     {
-        //Update network, same as kill but with update logic call
-        if (splitPoint == base)
+        TileAntenna base = this.base;
+        kill(); //Simpler to just kill the network and let it rebuild
+        if (splitPoint != base)
         {
-            base = null;
-            kill();
-        }
-        else if (splitPoint.connections.size() > 1)
-        {
-            kill();
-        }
-        //Only point in network, so kill all
-        else
-        {
-            remove(splitPoint);
-            splitPoint.network = null;
-            base = null;
+            base.doInitScan();
         }
     }
 
@@ -257,9 +246,6 @@ public class AntennaNetwork extends ArrayList<TileAntennaPart>
             tile.network = null;
         }
         this.clear();
-        if (base != null)
-        {
-            base.doInitScan();
-        }
+        base = null;
     }
 }
