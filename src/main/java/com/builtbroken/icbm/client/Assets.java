@@ -54,6 +54,7 @@ public final class Assets
     public static final WavefrontObject ANTENNA_INTERSECTION_MODEL = (WavefrontObject) model("antenna/AntennaIntersection.obj");
     public static final WavefrontObject ANTENNA_BASE_MODEL = (WavefrontObject) model("antenna/AntennaBase.obj");
     public static final WavefrontObject ANTENNA_ARM_MODEL = (WavefrontObject) model("antenna/AntennaArm.obj");
+    public static final WavefrontObject ANTENNA_ARM2_MODEL = (WavefrontObject) model("antenna/AntennaArm2.obj");
 
     //Textures
     public static final ResourceLocation GREY_FAKE_TEXTURE = texture("grey");

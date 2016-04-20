@@ -27,13 +27,47 @@ public final class ISBRAntennaFrame implements ISimpleBlockRenderingHandler
     }
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer)
+    public void renderInventoryBlock(Block block, int meta, int modelId, RenderBlocks renderer)
     {
         GL11.glPushMatrix();
         GL11.glScalef(1f, 1f, 1f);
-        GL11.glTranslatef(-0.5F, -0.5F, 0.5F);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.ANTENNA_TEXTURE);
-        Assets.ANTENNA_TOWER_MODEL.renderAll();
+        GL11.glTranslatef(-0.0F, -0.5F, 0.0F);
+        if (meta == 0 || meta == 1)
+        {
+            //TODO if meta == 1 change texture to say its connected to a base
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.ANTENNA_TEXTURE);
+            Assets.ANTENNA_TOWER_MODEL.renderAll();
+        }
+        else if(meta == 2)
+        {
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.ANTENNA_TEXTURE);
+            Assets.ANTENNA_BASE_MODEL.renderAll();
+        }
+        else if(meta == 3)
+        {
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.ANTENNA_TEXTURE);
+            Assets.ANTENNA_INTERSECTION_MODEL.renderAll();
+        }
+        else if(meta == 4)
+        {
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.ANTENNA_TEXTURE);
+            Assets.ANTENNA_NOTCH_MODEL.renderAll();
+        }
+        else if(meta == 5)
+        {
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.ANTENNA_TEXTURE);
+            Assets.ANTENNA_PIKE_MODEL.renderAll();
+        }
+        else if(meta == 6) //East West
+        {
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.ANTENNA_TEXTURE);
+            Assets.ANTENNA_ARM2_MODEL.renderAll();
+        }
+        else if(meta == 7) //North South
+        {
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.ANTENNA_TEXTURE);
+            Assets.ANTENNA_ARM_MODEL.renderAll();
+        }
         GL11.glPopMatrix();
     }
 
@@ -72,7 +106,12 @@ public final class ISBRAntennaFrame implements ISimpleBlockRenderingHandler
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.ANTENNA_TEXTURE);
             Assets.ANTENNA_PIKE_MODEL.renderAll();
         }
-        else if(meta == 6)
+        else if(meta == 6) //East West
+        {
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.ANTENNA_TEXTURE);
+            Assets.ANTENNA_ARM2_MODEL.renderAll();
+        }
+        else if(meta == 7) //North South
         {
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.ANTENNA_TEXTURE);
             Assets.ANTENNA_ARM_MODEL.renderAll();

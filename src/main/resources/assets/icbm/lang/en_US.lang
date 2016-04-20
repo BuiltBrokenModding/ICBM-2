@@ -66,6 +66,17 @@ item.icbm:explosiveItem.fragment.blaze.name=Blaze Frag Charge
 tile.icbm:TileMissile.0.name=Wooden Rocket Display
 tile.icbm:TileMissile.1.name=Wooden Small Missile Display
 
+tile.icbm:antennaParts.name=Antenna Part
+tile.icbm:antennaParts.0.name=Antenna Part
+tile.icbm:antennaParts.1.name=Antenna Rod
+tile.icbm:antennaParts.2.name=Antenna Controller
+tile.icbm:antennaParts.3.name=Antenna Intersection
+tile.icbm:antennaParts.4.name=Antenna Notch
+tile.icbm:antennaParts.5.name=Antenna Pike
+tile.icbm:antennaParts.6.name=Antenna Arm
+tile.icbm:antennaParts.7.name=Antenna Arm
+tile.icbm:antennaParts.8.name=Antenna Part
+
 tile.icbm:smallLauncher.name=Portable Missile Launcher
 tile.icbm:portableLauncher.container.name=Portable Missile Launcher
 tile.icbm:portableLauncher.container.invalidtarget=Invalid Target Location

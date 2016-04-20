@@ -1,5 +1,7 @@
 package com.builtbroken.icbm.content.launcher.controller.remote.antenna;
 
+import com.builtbroken.mc.lib.transform.region.Cube;
+import com.builtbroken.mc.lib.transform.vector.Pos;
 import net.minecraft.tileentity.TileEntity;
 
 import java.util.ArrayList;
@@ -10,7 +12,23 @@ import java.util.ArrayList;
  */
 public class AntennaNetwork extends ArrayList<TileAntennaPart>
 {
+    public static int MAX_HEIGH_GAIN = 1000;
+    public static int RANGE_PER_PEICE = 100;
+
     TileAntenna base;
+
+    /** Bound size of the antenna array */
+    Cube size = new Cube();
+
+    int northPartCount;
+    int southPartCount;
+    int eastPartCount;
+    int westPartCount;
+
+    /** Range of the antenna */
+    Cube range = new Cube();
+
+    boolean massAdd = false;
 
     @Override
     public boolean add(TileAntennaPart e)
@@ -18,9 +36,155 @@ public class AntennaNetwork extends ArrayList<TileAntennaPart>
         if (super.add(e))
         {
             e.network = this;
+
+            //Update bounds
+            if (!massAdd)
+            {
+                int ux = size.max().xi();
+                int uy = size.max().yi();
+                int uz = size.max().zi();
+                int lx = size.min().xi();
+                int ly = size.min().yi();
+                int lz = size.min().zi();
+
+                int x = e.xCoord;
+                int y = e.yCoord;
+                int z = e.zCoord;
+                //Check x limits
+                if (x > ux)
+                {
+                    ux = x;
+                }
+                else if (x < lx)
+                {
+                    lx = x;
+                }
+                //Check y limits
+                if (y > uy)
+                {
+                    uy = y;
+                }
+                else if (y < ly)
+                {
+                    ly = y;
+                }
+                //Check z limits
+                if (z > uz)
+                {
+                    uz = z;
+                }
+                else if (z < lz)
+                {
+                    lz = z;
+                }
+
+                Pos upper = new Pos(ux, uy, uz);
+                Pos lower = new Pos(lx, ly, lz);
+
+                if (upper != size.max() || lower != size.min())
+                {
+                    size = new Cube(lower, upper);
+                    onBoundsChange();
+                }
+            }
             return true;
         }
         return false;
+    }
+
+    /**
+     * Called to update the size of the array
+     */
+    public void updateBounds()
+    {
+        //Rest part count
+        eastPartCount = westPartCount = southPartCount = northPartCount = 0;
+
+        //Get current bounds
+        int ux = size.max().xi();
+        int uy = size.max().yi();
+        int uz = size.max().zi();
+        int lx = size.min().xi();
+        int ly = size.min().yi();
+        int lz = size.min().zi();
+
+        for (TileAntennaPart part : this)
+        {
+            int x = part.xCoord;
+            int y = part.yCoord;
+            int z = part.zCoord;
+            //Check x limits
+            if (x > ux)
+            {
+                ux = x;
+            }
+            else if (x < lx)
+            {
+                lx = x;
+            }
+            //Check y limits
+            if (y > uy)
+            {
+                uy = y;
+            }
+            else if (y < ly)
+            {
+                ly = y;
+            }
+            //Check z limits
+            if (z > uz)
+            {
+                uz = z;
+            }
+            else if (z < lz)
+            {
+                lz = z;
+            }
+            //Base should almost never be null, but just in case
+            if (base != null)
+            {
+                if (x > base.xCoord)
+                {
+                    eastPartCount++;
+                }
+                else if (x < base.xCoord)
+                {
+                    westPartCount++;
+                }
+                if (z > base.xCoord)
+                {
+                    southPartCount++;
+                }
+                else if (z < base.xCoord)
+                {
+                    northPartCount++;
+                }
+            }
+        }
+
+        Pos upper = new Pos(ux, uy, uz);
+        Pos lower = new Pos(lx, ly, lz);
+
+        if (upper != size.max() || lower != size.min())
+        {
+            size = new Cube(lower, upper);
+            onBoundsChange();
+        }
+    }
+
+    /**
+     * Called anytime the size of the array changes
+     */
+    protected void onBoundsChange()
+    {
+        //Range gained by size of antenna
+        int heighRangeBonus = MAX_HEIGH_GAIN / Math.max(50 - (size.max().yi() - size.min().yi()), 1);
+        //Range gained from y level of antenna
+        int yLevelRangeBonus = size.max().yi() < 64 ? -2000 : MAX_HEIGH_GAIN / Math.max(256 - 64 - size.max().yi(), 1);
+
+        range = new Cube(westPartCount * RANGE_PER_PEICE, 0, northPartCount * RANGE_PER_PEICE, eastPartCount * RANGE_PER_PEICE, 256, southPartCount * RANGE_PER_PEICE);
+        range.add(heighRangeBonus, heighRangeBonus, heighRangeBonus);
+        range.add(yLevelRangeBonus, yLevelRangeBonus, yLevelRangeBonus);
     }
 
     /**
@@ -30,6 +194,10 @@ public class AntennaNetwork extends ArrayList<TileAntennaPart>
      */
     public void merge(TileAntennaPart mergePoint)
     {
+        //Ensure we don't do too many logic updates
+        massAdd = true;
+
+        //Merge point needs to have a network to merge
         if (mergePoint.network != null)
         {
             //Loop threw merge point's connections
@@ -46,10 +214,14 @@ public class AntennaNetwork extends ArrayList<TileAntennaPart>
                             add(part);
                         }
                     }
+                    updateBounds();
                     break;
                 }
             }
         }
+
+        //Revert mass add check
+        massAdd = false;
     }
 
     /**
@@ -59,24 +231,35 @@ public class AntennaNetwork extends ArrayList<TileAntennaPart>
      */
     public void split(TileAntennaPart splitPoint)
     {
-        if (splitPoint.connections.size() > 1)
+        //Update network, same as kill but with update logic call
+        if (splitPoint == base)
         {
-            for (TileAntennaPart tile : this)
-            {
-                tile.network = null;
-            }
-            this.clear();
-            base.doInitScan();
             base = null;
+            kill();
         }
+        else if (splitPoint.connections.size() > 1)
+        {
+            kill();
+        }
+        //Only point in network, so kill all
         else
         {
             remove(splitPoint);
             splitPoint.network = null;
-            if (splitPoint == base)
-            {
-                base = null;
-            }
+            base = null;
+        }
+    }
+
+    public void kill()
+    {
+        for (TileAntennaPart tile : this)
+        {
+            tile.network = null;
+        }
+        this.clear();
+        if (base != null)
+        {
+            base.doInitScan();
         }
     }
 }
