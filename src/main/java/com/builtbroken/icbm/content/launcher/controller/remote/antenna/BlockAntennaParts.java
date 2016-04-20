@@ -46,6 +46,8 @@ public class BlockAntennaParts extends BlockContainer implements IPostInit, IReg
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float xx, float yy, float zz)
     {
+        int meta = world.getBlockMetadata(x, y, z);
+
         //Prevent click with this block to make placement easier
         if (player.getHeldItem() != null)
         {
@@ -53,30 +55,44 @@ public class BlockAntennaParts extends BlockContainer implements IPostInit, IReg
             {
                 return false;
             }
-            else if (!world.isRemote && Engine.runningAsDev && player.getHeldItem().getItem() == Items.stick)
+            else if (!world.isRemote && Engine.runningAsDev)
             {
-                TileEntity tile = world.getTileEntity(x, y, z);
-                if (tile instanceof TileAntennaPart)
+                if (player.getHeldItem().getItem() == Items.stick)
                 {
-                    if (((TileAntennaPart) tile).network != null)
+                    TileEntity tile = world.getTileEntity(x, y, z);
+                    if (tile instanceof TileAntennaPart)
                     {
-                        player.addChatComponentMessage(new ChatComponentText("Debug: Network contains " + ((TileAntennaPart) tile).network.size() + " parts, base = " + ((TileAntennaPart) tile).network.base));
+                        if (((TileAntennaPart) tile).network != null)
+                        {
+                            player.addChatComponentMessage(new ChatComponentText("Debug: Network contains " + ((TileAntennaPart) tile).network.size() + " parts, base = " + ((TileAntennaPart) tile).network.base));
+                        }
+                        else
+                        {
+                            player.addChatComponentMessage(new ChatComponentText("Debug: Network is null"));
+                        }
                     }
-                    else
-                    {
-                        player.addChatComponentMessage(new ChatComponentText("Debug: Network is null"));
-                    }
+                    return true;
                 }
-                return true;
+                else if (player.getHeldItem().getItem() == Items.blaze_rod)
+                {
+                    TileEntity tile = world.getTileEntity(x, y, z);
+                    if (tile instanceof TileAntennaPart)
+                    {
+                        player.addChatComponentMessage(new ChatComponentText("Debug: Part has " + ((TileAntennaPart) tile).connections.size() + " connections"));
+                    }
+                    return true;
+                }
             }
         }
-
-        int meta = world.getBlockMetadata(x, y, z);
         if (meta == 2)
         {
-            player.openGui(ICBM.INSTANCE, 0, world, x, y, z);
+            if(!world.isRemote)
+            {
+                player.openGui(ICBM.INSTANCE, 0, world, x, y, z);
+            }
+            return true;
         }
-        return true;
+        return false;
     }
 
     @Override

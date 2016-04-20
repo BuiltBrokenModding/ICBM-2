@@ -122,7 +122,7 @@ public class TileAntennaPart extends TileEntityBase implements IWorldPosition
                     if(connectionA && !connectionB || connectionB && !connectionA)
                     {
                         found = true;
-                        if (!found && meta != 4)
+                        if (found && meta != 4)
                         {
                             worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 4, 3);
                         }
