@@ -72,19 +72,19 @@ public class TileAntennaPart extends TileEntityBase implements IWorldPosition
         connections.clear();
         for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
         {
-            TileEntity entity = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
-            if (entity instanceof TileAntennaPart)
+            TileEntity tile = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
+            if (tile instanceof TileAntennaPart)
             {
-                connections.put(dir, entity);
-                if (((TileAntennaPart) entity).network != null)
+                connections.put(dir, tile);
+                if (((TileAntennaPart) tile).network != null)
                 {
                     if (network == null)
                     {
-                        network = ((TileAntennaPart) entity).network;
+                        ((TileAntennaPart) tile).network.add(this);
                     }
-                    else if (network != null)
+                    else if (network != null && ((TileAntennaPart) tile).network != null)
                     {
-                        network.merge((TileAntennaPart) entity);
+                        network.merge((TileAntennaPart) tile);
                     }
                 }
             }

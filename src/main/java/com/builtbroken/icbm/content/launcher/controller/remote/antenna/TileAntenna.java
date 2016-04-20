@@ -32,6 +32,7 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IRadioWave
      */
     public void doInitScan()
     {
+        //TODO delay scan if player is placing and breaking blocks near the antenna
         //TODO multi-thread
         //TODO add pausing to allow world to continue updating, if not thread
         hasInitScanned = true;
@@ -100,7 +101,7 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IRadioWave
         //Sanity check to ensure structure is still good, roughly 2 mins with a slight random
         if (!world().isRemote)
         {
-            if(ticks >= randomTick)
+            if (ticks >= randomTick)
             {
                 int addition = MathHelper.rand.nextInt(200) + 1000;
                 if (addition + ticks < 0) //stack underflow
@@ -120,7 +121,7 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IRadioWave
     public void invalidate()
     {
         super.invalidate();
-        if(network != null)
+        if (network != null)
         {
             network.kill();
         }
@@ -180,5 +181,11 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IRadioWave
         //TODO add power check
         //TODO increase range by power input
         return network != null ? network.range : null;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "TileAntenna[" + world().provider.dimensionId + "d, " + xCoord + "x, " + yCoord + "y, " + zCoord + "z]@" + hashCode();
     }
 }

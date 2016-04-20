@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.launcher.controller.remote.antenna;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.core.registry.implement.IRegistryInit;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -14,10 +15,12 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -44,9 +47,28 @@ public class BlockAntennaParts extends BlockContainer implements IPostInit, IReg
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float xx, float yy, float zz)
     {
         //Prevent click with this block to make placement easier
-        if(player.getHeldItem() != null && player.getHeldItem().getItem() == Item.getItemFromBlock(this))
+        if (player.getHeldItem() != null)
         {
-            return false;
+            if (player.getHeldItem().getItem() == Item.getItemFromBlock(this))
+            {
+                return false;
+            }
+            else if (!world.isRemote && Engine.runningAsDev && player.getHeldItem().getItem() == Items.stick)
+            {
+                TileEntity tile = world.getTileEntity(x, y, z);
+                if (tile instanceof TileAntennaPart)
+                {
+                    if (((TileAntennaPart) tile).network != null)
+                    {
+                        player.addChatComponentMessage(new ChatComponentText("Debug: Network contains " + ((TileAntennaPart) tile).network.size() + " parts, base = " + ((TileAntennaPart) tile).network.base));
+                    }
+                    else
+                    {
+                        player.addChatComponentMessage(new ChatComponentText("Debug: Network is null"));
+                    }
+                }
+                return true;
+            }
         }
 
         int meta = world.getBlockMetadata(x, y, z);
@@ -73,7 +95,7 @@ public class BlockAntennaParts extends BlockContainer implements IPostInit, IReg
     @Override
     public void breakBlock(World world, int x, int y, int z, Block block, int meta)
     {
-        if(!world.isRemote)
+        if (!world.isRemote)
         {
             TileEntity tile = world.getTileEntity(x, y, z);
             if (tile instanceof TileAntennaPart && ((TileAntennaPart) tile).network != null)
