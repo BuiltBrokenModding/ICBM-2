@@ -3,6 +3,7 @@ package com.builtbroken.icbm.content.launcher.controller.remote.antenna;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.jlib.helpers.MathHelper;
 import com.builtbroken.jlib.lang.StringHelpers;
+import com.builtbroken.mc.api.map.radio.IRadioWaveExternalReceiver;
 import com.builtbroken.mc.api.map.radio.IRadioWaveReceiver;
 import com.builtbroken.mc.api.map.radio.IRadioWaveSender;
 import com.builtbroken.mc.api.tile.IGuiTile;
@@ -149,8 +150,19 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IRadioWave
     @Override
     public void receiveRadioWave(float hz, IRadioWaveSender sender, String messageHeader, Object[] data)
     {
-        //TODO notify all connected machines
-        sender.onMessageReceived(this, hz, messageHeader, data);
+        if(sender != this) //Ensure we don't inf loop on messages received
+        {
+            //Send data to all connected receivers
+            for (TileEntity tile : connections.values())
+            {
+                if (tile instanceof IRadioWaveExternalReceiver)
+                {
+                    ((IRadioWaveExternalReceiver) tile).receiveExternalRadioWave(hz, sender, this, messageHeader, data);
+                }
+            }
+            //Notify sender that we received data
+            sender.onMessageReceived(this, hz, messageHeader, data);
+        }
     }
 
     @Override

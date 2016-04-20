@@ -181,10 +181,9 @@ public class AntennaNetwork extends ArrayList<TileAntennaPart>
         int heighRangeBonus = MAX_HEIGH_GAIN / Math.max(50 - (size.max().yi() - size.min().yi()), 1);
         //Range gained from y level of antenna
         int yLevelRangeBonus = size.max().yi() < 64 ? -2000 : MAX_HEIGH_GAIN / Math.max(256 - 64 - size.max().yi(), 1);
+        int r = heighRangeBonus + yLevelRangeBonus;
 
-        range = new Cube(westPartCount * RANGE_PER_PEICE, 0, northPartCount * RANGE_PER_PEICE, eastPartCount * RANGE_PER_PEICE, 256, southPartCount * RANGE_PER_PEICE);
-        range.add(heighRangeBonus, heighRangeBonus, heighRangeBonus);
-        range.add(yLevelRangeBonus, yLevelRangeBonus, yLevelRangeBonus);
+        range = new Cube(westPartCount * RANGE_PER_PEICE - r, 0, northPartCount * RANGE_PER_PEICE - r, eastPartCount * RANGE_PER_PEICE + r, 256, southPartCount * RANGE_PER_PEICE + r);
     }
 
     /**
