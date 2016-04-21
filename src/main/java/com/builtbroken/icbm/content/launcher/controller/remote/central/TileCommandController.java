@@ -49,7 +49,7 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
     protected WirelessGrid grid;
 
     /** Name of the grid to connect to */
-    protected String gridName;
+    protected String gridName = "grid";
     /** Pass key to gain access to the grid, different key -> different grid */
     protected short gridKey;
 
@@ -76,7 +76,7 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
     public void update()
     {
         super.update();
-        if (ticks % 60 == 0)
+        if (isServer() && ticks % 60 == 0) //every 3 seconds
         {
             //Cache old connections for update logic
             HashMap<ForgeDirection, TileEntity> oldConnections = connections;

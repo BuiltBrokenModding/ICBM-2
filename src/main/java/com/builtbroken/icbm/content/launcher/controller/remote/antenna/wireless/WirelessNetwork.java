@@ -5,6 +5,7 @@ import com.builtbroken.mc.lib.transform.vector.Pos;
 import net.minecraft.tileentity.TileEntity;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -17,6 +18,8 @@ public abstract class WirelessNetwork
 {
     /** Is the network a receiver network, eg only get messages doesn't sent messages */
     public final boolean receiver;
+
+    public boolean isInvalid = false;
 
     /** All tiles connected to this network */
     public final List<TileEntity> connectedTiles = new ArrayList();
@@ -130,5 +133,23 @@ public abstract class WirelessNetwork
             }
         }
         return false;
+    }
+
+    public void doCleanUp()
+    {
+        Iterator<TileEntity> tiles = connectedTiles.iterator();
+        while (tiles.hasNext())
+        {
+            TileEntity tile = tiles.next();
+            if (tile.isInvalid())
+            {
+                tiles.remove();
+            }
+        }
+    }
+
+    public boolean isInvalid()
+    {
+        return isInvalid;
     }
 }

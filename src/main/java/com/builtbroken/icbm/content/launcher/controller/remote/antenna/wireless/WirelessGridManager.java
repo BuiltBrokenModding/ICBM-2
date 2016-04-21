@@ -2,6 +2,8 @@ package com.builtbroken.icbm.content.launcher.controller.remote.antenna.wireless
 
 import com.builtbroken.jlib.type.Pair;
 import com.builtbroken.mc.lib.transform.region.Cube;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -68,5 +70,18 @@ public class WirelessGridManager
         grids.put(pair, grid);
         worldToGrids.put(world.provider.dimensionId, grids);
         return grid;
+    }
+
+    @SubscribeEvent
+    public void updateTick(TickEvent.WorldTickEvent event)
+    {
+        if (event.phase == TickEvent.Phase.END && event.world.provider.getWorldTime() % 100 == 0 && worldToGrids.containsKey(event.world.provider.dimensionId))
+        {
+            HashMap<Pair<String, Short>, WirelessGrid> grids = worldToGrids.get(event.world.provider.dimensionId);
+            for (WirelessGrid grid : grids.values())
+            {
+                grid.doCleanUp();
+            }
+        }
     }
 }

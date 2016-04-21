@@ -1,8 +1,11 @@
 package com.builtbroken.icbm.content.launcher.controller.remote.antenna.wireless;
 
 import com.builtbroken.mc.api.map.radio.IRadioWaveReceiver;
+import net.minecraft.entity.Entity;
+import net.minecraft.tileentity.TileEntity;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -20,9 +23,10 @@ public class WirelessNetworkReceive extends WirelessNetwork
 
     public boolean addReceiver(IRadioWaveReceiver receiver)
     {
-        if(!receivers.contains(receiver))
+        if(!receivers.contains(receiver) && receiver.getRadioReceiverRange() != null)
         {
-            //TODO update coverage area
+            isInvalid = false;
+            coverageArea.add(receiver.getRadioReceiverRange());
             return receivers.add(receiver);
         }
         return false;
@@ -32,9 +36,47 @@ public class WirelessNetworkReceive extends WirelessNetwork
     {
         if(receivers.contains(receiver))
         {
-            //TODO update coverage area
+            if(this.receivers.size() == 0)
+            {
+                isInvalid = true;
+            }
             return receivers.remove(receiver);
         }
         return false;
+    }
+
+    @Override
+    public void doCleanUp()
+    {
+        super.doCleanUp();
+        Iterator<IRadioWaveReceiver> itRec = receivers.iterator();
+        while(itRec.hasNext())
+        {
+            IRadioWaveReceiver receiver = itRec.next();
+            if(receiver.getRadioReceiverRange() == null)
+            {
+                itRec.remove();
+            }
+            else if(receiver instanceof Entity && !((Entity) receiver).isEntityAlive())
+            {
+                itRec.remove();
+            }
+            else if(receiver instanceof TileEntity && ((TileEntity) receiver).isInvalid())
+            {
+                itRec.remove();
+            }
+        }
+        if(receivers.size() == 0)
+        {
+            isInvalid = true;
+        }
+        else
+        {
+            coverageArea.clear();
+            for(IRadioWaveReceiver receiver : receivers)
+            {
+                coverageArea.add(receiver.getRadioReceiverRange());
+            }
+        }
     }
 }

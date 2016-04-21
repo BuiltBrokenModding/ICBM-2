@@ -7,6 +7,7 @@ import com.builtbroken.mc.lib.transform.vector.Pos;
 import net.minecraft.tileentity.TileEntity;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -177,7 +178,7 @@ public class WirelessGrid
         {
             for (WirelessNetworkReceive network : receiverNetworks)
             {
-                if (network.overlaps(cube) && network.addReceiver(tile))
+                if ((network.coverageArea.size() == 0 || network.overlaps(cube)) && network.addReceiver(tile))
                 {
                     connected = true;
                     //Update connected tiles with network range change
@@ -214,7 +215,7 @@ public class WirelessGrid
         {
             for (WirelessNetworkSend network : senderNetworks)
             {
-                if (network.overlaps(cube) && network.addSender(tile))
+                if ((network.coverageArea.size() == 0 || network.overlaps(cube)) && network.addSender(tile))
                 {
                     connected = true;
                     //Update connected tiles with network range change
@@ -339,6 +340,9 @@ public class WirelessGrid
         return false;
     }
 
+
+
+    @Override
     public boolean equals(Object object)
     {
         if (object == this)
@@ -356,5 +360,30 @@ public class WirelessGrid
     public String toString()
     {
         return "WirelessGrid[" + name + ", " + key + ", " + receiverNetworks.size() + "R, " + senderNetworks.size() + "S]";
+    }
+
+    public void doCleanUp()
+    {
+        Iterator<WirelessNetworkReceive> itRec = receiverNetworks.iterator();
+        while(itRec.hasNext())
+        {
+            WirelessNetworkReceive receive = itRec.next();
+            receive.doCleanUp();
+            if(receive.isInvalid())
+            {
+                itRec.remove();
+            }
+        }
+        Iterator<WirelessNetworkSend> itSend = senderNetworks.iterator();
+        while(itSend.hasNext())
+        {
+            WirelessNetworkSend sender = itSend.next();
+            sender.doCleanUp();
+            if(sender.isInvalid())
+            {
+                itRec.remove();
+            }
+        }
+
     }
 }
