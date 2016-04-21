@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.launcher.controller.remote;
+package com.builtbroken.icbm.content.launcher.controller.remote.central;
 
 import com.builtbroken.mc.prefab.gui.ContainerBase;
 import net.minecraft.entity.player.EntityPlayer;

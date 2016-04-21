@@ -42,6 +42,7 @@ import com.builtbroken.icbm.content.launcher.block.BlockLauncherPart;
 import com.builtbroken.icbm.content.launcher.controller.direct.TileSiloController;
 import com.builtbroken.icbm.content.launcher.controller.local.TileController;
 import com.builtbroken.icbm.content.launcher.controller.remote.antenna.BlockAntennaParts;
+import com.builtbroken.icbm.content.launcher.controller.remote.central.TileCommandController;
 import com.builtbroken.icbm.content.launcher.launcher.large.TileLargeLauncher;
 import com.builtbroken.icbm.content.launcher.launcher.medium.TileMediumLauncher;
 import com.builtbroken.icbm.content.launcher.launcher.small.TileSmallLauncher;
@@ -161,6 +162,7 @@ public final class ICBM extends AbstractMod
 
     public static Block blockAMS;
     public static Block blockAntenna;
+    public static Block blockCommandCentral;
 
     public static Block blockFoFStation;
     public static Block blockCake;
@@ -239,6 +241,7 @@ public final class ICBM extends AbstractMod
             blockDirectSiloController = manager.newBlock("icbmDirectSiloConnector", TileSiloController.class);
         }
         blockAntenna = manager.newBlock("icbmAntenna", BlockAntennaParts.class, ItemBlockMetadata.class);
+        blockCommandCentral = manager.newBlock("icbmCommandCentral", TileCommandController.class);
 
         //Decor Blocks
         blockLaunchPad = manager.newBlock("icbmDecorLaunchPad", BlockLaunchPad.class, ItemBlockMetadata.class);
@@ -252,7 +255,6 @@ public final class ICBM extends AbstractMod
 
         //Troll blocks
         blockCake = manager.newBlock("ICBMxFakeCake", BlockFakeCake.class);
-
 
 
         //Clear launcher creative tab to prevent placement by user by mistake
