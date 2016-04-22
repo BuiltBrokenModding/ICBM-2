@@ -2,10 +2,6 @@ package com.builtbroken.icbm.content.launcher.controller.remote.central;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.launcher.controller.local.TileController;
-import com.builtbroken.icbm.content.launcher.controller.remote.antenna.wireless.IWirelessGridConnector;
-import com.builtbroken.icbm.content.launcher.controller.remote.antenna.wireless.WirelessGrid;
-import com.builtbroken.icbm.content.launcher.controller.remote.antenna.wireless.WirelessGridManager;
-import com.builtbroken.icbm.content.launcher.controller.remote.antenna.wireless.WirelessNetwork;
 import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileSiloConnector;
 import com.builtbroken.mc.api.map.radio.IRadioWaveExternalReceiver;
 import com.builtbroken.mc.api.map.radio.IRadioWaveReceiver;
@@ -39,19 +35,12 @@ import java.util.Map;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 3/26/2016.
  */
-public class TileCommandController extends TileModuleMachine implements ILinkable, IPacketIDReceiver, IGuiTile, IPostInit, IWirelessGridConnector, IRadioWaveExternalReceiver, IPrefabInventory
+public class TileCommandController extends TileModuleMachine implements ILinkable, IPacketIDReceiver, IGuiTile, IPostInit, IRadioWaveExternalReceiver, IPrefabInventory
 {
     /** List of linked silo connectors */
     protected final HashMap<Pos, TileSiloConnector> siloConnectors = new HashMap();
     /** Map of connections per side */
     protected HashMap<ForgeDirection, TileEntity> connections = new HashMap();
-    /** Wireless grid connected to */
-    protected WirelessGrid grid;
-
-    /** Name of the grid to connect to */
-    protected String gridName = "grid";
-    /** Pass key to gain access to the grid, different key -> different grid */
-    protected short gridKey;
 
     public TileCommandController()
     {
@@ -64,11 +53,6 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
     public void invalidate()
     {
         connections.clear();
-        if (grid != null)
-        {
-            grid.disconnect(this);
-            grid = null;
-        }
         super.invalidate();
     }
 
@@ -105,77 +89,6 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
                     }
                 }
             }
-
-            //If we have a sender and receiver then we can connect to a wireless grid
-            if (sender && receiver)
-            {
-                if (grid == null)
-                {
-                    //If we had not grid, find use a grid to connect to
-                    grid = WirelessGridManager.getOrCreateGrid(world(), this, gridName, gridKey);
-                    for (TileEntity tile : connections.values())
-                    {
-                        if (tile instanceof IRadioWaveReceiver)
-                        {
-                            grid.connect((IRadioWaveReceiver) tile);
-                        }
-                        //sender & receiver can be the same tile
-                        if (tile instanceof IRadioWaveSender)
-                        {
-                            grid.connect((IRadioWaveSender) tile);
-                        }
-                    }
-                    grid.connect(this, null);
-                }
-                else
-                {
-                    //If connections go missing, remove them from grid
-                    for (TileEntity tile : oldConnections.values())
-                    {
-                        if (!connections.values().contains(tile))
-                        {
-                            if (tile instanceof IRadioWaveReceiver)
-                            {
-                                grid.disconnect((IRadioWaveReceiver) tile);
-                            }
-                            //sender & receiver can be the same tile
-                            if (tile instanceof IRadioWaveSender)
-                            {
-                                grid.disconnect((IRadioWaveSender) tile);
-                            }
-                        }
-                    }
-                    //If connections change, add them to grid
-                    for (TileEntity tile : connections.values())
-                    {
-                        if (!oldConnections.values().contains(tile))
-                        {
-                            if (tile instanceof IRadioWaveReceiver)
-                            {
-                                grid.connect((IRadioWaveReceiver) tile);
-                            }
-                            //sender & receiver can be the same tile
-                            if (tile instanceof IRadioWaveSender)
-                            {
-                                grid.connect((IRadioWaveSender) tile);
-                            }
-                        }
-                    }
-                    //If disconnecting previous connections causes the grid to collapse
-                    //Remote this object from the grid
-                    if (!grid.overlaps(new Pos(this)))
-                    {
-                        grid.disconnect(this);
-                        //Don't remove connections, they may be used by other tiles
-                    }
-                }
-            }
-            //If not we need to drop connection
-            else if (grid != null)
-            {
-                grid.disconnect(this);
-                grid = null;
-            }
         }
     }
 
@@ -188,7 +101,7 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
             {
                 if (isServer())
                 {
-                    player.addChatComponentMessage(new ChatComponentText("WirelessGrid = " + grid));
+                    player.addChatComponentMessage(new ChatComponentText("WirelessGrid = "));
                 }
                 return true;
             }
@@ -265,22 +178,6 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
     }
 
     @Override
-    public void onCoverageAreaChanged(WirelessNetwork network)
-    {
-        //TODO ensure this is not called often
-        if (!grid.overlaps(new Pos(this)))
-        {
-            grid.disconnect(this);
-        }
-    }
-
-    @Override
-    public void resetNetworkCache()
-    {
-
-    }
-
-    @Override
     public void receiveExternalRadioWave(float hz, IRadioWaveSender sender, IRadioWaveReceiver receiver, String messageHeader, Object[] data)
     {
         //TODO add support for remote detonator
@@ -289,10 +186,6 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
     @Override
     public void onRangeChange(IRadioWaveReceiver receiver, Cube range)
     {
-        if (!grid.overlaps(new Pos(this)))
-        {
-            grid.disconnect(receiver);
-        }
     }
 
     @Override

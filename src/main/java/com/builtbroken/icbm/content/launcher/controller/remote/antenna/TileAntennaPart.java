@@ -14,7 +14,7 @@ import java.util.HashMap;
  */
 public class TileAntennaPart extends TileEntityBase implements IWorldPosition
 {
-    protected AntennaNetwork network;
+    protected AntennaNetwork antennaNetwork;
     protected HashMap<ForgeDirection, TileEntity> connections = new HashMap();
 
     int ticks = 0;
@@ -79,15 +79,15 @@ public class TileAntennaPart extends TileEntityBase implements IWorldPosition
                 if (tile instanceof TileAntennaPart)
                 {
 
-                    if (((TileAntennaPart) tile).network != null)
+                    if (((TileAntennaPart) tile).antennaNetwork != null)
                     {
-                        if (network == null)
+                        if (antennaNetwork == null)
                         {
-                            ((TileAntennaPart) tile).network.add(this);
+                            ((TileAntennaPart) tile).antennaNetwork.add(this);
                         }
-                        else if (network != null && ((TileAntennaPart) tile).network != null)
+                        else if (antennaNetwork != null && ((TileAntennaPart) tile).antennaNetwork != null)
                         {
-                            network.merge((TileAntennaPart) tile);
+                            antennaNetwork.merge((TileAntennaPart) tile);
                         }
                     }
                 }

@@ -62,9 +62,9 @@ public class BlockAntennaParts extends BlockContainer implements IPostInit, IReg
                     TileEntity tile = world.getTileEntity(x, y, z);
                     if (tile instanceof TileAntennaPart)
                     {
-                        if (((TileAntennaPart) tile).network != null)
+                        if (((TileAntennaPart) tile).antennaNetwork != null)
                         {
-                            player.addChatComponentMessage(new ChatComponentText("Debug: Network contains " + ((TileAntennaPart) tile).network.size() + " parts, base = " + ((TileAntennaPart) tile).network.base));
+                            player.addChatComponentMessage(new ChatComponentText("Debug: Network contains " + ((TileAntennaPart) tile).antennaNetwork.size() + " parts, base = " + ((TileAntennaPart) tile).antennaNetwork.base));
                         }
                         else
                         {
@@ -114,9 +114,9 @@ public class BlockAntennaParts extends BlockContainer implements IPostInit, IReg
         if (!world.isRemote)
         {
             TileEntity tile = world.getTileEntity(x, y, z);
-            if (tile instanceof TileAntennaPart && ((TileAntennaPart) tile).network != null)
+            if (tile instanceof TileAntennaPart && ((TileAntennaPart) tile).antennaNetwork != null)
             {
-                ((TileAntennaPart) tile).network.split((TileAntennaPart) tile);
+                ((TileAntennaPart) tile).antennaNetwork.split((TileAntennaPart) tile);
                 if (((TileAntennaPart) tile).connections.size() > 0)
                 {
                     for (TileEntity t : ((TileAntennaPart) tile).connections.values())

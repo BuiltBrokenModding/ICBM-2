@@ -42,7 +42,6 @@ import com.builtbroken.icbm.content.launcher.block.BlockLauncherPart;
 import com.builtbroken.icbm.content.launcher.controller.direct.TileSiloController;
 import com.builtbroken.icbm.content.launcher.controller.local.TileController;
 import com.builtbroken.icbm.content.launcher.controller.remote.antenna.BlockAntennaParts;
-import com.builtbroken.icbm.content.launcher.controller.remote.antenna.wireless.WirelessGridManager;
 import com.builtbroken.icbm.content.launcher.controller.remote.central.TileCommandController;
 import com.builtbroken.icbm.content.launcher.launcher.large.TileLargeLauncher;
 import com.builtbroken.icbm.content.launcher.launcher.medium.TileMediumLauncher;
@@ -202,7 +201,6 @@ public final class ICBM extends AbstractMod
         super.preInit(event);
         MinecraftForge.EVENT_BUS.register(this);
         FMLCommonHandler.instance().bus().register(this);
-        FMLCommonHandler.instance().bus().register(new WirelessGridManager());
 
 
         //Request Engine to load items for use
