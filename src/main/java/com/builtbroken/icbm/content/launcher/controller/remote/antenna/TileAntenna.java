@@ -4,6 +4,7 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.jlib.helpers.MathHelper;
 import com.builtbroken.jlib.lang.StringHelpers;
 import com.builtbroken.mc.api.map.radio.IRadioWaveExternalReceiver;
+import com.builtbroken.mc.api.map.radio.IRadioWaveReceiver;
 import com.builtbroken.mc.api.map.radio.IRadioWaveSender;
 import com.builtbroken.mc.api.map.radio.RadioTowerStatus;
 import com.builtbroken.mc.api.map.radio.wireless.*;
@@ -12,6 +13,7 @@ import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.world.radio.RadioRegistry;
 import com.builtbroken.mc.lib.world.radio.network.WirelessNetwork;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -23,8 +25,10 @@ import java.util.*;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 3/26/2016.
  */
-public class TileAntenna extends TileAntennaPart implements IGuiTile, IWirelessNetworkHub, IWirelessConnector
+public class TileAntenna extends TileAntennaPart implements IGuiTile, IWirelessNetworkHub, IWirelessConnector, IRadioWaveSender, IRadioWaveReceiver
 {
+    //TODO add TESR to show connection status, gen network, and network data when player is looking at the tile
+    //TODO at distance show LED lights if not blocked by wall
     /** Connection status of the network */
     protected RadioTowerStatus towerStatus = RadioTowerStatus.OFFLINE;
     /** Network being created by this network */
@@ -38,9 +42,133 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IWirelessN
     /** Should we generate a wireless network to attach to other antennas */
     protected boolean generateNetwork = false;
 
-    /** Next time the {@link #antennaNetwork} does a remap */
+    /** Next time, in ticks, the {@link #antennaNetwork} will be trigger to re-path the antenna frame*/
     private int randomTick = 30;
 
+    @Override
+    public void updateEntity()
+    {
+        super.updateEntity();
+        //Sanity check to ensure structure is still good, roughly 2 mins with a slight random
+        if (!world().isRemote)
+        {
+            //Sine we have no way to be sure of connection, update radio map every second
+            if (ticks % 20 == 0)
+            {
+                if (towerStatus == RadioTowerStatus.ONLINE)
+                {
+                    RadioRegistry.add(this);
+                }
+                else
+                {
+                    RadioRegistry.remove(this);
+                }
+            }
+            //Check to build network if required
+            if (isGeneratingNetwork() && towerStatus == RadioTowerStatus.ONLINE)
+            {
+                buildWirelessNetwork();
+            }
+            //Kill network if not required
+            else if (wirelessNetwork != null)
+            {
+                setWirelessNetwork(null);
+            }
+            if (ticks % 100 == 0)
+            {
+                //TODO multi-thread
+                if (wirelessNetwork != null)
+                {
+                    wirelessNetwork.updateConnections();
+                }
+            }
+            if (ticks >= randomTick)
+            {
+                int addition = MathHelper.rand.nextInt(200) + 1000;
+                if (addition + ticks < 0) //stack underflow
+                {
+                    randomTick = addition - (Integer.MAX_VALUE - ticks);
+                }
+                else
+                {
+                    randomTick = ticks + addition;
+                }
+                doInitScan();
+            }
+        }
+    }
+
+    /**
+     * Called to build the wireless network
+     */
+    protected void buildWirelessNetwork()
+    {
+        if (wirelessNetwork == null)
+        {
+            setWirelessNetwork(new WirelessNetwork(hz, this));
+        }
+    }
+
+    @Override
+    protected void updateConnections()
+    {
+        HashMap<ForgeDirection, TileEntity> oldConnections = connections;
+        connections = new HashMap();
+        super.updateConnections();
+        //TODO improve using an iterator that removes connections from old cache
+        //Notify when tiles are removed
+        for (TileEntity tile : oldConnections.values())
+        {
+            if (tile instanceof IWirelessNetworkObject && !connections.values().contains(tile))
+            {
+                for (IWirelessNetwork network : getAttachedNetworks())
+                {
+                    network.removeConnection(this, (IWirelessNetworkObject) tile);
+                }
+                if (wirelessNetwork != null)
+                {
+                    wirelessNetwork.removeConnection(this, (IWirelessNetworkObject) tile);
+                }
+            }
+        }
+        //Notify when tiles are added
+        for (TileEntity tile : connections.values())
+        {
+            if (tile instanceof IWirelessNetworkObject && !oldConnections.values().contains(tile))
+            {
+                for (IWirelessNetwork network : getAttachedNetworks())
+                {
+                    network.addConnection(this, (IWirelessNetworkObject) tile);
+                }
+                if (wirelessNetwork != null)
+                {
+                    wirelessNetwork.addConnection(this, (IWirelessNetworkObject) tile);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void invalidate()
+    {
+        super.invalidate();
+        if (antennaNetwork != null)
+        {
+            antennaNetwork.kill();
+        }
+        if (wirelessNetwork != null)
+        {
+            wirelessNetwork.kill();
+        }
+        if (getAttachedNetworks() != null && getAttachedNetworks().size() > 0)
+        {
+            for (IWirelessNetwork network : getAttachedNetworks())
+            {
+                network.removeConnector(this);
+            }
+        }
+        RadioRegistry.remove(this);
+    }
 
     /**
      * Called to scan the structure of the antenna
@@ -52,9 +180,8 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IWirelessN
         //TODO add pausing to allow world to continue updating, if not thread
         if (antennaNetwork == null)
         {
-            antennaNetwork = new AntennaNetwork();
+            antennaNetwork = new AntennaNetwork(this);
             antennaNetwork.add(this);
-            antennaNetwork.base = this;
         }
         if (connections.isEmpty())
         {
@@ -109,103 +236,6 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IWirelessN
     }
 
     @Override
-    public void updateEntity()
-    {
-        super.updateEntity();
-        //Sanity check to ensure structure is still good, roughly 2 mins with a slight random
-        if (!world().isRemote)
-        {
-            if (generateNetwork && towerStatus == RadioTowerStatus.ONLINE && wirelessNetwork == null)
-            {
-                wirelessNetwork = new WirelessNetwork(hz, this);
-            }
-            else if (wirelessNetwork != null)
-            {
-                wirelessNetwork = null;
-            }
-            if (ticks % 100 == 0)
-            {
-                //TODO multi-thread
-                if (wirelessNetwork != null)
-                {
-                    wirelessNetwork.updateConnections();
-                }
-            }
-            if (ticks >= randomTick)
-            {
-                int addition = MathHelper.rand.nextInt(200) + 1000;
-                if (addition + ticks < 0) //stack underflow
-                {
-                    randomTick = addition - (Integer.MAX_VALUE - ticks);
-                }
-                else
-                {
-                    randomTick = ticks + addition;
-                }
-                doInitScan();
-            }
-        }
-    }
-
-    @Override
-    protected void updateConnections()
-    {
-        HashMap<ForgeDirection, TileEntity> oldConnections = connections;
-        connections = new HashMap();
-        super.updateConnections();
-        if (getAttachedNetworks() != null && getAttachedNetworks().size() > 0)
-        {
-            //TODO improve using an iterator that removes connections from old cache
-            //Notify when tiles are removed
-            for (TileEntity tile : oldConnections.values())
-            {
-                if (tile instanceof IWirelessNetworkObject && !connections.values().contains(tile))
-                {
-                    for (IWirelessNetwork network : getAttachedNetworks())
-                    {
-                        network.onConnectionRemoved(this, (IWirelessNetworkObject) tile);
-                    }
-                    wirelessNetwork.onConnectionRemoved(this, (IWirelessNetworkObject) tile);
-                }
-            }
-            //Notify when tiles are added
-            for (TileEntity tile : connections.values())
-            {
-                if (tile instanceof IWirelessNetworkObject && !oldConnections.values().contains(tile))
-                {
-                    for (IWirelessNetwork network : getAttachedNetworks())
-                    {
-                        network.onConnectionAdded(this, (IWirelessNetworkObject) tile);
-                    }
-                    wirelessNetwork.onConnectionAdded(this, (IWirelessNetworkObject) tile);
-                }
-            }
-        }
-    }
-
-    @Override
-    public void invalidate()
-    {
-        super.invalidate();
-        if (antennaNetwork != null)
-        {
-            antennaNetwork.kill();
-        }
-        if (wirelessNetwork != null)
-        {
-            wirelessNetwork.kill();
-        }
-        if (getAttachedNetworks() != null && getAttachedNetworks().size() > 0)
-        {
-            for (IWirelessNetwork network : getAttachedNetworks())
-            {
-                network.onConnectionRemoved(this);
-            }
-        }
-        RadioRegistry.remove(this);
-    }
-
-    @Override
     public Object getServerGuiElement(int ID, EntityPlayer player)
     {
         return null;
@@ -244,20 +274,45 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IWirelessN
     @Override
     public Cube getWirelessCoverageArea()
     {
-        return antennaNetwork != null ? antennaNetwork.range : null;
+        return antennaNetwork != null ? antennaNetwork.senderRange : null;
     }
 
     @Override
     public Cube getRadioReceiverRange()
     {
         //Receive range is equal to size of the antenna
-        return antennaNetwork != null ? antennaNetwork.size : null;
+        return antennaNetwork != null ? antennaNetwork.receiveRange : null;
+    }
+
+    @Override
+    public Cube getRadioSenderRange()
+    {
+        return antennaNetwork != null ? antennaNetwork.senderRange : null;
     }
 
     @Override
     public IWirelessNetwork getWirelessNetwork()
     {
         return wirelessNetwork;
+    }
+
+    /**
+     * Sets the wireless network for the antenna
+     *
+     * @param wirelessNetwork
+     */
+    public void setWirelessNetwork(WirelessNetwork wirelessNetwork)
+    {
+        if (wirelessNetwork == null && this.wirelessNetwork != null)
+        {
+            this.wirelessNetwork.kill();
+        }
+        else if (wirelessNetwork != null && this.wirelessNetwork != null && wirelessNetwork != this.wirelessNetwork)
+        {
+            this.wirelessNetwork.kill();
+            wirelessNetwork.addConnector(this);
+        }
+        this.wirelessNetwork = wirelessNetwork;
     }
 
     @Override
@@ -290,6 +345,7 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IWirelessN
                     objects.add((IWirelessNetworkObject) tile);
                 }
             }
+            return objects;
         }
         return new ArrayList();
     }
@@ -323,9 +379,9 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IWirelessN
             //In order to communicate the sender and receiver ranges need to match/
             //Sender's send range needs to be in receiver range
             //Sender's receiver range needs to be in our send range
-            Cube receiverRangeSender = network.getPrimarySender().getRadioReceiverRange();
-            Cube senderRangeSender = network.getPrimarySender().getRadioSenderRange();
-            if (receiverRangeSender.doesOverlap(getRadioSenderRange()) && senderRangeSender.doesOverlap(getRadioReceiverRange()))
+            Cube receiverRangeSender = network.getPrimarySender() instanceof IRadioWaveReceiver ? ((IRadioWaveReceiver) network.getPrimarySender()).getRadioReceiverRange() : network.getPrimarySender().getWirelessCoverageArea();
+            Cube senderRangeSender = network.getPrimarySender() instanceof IRadioWaveSender ? ((IRadioWaveSender) network.getPrimarySender()).getRadioSenderRange() : network.getPrimarySender().getWirelessCoverageArea();
+            if (getRadioSenderRange().doesOverlap(receiverRangeSender) && senderRangeSender.doesOverlap(getRadioReceiverRange()))
             {
                 return true;
             }
@@ -343,6 +399,82 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IWirelessN
     public boolean canAcceptAntennaConnection(ForgeDirection side)
     {
         return false; // We are an antenna so we do not accept connections
+    }
+
+    /**
+     * Sets the tower's radio status. If online -> anything else
+     * the network will terminate itself.
+     *
+     * @param towerStatus - status
+     */
+    public void setTowerStatus(RadioTowerStatus towerStatus)
+    {
+        this.towerStatus = towerStatus;
+        if (!world().isRemote)
+        {
+            if (towerStatus != RadioTowerStatus.ONLINE && wirelessNetwork != null)
+            {
+                setWirelessNetwork(null);
+            }
+            else if (towerStatus == RadioTowerStatus.ONLINE && generateNetwork && wirelessNetwork == null)
+            {
+                buildWirelessNetwork();
+            }
+        }
+    }
+
+    /**
+     * Is the antenna generating a wireless network
+     *
+     * @return
+     */
+    public boolean isGeneratingNetwork()
+    {
+        return generateNetwork;
+    }
+
+    public void setGenerateNetwork(boolean generateNetwork)
+    {
+        this.generateNetwork = generateNetwork;
+        if (!world().isRemote)
+        {
+            if (!generateNetwork && wirelessNetwork != null)
+            {
+                setWirelessNetwork(null);
+            }
+            else if (generateNetwork && towerStatus == RadioTowerStatus.ONLINE && wirelessNetwork == null)
+            {
+                buildWirelessNetwork();
+            }
+        }
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound nbt)
+    {
+        super.readFromNBT(nbt);
+        if (nbt.hasKey("hz"))
+        {
+            hz = nbt.getFloat("hz");
+        }
+        if (nbt.hasKey("towerStatus"))
+        {
+            int v = nbt.getInteger("towerStatus");
+            if (v >= 0 && v < RadioTowerStatus.values().length)
+            {
+                towerStatus = RadioTowerStatus.values()[v];
+            }
+        }
+        generateNetwork = nbt.getBoolean("genNet");
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound nbt)
+    {
+        super.writeToNBT(nbt);
+        nbt.setFloat("hz", hz);
+        nbt.setInteger("towerStatus", towerStatus.ordinal());
+        nbt.setBoolean("genNet", generateNetwork);
     }
 
     @Override

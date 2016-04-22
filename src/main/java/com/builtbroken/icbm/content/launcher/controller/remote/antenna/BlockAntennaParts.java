@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.launcher.controller.remote.antenna;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.mc.api.map.radio.wireless.IWirelessNetwork;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.core.registry.implement.IRegistryInit;
@@ -56,30 +57,72 @@ public class BlockAntennaParts extends BlockContainer implements IPostInit, IReg
             {
                 return false;
             }
-            else if (!world.isRemote && Engine.runningAsDev)
+            else if (Engine.runningAsDev)
             {
                 if (player.getHeldItem().getItem() == Items.stick)
                 {
-                    TileEntity tile = world.getTileEntity(x, y, z);
-                    if (tile instanceof TileAntennaPart)
+                    if (!world.isRemote)
                     {
-                        if (((TileAntennaPart) tile).antennaNetwork != null)
+                        TileEntity tile = world.getTileEntity(x, y, z);
+                        if (tile instanceof TileAntenna)
                         {
-                            player.addChatComponentMessage(new ChatComponentText("Debug: Network contains " + ((TileAntennaPart) tile).antennaNetwork.size() + " parts, base = " + ((TileAntennaPart) tile).antennaNetwork.base));
+                            if (((TileAntenna) tile).wirelessNetwork != null)
+                            {
+                                player.addChatComponentMessage(new ChatComponentText("Debug: Wireless Network = " + ((TileAntenna) tile).wirelessNetwork));
+                            }
+                            else if (((TileAntenna) tile).getAttachedNetworks().size() > 0)
+                            {
+                                for (IWirelessNetwork network : ((TileAntenna) tile).getAttachedNetworks())
+                                {
+                                    player.addChatComponentMessage(new ChatComponentText("" + network));
+                                }
+                            }
+                            else
+                            {
+                                player.addChatComponentMessage(new ChatComponentText("Debug: Wireless Network is null"));
+                            }
                         }
-                        else
+                        else if (tile instanceof TileAntennaPart)
                         {
-                            player.addChatComponentMessage(new ChatComponentText("Debug: Network is null"));
+                            if (((TileAntennaPart) tile).antennaNetwork != null)
+                            {
+                                player.addChatComponentMessage(new ChatComponentText("Debug: Network contains " + ((TileAntennaPart) tile).antennaNetwork.size() + " parts, base = " + ((TileAntennaPart) tile).antennaNetwork.base));
+                            }
+                            else
+                            {
+                                player.addChatComponentMessage(new ChatComponentText("Debug: Network is null"));
+                            }
                         }
                     }
                     return true;
                 }
                 else if (player.getHeldItem().getItem() == Items.blaze_rod)
                 {
-                    TileEntity tile = world.getTileEntity(x, y, z);
-                    if (tile instanceof TileAntennaPart)
+                    if (!world.isRemote)
                     {
-                        player.addChatComponentMessage(new ChatComponentText("Debug: Part has " + ((TileAntennaPart) tile).connections.size() + " connections"));
+                        TileEntity tile = world.getTileEntity(x, y, z);
+                        if (tile instanceof TileAntennaPart)
+                        {
+                            player.addChatComponentMessage(new ChatComponentText("Debug: Part has " + ((TileAntennaPart) tile).connections.size() + " connections"));
+                        }
+                    }
+                    return true;
+                }
+                else if (player.getHeldItem().getItem() == Items.arrow)
+                {
+                    if (!world.isRemote)
+                    {
+                        TileEntity tile = world.getTileEntity(x, y, z);
+                        if (tile instanceof TileAntennaPart && ((TileAntennaPart) tile).antennaNetwork != null)
+                        {
+                            player.addChatComponentMessage(new ChatComponentText("Debug: Network Size Data: " + ((TileAntennaPart) tile).antennaNetwork.size));
+                            player.addChatComponentMessage(new ChatComponentText("Debug: Network Sender:    " + ((TileAntennaPart) tile).antennaNetwork.senderRange));
+                            player.addChatComponentMessage(new ChatComponentText("Debug: Network Receive:   " + ((TileAntennaPart) tile).antennaNetwork.receiveRange));
+                        }
+                        else
+                        {
+                            player.addChatComponentMessage(new ChatComponentText("Debug: Network is null"));
+                        }
                     }
                     return true;
                 }
@@ -89,21 +132,32 @@ public class BlockAntennaParts extends BlockContainer implements IPostInit, IReg
         {
             if (player.getHeldItem() != null)
             {
-                if(WrenchUtility.isUsableWrench(player, x, y, z))
+                if (WrenchUtility.isUsableWrench(player, x, y, z))
                 {
                     TileEntity tile = world.getTileEntity(x, y, z);
-                    if(tile instanceof TileAntenna)
+                    if (tile instanceof TileAntenna)
                     {
-                        ((TileAntenna) tile).towerStatus = ((TileAntenna) tile).towerStatus.next();
-                        if(!world.isRemote)
+                        if (!player.isSneaking())
                         {
-                            player.addChatComponentMessage(new ChatComponentText("Tower Mod set to: " + ((TileAntenna) tile).towerStatus));
+                            ((TileAntenna) tile).setTowerStatus(((TileAntenna) tile).towerStatus.next());
+                            if (!world.isRemote)
+                            {
+                                player.addChatComponentMessage(new ChatComponentText("Tower Mode set to: " + ((TileAntenna) tile).towerStatus));
+                            }
+                        }
+                        else
+                        {
+                            ((TileAntenna) tile).setGenerateNetwork(!((TileAntenna) tile).isGeneratingNetwork());
+                            if (!world.isRemote)
+                            {
+                                player.addChatComponentMessage(new ChatComponentText("Tower->GenerateNetwork: " + ((TileAntenna) tile).isGeneratingNetwork()));
+                            }
                         }
                         return true;
                     }
                 }
             }
-            if(!world.isRemote)
+            if (!world.isRemote)
             {
                 player.openGui(ICBM.INSTANCE, 0, world, x, y, z);
             }

@@ -20,26 +20,32 @@ public class AntennaNetwork extends ArrayList<TileAntennaPart>
     /** Bound size of the antenna array */
     Cube size = new Cube();
 
-    int northPartCount;
-    int southPartCount;
-    int eastPartCount;
-    int westPartCount;
+    /** Range of the antenna for sending data */
+    Cube senderRange = new Cube();
 
-    /** Range of the antenna */
-    Cube range = new Cube();
+    /** Range of the antenna for receiving data, always smaller than send range */
+    Cube receiveRange = new Cube();
 
     boolean massAdd = false;
+
+    public AntennaNetwork(TileAntenna base)
+    {
+        this.base = base;
+        size = new Cube(0, 0, 0, 0, 1, 0); //By default we are one block tall
+        onBoundsChange();
+    }
 
     @Override
     public boolean add(TileAntennaPart e)
     {
-        if (!this.contains(e) && super.add(e))
+        if (base != null && !this.contains(e) && super.add(e))
         {
             e.antennaNetwork = this;
 
             //Update bounds
             if (!massAdd)
             {
+                //TODO this really needs JUnit tested
                 int ux = size.max().xi();
                 int uy = size.max().yi();
                 int uz = size.max().zi();
@@ -47,9 +53,9 @@ public class AntennaNetwork extends ArrayList<TileAntennaPart>
                 int ly = size.min().yi();
                 int lz = size.min().zi();
 
-                int x = e.xCoord;
-                int y = e.yCoord;
-                int z = e.zCoord;
+                int x = e.xCoord - base.xCoord;
+                int y = e.yCoord - base.yCoord;
+                int z = e.zCoord - base.zCoord;
                 //Check x limits
                 if (x > ux)
                 {
@@ -78,12 +84,10 @@ public class AntennaNetwork extends ArrayList<TileAntennaPart>
                     lz = z;
                 }
 
-                Pos upper = new Pos(ux, uy, uz);
-                Pos lower = new Pos(lx, ly, lz);
-
-                if (upper != size.max() || lower != size.min())
+                Cube cube = new Cube(new Pos(lx, ly, lz), new Pos(ux, uy, uz));
+                if (!size.equals(cube))
                 {
-                    size = new Cube(lower, upper);
+                    size = cube;
                     onBoundsChange();
                 }
             }
@@ -97,9 +101,6 @@ public class AntennaNetwork extends ArrayList<TileAntennaPart>
      */
     public void updateBounds()
     {
-        //Rest part count
-        eastPartCount = westPartCount = southPartCount = northPartCount = 0;
-
         //Get current bounds
         int ux = size.max().xi();
         int uy = size.max().yi();
@@ -110,9 +111,9 @@ public class AntennaNetwork extends ArrayList<TileAntennaPart>
 
         for (TileAntennaPart part : this)
         {
-            int x = part.xCoord;
-            int y = part.yCoord;
-            int z = part.zCoord;
+            int x = part.xCoord - base.xCoord;
+            int y = part.yCoord - base.yCoord;
+            int z = part.zCoord - base.zCoord;
             //Check x limits
             if (x > ux)
             {
@@ -140,34 +141,12 @@ public class AntennaNetwork extends ArrayList<TileAntennaPart>
             {
                 lz = z;
             }
-            //Base should almost never be null, but just in case
-            if (base != null)
-            {
-                if (x > base.xCoord)
-                {
-                    eastPartCount++;
-                }
-                else if (x < base.xCoord)
-                {
-                    westPartCount++;
-                }
-                if (z > base.xCoord)
-                {
-                    southPartCount++;
-                }
-                else if (z < base.xCoord)
-                {
-                    northPartCount++;
-                }
-            }
         }
+        Cube cube = new Cube(new Pos(lx, ly, lz), new Pos(ux, uy, uz));
 
-        Pos upper = new Pos(ux, uy, uz);
-        Pos lower = new Pos(lx, ly, lz);
-
-        if (upper != size.max() || lower != size.min())
+        if (!size.equals(cube))
         {
-            size = new Cube(lower, upper);
+            size = cube;
             onBoundsChange();
         }
     }
@@ -177,13 +156,33 @@ public class AntennaNetwork extends ArrayList<TileAntennaPart>
      */
     protected void onBoundsChange()
     {
-        //Range gained by size of antenna
-        int heighRangeBonus = MAX_HEIGH_GAIN / Math.max(50 - (size.max().yi() - size.min().yi()), 1);
-        //Range gained from y level of antenna
-        int yLevelRangeBonus = size.max().yi() < 64 ? -2000 : MAX_HEIGH_GAIN / Math.max(256 - 64 - size.max().yi(), 1);
-        int r = heighRangeBonus + yLevelRangeBonus;
+        if (base != null)
+        {
+            //TODO Record these values for GUI display
+            //Range gained by size of antenna
+            int heighRangeBonus = MAX_HEIGH_GAIN / Math.max(50 - (int) size.getSizeY(), 1); //TODO fix round error
+            //Range gained from y level of antenna
+            int yLevelRangeBonus = (size.max().yi()+ base.yCoord) < 64 ? -2000 : MAX_HEIGH_GAIN / Math.max(192 - size.max().yi() + base.yCoord, 1);
+            int r = Math.max(heighRangeBonus + yLevelRangeBonus, 0);
 
-        range = new Cube(westPartCount * RANGE_PER_PEICE - r, 0, northPartCount * RANGE_PER_PEICE - r, eastPartCount * RANGE_PER_PEICE + r, 256, southPartCount * RANGE_PER_PEICE + r);
+            //Get ranges without adding neg values to ensure range doesn't go up when converted to cube
+            int westRange = Math.max(size.min().xi() * RANGE_PER_PEICE + r, 0);
+            int northRange = Math.max(size.min().zi() * RANGE_PER_PEICE + r, 0);
+            int eastRange = Math.max(size.max().xi() * RANGE_PER_PEICE + r, 0);
+            int southRange = Math.max(size.max().zi() * RANGE_PER_PEICE + r, 0);
+
+            //Add neg to west and north, ForgeDirection
+            senderRange = new Cube(-westRange, 0, -northRange, eastRange, 256, southRange);
+
+            //Move range by center of antenna
+            senderRange.add(new Pos(base).add(0.5));
+            receiveRange = size.clone().add(new Pos(base).add(0.5));
+        }
+        else
+        {
+            senderRange = new Cube();
+            receiveRange = new Cube();
+        }
     }
 
     /**
