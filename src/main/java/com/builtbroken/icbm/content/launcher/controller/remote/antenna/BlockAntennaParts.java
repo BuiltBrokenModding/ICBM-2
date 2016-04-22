@@ -4,6 +4,7 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.core.registry.implement.IRegistryInit;
+import com.builtbroken.mc.lib.helper.WrenchUtility;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -86,6 +87,22 @@ public class BlockAntennaParts extends BlockContainer implements IPostInit, IReg
         }
         if (meta == 2)
         {
+            if (player.getHeldItem() != null)
+            {
+                if(WrenchUtility.isUsableWrench(player, x, y, z))
+                {
+                    TileEntity tile = world.getTileEntity(x, y, z);
+                    if(tile instanceof TileAntenna)
+                    {
+                        ((TileAntenna) tile).towerStatus = ((TileAntenna) tile).towerStatus.next();
+                        if(!world.isRemote)
+                        {
+                            player.addChatComponentMessage(new ChatComponentText("Tower Mod set to: " + ((TileAntenna) tile).towerStatus));
+                        }
+                        return true;
+                    }
+                }
+            }
             if(!world.isRemote)
             {
                 player.openGui(ICBM.INSTANCE, 0, world, x, y, z);

@@ -38,7 +38,7 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IWirelessN
     /** Should we generate a wireless network to attach to other antennas */
     protected boolean generateNetwork = false;
 
-    private boolean hasInitScanned = false;
+    /** Next time the {@link #antennaNetwork} does a remap */
     private int randomTick = 30;
 
 
@@ -50,7 +50,6 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IWirelessN
         //TODO delay scan if player is placing and breaking blocks near the antenna
         //TODO multi-thread
         //TODO add pausing to allow world to continue updating, if not thread
-        hasInitScanned = true;
         if (antennaNetwork == null)
         {
             antennaNetwork = new AntennaNetwork();
@@ -116,7 +115,7 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IWirelessN
         //Sanity check to ensure structure is still good, roughly 2 mins with a slight random
         if (!world().isRemote)
         {
-            if (towerStatus == RadioTowerStatus.ONLINE && wirelessNetwork == null)
+            if (generateNetwork && towerStatus == RadioTowerStatus.ONLINE && wirelessNetwork == null)
             {
                 wirelessNetwork = new WirelessNetwork(hz, this);
             }

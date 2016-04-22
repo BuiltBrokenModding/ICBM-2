@@ -3,9 +3,7 @@ package com.builtbroken.icbm.content.launcher.controller.remote.central;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.launcher.controller.local.TileController;
 import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileSiloConnector;
-import com.builtbroken.mc.api.map.radio.IRadioWaveExternalReceiver;
-import com.builtbroken.mc.api.map.radio.IRadioWaveReceiver;
-import com.builtbroken.mc.api.map.radio.IRadioWaveSender;
+import com.builtbroken.mc.api.map.radio.wireless.*;
 import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.api.tile.ILinkFeedback;
 import com.builtbroken.mc.api.tile.ILinkable;
@@ -13,7 +11,6 @@ import com.builtbroken.mc.api.tile.IPassCode;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
-import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.IPrefabInventory;
@@ -26,7 +23,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,12 +34,15 @@ import java.util.Map;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 3/26/2016.
  */
-public class TileCommandController extends TileModuleMachine implements ILinkable, IPacketIDReceiver, IGuiTile, IPostInit, IRadioWaveExternalReceiver, IPrefabInventory
+public class TileCommandController extends TileModuleMachine implements ILinkable, IPacketIDReceiver, IGuiTile, IPostInit, IPrefabInventory, IWirelessDataPoint, IWirelessDataListener
 {
     /** List of linked silo connectors */
     protected final HashMap<Pos, TileSiloConnector> siloConnectors = new HashMap();
-    /** Map of connections per side */
-    protected HashMap<ForgeDirection, TileEntity> connections = new HashMap();
+
+    /** List of networks connected to this antenna */
+    protected List<IWirelessNetwork> connectedNetworks = new ArrayList();
+
+    protected short siloDataPassKey = 0;
 
     public TileCommandController()
     {
@@ -50,45 +52,12 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
     }
 
     @Override
-    public void invalidate()
-    {
-        connections.clear();
-        super.invalidate();
-    }
-
-    @Override
     public void update()
     {
         super.update();
         if (isServer() && ticks % 60 == 0) //every 3 seconds
         {
-            //Cache old connections for update logic
-            HashMap<ForgeDirection, TileEntity> oldConnections = connections;
-            connections = new HashMap();
-
-            //Log if we have a sender and receiver
-            boolean sender = false;
-            boolean receiver = false;
-
-            //Update connections
-            for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-            {
-                TileEntity tile = toPos().add(dir).getTileEntity(world());
-                if (tile != null)
-                {
-                    connections.put(dir, tile);
-                    //Check for sender
-                    if (tile instanceof IRadioWaveSender)
-                    {
-                        sender = true;
-                    }
-                    //Check for receiver, sender & receiver can be the same tile
-                    if (tile instanceof IRadioWaveReceiver)
-                    {
-                        receiver = true;
-                    }
-                }
-            }
+            //TODO build list of silo connections
         }
     }
 
@@ -101,7 +70,18 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
             {
                 if (isServer())
                 {
-                    player.addChatComponentMessage(new ChatComponentText("WirelessGrid = "));
+                    if (!player.isSneaking())
+                    {
+                        player.addChatComponentMessage(new ChatComponentText("WirelessNetworks = " + connectedNetworks));
+                    }
+                    else
+                    {
+                        int i = 0;
+                        for (IWirelessNetwork network : getAttachedNetworks())
+                        {
+                            player.addChatComponentMessage(new ChatComponentText("Network[" + (i++) + "] = " + network));
+                        }
+                    }
                 }
                 return true;
             }
@@ -174,18 +154,7 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer player)
     {
-        return null;
-    }
-
-    @Override
-    public void receiveExternalRadioWave(float hz, IRadioWaveSender sender, IRadioWaveReceiver receiver, String messageHeader, Object[] data)
-    {
-        //TODO add support for remote detonator
-    }
-
-    @Override
-    public void onRangeChange(IRadioWaveReceiver receiver, Cube range)
-    {
+        return new GuiCommandController(player, this);
     }
 
     @Override
@@ -193,5 +162,66 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
     {
         //TODO add battery slots
         return null;
+    }
+
+    @Override
+    public void onConnectionAdded(IWirelessNetworkObject object)
+    {
+        //TODO keep track of other command controllers
+    }
+
+    @Override
+    public void onConnectionRemoved(IWirelessNetworkObject object, ConnectionRemovedReason reason)
+    {
+        //TODO keep track of other command controllers
+    }
+
+    @Override
+    public boolean hasAccessForData(String dataName, short passKey)
+    {
+        if ("silos".equals(dataName) && passKey == siloDataPassKey)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean addWirelessNetwork(IWirelessNetwork network)
+    {
+        if (!connectedNetworks.contains(network))
+        {
+            return connectedNetworks.add(network);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean removeWirelessNetwork(IWirelessNetwork network, ConnectionRemovedReason reason)
+    {
+        if (connectedNetworks.contains(network))
+        {
+            return connectedNetworks.remove(network);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean canConnectToNetwork(IWirelessNetwork network)
+    {
+        return true;
+    }
+
+    @Override
+    public List<IWirelessNetwork> getAttachedNetworks()
+    {
+        return connectedNetworks;
+    }
+
+    @Override
+    public boolean canAcceptAntennaConnection(ForgeDirection side)
+    {
+        //TODO consider attaching to antenna's on only one side, rotation based
+        return true;
     }
 }
