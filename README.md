@@ -27,8 +27,10 @@ THE SOFTWARE.
 Before your pull request is accepted you must sign the Contributor License Agreement(CLA)
 
 ##Contributions
-By submitting anything to the repo you agree to the provided CLA and everything it applies
+Before submitting sign the CLA or the submittion will not be accepted https://www.clahub.com/agreements/Universal-Electricity/ICBM
+If you do not sign the CLA, summission still counts as accepting the terms of the CLA.
 https://docs.google.com/document/d/105N6q63OJnzrWjMbydFYFUlHmK6spc8P8da8qkduFRs/edit?usp=sharing
+
 
 ###Team
 * Darkguardsman     - Owner, Head Developer
