@@ -4,18 +4,18 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.jlib.helpers.MathHelper;
 import com.builtbroken.jlib.lang.StringHelpers;
 import com.builtbroken.mc.api.map.radio.IRadioWaveExternalReceiver;
-import com.builtbroken.mc.api.map.radio.IRadioWaveReceiver;
 import com.builtbroken.mc.api.map.radio.IRadioWaveSender;
+import com.builtbroken.mc.api.map.radio.RadioTowerStatus;
+import com.builtbroken.mc.api.map.radio.wireless.*;
 import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.world.radio.RadioRegistry;
+import com.builtbroken.mc.lib.world.radio.network.WirelessNetwork;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * Core logic tile for antenna structure and linking to other tiles
@@ -23,10 +23,24 @@ import java.util.Queue;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 3/26/2016.
  */
-public class TileAntenna extends TileAntennaPart implements IGuiTile, IRadioWaveReceiver, IRadioWaveSender
+public class TileAntenna extends TileAntennaPart implements IGuiTile, IWirelessNetworkHub, IWirelessConnector
 {
+    /** Connection status of the network */
+    protected RadioTowerStatus towerStatus = RadioTowerStatus.OFFLINE;
+    /** Network being created by this network */
+    protected WirelessNetwork wirelessNetwork;
+
+    /** List of networks connected to this antenna */
+    protected List<IWirelessNetwork> connectedNetworks = new ArrayList();
+
+    /** Frequency of the  {@link #wirelessNetwork} */
+    protected float hz = 0f;
+    /** Should we generate a wireless network to attach to other antennas */
+    protected boolean generateNetwork = false;
+
     private boolean hasInitScanned = false;
     private int randomTick = 30;
+
 
     /**
      * Called to scan the structure of the antenna
@@ -37,11 +51,11 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IRadioWave
         //TODO multi-thread
         //TODO add pausing to allow world to continue updating, if not thread
         hasInitScanned = true;
-        if (network == null)
+        if (antennaNetwork == null)
         {
-            network = new AntennaNetwork();
-            network.add(this);
-            network.base = this;
+            antennaNetwork = new AntennaNetwork();
+            antennaNetwork.add(this);
+            antennaNetwork.base = this;
         }
         if (connections.isEmpty())
         {
@@ -65,7 +79,7 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IRadioWave
             //If not base then add to network
             if (currentNode != this)
             {
-                network.add(currentNode);
+                antennaNetwork.add(currentNode);
             }
 
             //In rare cases, if connections are not mapped -> force an update
@@ -91,7 +105,7 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IRadioWave
         time = System.nanoTime() - time;
         ICBM.INSTANCE.logger().info(this + "  Finished structure scan took " + StringHelpers.formatNanoTime(time));
 
-        network.updateBounds();
+        antennaNetwork.updateBounds();
         RadioRegistry.addOrUpdate(this);
     }
 
@@ -102,6 +116,22 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IRadioWave
         //Sanity check to ensure structure is still good, roughly 2 mins with a slight random
         if (!world().isRemote)
         {
+            if (towerStatus == RadioTowerStatus.ONLINE && wirelessNetwork == null)
+            {
+                wirelessNetwork = new WirelessNetwork(hz, this);
+            }
+            else if (wirelessNetwork != null)
+            {
+                wirelessNetwork = null;
+            }
+            if (ticks % 100 == 0)
+            {
+                //TODO multi-thread
+                if (wirelessNetwork != null)
+                {
+                    wirelessNetwork.updateConnections();
+                }
+            }
             if (ticks >= randomTick)
             {
                 int addition = MathHelper.rand.nextInt(200) + 1000;
@@ -119,12 +149,59 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IRadioWave
     }
 
     @Override
+    protected void updateConnections()
+    {
+        HashMap<ForgeDirection, TileEntity> oldConnections = connections;
+        connections = new HashMap();
+        super.updateConnections();
+        if (getAttachedNetworks() != null && getAttachedNetworks().size() > 0)
+        {
+            //TODO improve using an iterator that removes connections from old cache
+            //Notify when tiles are removed
+            for (TileEntity tile : oldConnections.values())
+            {
+                if (tile instanceof IWirelessNetworkObject && !connections.values().contains(tile))
+                {
+                    for (IWirelessNetwork network : getAttachedNetworks())
+                    {
+                        network.onConnectionRemoved(this, (IWirelessNetworkObject) tile);
+                    }
+                    wirelessNetwork.onConnectionRemoved(this, (IWirelessNetworkObject) tile);
+                }
+            }
+            //Notify when tiles are added
+            for (TileEntity tile : connections.values())
+            {
+                if (tile instanceof IWirelessNetworkObject && !oldConnections.values().contains(tile))
+                {
+                    for (IWirelessNetwork network : getAttachedNetworks())
+                    {
+                        network.onConnectionAdded(this, (IWirelessNetworkObject) tile);
+                    }
+                    wirelessNetwork.onConnectionAdded(this, (IWirelessNetworkObject) tile);
+                }
+            }
+        }
+    }
+
+    @Override
     public void invalidate()
     {
         super.invalidate();
-        if (network != null)
+        if (antennaNetwork != null)
         {
-            network.kill();
+            antennaNetwork.kill();
+        }
+        if (wirelessNetwork != null)
+        {
+            wirelessNetwork.kill();
+        }
+        if (getAttachedNetworks() != null && getAttachedNetworks().size() > 0)
+        {
+            for (IWirelessNetwork network : getAttachedNetworks())
+            {
+                network.onConnectionRemoved(this);
+            }
         }
         RadioRegistry.remove(this);
     }
@@ -150,7 +227,7 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IRadioWave
     @Override
     public void receiveRadioWave(float hz, IRadioWaveSender sender, String messageHeader, Object[] data)
     {
-        if(sender != this) //Ensure we don't inf loop on messages received
+        if (sender != this) //Ensure we don't inf loop on messages received
         {
             //Send data to all connected receivers
             for (TileEntity tile : connections.values())
@@ -166,21 +243,34 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IRadioWave
     }
 
     @Override
-    public Cube getRadioReceiverRange()
+    public Cube getWirelessCoverageArea()
     {
-        return network != null ? network.range : null;
+        return antennaNetwork != null ? antennaNetwork.range : null;
     }
 
     @Override
-    public void onMessageReceived(IRadioWaveReceiver receiver, float hz, String header, Object[] data)
+    public Cube getRadioReceiverRange()
     {
-        //Nothing really to do here
+        //Receive range is equal to size of the antenna
+        return antennaNetwork != null ? antennaNetwork.size : null;
+    }
+
+    @Override
+    public IWirelessNetwork getWirelessNetwork()
+    {
+        return wirelessNetwork;
+    }
+
+    @Override
+    public float getBroadCastFrequency()
+    {
+        return hz;
     }
 
     @Override
     public void sendRadioMessage(float hz, String header, Object... data)
     {
-        if (network == null)
+        if (antennaNetwork == null)
         {
             doInitScan();
         }
@@ -188,11 +278,72 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IRadioWave
     }
 
     @Override
-    public Cube getRadioSenderRange()
+    public List<IWirelessNetworkObject> getWirelessNetworkObjects()
     {
-        //TODO add power check
-        //TODO increase range by power input
-        return network != null ? network.range : null;
+        if (towerStatus == RadioTowerStatus.ONLINE && connections.size() > 0)
+        {
+            List<IWirelessNetworkObject> objects = new ArrayList();
+            for (Map.Entry<ForgeDirection, TileEntity> entry : connections.entrySet())
+            {
+                TileEntity tile = entry.getValue();
+                if (tile instanceof IWirelessNetworkObject && !tile.isInvalid() && ((IWirelessNetworkObject) tile).canAcceptAntennaConnection(entry.getKey()))
+                {
+                    objects.add((IWirelessNetworkObject) tile);
+                }
+            }
+        }
+        return new ArrayList();
+    }
+
+    @Override
+    public boolean addWirelessNetwork(IWirelessNetwork network)
+    {
+        if (towerStatus == RadioTowerStatus.ONLINE && !connectedNetworks.contains(network))
+        {
+            return connectedNetworks.add(network);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean removeWirelessNetwork(IWirelessNetwork network, ConnectionRemovedReason reason)
+    {
+        if (connectedNetworks.contains(network))
+        {
+            return connectedNetworks.remove(network);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean canConnectToNetwork(IWirelessNetwork network)
+    {
+        //Hz values need to match
+        if (network.getPrimarySender() != null && Math.abs(network.getPrimarySender().getBroadCastFrequency() - hz) <= 0.001)
+        {
+            //In order to communicate the sender and receiver ranges need to match/
+            //Sender's send range needs to be in receiver range
+            //Sender's receiver range needs to be in our send range
+            Cube receiverRangeSender = network.getPrimarySender().getRadioReceiverRange();
+            Cube senderRangeSender = network.getPrimarySender().getRadioSenderRange();
+            if (receiverRangeSender.doesOverlap(getRadioSenderRange()) && senderRangeSender.doesOverlap(getRadioReceiverRange()))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public List<IWirelessNetwork> getAttachedNetworks()
+    {
+        return connectedNetworks;
+    }
+
+    @Override
+    public boolean canAcceptAntennaConnection(ForgeDirection side)
+    {
+        return false; // We are an antenna so we do not accept connections
     }
 
     @Override

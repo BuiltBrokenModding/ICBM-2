@@ -35,7 +35,7 @@ public class AntennaNetwork extends ArrayList<TileAntennaPart>
     {
         if (!this.contains(e) && super.add(e))
         {
-            e.network = this;
+            e.antennaNetwork = this;
 
             //Update bounds
             if (!massAdd)
@@ -197,7 +197,7 @@ public class AntennaNetwork extends ArrayList<TileAntennaPart>
         massAdd = true;
 
         //Merge point needs to have a network to merge
-        if (mergePoint.network != null && mergePoint.network != this)
+        if (mergePoint.antennaNetwork != null && mergePoint.antennaNetwork != this)
         {
             //Loop threw merge point's connections
             for (TileEntity tile : mergePoint.connections.values())
@@ -206,7 +206,7 @@ public class AntennaNetwork extends ArrayList<TileAntennaPart>
                 if (tile instanceof TileAntennaPart && contains(tile))
                 {
                     //Loop threw other network's parts
-                    for (TileAntennaPart part : ((TileAntennaPart) tile).network)
+                    for (TileAntennaPart part : ((TileAntennaPart) tile).antennaNetwork)
                     {
                         if (!contains(part))
                         {
@@ -245,7 +245,7 @@ public class AntennaNetwork extends ArrayList<TileAntennaPart>
     {
         for (TileAntennaPart tile : this)
         {
-            tile.network = null;
+            tile.antennaNetwork = null;
         }
         this.clear();
         base = null;
