@@ -49,7 +49,7 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
     public static IIcon top_texture;
 
     /** List of linked silo connectors */
-    protected final HashMap<Pos, TileCommandSiloConnector> siloConnectors = new HashMap();
+    public final HashMap<Pos, TileCommandSiloConnector> siloConnectors = new HashMap();
 
     /** List of networks connected to this antenna */
     protected List<IWirelessNetwork> connectedNetworks = new ArrayList();
@@ -58,7 +58,7 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
 
     public TileCommandController()
     {
-        super("remoteController", Material.iron);
+        super("commandController", Material.iron);
         this.hardness = 10f;
         this.resistance = 10f;
     }

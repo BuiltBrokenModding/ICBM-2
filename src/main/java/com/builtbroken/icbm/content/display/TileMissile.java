@@ -94,7 +94,7 @@ public class TileMissile extends Tile implements IPostInit, ISimpleItemRenderer
     public void renderDynamic(Pos pos, float frame, int pass)
     {
         GL11.glPushMatrix();
-        GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() - 0.35f, pos.zf() + 0.5f);
+        GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() - 0f, pos.zf() + 0.5f);
         float scale = .0013f;
         GL11.glScaled(scale, scale, scale);
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_MISSILE_TEXTURE);
