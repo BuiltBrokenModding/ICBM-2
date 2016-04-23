@@ -6,6 +6,7 @@ import com.builtbroken.icbm.api.launcher.INamedLauncher;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.mc.api.ISave;
 import com.builtbroken.mc.api.map.radio.wireless.ConnectionStatus;
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -46,6 +47,12 @@ public class SiloConnectionData implements ISiloConnectionData, ISave
     @Override
     public ILauncher getSilo()
     {
+        //Ensure invalid tiles are always removed
+        if (launcher instanceof TileEntity && ((TileEntity) launcher).isInvalid() || launcher instanceof Entity && !((Entity) launcher).isEntityAlive())
+        {
+            launcher = null;
+        }
+        //If tiles is missing update
         if (world != null && !world.isRemote && launcher == null)
         {
             if (world instanceof WorldServer)

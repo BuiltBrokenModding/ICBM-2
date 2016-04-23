@@ -3,6 +3,7 @@ package com.builtbroken.icbm.content.launcher.controller.remote.central;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.launcher.controller.local.TileController;
 import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCommandSiloConnector;
+import com.builtbroken.mc.api.items.tools.IWorldPosItem;
 import com.builtbroken.mc.api.map.radio.wireless.*;
 import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.api.tile.ILinkFeedback;
@@ -20,9 +21,13 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.WorldServer;
+import net.minecraft.world.gen.ChunkProviderServer;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
@@ -36,7 +41,7 @@ import java.util.Map;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 3/26/2016.
  */
-public class TileCommandController extends TileModuleMachine implements ILinkable, IPacketIDReceiver, IGuiTile, IPostInit, IPrefabInventory, IWirelessDataPoint, IWirelessDataListener
+public class TileCommandController extends TileModuleMachine implements ILinkable, IPacketIDReceiver, IGuiTile, IPostInit, IPrefabInventory, IWirelessDataPoint, IWirelessDataListener, ILinkFeedback
 {
     /** Main texture */
     public static IIcon texture;
@@ -81,7 +86,33 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
         super.update();
         if (isServer() && ticks % 60 == 0) //every 3 seconds
         {
-            //TODO build list of silo connections
+            List<Pos> remove = new ArrayList();
+            for (Pos pos : siloConnectors.keySet())
+            {
+                TileCommandSiloConnector controller = siloConnectors.get(pos);
+                if (controller == null)
+                {
+                    ChunkProviderServer provider = ((WorldServer) world()).theChunkProviderServer;
+                    if (provider.chunkExists(pos.xi() >> 4, pos.yi() >> 4)) //Ensure the chunk is loaded
+                    {
+                        TileEntity tile = pos.getTileEntity(world());
+                        if (tile instanceof TileCommandSiloConnector)
+                        {
+                            siloConnectors.put(pos, (TileCommandSiloConnector) tile);
+                        }
+                        else
+                        {
+                            remove.add(pos); //Its no longer a connector so remove
+                        }
+                    }
+                }
+                else if (controller.isInvalid())
+                {
+                    siloConnectors.put(pos, null); //Keep pos
+                }
+            }
+            //Actually remove positions, prevents concurrent mod
+            remove.forEach(siloConnectors::remove);
         }
     }
 
@@ -92,7 +123,11 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
         {
             if (Engine.runningAsDev)
             {
-                if (player.getHeldItem().getItem() == Items.stick)
+                if (player.getHeldItem().getItem() instanceof IWorldPosItem)
+                {
+                    return false;
+                }
+                else if (player.getHeldItem().getItem() == Items.stick)
                 {
                     if (isServer())
                     {
@@ -153,7 +188,7 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
         {
             return "link.error.tile.invalid";
         }
-        if (((IPassCode) tile).getCode() != code)
+        if (tile instanceof IPassCode && ((IPassCode) tile).getCode() != code)
         {
             return "link.error.code.match";
         }
@@ -172,6 +207,12 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
         {
             return "link.error.tile.already.added";
         }
+    }
+
+    @Override
+    public void onLinked(Location location)
+    {
+
     }
 
     @Override
@@ -258,5 +299,35 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
     {
         //TODO consider attaching to antenna's on only one side, rotation based
         return true;
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound nbt)
+    {
+        super.readFromNBT(nbt);
+        if (nbt.hasKey("siloPosData"))
+        {
+            siloConnectors.clear();
+            NBTTagList list = nbt.getTagList("siloPosData", 10);
+            for (int i = 0; i < list.tagCount(); i++)
+            {
+                siloConnectors.put(new Pos(list.getCompoundTagAt(i)), null);
+            }
+        }
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound nbt)
+    {
+        super.writeToNBT(nbt);
+        if (!siloConnectors.isEmpty())
+        {
+            NBTTagList list = new NBTTagList();
+            for (Pos pos : siloConnectors.keySet())
+            {
+                list.appendTag(pos.toNBT());
+            }
+            nbt.setTag("siloPosData", list);
+        }
     }
 }

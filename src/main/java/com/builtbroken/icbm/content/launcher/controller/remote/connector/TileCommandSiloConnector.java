@@ -112,20 +112,6 @@ public class TileCommandSiloConnector extends TileModuleMachine implements ILink
         }
     }
 
-    /**
-     * Loops threw the list of launchers and fires each one
-     */
-    protected void fireAllLaunchers()
-    {
-        if (isServer())
-        {
-            for (int i = 0; i < siloData.size(); i++)
-            {
-                fireLauncher(i);
-            }
-        }
-    }
-
     @Override
     public String link(Location loc, short code)
     {
@@ -151,11 +137,10 @@ public class TileCommandSiloConnector extends TileModuleMachine implements ILink
         {
             return "link.error.tile.invalid";
         }
-        if (((IPassCode) tile).getCode() != code)
+        if (tile instanceof IPassCode && ((IPassCode) tile).getCode() != code)
         {
             return "link.error.code.match";
         }
-
 
         //Add location
         if (!posToData.containsKey(pos))
@@ -242,14 +227,8 @@ public class TileCommandSiloConnector extends TileModuleMachine implements ILink
                 }
                 return true;
             }
-            return false;
         }
-
-        if (isServer())
-        {
-            //openGui(player, ICBM.INSTANCE);
-        }
-        return true;
+        return false;
     }
 
 }
