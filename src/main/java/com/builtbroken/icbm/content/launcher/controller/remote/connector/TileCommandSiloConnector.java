@@ -181,11 +181,11 @@ public class TileCommandSiloConnector extends TileModuleMachine implements ILink
     public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
-        if (nbt.hasKey("locations"))
+        if (nbt.hasKey("siloData"))
         {
             siloData.clear();
             posToData.clear();
-            NBTTagList list = nbt.getTagList("locations", 10);
+            NBTTagList list = nbt.getTagList("siloData", 10);
             for (int i = 0; i < list.tagCount(); i++)
             {
                 ISiloConnectionData data = new SiloConnectionData(list.getCompoundTagAt(i));
