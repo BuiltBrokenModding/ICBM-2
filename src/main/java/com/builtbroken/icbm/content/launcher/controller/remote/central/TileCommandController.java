@@ -26,8 +26,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.WorldServer;
-import net.minecraft.world.gen.ChunkProviderServer;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
@@ -92,8 +90,7 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
                 TileCommandSiloConnector controller = siloConnectors.get(pos);
                 if (controller == null)
                 {
-                    ChunkProviderServer provider = ((WorldServer) world()).theChunkProviderServer;
-                    if (provider.chunkExists(pos.xi() >> 4, pos.yi() >> 4)) //Ensure the chunk is loaded
+                    if (worldObj.blockExists(pos.xi(), pos.yi(), pos.zi())) //Ensure the chunk is loaded
                     {
                         TileEntity tile = pos.getTileEntity(world());
                         if (tile instanceof TileCommandSiloConnector)

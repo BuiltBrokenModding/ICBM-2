@@ -22,6 +22,8 @@ import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
@@ -47,7 +49,9 @@ public class TileSiloInterface extends Tile implements ILinkable, IGuiTile, IPac
     private TileCommandController commandCenter;
 
     /** Silo data cache used in the GUI */
-    private HashMap<Pos, List<ISiloConnectionData>> clientSiloDataCache;
+    protected HashMap<Pos, List<ISiloConnectionData>> clientSiloDataCache;
+    /** Locations of connected use din GUI */
+    protected List<Pos> siloConnectorPositionCache;
 
     public TileSiloInterface()
     {
@@ -168,6 +172,25 @@ public class TileSiloInterface extends Tile implements ILinkable, IGuiTile, IPac
 
     public TileCommandController getCommandCenter()
     {
+        if(commandCenter != null && commandCenter.isInvalid())
+        {
+            commandCenter = null;
+        }
+        if(commandCenter == null && commandCenterPos != null)
+        {
+            if(world().blockExists(commandCenterPos.xi(), commandCenterPos.yi(), commandCenterPos.zi()))
+            {
+                TileEntity tile = commandCenterPos.getTileEntity(world());
+                if(tile instanceof TileCommandController)
+                {
+                    commandCenter = (TileCommandController) tile;
+                }
+                else
+                {
+                    commandCenterPos = null;
+                }
+            }
+        }
         return commandCenter;
     }
 
@@ -188,6 +211,15 @@ public class TileSiloInterface extends Tile implements ILinkable, IGuiTile, IPac
         {
             if (id == 2)
             {
+                if(clientSiloDataCache == null)
+                {
+                    clientSiloDataCache = new HashMap();
+                }
+                if(siloConnectorPositionCache == null)
+                {
+                    siloConnectorPositionCache = new ArrayList();
+                }
+                siloConnectorPositionCache.clear();
                 clientSiloDataCache.clear();
                 if (buf.readBoolean())
                 {
@@ -216,8 +248,15 @@ public class TileSiloInterface extends Tile implements ILinkable, IGuiTile, IPac
                         {
                             //TODO show in GUI connection was lost
                         }
+                        siloConnectorPositionCache.add(pos);
                         clientSiloDataCache.put(pos, list);
                     }
+                }
+                //Refresh GUI
+                GuiScreen screen = Minecraft.getMinecraft().currentScreen;
+                if(screen instanceof GuiSiloInterface)
+                {
+                    screen.initGui();
                 }
                 return true;
             }
@@ -236,7 +275,7 @@ public class TileSiloInterface extends Tile implements ILinkable, IGuiTile, IPac
         {
             //TODO redo this to only send selective data for the page currently being viewed
             TileCommandController commandCenter = getCommandCenter();
-            PacketTile packet = new PacketTile(this, 2, commandCenter == null);
+            PacketTile packet = new PacketTile(this, 2, commandCenter != null);
             if (commandCenter != null)
             {
                 packet.data().writeInt(commandCenter.siloConnectors.entrySet().size());

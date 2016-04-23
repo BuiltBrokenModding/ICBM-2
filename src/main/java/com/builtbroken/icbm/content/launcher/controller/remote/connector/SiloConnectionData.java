@@ -10,8 +10,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
-import net.minecraft.world.gen.ChunkProviderServer;
 import net.minecraftforge.common.DimensionManager;
 
 /**
@@ -53,18 +51,14 @@ public class SiloConnectionData implements ISiloConnectionData, ISave
             launcher = null;
         }
         //If tiles is missing update
-        if (world != null && !world.isRemote && launcher == null)
+        if (world != null && launcher == null)
         {
-            if (world instanceof WorldServer)
+            if (world.blockExists(x, y, z)) //Ensure the chunk is loaded
             {
-                ChunkProviderServer provider = ((WorldServer) world).theChunkProviderServer;
-                if (provider.chunkExists(x >> 4, z >> 4)) //Ensure the chunk is loaded
+                TileEntity tile = world.getTileEntity(x, y, z);
+                if (tile instanceof ILauncher)
                 {
-                    TileEntity tile = world.getTileEntity(x, y, z);
-                    if (tile instanceof ILauncher)
-                    {
-                        launcher = (ILauncher) tile;
-                    }
+                    launcher = (ILauncher) tile;
                 }
             }
         }
