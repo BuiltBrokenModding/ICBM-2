@@ -1,6 +1,5 @@
 package com.builtbroken.icbm.content.debug;
 
-import com.builtbroken.icbm.api.ILauncher;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.display.TileMissileContainer;
@@ -21,7 +20,7 @@ import net.minecraft.util.IIcon;
 /**
  * Created by robert on 1/18/2015.
  */
-public class TileRotationTest extends TileMissileContainer implements ILauncher
+public class TileRotationTest extends TileMissileContainer
 {
     public TileRotationTest()
     {

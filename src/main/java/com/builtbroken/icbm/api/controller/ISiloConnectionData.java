@@ -1,5 +1,8 @@
 package com.builtbroken.icbm.api.controller;
 
+import com.builtbroken.icbm.api.launcher.ILauncher;
+import com.builtbroken.icbm.api.modules.IMissile;
+import com.builtbroken.mc.api.ISave;
 import com.builtbroken.mc.api.IWorldPosition;
 import com.builtbroken.mc.api.map.radio.wireless.ConnectionStatus;
 
@@ -9,7 +12,7 @@ import com.builtbroken.mc.api.map.radio.wireless.ConnectionStatus;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 4/21/2016.
  */
-public interface ISiloConnectionData
+public interface ISiloConnectionData extends IWorldPosition, ISave
 {
     /**
      * User defined display name for the silo.
@@ -19,11 +22,19 @@ public interface ISiloConnectionData
     String getSiloName();
 
     /**
-     * Position data for the silo
+     * Silo connected at that location provided.
+     * <p>
+     * DO NOT LOAD CHUNKS
      *
-     * @return location, null is considered invalid data
+     * @return launcher, null if has no connection
      */
-    IWorldPosition getSiloLocation();
+    ILauncher getSilo();
+
+    /**
+     * Gets the missile in the launcher
+     * @return missile
+     */
+    IMissile getMissile();
 
     /**
      * First thing checked.

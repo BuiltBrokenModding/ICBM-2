@@ -1,11 +1,12 @@
 package com.builtbroken.icbm.content.launcher;
 
-import com.builtbroken.icbm.api.ILauncher;
+import com.builtbroken.icbm.api.launcher.ILauncher;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.display.TileMissileContainer;
-import com.builtbroken.icbm.content.launcher.controller.local.TileController;
 import com.builtbroken.icbm.content.fof.IFoFStation;
+import com.builtbroken.icbm.content.launcher.controller.local.TileController;
 import com.builtbroken.icbm.content.missile.EntityMissile;
+import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
 import com.builtbroken.mc.api.tile.ILinkFeedback;
@@ -217,22 +218,14 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         return true;
     }
 
-    /**
-     * Called to fire the missile at
-     * the stored location in the silo.
-     */
+    @Override
     public boolean fireMissile()
     {
         return fireMissile(target);
     }
 
-    /**
-     * Called to fire the missile at a target.
-     *
-     * @param target - impact target, should not be null,
-     *               is not checked for sanity.
-     */
-    public boolean fireMissile(final Pos target)
+    @Override
+    public boolean fireMissile(IPos3D target)
     {
         if (canFireMissile())
         {
@@ -270,7 +263,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
 
                         //Empty inventory slot
                         this.setInventorySlotContents(0, null);
-                        onPostMissileFired(target, entity);
+                        onPostMissileFired(target instanceof Pos ? (Pos) target : new Pos(target), entity);
                     }
                     else
                     {

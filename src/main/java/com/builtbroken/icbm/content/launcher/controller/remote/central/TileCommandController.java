@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.launcher.controller.remote.central;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.launcher.controller.local.TileController;
-import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileSiloConnector;
+import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCommandSiloConnector;
 import com.builtbroken.mc.api.map.radio.wireless.*;
 import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.api.tile.ILinkFeedback;
@@ -16,11 +16,13 @@ import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.IPrefabInventory;
 import com.builtbroken.mc.prefab.tile.TileModuleMachine;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
@@ -36,8 +38,13 @@ import java.util.Map;
  */
 public class TileCommandController extends TileModuleMachine implements ILinkable, IPacketIDReceiver, IGuiTile, IPostInit, IPrefabInventory, IWirelessDataPoint, IWirelessDataListener
 {
+    /** Main texture */
+    public static IIcon texture;
+    /** Top icon */
+    public static IIcon top_texture;
+
     /** List of linked silo connectors */
-    protected final HashMap<Pos, TileSiloConnector> siloConnectors = new HashMap();
+    protected final HashMap<Pos, TileCommandSiloConnector> siloConnectors = new HashMap();
 
     /** List of networks connected to this antenna */
     protected List<IWirelessNetwork> connectedNetworks = new ArrayList();
@@ -49,6 +56,23 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
         super("remoteController", Material.iron);
         this.hardness = 10f;
         this.resistance = 10f;
+    }
+
+    @Override
+    public IIcon getIcon(int side)
+    {
+        if (side == 1)
+        {
+            return top_texture;
+        }
+        return texture;
+    }
+
+    @Override
+    public void registerIcons(IIconRegister iconRegister)
+    {
+        texture = iconRegister.registerIcon(ICBM.PREFIX + "commandController");
+        top_texture = iconRegister.registerIcon(ICBM.PREFIX + "commandController_top");
     }
 
     @Override
@@ -66,24 +90,35 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
     {
         if (player.getHeldItem() != null)
         {
-            if (Engine.runningAsDev && player.getHeldItem().getItem() == Items.stick)
+            if (Engine.runningAsDev)
             {
-                if (isServer())
+                if (player.getHeldItem().getItem() == Items.stick)
                 {
-                    if (!player.isSneaking())
+                    if (isServer())
                     {
-                        player.addChatComponentMessage(new ChatComponentText("WirelessNetworks = " + connectedNetworks));
-                    }
-                    else
-                    {
-                        int i = 0;
-                        for (IWirelessNetwork network : getAttachedNetworks())
+                        if (side == 1)
                         {
-                            player.addChatComponentMessage(new ChatComponentText("Network[" + (i++) + "] = " + network));
+                            player.addChatComponentMessage(new ChatComponentText("WirelessNetworks = " + connectedNetworks));
+                        }
+                        else
+                        {
+                            int i = 0;
+                            for (IWirelessNetwork network : getAttachedNetworks())
+                            {
+                                player.addChatComponentMessage(new ChatComponentText("Network[" + (i++) + "] = " + network));
+                            }
                         }
                     }
+                    return true;
                 }
-                return true;
+                else if (player.getHeldItem().getItem() == Items.blaze_rod)
+                {
+                    if (isServer())
+                    {
+                        player.addChatComponentMessage(new ChatComponentText("SiloConnector: " + siloConnectors));
+                    }
+                    return true;
+                }
             }
         }
         if (isServer())
@@ -114,7 +149,7 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
 
         //Compare tile pass code
         TileEntity tile = pos.getTileEntity(loc.world());
-        if (!(tile instanceof TileSiloConnector))
+        if (!(tile instanceof TileCommandSiloConnector))
         {
             return "link.error.tile.invalid";
         }
@@ -126,7 +161,7 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
         //Add location
         if (!siloConnectors.containsKey(pos))
         {
-            siloConnectors.put(loc.toPos(), (TileSiloConnector) tile);
+            siloConnectors.put(loc.toPos(), (TileCommandSiloConnector) tile);
             if (tile instanceof ILinkFeedback)
             {
                 ((ILinkFeedback) tile).onLinked(toLocation());

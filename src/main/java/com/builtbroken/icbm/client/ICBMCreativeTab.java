@@ -29,6 +29,7 @@ public class ICBMCreativeTab extends ModCreativeTab
         add(list, ICBM.blockSmallSilo);
         add(list, ICBM.blockAntenna);
         add(list, ICBM.blockCommandCentral);
+        add(list, ICBM.blockCommandSiloConnector);
         if (Engine.runningAsDev)
         {
             add(list, ICBM.blockStandardSilo);
