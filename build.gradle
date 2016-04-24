@@ -40,7 +40,6 @@ minecraft {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-
 dependencies 
 {
     compile "dev.builtbroken.voltzengine:VoltzEngine:1.7.10-$voltz_engine_version+:deobf-dev"
