@@ -4,7 +4,7 @@ import com.builtbroken.icbm.api.launcher.ILauncher;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.display.TileMissileContainer;
 import com.builtbroken.icbm.content.fof.IFoFStation;
-import com.builtbroken.icbm.content.launcher.controller.local.TileController;
+import com.builtbroken.icbm.content.launcher.controller.local.TileLocalController;
 import com.builtbroken.icbm.content.launcher.gui.ContainerSilo;
 import com.builtbroken.icbm.content.launcher.gui.GuiSiloSettings;
 import com.builtbroken.icbm.content.missile.EntityMissile;
@@ -99,7 +99,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         {
             return "link.error.pos.invalid";
         }
-        if (distance(pos) > TileController.MAX_LINK_DISTANCE)
+        if (distance(pos) > TileLocalController.MAX_LINK_DISTANCE)
         {
             return "link.error.pos.distance.max";
         }
@@ -110,9 +110,9 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         {
             return "link.error.code.match";
         }
-        else if (tile instanceof TileController)
+        else if (tile instanceof TileLocalController)
         {
-            return ((TileController) tile).link(toLocation(), getCode());
+            return ((TileLocalController) tile).link(toLocation(), getCode());
         }
         else if (tile instanceof IFoFStation)
         {

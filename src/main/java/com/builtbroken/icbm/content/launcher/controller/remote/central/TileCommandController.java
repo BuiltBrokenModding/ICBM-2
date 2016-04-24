@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.launcher.controller.remote.central;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.launcher.controller.local.TileController;
+import com.builtbroken.icbm.content.launcher.controller.local.TileLocalController;
 import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCommandSiloConnector;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
 import com.builtbroken.mc.api.map.radio.wireless.*;
@@ -174,7 +174,7 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
         {
             return "link.error.pos.invalid";
         }
-        if (distance(pos) > TileController.MAX_LINK_DISTANCE)
+        if (distance(pos) > TileLocalController.MAX_LINK_DISTANCE)
         {
             return "link.error.pos.distance.max";
         }

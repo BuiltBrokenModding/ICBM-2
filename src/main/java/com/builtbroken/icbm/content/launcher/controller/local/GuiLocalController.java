@@ -20,9 +20,9 @@ import net.minecraft.tileentity.TileEntity;
  * Main GUI for the small missile silo controller
  * Created by robert on 2/20/2015.
  */
-public class GuiController extends GuiContainerBase
+public class GuiLocalController extends GuiContainerBase
 {
-    protected TileController controller;
+    protected TileLocalController controller;
 
     GuiButton[] buttons;
 
@@ -40,7 +40,7 @@ public class GuiController extends GuiContainerBase
     private static int updateGuiTicks = 100;
 
 
-    public GuiController(TileController launcher, EntityPlayer player)
+    public GuiLocalController(TileLocalController launcher, EntityPlayer player)
     {
         super(new ContainerDummy(player, launcher));
         this.controller = launcher;

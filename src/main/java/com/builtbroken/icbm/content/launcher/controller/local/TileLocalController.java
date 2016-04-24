@@ -49,7 +49,7 @@ import java.util.List;
  * Used to link several launchers together to be controlled from a single terminal
  * Created by robert on 4/3/2015.
  */
-public class TileController extends TileModuleMachine implements ILinkable, IPacketIDReceiver, IGuiTile, ISimpleItemRenderer, IPostInit
+public class TileLocalController extends TileModuleMachine implements ILinkable, IPacketIDReceiver, IGuiTile, ISimpleItemRenderer, IPostInit
 {
     public static double MAX_LINK_DISTANCE = 100;
     public static int MAX_LAUNCHER_LINK = 6; //changed to 6 due to current GUI size and no GUI paging
@@ -62,7 +62,7 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
     //Only used client side at the moment
     protected List<LauncherData> launcherData;
 
-    public TileController()
+    public TileLocalController()
     {
         super("missileController", Material.iron);
         this.hardness = 10f;
@@ -238,9 +238,9 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
                         }
                     }
 
-                    if (Minecraft.getMinecraft().currentScreen instanceof GuiController)
+                    if (Minecraft.getMinecraft().currentScreen instanceof GuiLocalController)
                     {
-                        ((GuiController) Minecraft.getMinecraft().currentScreen).reloadData();
+                        ((GuiLocalController) Minecraft.getMinecraft().currentScreen).reloadData();
                     }
 
                     return true;
@@ -304,7 +304,7 @@ public class TileController extends TileModuleMachine implements ILinkable, IPac
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer player)
     {
-        return new GuiController(this, player);
+        return new GuiLocalController(this, player);
     }
 
     @Override

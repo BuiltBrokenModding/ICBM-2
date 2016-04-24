@@ -2,8 +2,9 @@ package com.builtbroken.icbm.content.launcher.controller.remote.display;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.controller.ISiloConnectionData;
+import com.builtbroken.icbm.api.launcher.ILauncher;
 import com.builtbroken.icbm.client.Assets;
-import com.builtbroken.icbm.content.launcher.controller.local.TileController;
+import com.builtbroken.icbm.content.launcher.controller.local.TileLocalController;
 import com.builtbroken.icbm.content.launcher.controller.remote.central.TileCommandController;
 import com.builtbroken.icbm.content.launcher.controller.remote.connector.SiloConnectionData;
 import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCommandSiloConnector;
@@ -96,7 +97,7 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
         {
             return "link.error.pos.invalid";
         }
-        if (distance(pos) > TileController.MAX_LINK_DISTANCE)
+        if (distance(pos) > TileLocalController.MAX_LINK_DISTANCE)
         {
             return "link.error.pos.distance.max";
         }
@@ -188,16 +189,16 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
 
     public TileCommandController getCommandCenter()
     {
-        if(commandCenter != null && commandCenter.isInvalid())
+        if (commandCenter != null && commandCenter.isInvalid())
         {
             commandCenter = null;
         }
-        if(commandCenter == null && commandCenterPos != null)
+        if (commandCenter == null && commandCenterPos != null)
         {
-            if(world().blockExists(commandCenterPos.xi(), commandCenterPos.yi(), commandCenterPos.zi()))
+            if (world().blockExists(commandCenterPos.xi(), commandCenterPos.yi(), commandCenterPos.zi()))
             {
                 TileEntity tile = commandCenterPos.getTileEntity(world());
-                if(tile instanceof TileCommandController)
+                if (tile instanceof TileCommandController)
                 {
                     commandCenter = (TileCommandController) tile;
                 }
@@ -221,11 +222,18 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
                 sendSiloData(player);
                 return true;
             }
-            else if(id == 2)
+            else if (id == 2)
             {
                 Pos pos = new Pos(buf);
                 SiloConnectionData data = new SiloConnectionData(buf);
                 openSiloGui(pos, data, player);
+                return true;
+            }
+            else if(id == 3)
+            {
+                Pos pos = new Pos(buf);
+                SiloConnectionData data = new SiloConnectionData(buf);
+                fireSilo(pos, data, player);
                 return true;
             }
         }
@@ -234,11 +242,11 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
         {
             if (id == 2)
             {
-                if(clientSiloDataCache == null)
+                if (clientSiloDataCache == null)
                 {
                     clientSiloDataCache = new HashMap();
                 }
-                if(siloConnectorPositionCache == null)
+                if (siloConnectorPositionCache == null)
                 {
                     siloConnectorPositionCache = new ArrayList();
                 }
@@ -247,27 +255,27 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
                 if (buf.readBoolean())
                 {
                     int locationSize = buf.readInt();
-                    for(int i = 0; i < locationSize; i++)
+                    for (int i = 0; i < locationSize; i++)
                     {
                         Pos pos = new Pos(buf);
                         int dataSize = buf.readInt();
                         List<ISiloConnectionData> list = new ArrayList();
-                        if(dataSize > 0)
+                        if (dataSize > 0)
                         {
                             NBTTagCompound save = ByteBufUtils.readTag(buf);
                             NBTTagList tagList = save.getTagList("data", 10);
-                            for(int s = 0; s < tagList.tagCount(); s++)
+                            for (int s = 0; s < tagList.tagCount(); s++)
                             {
                                 //TODO fix loading to use interfaces, as this will not always be a silo connection data object
                                 //TODO add sanity checks to either now show or block bad data in GUI
                                 list.add(new SiloConnectionData(tagList.getCompoundTagAt(s)));
                             }
                         }
-                        else if(dataSize == 0)
+                        else if (dataSize == 0)
                         {
                             //TODO show no connections
                         }
-                        else if(dataSize == -1)
+                        else if (dataSize == -1)
                         {
                             //TODO show in GUI connection was lost
                         }
@@ -277,7 +285,7 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
                 }
                 //Refresh GUI
                 GuiScreen screen = Minecraft.getMinecraft().currentScreen;
-                if(screen instanceof GuiSiloInterface)
+                if (screen instanceof GuiSiloInterface)
                 {
                     screen.initGui();
                 }
@@ -349,17 +357,17 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
 
     public void openSiloGui(Pos pos, ISiloConnectionData iSiloConnectionData, EntityPlayer player)
     {
-        if(isServer())
+        if (isServer())
         {
             TileCommandController commandCenter = getCommandCenter();
             if (commandCenter != null)
             {
-                if(commandCenter.siloConnectors.containsKey(pos))
+                if (commandCenter.siloConnectors.containsKey(pos))
                 {
                     TileCommandSiloConnector controller = commandCenter.siloConnectors.get(pos);
-                    if(controller != null && controller.getSiloConnectionData() != null && controller.getSiloConnectionData().contains(iSiloConnectionData))
+                    if (controller != null && controller.getSiloConnectionData() != null && controller.getSiloConnectionData().contains(iSiloConnectionData))
                     {
-                        if(iSiloConnectionData.hasSettingsGui())
+                        if (iSiloConnectionData.hasSettingsGui())
                         {
                             iSiloConnectionData.openGui(player, toLocation());
                         }
@@ -385,18 +393,80 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
         }
     }
 
+    /**
+     * Called to fire a missile
+     *
+     * @param pos
+     * @param iSiloConnectionData
+     * @param player
+     */
+    public void fireSilo(Pos pos, ISiloConnectionData iSiloConnectionData, EntityPlayer player)
+    {
+        if (isServer())
+        {
+            TileCommandController commandCenter = getCommandCenter();
+            if (commandCenter != null)
+            {
+                if (commandCenter.siloConnectors.containsKey(pos))
+                {
+                    TileCommandSiloConnector controller = commandCenter.siloConnectors.get(pos);
+                    if (controller != null && controller.getSiloConnectionData() != null && controller.getSiloConnectionData().contains(iSiloConnectionData))
+                    {
+                        if (iSiloConnectionData.hasSettingsGui())
+                        {
+                            ILauncher launcher = iSiloConnectionData.getSilo();
+                            if (launcher != null)
+                            {
+                                if (!launcher.fireMissile())
+                                {
+                                    //TODO send error if missile can not fire
+                                    ICBM.INSTANCE.logger().info("TileSiloInterface: " + player + " attempted to fire a missile from " + iSiloConnectionData);
+                                }
+                                else
+                                {
+                                    //TODO confirm missile fired
+                                    ICBM.INSTANCE.logger().info("TileSiloInterface: " + player + " fired a missile from " + iSiloConnectionData);
+                                }
+                            }
+                            else
+                            {
+                                //TODO send error code
+                            }
+                        }
+                        else
+                        {
+                            //TODO Open Alt GUI or send error
+                        }
+                    }
+                    else
+                    {
+                        //TODO send error
+                    }
+                }
+            }
+            else
+            {
+                //TODO send error
+            }
+        }
+        else
+        {
+            sendPacketToServer(new PacketTile(this, 3, pos, iSiloConnectionData));
+        }
+    }
+
     @Override
     public void renderInventoryItem(IItemRenderer.ItemRenderType type, ItemStack itemStack, Object... data)
     {
-        if(type == IItemRenderer.ItemRenderType.INVENTORY)
+        if (type == IItemRenderer.ItemRenderType.INVENTORY)
         {
             GL11.glTranslatef(-0.5f, -1.4f, -0.5f);
         }
-        else if(type == IItemRenderer.ItemRenderType.EQUIPPED_FIRST_PERSON)
+        else if (type == IItemRenderer.ItemRenderType.EQUIPPED_FIRST_PERSON)
         {
             GL11.glRotatef(150f, 0, 1, 0);
         }
-        else if(type == IItemRenderer.ItemRenderType.EQUIPPED)
+        else if (type == IItemRenderer.ItemRenderType.EQUIPPED)
         {
             GL11.glRotatef(150f, 0, 1, 0);
             GL11.glTranslatef(-0.5f, -0.1f, -0.5f);
