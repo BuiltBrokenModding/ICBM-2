@@ -30,6 +30,9 @@ item.icbm:gpsFlag.info=Shift+Right click to save , Right click to transfer to a 
 item.icbm:rocketLauncher.name=Rocket Launcher
 info.icbm:rocketLauncher.tooltip=Fires micro missiles
 
+item.icbm:remoteDetonator.name=Remote Detonator
+item.icbm:laserDetonator.name=Laser Detonator
+
 ## Parts
 item.icbm:missileParts.name=Missile Crafting Part
 item.icbm:missileParts.smallMissileCasing.name=Small Missile Skin

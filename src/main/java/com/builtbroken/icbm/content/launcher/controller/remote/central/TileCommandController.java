@@ -1,9 +1,15 @@
 package com.builtbroken.icbm.content.launcher.controller.remote.central;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.controller.ISiloConnectionData;
+import com.builtbroken.icbm.api.controller.ISiloConnectionPoint;
+import com.builtbroken.icbm.content.items.FakeRadioSender;
 import com.builtbroken.icbm.content.launcher.controller.local.TileLocalController;
 import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCommandSiloConnector;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
+import com.builtbroken.mc.api.map.radio.IRadioWaveExternalReceiver;
+import com.builtbroken.mc.api.map.radio.IRadioWaveReceiver;
+import com.builtbroken.mc.api.map.radio.IRadioWaveSender;
 import com.builtbroken.mc.api.map.radio.wireless.*;
 import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.api.tile.ILinkFeedback;
@@ -12,6 +18,7 @@ import com.builtbroken.mc.api.tile.IPassCode;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
+import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.IPrefabInventory;
@@ -39,7 +46,7 @@ import java.util.Map;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 3/26/2016.
  */
-public class TileCommandController extends TileModuleMachine implements ILinkable, IPacketIDReceiver, IGuiTile, IPostInit, IPrefabInventory, IWirelessDataPoint, IWirelessDataListener, ILinkFeedback
+public class TileCommandController extends TileModuleMachine implements ILinkable, IPacketIDReceiver, IGuiTile, IPostInit, IPrefabInventory, IWirelessDataPoint, IWirelessDataListener, ILinkFeedback, IRadioWaveExternalReceiver
 {
     /** Main texture */
     public static IIcon texture;
@@ -326,5 +333,150 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
             }
             nbt.setTag("siloPosData", list);
         }
+    }
+
+    @Override
+    public void receiveExternalRadioWave(float hz, IRadioWaveSender sender, IRadioWaveReceiver receiver, String messageHeader, Object[] data)
+    {
+        try
+        {
+            if (isServer())
+            {
+                for (IWirelessNetwork network : getAttachedNetworks())
+                {
+                    if (Math.abs(hz - network.getHz()) <= 0.001)
+                    {
+                        sender.onMessageReceived(receiver, hz, messageHeader, data);
+
+                        //Fire single missile in group by name
+                        if ("fireMissile1".equals(messageHeader))
+                        {
+                            short pass = (short) data[0];
+                            String group = (String) data[1];
+                            String siloName = (String) data[2];
+                            if (group != null && siloName != null)
+                            {
+                                boolean fired = false;
+                                boolean foundGroup = false;
+                                boolean siloFound = false;
+                                for (ISiloConnectionPoint connector : siloConnectors.values())
+                                {
+                                    if (group.equals(connector.getConnectorGroupName()))
+                                    {
+                                        foundGroup = true;
+                                        for (ISiloConnectionData launcher : connector.getSiloConnectionData())
+                                        {
+                                            if (launcher.getSiloName() != null && siloName.equals(launcher.getSiloName()))
+                                            {
+                                                siloFound = true;
+                                                switch (launcher.getSiloStatus())
+                                                {
+                                                    case OFFLINE:
+                                                        if (sender instanceof FakeRadioSender)
+                                                        {
+                                                            ((FakeRadioSender) sender).player.addChatComponentMessage(new ChatComponentText("Silo[" + siloName + "] is offline and can not receive the launch data!"));
+                                                        }
+                                                        break;
+                                                    case ONLINE:
+                                                        if (launcher instanceof IPassCode && ((IPassCode) launcher).getCode() != pass)
+                                                        {
+                                                            if (sender instanceof FakeRadioSender)
+                                                            {
+                                                                //TODO add boolean for reply mode, if auth fails it may be some trying to hijack the missile, if mode == false do not reply to invalid data
+                                                                ((FakeRadioSender) sender).player.addChatComponentMessage(new ChatComponentText("Silo[" + siloName + "] auth code is not valid!"));
+                                                            }
+                                                        }
+                                                        else if (launcher.getSilo() != null)
+                                                        {
+                                                            if (launcher.getSilo().fireMissile())
+                                                            {
+                                                                fired = true;
+                                                                if (sender instanceof FakeRadioSender)
+                                                                {
+                                                                    ((FakeRadioSender) sender).player.addChatComponentMessage(new ChatComponentText("Silo[" + siloName + "]: Missile fire at target " + launcher.getSilo().getTarget()));
+                                                                    int travelTime = launcher.getSilo().getTravelTimeTo(launcher.getSilo().getTarget());
+                                                                    if (travelTime > 0)
+                                                                    {
+                                                                        ((FakeRadioSender) sender).player.addChatComponentMessage(new ChatComponentText("Silo[" + siloName + "]: Eta " + travelTime + " seconds"));
+                                                                    }
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                if (sender instanceof FakeRadioSender)
+                                                                {
+                                                                    ((FakeRadioSender) sender).player.addChatComponentMessage(new ChatComponentText("Silo[" + siloName + "]: Missile failed to fire! Check target data!"));
+                                                                }
+                                                            }
+                                                        }
+                                                        else if (sender instanceof FakeRadioSender)
+                                                        {
+                                                            //TODO add boolean for reply mode, if auth fails it may be some trying to hijack the missile, if mode == false do not reply to invalid data
+                                                            ((FakeRadioSender) sender).player.addChatComponentMessage(new ChatComponentText("Silo[" + siloName + "] error passing data to silo! Code: Iv33"));
+                                                        }
+                                                        break;
+                                                    case NO_CONNECTION:
+                                                        if (sender instanceof FakeRadioSender)
+                                                        {
+                                                            ((FakeRadioSender) sender).player.addChatComponentMessage(new ChatComponentText("Silo[" + siloName + "] can not be contacted, it may be out of radio range!"));
+                                                        }
+                                                        break;
+                                                }
+                                                break;
+                                            }
+                                        }
+                                        break;
+                                    }
+                                }
+                                if (sender instanceof FakeRadioSender)
+                                {
+                                    if (fired)
+                                    {
+                                        ((FakeRadioSender) sender).player.addChatComponentMessage(new ChatComponentText("Missing fired, stand clear of target!"));
+                                    }
+                                    else if (!foundGroup)
+                                    {
+                                        ((FakeRadioSender) sender).player.addChatComponentMessage(new ChatComponentText("Unknown Group: " + group));
+                                    }
+                                    else if (!siloFound)
+                                    {
+                                        ((FakeRadioSender) sender).player.addChatComponentMessage(new ChatComponentText("Unknown SiloName: " + siloName));
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (sender instanceof FakeRadioSender)
+                                {
+                                    ((FakeRadioSender) sender).player.addChatComponentMessage(new ChatComponentText("Error: silo name or group name is invalid! Check encoded data!"));
+                                }
+                                ICBM.INSTANCE.logger().error(this + "  Received bad message from " + sender + ".\n Header = " + messageHeader + "\n Data = " + data + "\n Error: Group name or silo name is null");
+                            }
+                        }
+                        //Fire first loaded missile in group
+                        else if ("fireMissile2".equals(messageHeader))
+                        {
+                            short pass = (short) data[0];
+                            String group = (String) data[1];
+                        }
+                        else
+                        {
+                            ICBM.INSTANCE.logger().error(this + "  Received bad message from " + sender + ".\n Header = " + messageHeader + "\n Data = " + data + "\n Error: Group name or silo name is null");
+                        }
+                    }
+                }
+            }
+        }
+        //It may fail due to cast exception...
+        catch (Exception e)
+        {
+            ICBM.INSTANCE.logger().error(this + "  Failed to receive message from " + sender + ".\n Header = " + messageHeader + "\n Data = " + data, e);
+        }
+    }
+
+    @Override
+    public void onRangeChange(IRadioWaveReceiver receiver, Cube range)
+    {
+
     }
 }

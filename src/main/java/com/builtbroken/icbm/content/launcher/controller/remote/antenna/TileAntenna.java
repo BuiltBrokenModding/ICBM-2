@@ -105,7 +105,7 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IWirelessN
     {
         if (wirelessNetwork == null)
         {
-            setWirelessNetwork(new WirelessNetwork(hz, this));
+            setWirelessNetwork(new WirelessNetwork(this));
         }
     }
 
@@ -374,7 +374,7 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IWirelessN
     public boolean canConnectToNetwork(IWirelessNetwork network)
     {
         //Hz values need to match
-        if (network.getPrimarySender() != null && Math.abs(network.getPrimarySender().getBroadCastFrequency() - hz) <= 0.001)
+        if (network.getPrimarySender() != null && Math.abs(network.getHz() - hz) <= 0.001)
         {
             //In order to communicate the sender and receiver ranges need to match/
             //Sender's send range needs to be in receiver range

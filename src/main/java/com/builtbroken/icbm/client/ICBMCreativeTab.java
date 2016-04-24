@@ -31,6 +31,7 @@ public class ICBMCreativeTab extends ModCreativeTab
         add(list, ICBM.blockCommandCentral);
         add(list, ICBM.blockCommandSiloConnector);
         add(list, ICBM.blockCommandSiloDisplay);
+        add(list, ICBM.itemRemoteDetonator);
         if (Engine.runningAsDev)
         {
             add(list, ICBM.blockStandardSilo);

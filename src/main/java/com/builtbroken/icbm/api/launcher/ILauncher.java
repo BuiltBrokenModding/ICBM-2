@@ -20,7 +20,26 @@ public interface ILauncher extends IWorldPosition
 
     /**
      * Gets the missile in the launcher
+     *
      * @return missile
      */
     IMissile getMissile();
+
+    /**
+     * Aim target of the missile
+     *
+     * @return target, or null for no target
+     */
+    IPos3D getTarget();
+
+    /**
+     * Travel time to target, use
+     * the missile data to calculate the time
+     * <p>
+     * Time is in seconds
+     *
+     * @param target - target pos, if null assume {@link #getTarget()}
+     * @return - 1 for invalid, else return travel time
+     */
+    int getTravelTimeTo(IPos3D target);
 }

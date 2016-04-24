@@ -369,7 +369,7 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
                     {
                         if (iSiloConnectionData.hasSettingsGui())
                         {
-                            iSiloConnectionData.openGui(player, toLocation());
+                            iSiloConnectionData.openGui(player, this, controller);
                         }
                         else
                         {

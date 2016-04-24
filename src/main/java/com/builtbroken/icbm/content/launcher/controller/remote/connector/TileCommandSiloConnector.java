@@ -290,6 +290,7 @@ public class TileCommandSiloConnector extends TileModuleMachine implements ILink
         }
     }
 
+    @Override
     public String getConnectorGroupName()
     {
         return connectorGroupName;
@@ -357,7 +358,7 @@ public class TileCommandSiloConnector extends TileModuleMachine implements ILink
     public void writeDescPacket(ByteBuf buf)
     {
         super.writeDescPacket(buf);
-        ByteBufUtils.writeUTF8String(buf, getConnectorDisplayName());
-        ByteBufUtils.writeUTF8String(buf, getConnectorGroupName());
+        ByteBufUtils.writeUTF8String(buf, getConnectorDisplayName() == null ? "" : getConnectorDisplayName());
+        ByteBufUtils.writeUTF8String(buf, getConnectorGroupName() == null ? "" : getConnectorGroupName());
     }
 }

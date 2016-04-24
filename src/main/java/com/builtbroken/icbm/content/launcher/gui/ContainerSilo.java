@@ -17,9 +17,12 @@ public class ContainerSilo extends ContainerBase
     EntityPlayer player;
     TileAbstractLauncher launcher;
 
+    public BasicInventory basicInventory;
+
     public ContainerSilo(EntityPlayer player, TileAbstractLauncher launcher)
     {
         super(player, new BasicInventory(1));
+        basicInventory = (BasicInventory) inventory;
         this.player = player;
         this.launcher = launcher;
         Slot slot = new Slot(inventory, 0, 112, 52);
@@ -54,5 +57,6 @@ public class ContainerSilo extends ContainerBase
             }
             player.inventoryContainer.detectAndSendChanges();
         }
+        launcher.returnGuiData.remove(player);
     }
 }

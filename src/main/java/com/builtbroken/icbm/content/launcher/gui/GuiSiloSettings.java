@@ -1,9 +1,11 @@
 package com.builtbroken.icbm.content.launcher.gui;
 
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
+import com.builtbroken.jlib.data.Colors;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.gui.EnumGuiIconSheet;
+import com.builtbroken.mc.prefab.gui.GuiButton2;
 import com.builtbroken.mc.prefab.gui.GuiContainerBase;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -22,7 +24,7 @@ public class GuiSiloSettings extends GuiContainerBase
     protected GuiTextField y_field;
     protected GuiTextField z_field;
     protected GuiTextField name_field;
-    protected String errorString = "";
+    public String errorString = "error.test";
 
     long lastClickTime = 0;
 
@@ -30,11 +32,13 @@ public class GuiSiloSettings extends GuiContainerBase
     private static int updateGuiTicks = 100;
 
     private TileAbstractLauncher launcher;
+    private EntityPlayer player;
 
     public GuiSiloSettings(TileAbstractLauncher launcher, EntityPlayer player)
     {
         super(new ContainerSilo(player, launcher));
         this.launcher = launcher;
+        this.player = player;
     }
 
     @Override
@@ -47,7 +51,7 @@ public class GuiSiloSettings extends GuiContainerBase
 
         this.buttonList.add(new GuiButton(0, guiLeft, guiTop, 20, 20, "<="));
         this.buttonList.add(new GuiButton(1, x + 125, y, 20, 20, "S"));
-        this.buttonList.add(new GuiButton(2, x + 112, y + 30, 40, 20, "Encode"));
+        this.buttonList.add(new GuiButton2(2, x + 112, y + 30, 40, 20, "Encode"));
 
         x = guiLeft + 10;
         y = guiTop + 23;
@@ -97,6 +101,11 @@ public class GuiSiloSettings extends GuiContainerBase
 
         drawString(LanguageUtility.getLocalName("gui.icbm:controller.target"), 10, 13);
         drawString(LanguageUtility.getLocalName("gui.icbm:controller.launcherName"), 10, 42);
+
+        if (errorString != null && !errorString.isEmpty())
+        {
+            drawString(Colors.RED.code + "Error: " + errorString, 10, 13);
+        }
     }
 
     public void reloadData()
@@ -111,6 +120,7 @@ public class GuiSiloSettings extends GuiContainerBase
                 this.name_field.setText("" + launcher.getCustomName());
             }
         }
+        errorString = null;
     }
 
 
@@ -143,7 +153,7 @@ public class GuiSiloSettings extends GuiContainerBase
         }
         else if (button.id == 2)
         {
-            //TODO encode data to item in inventory slot
+            launcher.encodeItem(player);
         }
         lastClickTime = Minecraft.getSystemTime();
     }

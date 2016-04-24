@@ -5,6 +5,7 @@ import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.lib.helper.NBTUtility;
 import com.builtbroken.mc.lib.transform.vector.Point;
+import com.builtbroken.mc.lib.transform.vector.Pos;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.nbt.NBTTagCompound;
@@ -33,12 +34,15 @@ public class MissileTrackingData
         this.m_save = new NBTTagCompound();
         missile.writeToNBTOptional(this.m_save);
         target = missile.target_pos;
-        respawnTicks = (long) new Point(missile.posX, missile.posZ).distance(new Point(missile.target_pos.x(), missile.target_pos.z()));
         this.missile = missile.getMissile();
-        if (missile.getMissile() != null && missile.getMissile().getEngine() != null)
-        {
-            respawnTicks = (long) ((respawnTicks / missile.getMissile().getEngine().getSpeed(missile.getMissile())) + 1);
-        }
+        respawnTicks = getRespawnTicks(new Pos(missile), new Pos(missile.target_pos), missile.getMissile().getEngine() != null ? missile.getMissile().getEngine().getSpeed(missile.getMissile()) : 1);
+    }
+
+    public static long getRespawnTicks(Pos start, Pos end, float speed)
+    {
+        long respawnTicks = (long) start.toVector2().distance(end.toVector2());
+        respawnTicks = (long) ((respawnTicks / speed) + 1);
+        return respawnTicks;
     }
 
     /**
@@ -114,10 +118,14 @@ public class MissileTrackingData
         {
             //Checks if the targets equal each other
             if (((MissileTrackingData) object).target == null && target != null || ((MissileTrackingData) object).target != null && target == null)
+            {
                 return false;
+            }
 
             if (!((MissileTrackingData) object).target.equals(target))
+            {
                 return false;
+            }
 
             return NBTUtility.doTagsMatch(((MissileTrackingData) object).m_save, m_save);
         }

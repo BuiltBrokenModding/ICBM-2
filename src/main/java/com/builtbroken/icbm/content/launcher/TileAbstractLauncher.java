@@ -1,13 +1,17 @@
 package com.builtbroken.icbm.content.launcher;
 
-import com.builtbroken.icbm.api.launcher.ILauncher;
+import com.builtbroken.icbm.api.launcher.INamedLauncher;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.display.TileMissileContainer;
 import com.builtbroken.icbm.content.fof.IFoFStation;
+import com.builtbroken.icbm.content.items.ItemRemoteDetonator;
 import com.builtbroken.icbm.content.launcher.controller.local.TileLocalController;
+import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCommandSiloConnector;
+import com.builtbroken.icbm.content.launcher.controller.remote.display.TileSiloInterface;
 import com.builtbroken.icbm.content.launcher.gui.ContainerSilo;
 import com.builtbroken.icbm.content.launcher.gui.GuiSiloSettings;
 import com.builtbroken.icbm.content.missile.EntityMissile;
+import com.builtbroken.icbm.content.missile.tracking.MissileTrackingData;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
@@ -15,6 +19,7 @@ import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.api.tile.ILinkFeedback;
 import com.builtbroken.mc.api.tile.ILinkable;
 import com.builtbroken.mc.api.tile.IPassCode;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
@@ -24,20 +29,24 @@ import com.builtbroken.mc.lib.transform.vector.Pos;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * Prefab for all missile launchers and silos.
  * Created by robert on 1/18/2015.
  */
-public abstract class TileAbstractLauncher extends TileMissileContainer implements ILauncher, IPacketIDReceiver, IPassCode, ILinkFeedback, ILinkable, IGuiTile
+public abstract class TileAbstractLauncher extends TileMissileContainer implements INamedLauncher, IPacketIDReceiver, IPassCode, ILinkFeedback, ILinkable, IGuiTile
 {
     /** Current target location */
     public Pos target = new Pos(0, -1, 0);
@@ -53,6 +62,8 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
 
     /** List of launch reports, records what missiles did */
     protected List<LauncherReport> launcherReports = new ArrayList();
+
+    public HashMap<EntityPlayer, Object[]> returnGuiData = new HashMap();
 
     public TileAbstractLauncher(String name, Material mat, int slots)
     {
@@ -412,6 +423,63 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
             this.customName = ByteBufUtils.readUTF8String(buf);
             return true;
         }
+        else if (isServer())
+        {
+            if (id == 23)
+            {
+                ItemStack stack = ((ContainerSilo) player.openContainer).basicInventory.getStackInSlot(0);
+                if (stack != null && stack.getItem() instanceof ItemRemoteDetonator)
+                {
+                    if (returnGuiData.containsKey(player) && player.openContainer instanceof ContainerSilo)
+                    {
+                        if (returnGuiData.get(player)[1] instanceof TileCommandSiloConnector && returnGuiData.get(player)[0] instanceof TileSiloInterface)
+                        {
+                            TileCommandSiloConnector connector = (TileCommandSiloConnector) returnGuiData.get(player)[1];
+                            TileSiloInterface tileSiloInterface = (TileSiloInterface) returnGuiData.get(player)[0];
+                            if (tileSiloInterface.getCommandCenter() != null && tileSiloInterface.getCommandCenter().getAttachedNetworks().size() > 0 && connector.getConnectorGroupName() != null && getCustomName() != null)
+                            {
+                                ((ItemRemoteDetonator) stack.getItem()).encode(stack, tileSiloInterface.getCommandCenter().getAttachedNetworks().get(0).getHz(), link_code, connector.getConnectorGroupName(), getCustomName());
+                            }
+                            else if (player instanceof EntityPlayerMP)
+                            {
+                                if (tileSiloInterface == null || tileSiloInterface.getCommandCenter().getAttachedNetworks().size() <= 0)
+                                {
+                                    Engine.instance.packetHandler.sendToPlayer(new PacketTile(this, 24, "error.data.missing.hz"), (EntityPlayerMP) player);
+                                }
+                                else if (connector.getConnectorGroupName() == null)
+                                {
+                                    Engine.instance.packetHandler.sendToPlayer(new PacketTile(this, 24, "error.data.missing.groupName"), (EntityPlayerMP) player);
+                                }
+                                else if (getCustomName() == null)
+                                {
+                                    Engine.instance.packetHandler.sendToPlayer(new PacketTile(this, 24, "error.data.missing.siloName"), (EntityPlayerMP) player);
+                                }
+                                else
+                                {
+                                    Engine.instance.packetHandler.sendToPlayer(new PacketTile(this, 24, "error.data.missing"), (EntityPlayerMP) player);
+                                }
+                            }
+                        }
+                        else if (player instanceof EntityPlayerMP)
+                        {
+                            Engine.instance.packetHandler.sendToPlayer(new PacketTile(this, 24, "error.invalid.connection"), (EntityPlayerMP) player);
+                        }
+                    }
+                }
+                return true;
+            }
+        }
+        else if (isClient())
+        {
+            if (id == 24)
+            {
+                if (Minecraft.getMinecraft().currentScreen instanceof GuiSiloSettings)
+                {
+                    ((GuiSiloSettings) Minecraft.getMinecraft().currentScreen).errorString = ByteBufUtils.readUTF8String(buf);
+                }
+                return true;
+            }
+        }
         return super.read(buf, id, player, type);
     }
 
@@ -548,5 +616,30 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
             return new GuiSiloSettings(this, player);
         }
         return null;
+    }
+
+    public void encodeItem(EntityPlayer player)
+    {
+        //TODO auth player
+        sendPacketToServer(new PacketTile(this, 23));
+    }
+
+    @Override
+    public IPos3D getTarget()
+    {
+        return target;
+    }
+
+    @Override
+    public int getTravelTimeTo(IPos3D target)
+    {
+        Missile missile = getMissile();
+        return missile == null ? -1 : (int) MissileTrackingData.getRespawnTicks(toPos(), new Pos(getTarget()), missile.getEngine() != null ? missile.getEngine().getSpeed(missile) : 1);
+    }
+
+    @Override
+    public String getLauncherName()
+    {
+        return getCustomName();
     }
 }

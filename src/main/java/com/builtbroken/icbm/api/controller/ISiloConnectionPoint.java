@@ -16,4 +16,12 @@ public interface ISiloConnectionPoint
      * @return list, or empty list
      */
     List<ISiloConnectionData> getSiloConnectionData();
+
+    /**
+     * Gets the name of the group this connector is label
+     * as part of
+     *
+     * @return null if no group, or group name
+     */
+    String getConnectorGroupName();
 }

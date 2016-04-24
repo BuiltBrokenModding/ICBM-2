@@ -36,6 +36,7 @@ import com.builtbroken.icbm.content.display.TileMissile;
 import com.builtbroken.icbm.content.display.TileMissileDisplay;
 import com.builtbroken.icbm.content.items.ItemGPSFlag;
 import com.builtbroken.icbm.content.items.ItemLinkTool;
+import com.builtbroken.icbm.content.items.ItemRemoteDetonator;
 import com.builtbroken.icbm.content.launcher.block.BlockLaunchPad;
 import com.builtbroken.icbm.content.launcher.block.BlockLauncherFrame;
 import com.builtbroken.icbm.content.launcher.block.BlockLauncherPart;
@@ -182,6 +183,8 @@ public final class ICBM extends AbstractMod
     public static Item itemExplosive;
     public static Item itemExplosivePart;
 
+    public static ItemRemoteDetonator itemRemoteDetonator;
+
     public final ModCreativeTab CREATIVE_TAB;
 
     private static boolean registerExplosives;
@@ -292,6 +295,7 @@ public final class ICBM extends AbstractMod
         itemMissileParts = manager.newItem("missileParts", ItemMissileParts.class);
         itemExplosive = manager.newItem("explosiveUnit", ItemExplosive.class);
         itemExplosivePart = manager.newItem("explosiveUnitParts", ItemExplosiveParts.class);
+        itemRemoteDetonator = manager.newItem("icbmRemoteDet", ItemRemoteDetonator.class);
         NEIProxy.hideItem(ItemExplosive.ExplosiveItems.NBT.newItem());
 
         // Register modules, need to do this or they will not build from ItemStacks

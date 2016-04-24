@@ -2,11 +2,12 @@ package com.builtbroken.icbm.content.launcher.controller.remote.connector;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.controller.ISiloConnectionData;
+import com.builtbroken.icbm.api.controller.ISiloConnectionPoint;
 import com.builtbroken.icbm.api.launcher.ILauncher;
 import com.builtbroken.icbm.api.launcher.INamedLauncher;
 import com.builtbroken.icbm.api.modules.IMissile;
+import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.mc.api.ISave;
-import com.builtbroken.mc.api.IWorldPosition;
 import com.builtbroken.mc.api.map.radio.wireless.ConnectionStatus;
 import com.builtbroken.mc.core.network.IByteBufReader;
 import com.builtbroken.mc.core.network.IByteBufWriter;
@@ -97,10 +98,18 @@ public class SiloConnectionData implements ISiloConnectionData, ISave, IByteBufW
     }
 
     @Override
-    public void openGui(EntityPlayer player, IWorldPosition location)
+    public void openGui(EntityPlayer player, TileEntity openingTile, ISiloConnectionPoint connector)
     {
-        if(world() != null && !world().isRemote)
+        if (world() != null && !world().isRemote && getSilo() != null)
         {
+            if (getSilo() instanceof TileAbstractLauncher)
+            {
+                TileAbstractLauncher launcher = (TileAbstractLauncher) getSilo();
+                Object[] data = new Object[2];
+                data[0] = openingTile;
+                data[1] = connector;
+                launcher.returnGuiData.put(player, data);
+            }
             player.openGui(ICBM.INSTANCE, 1, world, x, y, z);
         }
     }
@@ -175,11 +184,11 @@ public class SiloConnectionData implements ISiloConnectionData, ISave, IByteBufW
     @Override
     public boolean equals(Object obj)
     {
-        if(obj == this)
+        if (obj == this)
         {
             return true;
         }
-        if(obj instanceof SiloConnectionData)
+        if (obj instanceof SiloConnectionData)
         {
             return ((SiloConnectionData) obj).dim == dim && ((SiloConnectionData) obj).x == x && ((SiloConnectionData) obj).y == y && ((SiloConnectionData) obj).z == z;
         }
