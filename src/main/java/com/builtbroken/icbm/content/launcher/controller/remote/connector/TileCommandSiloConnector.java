@@ -161,7 +161,7 @@ public class TileCommandSiloConnector extends TileModuleMachine implements ILink
             ISiloConnectionData data = new SiloConnectionData((ILauncher) tile);
             if (!siloData.contains(data))
             {
-                if (siloData.size() > MAX_CONNECTIONS)
+                if (siloData.size() < MAX_CONNECTIONS)
                 {
                     siloData.add(data);
                     posToData.put(pos, data);
