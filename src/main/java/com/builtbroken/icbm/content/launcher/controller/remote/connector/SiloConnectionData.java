@@ -1,12 +1,19 @@
 package com.builtbroken.icbm.content.launcher.controller.remote.connector;
 
+import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.controller.ISiloConnectionData;
 import com.builtbroken.icbm.api.launcher.ILauncher;
 import com.builtbroken.icbm.api.launcher.INamedLauncher;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.mc.api.ISave;
+import com.builtbroken.mc.api.IWorldPosition;
 import com.builtbroken.mc.api.map.radio.wireless.ConnectionStatus;
+import com.builtbroken.mc.core.network.IByteBufReader;
+import com.builtbroken.mc.core.network.IByteBufWriter;
+import cpw.mods.fml.common.network.ByteBufUtils;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -16,7 +23,7 @@ import net.minecraftforge.common.DimensionManager;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 4/22/2016.
  */
-public class SiloConnectionData implements ISiloConnectionData, ISave
+public class SiloConnectionData implements ISiloConnectionData, ISave, IByteBufWriter, IByteBufReader
 {
     protected World world;
     protected int dim, x, y, z;
@@ -36,6 +43,11 @@ public class SiloConnectionData implements ISiloConnectionData, ISave
         load(compoundTagAt);
     }
 
+    public SiloConnectionData(ByteBuf buf)
+    {
+        readBytes(buf);
+    }
+
     @Override
     public String getSiloName()
     {
@@ -51,11 +63,11 @@ public class SiloConnectionData implements ISiloConnectionData, ISave
             launcher = null;
         }
         //If tiles is missing update
-        if (world != null && launcher == null)
+        if (world() != null && launcher == null)
         {
-            if (world.blockExists(x, y, z)) //Ensure the chunk is loaded
+            if (world().blockExists(x, y, z)) //Ensure the chunk is loaded
             {
-                TileEntity tile = world.getTileEntity(x, y, z);
+                TileEntity tile = world().getTileEntity(x, y, z);
                 if (tile instanceof ILauncher)
                 {
                     launcher = (ILauncher) tile;
@@ -82,6 +94,21 @@ public class SiloConnectionData implements ISiloConnectionData, ISave
         //TODO add power check
         //TODO add passkey check
         return ConnectionStatus.ONLINE;
+    }
+
+    @Override
+    public void openGui(EntityPlayer player, IWorldPosition location)
+    {
+        if(world() != null && !world().isRemote)
+        {
+            player.openGui(ICBM.INSTANCE, 1, world, x, y, z);
+        }
+    }
+
+    @Override
+    public boolean hasSettingsGui()
+    {
+        return true;
     }
 
     @Override
@@ -129,5 +156,33 @@ public class SiloConnectionData implements ISiloConnectionData, ISave
         nbt.setInteger("y", y);
         nbt.setInteger("z", z);
         return nbt;
+    }
+
+    @Override
+    public Object readBytes(ByteBuf buf)
+    {
+        load(ByteBufUtils.readTag(buf));
+        return this;
+    }
+
+    @Override
+    public ByteBuf writeBytes(ByteBuf buf)
+    {
+        ByteBufUtils.writeTag(buf, save(new NBTTagCompound()));
+        return buf;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if(obj == this)
+        {
+            return true;
+        }
+        if(obj instanceof SiloConnectionData)
+        {
+            return ((SiloConnectionData) obj).dim == dim && ((SiloConnectionData) obj).x == x && ((SiloConnectionData) obj).y == y && ((SiloConnectionData) obj).z == z;
+        }
+        return false;
     }
 }

@@ -2,10 +2,12 @@ package com.builtbroken.icbm.content.launcher.controller.remote.display;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.controller.ISiloConnectionData;
+import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.launcher.controller.local.TileController;
 import com.builtbroken.icbm.content.launcher.controller.remote.central.TileCommandController;
 import com.builtbroken.icbm.content.launcher.controller.remote.connector.SiloConnectionData;
 import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCommandSiloConnector;
+import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
 import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.api.tile.ILinkFeedback;
@@ -15,22 +17,34 @@ import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
+import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
 import com.builtbroken.mc.prefab.tile.Tile;
+import com.builtbroken.mc.prefab.tile.TileMachine;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.ByteBufUtils;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IIcon;
+import net.minecraftforge.client.IItemRenderer;
+import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,7 +57,7 @@ import java.util.Map;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 3/26/2016.
  */
-public class TileSiloInterface extends Tile implements ILinkable, IGuiTile, IPacketIDReceiver
+public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTile, IPacketIDReceiver, ISimpleItemRenderer
 {
     private Pos commandCenterPos;
     private TileCommandController commandCenter;
@@ -56,6 +70,8 @@ public class TileSiloInterface extends Tile implements ILinkable, IGuiTile, IPac
     public TileSiloInterface()
     {
         super("commandSiloDisplay", Material.iron);
+        this.renderNormalBlock = false;
+        this.renderTileEntity = true;
         this.hardness = 10f;
         this.resistance = 10f;
     }
@@ -205,6 +221,13 @@ public class TileSiloInterface extends Tile implements ILinkable, IGuiTile, IPac
                 sendSiloData(player);
                 return true;
             }
+            else if(id == 2)
+            {
+                Pos pos = new Pos(buf);
+                SiloConnectionData data = new SiloConnectionData(buf);
+                openSiloGui(pos, data, player);
+                return true;
+            }
         }
         //From server
         else
@@ -322,5 +345,107 @@ public class TileSiloInterface extends Tile implements ILinkable, IGuiTile, IPac
         {
             sendPacketToServer(new PacketTile(this, 1));
         }
+    }
+
+    public void openSiloGui(Pos pos, ISiloConnectionData iSiloConnectionData, EntityPlayer player)
+    {
+        if(isServer())
+        {
+            TileCommandController commandCenter = getCommandCenter();
+            if (commandCenter != null)
+            {
+                if(commandCenter.siloConnectors.containsKey(pos))
+                {
+                    TileCommandSiloConnector controller = commandCenter.siloConnectors.get(pos);
+                    if(controller != null && controller.getSiloConnectionData() != null && controller.getSiloConnectionData().contains(iSiloConnectionData))
+                    {
+                        if(iSiloConnectionData.hasSettingsGui())
+                        {
+                            iSiloConnectionData.openGui(player, toLocation());
+                        }
+                        else
+                        {
+                            //TODO Open Alt GUI or send error
+                        }
+                    }
+                    else
+                    {
+                        //TODO send error
+                    }
+                }
+            }
+            else
+            {
+                //TODO send error
+            }
+        }
+        else
+        {
+            sendPacketToServer(new PacketTile(this, 2, pos, iSiloConnectionData));
+        }
+    }
+
+    @Override
+    public void renderInventoryItem(IItemRenderer.ItemRenderType type, ItemStack itemStack, Object... data)
+    {
+        if(type == IItemRenderer.ItemRenderType.INVENTORY)
+        {
+            GL11.glTranslatef(-0.5f, -1.4f, -0.5f);
+        }
+        else if(type == IItemRenderer.ItemRenderType.EQUIPPED_FIRST_PERSON)
+        {
+            GL11.glRotatef(150f, 0, 1, 0);
+        }
+        else if(type == IItemRenderer.ItemRenderType.EQUIPPED)
+        {
+            GL11.glRotatef(150f, 0, 1, 0);
+            GL11.glTranslatef(-0.5f, -0.1f, -0.5f);
+        }
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.FoF_STATION_TEXTURE);
+        Assets.FoF_STATION_MODEL.renderOnly("Group_006", "Group_007");
+    }
+
+    @SideOnly(Side.CLIENT)
+    public AxisAlignedBB getRenderBoundingBox()
+    {
+        return new Cube(0, 0, 0, 1, 2, 1).add(x(), y(), z()).toAABB();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void renderDynamic(Pos pos, float frame, int pass)
+    {
+        //Render launcher
+        GL11.glPushMatrix();
+        GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() - 0.561f, pos.zf() + 0.5f);
+        switch (getDirection())
+        {
+            case EAST:
+                break;
+            case WEST:
+                GL11.glRotatef(180f, 0, 1f, 0);
+                break;
+            case SOUTH:
+                GL11.glRotatef(-90f, 0, 1f, 0);
+                break;
+            default:
+                GL11.glRotatef(90f, 0, 1f, 0);
+                break;
+        }
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.FoF_STATION_TEXTURE);
+        Assets.FoF_STATION_MODEL.renderOnly("Group_006", "Group_007");
+        GL11.glPopMatrix();
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister iconRegister)
+    {
+
+    }
+
+    @Override
+    public IIcon getIcon()
+    {
+        return Blocks.gravel.getIcon(0, 0);
     }
 }

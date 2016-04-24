@@ -146,10 +146,22 @@ public class TileFoFClient extends TileFoF implements ISimpleItemRenderer
     @Override
     public void renderInventoryItem(IItemRenderer.ItemRenderType type, ItemStack itemStack, Object... data)
     {
-        GL11.glTranslatef(-0.5f, -0.5f, -0.5f);
-        GL11.glScaled(.8f, .8f, .8f);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.WEAPON_CASE_TEXTURE);
-        Assets.WEAPON_CASE_MODEL.renderAll();
+        if(type == IItemRenderer.ItemRenderType.INVENTORY)
+        {
+            GL11.glTranslatef(-0.5f, -0.6f, -0.5f);
+            GL11.glScaled(.5f, .5f, .5f);
+        }
+        else if(type == IItemRenderer.ItemRenderType.EQUIPPED_FIRST_PERSON)
+        {
+            GL11.glRotatef(150f, 0, 1, 0);
+        }
+        else if(type == IItemRenderer.ItemRenderType.EQUIPPED)
+        {
+            GL11.glRotatef(150f, 0, 1, 0);
+            GL11.glTranslatef(-0.5f, 0.3f, -0.5f);
+        }
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.FoF_STATION_TEXTURE);
+        Assets.FoF_STATION_MODEL.renderAll();
     }
 
     @Override

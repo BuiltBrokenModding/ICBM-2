@@ -5,10 +5,13 @@ import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.display.TileMissileContainer;
 import com.builtbroken.icbm.content.fof.IFoFStation;
 import com.builtbroken.icbm.content.launcher.controller.local.TileController;
+import com.builtbroken.icbm.content.launcher.gui.ContainerSilo;
+import com.builtbroken.icbm.content.launcher.gui.GuiSiloSettings;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
+import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.api.tile.ILinkFeedback;
 import com.builtbroken.mc.api.tile.ILinkable;
 import com.builtbroken.mc.api.tile.IPassCode;
@@ -34,7 +37,7 @@ import java.util.List;
  * Prefab for all missile launchers and silos.
  * Created by robert on 1/18/2015.
  */
-public abstract class TileAbstractLauncher extends TileMissileContainer implements ILauncher, IPacketIDReceiver, IPassCode, ILinkFeedback, ILinkable
+public abstract class TileAbstractLauncher extends TileMissileContainer implements ILauncher, IPacketIDReceiver, IPassCode, ILinkFeedback, ILinkable, IGuiTile
 {
     /** Current target location */
     public Pos target = new Pos(0, -1, 0);
@@ -487,7 +490,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
             fofStationPos = new Pos(nbt.getCompoundTag("fofStationPos"));
         }
 
-        if(nbt.hasKey("customName"))
+        if (nbt.hasKey("customName"))
         {
             customName = nbt.getString("customName");
         }
@@ -521,9 +524,29 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
             nbt.setTag("fofStationPos", fofStationPos.toNBT());
         }
 
-        if(customName != null && !customName.isEmpty())
+        if (customName != null && !customName.isEmpty())
         {
             nbt.setString("customName", customName);
         }
+    }
+
+    @Override
+    public Object getServerGuiElement(int id, EntityPlayer player)
+    {
+        if (id == 1)
+        {
+            return new ContainerSilo(player, this);
+        }
+        return null;
+    }
+
+    @Override
+    public Object getClientGuiElement(int id, EntityPlayer player)
+    {
+        if (id == 1)
+        {
+            return new GuiSiloSettings(this, player);
+        }
+        return null;
     }
 }
