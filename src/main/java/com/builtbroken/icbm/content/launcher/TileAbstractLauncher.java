@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.launcher;
 
+import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.launcher.INamedLauncher;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.display.TileMissileContainer;
@@ -468,6 +469,17 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
                 }
                 return true;
             }
+            else if (id == 25)
+            {
+                if (returnGuiData.containsKey(player) && player.openContainer instanceof ContainerSilo)
+                {
+                    if (returnGuiData.get(player)[0] instanceof TileSiloInterface)
+                    {
+                        player.openGui(ICBM.INSTANCE, 0, ((TileSiloInterface) returnGuiData.get(player)[0]).world(), ((TileSiloInterface) returnGuiData.get(player)[0]).xi(), ((TileSiloInterface) returnGuiData.get(player)[0]).yi(), ((TileSiloInterface) returnGuiData.get(player)[0]).zi());
+                    }
+                }
+                return true;
+            }
         }
         else if (isClient())
         {
@@ -622,6 +634,11 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     {
         //TODO auth player
         sendPacketToServer(new PacketTile(this, 23));
+    }
+
+    public void returnToPrevGui()
+    {
+        sendPacketToServer(new PacketTile(this, 25));
     }
 
     @Override

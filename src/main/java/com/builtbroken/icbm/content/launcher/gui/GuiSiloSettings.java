@@ -7,6 +7,8 @@ import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.gui.EnumGuiIconSheet;
 import com.builtbroken.mc.prefab.gui.GuiButton2;
 import com.builtbroken.mc.prefab.gui.GuiContainerBase;
+import com.builtbroken.mc.prefab.gui.buttons.GuiImageButton;
+import com.builtbroken.mc.prefab.gui.buttons.GuiLeftRightArrowButton;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -49,8 +51,8 @@ public class GuiSiloSettings extends GuiContainerBase
         int x = this.guiLeft + 20;
         int y = this.guiTop + 20;
 
-        this.buttonList.add(new GuiButton(0, guiLeft, guiTop, 20, 20, "<="));
-        this.buttonList.add(new GuiButton(1, x + 125, y, 20, 20, "S"));
+        this.buttonList.add(new GuiLeftRightArrowButton(0, guiLeft + 3, guiTop + 3, true));
+        this.buttonList.add(GuiImageButton.newSaveButton(1, x + 125, y));
         this.buttonList.add(new GuiButton2(2, x + 112, y + 30, 40, 20, "Encode"));
 
         x = guiLeft + 10;
@@ -137,7 +139,7 @@ public class GuiSiloSettings extends GuiContainerBase
 
         if (button.id == 0)
         {
-            //TODO open last GUI
+            launcher.returnToPrevGui();
         }
         else if (button.id == 1)
         {

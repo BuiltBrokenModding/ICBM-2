@@ -1,8 +1,10 @@
 package com.builtbroken.icbm.content.launcher.gui;
 
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
+import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.prefab.gui.ContainerBase;
 import com.builtbroken.mc.prefab.inventory.BasicInventory;
+import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Slot;
@@ -51,7 +53,7 @@ public class ContainerSilo extends ContainerBase
                 {
                     if (!this.player.inventory.addItemStackToInventory(itemstack))
                     {
-                        player.dropPlayerItemWithRandomChoice(itemstack, false);
+                        InventoryUtility.dropItemStack(new Location(player), itemstack);
                     }
                 }
             }

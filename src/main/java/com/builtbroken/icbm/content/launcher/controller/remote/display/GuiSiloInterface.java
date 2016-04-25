@@ -10,10 +10,12 @@ import com.builtbroken.mc.prefab.gui.ContainerDummy;
 import com.builtbroken.mc.prefab.gui.EnumGuiIconSheet;
 import com.builtbroken.mc.prefab.gui.GuiButton2;
 import com.builtbroken.mc.prefab.gui.GuiContainerBase;
+import com.builtbroken.mc.prefab.gui.buttons.GuiImageButton;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +41,8 @@ public class GuiSiloInterface extends GuiContainerBase
     String connectorDisplayName;
     /** Current group name for the connector being viewed */
     String connectorGroupName;
+
+    boolean refreshClick = true;
 
     public GuiSiloInterface(EntityPlayer player, TileSiloInterface tileSiloInterface)
     {
@@ -67,7 +71,7 @@ public class GuiSiloInterface extends GuiContainerBase
         connectorDisplayName = connectorGroupName = null;
 
         //Add buttons
-        buttonList.add(new GuiButton(0, guiLeft + 150, guiTop + 5, 20, 20, "R"));
+        buttonList.add(GuiImageButton.newRefreshButton(0, guiLeft + 150, guiTop + 5));
         //TODO implement refresh icon
         //TODO while waiting on server data show large sync animation with text ("Waiting on server")
 
@@ -183,10 +187,6 @@ public class GuiSiloInterface extends GuiContainerBase
                         tooltips.put(new Rectangle(10, 10 + (i * 21), 28, 28 + (i * 21)), connectionStatuses.get(i).toString());
                     }
                 }
-                else
-                {
-                    //TODO show error saying no connections
-                }
             }
         }
         //No data to show, so reset values
@@ -195,7 +195,6 @@ public class GuiSiloInterface extends GuiContainerBase
             section = 0;
             page = 0;
             index = 0;
-            //TODO show error saying no connections
         }
     }
 
@@ -203,17 +202,37 @@ public class GuiSiloInterface extends GuiContainerBase
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-        if (connectorDisplayName != null && !connectorDisplayName.isEmpty())
+        if (tileSiloInterface.controllers != null && tileSiloInterface.controllerData != null && tileSiloInterface.controllers.length > 0)
         {
-            drawString("Name: " + connectorDisplayName, 35, 143, java.awt.Color.black);
-            if (connectorGroupName != null && !connectorGroupName.isEmpty())
+            if (connectorDisplayName != null && !connectorDisplayName.isEmpty())
             {
-                drawString("GroupID: " + connectorGroupName, 35, 153, java.awt.Color.black);
+                drawString("Name: " + connectorDisplayName, 35, 143, java.awt.Color.black);
+                if (connectorGroupName != null && !connectorGroupName.isEmpty())
+                {
+                    drawString("GroupID: " + connectorGroupName, 35, 153, java.awt.Color.black);
+                }
+            }
+            else
+            {
+                drawString("Page " + (page + 1), 73, 148);
             }
         }
         else
         {
-            drawString("Page " + (page + 1), 73, 148);
+            drawString("No data Synced", 4, 5, Color.black);
+            drawString("Click the refresh button -->", 4, 15);
+
+            if(refreshClick)
+            {
+                drawString("Nothing Happens", 6, 30, Color.black);
+                drawString(" If you click and nothing happens", 6, 40);
+                drawString(" Ensure everything is connected", 6, 50);
+
+                drawString("How to connect", 6, 65, Color.black);
+                drawString(" 1. Use data chip to link", 6, 75);
+                drawString(" 2. Shift+right click controller", 6, 85);
+                drawString(" 3. Right click display", 6, 95);
+            }
         }
     }
 
@@ -244,6 +263,7 @@ public class GuiSiloInterface extends GuiContainerBase
         if (button.id == 0)
         {
             tileSiloInterface.requestSiloData();
+            refreshClick = true;
         }
         else if (button.id == 1) //Next
         {
