@@ -2,6 +2,7 @@ package com.builtbroken.icbm.content.launcher.controller.remote.antenna;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.mc.api.map.radio.wireless.IWirelessNetwork;
+import com.builtbroken.mc.api.map.radio.wireless.IWirelessNetworkObject;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.core.registry.implement.IRegistryInit;
@@ -100,9 +101,13 @@ public class BlockAntennaParts extends BlockContainer implements IPostInit, IReg
                     if (!world.isRemote)
                     {
                         TileEntity tile = world.getTileEntity(x, y, z);
-                        if (tile instanceof TileAntennaPart)
+                        if (tile instanceof TileAntenna)
                         {
-                            player.addChatComponentMessage(new ChatComponentText("Debug: Part has " + ((TileAntennaPart) tile).connections.size() + " connections"));
+                            player.addChatComponentMessage(new ChatComponentText("Debug: Networks " + ((TileAntenna) tile).getAttachedNetworks().size() + " connections"));
+                        }
+                        else if (tile instanceof TileAntennaPart)
+                        {
+                            player.addChatComponentMessage(new ChatComponentText("Debug: Parts " + ((TileAntennaPart) tile).connections.size() + " connections"));
                         }
                     }
                     return true;
@@ -121,6 +126,22 @@ public class BlockAntennaParts extends BlockContainer implements IPostInit, IReg
                         else
                         {
                             player.addChatComponentMessage(new ChatComponentText("Debug: Network is null"));
+                        }
+                    }
+                    return true;
+                }
+                else if (player.getHeldItem().getItem() == Items.apple)
+                {
+                    if (!world.isRemote)
+                    {
+                        TileEntity tile = world.getTileEntity(x, y, z);
+                        if (tile instanceof TileAntenna && ((TileAntenna) tile).wirelessNetwork != null)
+                        {
+                            int i = 0;
+                            for (IWirelessNetworkObject obj : ((TileAntenna) tile).wirelessNetwork.getAttachedObjects())
+                            {
+                                player.addChatComponentMessage(new ChatComponentText("Device[" + (i++) + "] = " + obj));
+                            }
                         }
                     }
                     return true;

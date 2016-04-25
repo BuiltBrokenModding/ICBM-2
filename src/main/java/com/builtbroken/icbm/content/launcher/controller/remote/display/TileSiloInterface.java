@@ -285,9 +285,9 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
                 for (int c = 0; c < controllers; c++)
                 {
                     String name = ByteBufUtils.readUTF8String(buf);
-                    name = name.isEmpty() ? "c" + c : name;
+                    name = (name.isEmpty() || name.equals("--")) ? "c" + c : name;
                     this.controllers[c] = name;
-                    readCommandSiloConnector(c, name, buf);
+                    readCommandSiloConnector(c, buf);
                 }
             }
             else
@@ -297,7 +297,7 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
         }
     }
 
-    protected void readCommandSiloConnector(int controllerIndexValue, String controllerName, ByteBuf buf)
+    protected void readCommandSiloConnector(int controllerIndexValue, ByteBuf buf)
     {
         int locationSize = buf.readInt();
         Pos[] posData = new Pos[locationSize];
@@ -385,9 +385,9 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
 
     protected void writeConnectorSet(TileCommandController controller, ByteBuf data)
     {
-        ByteBufUtils.writeUTF8String(data, controller.getControllerDisplayName() == null ? "" : controller.getControllerDisplayName());
-        data.writeInt(controller.siloConnectors != null ? controller.siloConnectors.entrySet().size() : -1);
-        for (Map.Entry<Pos, TileCommandSiloConnector> entry : commandCenter.siloConnectors.entrySet())
+        ByteBufUtils.writeUTF8String(data, controller.getControllerDisplayName() == null ? "--" : controller.getControllerDisplayName());
+        data.writeInt(controller.siloConnectors != null ? controller.siloConnectors.entrySet().size() : 0);
+        for (Map.Entry<Pos, TileCommandSiloConnector> entry : controller.siloConnectors.entrySet())
         {
             writeCommandSiloConnector(entry, data);
         }

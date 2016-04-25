@@ -64,16 +64,23 @@ public class GuiSiloInterface extends GuiContainerBase
         //Clean up
         connectionStatuses.clear();
         tooltips.clear();
+        connectorDisplayName = connectorGroupName = null;
 
         //Add buttons
-        buttonList.add(new GuiButton(0, guiLeft + 150, guiTop + 5, 20, 20, "R")); //TODO implement refresh icon
+        buttonList.add(new GuiButton(0, guiLeft + 150, guiTop + 5, 20, 20, "R"));
+        //TODO implement refresh icon
+        //TODO while waiting on server data show large sync animation with text ("Waiting on server")
 
         //Not controller data, nothing to display
         if (tileSiloInterface.controllers != null && tileSiloInterface.controllerData != null && tileSiloInterface.controllers.length > 0)
         {
-            //Controller section switch buttons
-            buttonList.add(new GuiButton(5, guiLeft + 150, guiTop + 160, 20, 20, ">>"));
-            buttonList.add(new GuiButton(6, guiLeft + 5, guiTop + 160, 20, 20, "<<"));
+            if (tileSiloInterface.controllers.length > 1)
+            {
+                //TODO add tool tips for buttons
+                //Controller section switch buttons
+                buttonList.add(new GuiButton(5, guiLeft + 150, guiTop + 160, 20, 20, ">>"));
+                buttonList.add(new GuiButton(6, guiLeft + 5, guiTop + 160, 20, 20, "<<"));
+            }
 
             //Sanity check
             if (section >= tileSiloInterface.controllers.length)
@@ -84,14 +91,16 @@ public class GuiSiloInterface extends GuiContainerBase
             //Get page section
             if (section >= 0 && section < tileSiloInterface.controllers.length)
             {
+                //TODO add tool tips for buttons
                 //Page switch buttons
-                buttonList.add(new GuiButton(1, guiLeft + 150, guiTop + 140, 20, 20, ">"));
-                buttonList.add(new GuiButton(2, guiLeft + 5, guiTop + 140, 20, 20, "<"));
+                int maxPages = maxPageCount();
+                buttonList.add(new GuiButton2(1, guiLeft + 150, guiTop + 140, 20, 20, ">").setEnabled(maxPages > 1));
+                buttonList.add(new GuiButton2(2, guiLeft + 5, guiTop + 140, 20, 20, "<").setEnabled(maxPages > 1));
 
                 //Get position data for the section
                 Pos[] positions = tileSiloInterface.controllerData[section];
                 //No position data or cached info, nothing to display
-                if (tileSiloInterface.clientSiloDataCache != null && tileSiloInterface.clientSiloDataCache.size() > 0 && positions.length > 0)
+                if (positions != null && tileSiloInterface.clientSiloDataCache != null && tileSiloInterface.clientSiloDataCache.size() > 0 && positions.length > 0)
                 {
                     //Santiy check
                     if (page >= positions.length)
@@ -122,6 +131,7 @@ public class GuiSiloInterface extends GuiContainerBase
                         //If more than x silo, add buttons to scroll
                         if (silos.size() > SILO_ON_SCREEN)
                         {
+                            //TODO add tool tips for buttons
                             //Index switch buttons
                             buttonList.add(new GuiButton(3, guiLeft + 150, guiTop + 30, 20, 20, "-"));
                             buttonList.add(new GuiButton(4, guiLeft + 150, guiTop + 50, 20, 20, "+"));
@@ -290,6 +300,41 @@ public class GuiSiloInterface extends GuiContainerBase
             else
             {
                 page = 0;
+            }
+            initGui(); //Refresh
+        }
+        else if (button.id == 5 || button.id == 6)
+        {
+            if (tileSiloInterface.controllers != null && section >= 0 && section < tileSiloInterface.controllers.length)
+            {
+                if (button.id == 6) //Next
+                {
+                    if (section < (tileSiloInterface.controllers.length - 1))
+                    {
+                        section++;
+                    }
+                    else
+                    {
+                        section = 0;
+                    }
+                }
+                else if (button.id == 5) //Prev
+                {
+                    if (section > 0)
+                    {
+                        section--;
+                    }
+                    else
+                    {
+                        section = tileSiloInterface.controllers.length - 1;
+                    }
+                }
+                page = 0;
+                index = 0;
+            }
+            else
+            {
+                section = 0;
             }
             initGui(); //Refresh
         }

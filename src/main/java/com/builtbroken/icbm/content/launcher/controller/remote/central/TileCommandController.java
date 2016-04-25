@@ -147,17 +147,17 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
                 {
                     if (isServer())
                     {
-                        if (side == 1)
-                        {
-                            player.addChatComponentMessage(new ChatComponentText("WirelessNetworks = " + connectedNetworks));
-                        }
-                        else
+                        if (getAttachedNetworks().size() > 0)
                         {
                             int i = 0;
                             for (IWirelessNetwork network : getAttachedNetworks())
                             {
                                 player.addChatComponentMessage(new ChatComponentText("Network[" + (i++) + "] = " + network));
                             }
+                        }
+                        else
+                        {
+                            player.addChatComponentMessage(new ChatComponentText("No networks attached"));
                         }
                     }
                     return true;
@@ -330,6 +330,10 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
                 siloConnectors.put(new Pos(list.getCompoundTagAt(i)), null);
             }
         }
+        if (nbt.hasKey("displayName"))
+        {
+            displayName = nbt.getString("displayName");
+        }
     }
 
     @Override
@@ -344,6 +348,10 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
                 list.appendTag(pos.toNBT());
             }
             nbt.setTag("siloPosData", list);
+        }
+        if (displayName != null && !displayName.isEmpty())
+        {
+            nbt.setString("displayName", displayName);
         }
     }
 

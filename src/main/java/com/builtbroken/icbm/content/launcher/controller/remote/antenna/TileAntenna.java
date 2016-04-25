@@ -42,7 +42,7 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IWirelessN
     /** Should we generate a wireless network to attach to other antennas */
     protected boolean generateNetwork = false;
 
-    /** Next time, in ticks, the {@link #antennaNetwork} will be trigger to re-path the antenna frame*/
+    /** Next time, in ticks, the {@link #antennaNetwork} will be trigger to re-path the antenna frame */
     private int randomTick = 30;
 
     //TODO implement
@@ -57,6 +57,7 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IWirelessN
         //Sanity check to ensure structure is still good, roughly 2 mins with a slight random
         if (!world().isRemote)
         {
+            //TODO add a debug line render to each tower connected
             //Sine we have no way to be sure of connection, update radio map every second
             if (ticks % 20 == 0)
             {
@@ -314,16 +315,26 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IWirelessN
      */
     public void setWirelessNetwork(WirelessNetwork wirelessNetwork)
     {
+        //setting network to null but we had a network
         if (wirelessNetwork == null && this.wirelessNetwork != null)
         {
             this.wirelessNetwork.kill();
         }
+        //changing networks
         else if (wirelessNetwork != null && this.wirelessNetwork != null && wirelessNetwork != this.wirelessNetwork)
         {
             this.wirelessNetwork.kill();
-            wirelessNetwork.addConnector(this);
         }
+
         this.wirelessNetwork = wirelessNetwork;
+        if (this.wirelessNetwork != null)
+        {
+            if(this.connections.size() == 0)
+            {
+                this.updateConnections();
+            }
+            this.wirelessNetwork.addConnector(this);
+        }
     }
 
     @Override
@@ -385,14 +396,14 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IWirelessN
     public boolean canConnectToNetwork(IWirelessNetwork network)
     {
         //Hz values need to match
-        if (network.getPrimarySender() != null && Math.abs(network.getHz() - hz) <= 0.001)
+        if (network != null && network.getPrimarySender() != null && Math.abs(network.getHz() - hz) <= 0.001)
         {
             //In order to communicate the sender and receiver ranges need to match/
             //Sender's send range needs to be in receiver range
             //Sender's receiver range needs to be in our send range
             Cube receiverRangeSender = network.getPrimarySender() instanceof IRadioWaveReceiver ? ((IRadioWaveReceiver) network.getPrimarySender()).getRadioReceiverRange() : network.getPrimarySender().getWirelessCoverageArea();
             Cube senderRangeSender = network.getPrimarySender() instanceof IRadioWaveSender ? ((IRadioWaveSender) network.getPrimarySender()).getRadioSenderRange() : network.getPrimarySender().getWirelessCoverageArea();
-            if (getRadioSenderRange().doesOverlap(receiverRangeSender) && senderRangeSender.doesOverlap(getRadioReceiverRange()))
+            if (receiverRangeSender != null && senderRangeSender != null && getRadioSenderRange().doesOverlap(receiverRangeSender) && senderRangeSender.doesOverlap(getRadioReceiverRange()))
             {
                 return true;
             }
