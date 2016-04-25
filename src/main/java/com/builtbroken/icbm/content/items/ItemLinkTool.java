@@ -119,6 +119,12 @@ public class ItemLinkTool extends ItemWorldPos implements IWorldPosItem, IPassCo
 
             if (player.isSneaking())
             {
+                Location storedLocation = getLocation(stack);
+                if (storedLocation != null && storedLocation.equals(location))
+                {
+                    LanguageUtility.addChatToPlayer(player, "link.error.data.stored");
+                    return true;
+                }
                 setLocation(stack, location);
                 LanguageUtility.addChatToPlayer(player, "link.pos.set");
                 if (tile instanceof IPassCode)
@@ -132,34 +138,50 @@ public class ItemLinkTool extends ItemWorldPos implements IWorldPosItem, IPassCo
             else
             {
                 Location storedLocation = getLocation(stack);
-                if (storedLocation == null || !storedLocation.isAboveBedrock())
+                if (storedLocation != null)
                 {
-                    LanguageUtility.addChatToPlayer(player, "link.error.pos.invalid");
-                    return true;
-                }
-                else if (tile instanceof ILinkable)
-                {
-                    String result = ((ILinkable) tile).link(getLocation(stack), getCode(stack));
-                    if (result != null && result != "")
+                    if (!storedLocation.equals(location))
                     {
-                        if (result.contains("error"))
+                        if (!storedLocation.isAboveBedrock())
                         {
-                            String translation = LanguageUtility.getLocalName(result);
-                            if (translation == null || translation.isEmpty())
-                            {
-                                translation = "Error";
-                            }
-                            player.addChatComponentMessage(new ChatComponentText(TextColor.RED.getColorString() + translation));
+                            LanguageUtility.addChatToPlayer(player, "link.error.pos.invalid");
+                            return true;
                         }
-                        else
+                        else if (tile instanceof ILinkable)
                         {
-                            LanguageUtility.addChatToPlayer(player, result);
+                            String result = ((ILinkable) tile).link(storedLocation, getCode(stack));
+                            if (result != null && result != "")
+                            {
+                                if (result.contains("error"))
+                                {
+                                    String translation = LanguageUtility.getLocalName(result);
+                                    if (translation == null || translation.isEmpty())
+                                    {
+                                        translation = "Error";
+                                    }
+                                    player.addChatComponentMessage(new ChatComponentText(TextColor.RED.getColorString() + translation));
+                                }
+                                else
+                                {
+                                    LanguageUtility.addChatToPlayer(player, result);
+                                }
+                            }
+                            else
+                            {
+                                LanguageUtility.addChatToPlayer(player, "link.completed");
+                            }
+                            return true;
                         }
                     }
                     else
                     {
-                        LanguageUtility.addChatToPlayer(player, "link.completed");
+                        LanguageUtility.addChatToPlayer(player, "link.error.pos.loop");
+                        return true;
                     }
+                }
+                else
+                {
+                    LanguageUtility.addChatToPlayer(player, "link.error.pos.invalid");
                     return true;
                 }
             }
