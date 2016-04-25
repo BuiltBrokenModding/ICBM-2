@@ -51,6 +51,14 @@ public class GuiSiloInterface extends GuiContainerBase
     @Override
     public void initGui()
     {
+        //TODO cache current state in client side tile, this way the page stays open (illusion)
+        //TODO add login system to force users to auth with controllers, maybe add a security station for this?
+        //TODO reduce request data and control viewed pages from server, restricts data & saves on packet size
+        //TODO      also allows for several players to view the same page together
+
+        //TODO add option to hide unwanted controller, allowing for a display to show one or two controllers at a time
+        //TODO add an option to show/hide local controller, will need server side
+        //TODO add an option to show/hide remote controller, will need server side
         super.initGui();
 
         //Clean up
@@ -60,12 +68,14 @@ public class GuiSiloInterface extends GuiContainerBase
         //Add buttons
         buttonList.add(new GuiButton(0, guiLeft + 150, guiTop + 5, 20, 20, "R")); //TODO implement refresh icon
 
-
-        if (tileSiloInterface.controllers.length > 0)
+        //Not controller data, nothing to display
+        if (tileSiloInterface.controllers != null && tileSiloInterface.controllerData != null && tileSiloInterface.controllers.length > 0)
         {
             //Controller section switch buttons
             buttonList.add(new GuiButton(5, guiLeft + 150, guiTop + 160, 20, 20, ">>"));
             buttonList.add(new GuiButton(6, guiLeft + 5, guiTop + 160, 20, 20, "<<"));
+
+            //Sanity check
             if (section >= tileSiloInterface.controllers.length)
             {
                 section = Math.max(tileSiloInterface.controllers.length - 1, 0);
@@ -78,34 +88,49 @@ public class GuiSiloInterface extends GuiContainerBase
                 buttonList.add(new GuiButton(1, guiLeft + 150, guiTop + 140, 20, 20, ">"));
                 buttonList.add(new GuiButton(2, guiLeft + 5, guiTop + 140, 20, 20, "<"));
 
+                //Get position data for the section
                 Pos[] positions = tileSiloInterface.controllerData[section];
+                //No position data or cached info, nothing to display
                 if (tileSiloInterface.clientSiloDataCache != null && tileSiloInterface.clientSiloDataCache.size() > 0 && positions.length > 0)
                 {
+                    //Santiy check
                     if (page >= positions.length)
                     {
                         page = positions.length - 1;
                     }
+
+                    //Get position -> get silo data
                     Pos pos = positions[page];
                     List<ISiloConnectionData> silos = tileSiloInterface.clientSiloDataCache.get(pos);
 
+                    //Check if tile exists, if yes then display name and group
                     TileEntity tile = pos.getTileEntity(player.worldObj);
                     if (tile instanceof TileCommandSiloConnector)
                     {
                         connectorDisplayName = ((TileCommandSiloConnector) tile).getConnectorDisplayName();
                         connectorGroupName = ((TileCommandSiloConnector) tile).getConnectorGroupName();
                     }
+
+                    //No silos, nothing to display
                     if (silos != null && silos.size() > 0)
                     {
+                        //Sanity check
                         if (index >= silos.size())
                         {
                             index = 0;
                         }
+                        //If more than x silo, add buttons to scroll
                         if (silos.size() > SILO_ON_SCREEN)
                         {
                             //Index switch buttons
                             buttonList.add(new GuiButton(3, guiLeft + 150, guiTop + 30, 20, 20, "-"));
                             buttonList.add(new GuiButton(4, guiLeft + 150, guiTop + 50, 20, 20, "+"));
+                            //TODO add actual scroll bar
+                            //TODO add scroll wheel support
+                            //TODO add arrow key support
                         }
+
+                        //Build display list
                         int row = 0;
                         for (int i = index; i < silos.size() && i < index + SILO_ON_SCREEN; i++)
                         {
@@ -136,12 +161,21 @@ public class GuiSiloInterface extends GuiContainerBase
                             buttonList.add(button);
                             row++;
                         }
+                    }
+                    else
+                    {
+                        //TODO show error saying no connections
+                    }
 
+                    //Create tool tips for connection icons
+                    for (int i = 0; i < connectionStatuses.size(); i++)
+                    {
+                        tooltips.put(new Rectangle(10, 10 + (i * 21), 28, 28 + (i * 21)), connectionStatuses.get(i).toString());
                     }
                 }
-                for (int i = 0; i < connectionStatuses.size(); i++)
+                else
                 {
-                    tooltips.put(new Rectangle(10, 10 + (i * 21), 28, 28 + (i * 21)), connectionStatuses.get(i).toString());
+                    //TODO show error saying no connections
                 }
             }
         }
@@ -151,6 +185,7 @@ public class GuiSiloInterface extends GuiContainerBase
             section = 0;
             page = 0;
             index = 0;
+            //TODO show error saying no connections
         }
     }
 

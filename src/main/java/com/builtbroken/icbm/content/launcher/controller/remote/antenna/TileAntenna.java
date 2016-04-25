@@ -45,6 +45,11 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IWirelessN
     /** Next time, in ticks, the {@link #antennaNetwork} will be trigger to re-path the antenna frame*/
     private int randomTick = 30;
 
+    //TODO implement
+    protected String displayName;
+    protected String networkName;
+    protected String passKey;
+
     @Override
     public void updateEntity()
     {

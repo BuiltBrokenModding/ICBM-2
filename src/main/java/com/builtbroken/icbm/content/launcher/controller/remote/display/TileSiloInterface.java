@@ -285,8 +285,9 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
                 for (int c = 0; c < controllers; c++)
                 {
                     String name = ByteBufUtils.readUTF8String(buf);
+                    name = name.isEmpty() ? "c" + c : name;
                     this.controllers[c] = name;
-                    readCommandSiloConnector(c, name.isEmpty() ? "c" : name, buf);
+                    readCommandSiloConnector(c, name, buf);
                 }
             }
             else
@@ -302,18 +303,21 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
         Pos[] posData = new Pos[locationSize];
         for (int i = 0; i < locationSize; i++)
         {
-            Pos pos = new Pos(buf);
+            Pos pos = new Pos(buf.readInt(), buf.readInt(), buf.readInt());
             int dataSize = buf.readInt();
             List<ISiloConnectionData> list = new ArrayList();
             if (dataSize > 0)
             {
                 NBTTagCompound save = ByteBufUtils.readTag(buf);
-                NBTTagList tagList = save.getTagList("data", 10);
-                for (int s = 0; s < tagList.tagCount(); s++)
+                if (save != null)
                 {
-                    //TODO fix loading to use interfaces, as this will not always be a silo connection data object
-                    //TODO add sanity checks to either now show or block bad data in GUI
-                    list.add(new SiloConnectionData(tagList.getCompoundTagAt(s)));
+                    NBTTagList tagList = save.getTagList("data", 10);
+                    for (int s = 0; s < tagList.tagCount(); s++)
+                    {
+                        //TODO fix loading to use interfaces, as this will not always be a silo connection data object
+                        //TODO add sanity checks to either now show or block bad data in GUI
+                        list.add(new SiloConnectionData(tagList.getCompoundTagAt(s)));
+                    }
                 }
             }
             else if (dataSize == 0)
@@ -348,25 +352,28 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
             //if no controller -> no connection -> no data
             if (commandCenter != null)
             {
-                int commandCenterCount = commandCenter != null ? 1 : 0;
                 List<TileCommandController> controllers = new ArrayList();
 
+                //Add our command center
                 if (commandCenter != null)
                 {
                     controllers.add(commandCenter);
                 }
 
+                //Find an add networked command centers
                 for (IWirelessNetwork network : commandCenter.getAttachedNetworks())
                 {
                     for (IWirelessNetworkObject object : network.getAttachedObjects())
                     {
-                        if (object instanceof TileCommandController && !controllers.contains(object))
+                        if (object instanceof TileCommandController && !controllers.contains(object) && !((TileCommandController) object).isInvalid())
                         {
                             controllers.add((TileCommandController) object);
                         }
                     }
                 }
-                packet.data().writeInt(commandCenterCount);
+
+                //Write data
+                packet.data().writeInt(controllers.size());
                 for (TileCommandController controller : controllers)
                 {
                     writeConnectorSet(controller, packet.data());
@@ -378,8 +385,8 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
 
     protected void writeConnectorSet(TileCommandController controller, ByteBuf data)
     {
-        data.writeInt(controller.siloConnectors != null ? controller.siloConnectors.entrySet().size() : -1);
         ByteBufUtils.writeUTF8String(data, controller.getControllerDisplayName() == null ? "" : controller.getControllerDisplayName());
+        data.writeInt(controller.siloConnectors != null ? controller.siloConnectors.entrySet().size() : -1);
         for (Map.Entry<Pos, TileCommandSiloConnector> entry : commandCenter.siloConnectors.entrySet())
         {
             writeCommandSiloConnector(entry, data);
@@ -389,11 +396,13 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
     protected void writeCommandSiloConnector(Map.Entry<Pos, TileCommandSiloConnector> entry, ByteBuf data)
     {
         //Write location data so it can be pulled
-        entry.getKey().writeByteBuf(data);
+        data.writeInt(entry.getKey().xi());
+        data.writeInt(entry.getKey().yi());
+        data.writeInt(entry.getKey().zi());
         if (entry.getValue() != null)
         {
             List<ISiloConnectionData> list = entry.getValue().getSiloConnectionData();
-            if (list != null)
+            if (list != null && list.size() > 0)
             {
                 //Write size of data list
                 data.writeInt(list.size());
