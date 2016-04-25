@@ -29,6 +29,7 @@ public class GuiSiloInterface extends GuiContainerBase
     EntityPlayer player;
     TileSiloInterface tileSiloInterface;
 
+    int section = 0;
     int page = 0;
     int index = 0;
 
@@ -51,74 +52,105 @@ public class GuiSiloInterface extends GuiContainerBase
     public void initGui()
     {
         super.initGui();
-        buttonList.add(new GuiButton(0, guiLeft + 150, guiTop + 5, 20, 20, "R")); //TODO implement refresh icon
-        buttonList.add(new GuiButton(1, guiLeft + 150, guiTop + 140, 20, 20, ">"));
-        buttonList.add(new GuiButton(2, guiLeft + 5, guiTop + 140, 20, 20, "<"));
 
+        //Clean up
         connectionStatuses.clear();
-        if (tileSiloInterface.clientSiloDataCache != null && tileSiloInterface.clientSiloDataCache.size() > 0 && tileSiloInterface.siloConnectorPositionCache.size() > 0)
+        tooltips.clear();
+
+        //Add buttons
+        buttonList.add(new GuiButton(0, guiLeft + 150, guiTop + 5, 20, 20, "R")); //TODO implement refresh icon
+
+
+        if (tileSiloInterface.controllers.length > 0)
         {
-            if (page >= tileSiloInterface.siloConnectorPositionCache.size())
+            //Controller section switch buttons
+            buttonList.add(new GuiButton(5, guiLeft + 150, guiTop + 160, 20, 20, ">>"));
+            buttonList.add(new GuiButton(6, guiLeft + 5, guiTop + 160, 20, 20, "<<"));
+            if (section >= tileSiloInterface.controllers.length)
             {
-                page = tileSiloInterface.siloConnectorPositionCache.size() - 1;
+                section = Math.max(tileSiloInterface.controllers.length - 1, 0);
             }
-            Pos pos = tileSiloInterface.siloConnectorPositionCache.get(page);
-            List<ISiloConnectionData> silos = tileSiloInterface.clientSiloDataCache.get(pos);
 
-            TileEntity tile = pos.getTileEntity(player.worldObj);
-            if (tile instanceof TileCommandSiloConnector)
+            //Get page section
+            if (section >= 0 && section < tileSiloInterface.controllers.length)
             {
-                connectorDisplayName = ((TileCommandSiloConnector) tile).getConnectorDisplayName();
-                connectorGroupName = ((TileCommandSiloConnector) tile).getConnectorGroupName();
-            }
-            if (silos != null && silos.size() > 0)
-            {
-                if (index >= silos.size())
+                //Page switch buttons
+                buttonList.add(new GuiButton(1, guiLeft + 150, guiTop + 140, 20, 20, ">"));
+                buttonList.add(new GuiButton(2, guiLeft + 5, guiTop + 140, 20, 20, "<"));
+
+                Pos[] positions = tileSiloInterface.controllerData[section];
+                if (tileSiloInterface.clientSiloDataCache != null && tileSiloInterface.clientSiloDataCache.size() > 0 && positions.length > 0)
                 {
-                    index = 0;
-                }
-                if (silos.size() > SILO_ON_SCREEN)
-                {
-                    buttonList.add(new GuiButton(3, guiLeft + 150, guiTop + 30, 20, 20, "-"));
-                    buttonList.add(new GuiButton(4, guiLeft + 150, guiTop + 50, 20, 20, "+"));
-                }
-                int row = 0;
-                for (int i = index; i < silos.size() && i < index + SILO_ON_SCREEN; i++)
-                {
-                    ISiloConnectionData data = silos.get(i);
-                    GuiButton2 button = new GuiButton2(10 + i, guiLeft + 36, guiTop + 10 + (row * 21), 80, 20, "Silo[" + i + "]");
-                    if (data != null)
+                    if (page >= positions.length)
                     {
-                        if (data.getSiloName() != null && !data.getSiloName().isEmpty())
+                        page = positions.length - 1;
+                    }
+                    Pos pos = positions[page];
+                    List<ISiloConnectionData> silos = tileSiloInterface.clientSiloDataCache.get(pos);
+
+                    TileEntity tile = pos.getTileEntity(player.worldObj);
+                    if (tile instanceof TileCommandSiloConnector)
+                    {
+                        connectorDisplayName = ((TileCommandSiloConnector) tile).getConnectorDisplayName();
+                        connectorGroupName = ((TileCommandSiloConnector) tile).getConnectorGroupName();
+                    }
+                    if (silos != null && silos.size() > 0)
+                    {
+                        if (index >= silos.size())
                         {
-                            String siloName = data.getSiloName();
-                            if (siloName.length() > 8)
-                            {
-                                siloName = siloName.substring(0, 8);
-                            }
-                            button.displayString = "Silo[" + siloName + "]";
+                            index = 0;
                         }
-                        connectionStatuses.add(data.getSiloStatus());
-                    }
-                    else
-                    {
-                        connectionStatuses.add(ConnectionStatus.NO_CONNECTION);
-                    }
-                    if (connectionStatuses.get(connectionStatuses.size() - 1) == ConnectionStatus.NO_CONNECTION)
-                    {
-                        button.disable();
-                    }
-                    buttonList.add(new GuiButton2(30 + i, guiLeft + 117, guiTop + 10 + (row * 21), 30, 20, "Fire"));
-                    buttonList.add(button);
-                    row++;
-                }
+                        if (silos.size() > SILO_ON_SCREEN)
+                        {
+                            //Index switch buttons
+                            buttonList.add(new GuiButton(3, guiLeft + 150, guiTop + 30, 20, 20, "-"));
+                            buttonList.add(new GuiButton(4, guiLeft + 150, guiTop + 50, 20, 20, "+"));
+                        }
+                        int row = 0;
+                        for (int i = index; i < silos.size() && i < index + SILO_ON_SCREEN; i++)
+                        {
+                            ISiloConnectionData data = silos.get(i);
+                            GuiButton2 button = new GuiButton2(10 + i, guiLeft + 36, guiTop + 10 + (row * 21), 80, 20, "Silo[" + i + "]");
+                            if (data != null)
+                            {
+                                if (data.getSiloName() != null && !data.getSiloName().isEmpty())
+                                {
+                                    String siloName = data.getSiloName();
+                                    if (siloName.length() > 8)
+                                    {
+                                        siloName = siloName.substring(0, 8);
+                                    }
+                                    button.displayString = "Silo[" + siloName + "]";
+                                }
+                                connectionStatuses.add(data.getSiloStatus());
+                            }
+                            else
+                            {
+                                connectionStatuses.add(ConnectionStatus.NO_CONNECTION);
+                            }
+                            if (connectionStatuses.get(connectionStatuses.size() - 1) == ConnectionStatus.NO_CONNECTION)
+                            {
+                                button.disable();
+                            }
+                            buttonList.add(new GuiButton2(30 + i, guiLeft + 117, guiTop + 10 + (row * 21), 30, 20, "Fire"));
+                            buttonList.add(button);
+                            row++;
+                        }
 
+                    }
+                }
+                for (int i = 0; i < connectionStatuses.size(); i++)
+                {
+                    tooltips.put(new Rectangle(10, 10 + (i * 21), 28, 28 + (i * 21)), connectionStatuses.get(i).toString());
+                }
             }
         }
-        tooltips.clear();
-        for (int i = 0; i < connectionStatuses.size(); i++)
+        //No data to show, so reset values
+        else
         {
-            tooltips.put(new Rectangle(10, 10 + (i * 21), 28, 28 + (i * 21)), connectionStatuses.get(i).toString());
+            section = 0;
+            page = 0;
+            index = 0;
         }
     }
 
@@ -228,42 +260,39 @@ public class GuiSiloInterface extends GuiContainerBase
         }
         else if (button.id >= 30)
         {
-            if (page >= 0 && page < tileSiloInterface.siloConnectorPositionCache.size())
+            int siloIndex = button.id - 30;
+            //This does our page limit check for us, on top of the index check
+            if (siloIndex >= 0 && siloIndex <= maxIndex())
             {
-                int siloIndex = button.id - 30;
-                List<ISiloConnectionData> silos = tileSiloInterface.clientSiloDataCache.get(tileSiloInterface.siloConnectorPositionCache.get(page));
-                if (siloIndex >= 0 && siloIndex < silos.size())
-                {
-                    Pos pos = tileSiloInterface.siloConnectorPositionCache.get(page);
-                    tileSiloInterface.fireSilo(pos, silos.get(siloIndex), player);
-                }
+                Pos pos = tileSiloInterface.controllerData[section][page];
+                List<ISiloConnectionData> silos = tileSiloInterface.clientSiloDataCache.get(pos);
+                tileSiloInterface.fireSilo(pos, silos.get(siloIndex), player);
             }
         }
         else if (button.id >= 10)
         {
-            if (page >= 0 && page < tileSiloInterface.siloConnectorPositionCache.size())
+            int siloIndex = button.id - 10;
+
+            //This does our page limit check for us, on top of the index check
+            if (siloIndex >= 0 && siloIndex <= maxIndex())
             {
-                int siloIndex = button.id - 10;
-                List<ISiloConnectionData> silos = tileSiloInterface.clientSiloDataCache.get(tileSiloInterface.siloConnectorPositionCache.get(page));
-                if (siloIndex >= 0 && siloIndex < silos.size())
-                {
-                    Pos pos = tileSiloInterface.siloConnectorPositionCache.get(page);
-                    tileSiloInterface.openSiloGui(pos, silos.get(siloIndex), player);
-                }
+                Pos pos = tileSiloInterface.controllerData[section][page];
+                List<ISiloConnectionData> silos = tileSiloInterface.clientSiloDataCache.get(pos);
+                tileSiloInterface.openSiloGui(pos, silos.get(siloIndex), player);
             }
         }
     }
 
     protected final int maxPageCount()
     {
-        return tileSiloInterface.siloConnectorPositionCache != null ? Math.max(tileSiloInterface.siloConnectorPositionCache.size() - 1, 0) : 0;
+        return tileSiloInterface.controllerData != null && section >= 0 && section < tileSiloInterface.controllerData.length && tileSiloInterface.controllerData[section] != null ? Math.max(tileSiloInterface.controllerData[section].length - 1, 0) : 0;
     }
 
     protected final int maxIndex()
     {
         if (page >= 0 && page <= maxPageCount())
         {
-            List<ISiloConnectionData> silos = tileSiloInterface.clientSiloDataCache.get(tileSiloInterface.siloConnectorPositionCache.get(page));
+            List<ISiloConnectionData> silos = tileSiloInterface.clientSiloDataCache.get(tileSiloInterface.controllerData[section][page]);
             return silos == null ? 0 : silos.size();
         }
         return 0;

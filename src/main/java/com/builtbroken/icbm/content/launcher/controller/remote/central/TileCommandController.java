@@ -17,6 +17,8 @@ import com.builtbroken.mc.api.tile.ILinkable;
 import com.builtbroken.mc.api.tile.IPassCode;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
+import com.builtbroken.mc.core.network.packet.PacketTile;
+import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Location;
@@ -24,6 +26,8 @@ import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.IPrefabInventory;
 import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.TileModuleMachine;
+import cpw.mods.fml.common.network.ByteBufUtils;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -61,6 +65,7 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
     protected List<IWirelessNetwork> connectedNetworks = new ArrayList();
 
     protected short siloDataPassKey = 0;
+    protected String displayName;
 
     public TileCommandController()
     {
@@ -395,13 +400,14 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
                                                         }
                                                         else if (launcher.getSilo() != null)
                                                         {
+                                                            //Cache travel time before firing, as the time is based on the missile.. which is gone after firing
+                                                            int travelTime = launcher.getSilo().getTravelTimeTo(launcher.getSilo().getTarget());
                                                             if (launcher.getSilo().fireMissile())
                                                             {
                                                                 fired = true;
                                                                 if (sender instanceof FakeRadioSender)
                                                                 {
                                                                     ((FakeRadioSender) sender).player.addChatComponentMessage(new ChatComponentText("Silo[" + siloName + "]: Missile fire at target " + launcher.getSilo().getTarget()));
-                                                                    int travelTime = launcher.getSilo().getTravelTimeTo(launcher.getSilo().getTarget());
                                                                     if (travelTime > 0)
                                                                     {
                                                                         ((FakeRadioSender) sender).player.addChatComponentMessage(new ChatComponentText("Silo[" + siloName + "]: Eta " + travelTime + " seconds"));
@@ -485,5 +491,51 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
     public void onRangeChange(IRadioWaveReceiver receiver, Cube range)
     {
 
+    }
+
+    public String getControllerDisplayName()
+    {
+        return displayName;
+    }
+
+    public void setConnectorDisplayName(String name)
+    {
+        this.displayName = name;
+        if (isClient())
+        {
+            sendPacketToServer(new PacketTile(this, 2, name != null ? name : ""));
+        }
+    }
+
+    @Override
+    public void readDescPacket(ByteBuf buf)
+    {
+        super.readDescPacket(buf);
+        displayName = ByteBufUtils.readUTF8String(buf);
+    }
+
+    @Override
+    public void writeDescPacket(ByteBuf buf)
+    {
+        super.writeDescPacket(buf);
+        ByteBufUtils.writeUTF8String(buf, getControllerDisplayName() == null ? "" : getControllerDisplayName());
+    }
+
+    @Override
+    public boolean read(ByteBuf buf, int id, EntityPlayer player, PacketType type)
+    {
+        if (!super.read(buf, id, player, type))
+        {
+            if (isServer())
+            {
+                if (id == 2)
+                {
+                    setConnectorDisplayName(ByteBufUtils.readUTF8String(buf));
+                    return true;
+                }
+            }
+            return false;
+        }
+        return true;
     }
 }

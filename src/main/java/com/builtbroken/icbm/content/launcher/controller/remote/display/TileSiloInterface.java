@@ -10,6 +10,8 @@ import com.builtbroken.icbm.content.launcher.controller.remote.connector.SiloCon
 import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCommandSiloConnector;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
+import com.builtbroken.mc.api.map.radio.wireless.IWirelessNetwork;
+import com.builtbroken.mc.api.map.radio.wireless.IWirelessNetworkObject;
 import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.api.tile.ILinkFeedback;
 import com.builtbroken.mc.api.tile.ILinkable;
@@ -65,8 +67,10 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
 
     /** Silo data cache used in the GUI */
     protected HashMap<Pos, List<ISiloConnectionData>> clientSiloDataCache;
-    /** Locations of connected use din GUI */
-    protected List<Pos> siloConnectorPositionCache;
+
+    /** Locations of connected locations to controller */
+    protected String[] controllers;
+    protected Pos[][] controllerData;
 
     public TileSiloInterface()
     {
@@ -229,7 +233,7 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
                 openSiloGui(pos, data, player);
                 return true;
             }
-            else if(id == 3)
+            else if (id == 3)
             {
                 Pos pos = new Pos(buf);
                 SiloConnectionData data = new SiloConnectionData(buf);
@@ -242,47 +246,19 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
         {
             if (id == 2)
             {
+                //Clear up / init
                 if (clientSiloDataCache == null)
                 {
                     clientSiloDataCache = new HashMap();
                 }
-                if (siloConnectorPositionCache == null)
-                {
-                    siloConnectorPositionCache = new ArrayList();
-                }
-                siloConnectorPositionCache.clear();
+
+                controllerData = null;
+                controllers = null;
                 clientSiloDataCache.clear();
-                if (buf.readBoolean())
-                {
-                    int locationSize = buf.readInt();
-                    for (int i = 0; i < locationSize; i++)
-                    {
-                        Pos pos = new Pos(buf);
-                        int dataSize = buf.readInt();
-                        List<ISiloConnectionData> list = new ArrayList();
-                        if (dataSize > 0)
-                        {
-                            NBTTagCompound save = ByteBufUtils.readTag(buf);
-                            NBTTagList tagList = save.getTagList("data", 10);
-                            for (int s = 0; s < tagList.tagCount(); s++)
-                            {
-                                //TODO fix loading to use interfaces, as this will not always be a silo connection data object
-                                //TODO add sanity checks to either now show or block bad data in GUI
-                                list.add(new SiloConnectionData(tagList.getCompoundTagAt(s)));
-                            }
-                        }
-                        else if (dataSize == 0)
-                        {
-                            //TODO show no connections
-                        }
-                        else if (dataSize == -1)
-                        {
-                            //TODO show in GUI connection was lost
-                        }
-                        siloConnectorPositionCache.add(pos);
-                        clientSiloDataCache.put(pos, list);
-                    }
-                }
+
+                //Call to read
+                readConnectorSet(buf);
+
                 //Refresh GUI
                 GuiScreen screen = Minecraft.getMinecraft().currentScreen;
                 if (screen instanceof GuiSiloInterface)
@@ -295,6 +271,65 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
         return false;
     }
 
+    protected void readConnectorSet(ByteBuf buf)
+    {
+        //Do we have data
+        if (buf.readBoolean())
+        {
+            //Number of controllers we are about to read
+            int controllers = buf.readInt();
+            if (controllers > 0)
+            {
+                this.controllers = new String[controllers];
+                this.controllerData = new Pos[controllers][];
+                for (int c = 0; c < controllers; c++)
+                {
+                    String name = ByteBufUtils.readUTF8String(buf);
+                    this.controllers[c] = name;
+                    readCommandSiloConnector(c, name.isEmpty() ? "c" : name, buf);
+                }
+            }
+            else
+            {
+                //TODO show error saying no connection is provided
+            }
+        }
+    }
+
+    protected void readCommandSiloConnector(int controllerIndexValue, String controllerName, ByteBuf buf)
+    {
+        int locationSize = buf.readInt();
+        Pos[] posData = new Pos[locationSize];
+        for (int i = 0; i < locationSize; i++)
+        {
+            Pos pos = new Pos(buf);
+            int dataSize = buf.readInt();
+            List<ISiloConnectionData> list = new ArrayList();
+            if (dataSize > 0)
+            {
+                NBTTagCompound save = ByteBufUtils.readTag(buf);
+                NBTTagList tagList = save.getTagList("data", 10);
+                for (int s = 0; s < tagList.tagCount(); s++)
+                {
+                    //TODO fix loading to use interfaces, as this will not always be a silo connection data object
+                    //TODO add sanity checks to either now show or block bad data in GUI
+                    list.add(new SiloConnectionData(tagList.getCompoundTagAt(s)));
+                }
+            }
+            else if (dataSize == 0)
+            {
+                //TODO show no connections
+            }
+            else if (dataSize == -1)
+            {
+                //TODO show in GUI connection was lost
+            }
+            posData[i] = pos;
+            clientSiloDataCache.put(pos, list);
+        }
+        this.controllerData[controllerIndexValue] = posData;
+    }
+
     /**
      * Sends silo data to the player
      *
@@ -302,44 +337,85 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
      */
     public void sendSiloData(EntityPlayer player)
     {
+        //TODO redo this to only send selective data for the page currently being viewed
         if (player instanceof EntityPlayerMP)
         {
-            //TODO redo this to only send selective data for the page currently being viewed
+            //Get out controller
             TileCommandController commandCenter = getCommandCenter();
+            //Generate packet
             PacketTile packet = new PacketTile(this, 2, commandCenter != null);
+
+            //if no controller -> no connection -> no data
             if (commandCenter != null)
             {
-                packet.data().writeInt(commandCenter.siloConnectors.entrySet().size());
-                for (Map.Entry<Pos, TileCommandSiloConnector> entry : commandCenter.siloConnectors.entrySet())
+                int commandCenterCount = commandCenter != null ? 1 : 0;
+                List<TileCommandController> controllers = new ArrayList();
+
+                if (commandCenter != null)
                 {
-                    entry.getKey().writeByteBuf(packet.data()); //TODO find a way to send the controller name
-                    if (entry.getValue() != null)
+                    controllers.add(commandCenter);
+                }
+
+                for (IWirelessNetwork network : commandCenter.getAttachedNetworks())
+                {
+                    for (IWirelessNetworkObject object : network.getAttachedObjects())
                     {
-                        List<ISiloConnectionData> list = entry.getValue().getSiloConnectionData();
-                        if (list != null)
+                        if (object instanceof TileCommandController && !controllers.contains(object))
                         {
-                            packet.data().writeInt(list.size());
-                            NBTTagCompound save = new NBTTagCompound();
-                            NBTTagList tagList = new NBTTagList();
-                            for (ISiloConnectionData data : list)
-                            {
-                                tagList.appendTag(data.save(new NBTTagCompound()));
-                            }
-                            save.setTag("data", tagList);
-                            ByteBufUtils.writeTag(packet.data(), save);
-                        }
-                        else
-                        {
-                            packet.data().writeInt(0); //Empty connection
+                            controllers.add((TileCommandController) object);
                         }
                     }
-                    else
-                    {
-                        packet.data().writeInt(-1); //No connection
-                    }
+                }
+                packet.data().writeInt(commandCenterCount);
+                for (TileCommandController controller : controllers)
+                {
+                    writeConnectorSet(controller, packet.data());
                 }
             }
             Engine.instance.packetHandler.sendToPlayer(packet, (EntityPlayerMP) player);
+        }
+    }
+
+    protected void writeConnectorSet(TileCommandController controller, ByteBuf data)
+    {
+        data.writeInt(controller.siloConnectors != null ? controller.siloConnectors.entrySet().size() : -1);
+        ByteBufUtils.writeUTF8String(data, controller.getControllerDisplayName() == null ? "" : controller.getControllerDisplayName());
+        for (Map.Entry<Pos, TileCommandSiloConnector> entry : commandCenter.siloConnectors.entrySet())
+        {
+            writeCommandSiloConnector(entry, data);
+        }
+    }
+
+    protected void writeCommandSiloConnector(Map.Entry<Pos, TileCommandSiloConnector> entry, ByteBuf data)
+    {
+        //Write location data so it can be pulled
+        entry.getKey().writeByteBuf(data);
+        if (entry.getValue() != null)
+        {
+            List<ISiloConnectionData> list = entry.getValue().getSiloConnectionData();
+            if (list != null)
+            {
+                //Write size of data list
+                data.writeInt(list.size());
+
+                //Convert data to NBT as this is the easiest way to load it
+                NBTTagCompound save = new NBTTagCompound();
+                NBTTagList tagList = new NBTTagList();
+                for (ISiloConnectionData siloData : list)
+                {
+                    tagList.appendTag(siloData.save(new NBTTagCompound()));
+                }
+                save.setTag("data", tagList);
+                ByteBufUtils.writeTag(data, save);
+            }
+            else
+            {
+                data.writeInt(0); //Empty connection
+            }
+        }
+        else
+        {
+            data.writeInt(-1); //No connection
         }
     }
 

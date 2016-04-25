@@ -149,6 +149,12 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IWirelessN
     }
 
     @Override
+    protected boolean canConnect(ForgeDirection side, TileEntity tile)
+    {
+        return tile != null;
+    }
+
+    @Override
     public void invalidate()
     {
         super.invalidate();

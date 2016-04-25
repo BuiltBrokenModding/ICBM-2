@@ -63,7 +63,6 @@ public class TileAntennaPart extends TileEntityBase implements IWorldPosition
         }
     }
 
-
     /**
      * Builds a map of tile connections to sides
      */
@@ -73,12 +72,11 @@ public class TileAntennaPart extends TileEntityBase implements IWorldPosition
         for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
         {
             TileEntity tile = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
-            if(tile != null)
+            if(tile != null && canConnect(dir, tile))
             {
                 connections.put(dir, tile);
                 if (tile instanceof TileAntennaPart)
                 {
-
                     if (((TileAntennaPart) tile).antennaNetwork != null)
                     {
                         if (antennaNetwork == null)
@@ -93,6 +91,11 @@ public class TileAntennaPart extends TileEntityBase implements IWorldPosition
                 }
             }
         }
+    }
+
+    protected boolean canConnect(ForgeDirection side, TileEntity tile)
+    {
+        return tile instanceof TileAntennaPart;
     }
 
     /**
