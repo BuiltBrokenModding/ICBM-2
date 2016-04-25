@@ -91,7 +91,12 @@ public class GuiSiloInterface extends GuiContainerBase
                     {
                         if (data.getSiloName() != null && !data.getSiloName().isEmpty())
                         {
-                            button.displayString = "Silo[" + data.getSiloName() + "]"; //TODO trim name length
+                            String siloName = data.getSiloName();
+                            if (siloName.length() > 8)
+                            {
+                                siloName = siloName.substring(0, 8);
+                            }
+                            button.displayString = "Silo[" + siloName + "]";
                         }
                         connectionStatuses.add(data.getSiloStatus());
                     }

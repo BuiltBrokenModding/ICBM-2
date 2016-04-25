@@ -106,9 +106,9 @@ public class TileStandardSilo extends TileAbstractLauncher implements ISimpleIte
     {
         GL11.glTranslatef(-0.5f, -0.5f, -0.5f);
         GL11.glScaled(.8f, .8f, .8f);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_SILO_TEXTURE);
         GL11.glColor3f(1.0f, 0f, 0f);
-        Assets.SMALL_SILO_MODEL.renderOnly("base", "botCorner1", "botCorner2", "botCorner3", "botCorner4");
+        Assets.SMALL_SILO_MODEL.renderOnly("Group_001", "Component_1_001");
     }
 
     @SideOnly(Side.CLIENT)
@@ -123,7 +123,7 @@ public class TileStandardSilo extends TileAbstractLauncher implements ISimpleIte
     {
         //Render launcher
         GL11.glPushMatrix();
-        GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.3f, pos.zf() + 0.5f);
+        GL11.glTranslatef(pos.xf(), pos.yf(), pos.zf() + 1 );
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.STANDARD_SILO_TEXTURE);
         Assets.STANDARD_SILO_MODEL.renderAll();
         GL11.glPopMatrix();

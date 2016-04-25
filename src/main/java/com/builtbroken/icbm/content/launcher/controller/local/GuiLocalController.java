@@ -117,7 +117,7 @@ public class GuiLocalController extends GuiContainerBase
                 this.x_field = this.newField(x, y, 40, 20, "" + ((TileAbstractLauncher) tile).target.xi());
                 this.y_field = this.newField(x + 45, y, 40, 20, "" + ((TileAbstractLauncher) tile).target.yi());
                 this.z_field = this.newField(x + 90, y, 40, 20, "" + ((TileAbstractLauncher) tile).target.zi());
-                this.name_field = this.newField(x, y + 38, 90, 20, "" + ((TileAbstractLauncher) tile).getCustomName());
+                this.name_field = this.newField(x, y + 38, 90, 20, ((TileAbstractLauncher) tile).getCustomName() != null ? ((TileAbstractLauncher) tile).getCustomName() : "");
             }
         }
     }

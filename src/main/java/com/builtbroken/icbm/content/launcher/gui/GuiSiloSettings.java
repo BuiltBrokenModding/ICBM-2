@@ -117,7 +117,7 @@ public class GuiSiloSettings extends GuiContainerBase
                 this.x_field.setText("" + launcher.target.xi());
                 this.y_field.setText("" + launcher.target.yi());
                 this.z_field.setText("" + launcher.target.zi());
-                this.name_field.setText("" + launcher.getCustomName());
+                this.name_field.setText(launcher.getCustomName() == null ? "" : launcher.getCustomName());
             }
         }
         errorString = null;

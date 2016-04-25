@@ -124,7 +124,7 @@ tile.icbm:decorLaunchPad.8.name=Center
 tile.icbm:launcherPart.name=Launcher Part
 tile.icbm:launcherPart.0.name=Launcher Computer
 
-tile.icbm:launcherFrame.0.name=Launcher Frame
+tile.icbm:launcherFrame.name=Launcher Frame
 
 tile.icbm:commandController.name=Silo Command Controller
 tile.icbm:commandSiloDisplay.name=Silo Command Display
