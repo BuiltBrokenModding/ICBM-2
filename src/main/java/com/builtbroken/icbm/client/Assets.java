@@ -76,8 +76,7 @@ public final class Assets
 
     public static final ResourceLocation LAUNCHER_FRAME_TEXTURE = texture("reg-missile-station");
 
-    public static final ResourceLocation AMS_TOP_TEXTURE = texture("AMSTop");
-    public static final ResourceLocation AMS_BOT_TEXTURE = texture("AMSBottom");
+    public static final ResourceLocation AMS_TEXTURE = texture("AMS");
 
     public static final ResourceLocation FoF_STATION_TEXTURE = texture("console-fof");
 

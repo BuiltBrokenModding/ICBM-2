@@ -81,7 +81,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
     @Override
     public void renderInventoryItem(IItemRenderer.ItemRenderType type, ItemStack itemStack, Object... data)
     {
-        GL11.glTranslatef(-0.5f, -0.5f, -0.5f);
+        GL11.glTranslatef(-1f, 0f, 0.1f);
         GL11.glRotatef(-20f, 0, 1, 0);
         GL11.glScaled(.7f, .7f, .7f);
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_WORKSTATION_TEXTURE);
@@ -283,20 +283,23 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
         {
             //UP is already done by default
             //EAST and WEST are invalid rotations
+            case UP:
+                GL11.glTranslatef(0f, -0.1f, .08f);
+                break;
             case DOWN:
                 GL11.glRotated(180, 0, 0, 1);
                 // ? -y ?
-                GL11.glTranslatef(0f, -1.8f, 0f);
+                GL11.glTranslatef(-1f, -1.8f, .15f);
                 break;
             case NORTH:
                 GL11.glRotated(-90, 1, 0, 0);
                 // x -z y
-                GL11.glTranslatef(.15f, -0.9f, 0.7f);
+                GL11.glTranslatef(.15f, -1.3f, 0.7f);
                 break;
             case SOUTH:
                 GL11.glRotated(90, 1, 0, 0);
                 // x z y
-                GL11.glTranslatef(0.15f, -0.9f, -1.1f);
+                GL11.glTranslatef(0.1f, -0.55f, -1.1f);
                 break;
         }
     }
@@ -313,17 +316,17 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
             case DOWN:
                 GL11.glRotated(180, 0, 0, 1);
                 // ? -y ?
-                GL11.glTranslatef(0f, -1.8f, 0f);
+                GL11.glTranslatef(-1f, -1.8f, 0f);
                 break;
             case EAST:
                 GL11.glRotated(-90, 0, 0, 1);
                 //-y x z
-                GL11.glTranslatef(-1.35f, -0.9f, 0f);
+                GL11.glTranslatef(-1.35f, -0.5f, 0f);
                 break;
             case WEST:
                 GL11.glRotated(90, 0, 0, 1);
                 //y -x z
-                GL11.glTranslatef(0.45f, -0.9f, 0f);
+                GL11.glTranslatef(0.45f, -1.4f, 0f);
                 break;
         }
     }

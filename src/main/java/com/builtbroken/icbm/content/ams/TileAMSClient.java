@@ -33,11 +33,11 @@ public class TileAMSClient extends TileAMS implements ISimpleItemRenderer
         GL11.glTranslatef(0.5f, 0, 0.5f);
 
         GL11.glRotatef(90, 0, 1, 0);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.AMS_BOT_TEXTURE);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.AMS_TEXTURE);
         Assets.AMS_BOTTOM_MODEL.renderAll();
 
         GL11.glTranslatef(0, 0.5f, 0);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.AMS_TOP_TEXTURE);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.AMS_TEXTURE);
         Assets.AMS_TOP_MODEL.renderAll();
     }
 
@@ -55,12 +55,12 @@ public class TileAMSClient extends TileAMS implements ISimpleItemRenderer
         GL11.glTranslatef(pos.xf() + 0.5f, pos.yf(), pos.zf() + 0.5f);
 
         GL11.glRotatef((float) ((currentAim.yaw() + 90f) % 360), 0, 1, 0);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.AMS_BOT_TEXTURE);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.AMS_TEXTURE);
         Assets.AMS_BOTTOM_MODEL.renderAll();
 
         GL11.glTranslatef(0, 0.5f, 0);
         GL11.glRotatef((float) currentAim.pitch(), 0, 0, 1);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.AMS_TOP_TEXTURE);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.AMS_TEXTURE);
         Assets.AMS_TOP_MODEL.renderAll();
 
         GL11.glPopMatrix();
