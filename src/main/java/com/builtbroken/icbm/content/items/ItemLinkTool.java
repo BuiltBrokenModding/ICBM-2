@@ -54,10 +54,10 @@ public class ItemLinkTool extends ItemWorldPos implements IWorldPosItem, IPassCo
     public void addInformation(ItemStack stack, EntityPlayer player, List lines, boolean b)
     {
         String localization = LanguageUtility.getLocal(getUnlocalizedName() + ".info");
-        if(localization != null && !localization.isEmpty())
+        if (localization != null && !localization.isEmpty())
         {
             String[] split = localization.split(",");
-            for(String line : split)
+            for (String line : split)
             {
                 lines.add(line.trim());
             }
@@ -76,14 +76,16 @@ public class ItemLinkTool extends ItemWorldPos implements IWorldPosItem, IPassCo
     public IIcon getIconFromDamage(int meta)
     {
         if (meta == 1)
+        {
             return this.linked_icon;
+        }
         return this.itemIcon;
     }
 
     @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
-        if (player.isSneaking())
+        if (!world.isRemote && player != null && player.isSneaking())
         {
             stack.setTagCompound(null);
             stack.setItemDamage(0);
@@ -96,63 +98,70 @@ public class ItemLinkTool extends ItemWorldPos implements IWorldPosItem, IPassCo
     @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hit_x, float hit_y, float hit_z)
     {
-        if (world.isRemote)
-            return true;
-
-        Location location = new Location(world, x, y, z);
-        TileEntity tile = location.getTileEntity();
-
-        if (tile instanceof IMultiTile)
+        if (player != null && stack != null && stack.getItem() == this)
         {
-            IMultiTileHost host = ((IMultiTile) tile).getHost();
-            if (host instanceof TileEntity)
+            if (world.isRemote)
             {
-                tile = (TileEntity) host;
-            }
-        }
-
-        if (player.isSneaking())
-        {
-            setLocation(stack, location);
-            LanguageUtility.addChatToPlayer(player, "link.pos.set");
-            if (tile instanceof IPassCode)
-            {
-                setCode(stack, ((IPassCode) tile).getCode());
-            }
-            stack.setItemDamage(1);
-            player.inventoryContainer.detectAndSendChanges();
-            return true;
-        }
-        else
-        {
-            Location storedLocation = getLocation(stack);
-            if (storedLocation == null || !storedLocation.isAboveBedrock())
-            {
-                LanguageUtility.addChatToPlayer(player, "link.error.pos.invalid");
                 return true;
             }
-            else if (tile instanceof ILinkable)
+
+            final Location location = new Location(world, x, y, z);
+            TileEntity tile = location.getTileEntity();
+
+            if (tile instanceof IMultiTile)
             {
-                String result = ((ILinkable) tile).link(getLocation(stack), getCode(stack));
-                if (result != null && result != "")
+                IMultiTileHost host = ((IMultiTile) tile).getHost();
+                if (host instanceof TileEntity)
                 {
-                    if (result.contains("error"))
+                    tile = (TileEntity) host;
+                }
+            }
+
+            if (player.isSneaking())
+            {
+                setLocation(stack, location);
+                LanguageUtility.addChatToPlayer(player, "link.pos.set");
+                if (tile instanceof IPassCode)
+                {
+                    setCode(stack, ((IPassCode) tile).getCode());
+                }
+                stack.setItemDamage(1);
+                player.inventoryContainer.detectAndSendChanges();
+                return true;
+            }
+            else
+            {
+                Location storedLocation = getLocation(stack);
+                if (storedLocation == null || !storedLocation.isAboveBedrock())
+                {
+                    LanguageUtility.addChatToPlayer(player, "link.error.pos.invalid");
+                    return true;
+                }
+                else if (tile instanceof ILinkable)
+                {
+                    String result = ((ILinkable) tile).link(getLocation(stack), getCode(stack));
+                    if (result != null && result != "")
                     {
-                        String translation = LanguageUtility.getLocalName(result);
-                        if (translation == null || translation.isEmpty())
-                            translation = "Error";
-                        player.addChatComponentMessage(new ChatComponentText(TextColor.RED.getColorString() + translation));
+                        if (result.contains("error"))
+                        {
+                            String translation = LanguageUtility.getLocalName(result);
+                            if (translation == null || translation.isEmpty())
+                            {
+                                translation = "Error";
+                            }
+                            player.addChatComponentMessage(new ChatComponentText(TextColor.RED.getColorString() + translation));
+                        }
+                        else
+                        {
+                            LanguageUtility.addChatToPlayer(player, result);
+                        }
                     }
                     else
                     {
-                        LanguageUtility.addChatToPlayer(player, result);
+                        LanguageUtility.addChatToPlayer(player, "link.completed");
                     }
+                    return true;
                 }
-                else
-                {
-                    LanguageUtility.addChatToPlayer(player, "link.completed");
-                }
-                return true;
             }
         }
         return false;
@@ -161,7 +170,7 @@ public class ItemLinkTool extends ItemWorldPos implements IWorldPosItem, IPassCo
     @Override
     public short getCode(ItemStack stack)
     {
-        if (stack.getItem() == this && stack.hasTagCompound() && stack.getTagCompound().hasKey("passShort"))
+        if (stack != null && stack.getItem() == this && stack.hasTagCompound() && stack.getTagCompound().hasKey("passShort"))
         {
             return stack.getTagCompound().getShort("passShort");
         }
@@ -171,10 +180,12 @@ public class ItemLinkTool extends ItemWorldPos implements IWorldPosItem, IPassCo
     @Override
     public void setCode(ItemStack stack, short code)
     {
-        if (stack.getItem() == this)
+        if (stack != null && stack.getItem() == this)
         {
-            if (!stack.hasTagCompound())
+            if (stack.getTagCompound() == null)
+            {
                 stack.setTagCompound(new NBTTagCompound());
+            }
             stack.getTagCompound().setShort("passShort", code);
         }
     }
