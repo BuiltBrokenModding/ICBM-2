@@ -2,7 +2,6 @@ package com.builtbroken.icbm.mods.cc;
 
 import com.builtbroken.icbm.content.launcher.controller.direct.TileSiloController;
 import com.builtbroken.mc.prefab.tile.Tile;
-import net.minecraft.world.World;
 
 /**
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
@@ -11,7 +10,7 @@ import net.minecraft.world.World;
 public class TileSiloControllerCC extends TileSiloController
 {
     @Override
-    public Tile newTile(World world, int meta)
+    public Tile newTile()
     {
         return new TileSiloControllerCC();
     }

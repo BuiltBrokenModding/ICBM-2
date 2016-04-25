@@ -21,6 +21,9 @@ import com.builtbroken.icbm.content.blast.util.ExRegen;
 import com.builtbroken.icbm.content.blast.util.ExRegenLocal;
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstationClient;
 import com.builtbroken.icbm.content.fof.TileFoFClient;
+import com.builtbroken.icbm.content.launcher.controller.remote.antenna.ItemRendererAntennaFrame;
+import com.builtbroken.icbm.content.launcher.controller.remote.antenna.TESRAntenna;
+import com.builtbroken.icbm.content.launcher.controller.remote.antenna.TileAntennaPart;
 import com.builtbroken.icbm.content.launcher.launcher.standard.TileStandardLauncherClient;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.RenderMissile;
@@ -32,6 +35,7 @@ import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.explosive.ExplosiveHandlerGeneric;
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.ReflectionHelper;
@@ -43,6 +47,7 @@ import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.Item;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
@@ -72,7 +77,8 @@ public class ClientProxy extends CommonProxy
     public void init()
     {
         super.init();
-
+        ClientRegistry.bindTileEntitySpecialRenderer(TileAntennaPart.class, new TESRAntenna());
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ICBM.blockAntenna), new ItemRendererAntennaFrame());
         MinecraftForgeClient.registerItemRenderer(ICBM.itemRocketLauncher, new RenderRocketLauncher());
 
         RenderMissile render = new RenderMissile(0.5F);

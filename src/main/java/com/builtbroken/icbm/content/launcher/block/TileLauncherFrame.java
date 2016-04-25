@@ -11,6 +11,7 @@ import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.recipe.item.sheetmetal.RecipeSheetMetal;
+import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.TileMachine;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -39,6 +40,12 @@ public class TileLauncherFrame extends TileMachine implements ISimpleItemRendere
         this.isOpaque = false;
         this.renderNormalBlock = false;
         this.renderTileEntity = true;
+    }
+
+    @Override
+    public Tile newTile()
+    {
+        return new TileLauncherFrame();
     }
 
     @Override

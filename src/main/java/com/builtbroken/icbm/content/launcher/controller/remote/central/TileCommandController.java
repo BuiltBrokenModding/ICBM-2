@@ -22,6 +22,7 @@ import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.IPrefabInventory;
+import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.TileModuleMachine;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -66,6 +67,12 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
         super("commandController", Material.iron);
         this.hardness = 10f;
         this.resistance = 10f;
+    }
+
+    @Override
+    public Tile newTile()
+    {
+        return new TileCommandController();
     }
 
     @Override

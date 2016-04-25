@@ -6,7 +6,6 @@ import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.core.registry.implement.IRegistryInit;
 import com.builtbroken.mc.lib.helper.WrenchUtility;
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -255,7 +254,7 @@ public class BlockAntennaParts extends BlockContainer implements IPostInit, IReg
     @Override
     public int getRenderType()
     {
-        return ISBRAntennaFrame.INSTANCE.ID;
+        return -1;
     }
 
     @Override
@@ -274,7 +273,6 @@ public class BlockAntennaParts extends BlockContainer implements IPostInit, IReg
     @Override
     public void onClientRegistered()
     {
-        RenderingRegistry.registerBlockHandler(ISBRAntennaFrame.INSTANCE);
     }
 
     @Override

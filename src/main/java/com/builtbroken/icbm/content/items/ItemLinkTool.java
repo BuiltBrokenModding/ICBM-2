@@ -172,6 +172,11 @@ public class ItemLinkTool extends ItemWorldPos implements IWorldPosItem, IPassCo
                             }
                             return true;
                         }
+                        else
+                        {
+                            LanguageUtility.addChatToPlayer(player, "link.error.pos.invalid");
+                            return true;
+                        }
                     }
                     else
                     {

@@ -20,6 +20,7 @@ import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
+import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.TileModuleMachine;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.ByteBufUtils;
@@ -71,6 +72,12 @@ public class TileLocalController extends TileModuleMachine implements ILinkable,
         this.renderNormalBlock = false;
         this.renderTileEntity = true;
         this.isOpaque = false;
+    }
+
+    @Override
+    public Tile newTile()
+    {
+        return new TileLocalController();
     }
 
     @Override
