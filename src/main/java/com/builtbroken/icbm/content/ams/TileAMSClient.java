@@ -12,7 +12,6 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.model.obj.GroupObject;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -21,9 +20,6 @@ import org.lwjgl.opengl.GL11;
  */
 public class TileAMSClient extends TileAMS implements ISimpleItemRenderer
 {
-    private static GroupObject turret;
-    private static GroupObject base;
-
     @Override
     public Tile newTile()
     {
@@ -33,30 +29,16 @@ public class TileAMSClient extends TileAMS implements ISimpleItemRenderer
     @Override
     public void renderInventoryItem(IItemRenderer.ItemRenderType type, ItemStack itemStack, Object... data)
     {
-        if (turret == null || base == null)
-        {
-            for (GroupObject object : Assets.AMS_MODEL.groupObjects)
-            {
-                if (object.name.equals("TurretBase_Cylinder"))
-                {
-                    base = object;
-                }
-                else if (object.name.equals("Gun_Cube.002"))
-                {
-                    turret = object;
-                }
-            }
-        }
 
         GL11.glTranslatef(0.5f, 0, 0.5f);
 
         GL11.glRotatef(90, 0, 1, 0);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.AMS_TEXTURE);
-        base.render();
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.AMS_BOT_TEXTURE);
+        Assets.AMS_BOTTOM_MODEL.renderAll();
 
         GL11.glTranslatef(0, 0.5f, 0);
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.AMS_TOP_TEXTURE);
-        turret.render();
+        Assets.AMS_TOP_MODEL.renderAll();
     }
 
     @SideOnly(Side.CLIENT)
@@ -69,33 +51,17 @@ public class TileAMSClient extends TileAMS implements ISimpleItemRenderer
             currentAim.clampTo360();
         }
         lastRotationUpdate = System.nanoTime();
-
-        //Get render pieces if missing
-        if (turret == null || base == null)
-        {
-            for (GroupObject object : Assets.AMS_MODEL.groupObjects)
-            {
-                if (object.name.equals("TurretBase_Cylinder"))
-                {
-                    base = object;
-                }
-                else if (object.name.equals("Gun_Cube.002"))
-                {
-                    turret = object;
-                }
-            }
-        }
         GL11.glPushMatrix();
         GL11.glTranslatef(pos.xf() + 0.5f, pos.yf(), pos.zf() + 0.5f);
 
         GL11.glRotatef((float) ((currentAim.yaw() + 90f) % 360), 0, 1, 0);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.AMS_TEXTURE);
-        base.render();
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.AMS_BOT_TEXTURE);
+        Assets.AMS_BOTTOM_MODEL.renderAll();
 
         GL11.glTranslatef(0, 0.5f, 0);
         GL11.glRotatef((float) currentAim.pitch(), 0, 0, 1);
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.AMS_TOP_TEXTURE);
-        turret.render();
+        Assets.AMS_TOP_MODEL.renderAll();
 
         GL11.glPopMatrix();
     }

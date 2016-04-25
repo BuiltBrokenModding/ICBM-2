@@ -105,8 +105,8 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
     {
         GL11.glTranslatef(-0.5f, -0.5f, -0.5f);
         GL11.glScaled(.8f, .8f, .8f);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
-        Assets.SMALL_SILO_MODEL.renderOnly("base", "botCorner1", "botCorner2", "botCorner3", "botCorner4");
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_SILO_TEXTURE);
+        Assets.SMALL_SILO_MODEL.renderOnly("Group_001", "Component_1_001");
     }
 
     @SideOnly(Side.CLIENT)
@@ -121,14 +121,15 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
     {
         //Render launcher
         GL11.glPushMatrix();
-        GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.5f, pos.zf() + 0.5f);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
+        GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.0935f, pos.zf() + 0.5f);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_SILO_TEXTURE);
         Assets.SMALL_SILO_MODEL.renderAll();
         GL11.glPopMatrix();
 
         //Render missile
         if (getMissile() != null)
         {
+            //TODO replace with missile renderer call to allow custom missiles to work
             GL11.glPushMatrix();
             GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.5f, pos.zf() + 0.5f);
             GL11.glScaled(.0015625f, .0015625f, .0015625f);

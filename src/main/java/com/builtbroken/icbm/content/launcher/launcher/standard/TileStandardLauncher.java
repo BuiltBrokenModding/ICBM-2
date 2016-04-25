@@ -5,10 +5,8 @@ import com.builtbroken.icbm.api.crafting.IModularMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
-import com.builtbroken.icbm.content.launcher.block.BlockLauncherFrame;
 import com.builtbroken.icbm.content.launcher.launcher.TileAbstractLauncherPad;
 import com.builtbroken.icbm.content.missile.EntityMissile;
-import com.builtbroken.icbm.content.missile.tracking.MissileTrackingData;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
@@ -127,13 +125,29 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
             {
                 //Updates top block meta for older versions of ICBM
                 int meta = world().getBlockMetadata(xi(), yi() + 6, zi());
-                int dMeta = BlockLauncherFrame.getMetaForDirection(getDirection());
+                int dMeta = getMetaForDirection(getDirection());
                 if (meta != dMeta)
                 {
                     worldObj.setBlockMetadataWithNotify(xi(), yi() + 6, zi(), dMeta, 3);
                 }
             }
         }
+    }
+
+    private static int getMetaForDirection(ForgeDirection dir)
+    {
+        switch (dir)
+        {
+            case NORTH:
+                return 1;
+            case SOUTH:
+                return 2;
+            case EAST:
+                return 3;
+            case WEST:
+                return 4;
+        }
+        return 0;
     }
 
     @Override

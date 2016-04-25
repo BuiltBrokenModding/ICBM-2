@@ -21,7 +21,6 @@ import com.builtbroken.icbm.content.blast.util.ExRegen;
 import com.builtbroken.icbm.content.blast.util.ExRegenLocal;
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstationClient;
 import com.builtbroken.icbm.content.fof.TileFoFClient;
-import com.builtbroken.icbm.content.launcher.block.ISBRLauncherFrame;
 import com.builtbroken.icbm.content.launcher.launcher.standard.TileStandardLauncherClient;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.RenderMissile;
@@ -75,7 +74,6 @@ public class ClientProxy extends CommonProxy
         super.init();
 
         MinecraftForgeClient.registerItemRenderer(ICBM.itemRocketLauncher, new RenderRocketLauncher());
-        RenderingRegistry.registerBlockHandler(ISBRLauncherFrame.INSTANCE);
 
         RenderMissile render = new RenderMissile(0.5F);
         MinecraftForgeClient.registerItemRenderer(ICBM.itemMissile, render);

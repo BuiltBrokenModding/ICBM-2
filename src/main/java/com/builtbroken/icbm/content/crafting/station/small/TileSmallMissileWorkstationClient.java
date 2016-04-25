@@ -84,7 +84,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
         GL11.glTranslatef(-0.5f, -0.5f, -0.5f);
         GL11.glRotatef(-20f, 0, 1, 0);
         GL11.glScaled(.7f, .7f, .7f);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_WORKSTATION_TEXTURE);
         Assets.SMALL_MISSILE_STATION_MODEL.renderAll();
     }
 
@@ -94,9 +94,9 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
     {
         //Render launcher
         GL11.glPushMatrix();
-        GL11.glTranslatef(pos.xf() + 0.53f, pos.yf(), pos.zf() + 0.5f);
+        GL11.glTranslatef(pos.xf() + 1, pos.yf(), pos.zf() + 2);
         GL11.glRotated(90, 0, 1, 0);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_WORKSTATION_TEXTURE);
 
         //Keep in mind the directions are of the facing block
         switch (connectedBlockSide)
@@ -106,66 +106,67 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
                 {
                     GL11.glRotated(-90, 0, 1, 0);
                     //x y z
-                    GL11.glTranslatef(-0.0255f, 0f, 0.033f);
+                    GL11.glTranslatef(-2, 0f, -1);
                 }
                 break;
             case DOWN:
                 GL11.glRotated(180, 1, 0, 0);
                 // z y x
-                GL11.glTranslatef(0.005f, -1f, 0.055f);
+                GL11.glTranslatef(0f, -1f, 1f);
                 if (getDirection() == ForgeDirection.WEST || getDirection() == ForgeDirection.EAST)
                 {
                     GL11.glRotated(-90, 0, 1, 0);
                     //x y z
-                    GL11.glTranslatef(-0.0255f, 0f, 0.033f);
+                    GL11.glTranslatef(-2f, 0f, -1f);
                 }
                 break;
             case EAST:
                 GL11.glRotated(90, 1, 0, 0);
                 // z x y
-                GL11.glTranslatef(0.007f, -0.536f, -0.475f);
+                GL11.glTranslatef(0f, -1f, 0f);
                 if (getDirection() == ForgeDirection.UP || getDirection() == ForgeDirection.DOWN)
                 {
                     GL11.glRotated(-90, 0, 1, 0);
                     // y x z
-                    GL11.glTranslatef(-0.02f, 0f, 0.038f);
+                    GL11.glTranslatef(-2f, 0f, -1f);
                 }
                 break;
             case WEST:
                 GL11.glRotated(-90, 1, 0, 0);
                 // z x y
-                GL11.glTranslatef(0.015f, -0.47f, 0.52f);
                 if (getDirection() == ForgeDirection.UP || getDirection() == ForgeDirection.DOWN)
                 {
                     GL11.glRotated(-90, 0, 1, 0);
                     // y x z
-                    GL11.glTranslatef(-0.02f, -0.01f, 0.05f);
+                    GL11.glTranslatef(-1f, 0f, -1f);
+                }
+                else
+                {
+                    GL11.glTranslatef(0f, 0f, 1f);
                 }
                 break;
             case NORTH:
-                //GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() - 0.1f, pos.zf() + 0.5f);
                 GL11.glRotated(90, 0, 1, 0);
                 GL11.glRotated(90, 1, 0, 0);
-                //GL11.glRotated(1.1, 1, 0, 0);
                 // y x z
-                GL11.glTranslatef(0.0355f, -0.5f, -0.47f);
+                GL11.glTranslatef(-1f, 1f, 0f);
                 if (getDirection() == ForgeDirection.UP || getDirection() == ForgeDirection.DOWN)
                 {
                     GL11.glRotated(-90, 0, 1, 0);
                     // y z x
-                    GL11.glTranslatef(-0.02f, -0.01f, 0.04f);
+                    GL11.glTranslatef(-2f, 0f, -1f);
                 }
                 break;
             case SOUTH:
                 GL11.glRotated(90, 0, 1, 0);
                 GL11.glRotated(-90, 1, 0, 0);
                 // x z y
-                GL11.glTranslatef(0.0355f, -0.5f, 0.53f);
+                GL11.glTranslatef(-1f, -2f, 1f);
                 if (getDirection() == ForgeDirection.UP || getDirection() == ForgeDirection.DOWN)
                 {
                     GL11.glRotated(-90, 0, 1, 0);
                     // y z x
-                    GL11.glTranslatef(-0.02f, -0.01f, 0.04f);
+                    GL11.glTranslatef(-2f, 0f, -1f);
                 }
                 break;
 

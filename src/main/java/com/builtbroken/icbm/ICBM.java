@@ -38,8 +38,8 @@ import com.builtbroken.icbm.content.items.ItemGPSFlag;
 import com.builtbroken.icbm.content.items.ItemLinkTool;
 import com.builtbroken.icbm.content.items.ItemRemoteDetonator;
 import com.builtbroken.icbm.content.launcher.block.BlockLaunchPad;
-import com.builtbroken.icbm.content.launcher.block.BlockLauncherFrame;
 import com.builtbroken.icbm.content.launcher.block.BlockLauncherPart;
+import com.builtbroken.icbm.content.launcher.block.TileLauncherFrame;
 import com.builtbroken.icbm.content.launcher.controller.direct.TileSiloController;
 import com.builtbroken.icbm.content.launcher.controller.local.TileLocalController;
 import com.builtbroken.icbm.content.launcher.controller.remote.antenna.BlockAntennaParts;
@@ -241,7 +241,7 @@ public final class ICBM extends AbstractMod
         // Functional Blocks
         blockWarhead = manager.newBlock(TileWarhead.class);
         blockMissileDisplay = manager.newBlock(TileMissileDisplay.class);
-        blockLauncherFrame = manager.newBlock("icbmLauncherFrame", BlockLauncherFrame.class, ItemBlockMetadata.class);
+        blockLauncherFrame = manager.newBlock("icbmLauncherFrame", TileLauncherFrame.class);
         blockLauncherParts = manager.newBlock("icbmLauncherParts", BlockLauncherPart.class, ItemBlockMetadata.class);
         if (blockDirectSiloController == null)
         {
