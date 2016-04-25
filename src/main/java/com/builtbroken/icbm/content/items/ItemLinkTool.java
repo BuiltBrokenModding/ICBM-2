@@ -150,7 +150,7 @@ public class ItemLinkTool extends ItemWorldPos implements IWorldPosItem, IPassCo
                         else if (tile instanceof ILinkable)
                         {
                             String result = ((ILinkable) tile).link(storedLocation, getCode(stack));
-                            if (result != null && result != "")
+                            if (result != null && !result.isEmpty())
                             {
                                 if (result.contains("error"))
                                 {
