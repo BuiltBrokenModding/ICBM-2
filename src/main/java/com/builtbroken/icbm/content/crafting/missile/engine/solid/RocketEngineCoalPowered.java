@@ -19,6 +19,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 
@@ -42,6 +43,7 @@ public class RocketEngineCoalPowered extends RocketEngineSolid implements IPostI
     public RocketEngineCoalPowered(ItemStack item)
     {
         super(item, "engine.coal");
+        this.engineSmokeColor = new Color(54, 56, 58);
     }
 
     @Override

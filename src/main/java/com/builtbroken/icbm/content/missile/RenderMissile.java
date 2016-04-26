@@ -17,7 +17,9 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class RenderMissile extends Render implements IItemRenderer
 {
-    public RenderMissile(float f)
+    public static final RenderMissile INSTANCE = new RenderMissile(0.5F);
+
+    private RenderMissile(float f)
     {
         this.shadowSize = f;
     }
@@ -29,14 +31,14 @@ public class RenderMissile extends Render implements IItemRenderer
         Missile missile = entityMissile.getMissile();
 
         GL11.glPushMatrix();
-        GL11.glTranslated(x, y - 1, z);
-        float yaw = interpolateRotation(-entity.prevRotationYaw + 90, -entity.rotationYaw + 90, f1);
+        GL11.glTranslated(x, y, z);
 
-        GL11.glRotatef(yaw, 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(interpolateRotation(entity.prevRotationPitch, entity.rotationPitch, f1) - 90, 0.0F, 0.0F, 1.0F);
-
-        if (!(missile instanceof ICustomMissileRender) || !((ICustomMissileRender) missile).renderMissileInWorld())
+        if (!(missile instanceof ICustomMissileRender) || !((ICustomMissileRender) missile).renderMissileEntity(entity, f, f1))
         {
+            float yaw = interpolateRotation(-entity.prevRotationYaw + 90, -entity.rotationYaw + 90, f1);
+
+            GL11.glRotatef(yaw, 0.0F, 1.0F, 0.0F);
+            GL11.glRotatef(interpolateRotation(entity.prevRotationPitch, entity.rotationPitch, f1) - 90, 0.0F, 0.0F, 1.0F);
             GL11.glScalef(.5f, .5f, .5f);
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.CLASSIC_MISSILE_TEXTURE);
             if (missile == null || missile.getWarhead() != null)

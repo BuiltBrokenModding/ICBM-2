@@ -3,6 +3,7 @@ package com.builtbroken.icbm.content.display;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
+import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.TileModuleMachine;
 import cpw.mods.fml.common.network.ByteBufUtils;
@@ -16,7 +17,7 @@ import net.minecraft.util.ChatComponentText;
 /**
  * Created by robert on 1/18/2015.
  */
-public class TileMissileContainer extends TileModuleMachine
+public class TileMissileContainer extends TileModuleMachine implements IPacketIDReceiver
 {
     public TileMissileContainer(String name, Material material)
     {

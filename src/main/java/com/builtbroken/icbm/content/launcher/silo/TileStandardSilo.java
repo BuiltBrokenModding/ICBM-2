@@ -136,7 +136,7 @@ public class TileStandardSilo extends TileAbstractLauncher implements ISimpleIte
             //TODO rotate
             if (getMissile() instanceof ICustomMissileRender)
             {
-                ((ICustomMissileRender) getMissile()).renderMissileInWorld();
+                ((ICustomMissileRender) getMissile()).renderMissileInWorld(0, 0, frame);
             }
             GL11.glPopMatrix();
         }

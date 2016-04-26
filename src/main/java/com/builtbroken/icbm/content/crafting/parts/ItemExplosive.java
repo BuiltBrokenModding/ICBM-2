@@ -9,6 +9,7 @@ import com.builtbroken.mc.api.items.explosives.IExplosiveItem;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.core.registry.implement.IRegistryInit;
 import com.builtbroken.mc.lib.helper.recipe.OreNames;
+import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.explosive.ItemNBTExplosive;
@@ -201,10 +202,16 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         newRecipe(ExplosiveItems.TORCH_EATER, "TBM", "BEB", "MBT", 'B', Items.fermented_spider_eye, 'E', Items.ender_eye, 'T', Blocks.torch, 'M', magicCharge);
 
         //Ender Blocks
-        newRecipe(ExplosiveItems.ENDER_BLOCKS, "ZBM", "BEB", "MBZ", 'B', OreNames.NUGGET_GOLD, 'E', Items.ender_eye, 'Z', Items.ender_pearl, 'M', magicCharge);
+        newRecipe(ExplosiveItems.ENDER_BLOCKS, "ZBM", "BEB", "MBZ", 'B', OreNames.INGOT_GOLD, 'E', Items.ender_eye, 'Z', Items.ender_pearl, 'M', magicCharge);
 
         //Anti Plant
         newRecipe(ExplosiveItems.ANTI_PLANT, "FTF", "BMB", "FTF", 'T', OreNames.SAPLING, 'F', Items.fermented_spider_eye, 'B', OreNames.LEAVES, 'M', magicCharge);
+
+        //Plant
+        newRecipe(ExplosiveItems.PLANT_LIFE, "FTF", "BMB", "FTF", 'T', OreNames.SAPLING, 'F', Items.bone, 'B', OreNames.LEAVES, 'M', magicCharge);
+
+        //Cake
+        newRecipe(ExplosiveItems.CAKE, "PPP", "PCP", "RRR", 'C', Items.cake, 'P', Blocks.glass_pane, 'R', UniversalRecipe.PRIMARY_PLATE.get());
     }
 
     private void newRecipe(ExplosiveItems item, Object... objects)

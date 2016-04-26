@@ -67,7 +67,7 @@ public class TileStandardLauncherClient extends TileStandardLauncher
             GL11.glRotatef(45f, 0, 1, 0);
             if (missile instanceof ICustomMissileRender)
             {
-                ((ICustomMissileRender) missile).renderMissileInWorld();
+                ((ICustomMissileRender) missile).renderMissileInWorld(0, 0, f);
             }
             GL11.glPopMatrix();
         }

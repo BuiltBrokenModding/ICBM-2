@@ -3,6 +3,8 @@ package com.builtbroken.icbm.content.crafting.missile.engine;
 import com.builtbroken.icbm.api.modules.IMissile;
 import net.minecraft.item.ItemStack;
 
+import java.awt.*;
+
 /**
  * Creative mode only version of the engine that
  * has no fuel requirement and is used as a
@@ -17,6 +19,8 @@ public class RocketEngineCreative extends RocketEngine
     public RocketEngineCreative(ItemStack item)
     {
         super(item, "engine.creative");
+        this.engineSmokeColor = new Color(79, 43, 80);
+        this.engineFireColor = new Color(106, 13, 108);
     }
 
     @Override

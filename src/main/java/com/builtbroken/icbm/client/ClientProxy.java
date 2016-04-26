@@ -9,6 +9,7 @@ import com.builtbroken.icbm.content.blast.explosive.BlastPathTester;
 import com.builtbroken.icbm.content.blast.explosive.ExMicroQuake;
 import com.builtbroken.icbm.content.blast.util.ExRegen;
 import com.builtbroken.icbm.content.blast.util.ExRegenLocal;
+import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstationClient;
 import com.builtbroken.icbm.content.fof.TileFoFClient;
 import com.builtbroken.icbm.content.launcher.controller.remote.antenna.ItemRendererAntennaFrame;
@@ -71,9 +72,8 @@ public class ClientProxy extends CommonProxy
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ICBM.blockAntenna), new ItemRendererAntennaFrame());
         MinecraftForgeClient.registerItemRenderer(ICBM.itemRocketLauncher, new RenderRocketLauncher());
 
-        RenderMissile render = new RenderMissile(0.5F);
-        MinecraftForgeClient.registerItemRenderer(ICBM.itemMissile, render);
-        RenderingRegistry.registerEntityRenderingHandler(EntityMissile.class, render);
+        MinecraftForgeClient.registerItemRenderer(ICBM.itemMissile, RenderMissile.INSTANCE);
+        RenderingRegistry.registerEntityRenderingHandler(EntityMissile.class, RenderMissile.INSTANCE);
 
         MinecraftForge.EVENT_BUS.register(this);
         FMLCommonHandler.instance().bus().register(this);
@@ -128,6 +128,8 @@ public class ClientProxy extends CommonProxy
     @Override
     public void spawnRocketTail(Entity entity)
     {
+        //TODO add interface to allow rocket to control effects
+
         //Don't render at all if particles are on min
         if (Minecraft.getMinecraft().gameSettings.particleSetting != 2)
         {
@@ -135,15 +137,39 @@ public class ClientProxy extends CommonProxy
             Pos vel = new Pos((entity.worldObj.rand.nextFloat() - 0.5f) / 8f, (entity.worldObj.rand.nextFloat() - 0.5f) / 8f, (entity.worldObj.rand.nextFloat() - 0.5f) / 8f);
             vel = vel.multiply(motion);
 
+            EntityFX fx = new FxRocketFire(entity.worldObj, entity.posX, entity.posY - 0.75, entity.posZ, vel.x(), vel.y(), vel.z());
+
+            //Gen and add smoke effect
+            if (entity instanceof EntityMissile)
+            {
+                Missile missile = ((EntityMissile) entity).getMissile();
+                if (missile.getEngine() != null && missile.getEngine().engineFireColor != null)
+                {
+                    fx = new FxRocketFire(entity.worldObj, missile.getEngine().engineFireColor, entity.posX, entity.posY - 0.75, entity.posZ, vel.x(), vel.y(), vel.z());
+                }
+            }
+
             //Gen and add fire effect
-            EntityFX fx = new FxRocketFire(entity.worldObj, entity.posX, entity.posY - 0.75, entity.posZ, vel.xf(), vel.yf(), vel.zf());
             Minecraft.getMinecraft().effectRenderer.addEffect(fx);
 
             //Only render massive smoke on fancy and with good particle settings
             if (Minecraft.getMinecraft().gameSettings.fancyGraphics && Minecraft.getMinecraft().gameSettings.particleSetting != 1)
             {
+                boolean rendereredSmoke = false;
                 //Gen and add smoke effect
-                fx = new FxRocketSmokeTrail(entity.worldObj, entity.posX, entity.posY - 0.75, entity.posZ, vel.xf(), vel.yf(), vel.zf(), 200);
+                if (entity instanceof EntityMissile)
+                {
+                    Missile missile = ((EntityMissile) entity).getMissile();
+                    if (missile.getEngine() != null && missile.getEngine().engineSmokeColor != null)
+                    {
+                        fx = new FxRocketSmokeTrail(entity.worldObj, missile.getEngine().engineSmokeColor, entity.posX, entity.posY - 0.75, entity.posZ, vel.x(), vel.y(), vel.z(), 200);
+                        rendereredSmoke = true;
+                    }
+                }
+                if (!rendereredSmoke)
+                {
+                    fx = new FxRocketSmokeTrail(entity.worldObj, entity.posX, entity.posY - 0.75, entity.posZ, vel.x(), vel.y(), vel.z(), 200);
+                }
                 Minecraft.getMinecraft().effectRenderer.addEffect(fx);
             }
         }

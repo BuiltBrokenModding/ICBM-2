@@ -6,12 +6,17 @@ import com.builtbroken.icbm.api.modules.IRocketEngine;
 import com.builtbroken.icbm.content.crafting.missile.MissileModule;
 import net.minecraft.item.ItemStack;
 
+import java.awt.*;
+
 /**
  * Prefab for create new engine types
  * Created by robert on 12/28/2014.
  */
 public abstract class RocketEngine extends MissileModule implements IRocketEngine
 {
+    public Color engineSmokeColor;
+    public Color engineFireColor;
+
     public RocketEngine(ItemStack item, String name)
     {
         super(item, name);

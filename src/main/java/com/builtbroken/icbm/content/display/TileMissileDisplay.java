@@ -1,31 +1,17 @@
 package com.builtbroken.icbm.content.display;
 
-import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
-import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
-import com.builtbroken.icbm.content.missile.ItemMissile;
-import com.builtbroken.mc.core.Engine;
-import com.builtbroken.mc.core.network.IPacketReceiver;
-import com.builtbroken.mc.core.network.packet.AbstractPacket;
-import com.builtbroken.mc.core.network.packet.PacketTile;
-import com.builtbroken.mc.lib.render.RenderItemOverlayUtility;
+import com.builtbroken.icbm.content.missile.EntityMissile;
+import com.builtbroken.icbm.content.missile.RenderMissile;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.Tile;
-import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
-import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * Simple display table to test to make sure missiles are rendering correctly
@@ -34,13 +20,13 @@ import net.minecraftforge.common.util.ForgeDirection;
  */
 public class TileMissileDisplay extends TileMissileContainer
 {
-    private Missile missile = null;
+    EntityMissile missile;
 
     public TileMissileDisplay()
     {
         super("missileDisplay", Material.circuits);
         this.renderTileEntity = true;
-        this.isOpaque = true;
+        this.isOpaque = false;
         this.bounds = new Cube(0, 0, 0, 1, .4, 1);
     }
 
@@ -69,9 +55,48 @@ public class TileMissileDisplay extends TileMissileContainer
     @SideOnly(Side.CLIENT)
     public void renderDynamic(Pos pos, float frame, int pass)
     {
-        if (this.getWorldObj() != null && getMissile() != null)
+        if (missile != null)
         {
-            RenderItemOverlayUtility.renderItem(getWorldObj(), ForgeDirection.UNKNOWN, missile.toStack(), pos.add(0.5), 0, 0);
+            RenderMissile.INSTANCE.doRender(missile, pos.x(), pos.y(), pos.z(), 0.0F, 1.0F); //1.0F
+        }
+    }
+
+    @Override
+    public void firstTick()
+    {
+        super.firstTick();
+    }
+
+    @Override
+    public void update()
+    {
+        super.update();
+        if (isClient())
+        {
+            if (missile == null)
+            {
+                if (getMissile() != null)
+                {
+                    missile = new EntityMissile(world());
+                    missile.setMissile(getMissile());
+                    missile.setPosition(xCoord + 0.5, yCoord + 1, zCoord + 0.5);
+                }
+            }
+            else
+            {
+                if (getMissile() == null)
+                {
+                    missile = null;
+                }
+                else if (ticks % 20 == 0)
+                {
+                    missile.motionX = missile.motionY = missile.motionZ = 0;
+                    missile.rotationYaw = 90;
+                    missile.rotationYaw = missile.rotationYaw % 360.0F;
+                    missile.rotationPitch = 0;
+                    missile.rotationPitch = missile.rotationPitch % 360.0F;
+                }
+            }
         }
     }
 

@@ -18,7 +18,7 @@ import net.minecraftforge.client.model.obj.WavefrontObject;
 public final class Assets
 {
     //Missile models
-    public static final WavefrontObject MICRO_MISSILE_MODEL = (WavefrontObject) model("missile/Rocket_Micro.obj");
+    public static final WavefrontObject MICRO_MISSILE_MODEL = (WavefrontObject) model("missile/micro.obj");
     public static final WavefrontObject SMALL_MISSILE_MODEL = (WavefrontObject) model("missile/Missile_Small.obj");
     public static final WavefrontObject STANDARD_MISSILE_MODEL = (WavefrontObject) model("missile/Missile_Standard.obj");
     public static final IModelCustom CLASSIC_MISSILE_MODEL = model("missile/missile_conventional.tcn");
