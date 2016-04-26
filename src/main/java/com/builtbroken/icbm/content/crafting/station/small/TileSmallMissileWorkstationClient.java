@@ -190,8 +190,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
      */
     private void renderMissile(Pos pos)
     {
-        float scale = 1f; //0.1f;
-        GL11.glTranslatef(pos.xf() + .04f, pos.yf() - 0.4f, pos.zf() + 0.16f);
+        GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.6f, pos.zf() + 0.5f);
 
         //TODO optimize as it seems each rotation method looks similar to the next
         switch (connectedBlockSide)
@@ -209,7 +208,6 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
                 handleMissileRotationNS();
                 break;
         }
-        GL11.glScaled(scale, scale, scale);
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_MISSILE_TEXTURE);
         //Group_001 body
         //Component_1_001 - 4 Body Fins
@@ -254,22 +252,22 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
             case EAST:
                 GL11.glRotated(-90, 0, 0, 1);
                 // y x z
-                GL11.glTranslatef(-1.4f, -0.5f, 0.15f);
+                //GL11.glTranslatef(-1.4f, -0.5f, 0.15f);
                 break;
             case WEST:
                 GL11.glRotated(90, 0, 0, 1);
                 // y x z
-                GL11.glTranslatef(0.5f, -1.4f, 0.15f);
+                //GL11.glTranslatef(0.5f, -1.4f, 0.15f);
                 break;
             case NORTH:
                 GL11.glRotated(90, 1, 0, 0);
                 // x z y
-                GL11.glTranslatef(0f, -0.6f, -1.2f);
+                //GL11.glTranslatef(0f, -0.6f, -1.2f);
                 break;
             case SOUTH:
                 GL11.glRotated(-90, 1, 0, 0);
                 // x z y
-                GL11.glTranslatef(0f, -1.3f, 0.75f);
+                //GL11.glTranslatef(0f, -1.3f, 0.75f);
                 break;
         }
     }
@@ -284,22 +282,22 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
             //UP is already done by default
             //EAST and WEST are invalid rotations
             case UP:
-                GL11.glTranslatef(0f, -0.1f, .08f);
+                //GL11.glTranslatef(0f, -0.1f, .08f);
                 break;
             case DOWN:
                 GL11.glRotated(180, 0, 0, 1);
                 // ? -y ?
-                GL11.glTranslatef(-1f, -1.8f, .15f);
+                //GL11.glTranslatef(-1f, -1.8f, .15f);
                 break;
             case NORTH:
                 GL11.glRotated(-90, 1, 0, 0);
                 // x -z y
-                GL11.glTranslatef(.15f, -1.3f, 0.7f);
+                //GL11.glTranslatef(.15f, -1.3f, 0.7f);
                 break;
             case SOUTH:
                 GL11.glRotated(90, 1, 0, 0);
                 // x z y
-                GL11.glTranslatef(0.1f, -0.55f, -1.1f);
+                //GL11.glTranslatef(0.1f, -0.55f, -1.1f);
                 break;
         }
     }
@@ -316,17 +314,17 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
             case DOWN:
                 GL11.glRotated(180, 0, 0, 1);
                 // ? -y ?
-                GL11.glTranslatef(-1f, -1.8f, 0f);
+                //GL11.glTranslatef(-1f, -1.8f, 0f);
                 break;
             case EAST:
                 GL11.glRotated(-90, 0, 0, 1);
                 //-y x z
-                GL11.glTranslatef(-1.35f, -0.5f, 0f);
+                //GL11.glTranslatef(-1.35f, -0.5f, 0f);
                 break;
             case WEST:
                 GL11.glRotated(90, 0, 0, 1);
                 //y -x z
-                GL11.glTranslatef(0.45f, -1.4f, 0f);
+                //GL11.glTranslatef(0.45f, -1.4f, 0f);
                 break;
         }
     }
