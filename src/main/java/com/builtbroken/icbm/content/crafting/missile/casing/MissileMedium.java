@@ -11,4 +11,16 @@ public class MissileMedium extends Missile
     {
         super(stack, MissileCasings.MEDIUM);
     }
+
+    @Override
+    public double getHeight()
+    {
+        return 5; //TODO check
+    }
+
+    @Override
+    public double getWidth()
+    {
+        return 0.5;
+    }
 }

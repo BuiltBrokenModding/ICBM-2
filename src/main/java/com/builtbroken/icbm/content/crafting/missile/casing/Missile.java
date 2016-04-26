@@ -27,7 +27,6 @@ public abstract class Missile extends AbstractModule implements IMissile
     private Guidance guidance;
     private RocketEngine engine;
 
-
     public Missile(ItemStack stack, MissileCasings casing)
     {
         super(stack, "missile");
@@ -56,11 +55,17 @@ public abstract class Missile extends AbstractModule implements IMissile
     public NBTTagCompound save(NBTTagCompound nbt)
     {
         if (getWarhead() != null)
+        {
             nbt.setTag("warhead", getWarhead().toStack().writeToNBT(new NBTTagCompound()));
+        }
         if (getEngine() != null)
+        {
             nbt.setTag("engine", getEngine().toStack().writeToNBT(new NBTTagCompound()));
+        }
         if (getGuidance() != null)
+        {
             nbt.setTag("guidance", getGuidance().toStack().writeToNBT(new NBTTagCompound()));
+        }
 
         return nbt;
     }
@@ -143,10 +148,27 @@ public abstract class Missile extends AbstractModule implements IMissile
 
     /**
      * Max number of hit points the missile has
+     *
      * @return
      */
     public float getMaxHitPoints()
     {
         return casing.getMaxHitPoints();
     }
+
+    /**
+     * How tall is the missile, mainly used
+     * for collsion box code and rendering
+     *
+     * @return height in meters
+     */
+    public abstract double getHeight();
+
+    /**
+     * How wide is the missile, mainly used
+     * for collsion box code and rendering
+     *
+     * @return height in meters
+     */
+    public abstract double getWidth();
 }

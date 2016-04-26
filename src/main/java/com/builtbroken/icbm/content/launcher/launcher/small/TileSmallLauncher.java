@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.launcher.launcher.small;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.missile.ICustomMissileRender;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
@@ -149,14 +150,20 @@ public class TileSmallLauncher extends TileAbstractLauncher implements ISimpleIt
         Assets.PORTABLE_LAUNCHER_MODEL.renderAll();
         GL11.glPopMatrix();
 
+        Missile missile = getMissile();
         //Render missile
-        if (getMissile() != null)
+        if (missile != null)
         {
             GL11.glPushMatrix();
-            GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.5f, pos.zf() + 0.5f);
-            GL11.glScaled(.0015625f, .0015625f, .0015625f);
-            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_MISSILE_TEXTURE);
-            Assets.SMALL_MISSILE_MODEL.renderAll();
+            GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.4f, pos.zf() + 0.5f);
+            if (missile instanceof ICustomMissileRender)
+            {
+                GL11.glTranslatef(0, (float) (missile.getHeight() / 2.0), 0);
+                if(!((ICustomMissileRender) missile).renderMissileInWorld(0, 0, frame))
+                {
+                    //TODO Either error or render fake model
+                }
+            }
             GL11.glPopMatrix();
         }
     }

@@ -88,4 +88,16 @@ public final class MissileStandard extends Missile implements ICustomMissileRend
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.STANDARD_MISSILE_FINS_TEXTURE);
         FINS.render();
     }
+
+    @Override
+    public double getHeight()
+    {
+        return 5;
+    }
+
+    @Override
+    public double getWidth()
+    {
+        return 0.6;
+    }
 }

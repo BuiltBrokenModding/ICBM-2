@@ -11,4 +11,16 @@ public class MissileLarge extends Missile
     {
         super(stack, MissileCasings.LARGE);
     }
+
+    @Override
+    public double getHeight()
+    {
+        return 0;
+    }
+
+    @Override
+    public double getWidth()
+    {
+        return 0;
+    }
 }
