@@ -2,21 +2,11 @@ package com.builtbroken.icbm.client;
 
 import com.builtbroken.icbm.CommonProxy;
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.client.blast.ECCake;
-import com.builtbroken.icbm.client.blast.ECFragment;
+import com.builtbroken.icbm.client.blast.*;
 import com.builtbroken.icbm.content.ams.TileAMSClient;
-import com.builtbroken.icbm.content.blast.effect.ExAntiPlant;
-import com.builtbroken.icbm.content.blast.effect.ExEnderBlocks;
-import com.builtbroken.icbm.content.blast.effect.ExPlantLife;
-import com.builtbroken.icbm.content.blast.effect.ExTorchEater;
 import com.builtbroken.icbm.content.blast.entity.ExplosiveHandlerSpawn;
 import com.builtbroken.icbm.content.blast.explosive.BlastPathTester;
-import com.builtbroken.icbm.content.blast.explosive.ExAntimatter;
 import com.builtbroken.icbm.content.blast.explosive.ExMicroQuake;
-import com.builtbroken.icbm.content.blast.fire.ExFireBomb;
-import com.builtbroken.icbm.content.blast.fire.ExFlashFire;
-import com.builtbroken.icbm.content.blast.temp.ExEndoThermic;
-import com.builtbroken.icbm.content.blast.temp.ExExoThermic;
 import com.builtbroken.icbm.content.blast.util.ExRegen;
 import com.builtbroken.icbm.content.blast.util.ExRegenLocal;
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstationClient;
@@ -189,20 +179,20 @@ public class ClientProxy extends CommonProxy
     public void registerExplosives()
     {
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "EntitySpawn", new ExplosiveHandlerSpawn());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "ExoThermic", new ExEndoThermic());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "EndoThermic", new ExExoThermic());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "ExoThermic", new ECEndo());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "EndoThermic", new ECExo());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Fragment", new ECFragment());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "ArrowFragment", ExplosiveRegistry.get("Fragment"));
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Antimatter", new ExAntimatter());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "FireBomb", new ExFireBomb());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "FlashFire", new ExFlashFire());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "EnderBlocks", new ExEnderBlocks());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "TorchEater", new ExTorchEater());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "PlantLife", new ExPlantLife());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "AntiPlant", new ExAntiPlant());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Regen", new ExRegen());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "RegenLocal", new ExRegenLocal());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "MicroQuake", new ExMicroQuake());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Antimatter", new ECAntimatter());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "FireBomb", new ECFireBomb());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "FlashFire", new ECFlashFire());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "EnderBlocks", new ECEnderBlocks());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "TorchEater", new ECTorchEater());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "PlantLife", new ECPlantLife());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "AntiPlant", new ECAntiPlant());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Regen", new ExRegen());//TODO Add texture
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "RegenLocal", new ExRegenLocal());//TODO Add texture
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "MicroQuake", new ExMicroQuake());//TODO Add texture
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Cake", new ECCake());
         if (Engine.runningAsDev)
         {
