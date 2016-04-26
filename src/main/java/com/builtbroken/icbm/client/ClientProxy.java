@@ -128,11 +128,25 @@ public class ClientProxy extends CommonProxy
     @Override
     public void spawnRocketTail(Entity entity)
     {
-        Pos motion = new Pos(entity.motionX, entity.motionY, entity.motionZ).normalize();
-        Pos vel = new Pos((entity.worldObj.rand.nextFloat() - 0.5f) / 8f, (entity.worldObj.rand.nextFloat() - 0.5f) / 8f, (entity.worldObj.rand.nextFloat() - 0.5f) / 8f);
-        vel = vel.multiply(motion);
-        RocketFx fx = new RocketFx(entity.worldObj, entity.posX, entity.posY - 0.75, entity.posZ, vel.xf(), vel.yf(), vel.zf());
-        Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+        //Don't render at all if particles are on min
+        if (Minecraft.getMinecraft().gameSettings.particleSetting != 2)
+        {
+            Pos motion = new Pos(entity.motionX, entity.motionY, entity.motionZ).normalize();
+            Pos vel = new Pos((entity.worldObj.rand.nextFloat() - 0.5f) / 8f, (entity.worldObj.rand.nextFloat() - 0.5f) / 8f, (entity.worldObj.rand.nextFloat() - 0.5f) / 8f);
+            vel = vel.multiply(motion);
+
+            //Gen and add fire effect
+            EntityFX fx = new FxRocketFire(entity.worldObj, entity.posX, entity.posY - 0.75, entity.posZ, vel.xf(), vel.yf(), vel.zf());
+            Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+
+            //Only render massive smoke on fancy and with good particle settings
+            if (Minecraft.getMinecraft().gameSettings.fancyGraphics && Minecraft.getMinecraft().gameSettings.particleSetting != 1)
+            {
+                //Gen and add smoke effect
+                fx = new FxRocketSmokeTrail(entity.worldObj, entity.posX, entity.posY - 0.75, entity.posZ, vel.xf(), vel.yf(), vel.zf(), 200);
+                Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+            }
+        }
     }
 
     @Override
