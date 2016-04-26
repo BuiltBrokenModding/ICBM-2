@@ -6,7 +6,6 @@ import com.builtbroken.mc.prefab.gui.ContainerBase;
 import com.builtbroken.mc.prefab.inventory.BasicInventory;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
@@ -28,7 +27,6 @@ public class ContainerSilo extends ContainerBase
         this.player = player;
         this.launcher = launcher;
         Slot slot = new Slot(inventory, 0, 112, 52);
-        slot.setBackgroundIcon(Items.stick.getIconFromDamage(0));
         addSlotToContainer(slot);
         addPlayerInventory(player);
     }

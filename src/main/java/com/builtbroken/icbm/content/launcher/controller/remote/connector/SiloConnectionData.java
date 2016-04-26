@@ -26,8 +26,8 @@ import net.minecraftforge.common.DimensionManager;
  */
 public class SiloConnectionData implements ISiloConnectionData, ISave, IByteBufWriter, IByteBufReader
 {
-    protected World world;
-    protected int dim, x, y, z;
+    public World world;
+    public int dim, x, y, z;
     protected ILauncher launcher;
 
     public SiloConnectionData(ILauncher launcher)

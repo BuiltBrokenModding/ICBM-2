@@ -29,7 +29,7 @@ public class GuiSiloInterface extends GuiContainerBase
     public static final int SILO_ON_SCREEN = 6;
 
     EntityPlayer player;
-    TileSiloInterface tileSiloInterface;
+    TileSiloInterfaceClient tileSiloInterface;
 
     int section = 0;
     int page = 0;
@@ -44,7 +44,7 @@ public class GuiSiloInterface extends GuiContainerBase
 
     boolean refreshClick = true;
 
-    public GuiSiloInterface(EntityPlayer player, TileSiloInterface tileSiloInterface)
+    public GuiSiloInterface(EntityPlayer player, TileSiloInterfaceClient tileSiloInterface)
     {
         super(new ContainerDummy(player, tileSiloInterface));
         this.player = player;
@@ -98,8 +98,8 @@ public class GuiSiloInterface extends GuiContainerBase
                 //TODO add tool tips for buttons
                 //Page switch buttons
                 int maxPages = maxPageCount();
-                buttonList.add(new GuiButton2(1, guiLeft + 150, guiTop + 140, 20, 20, ">").setEnabled(maxPages > 1));
-                buttonList.add(new GuiButton2(2, guiLeft + 5, guiTop + 140, 20, 20, "<").setEnabled(maxPages > 1));
+                buttonList.add(new GuiButton2(1, guiLeft + 150, guiTop + 140, 20, 20, ">").setEnabled(maxPages >= 1));
+                buttonList.add(new GuiButton2(2, guiLeft + 5, guiTop + 140, 20, 20, "<").setEnabled(maxPages >= 1));
 
                 //Get position data for the section
                 Pos[] positions = tileSiloInterface.controllerData[section];
@@ -171,7 +171,7 @@ public class GuiSiloInterface extends GuiContainerBase
                             {
                                 button.disable();
                             }
-                            buttonList.add(new GuiButton2(30 + i, guiLeft + 117, guiTop + 10 + (row * 21), 30, 20, "Fire"));
+                            buttonList.add(new GuiButton2(30 + i, guiLeft + 117, guiTop + 10 + (row * 21), 30, 20, "Fire").setEnabled(connectionStatuses.get(connectionStatuses.size() - 1) == ConnectionStatus.ONLINE));
                             buttonList.add(button);
                             row++;
                         }
@@ -393,7 +393,7 @@ public class GuiSiloInterface extends GuiContainerBase
         if (page >= 0 && page <= maxPageCount())
         {
             List<ISiloConnectionData> silos = tileSiloInterface.clientSiloDataCache.get(tileSiloInterface.controllerData[section][page]);
-            return silos == null ? 0 : silos.size();
+            return silos == null ? 0 : Math.max(silos.size() - 1, 0);
         }
         return 0;
     }

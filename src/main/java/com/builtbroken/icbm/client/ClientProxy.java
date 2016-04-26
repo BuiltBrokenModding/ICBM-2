@@ -15,6 +15,7 @@ import com.builtbroken.icbm.content.fof.TileFoFClient;
 import com.builtbroken.icbm.content.launcher.controller.remote.antenna.ItemRendererAntennaFrame;
 import com.builtbroken.icbm.content.launcher.controller.remote.antenna.TESRAntenna;
 import com.builtbroken.icbm.content.launcher.controller.remote.antenna.TileAntennaPart;
+import com.builtbroken.icbm.content.launcher.controller.remote.display.TileSiloInterfaceClient;
 import com.builtbroken.icbm.content.launcher.launcher.standard.TileStandardLauncherClient;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.RenderMissile;
@@ -59,6 +60,7 @@ public class ClientProxy extends CommonProxy
         ICBM.blockStandardLauncher = ICBM.INSTANCE.getManager().newBlock("StandardMissileLauncher", TileStandardLauncherClient.class);
         ICBM.blockAMS = ICBM.INSTANCE.getManager().newBlock("ICBMxAMS", TileAMSClient.class);
         ICBM.blockFoFStation = ICBM.INSTANCE.getManager().newBlock("ICBMxFoF", TileFoFClient.class);
+        ICBM.blockCommandSiloDisplay = ICBM.INSTANCE.getManager().newBlock("icbmCommandSiloDisplay", TileSiloInterfaceClient.class);
 
         ICBM.blockStandardLauncher.setCreativeTab(null);
         NEIProxy.hideItem(ICBM.blockStandardLauncher);
