@@ -1,8 +1,11 @@
 package com.builtbroken.icbm.content.display;
 
+import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.RenderMissile;
+import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.lib.transform.region.Cube;
+import com.builtbroken.mc.lib.transform.rotation.EulerAngle;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.relauncher.Side;
@@ -18,7 +21,7 @@ import net.minecraft.util.IIcon;
  * Later will be changed to only render micro and small missiles
  * Created by robert on 12/31/2014.
  */
-public class TileMissileDisplay extends TileMissileContainer
+public class TileMissileDisplay extends TileMissileContainer implements IPos3D
 {
     EntityMissile missile;
 
@@ -73,28 +76,35 @@ public class TileMissileDisplay extends TileMissileContainer
         super.update();
         if (isClient())
         {
+            Missile missileObj = getMissile();
             if (missile == null)
             {
-                if (getMissile() != null)
+                if (missileObj != null)
                 {
                     missile = new EntityMissile(world());
                     missile.setMissile(getMissile());
-                    missile.setPosition(xCoord + 0.5, yCoord + 1, zCoord + 0.5);
+                    missile.setPosition(xCoord + 0.5, yCoord + 1.5 + 1.5 * missileObj.getMissileSize(), zCoord + 0.5);
                 }
             }
             else
             {
-                if (getMissile() == null)
+                if (missileObj == null)
                 {
                     missile = null;
                 }
                 else if (ticks % 20 == 0)
                 {
                     missile.motionX = missile.motionY = missile.motionZ = 0;
-                    missile.rotationYaw = 90;
-                    missile.rotationYaw = missile.rotationYaw % 360.0F;
-                    missile.rotationPitch = 0;
-                    missile.rotationPitch = missile.rotationPitch % 360.0F;
+                    missile.rotationYaw += 5;
+                    if (missile.rotationYaw > 360)
+                    {
+                        missile.rotationYaw = missile.rotationYaw % 360.0F;
+                        missile.rotationPitch += 5;
+                        missile.rotationPitch = missile.rotationPitch % 360.0F;
+                    }
+                    EulerAngle angle = new EulerAngle(missile.rotationYaw, missile.rotationPitch);
+                    Pos pos = angle.toPos().multiply(2).add(this).add(0.5, 1.5 + 1.5 * missileObj.getMissileSize(), 0.5);
+                    world().spawnParticle("smoke", pos.x(), pos.y(), pos.z(), 0, -0.1, 0);
                 }
             }
         }

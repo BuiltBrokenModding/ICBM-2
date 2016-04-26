@@ -217,10 +217,10 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
         {
             //Group_004 nose of warhead
             //Group_005 warhead
-            Assets.SMALL_MISSILE_MODEL_2.renderOnly("Group_005");
+            Assets.SMALL_MISSILE_MODEL.renderOnly("Group_005");
             if (getMissile().getWarhead().getExplosive() != null)
             {
-                Assets.SMALL_MISSILE_MODEL_2.renderOnly("Group_004");
+                Assets.SMALL_MISSILE_MODEL.renderOnly("Group_004");
             }
         }
         if (getMissile().getEngine() != null)
@@ -229,14 +229,14 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
             //Group_003 - Engine case
             //Component_3_001 - 8 Engine lower segments
             //Component_2_001 - 4 Engine fins
-            Assets.SMALL_MISSILE_MODEL_2.renderOnly("Group_002", "Group_003");
+            Assets.SMALL_MISSILE_MODEL.renderOnly("Group_002", "Group_003");
             for (int i = 1; i < 9; i++)
             {
-                Assets.SMALL_MISSILE_MODEL_2.renderOnly("Component_3_00" + i);
+                Assets.SMALL_MISSILE_MODEL.renderOnly("Component_3_00" + i);
             }
             for (int i = 1; i < 5; i++)
             {
-                Assets.SMALL_MISSILE_MODEL_2.renderOnly("Component_2_00" + i);
+                Assets.SMALL_MISSILE_MODEL.renderOnly("Component_2_00" + i);
             }
         }
         if (getMissile().getGuidance() != null)
@@ -244,7 +244,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
             //TODO add model indication showing no guidance added
         }
         //Render body and fins
-        Assets.SMALL_MISSILE_MODEL_2.renderOnly("Group_001", "Component_1_001", "Component_1_002", "Component_1_003", "Component_1_004");
+        Assets.SMALL_MISSILE_MODEL.renderOnly("Group_001", "Component_1_001", "Component_1_002", "Component_1_003", "Component_1_004");
     }
 
     private void handleMissileRotationUD()
