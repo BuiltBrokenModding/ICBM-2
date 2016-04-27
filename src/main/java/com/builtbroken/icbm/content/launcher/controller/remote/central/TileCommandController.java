@@ -137,13 +137,13 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
     {
         if (player.getHeldItem() != null)
         {
-            if (Engine.runningAsDev)
+            if (player.getHeldItem().getItem() instanceof IWorldPosItem)
             {
-                if (player.getHeldItem().getItem() instanceof IWorldPosItem)
-                {
-                    return false;
-                }
-                else if (player.getHeldItem().getItem() == Items.stick)
+                return false;
+            }
+            else if (Engine.runningAsDev)
+            {
+                 if (player.getHeldItem().getItem() == Items.stick)
                 {
                     if (isServer())
                     {
