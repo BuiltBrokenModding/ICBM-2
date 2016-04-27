@@ -5,6 +5,7 @@ import com.builtbroken.mc.lib.transform.sorting.Vector3DistanceComparator;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.prefab.explosive.blast.Blast;
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -25,10 +26,11 @@ public class BlastRegen extends Blast<BlastRegen>
     public void getEffectedBlocks(List<IWorldEdit> list)
     {
         int chunks = ((int) size / 16) + 1;
-        int chunk_x = ((int)x >> 4);
-        int chunk_z = ((int)z >> 4);
+        int chunk_x = ((int) x >> 4);
+        int chunk_z = ((int) z >> 4);
 
         IChunkProvider provider = world.getChunkProvider();
+
         if (provider instanceof ChunkProviderServer)
         {
             for (int cx = chunk_x - chunks; cx <= chunk_x + chunks; cx++)
@@ -36,6 +38,8 @@ public class BlastRegen extends Blast<BlastRegen>
                 for (int cz = chunk_z - chunks; cz <= chunk_z + chunks; cz++)
                 {
                     Chunk newChunk = ((ChunkProviderServer) provider).currentChunkProvider.provideChunk(cx, cz);
+                    //((ChunkProviderServer) provider).currentChunkProvider.populate(p_73153_1_, p_73153_2_, p_73153_3_);
+                    //GameRegistry.generateWorld(p_73153_2_, p_73153_3_, worldObj, currentChunkProvider, p_73153_1_);
                     for (int i = 0; i < 16; i++)
                     {
                         for (int k = 0; k < 16; k++)
@@ -49,7 +53,7 @@ public class BlastRegen extends Blast<BlastRegen>
                                     Block block = newChunk.getBlock(i, j, k);
                                     int meta = newChunk.getBlockMetadata(i, j, k);
                                     BlockEdit edit = new BlockEdit(world, x, j, z).set(block, meta, false, true);
-                                    if(edit.hasChanged())
+                                    if (edit.hasChanged())
                                     {
                                         list.add(edit);
                                     }
@@ -62,6 +66,31 @@ public class BlastRegen extends Blast<BlastRegen>
         }
 
         Collections.sort(list, new Vector3DistanceComparator(new Pos(x, y, z)));
+    }
+
+    @Override
+    public void doEffectOther(boolean beforeBlocksPlaced)
+    {
+        if (!world.isRemote && !beforeBlocksPlaced)
+        {
+            IChunkProvider provider = world.getChunkProvider();
+
+            if (provider instanceof ChunkProviderServer)
+            {
+                int chunks = ((int) size / 16) + 1;
+                int chunk_x = ((int) x >> 4);
+                int chunk_z = ((int) z >> 4);
+
+                for (int cx = chunk_x - chunks; cx <= chunk_x + chunks; cx++)
+                {
+                    for (int cz = chunk_z - chunks; cz <= chunk_z + chunks; cz++)
+                    {
+                        ((ChunkProviderServer) provider).currentChunkProvider.populate(((ChunkProviderServer) provider).currentChunkProvider, chunk_x, chunk_z);
+                        GameRegistry.generateWorld(chunk_x, chunk_z, world, ((ChunkProviderServer) provider).currentChunkProvider, ((ChunkProviderServer) provider).currentChunkProvider);
+                    }
+                }
+            }
+        }
     }
 
     /**

@@ -15,4 +15,10 @@ public class BlastRegenLocal extends BlastRegen
     {
         return new Pos(this.x, this.y, this.z).distance(x, y, z) <= size;
     }
+
+    @Override
+    public void doEffectOther(boolean beforeBlocksPlaced)
+    {
+        //TODO support chunk generators using block set event to capture changed blocks
+    }
 }
