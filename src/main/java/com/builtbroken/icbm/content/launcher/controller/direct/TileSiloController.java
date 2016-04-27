@@ -58,6 +58,12 @@ public class TileSiloController extends TileMachine implements IPostInit, IPacke
     }
 
     @Override
+    public Tile newTile()
+    {
+        return new TileSiloController();
+    }
+
+    @Override
     public void update()
     {
         super.update();
