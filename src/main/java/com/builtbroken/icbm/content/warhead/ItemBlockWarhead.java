@@ -6,10 +6,10 @@ import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.api.explosive.ITexturedExplosiveHandler;
 import com.builtbroken.mc.api.items.explosives.IExplosiveContainerItem;
 import com.builtbroken.mc.api.items.explosives.IExplosiveItem;
 import com.builtbroken.mc.api.modules.IModuleItem;
+import com.builtbroken.mc.client.ExplosiveRegistryClient;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
@@ -35,10 +35,6 @@ import java.util.List;
 
 public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IExplosiveContainerItem, IModuleItem
 {
-    @SideOnly(Side.CLIENT)
-    public static IIcon emptyIcon;
-    @SideOnly(Side.CLIENT)
-    public static IIcon tntIcon;
 
     public ItemBlockWarhead(Block block)
     {
@@ -50,8 +46,6 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IExpl
     public void registerIcons(IIconRegister reg)
     {
         super.registerIcons(reg);
-        emptyIcon = reg.registerIcon(ICBM.PREFIX + "blank");
-        tntIcon = reg.registerIcon(ICBM.PREFIX + "ex.icon.tnt.unknown");
         for (WarheadCasings casing : WarheadCasings.values())
         {
             casing.icon = reg.registerIcon(ICBM.PREFIX + "warhead." + casing.name().replace("EXPLOSIVE_", "").toLowerCase());
@@ -82,22 +76,7 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IExpl
     {
         if (pass == 1)
         {
-            IExplosiveHandler handler = getExplosive(stack);
-            if (handler != null)
-            {
-                if (handler instanceof ITexturedExplosiveHandler)
-                {
-                    return ((ITexturedExplosiveHandler) handler).getBottomLeftCornerIcon(stack);
-                }
-                else
-                {
-                    return tntIcon;
-                }
-            }
-            else
-            {
-                return emptyIcon;
-            }
+            return ExplosiveRegistryClient.getCornerIconFor(stack);
         }
         return getIconFromDamage(stack.getItemDamage());
     }

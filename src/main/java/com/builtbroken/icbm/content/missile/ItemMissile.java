@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.missile;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.api.*;
+import com.builtbroken.icbm.api.IWarheadHandler;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
@@ -12,15 +12,15 @@ import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.icbm.content.crafting.parts.MissileCraftingParts;
-import com.builtbroken.icbm.content.warhead.ItemBlockWarhead;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.api.explosive.ITexturedExplosiveHandler;
+import com.builtbroken.mc.api.items.explosives.IExplosiveContainerItem;
 import com.builtbroken.mc.api.items.explosives.IExplosiveItem;
 import com.builtbroken.mc.api.items.weapons.IAmmo;
 import com.builtbroken.mc.api.items.weapons.IAmmoType;
 import com.builtbroken.mc.api.items.weapons.IReloadableWeapon;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
+import com.builtbroken.mc.client.ExplosiveRegistryClient;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.References;
 import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
@@ -53,7 +53,7 @@ import java.util.List;
  *
  * @author Darkguardsman
  */
-public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissileItem, IPostInit, IModularMissileItem
+public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissileItem, IPostInit, IModularMissileItem, IExplosiveContainerItem
 {
     @SideOnly(Side.CLIENT)
     IIcon microMissile;
@@ -325,22 +325,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     {
         if (pass == 1)
         {
-            IExplosiveHandler handler = getExplosive(stack);
-            if (handler != null)
-            {
-                if (handler instanceof ITexturedExplosiveHandler)
-                {
-                    return ((ITexturedExplosiveHandler) handler).getBottomLeftCornerIcon(stack);
-                }
-                else
-                {
-                    return ItemBlockWarhead.tntIcon;
-                }
-            }
-            else
-            {
-                return ItemBlockWarhead.emptyIcon;
-            }
+            return ExplosiveRegistryClient.getCornerIconFor(stack);
         }
         return getIconFromDamage(stack.getItemDamage());
     }
@@ -478,6 +463,28 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
                 }
                 return true;
             }
+        }
+        return false;
+    }
+
+    @Override
+    public ItemStack getExplosiveStack(ItemStack stack)
+    {
+        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
+        if(missile.getWarhead() != null)
+        {
+            return missile.getWarhead().getExplosiveStack();
+        }
+        return null;
+    }
+
+    @Override
+    public boolean setExplosiveStack(ItemStack stack, ItemStack explosive)
+    {
+        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
+        if(missile.getWarhead() != null)
+        {
+            return missile.getWarhead().setExplosiveStack(explosive);
         }
         return false;
     }

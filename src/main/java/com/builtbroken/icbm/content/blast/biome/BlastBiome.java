@@ -21,7 +21,7 @@ public class BlastBiome extends Blast<BlastBiome>
     {
         if(!world.isRemote && !beforeBlocksPlaced)
         {
-            int range = (int)size;
+            int range = (int)size * 10;
 
             for(int x = (int)x() - range; x < (x + range); x++)
             {
@@ -29,6 +29,7 @@ public class BlastBiome extends Blast<BlastBiome>
                 {
                     Chunk chunk = world.getChunkFromBlockCoords(x, z);
                     chunk.getBiomeArray()[(x % 16) * 16 + (z % 16)] = biomeID;
+                    chunk.isModified = true;
                 }
             }
         }

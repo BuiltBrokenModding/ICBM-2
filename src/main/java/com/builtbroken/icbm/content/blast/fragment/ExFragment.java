@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.blast.fragment;
 
 import com.builtbroken.icbm.content.blast.ExplosiveHandlerICBM;
+import com.builtbroken.mc.api.items.explosives.IExplosiveItem;
 import com.builtbroken.mc.prefab.explosive.blast.Blast;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -33,7 +34,7 @@ public class ExFragment extends ExplosiveHandlerICBM<Blast>
      */
     protected Fragments getFragmentType(ItemStack stack)
     {
-        return getFragmentType(stack.getTagCompound());
+        return stack.getItem() instanceof IExplosiveItem ? getFragmentType(((IExplosiveItem) stack.getItem()).getAdditionalExplosiveData(stack)) : Fragments.ARROW;
     }
 
     /**
@@ -55,6 +56,28 @@ public class ExFragment extends ExplosiveHandlerICBM<Blast>
         return Fragments.ARROW;
     }
 
+    /**
+     * Sets the fragment type of the item, the item needs to be
+     * an instance of {@link IExplosiveItem}
+     *
+     * @param stack - stack
+     * @param frag  - type
+     */
+    public static void setFragmentType(ItemStack stack, Fragments frag)
+    {
+        if (stack.getItem() instanceof IExplosiveItem)
+        {
+            setFragmentType(((IExplosiveItem) stack.getItem()).getAdditionalExplosiveData(stack), frag);
+        }
+    }
+
+    /**
+     * Sets the fragment type into the NBT
+     *
+     * @param nbt
+     * @param frag
+     * @return
+     */
     public static NBTTagCompound setFragmentType(NBTTagCompound nbt, Fragments frag)
     {
         if (frag != null)

@@ -230,9 +230,24 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
     {
         for (ExplosiveItems item : ExplosiveItems.values())
         {
-            if (item.ex_name != null)
+            if (item.ex_name != null && item != ExplosiveItems.FRAGMENT && item != ExplosiveItems.BIOME_CHANGE)
             {
                 ExplosiveRegistry.registerExplosiveItem(item.newItem());
+            }
+        }
+        for (Fragments frag : Fragments.values())
+        {
+            ItemStack stack = ExplosiveItems.FRAGMENT.newItem();
+            ExFragment.setFragmentType(stack, frag);
+            ExplosiveRegistry.registerExplosiveItem(stack);
+        }
+        for (BiomeGenBase base : BiomeGenBase.getBiomeGenArray())
+        {
+            if (base != null && base.biomeID >= 0)
+            {
+                ItemStack stack = ExplosiveItems.BIOME_CHANGE.newItem();
+                getAdditionalExplosiveData(stack).setByte("biomeID", (byte) base.biomeID);
+                ExplosiveRegistry.registerExplosiveItem(stack);
             }
         }
     }
@@ -255,7 +270,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
                 for (Fragments frag : Fragments.values())
                 {
                     ItemStack stack = ExplosiveItems.values()[i].newItem();
-                    stack.setTagCompound(ExFragment.setFragmentType(new NBTTagCompound(), frag));
+                    ExFragment.setFragmentType(stack, frag);
                     list.add(stack);
                 }
             }
@@ -266,8 +281,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
                     if (base != null && base.biomeID >= 0)
                     {
                         ItemStack stack = ExplosiveItems.values()[i].newItem();
-                        stack.setTagCompound(new NBTTagCompound());
-                        stack.getTagCompound().setByte("biomeID", (byte) base.biomeID);
+                        getAdditionalExplosiveData(stack).setByte("biomeID", (byte) base.biomeID);
                         list.add(stack);
                     }
                 }
