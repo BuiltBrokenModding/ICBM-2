@@ -24,6 +24,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import java.util.HashMap;
@@ -258,6 +259,19 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
                     list.add(stack);
                 }
             }
+            else if (i == ExplosiveItems.BIOME_CHANGE.ordinal())
+            {
+                for (BiomeGenBase base : BiomeGenBase.getBiomeGenArray())
+                {
+                    if (base != null && base.biomeID >= 0)
+                    {
+                        ItemStack stack = ExplosiveItems.values()[i].newItem();
+                        stack.setTagCompound(new NBTTagCompound());
+                        stack.getTagCompound().setByte("biomeID", (byte) base.biomeID);
+                        list.add(stack);
+                    }
+                }
+            }
             else
             {
                 list.add(ExplosiveItems.values()[i].newItem());
@@ -280,7 +294,8 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         REGEN("Regen", 1),
         REGEN_LOCAL("RegenLocal", 1),
         PLANT_LIFE("PlantLife", 4),
-        CAKE("Cake", 1);
+        CAKE("Cake", 1),
+        BIOME_CHANGE("BiomeChange", 1);
 
         public final String ex_name;
         public final double sizePerUnit;

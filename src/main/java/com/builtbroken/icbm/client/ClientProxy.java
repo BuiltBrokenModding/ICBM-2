@@ -236,6 +236,7 @@ public class ClientProxy extends CommonProxy
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "RegenLocal", new ExRegenLocal());//TODO Add texture
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "MicroQuake", new ExMicroQuake());//TODO Add texture
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Cake", new ECCake());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "BiomeChange", new ECBiomeChange());
         if (Engine.runningAsDev)
         {
             ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SimplePathTest1", new ExplosiveHandlerGeneric("SimplePathTest1", BlastPathTester.class, 1));
