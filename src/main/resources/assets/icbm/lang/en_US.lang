@@ -58,6 +58,7 @@ item.icbm:explosiveItem.AntiPlant.name=Plant Killer Charge
 item.icbm:explosiveItem.PlantLife.name=Plant Life Charge
 item.icbm:explosiveItem.Regen.name=Regen Charge
 item.icbm:explosiveItem.RegenLocal.name=Limited Regen Charge
+item.icbm:explosiveItem.BiomeChange.name=Biome Shift Charge
 item.icbm:explosiveItem.Cake.name=Cake Package
 
 item.icbm:explosiveItem.fragment.arrow.name=Arrow Bundle Charge
@@ -150,7 +151,9 @@ explosive.icbm:ThaumNode.name=Node Dispenser
 explosive.icbm:ThaumJar.name=Node Trapper
 explosive.icbm:MicroQuake.name=Micro Quake
 explosive.icbm:Regen.name=Regen
+explosive.icbm:RegenLocal.name=Limited Regen
 explosive.icbm:cake.name=Cake
+explosive.icbm:biomeChange.name=Biome Shift
 
 ## Damage
 damage.fragment.cobblestone=%s was stoned to death by cobble fragments

@@ -7,14 +7,15 @@ import com.google.common.collect.SetMultimap;
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.renderer.texture.TextureUtil;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.BiomeGenBase;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
@@ -23,6 +24,7 @@ import java.util.*;
 public class ECBiomeChange extends ExBiomeChange implements ITexturedExplosiveHandler
 {
     Map<String, IIcon> corner_icons = new HashMap();
+    IIcon icon;
 
     boolean hasInit = false;
 
@@ -68,7 +70,7 @@ public class ECBiomeChange extends ExBiomeChange implements ITexturedExplosiveHa
                 }
             }
         }
-        return Blocks.grass.getIcon(1, 0);
+        return icon;
     }
 
     @Override
@@ -76,6 +78,7 @@ public class ECBiomeChange extends ExBiomeChange implements ITexturedExplosiveHa
     {
         if (!blocks)
         {
+            icon = reg.registerIcon(ICBM.PREFIX + "ex.icon.grass");
             for (BiomeGenBase biome : BiomeGenBase.getBiomeGenArray())
             {
                 if (biome != null && biome.biomeID >= 0)
