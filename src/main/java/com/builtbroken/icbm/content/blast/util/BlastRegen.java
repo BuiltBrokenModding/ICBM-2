@@ -5,7 +5,6 @@ import com.builtbroken.mc.lib.transform.sorting.Vector3DistanceComparator;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.prefab.explosive.blast.Blast;
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -85,8 +84,10 @@ public class BlastRegen extends Blast<BlastRegen>
                 {
                     for (int cz = chunk_z - chunks; cz <= chunk_z + chunks; cz++)
                     {
-                        ((ChunkProviderServer) provider).currentChunkProvider.populate(((ChunkProviderServer) provider).currentChunkProvider, chunk_x, chunk_z);
-                        GameRegistry.generateWorld(chunk_x, chunk_z, world, ((ChunkProviderServer) provider).currentChunkProvider, ((ChunkProviderServer) provider).currentChunkProvider);
+                        Chunk chunk = world.getChunkFromChunkCoords(cx, cz);
+                        chunk.isTerrainPopulated = false;
+                        chunk.isModified = true;
+                        provider.populate(provider, cx, cz);
                     }
                 }
             }
