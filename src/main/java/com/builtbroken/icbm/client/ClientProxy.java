@@ -4,6 +4,7 @@ import com.builtbroken.icbm.CommonProxy;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.client.blast.*;
 import com.builtbroken.icbm.content.ams.TileAMSClient;
+import com.builtbroken.icbm.content.blast.effect.ExOrePuller;
 import com.builtbroken.icbm.content.blast.entity.ExplosiveHandlerSpawn;
 import com.builtbroken.icbm.content.blast.explosive.BlastPathTester;
 import com.builtbroken.icbm.content.blast.explosive.ExMicroQuake;
@@ -237,6 +238,7 @@ public class ClientProxy extends CommonProxy
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "MicroQuake", new ExMicroQuake());//TODO Add texture
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Cake", new ECCake());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "BiomeChange", new ECBiomeChange());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "OrePuller", new ExOrePuller());
         if (Engine.runningAsDev)
         {
             ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SimplePathTest1", new ExplosiveHandlerGeneric("SimplePathTest1", BlastPathTester.class, 1));

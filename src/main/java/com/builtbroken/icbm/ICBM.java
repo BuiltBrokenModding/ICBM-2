@@ -2,10 +2,7 @@ package com.builtbroken.icbm;
 
 import com.builtbroken.icbm.client.ICBMCreativeTab;
 import com.builtbroken.icbm.content.blast.biome.ExBiomeChange;
-import com.builtbroken.icbm.content.blast.effect.ExAntiPlant;
-import com.builtbroken.icbm.content.blast.effect.ExEnderBlocks;
-import com.builtbroken.icbm.content.blast.effect.ExPlantLife;
-import com.builtbroken.icbm.content.blast.effect.ExTorchEater;
+import com.builtbroken.icbm.content.blast.effect.*;
 import com.builtbroken.icbm.content.blast.entity.ExplosiveHandlerSpawn;
 import com.builtbroken.icbm.content.blast.explosive.BlastPathTester;
 import com.builtbroken.icbm.content.blast.explosive.ExAntimatter;
@@ -335,6 +332,7 @@ public final class ICBM extends AbstractMod
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "MicroQuake", new ExMicroQuake());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Cake", new ExCake());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "BiomeChange", new ExBiomeChange());
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "OrePuller", new ExOrePuller());
             if (Engine.runningAsDev)
             {
                 ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest1", new ExplosiveHandlerGeneric("SimplePathTest1", BlastPathTester.class, 1));

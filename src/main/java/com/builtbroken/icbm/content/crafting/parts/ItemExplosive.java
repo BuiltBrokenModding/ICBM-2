@@ -6,6 +6,7 @@ import com.builtbroken.icbm.content.blast.fragment.Fragments;
 import com.builtbroken.icbm.content.blast.fragment.IFragmentExplosiveHandler;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.explosives.IExplosiveItem;
+import com.builtbroken.mc.client.ExplosiveRegistryClient;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.core.registry.implement.IRegistryInit;
 import com.builtbroken.mc.lib.helper.recipe.OreNames;
@@ -257,6 +258,8 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
     {
         //TODO add renderer for some of the explosives
         //For example arrow bundle for fragment
+
+        ExplosiveRegistryClient.registerIcon(ExplosiveItems.ORE_PULLER.newItem(), ICBM.PREFIX + "ex.icon.ore");
     }
 
     @Override
@@ -309,7 +312,8 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         REGEN_LOCAL("RegenLocal", 1),
         PLANT_LIFE("PlantLife", 4),
         CAKE("Cake", 1),
-        BIOME_CHANGE("BiomeChange", 1);
+        BIOME_CHANGE("BiomeChange", 1),
+        ORE_PULLER("OrePuller", 10);
 
         public final String ex_name;
         public final double sizePerUnit;
