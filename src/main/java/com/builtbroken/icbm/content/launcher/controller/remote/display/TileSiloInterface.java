@@ -18,6 +18,9 @@ import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
+import com.builtbroken.mc.core.registry.implement.IRecipeContainer;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
+import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
@@ -28,7 +31,9 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
@@ -44,7 +49,7 @@ import java.util.Map;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 3/26/2016.
  */
-public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTile, IPacketIDReceiver
+public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTile, IPacketIDReceiver, IRecipeContainer
 {
     private Pos commandCenterPos;
     private TileCommandController commandCenter;
@@ -406,5 +411,11 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
         {
             sendPacketToServer(new PacketTile(this, 3, pos, iSiloConnectionData));
         }
+    }
+
+    @Override
+    public void genRecipes(List<IRecipe> recipes)
+    {
+        recipes.add(newShapedRecipe(ICBM.blockCommandSiloDisplay, "GPG", "CNC", "WSW", 'G', Blocks.glass_pane, 'P', OreNames.PLATE_IRON, 'C', UniversalRecipe.CIRCUIT_T2.get(), 'N', OreNames.NUGGET_GOLD, 'S', OreNames.SCREW_IRON, 'W', OreNames.WIRE_COPPER));
     }
 }

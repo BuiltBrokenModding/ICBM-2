@@ -13,7 +13,9 @@ import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
-import com.builtbroken.mc.core.registry.implement.IPostInit;
+import com.builtbroken.mc.core.registry.implement.IRecipeContainer;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
+import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
@@ -25,6 +27,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
@@ -41,7 +44,7 @@ import java.util.List;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 3/26/2016.
  */
-public class TileCommandSiloConnector extends TileModuleMachine implements ILinkable, IPostInit, ISiloConnectionPoint, IPacketIDReceiver, IGuiTile
+public class TileCommandSiloConnector extends TileModuleMachine implements ILinkable, ISiloConnectionPoint, IPacketIDReceiver, IGuiTile, IRecipeContainer
 {
     public static final int MAX_CONNECTIONS = 20;
     /** Main texture */
@@ -90,12 +93,6 @@ public class TileCommandSiloConnector extends TileModuleMachine implements ILink
     public Tile newTile()
     {
         return new TileCommandSiloConnector();
-    }
-
-    @Override
-    public void onPostInit()
-    {
-        // GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.blockSiloController), "IGI", "CGC", "ICI", 'I', OreNames.INGOT_IRON, 'G', Blocks.chest, 'C', UniversalRecipe.CIRCUIT_T1.get()));
     }
 
     @Override
@@ -360,5 +357,11 @@ public class TileCommandSiloConnector extends TileModuleMachine implements ILink
         super.writeDescPacket(buf);
         ByteBufUtils.writeUTF8String(buf, getConnectorDisplayName() == null ? "" : getConnectorDisplayName());
         ByteBufUtils.writeUTF8String(buf, getConnectorGroupName() == null ? "" : getConnectorGroupName());
+    }
+
+    @Override
+    public void genRecipes(List<IRecipe> recipes)
+    {
+        recipes.add(newShapedRecipe(ICBM.blockCommandSiloConnector, "WCW", "RCR", "PCP", 'C', UniversalRecipe.CIRCUIT_T2.get(), 'W', OreNames.WIRE_IRON, 'P', OreNames.PLATE_IRON, 'R', Items.repeater));
     }
 }

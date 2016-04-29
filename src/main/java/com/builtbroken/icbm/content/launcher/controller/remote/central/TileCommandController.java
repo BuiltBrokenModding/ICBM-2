@@ -19,7 +19,9 @@ import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
-import com.builtbroken.mc.core.registry.implement.IPostInit;
+import com.builtbroken.mc.core.registry.implement.IRecipeContainer;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
+import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
@@ -31,8 +33,10 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
@@ -51,7 +55,7 @@ import java.util.Map;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 3/26/2016.
  */
-public class TileCommandController extends TileModuleMachine implements ILinkable, IPacketIDReceiver, IGuiTile, IPostInit, IPrefabInventory, IWirelessDataPoint, IWirelessDataListener, ILinkFeedback, IRadioWaveExternalReceiver
+public class TileCommandController extends TileModuleMachine implements ILinkable, IPacketIDReceiver, IGuiTile, IRecipeContainer, IPrefabInventory, IWirelessDataPoint, IWirelessDataListener, ILinkFeedback, IRadioWaveExternalReceiver
 {
     /** Main texture */
     public static IIcon texture;
@@ -227,12 +231,6 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
 
     @Override
     public void onLinked(Location location)
-    {
-
-    }
-
-    @Override
-    public void onPostInit()
     {
 
     }
@@ -545,5 +543,11 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void genRecipes(List<IRecipe> recipes)
+    {
+        recipes.add(newShapedRecipe(ICBM.blockCommandCentral, "WWW", "GPR", "CVC", 'W', OreNames.WIRE_GOLD, 'G', Blocks.glass, 'P', OreNames.PLATE_IRON, 'C', UniversalRecipe.CIRCUIT_T1.get(), 'V', UniversalRecipe.CIRCUIT_T3.get(), 'R', OreNames.DIAMOND));
     }
 }
