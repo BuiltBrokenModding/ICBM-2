@@ -13,6 +13,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -270,6 +271,12 @@ public class BlockAntennaParts extends BlockContainer implements IPostInit, IReg
     public IIcon getIcon(int p_149691_1_, int p_149691_2_)
     {
         return Blocks.hopper.getIcon(p_149691_1_, p_149691_2_);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerBlockIcons(IIconRegister p_149651_1_)
+    {
     }
 
     @Override

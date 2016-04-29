@@ -3,8 +3,6 @@ package com.builtbroken.icbm.client;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.mod.ModCreativeTab;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
 
 import java.util.List;
 
@@ -43,8 +41,8 @@ public class ICBMCreativeTab extends ModCreativeTab
         add(list, ICBM.itemGPSTool);
         add(list, ICBM.itemRocketLauncher);
         add(list, ICBM.blockLauncherParts);
-        add(list, ICBM.itemMissile);
-        add(list, ICBM.blockWarhead);
+        //add(list, ICBM.itemMissile);
+        //add(list, ICBM.blockWarhead);
         add(list, ICBM.itemExplosive);
         add(list, ICBM.itemEngineModules);
         add(list, ICBM.itemGuidanceModules);
@@ -56,15 +54,5 @@ public class ICBMCreativeTab extends ModCreativeTab
     public boolean hasSearchBar()
     {
         return true;
-    }
-
-    private void add(List list, Item item)
-    {
-        item.getSubItems(item, this, list);
-    }
-
-    private void add(List list, Block block)
-    {
-        block.getSubBlocks(Item.getItemFromBlock(block), this, list);
     }
 }

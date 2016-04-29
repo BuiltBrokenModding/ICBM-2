@@ -1,5 +1,12 @@
 ## Master language file
 itemGroup.ICBM=ICBM
+itemGroup.icbm.missiles=ICBM Missiles
+itemGroup.icbm.missiles.micro=ICBM Rockets
+itemGroup.icbm.missiles.small=ICBM Small Missiles
+itemGroup.icbm.missiles.standard=ICBM Missiles
+itemGroup.icbm.missiles.medium=ICBM Medium Missiles
+itemGroup.icbm.missiles.large=ICBM Large Missiles
+itemGroup.icbm.warheads=ICBM Warheads
 
 ## Missile
 item.icbm:missile.name=Missile

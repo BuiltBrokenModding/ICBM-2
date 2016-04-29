@@ -1,5 +1,7 @@
 package com.builtbroken.icbm;
 
+import com.builtbroken.icbm.client.CreativeTabMissiles;
+import com.builtbroken.icbm.client.CreativeTabWarheads;
 import com.builtbroken.icbm.client.ICBMCreativeTab;
 import com.builtbroken.icbm.content.blast.biome.ExBiomeChange;
 import com.builtbroken.icbm.content.blast.effect.*;
@@ -188,13 +190,21 @@ public final class ICBM extends AbstractMod
 
     public static boolean APRIL_FIRST;
 
+    public static CreativeTabMissiles[] missileTabs;
+    public static CreativeTabWarheads warheadsTab;
+
     public ICBM()
     {
         super(DOMAIN, "ICBM");
         CREATIVE_TAB = new ICBMCreativeTab();
         super.manager.setTab(CREATIVE_TAB);
+
+        missileTabs = new CreativeTabMissiles[]{new CreativeTabMissiles(MissileCasings.MICRO), new CreativeTabMissiles(MissileCasings.SMALL), new CreativeTabMissiles(MissileCasings.STANDARD)};
+        warheadsTab = new CreativeTabWarheads();
+
         fireProxyPreInit = false;
-        Calendar now = Calendar.getInstance();
+
+        Calendar now = Calendar.getInstance(); //TODO move to VE
         APRIL_FIRST = (now.get(Calendar.MONTH) + 1) == 4 && now.get(Calendar.DAY_OF_MONTH) == 1;
     }
 
@@ -301,7 +311,8 @@ public final class ICBM extends AbstractMod
         GuidanceModules.register();
 
         //Set tab item last so to avoid NPE
-        CREATIVE_TAB.itemStack = MissileCasings.SMALL.newModuleStack();
+        CREATIVE_TAB.itemStack = new ItemStack(itemRemoteDetonator);
+        warheadsTab.itemStack = new ItemStack(blockWarhead);
         getProxy().registerExplosives();
     }
 

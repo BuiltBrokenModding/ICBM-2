@@ -66,7 +66,7 @@ public class RenderMissile extends Render implements IItemRenderer
     @Override
     public boolean shouldUseRenderHelper(IItemRenderer.ItemRenderType type, ItemStack item, IItemRenderer.ItemRendererHelper helper)
     {
-        return type != ItemRenderType.INVENTORY;
+        return item.getItemDamage() == 2 || type != ItemRenderType.INVENTORY;
     }
 
     @Override

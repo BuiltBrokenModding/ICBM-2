@@ -3,6 +3,8 @@ package com.builtbroken.icbm.content.blast.biome;
 import com.builtbroken.icbm.content.blast.ExplosiveHandlerICBM;
 import com.builtbroken.mc.api.edit.IWorldChangeAction;
 import com.builtbroken.mc.api.event.TriggerCause;
+import com.builtbroken.mc.api.items.explosives.IExplosiveItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -16,7 +18,7 @@ import java.util.List;
  */
 public class ExBiomeChange extends ExplosiveHandlerICBM<BlastBiome>
 {
-    public static final List<Byte> bannedBiomeIds = new ArrayList();
+    public static final List<Integer> bannedBiomeIds = new ArrayList();
 
     public ExBiomeChange()
     {
@@ -26,10 +28,10 @@ public class ExBiomeChange extends ExplosiveHandlerICBM<BlastBiome>
     @Override
     public IWorldChangeAction createBlastForTrigger(World world, double x, double y, double z, TriggerCause triggerCause, double size, NBTTagCompound tag)
     {
-        byte id = tag.hasKey("biomeID") ? tag.getByte("biomeID") : -1;
-        if (id >= 0 && BiomeGenBase.getBiome(id) != null && !bannedBiomeIds.contains(id))
+        int id = getBiomeID(tag);
+        if (id >= 0 && id < BiomeGenBase.getBiomeGenArray().length && BiomeGenBase.getBiome(id) != null && !bannedBiomeIds.contains(id))
         {
-            BlastBiome blast = new BlastBiome(id);
+            BlastBiome blast = new BlastBiome(BiomeGenBase.getBiome(id).biomeID);
             if (blast != null)
             {
                 blast.setLocation(world, x, y, z);
@@ -40,5 +42,24 @@ public class ExBiomeChange extends ExplosiveHandlerICBM<BlastBiome>
             return blast;
         }
         return null;
+    }
+
+    public static int getBiomeID(ItemStack stack)
+    {
+        if (stack.getItem() instanceof IExplosiveItem)
+        {
+            NBTTagCompound data = ((IExplosiveItem) stack.getItem()).getAdditionalExplosiveData(stack);
+            return getBiomeID(data);
+        }
+        return 0;
+    }
+
+    public static int getBiomeID(NBTTagCompound data)
+    {
+        if (data != null && data.hasKey("biomeID"))
+        {
+            return data.getInteger("biomeID");
+        }
+        return 0;
     }
 }

@@ -141,22 +141,34 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     {
         for (MissileCasings size : MissileCasings.values())
         {
-            if (size.enabled)
+            getSubItems(size, list);
+        }
+    }
+
+    /**
+     * Gets all the sub items only for the size of the casing. Used
+     * in creative tabs only
+     *
+     * @param size
+     * @param list
+     */
+    public static void getSubItems(MissileCasings size, List list)
+    {
+        if (size.enabled)
+        {
+            list.add(size.newModuleStack());
+            for (IExplosiveHandler ex : ExplosiveRegistry.getExplosives())
             {
-                list.add(size.newModuleStack());
-                for (IExplosiveHandler ex : ExplosiveRegistry.getExplosives())
+                List<ItemStackWrapper> items = ExplosiveRegistry.getItems(ex);
+                if (items != null)
                 {
-                    List<ItemStackWrapper> items = ExplosiveRegistry.getItems(ex);
-                    if (items != null)
+                    for (ItemStackWrapper wrapper : items)
                     {
-                        for (ItemStackWrapper wrapper : items)
-                        {
-                            Warhead warhead = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.values()[size.ordinal()], wrapper.itemStack);
-                            warhead.explosive.stackSize = warhead.getMaxExplosives();
-                            Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(size, (ItemStack)null);
-                            missile.setWarhead(warhead);
-                            list.add(missile.toStack());
-                        }
+                        Warhead warhead = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.values()[size.ordinal()], wrapper.itemStack);
+                        warhead.explosive.stackSize = warhead.getMaxExplosives();
+                        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(size, (ItemStack) null);
+                        missile.setWarhead(warhead);
+                        list.add(missile.toStack());
                     }
                 }
             }
@@ -294,7 +306,6 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister reg)
     {
-        super.registerIcons(reg);
         microMissile = reg.registerIcon(ICBM.PREFIX + "micro.missile");
         smallMissile = reg.registerIcon(ICBM.PREFIX + "small.missile");
         standardMissile = reg.registerIcon(ICBM.PREFIX + "standard.missile");
@@ -471,7 +482,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     public ItemStack getExplosiveStack(ItemStack stack)
     {
         Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
-        if(missile.getWarhead() != null)
+        if (missile.getWarhead() != null)
         {
             return missile.getWarhead().getExplosiveStack();
         }
@@ -482,7 +493,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     public boolean setExplosiveStack(ItemStack stack, ItemStack explosive)
     {
         Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
-        if(missile.getWarhead() != null)
+        if (missile.getWarhead() != null)
         {
             return missile.getWarhead().setExplosiveStack(explosive);
         }

@@ -1,9 +1,12 @@
 package com.builtbroken.icbm.content.crafting.parts;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.client.blast.ECBiomeChange;
+import com.builtbroken.icbm.content.blast.biome.ExBiomeChange;
 import com.builtbroken.icbm.content.blast.fragment.ExFragment;
 import com.builtbroken.icbm.content.blast.fragment.Fragments;
 import com.builtbroken.icbm.content.blast.fragment.IFragmentExplosiveHandler;
+import com.builtbroken.jlib.data.Colors;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.explosives.IExplosiveItem;
 import com.builtbroken.mc.client.ExplosiveRegistryClient;
@@ -19,6 +22,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -48,6 +52,21 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean b)
+    {
+        if (stack.getItemDamage() == ExplosiveItems.BIOME_CHANGE.ordinal())
+        {
+            int id = ExBiomeChange.getBiomeID(stack);
+            if (id >= 0)
+            {
+                list.add("BiomeID: " + id);
+                list.add("Biome: " + (BiomeGenBase.getBiome(id) == null ? Colors.RED.code + "Error" : BiomeGenBase.getBiome(id).biomeName));
+            }
+        }
+    }
+
+    @Override
     public String getUnlocalizedName(ItemStack stack)
     {
         if (stack.getItemDamage() == ExplosiveItems.FRAGMENT.ordinal())
@@ -69,9 +88,12 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
     public void registerIcons(IIconRegister reg)
     {
         this.itemIcon = reg.registerIcon(this.getIconString());
-        for (int i = 1; i < ExplosiveItems.values().length; i++)
+        for (ExplosiveItems item : ExplosiveItems.values())
         {
-            ExplosiveItems.values()[i].icon = reg.registerIcon(ICBM.PREFIX + "explosiveItem." + ExplosiveItems.values()[i].ex_name);
+            if (item != ExplosiveItems.FRAGMENT && item != ExplosiveItems.BIOME_CHANGE)
+            {
+                item.icon = reg.registerIcon(ICBM.PREFIX + "explosiveItem." + item.ex_name);
+            }
         }
     }
 
@@ -85,13 +107,17 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
                 return ((IFragmentExplosiveHandler) ExplosiveItems.FRAGMENT.getExplosive()).getFragmentIcon(stack, pass);
             }
         }
-        else if (stack.getItemDamage() >= 1 && stack.getItemDamage() < ExplosiveItems.values().length)
+        else if (stack.getItemDamage() >= 1 && stack.getItemDamage() < ExplosiveItems.values().length && ExplosiveItems.values()[stack.getItemDamage()].icon != null)
         {
             return ExplosiveItems.values()[stack.getItemDamage()].icon;
         }
         else if (getExplosive(stack) instanceof IFragmentExplosiveHandler)
         {
             return ((IFragmentExplosiveHandler) getExplosive(stack)).getFragmentIcon(stack, pass);
+        }
+        else if (getExplosive(stack) instanceof ECBiomeChange)
+        {
+            return ((ECBiomeChange) getExplosive(stack)).getIcon(stack, pass);
         }
         return itemIcon;
     }
@@ -105,6 +131,10 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
             {
                 return ((IFragmentExplosiveHandler) ExplosiveItems.FRAGMENT.getExplosive()).getFragmentNumberOfPasses();
             }
+        }
+        else if (metadata == ExplosiveItems.BIOME_CHANGE.ordinal())
+        {
+            return 4;
         }
         return 1;
     }
@@ -281,10 +311,10 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
             {
                 for (BiomeGenBase base : BiomeGenBase.getBiomeGenArray())
                 {
-                    if (base != null && base.biomeID >= 0)
+                    if (base != null && base.biomeID >= 0 && base.biomeID < BiomeGenBase.getBiomeGenArray().length)
                     {
                         ItemStack stack = ExplosiveItems.values()[i].newItem();
-                        getAdditionalExplosiveData(stack).setByte("biomeID", (byte) base.biomeID);
+                        getAdditionalExplosiveData(stack).setInteger("biomeID", base.biomeID);
                         list.add(stack);
                     }
                 }

@@ -15,9 +15,9 @@ import net.minecraft.world.chunk.Chunk;
  */
 public class BlastBiome extends Blast<BlastBiome>
 {
-    public final byte biomeID;
+    public final int biomeID;
 
-    public BlastBiome(byte id)
+    public BlastBiome(int id)
     {
         this.biomeID = id;
     }
@@ -36,7 +36,7 @@ public class BlastBiome extends Blast<BlastBiome>
                 for (int z = startZ - range; z <= (startZ + range); z++)
                 {
                     Chunk chunk = world.getChunkFromBlockCoords(x, z);
-                    chunk.getBiomeArray()[(x & 15) * 16 + (z & 15)] = biomeID;
+                    chunk.getBiomeArray()[(x & 15) * 16 + (z & 15)] = (byte)biomeID;
                     chunk.isModified = true;
                 }
             }
