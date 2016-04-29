@@ -16,7 +16,7 @@ import org.lwjgl.opengl.GL11;
  */
 public final class MissileStandard extends Missile implements ICustomMissileRender
 {
-    private static final float inventoryScale = 0.4f;
+    private static final float inventoryScale = 0.45f;
     private static final float worldScale = 1f;
 
     private static GroupObject BODY;
@@ -37,9 +37,9 @@ public final class MissileStandard extends Missile implements ICustomMissileRend
         if (type == IItemRenderer.ItemRenderType.INVENTORY)
         {
             GL11.glScalef(inventoryScale, inventoryScale, inventoryScale);
-            GL11.glRotatef(2f, 0, 0, 1);
+            GL11.glRotatef(-15f, 0, 0, 1);
             GL11.glRotatef(10f, 0, 1, 0);
-            GL11.glTranslatef(.1f, -3.4f, 0f);
+            GL11.glTranslatef(1f, 0f, -1f);
         }
         else if (type == IItemRenderer.ItemRenderType.EQUIPPED_FIRST_PERSON)
         {
