@@ -2,12 +2,17 @@ package com.builtbroken.icbm.content.items;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.mc.core.Engine;
+import com.builtbroken.mc.core.registry.implement.IRecipeContainer;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
+import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.world.radio.RadioRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
@@ -21,7 +26,7 @@ import java.util.List;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 3/26/2016.
  */
-public class ItemRemoteDetonator extends Item
+public class ItemRemoteDetonator extends Item implements IRecipeContainer
 {
     public ItemRemoteDetonator()
     {
@@ -273,5 +278,11 @@ public class ItemRemoteDetonator extends Item
             list.add("Group: " + getGroupID(stack));
             list.add("Hz: " + getBroadCastHz(stack));
         }
+    }
+
+    @Override
+    public void genRecipes(List<IRecipe> recipes)
+    {
+        recipes.add(newShapedRecipe(this, "RNP", "RCW", "CTT", 'R', OreNames.ROD_IRON, 'N', OreNames.NUGGET_IRON, 'C', UniversalRecipe.CIRCUIT_T1.get(), 'T', Items.redstone, 'P', OreNames.PLATE_IRON, 'W', OreNames.WIRE_COPPER));
     }
 }

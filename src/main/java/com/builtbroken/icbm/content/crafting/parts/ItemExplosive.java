@@ -55,11 +55,13 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean b)
     {
+        list.add(Colors.DARK_GREY.code + "Insert into a warhead to use");
         if (stack.getItemDamage() == ExplosiveItems.BIOME_CHANGE.ordinal())
         {
             int id = ExBiomeChange.getBiomeID(stack);
             if (id >= 0)
             {
+                list.add(Colors.RED.code + "!!!Use at your own risk!!!");
                 list.add("BiomeID: " + id);
                 list.add("Biome: " + (BiomeGenBase.getBiome(id) == null ? Colors.RED.code + "Error" : BiomeGenBase.getBiome(id).biomeName));
             }
@@ -344,6 +346,8 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         CAKE("Cake", 1),
         BIOME_CHANGE("BiomeChange", 1),
         ORE_PULLER("OrePuller", 10);
+
+        //TODO implement tool tips to hint at usage
 
         public final String ex_name;
         public final double sizePerUnit;
