@@ -4,9 +4,11 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.mc.api.map.radio.wireless.IWirelessNetwork;
 import com.builtbroken.mc.api.map.radio.wireless.IWirelessNetworkObject;
 import com.builtbroken.mc.core.Engine;
-import com.builtbroken.mc.core.registry.implement.IPostInit;
+import com.builtbroken.mc.core.registry.implement.IRecipeContainer;
 import com.builtbroken.mc.core.registry.implement.IRegistryInit;
 import com.builtbroken.mc.lib.helper.WrenchUtility;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
+import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -21,6 +23,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
@@ -34,7 +37,7 @@ import java.util.List;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 3/28/2016.
  */
-public class BlockAntennaParts extends BlockContainer implements IPostInit, IRegistryInit
+public class BlockAntennaParts extends BlockContainer implements IRegistryInit, IRecipeContainer
 {
     public BlockAntennaParts()
     {
@@ -286,12 +289,6 @@ public class BlockAntennaParts extends BlockContainer implements IPostInit, IReg
     }
 
     @Override
-    public void onPostInit()
-    {
-
-    }
-
-    @Override
     public void onRegistered()
     {
         GameRegistry.registerTileEntity(TileAntenna.class, "ICBMxTileAntenna");
@@ -333,5 +330,12 @@ public class BlockAntennaParts extends BlockContainer implements IPostInit, IReg
     public int damageDropped(int meta)
     {
         return meta == 2 ? 2 : 0;
+    }
+
+    @Override
+    public void genRecipes(List<IRecipe> recipes)
+    {
+        recipes.add(newShapedRecipe(new ItemStack(this, 1, 0), "SCS", "TCT", "WCW", 'S', OreNames.PLATE_IRON, 'C', OreNames.ROD_COPPER, 'T', OreNames.SCREW_IRON, 'W', OreNames.WIRE_IRON));
+        recipes.add(newShapedRecipe(new ItemStack(this, 1, 2), "PCP", "SCS", "PIP", 'P', OreNames.PLATE_IRON, 'C', OreNames.ROD_COPPER, 'I', UniversalRecipe.CIRCUIT_T2.get(), 'S', OreNames.SCREW_IRON));
     }
 }
