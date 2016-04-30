@@ -1,12 +1,14 @@
 package com.builtbroken.icbm.content.missile;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.blast.IExHandlerTileMissile;
 import com.builtbroken.icbm.api.missile.IFoF;
 import com.builtbroken.icbm.api.missile.IMissileEntity;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
+import com.builtbroken.icbm.content.missile.tile.TileCrashedMissile;
 import com.builtbroken.icbm.content.missile.tracking.MissileTracker;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.event.TriggerCause;
@@ -266,13 +268,22 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
                 ((TileAbstractLauncher) tile).onImpactOfMissile(this);
             }
         }
-        onImpact(xTile, yTile, zTile);
+        //Special handling for missiles that survive on impact to do blast effects
+        IExplosiveHandler handler = getExplosive();
+        if (handler instanceof IExHandlerTileMissile && ((IExHandlerTileMissile) handler).doesSpawnMissileTile(missile, this))
+        {
+            TileCrashedMissile.placeFromMissile(this, worldObj, xTile, yTile + 1, zTile);
+        }
+        else
+        {
+            onImpact(xTile, yTile, zTile);
+        }
     }
 
     @Override
     public void setDead()
     {
-        if(!worldObj.isRemote)
+        if (!worldObj.isRemote)
         {
             RadarRegistry.remove(this);
         }
@@ -291,14 +302,36 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     {
         if (!worldObj.isRemote)
         {
+            boolean engineBlew = false;
+            boolean explosiveBlew = false;
             if (missile.getWarhead() != null)
             {
-                missile.getWarhead().trigger(new TriggerCause.TriggerCauseEntity(this), worldObj, x, y, z);
+                WorldChangeHelper.ChangeResult result = missile.getWarhead().trigger(new TriggerCause.TriggerCauseEntity(this), worldObj, x, y, z);
+                explosiveBlew = result != WorldChangeHelper.ChangeResult.COMPLETED && result != WorldChangeHelper.ChangeResult.PARTIAL_COMPLETE_WITH_FAILURE;
             }
             if (missile != null && missile.getEngine() != null)
             {
-                missile.getEngine().onDestroyed(this, missile);
+                engineBlew = missile.getEngine().onDestroyed(this, missile);
             }
+            //TODO add chance of failure to place missile
+            //TODO add entity version of placed tile
+            //TODO add chance even if engine blows to place missile in a very decay version
+            if (!explosiveBlew && !engineBlew)
+            {
+                TileCrashedMissile.placeFromMissile(this, worldObj, xTile, yTile, zTile);
+            }
+            else if (explosiveBlew && !engineBlew)
+            {
+                //TODO engine parts
+            }
+            else if (engineBlew && !explosiveBlew)
+            {
+                //TODO add chance to drop engine scraps and fuel
+                missile.setEngine(null);
+                TileCrashedMissile.placeFromMissile(this, worldObj, xTile, yTile, zTile);
+            }
+            //TODO chance to drop scrap metal
+            //TODO chance for parts to fragment if explosive doesn't vaporize them
             this.setDead();
         }
         else

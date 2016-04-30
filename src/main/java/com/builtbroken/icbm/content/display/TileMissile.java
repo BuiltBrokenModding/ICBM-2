@@ -45,7 +45,7 @@ public class TileMissile extends Tile implements IPostInit, ISimpleItemRenderer
     @Override
     public void onPostInit()
     {
-        GameRegistry.addShapedRecipe(new ItemStack(ICBM.blockMissile, 1, 1), "glg", "sls", "ppp", 'p', Blocks.planks, 'l', Blocks.log, 'g', new ItemStack(Items.dye, 1, 2), 's', new ItemStack(Items.dye, 1, 7));
+        GameRegistry.addShapedRecipe(new ItemStack(ICBM.blockDisplayMissile, 1, 1), "glg", "sls", "ppp", 'p', Blocks.planks, 'l', Blocks.log, 'g', new ItemStack(Items.dye, 1, 2), 's', new ItemStack(Items.dye, 1, 7));
     }
 
     @Override

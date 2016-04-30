@@ -5,6 +5,7 @@ import com.builtbroken.icbm.client.CreativeTabWarheads;
 import com.builtbroken.icbm.client.ICBMCreativeTab;
 import com.builtbroken.icbm.content.blast.biome.ExBiomeChange;
 import com.builtbroken.icbm.content.blast.effect.*;
+import com.builtbroken.icbm.content.blast.entity.ExSlimeRain;
 import com.builtbroken.icbm.content.blast.entity.ExplosiveHandlerSpawn;
 import com.builtbroken.icbm.content.blast.explosive.BlastPathTester;
 import com.builtbroken.icbm.content.blast.explosive.ExAntimatter;
@@ -52,6 +53,7 @@ import com.builtbroken.icbm.content.launcher.silo.TileSmallSilo;
 import com.builtbroken.icbm.content.launcher.silo.TileStandardSilo;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.ItemMissile;
+import com.builtbroken.icbm.content.missile.tile.TileCrashedMissile;
 import com.builtbroken.icbm.content.missile.tracking.MissileTracker;
 import com.builtbroken.icbm.content.rocketlauncher.ItemRocketLauncher;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
@@ -143,7 +145,7 @@ public final class ICBM extends AbstractMod
     public static Block blockWarhead;
     public static Block blockExplosiveMarker;
     public static Block blockMissileDisplay;
-    public static Block blockMissile;
+    public static Block blockDisplayMissile;
 
     public static Block blockSiloController;
     public static Block blockMissileWorkstation;
@@ -170,6 +172,8 @@ public final class ICBM extends AbstractMod
 
     public static Block blockFoFStation;
     public static Block blockCake;
+
+    public static Block blockCrashMissile;
 
     // Items
     public static Item itemMissile;
@@ -247,6 +251,7 @@ public final class ICBM extends AbstractMod
 
         // Functional Blocks
         blockWarhead = manager.newBlock(TileWarhead.class);
+        blockCrashMissile = manager.newBlock("icbmCrashedMissile", TileCrashedMissile.class);
         blockMissileDisplay = manager.newBlock(TileMissileDisplay.class);
         blockLauncherFrame = manager.newBlock("icbmLauncherFrame", TileLauncherFrame.class);
         blockLauncherParts = manager.newBlock("icbmLauncherParts", BlockLauncherPart.class, ItemBlockMetadata.class);
@@ -282,7 +287,7 @@ public final class ICBM extends AbstractMod
         blockSiloController = manager.newBlock("SiloController", TileLocalController.class);
 
         // Decor Blocks
-        blockMissile = manager.newBlock(TileMissile.class);
+        blockDisplayMissile = manager.newBlock(TileMissile.class);
 
         // Debug Only blocks
         if (Engine.runningAsDev)
@@ -344,6 +349,7 @@ public final class ICBM extends AbstractMod
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Cake", new ExCake());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "BiomeChange", new ExBiomeChange());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "OrePuller", new ExOrePuller());
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SlimeRain", new ExSlimeRain());
             if (Engine.runningAsDev)
             {
                 ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest1", new ExplosiveHandlerGeneric("SimplePathTest1", BlastPathTester.class, 1));

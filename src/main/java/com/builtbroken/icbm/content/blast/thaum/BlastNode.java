@@ -68,6 +68,12 @@ public class BlastNode implements IWorldChangeAction, IWorldPosition
     }
 
     @Override
+    public boolean isCompleted()
+    {
+        return false;
+    }
+
+    @Override
     public World world()
     {
         return center.world();

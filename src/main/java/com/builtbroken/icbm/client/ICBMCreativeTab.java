@@ -48,6 +48,7 @@ public class ICBMCreativeTab extends ModCreativeTab
         add(list, ICBM.itemGuidanceModules);
         add(list, ICBM.itemMissileParts);
         add(list, ICBM.itemExplosivePart);
+        add(list, ICBM.blockLaunchPad);
     }
 
     @Override

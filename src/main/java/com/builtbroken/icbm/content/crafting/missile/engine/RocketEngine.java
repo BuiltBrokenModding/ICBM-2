@@ -42,9 +42,9 @@ public abstract class RocketEngine extends MissileModule implements IRocketEngin
     }
 
     @Override
-    public void onDestroyed(IMissileEntity missile, IMissile missileModule)
+    public boolean onDestroyed(IMissileEntity missile, IMissile missileModule)
     {
-
+        return false;
     }
 
     @Override

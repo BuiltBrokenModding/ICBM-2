@@ -38,8 +38,9 @@ public interface IRocketEngine extends IMissileModule
      *
      * @param missile       - entity missile
      * @param missileModule - module missile
+     * @return true if the engine exploded
      */
-    void onDestroyed(IMissileEntity missile, IMissile missileModule);
+    boolean onDestroyed(IMissileEntity missile, IMissile missileModule);
 
     /**
      * Called to see if the engine creates fire particles, trail, or blocks
