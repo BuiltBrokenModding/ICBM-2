@@ -1,5 +1,8 @@
 package com.builtbroken.icbm.content.blast.biome;
 
+import com.builtbroken.icbm.api.missile.IMissileEntity;
+import com.builtbroken.icbm.api.modules.IMissile;
+import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.content.blast.ExplosiveHandlerICBM;
 import com.builtbroken.mc.api.edit.IWorldChangeAction;
 import com.builtbroken.mc.api.event.TriggerCause;
@@ -61,5 +64,11 @@ public class ExBiomeChange extends ExplosiveHandlerICBM<BlastBiome>
             return data.getInteger("biomeID");
         }
         return 0;
+    }
+
+    @Override
+    public boolean doesDamageMissile(IMissileEntity entity, IMissile missile, IWarhead warhead, boolean warheadBlew, boolean engineBlew)
+    {
+        return engineBlew;
     }
 }

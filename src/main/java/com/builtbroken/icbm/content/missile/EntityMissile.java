@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.missile;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.blast.IBlastHandler;
 import com.builtbroken.icbm.api.blast.IExHandlerTileMissile;
 import com.builtbroken.icbm.api.missile.IFoF;
 import com.builtbroken.icbm.api.missile.IMissileEntity;
@@ -14,10 +15,14 @@ import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosive;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
+import com.builtbroken.mc.core.Engine;
+import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
+import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.WorldChangeHelper;
 import com.builtbroken.mc.lib.world.radar.RadarRegistry;
 import com.builtbroken.mc.prefab.entity.EntityProjectile;
+import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import io.netty.buffer.ByteBuf;
@@ -29,6 +34,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Basic missile like projectile that explodes on impact
@@ -185,6 +194,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
      */
     public static void fireMissileByEntity(Entity entity, ItemStack missile)
     {
+        ICBM.INSTANCE.logger().info("Entity: " + entity + " has fire a missile " + missile);
         Entity entityMissile = null;
         if (missile.getItem() instanceof IMissileItem)
         {
@@ -198,6 +208,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     {
         if (entityMissile instanceof IMissileEntity)
         {
+            ICBM.INSTANCE.logger().info("Missile created and fired -> " + entityMissile);
             ((IMissileEntity) entityMissile).setIntoMotion();
             entityMissile.worldObj.spawnEntityInWorld(entityMissile);
             entityMissile.worldObj.playSoundAtEntity(entityMissile, "icbm:icbm.missilelaunch", ICBM.missile_firing_volume, (1.0F + (entityMissile.worldObj.rand.nextFloat() - entityMissile.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
@@ -268,7 +279,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     protected void onImpactEntity(Entity ent, float v)
     {
         super.onImpactEntity(ent, v);
-        onImpact(ent.posX, ent.posY, ent.posZ);
+        onImpact(ent.posX, ent.posY, ent.posZ, false);
     }
 
     @Override
@@ -287,11 +298,12 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
         IExplosiveHandler handler = getExplosive();
         if (handler instanceof IExHandlerTileMissile && ((IExHandlerTileMissile) handler).doesSpawnMissileTile(missile, this))
         {
-            TileCrashedMissile.placeFromMissile(this, worldObj, xTile, yTile + 1, zTile);
+            Pos pos = new Pos(xTile, yTile, zTile).add(ForgeDirection.getOrientation(sideTile));
+            TileCrashedMissile.placeFromMissile(this, worldObj, pos.xi(), pos.yi(), pos.zi());
         }
         else
         {
-            onImpact(xTile, yTile, zTile);
+            onImpact(xTile, yTile, zTile, true);
         }
     }
 
@@ -313,14 +325,37 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
         }
     }
 
-    protected void onImpact(double x, double y, double z)
+    /**
+     * Called when the entity impacts something
+     *
+     * @param x
+     * @param y
+     * @param z
+     */
+    protected void onImpact(double x, double y, double z, boolean tile)
     {
+        //TODO implement impact senor
+        //TODO check to see if nose cone hit the ground
+        //TODO use 30 degree check for nose hit /\
+        //TODO if not hit leave entity on ground to roll around
         if (!worldObj.isRemote)
         {
+            ICBM.INSTANCE.logger().info(this + String.format(" impact %1$,.2fx %1$,.2fy %1$,.2fz", x, y, z));
+
+            boolean canPlaceTile = true;
+            boolean doDrops = true;
             boolean engineBlew = false;
             boolean explosiveBlew = false;
+            IExplosiveHandler handler = null;
+
             if (missile.getWarhead() != null)
             {
+                handler = missile.getWarhead().getExplosive();
+                //TODO add failure chance for warhead to go off
+                //TODO add API call for failure chance
+                //TODO add event call for failure chance
+                //TODO add event for failure pre
+                //TODO add event for failure post
                 WorldChangeHelper.ChangeResult result = missile.getWarhead().trigger(new TriggerCause.TriggerCauseEntity(this), worldObj, x, y, z);
                 explosiveBlew = result == WorldChangeHelper.ChangeResult.COMPLETED || result == WorldChangeHelper.ChangeResult.PARTIAL_COMPLETE_WITH_FAILURE;
             }
@@ -328,26 +363,45 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
             {
                 engineBlew = missile.getEngine().onDestroyed(this, missile);
             }
-            //TODO add chance of failure to place missile
             //TODO add entity version of placed tile
-            //TODO add chance even if engine blows to place missile in a very decay version
-            if (!explosiveBlew && !engineBlew)
+
+            //Engine blew up by explosive didn't, drop items and delete engine
+            if (engineBlew)
             {
-                TileCrashedMissile.placeFromMissile(this, worldObj, xTile, yTile, zTile);
-            }
-            else if (explosiveBlew && !engineBlew)
-            {
-                //TODO engine parts
-            }
-            else if (engineBlew && !explosiveBlew)
-            {
-                //TODO add chance to drop engine scraps and fuel
-                //TODO render mushroom model, engine mushroomed outward
+                if (worldObj.rand.nextFloat() >= 0.8f)
+                {
+                    //TODO drop scraps from engine
+                }
                 missile.setEngine(null);
-                TileCrashedMissile.placeFromMissile(this, worldObj, xTile, yTile, zTile);
             }
-            //TODO chance to drop scrap metal
-            //TODO chance for parts to fragment if explosive doesn't vaporize them
+
+            //Consume explosive
+            if (explosiveBlew)
+            {
+                missile.getWarhead().setExplosiveStack(null);
+            }
+
+            if ((!(handler instanceof IBlastHandler) || ((IBlastHandler) handler).doesDamageMissile(this, missile, missile.getWarhead(), explosiveBlew, engineBlew) || !((IBlastHandler) handler).allowMissileToDrop(this, missile, missile.getWarhead())))
+            {
+                canPlaceTile = false;
+            }
+
+            if (canPlaceTile)
+            {
+                if(tile)
+                {
+                    Pos pos = new Pos(xTile, yTile, zTile).add(ForgeDirection.getOrientation(sideTile));
+                    TileCrashedMissile.placeFromMissile(this, worldObj, pos.xi(), pos.yi(), pos.zi());
+                }
+                else
+                {
+                    InventoryUtility.dropItemStack(new Location(this), missile.toStack());
+                }
+            }
+            else if (doDrops)
+            {
+                doDropsOnDeath(explosiveBlew, engineBlew);
+            }
             this.setDead();
         }
         else
@@ -356,13 +410,77 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
         }
     }
 
+    protected void doDropsOnDeath(boolean warheadBlew, boolean engineBlew)
+    {
+        IExplosiveHandler handler = missile.getWarhead().getExplosive();
+        if (handler instanceof IBlastHandler && ((IBlastHandler) handler).doesVaporizeParts(this, missile, missile.getWarhead(), warheadBlew, engineBlew))
+        {
+            //No drops to drop
+            return;
+        }
+
+        List<ItemStack> drops = null;
+        boolean genScraps = warheadBlew || engineBlew;
+        if (handler instanceof IBlastHandler)
+        {
+            drops = ((IBlastHandler) handler).getDropsForMissile(this, missile, missile.getWarhead(), warheadBlew, engineBlew);
+            genScraps = ((IBlastHandler) handler).doesDamageMissile(this, missile, missile.getWarhead(), warheadBlew, engineBlew);
+        }
+
+        if (drops == null)
+        {
+            drops = new ArrayList();
+            if (Engine.itemSheetMetal != null)
+            {
+                //TODO replace with scrap metal
+                drops.add(ItemSheetMetal.SheetMetal.EIGHTH.stack());
+                drops.add(ItemSheetMetal.SheetMetal.EIGHTH.stack());
+                drops.add(ItemSheetMetal.SheetMetal.EIGHTH.stack());
+                drops.add(ItemSheetMetal.SheetMetal.EIGHTH.stack());
+            }
+
+            if (missile.getEngine() != null)
+            {
+                if (!genScraps)
+                {
+                    drops.add(missile.getEngine().toStack());
+                }
+                missile.setEngine(null);
+            }
+            if (missile.getWarhead() != null)
+            {
+                //TODO turn into custom entity so impact can still happen to set off warhead
+                if (!genScraps)
+                {
+                    drops.add(missile.getWarhead().toStack());
+                }
+                missile.setWarhead(null);
+            }
+            if (missile.getGuidance() != null)
+            {
+                if (!genScraps)
+                {
+                    drops.add(missile.getGuidance().toStack());
+                }
+                missile.setGuidance(null);
+            }
+        }
+
+        //TODO add drop event
+        //TODO add config to prevent drops
+        if (drops != null)
+        {
+            for (ItemStack stack : drops)
+            {
+                //TODO add chance for item to turn into a projectile fragment that can do damage
+                //TODO make random increase with explosion size to throw parts a great distance
+                InventoryUtility.dropItemStack(worldObj, posX, posY, posZ, stack, 5 + worldObj.rand.nextInt(30), worldObj.rand.nextFloat());
+            }
+        }
+    }
+
     protected void doClientImpact(double x, double y, double z)
     {
-        System.out.println("Impacted client side at " + x + " " + y + " " + z);
-        if (missile.getWarhead() != null)
-        {
-            missile.getWarhead().trigger(new TriggerCause.TriggerCauseEntity(this), worldObj, x, y, z);
-        }
     }
 
     @Override
@@ -442,5 +560,11 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     public String getFoFTag()
     {
         return fofTag;
+    }
+
+    @Override
+    public String toString()
+    {
+        return String.format("Missile[ %d@dim %.2fx %.2fy %.2fz ]@", worldObj.provider.dimensionId, posX, posY, posZ) + hashCode();
     }
 }

@@ -1,5 +1,8 @@
 package com.builtbroken.icbm.content.blast.explosive;
 
+import com.builtbroken.icbm.api.missile.IMissileEntity;
+import com.builtbroken.icbm.api.modules.IMissile;
+import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.content.blast.ExplosiveHandlerICBM;
 
 /**
@@ -20,5 +23,11 @@ public class ExAntimatter extends ExplosiveHandlerICBM<BlastAntimatter>
     protected BlastAntimatter newBlast()
     {
         return new BlastAntimatter();
+    }
+
+    @Override
+    public boolean doesVaporizeParts(IMissileEntity entity, IMissile missile, IWarhead warhead, boolean warheadBlew, boolean engineBlew)
+    {
+        return true;
     }
 }

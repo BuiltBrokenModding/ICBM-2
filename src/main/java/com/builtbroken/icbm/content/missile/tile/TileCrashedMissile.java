@@ -17,6 +17,7 @@ import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
+import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.TileEnt;
 import cpw.mods.fml.client.FMLClientHandler;
@@ -24,15 +25,25 @@ import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.IFluidBlock;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
@@ -40,9 +51,24 @@ import java.util.ArrayList;
  */
 public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, ITileMissile
 {
+    /** List of blocks to mimic as part of the model */
+    public static List<Block> blocksToMimic = new ArrayList();
+
+    static
+    {
+        blocksToMimic.add(Blocks.tallgrass);
+        blocksToMimic.add(Blocks.snow_layer);
+        blocksToMimic.add(Blocks.cake);
+        blocksToMimic.add(ICBM.blockCake);
+        blocksToMimic.add(Blocks.fire);
+        blocksToMimic.add(Blocks.ice);
+        blocksToMimic.add(Blocks.glass);
+    }
+
     /** Missile object that defines render and blast information */
     public Missile missile;
 
+    private ForgeDirection attachedSide;
     /** Render rotation yaw of the entity */
     private float yaw = 0;
     /** Render rotation pitch of the entity */
@@ -63,6 +89,9 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
     private int ticksForSmoke;
 
     private Pos misislePos = toPos().add(0.5);
+
+    private Block block;
+    private int meta;
 
 
     //TODO add engine flames for a few seconds after landing
@@ -97,11 +126,49 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
      */
     public static void placeFromMissile(EntityMissile missile, World world, int x, int y, int z)
     {
+        //TODO if block is a fluid place an entity version of this tile instead, fixed fluid renderer
+        Block block = world.getBlock(x, y, z);
+        int meta = world.getBlockMetadata(x, y, z);
+        while (y < 255 && !blocksToMimic.contains(block) && !(block.isAir(world, x, y, z) || block.isReplaceable(world, x, y, z)))
+        {
+            y += 1;
+            block = world.getBlock(x, y, z);
+            meta = world.getBlockMetadata(x, y, z);
+        }
+        if (block == Blocks.lava || block == Blocks.flowing_lava)
+        {
+            //Missile is destroyed
+            return;
+        }
+        if (block instanceof IFluidBlock)
+        {
+            Fluid fluid = ((IFluidBlock) block).getFluid();
+            if (fluid != null && fluid.getTemperature(world, x, y, z) > 1000)
+            {
+                //Missile is destroyed
+                return;
+            }
+        }
         if (world.setBlock(x, y, z, ICBM.blockCrashMissile))
         {
+            ICBM.INSTANCE.logger().info(String.format("Placed missile %d@dim %dx %dy %dz", world.provider.dimensionId, x, y, z));
             TileEntity tile = world.getTileEntity(x, y, z);
             if (tile instanceof TileCrashedMissile)
             {
+                if (blocksToMimic.contains(block))
+                {
+                    ((TileCrashedMissile) tile).block = block;
+                    ((TileCrashedMissile) tile).meta = meta;
+                    switch (missile.sideTile)
+                    {
+                        case 0:
+                            ((TileCrashedMissile) tile).posOffset.sub(0, block.getBlockBoundsMinY(), 0);
+                            break;
+                        case 1:
+                            ((TileCrashedMissile) tile).posOffset.add(0, block.getBlockBoundsMaxY(), 0);
+                            break;
+                    }
+                }
                 if (missile.getMissile() != null)
                 {
                     ((TileCrashedMissile) tile).missile = missile.getMissile();
@@ -109,6 +176,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
                 ((TileCrashedMissile) tile).yaw = missile.rotationYaw;
                 ((TileCrashedMissile) tile).pitch = missile.rotationPitch;
                 ((TileCrashedMissile) tile).cause = new TriggerCause.TriggerCauseEntity(missile);
+                ((TileCrashedMissile) tile).attachedSide = ForgeDirection.getOrientation(missile.sideTile);
             }
         }
         missile.setDead();
@@ -125,49 +193,179 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
     public void update()
     {
         super.update();
-        //TODO implement gravity
-        //TODO check if block inside moves
-        //TODO allow to be pushed a little bit
-        //TODO on punched by entity push a little
-        if (blast == null && ticks % 20 == 0)
+        if (isServer())
         {
-            if (missile != null && missile.getWarhead() != null && missile.getWarhead().getExplosiveStack() != null)
+            //TODO implement gravity
+            //TODO check if block inside moves
+            //TODO allow to be pushed a little bit
+            //TODO on punched by entity push a little
+            if (blast == null && ticks % 20 == 0)
             {
-                IExplosiveHandler handler = ExplosiveRegistry.get(missile.getWarhead().getExplosiveStack());
-
-                if (doBlast || handler instanceof IExHandlerTileMissile && ((IExHandlerTileMissile) handler).doesSpawnMissileTile(missile, null))
+                if (missile != null && missile.getWarhead() != null && missile.getWarhead().getExplosiveStack() != null)
                 {
-                    IWorldChangeAction action = handler.createBlastForTrigger(world(), xi() + 0.5, yi() + 0.5, zi() + 0.5, cause, missile.getWarhead().getExplosiveSize(), missile.getWarhead().getAdditionalExplosiveData());
-                    if (action != null)
+                    IExplosiveHandler handler = ExplosiveRegistry.get(missile.getWarhead().getExplosiveStack());
+
+                    if (doBlast || handler instanceof IExHandlerTileMissile && ((IExHandlerTileMissile) handler).doesSpawnMissileTile(missile, null))
                     {
-                        if (action instanceof IBlastTileMissile)
+                        IWorldChangeAction action = handler.createBlastForTrigger(world(), xi() + 0.5, yi() + 0.5, zi() + 0.5, cause, missile.getWarhead().getExplosiveSize(), missile.getWarhead().getAdditionalExplosiveData());
+                        if (action != null)
                         {
-                            blast = (IBlastTileMissile) action;
-                        }
-                        else
-                        {
-                            missile.getWarhead().trigger(cause, world(), xi() + 0.5, yi() + 0.5, zi() + 0.5);
+                            if (action instanceof IBlastTileMissile)
+                            {
+                                blast = (IBlastTileMissile) action;
+                            }
+                            else
+                            {
+                                missile.getWarhead().trigger(cause, world(), xi() + 0.5, yi() + 0.5, zi() + 0.5);
+                            }
                         }
                     }
                 }
             }
-        }
 
-        //Tick the explosive
-        if (blast != null)
-        {
-            blast.tickBlast(this, missile);
-            if (blast.isCompleted())
+            //Tick the explosive
+            if (blast != null)
             {
-                blast = null;
-                missile.getWarhead().setExplosiveStack(null);
+                blast.tickBlast(this, missile);
+                if (blast.isCompleted())
+                {
+                    blast = null;
+                    missile.getWarhead().setExplosiveStack(null);
+                }
+            }
+
+            if (missile != null && missile.getEngine() != null)
+            {
+
+            }
+            //TODO if block we are in is not solid fall
+            //TODO if block is no full sized offset render pos and collision box
+            if (ticks % 5 == 0)
+            {
+                if (attachedSide != null)
+                {
+                    Pos pos = toPos().add(attachedSide.getOpposite());
+                    if (pos.isAirBlock(world()))
+                    {
+                        attemptToFall();
+                    }
+                }
+                else
+                {
+                    attemptToFall();
+                }
             }
         }
+    }
 
-        if (missile != null && missile.getEngine() != null)
+    /**
+     * Used to cause the block to drop a bit
+     */
+    protected void attemptToFall()
+    {
+        Pos pos = toPos().sub(0, 1, 0);
+        if (pos.isAirBlock(world()))
         {
-
+            EntityMissile missile = new EntityMissile(world());
+            missile.setPosition(x() + 0.5, y() + 0.5, z() + 0.5);
+            missile.setMissile(this.missile);
+            missile.rotationYaw = yaw;
+            missile.rotationPitch = pitch;
+            toPos().setBlockToAir(world());
         }
+        else
+        {
+            attachedSide = ForgeDirection.UP;
+        }
+    }
+
+    @Override
+    public Iterable<Cube> getCollisionBoxes(Cube intersect, Entity entity)
+    {
+        List<Cube> boxes = new ArrayList<>();
+        boxes.add(getCollisionBounds());
+        if (block != null)
+        {
+            AxisAlignedBB bb = block.getCollisionBoundingBoxFromPool(world(), xi(), yi(), zi());
+            boxes.add(new Cube(bb).subtract(xi(), yi(), zi()));
+        }
+        return boxes;
+    }
+
+    @Override
+    public boolean onPlayerActivated(EntityPlayer player, int side, Pos hit)
+    {
+        //Removed wrench support
+        return onPlayerRightClick(player, side, hit);
+    }
+
+    @Override
+    protected boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
+    {
+        if (block != null)
+        {
+            //TODO do collisions check for block,
+        }
+        if (isServer())
+        {
+            if (missile != null)
+            {
+                ItemStack stack = missile.toStack();
+
+                if (player.inventory.addItemStackToInventory(stack))
+                {
+                    //stack size is only one so no need to do checks
+                    toPos().setBlock(world(), block != null ? block : Blocks.air, block != null ? meta : 0);
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean removeByPlayer(EntityPlayer player, boolean willHarvest)
+    {
+        //TODO chance to blow up missile
+        if (missile != null && willHarvest)
+        {
+            ItemStack stack = missile.toStack();
+            InventoryUtility.dropItemStack(world(), x() + 0.5, y() + 0.5, z() + 0.5, stack, 10, 0);
+        }
+        if (block != null)
+        {
+            return world().setBlock(xi(), yi(), zi(), block, meta, 3);
+        }
+        return world().setBlockToAir(xi(), yi(), zi());
+    }
+
+    @Override
+    public void onCollide(Entity entity)
+    {
+        //TODO push missile around
+        //TODO chance to set off warhead
+    }
+
+    @Override
+    public boolean onPlayerLeftClick(EntityPlayer player)
+    {
+        //TODO push missile around
+        //TODO chance to set off warhead
+        return false;
+    }
+
+
+    @Override
+    public void onDestroyedByExplosion(Explosion ex)
+    {
+        //TODO attempt to set off warhead
+    }
+
+    @Override
+    public void onFillRain()
+    {
+        //TODO decrease smoke timer faster
+        //TODO make pop noise like car engine cooling down
+        //TODO make metal rain noise
     }
 
     @Override

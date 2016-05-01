@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.blast;
 
+import com.builtbroken.icbm.api.blast.IBlastHandler;
 import com.builtbroken.mc.api.edit.IWorldChangeAction;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.prefab.explosive.AbstractExplosiveHandler;
@@ -12,7 +13,7 @@ import net.minecraft.world.World;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 1/30/2016.
  */
-public abstract class ExplosiveHandlerICBM<B extends Blast> extends AbstractExplosiveHandler
+public abstract class ExplosiveHandlerICBM<B extends Blast> extends AbstractExplosiveHandler implements IBlastHandler
 {
     protected final int multi;
 

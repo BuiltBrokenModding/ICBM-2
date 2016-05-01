@@ -1,6 +1,10 @@
 package com.builtbroken.icbm.content.blast.thaum;
 
 import com.builtbroken.icbm.api.IWarheadHandler;
+import com.builtbroken.icbm.api.blast.IBlastHandler;
+import com.builtbroken.icbm.api.blast.IExHandlerTileMissile;
+import com.builtbroken.icbm.api.missile.IMissileEntity;
+import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.mc.api.edit.IWorldChangeAction;
@@ -29,7 +33,7 @@ import java.util.List;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 12/16/2015.
  */
-public final class ExplosiveHandlerNode implements IWarheadHandler
+public final class ExplosiveHandlerNode implements IWarheadHandler, IBlastHandler, IExHandlerTileMissile
 {
     private String id;
     private String modID;
@@ -85,7 +89,7 @@ public final class ExplosiveHandlerNode implements IWarheadHandler
             nbt = nbt.getCompoundTag("thaumNode");
 
             //Add node description
-            String desc = "§9" + StatCollector.translateToLocal("nodetype." + this.getNodeType(nbt) + ".name");
+            String desc = "ï¿½9" + StatCollector.translateToLocal("nodetype." + this.getNodeType(nbt) + ".name");
             if (this.getNodeModifier(nbt) != null)
             {
                 desc = desc + ", " + StatCollector.translateToLocal("nodemod." + this.getNodeModifier(nbt) + ".name");
@@ -154,5 +158,17 @@ public final class ExplosiveHandlerNode implements IWarheadHandler
     public String getID()
     {
         return this.id;
+    }
+
+    @Override
+    public boolean doesDamageMissile(IMissileEntity entity, IMissile missile, IWarhead warhead, boolean warheadBlew, boolean engineBlew)
+    {
+        return engineBlew;
+    }
+
+    @Override
+    public boolean doesSpawnMissileTile(IMissile missile, IMissileEntity entity)
+    {
+        return true;
     }
 }

@@ -1,5 +1,8 @@
 package com.builtbroken.icbm.content.blast.util;
 
+import com.builtbroken.icbm.api.missile.IMissileEntity;
+import com.builtbroken.icbm.api.modules.IMissile;
+import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.content.blast.ExplosiveHandlerICBM;
 
 /**
@@ -17,5 +20,11 @@ public class ExRegen extends ExplosiveHandlerICBM<BlastRegen>
     protected BlastRegen newBlast()
     {
         return new BlastRegen();
+    }
+
+    @Override
+    public boolean doesDamageMissile(IMissileEntity entity, IMissile missile, IWarhead warhead, boolean warheadBlew, boolean engineBlew)
+    {
+        return engineBlew;
     }
 }

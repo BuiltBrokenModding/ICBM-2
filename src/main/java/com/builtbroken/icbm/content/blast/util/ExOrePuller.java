@@ -1,7 +1,9 @@
-package com.builtbroken.icbm.content.blast.effect;
+package com.builtbroken.icbm.content.blast.util;
 
+import com.builtbroken.icbm.api.missile.IMissileEntity;
+import com.builtbroken.icbm.api.modules.IMissile;
+import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.content.blast.ExplosiveHandlerICBM;
-import com.builtbroken.icbm.content.blast.util.BlastOrePuller;
 
 /**
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
@@ -18,5 +20,11 @@ public class ExOrePuller extends ExplosiveHandlerICBM<BlastOrePuller>
     protected BlastOrePuller newBlast()
     {
         return new BlastOrePuller();
+    }
+
+    @Override
+    public boolean doesDamageMissile(IMissileEntity entity, IMissile missile, IWarhead warhead, boolean warheadBlew, boolean engineBlew)
+    {
+        return engineBlew;
     }
 }

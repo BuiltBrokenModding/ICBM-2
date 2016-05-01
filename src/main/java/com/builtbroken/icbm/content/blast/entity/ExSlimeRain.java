@@ -3,6 +3,7 @@ package com.builtbroken.icbm.content.blast.entity;
 import com.builtbroken.icbm.api.blast.IExHandlerTileMissile;
 import com.builtbroken.icbm.api.missile.IMissileEntity;
 import com.builtbroken.icbm.api.modules.IMissile;
+import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.content.blast.ExplosiveHandlerICBM;
 
 /**
@@ -28,5 +29,11 @@ public class ExSlimeRain extends ExplosiveHandlerICBM<BlastSlimeRain> implements
         //TODO implement small pod spawn(10, etc entities only)
         //TODO implement mob spawner version
         return true;
+    }
+
+    @Override
+    public boolean doesDamageMissile(IMissileEntity entity, IMissile missile, IWarhead warhead, boolean warheadBlew, boolean engineBlew)
+    {
+        return engineBlew;
     }
 }

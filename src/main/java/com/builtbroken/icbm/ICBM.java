@@ -19,6 +19,7 @@ import com.builtbroken.icbm.content.blast.item.ExCake;
 import com.builtbroken.icbm.content.blast.temp.ExEndoThermic;
 import com.builtbroken.icbm.content.blast.temp.ExExoThermic;
 import com.builtbroken.icbm.content.blast.thaum.ThaumBlastLoader;
+import com.builtbroken.icbm.content.blast.util.ExOrePuller;
 import com.builtbroken.icbm.content.blast.util.ExRegen;
 import com.builtbroken.icbm.content.blast.util.ExRegenLocal;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;

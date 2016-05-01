@@ -1,5 +1,8 @@
 package com.builtbroken.icbm.content.blast.item;
 
+import com.builtbroken.icbm.api.missile.IMissileEntity;
+import com.builtbroken.icbm.api.modules.IMissile;
+import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.content.blast.ExplosiveHandlerICBM;
 
 /**
@@ -17,5 +20,11 @@ public class ExCake extends ExplosiveHandlerICBM<BlastCake>
     protected BlastCake newBlast()
     {
         return new BlastCake();
+    }
+
+    @Override
+    public boolean doesDamageMissile(IMissileEntity entity, IMissile missile, IWarhead warhead, boolean warheadBlew, boolean engineBlew)
+    {
+        return engineBlew;
     }
 }

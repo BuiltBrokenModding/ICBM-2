@@ -4,7 +4,7 @@ import com.builtbroken.icbm.CommonProxy;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.client.blast.*;
 import com.builtbroken.icbm.content.ams.TileAMSClient;
-import com.builtbroken.icbm.content.blast.effect.ExOrePuller;
+import com.builtbroken.icbm.content.blast.util.ExOrePuller;
 import com.builtbroken.icbm.content.blast.entity.ExSlimeRain;
 import com.builtbroken.icbm.content.blast.entity.ExplosiveHandlerSpawn;
 import com.builtbroken.icbm.content.blast.explosive.BlastPathTester;
