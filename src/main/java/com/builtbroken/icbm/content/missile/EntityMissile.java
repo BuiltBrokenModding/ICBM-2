@@ -322,7 +322,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
             if (missile.getWarhead() != null)
             {
                 WorldChangeHelper.ChangeResult result = missile.getWarhead().trigger(new TriggerCause.TriggerCauseEntity(this), worldObj, x, y, z);
-                explosiveBlew = result != WorldChangeHelper.ChangeResult.COMPLETED && result != WorldChangeHelper.ChangeResult.PARTIAL_COMPLETE_WITH_FAILURE;
+                explosiveBlew = result == WorldChangeHelper.ChangeResult.COMPLETED || result == WorldChangeHelper.ChangeResult.PARTIAL_COMPLETE_WITH_FAILURE;
             }
             if (missile != null && missile.getEngine() != null)
             {
@@ -342,6 +342,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
             else if (engineBlew && !explosiveBlew)
             {
                 //TODO add chance to drop engine scraps and fuel
+                //TODO render mushroom model, engine mushroomed outward
                 missile.setEngine(null);
                 TileCrashedMissile.placeFromMissile(this, worldObj, xTile, yTile, zTile);
             }
