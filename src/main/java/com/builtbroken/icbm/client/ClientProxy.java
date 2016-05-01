@@ -141,41 +141,47 @@ public class ClientProxy extends CommonProxy
             Pos vel = new Pos((entity.worldObj.rand.nextFloat() - 0.5f) / 8f, (entity.worldObj.rand.nextFloat() - 0.5f) / 8f, (entity.worldObj.rand.nextFloat() - 0.5f) / 8f);
             vel = vel.multiply(motion);
 
-            EntityFX fx = new FxRocketFire(entity.worldObj, entity.posX, entity.posY - 0.75, entity.posZ, vel.x(), vel.y(), vel.z());
+            doRocketFire(entity, vel);
+            doRocketSmoke(entity, vel);
+        }
+    }
 
+    @Override
+    public void doRocketFire(Entity entity, Pos vel)
+    {
+        EntityFX fx = new FxRocketFire(entity.worldObj, entity.posX, entity.posY, entity.posZ, vel.x(), vel.y(), vel.z());
+
+        //Gen and add smoke effect
+        if (entity instanceof EntityMissile)
+        {
+            Missile missile = ((EntityMissile) entity).getMissile();
+            if (missile.getEngine() != null && missile.getEngine().engineFireColor != null)
+            {
+                fx = new FxRocketFire(entity.worldObj, missile.getEngine().engineFireColor, entity.posX, entity.posY - 0.75, entity.posZ, vel.x(), vel.y(), vel.z());
+            }
+        }
+
+        //Gen and add fire effect
+        Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+    }
+
+    @Override
+    public void doRocketSmoke(Entity entity, Pos vel)
+    {
+        //Only render massive smoke on fancy and with good particle settings
+        if (Minecraft.getMinecraft().gameSettings.fancyGraphics && Minecraft.getMinecraft().gameSettings.particleSetting != 1)
+        {
+            EntityFX fx = new FxRocketSmokeTrail(entity.worldObj, entity.posX, entity.posY, entity.posZ, vel.x(), vel.y(), vel.z(), 200);
             //Gen and add smoke effect
             if (entity instanceof EntityMissile)
             {
                 Missile missile = ((EntityMissile) entity).getMissile();
-                if (missile.getEngine() != null && missile.getEngine().engineFireColor != null)
+                if (missile.getEngine() != null && missile.getEngine().engineSmokeColor != null)
                 {
-                    fx = new FxRocketFire(entity.worldObj, missile.getEngine().engineFireColor, entity.posX, entity.posY - 0.75, entity.posZ, vel.x(), vel.y(), vel.z());
+                    fx = new FxRocketSmokeTrail(entity.worldObj, missile.getEngine().engineSmokeColor, entity.posX, entity.posY - 0.75, entity.posZ, vel.x(), vel.y(), vel.z(), 200);
                 }
             }
-
-            //Gen and add fire effect
             Minecraft.getMinecraft().effectRenderer.addEffect(fx);
-
-            //Only render massive smoke on fancy and with good particle settings
-            if (Minecraft.getMinecraft().gameSettings.fancyGraphics && Minecraft.getMinecraft().gameSettings.particleSetting != 1)
-            {
-                boolean rendereredSmoke = false;
-                //Gen and add smoke effect
-                if (entity instanceof EntityMissile)
-                {
-                    Missile missile = ((EntityMissile) entity).getMissile();
-                    if (missile.getEngine() != null && missile.getEngine().engineSmokeColor != null)
-                    {
-                        fx = new FxRocketSmokeTrail(entity.worldObj, missile.getEngine().engineSmokeColor, entity.posX, entity.posY - 0.75, entity.posZ, vel.x(), vel.y(), vel.z(), 200);
-                        rendereredSmoke = true;
-                    }
-                }
-                if (!rendereredSmoke)
-                {
-                    fx = new FxRocketSmokeTrail(entity.worldObj, entity.posX, entity.posY - 0.75, entity.posZ, vel.x(), vel.y(), vel.z(), 200);
-                }
-                Minecraft.getMinecraft().effectRenderer.addEffect(fx);
-            }
         }
     }
 

@@ -10,13 +10,34 @@ import net.minecraft.item.ItemStack;
  */
 public class MissileModule extends AbstractModule
 {
+    /**
+     * Default constructor
+     *
+     * @param item - item the module is create out of
+     * @param name - name of the module
+     */
     public MissileModule(ItemStack item, String name)
     {
         super(item, name);
     }
 
+    /**
+     * Called each tick the missile exists
+     *
+     * @param missile - missile entity
+     */
     public void update(EntityMissile missile)
     {
 
+    }
+
+    /**
+     * Gets the mass of the module in kg
+     *
+     * @return mass
+     */
+    public float getMass()
+    {
+        return 1;
     }
 }

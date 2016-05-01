@@ -15,6 +15,7 @@ import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.lib.transform.region.Cube;
+import com.builtbroken.mc.lib.transform.rotation.EulerAngle;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.tile.Tile;
@@ -40,14 +41,30 @@ import java.util.ArrayList;
  */
 public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, ITileMissile
 {
+    /** Missile object that defines render and blast information */
     public Missile missile;
-    float yaw = 0;
-    float pitch = -90;
-    Pos renderTranslationOffset = new Pos();
 
-    IBlastTileMissile blast;
-    boolean doBlast = false;
-    TriggerCause cause;
+    /** Render rotation yaw of the entity */
+    private float yaw = 0;
+    /** Render rotation pitch of the entity */
+    private float pitch = -90;
+    /** Slightly random offset to improve render randomization */
+    private Pos posOffset = new Pos();
+
+    /** Currently blast running in the missile */
+    private IBlastTileMissile blast;
+    /** Called to do the blast reguardless of what the blast code is */
+    private boolean doBlast = false;
+    /** Cause to use if triggering the blast */
+    private TriggerCause cause;
+
+    /** Amount of time to run the engine */
+    private int ticksForEngine;
+    /** Amount of time to generate smoke */
+    private int ticksForSmoke;
+
+    private Pos misislePos = toPos().add(0.5);
+
 
     //TODO add engine flames for a few seconds after landing
     //TODO generate smoke for a few mins after landing
@@ -99,6 +116,13 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
     }
 
     @Override
+    public void firstTick()
+    {
+        super.firstTick();
+        misislePos = misislePos.add(posOffset);
+    }
+
+    @Override
     public void update()
     {
         super.update();
@@ -108,9 +132,9 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
         //TODO on punched by entity push a little
         if (blast == null && ticks % 20 == 0)
         {
-            if (missile != null && missile.getWarhead() != null && missile.getWarhead().explosive != null)
+            if (missile != null && missile.getWarhead() != null && missile.getWarhead().getExplosiveStack() != null)
             {
-                IExplosiveHandler handler = ExplosiveRegistry.get(missile.getWarhead().explosive);
+                IExplosiveHandler handler = ExplosiveRegistry.get(missile.getWarhead().getExplosiveStack());
 
                 if (doBlast || handler instanceof IExHandlerTileMissile && ((IExHandlerTileMissile) handler).doesSpawnMissileTile(missile, null))
                 {
@@ -130,9 +154,20 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
             }
         }
 
+        //Tick the explosive
         if (blast != null)
         {
             blast.tickBlast(this, missile);
+            if (blast.isCompleted())
+            {
+                blast = null;
+                missile.getWarhead().setExplosiveStack(null);
+            }
+        }
+
+        if (missile != null && missile.getEngine() != null)
+        {
+
         }
     }
 
@@ -149,7 +184,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
         pitch = nbt.getFloat("pitch");
         if (nbt.hasKey("offset"))
         {
-            renderTranslationOffset = new Pos(nbt.getCompoundTag("offset"));
+            posOffset = new Pos(nbt.getCompoundTag("offset"));
         }
     }
 
@@ -164,9 +199,9 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
         }
         nbt.setFloat("yaw", yaw);
         nbt.setFloat("pitch", pitch);
-        if (renderTranslationOffset != null)
+        if (posOffset != null)
         {
-            nbt.setTag("offset", renderTranslationOffset.toNBT());
+            nbt.setTag("offset", posOffset.toNBT());
         }
     }
 
@@ -177,7 +212,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
         missile = stack.getItem() instanceof IMissileItem ? MissileModuleBuilder.INSTANCE.buildMissile(stack) : null;
         yaw = buf.readFloat();
         pitch = buf.readFloat();
-        renderTranslationOffset = new Pos(buf);
+        posOffset = new Pos(buf);
     }
 
     @Override
@@ -193,7 +228,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
         }
         buf.writeFloat(yaw);
         buf.writeFloat(pitch);
-        renderTranslationOffset.writeByteBuf(buf);
+        posOffset.writeByteBuf(buf);
     }
 
     @Override
@@ -202,7 +237,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
     {
         GL11.glPushMatrix();
         GL11.glTranslated(pos.x() + 0.5, pos.y() + (float) (missile.getHeight() / 2.0) - (float) (missile.getHeight() / 3.0), pos.z() + 0.5);
-        GL11.glTranslated(renderTranslationOffset.x(), renderTranslationOffset.y(), renderTranslationOffset.z());
+        GL11.glTranslated(posOffset.x(), posOffset.y(), posOffset.z());
 
         if (!(missile instanceof ICustomMissileRender) || !((ICustomMissileRender) missile).renderMissileInWorld(yaw - 90, pitch - 90, frame))
         {

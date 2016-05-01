@@ -69,6 +69,21 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     public void onUpdate()
     {
         super.onUpdate();
+        if (missile != null)
+        {
+            if (missile.getEngine() != null)
+            {
+                missile.getEngine().update(this);
+            }
+            if (missile.getGuidance() != null)
+            {
+                missile.getGuidance().update(this);
+            }
+            if (missile.getWarhead() != null)
+            {
+                missile.getWarhead().update(this);
+            }
+        }
         if (ticksInAir == 5 && !worldObj.isRemote)
         {
             RadarRegistry.add(this);

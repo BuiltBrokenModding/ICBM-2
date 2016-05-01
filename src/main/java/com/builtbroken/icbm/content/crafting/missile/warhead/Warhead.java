@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.crafting.missile.warhead;
 
 import com.builtbroken.icbm.api.modules.IWarhead;
-import com.builtbroken.icbm.content.crafting.AbstractModule;
+import com.builtbroken.icbm.content.crafting.missile.MissileModule;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.explosives.IExplosiveHolderItem;
@@ -18,7 +18,7 @@ import net.minecraft.world.World;
  * Container for explosive data to make implementing warhead like objects easier
  * Created by robert on 12/25/2014.
  */
-public abstract class Warhead extends AbstractModule implements IWarhead, Cloneable
+public abstract class Warhead extends MissileModule implements IWarhead, Cloneable
 {
     /** Explosive item used to ID the explosive handler. */
     public ItemStack explosive;
