@@ -72,7 +72,7 @@ public class BlastOrePuller extends BlastSimplePath<BlastOrePuller>
                 continue;
             }
             //Add placement call TODO make new block edit class called BlockMove to ensure the original location is also still valid and to reverse if the final location is not valid
-            newList.add(new BlockEditMove(edit, new Location(edit).add(0, y, 0)));
+            newList.add(new BlockEditMove(edit, new Location(edit.world(), edit.x(), y, edit.z())).setAir());
             it.remove(); //Always remove as we now uses the move edit
         }
         list.addAll(newList);

@@ -345,7 +345,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         PLANT_LIFE("PlantLife", 4),
         CAKE("Cake", 1),
         BIOME_CHANGE("BiomeChange", 1),
-        ORE_PULLER("OrePuller", 10),
+        ORE_PULLER("OrePuller", 20),
         SLIME_RAIN("SlimeRain", 5);
 
         //TODO implement tool tips to hint at usage
@@ -355,7 +355,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         public IIcon icon;
 
         private static HashMap<IExplosiveHandler, ExplosiveItems> cache;
-        private static HashMap<Integer, Double> stackSizeToExplosiveSize = new HashMap();
+        private HashMap<Integer, Double> stackSizeToExplosiveSize = new HashMap();
 
         ExplosiveItems(String ex_name, double sizePerUnit)
         {
@@ -376,6 +376,10 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
          */
         public double getSize(int stackSize)
         {
+            if(stackSize == 1)
+            {
+                return sizePerUnit;
+            }
             if (!stackSizeToExplosiveSize.containsKey(stackSize))
             {
                 stackSizeToExplosiveSize.put(stackSize, ExplosiveRegistry.getExplosiveSize(sizePerUnit, stackSize));
