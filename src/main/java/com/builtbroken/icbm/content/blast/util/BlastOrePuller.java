@@ -6,8 +6,11 @@ import com.builtbroken.mc.core.content.resources.gems.BlockGemOre;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
+import com.builtbroken.mc.lib.world.edit.BlockEditMove;
 import com.builtbroken.mc.prefab.explosive.blast.BlastSimplePath;
 import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -21,6 +24,9 @@ import java.util.List;
  */
 public class BlastOrePuller extends BlastSimplePath<BlastOrePuller>
 {
+    public static final List<Block> whiteList = new ArrayList();
+    public static final List<Block> blackList = new ArrayList();
+
     @Override
     public void getEffectedBlocks(List<IWorldEdit> list)
     {
@@ -66,7 +72,8 @@ public class BlastOrePuller extends BlastSimplePath<BlastOrePuller>
                 continue;
             }
             //Add placement call TODO make new block edit class called BlockMove to ensure the original location is also still valid and to reverse if the final location is not valid
-            newList.add(new BlockEdit(world, (int) edit.x(), y, (int) edit.z()).set(edit.getBlock(), edit.getBlockMetadata(), false, true));
+            newList.add(new BlockEditMove(edit, new Location(edit).add(0, y, 0)));
+            it.remove(); //Always remove as we now uses the move edit
         }
         list.addAll(newList);
     }
@@ -75,11 +82,34 @@ public class BlastOrePuller extends BlastSimplePath<BlastOrePuller>
     public IWorldEdit changeBlock(Location location)
     {
         Block block = location.getBlock();
-        if(!location.canSeeSky())
+        if (!location.canSeeSky())
         {
-            if (block instanceof BlockOre || block instanceof net.minecraft.block.BlockOre || block instanceof BlockGemOre || block.getUnlocalizedName().contains("ore"))
+            if (blackList.contains(block))
+            {
+                return null;
+            }
+            else if (block instanceof BlockOre || block instanceof net.minecraft.block.BlockOre || block instanceof BlockGemOre || whiteList.contains(block))
             {
                 return new BlockEdit(location).setAir();
+            }
+            else if (block.getUnlocalizedName().contains("ore"))
+            {
+                List<ItemStack> stacks = block.getDrops(location.world, location.xi(), location.yi(), location.zi(), 0, 0);
+                if (stacks != null)
+                {
+                    for (ItemStack stack : stacks)
+                    {
+                        ItemStack result = FurnaceRecipes.smelting().getSmeltingResult(stack);
+                        if (result != null && result.getUnlocalizedName().contains("ingot")) // If it can smelt it is ore
+                        {
+                            //Add to white list to increase speed
+                            whiteList.add(block);
+                            return new BlockEdit(location).setAir();
+                        }
+                    }
+                }
+                //Auto add to black list to increase speed
+                blackList.add(block);
             }
         }
         return null;
