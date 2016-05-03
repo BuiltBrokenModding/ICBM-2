@@ -115,6 +115,12 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
         return new TileCrashedMissile();
     }
 
+    @Override
+    public ItemStack toItemStack()
+    {
+        return missile != null ? missile.toStack() : null;
+    }
+
     /**
      * Called to place this tile into the world from a missile entity
      *
