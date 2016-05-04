@@ -455,23 +455,35 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
     public void renderDynamic(Pos pos, float frame, int pass)
     {
         GL11.glPushMatrix();
-        GL11.glTranslated(pos.x() + 0.5, pos.y() + (float) (missile.getHeight() / 2.0) - (float) (missile.getHeight() / 3.0), pos.z() + 0.5);
-        GL11.glTranslated(posOffset.x(), posOffset.y(), posOffset.z());
-
-        if (!(missile instanceof ICustomMissileRender) || !((ICustomMissileRender) missile).renderMissileInWorld(yaw - 90, pitch - 90, frame))
+        if(missile != null)
         {
-            GL11.glTranslated(0.5, 2, 0.5);
-            GL11.glRotatef(yaw, 0.0F, 1.0F, 0.0F);
-            GL11.glRotatef(pitch - 90, 0.0F, 0.0F, 1.0F);
-            GL11.glScalef(.5f, .5f, .5f);
-            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.CLASSIC_MISSILE_TEXTURE);
-            if (missile == null || missile.getWarhead() != null)
+            GL11.glTranslated(pos.x() + 0.5, pos.y() + (float) (missile.getHeight() / 2.0) - (float) (missile.getHeight() / 3.0), pos.z() + 0.5);
+            GL11.glTranslated(posOffset.x(), posOffset.y(), posOffset.z());
+
+            if (!(missile instanceof ICustomMissileRender) || !((ICustomMissileRender) missile).renderMissileInWorld(yaw - 90, pitch - 90, frame))
             {
-                Assets.CLASSIC_MISSILE_MODEL.renderOnly("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
+                renderDefaultMissile();
             }
-            Assets.CLASSIC_MISSILE_MODEL.renderAllExcept("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
+        }
+        else
+        {
+            renderDefaultMissile();
         }
         GL11.glPopMatrix();
+    }
+
+    private final void renderDefaultMissile()
+    {
+        GL11.glTranslated(0.5, 2, 0.5);
+        GL11.glRotatef(yaw, 0.0F, 1.0F, 0.0F);
+        GL11.glRotatef(pitch - 90, 0.0F, 0.0F, 1.0F);
+        GL11.glScalef(.5f, .5f, .5f);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.CLASSIC_MISSILE_TEXTURE);
+        if (missile == null || missile.getWarhead() != null)
+        {
+            Assets.CLASSIC_MISSILE_MODEL.renderOnly("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
+        }
+        Assets.CLASSIC_MISSILE_MODEL.renderAllExcept("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
     }
 
     @Override
