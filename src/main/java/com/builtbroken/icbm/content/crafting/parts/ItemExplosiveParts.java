@@ -103,9 +103,9 @@ public class ItemExplosiveParts extends Item implements IPostInit
         /** Wrapped bundle of arrows in tubes */
         ARROW_BUNDLE("arrowBundle"),
         /** Small amount of gunpowder in a paper container */
-        GUNPOWDER_CHARGE("gunpowderCharge"),
+        GUNPOWDER_CHARGE("explosiveItem.gunpowder"),
         /** Magic based explosion */
-        MAGIC_CHARGE("magicCharge"),
+        MAGIC_CHARGE("explosiveItem.magic"),
         /** Stick of gunpowder */
         POWDER_STICK("powderStick");
 
