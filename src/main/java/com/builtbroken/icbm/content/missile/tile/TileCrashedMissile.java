@@ -27,6 +27,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -35,6 +36,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -455,7 +457,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
     public void renderDynamic(Pos pos, float frame, int pass)
     {
         GL11.glPushMatrix();
-        if(missile != null)
+        if (missile != null)
         {
             GL11.glTranslated(pos.x() + 0.5, pos.y() + (float) (missile.getHeight() / 2.0) - (float) (missile.getHeight() / 3.0), pos.z() + 0.5);
             GL11.glTranslated(posOffset.x(), posOffset.y(), posOffset.z());
@@ -500,5 +502,29 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
             }
         }
         return drops;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IIcon getIcon()
+    {
+        return Blocks.iron_block.getIcon(0, 0);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IIcon getIcon(int meta, int side)
+    {
+        return Blocks.iron_block.getIcon(0, 0);
+    }
+
+    public void setTextureName(String value)
+    {
+        textureName = value;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister iconRegister)
+    {
     }
 }
