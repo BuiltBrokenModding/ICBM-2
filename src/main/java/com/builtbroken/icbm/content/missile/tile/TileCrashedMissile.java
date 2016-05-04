@@ -324,6 +324,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
                 {
                     //stack size is only one so no need to do checks
                     toPos().setBlock(world(), block != null ? block : Blocks.air, block != null ? meta : 0);
+                    player.inventoryContainer.detectAndSendChanges();
                 }
             }
         }
@@ -460,8 +461,10 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
         if (missile != null)
         {
             GL11.glTranslated(pos.x() + 0.5, pos.y() + (float) (missile.getHeight() / 2.0) - (float) (missile.getHeight() / 3.0), pos.z() + 0.5);
-            GL11.glTranslated(posOffset.x(), posOffset.y(), posOffset.z());
-
+            if(posOffset != null)
+            {
+                GL11.glTranslated(posOffset.x(), posOffset.y(), posOffset.z());
+            }
             if (!(missile instanceof ICustomMissileRender) || !((ICustomMissileRender) missile).renderMissileInWorld(yaw - 90, pitch - 90, frame))
             {
                 renderDefaultMissile();
@@ -469,6 +472,11 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
         }
         else
         {
+            GL11.glTranslated(pos.x() + 0.5, pos.y() + .4, pos.z() + 0.5);
+            if(posOffset != null)
+            {
+                GL11.glTranslated(posOffset.x(), posOffset.y(), posOffset.z());
+            }
             renderDefaultMissile();
         }
         GL11.glPopMatrix();

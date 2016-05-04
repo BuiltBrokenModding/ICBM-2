@@ -47,8 +47,8 @@ item.icbm:missileParts.smallMissileCasing.name=Small Missile Skin
 item.icbm:explosivePart.name=Explosive Part
 item.icbm:explosivePart.arrowTube.name=Arrow Tube
 item.icbm:explosivePart.arrowBundle.name=Arrow Bundle
-item.icbm:explosivePart.gunpowderCharge.name=Gunpowder Charge
-item.icbm:explosivePart.magicCharge.name=Magic Charge
+item.icbm:explosivePart.explosiveItem.gunpowder.name=Gunpowder Charge
+item.icbm:explosivePart.explosiveItem.magic.name=Magic Charge
 item.icbm:explosivePart.powderStick.name=Powder Stick
 
 ## Explosive Items
