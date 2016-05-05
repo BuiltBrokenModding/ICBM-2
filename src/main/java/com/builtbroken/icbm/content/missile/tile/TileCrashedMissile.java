@@ -14,6 +14,7 @@ import com.builtbroken.mc.api.edit.IWorldChangeAction;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
+import com.builtbroken.mc.lib.render.RenderUtility;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
@@ -295,7 +296,19 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
         if (block != null)
         {
             AxisAlignedBB bb = block.getCollisionBoundingBoxFromPool(world(), xi(), yi(), zi());
-            boxes.add(new Cube(bb).subtract(xi(), yi(), zi()));
+            if (bb != null)
+            {
+                boxes.add(new Cube(bb).subtract(xi(), yi(), zi()));
+            }
+            else
+            {
+                Cube cube = new Cube(block.getBlockBoundsMinX(), block.getBlockBoundsMinY(), block.getBlockBoundsMinZ(), block.getBlockBoundsMaxX(), block.getBlockBoundsMaxY(), block.getBlockBoundsMaxZ());
+                if (cube.isValid())
+                {
+                    //Not sure why but BB can go null
+                    boxes.add(cube);
+                }
+            }
         }
         return boxes;
     }
@@ -408,6 +421,11 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
         {
             posOffset = new Pos(nbt.getCompoundTag("offset"));
         }
+        if (nbt.hasKey("block"))
+        {
+            block = Block.getBlockFromName(nbt.getString("block"));
+            meta = nbt.getInteger("blockMeta");
+        }
     }
 
     @Override
@@ -425,6 +443,11 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
         {
             nbt.setTag("offset", posOffset.toNBT());
         }
+        if (block != null)
+        {
+            nbt.setString("block", Block.blockRegistry.getNameForObject(block));
+            nbt.setInteger("blockMeta", meta);
+        }
     }
 
     @Override
@@ -435,6 +458,11 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
         yaw = buf.readFloat();
         pitch = buf.readFloat();
         posOffset = new Pos(buf);
+        if (buf.readBoolean())
+        {
+            block = Block.getBlockFromName(ByteBufUtils.readUTF8String(buf));
+            meta = buf.readShort();
+        }
     }
 
     @Override
@@ -451,6 +479,12 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
         buf.writeFloat(yaw);
         buf.writeFloat(pitch);
         posOffset.writeByteBuf(buf);
+        buf.writeBoolean(block != null);
+        if (block != null)
+        {
+            ByteBufUtils.writeUTF8String(buf, Block.blockRegistry.getNameForObject(block));
+            buf.writeShort(meta);
+        }
     }
 
     @Override
@@ -461,7 +495,11 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
         if (missile != null)
         {
             GL11.glTranslated(pos.x() + 0.5, pos.y() + (float) (missile.getHeight() / 2.0) - (float) (missile.getHeight() / 3.0), pos.z() + 0.5);
-            if(posOffset != null)
+            if(block != null)
+            {
+                GL11.glTranslated(0, block.getBlockBoundsMaxY(), 0);
+            }
+            if (posOffset != null)
             {
                 GL11.glTranslated(posOffset.x(), posOffset.y(), posOffset.z());
             }
@@ -473,13 +511,20 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
         else
         {
             GL11.glTranslated(pos.x() + 0.5, pos.y() + .4, pos.z() + 0.5);
-            if(posOffset != null)
+            if (posOffset != null)
             {
                 GL11.glTranslated(posOffset.x(), posOffset.y(), posOffset.z());
             }
             renderDefaultMissile();
         }
         GL11.glPopMatrix();
+        if (block != null)
+        {
+            GL11.glPushMatrix();
+            GL11.glTranslated(pos.x() + 0.5, pos.y() + 0.5, pos.z() + 0.5);
+            RenderUtility.renderInventoryBlock(RenderUtility.renderBlocks, block, meta);
+            GL11.glPopMatrix();
+        }
     }
 
     private final void renderDefaultMissile()
