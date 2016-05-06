@@ -2,8 +2,8 @@ package com.builtbroken.icbm.content.ams;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.missile.IMissileEntity;
-import com.builtbroken.icbm.content.launcher.controller.local.TileLocalController;
 import com.builtbroken.icbm.content.fof.IFoFStation;
+import com.builtbroken.icbm.content.launcher.controller.local.TileLocalController;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.prefab.ItemBlockICBM;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
@@ -49,7 +49,7 @@ import java.util.Map;
  */
 public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGuiTile, ILinkable, IPostInit
 {
-    protected static final double ROTATION_TIME = 50000000.0;
+    protected static final double ROTATION_TIME = 500000000.0;
 
     /** Desired aim angle, updated every tick if target != null */
     protected final EulerAngle aim = new EulerAngle(0, 0, 0);
@@ -97,12 +97,12 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
             {
                 selector = new EntityTargetingSelector(this);
             }
-            if(fireArea == null)
+            if (fireArea == null)
             {
                 fireArea = new Cube(toPos().add(-100, -10, -100), toPos().add(100, 200, 100));
             }
             //Clear target if invalid
-            if (target != null && target.isDead)
+            if (target != null && (target.isDead || !selector.isEntityApplicable(target) || toPos().distance(target) > 200))
             {
                 target = null;
             }
@@ -113,14 +113,15 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
             }
 
             //Sound effect for rotation
-            if (ticks % 5 == 0 && !aim.isWithin(currentAim, 5))
+            if (ticks % 10 == 0 && !aim.isWithin(currentAim, 5))
             {
                 worldObj.playSoundEffect(x() + 0.5, y() + 0.2, z() + 0.5, "icbm:icbm.servo", ICBM.ams_rotation_volume, 1.0F);
             }
 
             //Update server rotation value, can be independent from client
-            currentAim.lerp(aim, (System.nanoTime() - lastRotationUpdate) / ROTATION_TIME).clampTo360();
-            lastRotationUpdate = System.nanoTime();
+            double deltaTime = (System.nanoTime() - lastRotationUpdate) / ROTATION_TIME;
+            currentAim.lerp(aim, deltaTime).clampTo360();
+
 
             if (target != null)
             {
@@ -138,6 +139,12 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
                     fireAt(target);
                 }
             }
+            else if (ticks % 3 == 0 && !aim.isZero())
+            {
+                aim.set(0, 0, 0);
+                sendAimPacket();
+            }
+            lastRotationUpdate = System.nanoTime();
         }
     }
 
@@ -249,7 +256,7 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
      */
     protected Entity getClosestTarget()
     {
-        if(fireArea != null)
+        if (fireArea != null)
         {
             List<Entity> list = RadarRegistry.getAllLivingObjectsWithin(world(), fireArea, selector);
             if (!list.isEmpty())
@@ -328,7 +335,9 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
     protected boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
     {
         if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IWorldPosItem)
+        {
             return false;
+        }
 
         if (isServer())
         {
