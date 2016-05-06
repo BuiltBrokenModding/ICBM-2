@@ -66,6 +66,14 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
                 list.add("Biome: " + (BiomeGenBase.getBiome(id) == null ? Colors.RED.code + "Error" : BiomeGenBase.getBiome(id).biomeName));
             }
         }
+        else if(stack.getItemDamage() == ExplosiveItems.FRAGMENT.ordinal())
+        {
+            Fragments frag = ExFragment.getFragmentType(getAdditionalExplosiveData(stack));
+            if(frag != Fragments.ARROW)
+            {
+                list.add(Colors.RED.code + "!!!Not implemented!!!");
+            }
+        }
     }
 
     @Override

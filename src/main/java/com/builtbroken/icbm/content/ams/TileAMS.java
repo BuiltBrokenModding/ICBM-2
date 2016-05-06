@@ -10,7 +10,9 @@ import com.builtbroken.mc.api.items.tools.IWorldPosItem;
 import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.api.tile.ILinkable;
 import com.builtbroken.mc.api.tile.IPassCode;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
+import com.builtbroken.mc.core.network.packet.PacketSpawnParticleStream;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
@@ -50,7 +52,8 @@ import java.util.Map;
  */
 public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGuiTile, ILinkable, IPostInit
 {
-    protected static final double ROTATION_TIME = 500000000.0;
+    /** Rotations per second */
+    protected static double ROTATION_SPEED = 10.0;
 
     /** Desired aim angle, updated every tick if target != null */
     protected final EulerAngle aim = new EulerAngle(0, 0, 0);
@@ -73,11 +76,8 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
 
     /** Last time rotation was updated, used in {@link EulerAngle#lerp(EulerAngle, double)} function for smooth rotation */
     protected long lastRotationUpdate = System.nanoTime();
-
-    /** User set rotation yaw when target is null */
-    protected int desiredRotationYaw = 0;
-    /** User set rotation pitch when target is null */
-    protected int desiredRotationPitch = 0;
+    /** Percent of time that passed since last tick, should be 1.0 on a stable server */
+    protected double deltaTime;
 
     public TileAMS()
     {
@@ -93,8 +93,12 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
     public void update()
     {
         super.update();
+
         if (isServer())
         {
+            deltaTime = (System.nanoTime() - lastRotationUpdate) / 1000000000.0; // time / time_tick, client uses different value
+            lastRotationUpdate = System.nanoTime();
+
             //Set selector if missing
             if (selector == null)
             {
@@ -102,7 +106,7 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
             }
             if (fireArea == null)
             {
-                fireArea = new Cube(toPos().add(-100, -10, -100), toPos().add(100, 200, 100));
+                fireArea = new Cube(toPos().add(-100, -200, -100), toPos().add(100, 200, 100));
             }
             //Clear target if invalid
             if (target != null && (target.isDead || !selector.isEntityApplicable(target) || toPos().distance(target) > 200))
@@ -116,15 +120,14 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
             }
 
             //Sound effect for rotation
-            if (ticks % 10 == 0 && !aim.isWithin(currentAim, 5))
+            if (ticks % 10 == 0 && !aim.isWithin(currentAim, ROTATION_SPEED))
             {
                 worldObj.playSoundEffect(x() + 0.5, y() + 0.2, z() + 0.5, "icbm:icbm.servo", ICBM.ams_rotation_volume, 1.0F);
             }
 
             //Update server rotation value, can be independent from client
-            double deltaTime = (System.nanoTime() - lastRotationUpdate) / ROTATION_TIME;
-            currentAim.lerp(aim, deltaTime).clampTo360();
 
+            currentAim.moveTowards(aim, ROTATION_SPEED, deltaTime).clampTo360();
 
             if (target != null)
             {
@@ -132,7 +135,12 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
                 if (ticks % 3 == 0)
                 {
                     Pos aimPoint = new Pos(this.target);
-                    aim.set(toPos().add(0.5).toEulerAngle(aimPoint).clampTo360());
+                    Pos center = toPos().add(0.5);
+                    if(Engine.runningAsDev)
+                    {
+                        sendPacket(new PacketSpawnParticleStream(world().provider.dimensionId, center, aimPoint));
+                    }
+                    aim.set(center.toEulerAngle(aimPoint).clampTo360());
                     sendAimPacket();
                 }
 
@@ -147,7 +155,6 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
                 aim.set(defaultAim);
                 sendAimPacket();
             }
-            lastRotationUpdate = System.nanoTime();
         }
     }
 
@@ -392,7 +399,7 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
         {
             fofStationPos = new Pos(nbt.getCompoundTag("fofStationPos"));
         }
-        if(nbt.hasKey("defaultAim"))
+        if (nbt.hasKey("defaultAim"))
         {
             defaultAim.readFromNBT(nbt.getCompoundTag("defaultAim"));
         }
@@ -414,12 +421,12 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
     @Override
     public boolean read(ByteBuf buf, int id, EntityPlayer player, PacketType type)
     {
-        if(!super.read(buf, id, player, type))
+        if (!super.read(buf, id, player, type))
         {
-            if(id == 3)
+            if (id == 4)
             {
-                currentAim.setYaw(buf.readFloat());
-                currentAim.setPitch(buf.readFloat());
+                defaultAim.setYaw(buf.readFloat());
+                defaultAim.setPitch(buf.readFloat());
                 return true;
             }
             return false;

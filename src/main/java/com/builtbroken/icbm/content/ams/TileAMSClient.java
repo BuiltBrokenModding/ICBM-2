@@ -43,13 +43,12 @@ public class TileAMSClient extends TileAMS implements ISimpleItemRenderer
     }
 
     @SideOnly(Side.CLIENT)
-    public void renderDynamic(Pos pos, float frame, int pass)
+    public void renderDynamic(Pos pos, float deltaTime, int pass)
     {
         //Lerp rotation values so not to have snapping effects(looks bad)
         if (!currentAim.isWithin(aim, 1))
         {
-            currentAim.lerp(aim, (System.nanoTime() - lastRotationUpdate) / ROTATION_TIME);
-            currentAim.clampTo360();
+            currentAim.moveTowards(aim, ROTATION_SPEED, deltaTime).clampTo360();
         }
         lastRotationUpdate = System.nanoTime();
         GL11.glPushMatrix();
@@ -96,7 +95,7 @@ public class TileAMSClient extends TileAMS implements ISimpleItemRenderer
      */
     public void setDefaultAim(float yaw, float pitch)
     {
-        sendPacketToServer(new PacketTile(this, 3, yaw, pitch));
+        sendPacketToServer(new PacketTile(this, 4, yaw, pitch));
         //TODO implement in GUI
     }
 
