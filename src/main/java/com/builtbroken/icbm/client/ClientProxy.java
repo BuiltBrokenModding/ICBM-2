@@ -157,7 +157,7 @@ public class ClientProxy extends CommonProxy
             Missile missile = ((EntityMissile) entity).getMissile();
             if (missile.getEngine() != null && missile.getEngine().engineFireColor != null)
             {
-                fx = new FxRocketFire(entity.worldObj, missile.getEngine().engineFireColor, entity.posX, entity.posY - 0.75, entity.posZ, vel.x(), vel.y(), vel.z());
+                fx = new FxRocketFire(entity.worldObj, missile.getEngine().engineFireColor, entity.posX, entity.posY, entity.posZ, vel.x(), vel.y(), vel.z());
             }
         }
 
@@ -178,7 +178,7 @@ public class ClientProxy extends CommonProxy
                 Missile missile = ((EntityMissile) entity).getMissile();
                 if (missile.getEngine() != null && missile.getEngine().engineSmokeColor != null)
                 {
-                    fx = new FxRocketSmokeTrail(entity.worldObj, missile.getEngine().engineSmokeColor, entity.posX, entity.posY - 0.75, entity.posZ, vel.x(), vel.y(), vel.z(), 200);
+                    fx = new FxRocketSmokeTrail(entity.worldObj, missile.getEngine().engineSmokeColor, entity.posX, entity.posY, entity.posZ, vel.x(), vel.y(), vel.z(), 200);
                 }
             }
             Minecraft.getMinecraft().effectRenderer.addEffect(fx);

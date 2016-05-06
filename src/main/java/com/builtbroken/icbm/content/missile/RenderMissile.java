@@ -31,7 +31,7 @@ public class RenderMissile extends Render implements IItemRenderer
         Missile missile = entityMissile.getMissile();
 
         GL11.glPushMatrix();
-        GL11.glTranslated(x, y, z);
+        GL11.glTranslated(x - 0.5, y - 0.5, z - 0.5);
 
         if (!(missile instanceof ICustomMissileRender) || !((ICustomMissileRender) missile).renderMissileEntity(entity, f, f1))
         {
