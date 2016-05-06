@@ -2,6 +2,7 @@ package com.builtbroken.icbm.content.ams;
 
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
+import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.Tile;
@@ -86,6 +87,19 @@ public class TileAMSClient extends TileAMS implements ISimpleItemRenderer
         return true;
     }
 
+    /**
+     * Sends a packet to the server to set the default aim of
+     * the turret.
+     *
+     * @param yaw   - yaw value to set
+     * @param pitch - pitch value to set
+     */
+    public void setDefaultAim(float yaw, float pitch)
+    {
+        sendPacketToServer(new PacketTile(this, 3, yaw, pitch));
+        //TODO implement in GUI
+    }
+
     protected void fireWeaponEffect()
     {
         //Pos aimVector = aim.toVector();
@@ -100,6 +114,7 @@ public class TileAMSClient extends TileAMS implements ISimpleItemRenderer
         super.readDescPacket(buf);
         aim.readByteBuf(buf);
         currentAim.readByteBuf(buf);
+        defaultAim.readByteBuf(buf);
     }
 
     @Override

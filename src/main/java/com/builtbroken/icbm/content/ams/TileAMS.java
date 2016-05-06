@@ -12,6 +12,7 @@ import com.builtbroken.mc.api.tile.ILinkable;
 import com.builtbroken.mc.api.tile.IPassCode;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
+import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
@@ -55,6 +56,8 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
     protected final EulerAngle aim = new EulerAngle(0, 0, 0);
     /** Current aim angle, updated each tick */
     protected final EulerAngle currentAim = new EulerAngle(0, 0, 0);
+    /** Default aim to use when not targeting things */
+    protected final EulerAngle defaultAim = new EulerAngle(0, 0, 0);
 
     /** Current selector used to filter missiles */
     protected EntityTargetingSelector selector;
@@ -141,7 +144,7 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
             }
             else if (ticks % 3 == 0 && !aim.isZero())
             {
-                aim.set(0, 0, 0);
+                aim.set(defaultAim);
                 sendAimPacket();
             }
             lastRotationUpdate = System.nanoTime();
@@ -370,6 +373,7 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
         super.writeDescPacket(buf);
         aim.writeBytes(buf);
         currentAim.writeBytes(buf);
+        defaultAim.writeBytes(buf);
     }
 
     @Override
@@ -384,10 +388,13 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
         {
             currentAim.readFromNBT(nbt.getCompoundTag("currentAim"));
         }
-
         if (nbt.hasKey("fofStationPos"))
         {
             fofStationPos = new Pos(nbt.getCompoundTag("fofStationPos"));
+        }
+        if(nbt.hasKey("defaultAim"))
+        {
+            defaultAim.readFromNBT(nbt.getCompoundTag("defaultAim"));
         }
     }
 
@@ -397,10 +404,27 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
         super.writeToNBT(nbt);
         nbt.setTag("aim", aim.toNBT());
         nbt.setTag("currentAim", currentAim.toNBT());
+        nbt.setTag("defaultAim", defaultAim.toNBT());
         if (fofStationPos != null)
         {
             nbt.setTag("fofStationPos", fofStationPos.toNBT());
         }
+    }
+
+    @Override
+    public boolean read(ByteBuf buf, int id, EntityPlayer player, PacketType type)
+    {
+        if(!super.read(buf, id, player, type))
+        {
+            if(id == 3)
+            {
+                currentAim.setYaw(buf.readFloat());
+                currentAim.setPitch(buf.readFloat());
+                return true;
+            }
+            return false;
+        }
+        return true;
     }
 
     @Override
