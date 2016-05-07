@@ -363,13 +363,16 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
     @Override
     public void onCollide(Entity entity)
     {
-        if (world().rand.nextFloat() <= 0.3 && missile.getWarhead() != null)
+        if(isServer() && entity != null && entity.worldObj != null && missile != null)
         {
-            missile.getWarhead().trigger(new TriggerCause.TriggerCauseEntity(entity), world(), x() + 0.5, y() + 0.5, z() + 0.5);
-        }
-        else
-        {
-            //TODO push missile around
+            if (world().rand.nextFloat() <= 0.3 && missile.getWarhead() != null)
+            {
+                missile.getWarhead().trigger(new TriggerCause.TriggerCauseEntity(entity), world(), x() + 0.5, y() + 0.5, z() + 0.5);
+            }
+            else
+            {
+                //TODO push missile around
+            }
         }
     }
 
