@@ -1,8 +1,6 @@
 package com.builtbroken.icbm.content.launcher.controller.remote.antenna;
 
-import com.builtbroken.icbm.ICBM;
 import com.builtbroken.jlib.helpers.MathHelper;
-import com.builtbroken.jlib.lang.StringHelpers;
 import com.builtbroken.mc.api.map.radio.IRadioWaveExternalReceiver;
 import com.builtbroken.mc.api.map.radio.IRadioWaveReceiver;
 import com.builtbroken.mc.api.map.radio.IRadioWaveSender;
@@ -201,7 +199,7 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IWirelessN
         }
 
         long time = System.nanoTime();
-        ICBM.INSTANCE.logger().info(this + "  Running structure scan...");
+        //ICBM.INSTANCE.logger().info(this + "  Running structure scan...");
         //Start iterative pathfinder
         List<TileAntennaPart> pathedTiles = new ArrayList();
         Queue<TileAntennaPart> stack = new LinkedList();
@@ -241,7 +239,7 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IWirelessN
             }
         }
         time = System.nanoTime() - time;
-        ICBM.INSTANCE.logger().info(this + "  Finished structure scan took " + StringHelpers.formatNanoTime(time));
+        //ICBM.INSTANCE.logger().info(this + "  Finished structure scan took " + StringHelpers.formatNanoTime(time));
 
         antennaNetwork.updateBounds();
         RadioRegistry.addOrUpdate(this);
