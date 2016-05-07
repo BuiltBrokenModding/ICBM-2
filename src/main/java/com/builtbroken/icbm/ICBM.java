@@ -284,6 +284,7 @@ public final class ICBM extends AbstractMod
         blockLargeLauncher.setCreativeTab(null);
         NEIProxy.hideItem(blockMediumLauncher);
         NEIProxy.hideItem(blockLargeLauncher);
+        NEIProxy.hideItem(blockCrashMissile);
 
         //Missile workstation is loaded in the proxy
         blockSiloController = manager.newBlock("SiloController", TileLocalController.class);
