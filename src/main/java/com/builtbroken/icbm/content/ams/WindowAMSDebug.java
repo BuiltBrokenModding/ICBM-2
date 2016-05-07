@@ -27,7 +27,14 @@ public class WindowAMSDebug extends JFrame implements IUpdate
 
         add(yaw_label);
         add(pitch_label);
-        setTitle("AMS Turret Debug Window");
+        if (tile.world().isRemote)
+        {
+            setTitle("CLIENT: AMS Turret Debug Window");
+        }
+        else
+        {
+            setTitle("SERVER: AMS Turret Debug Window");
+        }
         setSize(250, 100);
     }
 
@@ -45,7 +52,7 @@ public class WindowAMSDebug extends JFrame implements IUpdate
     public boolean update()
     {
         yaw_label.setText(String.format("Yaw: %.2f  -> %.2f", tile.currentAim.yaw(), tile.aim.yaw()));
-        yaw_label.setText(String.format("Pitch: %.2f  -> %.2f", tile.currentAim.pitch(), tile.aim.pitch()));
+        pitch_label.setText(String.format("Pitch: %.2f  -> %.2f", tile.currentAim.pitch(), tile.aim.pitch()));
         return true;
     }
 }

@@ -29,7 +29,7 @@ public class TileAMSClient extends TileAMS implements ISimpleItemRenderer
     protected boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
     {
         //Only works on local server
-        if (isServer() && Engine.runningAsDev && player.getHeldItem() != null && player.getHeldItem().getItem() == Items.stick)
+        if (Engine.runningAsDev && player.getHeldItem() != null && player.getHeldItem().getItem() == Items.stick)
         {
             if (debugWindow == null)
             {
@@ -72,7 +72,6 @@ public class TileAMSClient extends TileAMS implements ISimpleItemRenderer
         Assets.AMS_BOTTOM_MODEL.renderAll();
 
         GL11.glTranslatef(0, 0.5f, 0);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.AMS_TEXTURE);
         Assets.AMS_TOP_MODEL.renderAll();
     }
 
@@ -94,7 +93,6 @@ public class TileAMSClient extends TileAMS implements ISimpleItemRenderer
 
         GL11.glTranslatef(0, 0.5f, 0);
         GL11.glRotatef((float) currentAim.pitch(), 0, 0, 1);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.AMS_TEXTURE);
         Assets.AMS_TOP_MODEL.renderAll();
 
         GL11.glPopMatrix();

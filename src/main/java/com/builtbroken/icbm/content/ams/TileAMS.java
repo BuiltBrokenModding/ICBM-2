@@ -79,14 +79,18 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
     /** Percent of time that passed since last tick, should be 1.0 on a stable server */
     protected double deltaTime;
 
+    protected int weaponTicks = 0;
+
     public TileAMS()
     {
         super("AMS", Material.iron);
+        this.itemBlock = ItemBlockAMSTurret.class;
         this.hardness = 15f;
         this.resistance = 50f;
         this.itemBlock = ItemBlockICBM.class;
         this.renderNormalBlock = false;
         this.addInventoryModule(10);
+
     }
 
     @Override
@@ -96,7 +100,7 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
 
         if (isServer())
         {
-            deltaTime = (System.nanoTime() - lastRotationUpdate) / 10000000000.0; // time / time_tick, client uses different value
+            deltaTime = (System.nanoTime() - lastRotationUpdate) / 100000000.0; // time / time_tick, client uses different value
             lastRotationUpdate = System.nanoTime();
 
             //Set selector if missing
@@ -147,9 +151,10 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
                 }
 
                 //Fires weapon, if aimed every, 10 ticks
-                if (ticks % 5 == 0 && aim.isWithin(currentAim, 3))
+                if (aim.isWithin(currentAim, 1) && weaponTicks++ % 20 == 0)
                 {
                     fireAt(target);
+                    weaponTicks = 0;
                 }
             }
             else if (ticks % 3 == 0 && !aim.isZero())
