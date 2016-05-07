@@ -96,7 +96,7 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
 
         if (isServer())
         {
-            deltaTime = (System.nanoTime() - lastRotationUpdate) / 1000000000.0; // time / time_tick, client uses different value
+            deltaTime = (System.nanoTime() - lastRotationUpdate) / 10000000000.0; // time / time_tick, client uses different value
             lastRotationUpdate = System.nanoTime();
 
             //Set selector if missing
@@ -122,13 +122,15 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
             //Sound effect for rotation
             if (ticks % 10 == 0 && !aim.isWithin(currentAim, ROTATION_SPEED))
             {
-                worldObj.playSoundEffect(x() + 0.5, y() + 0.2, z() + 0.5, "icbm:icbm.servo", ICBM.ams_rotation_volume, 1.0F);
+                //worldObj.playSoundEffect(x() + 0.5, y() + 0.2, z() + 0.5, "icbm:icbm.servo", ICBM.ams_rotation_volume, 1.0F);
             }
 
             //Update server rotation value, can be independent from client
 
             currentAim.moveTowards(aim, ROTATION_SPEED, deltaTime).clampTo360();
 
+            //System.out.println("\n" + currentAim);
+            //System.out.println(aim);
             if (target != null)
             {
                 //Updates aim point every 3 ticks
@@ -136,7 +138,7 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
                 {
                     Pos aimPoint = new Pos(this.target);
                     Pos center = toPos().add(0.5);
-                    if(Engine.runningAsDev)
+                    if (Engine.runningAsDev)
                     {
                         sendPacket(new PacketSpawnParticleStream(world().provider.dimensionId, center, aimPoint));
                     }
@@ -145,7 +147,7 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
                 }
 
                 //Fires weapon, if aimed every, 10 ticks
-                if (ticks % 5 == 0 && aim.isWithin(currentAim, 1))
+                if (ticks % 5 == 0 && aim.isWithin(currentAim, 3))
                 {
                     fireAt(target);
                 }

@@ -2,6 +2,7 @@ package com.builtbroken.icbm.content.ams;
 
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.lib.transform.vector.Pos;
@@ -11,6 +12,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
@@ -21,6 +23,39 @@ import org.lwjgl.opengl.GL11;
  */
 public class TileAMSClient extends TileAMS implements ISimpleItemRenderer
 {
+    WindowAMSDebug debugWindow;
+
+    @Override
+    protected boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
+    {
+        //Only works on local server
+        if (isServer() && Engine.runningAsDev && player.getHeldItem() != null && player.getHeldItem().getItem() == Items.stick)
+        {
+            if (debugWindow == null)
+            {
+                debugWindow = new WindowAMSDebug(this);
+                debugWindow.open();
+            }
+            else
+            {
+                debugWindow.close();
+                debugWindow = null;
+            }
+            return true;
+        }
+        return super.onPlayerRightClick(player, side, hit);
+    }
+
+    @Override
+    public void update()
+    {
+        super.update();
+        if (debugWindow != null)
+        {
+            debugWindow.update();
+        }
+    }
+
     @Override
     public Tile newTile()
     {
@@ -30,7 +65,6 @@ public class TileAMSClient extends TileAMS implements ISimpleItemRenderer
     @Override
     public void renderInventoryItem(IItemRenderer.ItemRenderType type, ItemStack itemStack, Object... data)
     {
-
         GL11.glTranslatef(0.5f, 0, 0.5f);
 
         GL11.glRotatef(90, 0, 1, 0);
