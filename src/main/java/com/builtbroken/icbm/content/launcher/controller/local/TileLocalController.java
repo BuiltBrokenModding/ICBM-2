@@ -96,8 +96,9 @@ public class TileLocalController extends TileModuleMachine implements ILinkable,
      * Called to fire the launcher in the list of linked launchers
      *
      * @param index - # in the launcher list
+     * @param player
      */
-    protected void fireLauncher(int index)
+    protected void fireLauncher(int index, EntityPlayer player)
     {
         if (isServer())
         {
@@ -107,7 +108,14 @@ public class TileLocalController extends TileModuleMachine implements ILinkable,
                 TileEntity tile = pos.getTileEntity(world());
                 if (tile instanceof TileAbstractLauncher)
                 {
-                    ((TileAbstractLauncher) tile).fireMissile();
+                    if(((TileAbstractLauncher) tile).fireMissile())
+                    {
+                        ICBM.INSTANCE.logger().info("TileSiloInterface: " + player + " fired a missile from " + tile);
+                    }
+                    else
+                    {
+                        ICBM.INSTANCE.logger().info("TileSiloInterface: " + player + " attempted to fire a missile from " + tile);
+                    }
                 }
             }
         }
@@ -119,14 +127,15 @@ public class TileLocalController extends TileModuleMachine implements ILinkable,
 
     /**
      * Loops threw the list of launchers and fires each one
+     * @param player
      */
-    protected void fireAllLaunchers()
+    protected void fireAllLaunchers(EntityPlayer player)
     {
         if (isServer())
         {
             for (int i = 0; i < launcherLocations.size(); i++)
             {
-                fireLauncher(i);
+                fireLauncher(i, player);
             }
         }
         else
@@ -265,9 +274,9 @@ public class TileLocalController extends TileModuleMachine implements ILinkable,
                 {
                     int index = buf.readInt();
                     if (index == -1)
-                        fireAllLaunchers();
+                        fireAllLaunchers(player);
                     else
-                        fireLauncher(index);
+                        fireLauncher(index, player);
                     return true;
                 }
             }

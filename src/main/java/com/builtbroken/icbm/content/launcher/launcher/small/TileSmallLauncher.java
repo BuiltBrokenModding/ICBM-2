@@ -63,30 +63,44 @@ public class TileSmallLauncher extends TileAbstractLauncher implements ISimpleIt
         {
             if (player.getHeldItem() != null && player.getHeldItem().getItem() == Items.flint_and_steel)
             {
-                if (target != null && target.y() > -1)
+                if (isServer())
                 {
-                    double distance = target.distance(new Pos(this));
-                    if (distance <= 200 && distance >= 20)
+                    if (target != null && target.y() > -1)
                     {
-                        fireMissile(target);
-                        //TODO add launch logging to console
+                        double distance = target.distance(new Pos(this));
+                        if (distance <= 200 && distance >= 20)
+                        {
+                            if(fireMissile(target))
+                            {
+                                ICBM.INSTANCE.logger().info("TileSiloInterface: " + player + " fired a missile from " + this);
+                            }
+                            else
+                            {
+                                ICBM.INSTANCE.logger().info("TileSiloInterface: " + player + " attempted to fire a missile from " + this);
+                            }
+                        }
+                        else
+                        {
+                            LanguageUtility.addChatToPlayer(player, getInventoryName() + ".invaliddistance");
+                        }
                     }
                     else
                     {
-                        LanguageUtility.addChatToPlayer(player, getInventoryName() + ".invaliddistance");
+                        LanguageUtility.addChatToPlayer(player, getInventoryName() + ".invalidtarget");
                     }
-                }
-                else
-                {
-                    LanguageUtility.addChatToPlayer(player, getInventoryName() + ".invalidtarget");
                 }
                 return true;
             }
             else
             {
-                if (player instanceof EntityPlayerMP)
-                    Engine.instance.packetHandler.sendToPlayer(getDescPacket(), (EntityPlayerMP) player);
-                openGui(player, ICBM.INSTANCE);
+                if (isServer())
+                {
+                    if (player instanceof EntityPlayerMP)
+                    {
+                        Engine.instance.packetHandler.sendToPlayer(getDescPacket(), (EntityPlayerMP) player);
+                    }
+                    openGui(player, ICBM.INSTANCE);
+                }
                 return true;
             }
         }
@@ -159,7 +173,7 @@ public class TileSmallLauncher extends TileAbstractLauncher implements ISimpleIt
             if (missile instanceof ICustomMissileRender)
             {
                 GL11.glTranslatef(0, (float) (missile.getHeight() / 2.0), 0);
-                if(!((ICustomMissileRender) missile).renderMissileInWorld(0, 0, frame))
+                if (!((ICustomMissileRender) missile).renderMissileInWorld(0, 0, frame))
                 {
                     //TODO Either error or render fake model
                 }

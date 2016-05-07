@@ -253,9 +253,13 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
                 {
                     if (isServer())
                     {
+
                         //Create and setup missile
                         EntityMissile entity = new EntityMissile(world());
                         entity.setMissile(missile);
+
+                        ICBM.INSTANCE.logger().info("Firing missile from " + this + ", Missile = " + entity + ", Target = " + target);
+
                         if (fofStation != null)
                         {
                             entity.fofTag = fofStation.getProvidedFoFTag();

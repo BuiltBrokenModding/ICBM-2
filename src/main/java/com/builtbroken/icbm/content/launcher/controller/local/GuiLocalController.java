@@ -218,7 +218,7 @@ public class GuiLocalController extends GuiContainerBase
                 //Fire launcher
                 else
                 {
-                    controller.fireLauncher(button.id - controller.launcherData.size());
+                    controller.fireLauncher(button.id - controller.launcherData.size(), player);
                 }
             }
         }
