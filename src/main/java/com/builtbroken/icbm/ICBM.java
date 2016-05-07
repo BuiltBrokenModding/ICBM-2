@@ -4,7 +4,10 @@ import com.builtbroken.icbm.client.CreativeTabMissiles;
 import com.builtbroken.icbm.client.CreativeTabWarheads;
 import com.builtbroken.icbm.client.ICBMCreativeTab;
 import com.builtbroken.icbm.content.blast.biome.ExBiomeChange;
-import com.builtbroken.icbm.content.blast.effect.*;
+import com.builtbroken.icbm.content.blast.effect.ExAntiPlant;
+import com.builtbroken.icbm.content.blast.effect.ExEnderBlocks;
+import com.builtbroken.icbm.content.blast.effect.ExPlantLife;
+import com.builtbroken.icbm.content.blast.effect.ExTorchEater;
 import com.builtbroken.icbm.content.blast.entity.ExSlimeRain;
 import com.builtbroken.icbm.content.blast.entity.ExplosiveHandlerSpawn;
 import com.builtbroken.icbm.content.blast.explosive.BlastPathTester;
@@ -335,8 +338,8 @@ public final class ICBM extends AbstractMod
             registerExplosives = true;
             //Create Explosives
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "EntitySpawn", new ExplosiveHandlerSpawn());
-            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "ExoThermic", new ExEndoThermic());
-            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "EndoThermic", new ExExoThermic());
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "ExoThermic", new ExExoThermic());
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "EndoThermic", new ExEndoThermic());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Fragment", new ExFragment());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "ArrowFragment", ExplosiveRegistry.get("Fragment"));
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Antimatter", new ExAntimatter());

@@ -229,8 +229,8 @@ public class ClientProxy extends CommonProxy
     public void registerExplosives()
     {
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "EntitySpawn", new ExplosiveHandlerSpawn());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "ExoThermic", new ECEndo());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "EndoThermic", new ECExo());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "ExoThermic", new ECExo());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "EndoThermic", new ECEndo());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Fragment", new ECFragment());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "ArrowFragment", ExplosiveRegistry.get("Fragment"));
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Antimatter", new ECAntimatter());
