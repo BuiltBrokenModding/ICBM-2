@@ -95,7 +95,7 @@ public class TileLocalController extends TileModuleMachine implements ILinkable,
     /**
      * Called to fire the launcher in the list of linked launchers
      *
-     * @param index - # in the launcher list
+     * @param index  - # in the launcher list
      * @param player
      */
     protected void fireLauncher(int index, EntityPlayer player)
@@ -108,7 +108,7 @@ public class TileLocalController extends TileModuleMachine implements ILinkable,
                 TileEntity tile = pos.getTileEntity(world());
                 if (tile instanceof TileAbstractLauncher)
                 {
-                    if(((TileAbstractLauncher) tile).fireMissile())
+                    if (((TileAbstractLauncher) tile).fireMissile())
                     {
                         ICBM.INSTANCE.logger().info("TileSiloInterface: " + player + " fired a missile from " + tile);
                     }
@@ -127,6 +127,7 @@ public class TileLocalController extends TileModuleMachine implements ILinkable,
 
     /**
      * Loops threw the list of launchers and fires each one
+     *
      * @param player
      */
     protected void fireAllLaunchers(EntityPlayer player)
@@ -149,20 +150,30 @@ public class TileLocalController extends TileModuleMachine implements ILinkable,
     {
         //Validate location data
         if (loc.world != world())
+        {
             return "link.error.world.match";
+        }
 
         Pos pos = loc.toPos();
         if (!pos.isAboveBedrock())
+        {
             return "link.error.pos.invalid";
+        }
         if (distance(pos) > MAX_LINK_DISTANCE)
+        {
             return "link.error.pos.distance.max";
+        }
 
         //Compare tile pass code
         TileEntity tile = pos.getTileEntity(loc.world());
         if (!(tile instanceof TileAbstractLauncher))
+        {
             return "link.error.tile.invalid";
+        }
         if (((IPassCode) tile).getCode() != code)
+        {
             return "link.error.code.match";
+        }
 
         //Add location
         if (!launcherLocations.contains(pos))
@@ -208,9 +219,13 @@ public class TileLocalController extends TileModuleMachine implements ILinkable,
     protected void removeLauncher(Pos pos)
     {
         if (isServer())
+        {
             launcherLocations.remove(pos);
+        }
         else
+        {
             sendPacketToServer(new PacketTile(this, 1, pos));
+        }
     }
 
     /**
@@ -274,9 +289,13 @@ public class TileLocalController extends TileModuleMachine implements ILinkable,
                 {
                     int index = buf.readInt();
                     if (index == -1)
+                    {
                         fireAllLaunchers(player);
+                    }
                     else
+                    {
                         fireLauncher(index, player);
+                    }
                     return true;
                 }
             }
@@ -289,7 +308,7 @@ public class TileLocalController extends TileModuleMachine implements ILinkable,
     public void doUpdateGuiUsers()
     {
         //Only send packets to the GUI if we have data to send
-        if (launcherLocations.size() > 0)
+        if (isServer() && launcherLocations.size() > 0)
         {
             PacketTile packet;
             NBTTagCompound nbt = new NBTTagCompound();
@@ -298,7 +317,7 @@ public class TileLocalController extends TileModuleMachine implements ILinkable,
             //Construct launcher data structure
             for (TileAbstractLauncher launcher : getLaunchers())
             {
-                if(launcher.world() == world())
+                if (launcher != null && !launcher.isInvalid() && launcher.world() == world())
                 {
                     list.appendTag(new LauncherData(launcher).toNBT());
                 }
@@ -347,7 +366,9 @@ public class TileLocalController extends TileModuleMachine implements ILinkable,
         {
             NBTTagList list = new NBTTagList();
             for (Pos pos : launcherLocations)
-            { list.appendTag(pos.toIntNBT()); }
+            {
+                list.appendTag(pos.toIntNBT());
+            }
             nbt.setTag("locations", list);
         }
     }
@@ -356,10 +377,14 @@ public class TileLocalController extends TileModuleMachine implements ILinkable,
     protected boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
     {
         if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IWorldPosItem)
+        {
             return false;
+        }
 
         if (isServer())
+        {
             openGui(player, ICBM.INSTANCE);
+        }
         return true;
     }
 
