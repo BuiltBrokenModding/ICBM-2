@@ -229,7 +229,6 @@ public class GuiLocalController extends GuiContainerBase
                 editMissile = -1;
                 editMode = false;
                 initGui();
-
             }
             else if (button.id == 1)
             {

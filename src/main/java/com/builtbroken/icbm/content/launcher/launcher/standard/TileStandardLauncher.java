@@ -219,18 +219,10 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
                             this.setInventorySlotContents(0, copy);
                             if (!player.capabilities.isCreativeMode)
                             {
+                                player.getHeldItem().stackSize--;
                                 if (player.getHeldItem().stackSize <= 0)
                                 {
-                                    copy = player.getHeldItem().copy();
-                                    copy.stackSize--;
-                                    if (copy.stackSize <= 0)
-                                    {
-                                        player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
-                                    }
-                                    else
-                                    {
-                                        player.inventory.setInventorySlotContents(player.inventory.currentItem, copy);
-                                    }
+                                    player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
                                 }
                                 player.inventoryContainer.detectAndSendChanges();
                             }
