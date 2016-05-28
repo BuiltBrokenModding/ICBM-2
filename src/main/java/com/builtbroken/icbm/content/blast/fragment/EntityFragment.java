@@ -44,6 +44,8 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
     @Override
     protected void onImpactTile()
     {
+        super.onImpactTile();
+        this.setDead(); //TODO delay death on impact
         //TODO break glass if velocity is high enough
     }
 
@@ -56,6 +58,8 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
         {
             entityHit.attackEntityFrom(new DamageFragment(fragmentType.name().toLowerCase(), entityHit, this), damage);
         }
+        //TODO delay death on impact
+        //TODO Implant in entity
     }
 
     @Override
