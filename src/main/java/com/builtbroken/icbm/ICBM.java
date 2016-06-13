@@ -50,7 +50,6 @@ import com.builtbroken.icbm.content.launcher.controller.local.TileLocalControlle
 import com.builtbroken.icbm.content.launcher.controller.remote.antenna.BlockAntennaParts;
 import com.builtbroken.icbm.content.launcher.controller.remote.central.TileCommandController;
 import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCommandSiloConnector;
-import com.builtbroken.icbm.content.launcher.launcher.ItemBlockLauncherPad;
 import com.builtbroken.icbm.content.launcher.launcher.large.TileLargeLauncher;
 import com.builtbroken.icbm.content.launcher.launcher.medium.TileMediumLauncher;
 import com.builtbroken.icbm.content.launcher.launcher.small.TileSmallLauncher;
@@ -269,7 +268,7 @@ public final class ICBM extends AbstractMod
         blockCommandSiloConnector = manager.newBlock("icbmCommandSiloController", TileCommandSiloConnector.class);
 
         //Decor Blocks
-        blockLaunchPad = manager.newBlock("icbmDecorLaunchPad", BlockLaunchPad.class, ItemBlockLauncherPad.class);
+        blockLaunchPad = manager.newBlock("icbmDecorLaunchPad", BlockLaunchPad.class, ItemBlockMetadata.class);
 
         //Launchers
         blockSmallPortableLauncher = manager.newBlock(TileSmallLauncher.class);
