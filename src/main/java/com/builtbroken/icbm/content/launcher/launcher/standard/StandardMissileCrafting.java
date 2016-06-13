@@ -12,6 +12,7 @@ import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IByteBufReader;
 import com.builtbroken.mc.core.network.IByteBufWriter;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import cpw.mods.fml.common.network.ByteBufUtils;
@@ -39,8 +40,6 @@ public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufR
 {
     //TODO add registry for recipe to allow other mods to add missiles to silos
 
-    public static final String ROD_ORE_NAME = "rodIron";
-    public static final String PLATE_ORE_NAME = "plateIron";
     /** Number of rods to complete the frame */
     public static final int MAX_ROD_COUNT = 128;
     public static final int ROD_PER_LEVEL_COUNT = 16;
@@ -187,12 +186,12 @@ public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufR
 
     private static boolean isRod(final ItemStack stack)
     {
-        return hasOreName(ROD_ORE_NAME, stack);
+        return hasOreName(OreNames.ROD_IRON, stack);
     }
 
     private static boolean isPlate(final ItemStack stack)
     {
-        return hasOreName(PLATE_ORE_NAME, stack);
+        return hasOreName(OreNames.PLATE_IRON, stack);
     }
 
     private static boolean hasOreName(final String name, final ItemStack stack)
@@ -508,11 +507,11 @@ public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufR
         {
             if (rods > 0)
             {
-                addItems(ROD_ORE_NAME, rods);
+                addItems(OreNames.ROD_IRON, rods);
             }
             if (plates > 0)
             {
-                addItems(PLATE_ORE_NAME, plates);
+                addItems(OreNames.PLATE_IRON, plates);
             }
         }
     }
