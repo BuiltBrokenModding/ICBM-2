@@ -52,7 +52,7 @@ public class ItemRemoteDetonator extends Item implements IRecipeContainer
                 }
                 else if (mode == 2)
                 {
-                    RadioRegistry.popMessage(world, new FakeRadioSender(player, stack, 2000), hz, "fireMissile" + mode, getPassKey(stack), getGroupID(stack));
+                    RadioRegistry.popMessage(world, new FakeRadioSender(player, stack, 2000), hz, "fireMissileGroup" + mode, getPassKey(stack), getGroupID(stack));
                     //TODO add selective first missile firing
                 }
                 //TODO add mode for detonating warhead tiles

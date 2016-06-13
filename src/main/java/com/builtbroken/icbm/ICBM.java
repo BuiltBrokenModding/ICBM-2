@@ -39,9 +39,7 @@ import com.builtbroken.icbm.content.debug.BlockExplosiveMarker;
 import com.builtbroken.icbm.content.debug.TileRotationTest;
 import com.builtbroken.icbm.content.display.TileMissile;
 import com.builtbroken.icbm.content.display.TileMissileDisplay;
-import com.builtbroken.icbm.content.items.ItemGPSFlag;
-import com.builtbroken.icbm.content.items.ItemLinkTool;
-import com.builtbroken.icbm.content.items.ItemRemoteDetonator;
+import com.builtbroken.icbm.content.items.*;
 import com.builtbroken.icbm.content.launcher.block.BlockLaunchPad;
 import com.builtbroken.icbm.content.launcher.block.BlockLauncherPart;
 import com.builtbroken.icbm.content.launcher.block.TileLauncherFrame;
@@ -184,6 +182,8 @@ public final class ICBM extends AbstractMod
     public static Item itemRocketLauncher;
     public static Item itemLinkTool;
     public static Item itemGPSTool;
+    public static Item itemRadarGun;
+    public static Item itemLaserDet;
     public static ItemEngineModules itemEngineModules;
     public static ItemGuidanceModules itemGuidanceModules;
     public static Item itemMissileParts;
@@ -308,6 +308,8 @@ public final class ICBM extends AbstractMod
         itemGuidanceModules = manager.newItem("guidanceModules", ItemGuidanceModules.class);
         itemLinkTool = manager.newItem("siloLinker", ItemLinkTool.class);
         itemGPSTool = manager.newItem("gpsFlag", ItemGPSFlag.class);
+        itemRadarGun = manager.newItem("radarGun", ItemRadarGun.class);
+        itemLaserDet = manager.newItem("laserDet", ItemLaserDetonator.class);
         itemMissileParts = manager.newItem("missileParts", ItemMissileParts.class);
         itemExplosive = manager.newItem("explosiveUnit", ItemExplosive.class);
         itemExplosivePart = manager.newItem("explosiveUnitParts", ItemExplosiveParts.class);

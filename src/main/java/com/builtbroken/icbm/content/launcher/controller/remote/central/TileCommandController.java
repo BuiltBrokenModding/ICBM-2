@@ -6,6 +6,7 @@ import com.builtbroken.icbm.api.controller.ISiloConnectionPoint;
 import com.builtbroken.icbm.content.items.FakeRadioSender;
 import com.builtbroken.icbm.content.launcher.controller.local.TileLocalController;
 import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCommandSiloConnector;
+import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
 import com.builtbroken.mc.api.map.radio.IRadioWaveExternalReceiver;
 import com.builtbroken.mc.api.map.radio.IRadioWaveReceiver;
@@ -367,7 +368,7 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
                         sender.onMessageReceived(receiver, hz, messageHeader, data);
 
                         //Fire single missile in group by name
-                        if ("fireMissile1".equals(messageHeader))
+                        if ("fireMissile1".equals(messageHeader) || "fireMissileAtTarget".equals(messageHeader))
                         {
                             short pass = (short) data[0];
                             String group = (String) data[1];
@@ -408,7 +409,8 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
                                                         {
                                                             //Cache travel time before firing, as the time is based on the missile.. which is gone after firing
                                                             int travelTime = launcher.getSilo().getTravelTimeTo(launcher.getSilo().getTarget());
-                                                            if (launcher.getSilo().fireMissile())
+
+                                                            if ("fireMissileAtTarget".equals(messageHeader) && launcher.getSilo().fireMissile((IPos3D) data[3]) || "fireMissile1".equals(messageHeader) && launcher.getSilo().fireMissile())
                                                             {
                                                                 fired = true;
                                                                 if (sender instanceof FakeRadioSender)

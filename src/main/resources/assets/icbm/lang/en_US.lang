@@ -39,6 +39,8 @@ info.icbm:rocketLauncher.tooltip=Fires micro missiles
 
 item.icbm:remoteDetonator.name=Remote Detonator
 item.icbm:laserDetonator.name=Laser Detonator
+item.icbm:radarGun.name=Radar Gun
+item.icbm:radarGun.info=Shift+Right to clear , Right click to transfer to a machine , Right click air to capture data, 200m range limit
 
 ## Parts
 item.icbm:missileParts.name=Missile Crafting Part
