@@ -21,7 +21,6 @@ import com.builtbroken.icbm.content.blast.item.BlockFakeCake;
 import com.builtbroken.icbm.content.blast.item.ExCake;
 import com.builtbroken.icbm.content.blast.temp.ExEndoThermic;
 import com.builtbroken.icbm.content.blast.temp.ExExoThermic;
-import com.builtbroken.icbm.content.blast.thaum.ThaumBlastLoader;
 import com.builtbroken.icbm.content.blast.util.ExOrePuller;
 import com.builtbroken.icbm.content.blast.util.ExRegen;
 import com.builtbroken.icbm.content.blast.util.ExRegenLocal;
@@ -239,7 +238,7 @@ public final class ICBM extends AbstractMod
         //Loads thaumcraft support
         if (Loader.isModLoaded("Thaumcraft") && !getConfig().getBoolean("DisableThaumSupport", "ModSupport", false, "Allows disabling thaumcraft support, if issues arise or game play balance is required."))
         {
-            loader.applyModule(ThaumBlastLoader.class);
+            //loader.applyModule(ThaumBlastLoader.class);
         }
 
         // Configs TODO load up using config system, and separate file
