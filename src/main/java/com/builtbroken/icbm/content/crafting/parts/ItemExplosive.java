@@ -354,7 +354,8 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         CAKE("Cake", 1),
         BIOME_CHANGE("BiomeChange", 1),
         ORE_PULLER("OrePuller", 20),
-        SLIME_RAIN("SlimeRain", 5);
+        SLIME_RAIN("SlimeRain", 5),
+        EMP("Emp", 1);
 
         //TODO implement tool tips to hint at usage
 

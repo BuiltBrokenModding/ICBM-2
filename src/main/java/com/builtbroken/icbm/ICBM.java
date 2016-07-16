@@ -19,6 +19,7 @@ import com.builtbroken.icbm.content.blast.fragment.EntityFragment;
 import com.builtbroken.icbm.content.blast.fragment.ExFragment;
 import com.builtbroken.icbm.content.blast.item.BlockFakeCake;
 import com.builtbroken.icbm.content.blast.item.ExCake;
+import com.builtbroken.icbm.content.blast.power.ExEmp;
 import com.builtbroken.icbm.content.blast.temp.ExEndoThermic;
 import com.builtbroken.icbm.content.blast.temp.ExExoThermic;
 import com.builtbroken.icbm.content.blast.util.ExOrePuller;
@@ -356,6 +357,7 @@ public final class ICBM extends AbstractMod
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "BiomeChange", new ExBiomeChange());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "OrePuller", new ExOrePuller());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SlimeRain", new ExSlimeRain());
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Emp", new ExEmp());
             if (Engine.runningAsDev)
             {
                 ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest1", new ExplosiveHandlerGeneric("SimplePathTest1", BlastPathTester.class, 1));
