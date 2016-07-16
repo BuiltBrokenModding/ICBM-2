@@ -29,9 +29,12 @@ public class BlastEMP extends BlastSimplePath<BlastEMP>
         //TODO break settings on machines
         //TODO destroy some machines
         TileEntity tile = location.getTileEntity();
-        if (tile != null && UniversalEnergySystem.isEnergyContainer(tile))
+        if (tile != null)
         {
-            return new EmpDrainEdit(location);
+            if (UniversalEnergySystem.isHandler(tile, null))
+            {
+                return new EmpDrainEdit(location);
+            }
         }
         return null;
     }
@@ -42,6 +45,12 @@ public class BlastEMP extends BlastSimplePath<BlastEMP>
         public EmpDrainEdit(IWorldPosition vec)
         {
             super(vec);
+        }
+
+        @Override
+        public boolean hasChanged()
+        {
+            return true;
         }
 
         @Override
@@ -65,7 +74,7 @@ public class BlastEMP extends BlastSimplePath<BlastEMP>
         protected BlockEditResult doPlace()
         {
             TileEntity tile = getTileEntity();
-            if (tile != null && UniversalEnergySystem.isEnergyContainer(tile))
+            if (tile != null && UniversalEnergySystem.isHandler(tile, null))
             {
                 //TODO get accessible sides
                 //TODO do not drain all energy, remove pre-determined amount based on EMP size and distance from blast
