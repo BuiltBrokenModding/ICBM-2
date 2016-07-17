@@ -395,7 +395,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
     public void onDestroyedByExplosion(Explosion ex)
     {
         //TODO attempt to set off warhead
-        if (missile.getWarhead() != null)
+        if (missile != null && missile.getWarhead() != null)
         {
             missile.getWarhead().trigger(new TriggerCause.TriggerCauseExplosion(ex), world(), x() + 0.5, y() + 0.5, z() + 0.5);
         }
