@@ -13,7 +13,7 @@ public class ExEmp extends ExplosiveHandlerICBM<BlastEMP>
 {
     public ExEmp()
     {
-        super("Emp", 2);
+        super("Emp", 10);
     }
 
     @Override

@@ -12,7 +12,13 @@ Originally ICBM was owned mostly by Calclavia with the Sentry guns belonging to 
 That being said as far as DarkGuardsman is concerned the mod downloads are community property. At any time the mod is no longer supported or updated anyone is welcome to take over. Given that the new maintainer understands who owns the code at the end of the day. 
  
 ##license
-Read license.md contained within the repo
+* Free to install
+* Free to modify for personal use
+* Free to contribute to project
+* Request to redistribute files
+* Can only use code for educational use
+
+Read license.md for full lisense
  
 ##Warranty
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -24,11 +30,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 ##Pull Requests
-Before your pull request is accepted you must sign the Contributor License Agreement(CLA)
+Before you submit a pull request you must sign or agree to the Contributor License Agreement(CLA). Submission by default can be considered as agreeing to the CLA and any terms of the project.
 
 ##Contributions
-Before submitting sign the CLA or the submittion will not be accepted https://www.clahub.com/agreements/Universal-Electricity/ICBM
-If you do not sign the CLA, summission still counts as accepting the terms of the CLA.
+Before submitting changes sign the CLA or the submittion will not be accepted https://www.clahub.com/agreements/Universal-Electricity/ICBM
+If you do not sign the CLA, summission still counts as accepting the terms of the CLA in some cases. Theses cases are noted, not limited to, as failure to respond to a request to view the CLA, and continued submission of changes after being notified of the CLA.
 https://docs.google.com/document/d/105N6q63OJnzrWjMbydFYFUlHmK6spc8P8da8qkduFRs/edit?usp=sharing
 
 
@@ -39,7 +45,8 @@ https://docs.google.com/document/d/105N6q63OJnzrWjMbydFYFUlHmK6spc8P8da8qkduFRs/
 * Graugger          - Asset Developer
 
 ##Credits
-If not listed don't fear we are still compiling the credits list after it got removed
+If you or someone you know is not listed but should be just message us with the contribution. We will then
+validate the claim and add the missing name(s) to the list. 
 
 * Adaptivity        - Russian Translations
 * Archelf           - Assets
@@ -74,6 +81,9 @@ If not listed don't fear we are still compiling the credits list after it got re
 * LG                    - https://www.freesound.org/people/LG/sounds/18726/
 * Yap_Audio_Production  - https://www.freesound.org/people/Yap_Audio_Production/sounds/218482/
 * jimhancock			- https://www.freesound.org/people/jimhancock/sounds/256128/
+* FreqMan 				- http://www.freesound.org/people/FreqMan/sounds/24727/
+* bmaczero				- http://www.freesound.org/people/BMacZero/sounds/94132/
+						- http://www.freesound.org/people/BMacZero/sounds/94128/
 
 
 ## Download Locations

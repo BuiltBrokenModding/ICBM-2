@@ -46,5 +46,23 @@
       "sounds":[
          "tada"
       ]
+   },
+   "icbm.emp":{
+      "category":"neutral",
+      "sounds":[
+         "power/sparkloop"
+      ]
+   },
+    "icbm.spark":{
+      "category":"neutral",
+      "sounds":[
+         "power/spark"
+      ]
+   },
+    "icbm.taser":{
+      "category":"neutral",
+      "sounds":[
+         "power/continuousspark"
+      ]
    }
 }
