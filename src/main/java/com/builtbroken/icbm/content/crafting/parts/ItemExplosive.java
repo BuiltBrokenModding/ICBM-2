@@ -30,6 +30,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import java.util.HashMap;
@@ -254,6 +255,16 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
 
         //Cake
         newRecipe(ExplosiveItems.CAKE, "PPP", "PCP", "RRR", 'C', Items.cake, 'P', Blocks.glass_pane, 'R', UniversalRecipe.PRIMARY_PLATE.get());
+
+        //Emp
+        if(OreDictionary.doesOreNameExist("battery"))
+        {
+            newRecipe(ExplosiveItems.EMP, "WRW", "RBR", "WRW", 'B', "battery", 'W', OreNames.WIRE_COPPER, 'R', OreNames.PLATE_GOLD); //TODO replace wires with large coils, TODO replace battery with capacitor, TODO make costly to balance size
+        }
+        else
+        {
+            newRecipe(ExplosiveItems.EMP, "WRW", "RCR", "WRW", 'C', Items.diamond, 'W', OreNames.WIRE_COPPER, 'R', Items.redstone);
+        }
     }
 
     private void newRecipe(ExplosiveItems item, Object... objects)

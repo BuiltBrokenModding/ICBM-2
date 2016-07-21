@@ -70,6 +70,7 @@ item.icbm:explosiveItem.RegenLocal.name=Limited Regen Charge
 item.icbm:explosiveItem.BiomeChange.name=Biome Shift Charge
 item.icbm:explosiveItem.Cake.name=Cake Package
 item.icbm:explosiveItem.OrePuller.name=Ore Up Draft Charge
+item.icbm:explosiveItem.Emp.name=Emp Battery
 
 item.icbm:explosiveItem.fragment.arrow.name=Arrow Bundle Charge
 item.icbm:explosiveItem.fragment.cobblestone.name=Cobblestone Frag Charge
@@ -165,6 +166,7 @@ explosive.icbm:RegenLocal.name=Limited Regen
 explosive.icbm:cake.name=Cake
 explosive.icbm:biomeChange.name=Biome Shift
 explosive.icbm:OrePuller.name=Ore Up Draft
+explosive.icbm:Emp.name=Universal EMP
 
 ## Damage
 damage.fragment.cobblestone=%s was stoned to death by cobble fragments
