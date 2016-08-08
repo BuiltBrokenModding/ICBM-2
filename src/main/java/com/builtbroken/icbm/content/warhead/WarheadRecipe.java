@@ -56,12 +56,12 @@ public class WarheadRecipe implements IRecipe
                         {
                             return false;
                         }
-                        else if (((Warhead) module).getExplosiveStack() == null || InventoryUtility.stacksMatch(((Warhead) module).getExplosiveStack(), inputTarget))
+                        else if (((Warhead) module).getExplosive() == null || ((Warhead) module).getExplosiveStack() == null || InventoryUtility.stacksMatch(((Warhead) module).getExplosiveStack(), inputTarget))
                         {
                             warhead = ((Warhead) module);
                             if (warhead.getExplosiveStack() != null)
                             {
-                                ex_count = warhead.getExplosiveStack().stackSize;
+                                ex_count += warhead.getExplosiveStack().stackSize;
                             }
                         }
                         else
@@ -105,7 +105,7 @@ public class WarheadRecipe implements IRecipe
                     IModule module = ((IModuleItem) slotStack.getItem()).getModule(slotStack);
                     if (module instanceof Warhead)
                     {
-                        if (((Warhead) module).getExplosive() == null || ((Warhead) module).getExplosive() == craftingResult.getExplosive())
+                        if (((Warhead) module).getExplosiveStack() == null || ((Warhead) module).getExplosive() == null || ((Warhead) module).getExplosive() == craftingResult.getExplosive())
                         {
                             warhead = ((Warhead) module).clone();
                         }
