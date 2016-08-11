@@ -136,9 +136,12 @@ public class BlastEMP extends BlastSimplePath<BlastEMP>
                 //TODO make a simple drain method
                 //TODO fire events
                 //TODO implement EMP api to allow machines to control, and config overrides to bypass control
-                final double power = UniversalEnergySystem.extractEnergy(tile, UniversalEnergySystem.getPotentialEnergy(tile), false);
-                final double powerScaled = power * percentToDrain;
-                UniversalEnergySystem.extractEnergy(tile, powerScaled, true);
+                //TODO add continues drain effect
+                //TODO break settings on machines
+                //final double power = UniversalEnergySystem.extractEnergy(tile, UniversalEnergySystem.getPotentialEnergy(tile), false);
+                //final double powerScaled = power * percentToDrain;
+                //UniversalEnergySystem.extractEnergy(tile, powerScaled, true);
+                UniversalEnergySystem.clearEnergy(tile, true);
                 return BlockEditResult.PLACED;
             }
             return BlockEditResult.PREV_BLOCK_CHANGED;
