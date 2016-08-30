@@ -2,6 +2,7 @@ package com.builtbroken.icbm.content.crafting.station.small;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
+import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
@@ -133,9 +134,9 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
             {
                 missile = null;
             }
-            else if (!InventoryUtility.stacksMatchExact(getStackInSlot(slot), stack))
+            else if (stack.getItem() instanceof IModularMissileItem && !InventoryUtility.stacksMatchExact(getStackInSlot(slot), stack))
             {
-                missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
+                missile = ((IModularMissileItem) stack.getItem()).toMissile(stack);
             }
         }
         super.setInventorySlotContents(slot, stack);
@@ -469,7 +470,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
             //Missile slots
             if (stack.getItem() instanceof IModularMissileItem && slot == INPUT_SLOT)
             {
-                Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
+                Missile missile = ((IModularMissileItem) stack.getItem()).toMissile(stack);
                 return missile.casing == MissileCasings.SMALL;
             }
         }
@@ -653,9 +654,9 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     /** Missile object, create from the input slot stack */
     public Missile getMissile()
     {
-        if (getMissileItem() != null && missile == null)
+        if (getMissileItem() != null && getMissileItem().getItem() instanceof IMissileItem && missile == null)
         {
-            missile = MissileModuleBuilder.INSTANCE.buildMissile(getMissileItem());
+            missile = ((IMissileItem)getMissileItem().getItem()).toMissile(getMissileItem());
         }
         return missile;
     }

@@ -1,11 +1,12 @@
 package com.builtbroken.icbm.api.crafting;
 
+import com.builtbroken.icbm.api.missile.IMissileItem;
 import net.minecraft.item.ItemStack;
 
 /** Applied to missile items that support the missile workstation
  * Created by robert on 3/12/2015.
  */
-public interface IModularMissileItem
+public interface IModularMissileItem extends IMissileItem
 {
     /** Grabs the item that is used as the missile's engine */
     ItemStack getEngine(ItemStack missile);

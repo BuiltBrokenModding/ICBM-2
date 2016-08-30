@@ -1,7 +1,6 @@
 package com.builtbroken.icbm.content.display;
 
 import com.builtbroken.icbm.api.missile.IMissileItem;
-import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.lib.transform.vector.Pos;
@@ -81,7 +80,7 @@ public class TileMissileContainer extends TileModuleMachine implements IPacketID
         {
             if (isServer() && heldItem.getItem() instanceof IMissileItem)
             {
-                Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(heldItem);
+                Missile missile = ((IMissileItem) heldItem.getItem()).toMissile(heldItem);
 
                 if (canAcceptMissile(missile))
                 {
@@ -119,7 +118,7 @@ public class TileMissileContainer extends TileModuleMachine implements IPacketID
 
     public Missile getMissile()
     {
-        return getMissileItem() != null ? MissileModuleBuilder.INSTANCE.buildMissile(getMissileItem()) : null;
+        return getMissileItem() != null && getMissileItem().getItem() instanceof IMissileItem ? ((IMissileItem) getMissileItem().getItem()).toMissile(getMissileItem()) : null;
     }
 
     public ItemStack getMissileItem()

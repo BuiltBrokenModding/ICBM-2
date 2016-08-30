@@ -2,7 +2,6 @@ package com.builtbroken.icbm.content.launcher.launcher.standard;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
-import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.launcher.launcher.TileAbstractLauncherPad;
@@ -209,7 +208,7 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
             {
                 if (isServer())
                 {
-                    Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(player.getHeldItem());
+                    Missile missile = ((IModularMissileItem) player.getHeldItem().getItem()).toMissile(player.getHeldItem());
                     if (missile != null)
                     {
                         if (canAcceptMissile(missile))

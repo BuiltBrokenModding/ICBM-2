@@ -363,7 +363,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
     @Override
     public void onCollide(Entity entity)
     {
-        if(isServer() && entity != null && entity.worldObj != null && missile != null)
+        if (isServer() && entity != null && entity.worldObj != null && missile != null)
         {
             if (world().rand.nextFloat() <= 0.3 && missile.getWarhead() != null)
             {
@@ -416,7 +416,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
         if (nbt.hasKey("missile"))
         {
             ItemStack stack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("missile"));
-            missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
+            missile = stack.getItem() instanceof IMissileItem ? ((IMissileItem) stack.getItem()).toMissile(stack) : MissileModuleBuilder.INSTANCE.buildMissile(stack);
         }
         yaw = nbt.getFloat("yaw");
         pitch = nbt.getFloat("pitch");
@@ -457,7 +457,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
     public void readDescPacket(ByteBuf buf)
     {
         ItemStack stack = ByteBufUtils.readItemStack(buf);
-        missile = stack.getItem() instanceof IMissileItem ? MissileModuleBuilder.INSTANCE.buildMissile(stack) : null;
+        missile = stack.getItem() instanceof IMissileItem ? ((IMissileItem) stack.getItem()).toMissile(stack) : null;
         yaw = buf.readFloat();
         pitch = buf.readFloat();
         posOffset = new Pos(buf);
@@ -498,7 +498,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
         if (missile != null)
         {
             GL11.glTranslated(pos.x() + 0.5, pos.y() + (float) (missile.getHeight() / 2.0) - (float) (missile.getHeight() / 3.0), pos.z() + 0.5);
-            if(block != null)
+            if (block != null)
             {
                 GL11.glTranslated(0, block.getBlockBoundsMaxY(), 0);
             }

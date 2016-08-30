@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.launcher.launcher.standard;
 
 import com.builtbroken.icbm.api.missile.ICustomMissileRender;
+import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
@@ -271,7 +272,14 @@ public class TileStandardLauncherClient extends TileStandardLauncher
         if (type == 0)
         {
             ItemStack missileStack = ByteBufUtils.readItemStack(buf);
-            missile = MissileModuleBuilder.INSTANCE.buildMissile(missileStack);
+            if(missileStack.getItem() instanceof IMissileItem)
+            {
+                missile = ((IMissileItem) missileStack.getItem()).toMissile(missileStack);
+            }
+            else
+            {
+                missile = MissileModuleBuilder.INSTANCE.buildMissile(missileStack);
+            }
         }
         else if (type == 1)
         {

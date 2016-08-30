@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.launcher.controller;
 
+import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
@@ -31,7 +32,14 @@ public class LauncherData
         ItemStack stack = ItemStack.loadItemStackFromNBT(tag);
         if(stack != null)
         {
-            missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
+            if (stack.getItem() instanceof IMissileItem)
+            {
+                missile = ((IMissileItem) stack.getItem()).toMissile(stack);
+            }
+            else
+            {
+                missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
+            }
         }
     }
 

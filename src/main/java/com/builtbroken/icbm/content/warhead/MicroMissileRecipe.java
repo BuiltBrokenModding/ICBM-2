@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.warhead;
 
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
+import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
@@ -53,7 +54,9 @@ public class MicroMissileRecipe extends RecipeShapelessOre
                 if (slot.getItem() instanceof IModularMissileItem)
                 {
                     if (missileStack != null)
+                    {
                         return null;
+                    }
                     missileStack = slot.copy();
                 }
                 else if (slot.getItem() instanceof IModuleItem)
@@ -62,7 +65,9 @@ public class MicroMissileRecipe extends RecipeShapelessOre
                     if (module instanceof IWarhead)
                     {
                         if (warheadStack != null)
+                        {
                             return null;
+                        }
                         warheadStack = slot.copy();
                     }
                 }
@@ -76,7 +81,7 @@ public class MicroMissileRecipe extends RecipeShapelessOre
         if (missileStack != null && warheadStack != null)
         {
             //Generate objects from stack
-            Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(missileStack);
+            Missile missile = missileStack.getItem() instanceof IMissileItem ? ((IMissileItem) missileStack.getItem()).toMissile(missileStack) : MissileModuleBuilder.INSTANCE.buildMissile(missileStack);
             Warhead warhead = MissileModuleBuilder.INSTANCE.buildWarhead(warheadStack);
             //Validate
             if (missile != null && warhead != null && missile.getWarhead() == null)

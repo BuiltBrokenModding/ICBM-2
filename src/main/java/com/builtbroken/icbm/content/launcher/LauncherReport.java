@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.launcher;
 
+import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.missile.EntityMissile;
@@ -43,16 +44,35 @@ public class LauncherReport implements ISave
     public void load(NBTTagCompound nbt)
     {
         if (nbt.hasKey("missile"))
-            missile = MissileModuleBuilder.INSTANCE.buildMissile(ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("missile")));
+        {
+            ItemStack missileStack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("missile"));
+            if(missileStack != null)
+            {
+                if (missileStack.getItem() instanceof IMissileItem)
+                {
+                    missile = ((IMissileItem) missileStack.getItem()).toMissile(missileStack);
+                }
+                else
+                {
+                    missile = MissileModuleBuilder.INSTANCE.buildMissile(missileStack);
+                }
+            }
+        }
         if (nbt.hasKey("start"))
+        {
             launchTime = nbt.getLong("start");
+        }
         if (nbt.hasKey("end"))
+        {
             deathTime = nbt.getLong("end");
+        }
 
         impacted = nbt.getBoolean("impact");
 
         if (nbt.hasKey("UUID"))
+        {
             this.entityUUID = UUID.fromString(nbt.getString("UUID"));
+        }
     }
 
     public NBTTagCompound save()
@@ -64,16 +84,26 @@ public class LauncherReport implements ISave
     public NBTTagCompound save(NBTTagCompound nbt)
     {
         if (missile != null)
+        {
             nbt.setTag("missile", missile.toStack().writeToNBT(new NBTTagCompound()));
+        }
         if (launchTime != 0L)
+        {
             nbt.setLong("start", launchTime);
+        }
         if (deathTime != 0L)
+        {
             nbt.setLong("end", deathTime);
+        }
         if (impacted)
+        {
             nbt.setBoolean("impact", true);
+        }
 
         if (entityUUID != null)
+        {
             nbt.setString("UUID", entityUUID.toString());
+        }
         return nbt;
     }
 }
