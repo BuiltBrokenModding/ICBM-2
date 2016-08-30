@@ -35,7 +35,6 @@ import java.util.List;
 
 public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IExplosiveContainerItem, IModuleItem
 {
-
     public ItemBlockWarhead(Block block)
     {
         super(block);
@@ -243,7 +242,14 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IExpl
         {
             ItemStack insert = stack.copy();
             insert.stackSize = 1;
-            return MissileModuleBuilder.INSTANCE.buildWarhead(insert);
+            Warhead warhead = MissileModuleBuilder.INSTANCE.buildWarhead(insert);
+            if(warhead == null)
+            {
+                warhead = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.fromMeta(insert.getItemDamage()), (ItemStack)null);
+            }
+            insert.setTagCompound(warhead.save(new NBTTagCompound()));
+            stack.setTagCompound(warhead.save(new NBTTagCompound()));
+            return warhead;
         }
         return null;
     }

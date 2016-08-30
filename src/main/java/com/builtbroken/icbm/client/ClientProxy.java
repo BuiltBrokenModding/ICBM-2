@@ -2,6 +2,7 @@ package com.builtbroken.icbm.client;
 
 import com.builtbroken.icbm.CommonProxy;
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.missile.IMissileEntity;
 import com.builtbroken.icbm.client.blast.*;
 import com.builtbroken.icbm.content.ams.TileAMSClient;
 import com.builtbroken.icbm.content.blast.entity.ExSlimeRain;
@@ -47,6 +48,7 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.Level;
 
+import java.awt.*;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
@@ -155,9 +157,13 @@ public class ClientProxy extends CommonProxy
         if (entity instanceof EntityMissile)
         {
             Missile missile = ((EntityMissile) entity).getMissile();
-            if (missile.getEngine() != null && missile.getEngine().engineFireColor != null)
+            if (missile.getEngine() != null)
             {
-                fx = new FxRocketFire(entity.worldObj, missile.getEngine().engineFireColor, entity.posX, entity.posY, entity.posZ, vel.x(), vel.y(), vel.z());
+                Color color = missile.getEngine().getEngineFireColor(entity instanceof IMissileEntity ? (IMissileEntity) entity : null, missile);
+                if(color != null)
+                {
+                    fx = new FxRocketFire(entity.worldObj, color, entity.posX, entity.posY, entity.posZ, vel.x(), vel.y(), vel.z());
+                }
             }
         }
 
@@ -176,9 +182,13 @@ public class ClientProxy extends CommonProxy
             if (entity instanceof EntityMissile)
             {
                 Missile missile = ((EntityMissile) entity).getMissile();
-                if (missile.getEngine() != null && missile.getEngine().engineSmokeColor != null)
+                if (missile.getEngine() != null)
                 {
-                    fx = new FxRocketSmokeTrail(entity.worldObj, missile.getEngine().engineSmokeColor, entity.posX, entity.posY, entity.posZ, vel.x(), vel.y(), vel.z(), 200);
+                    Color color = missile.getEngine().getEngineSmokeColor(entity instanceof IMissileEntity ? (IMissileEntity) entity : null, missile);
+                    if(color != null)
+                    {
+                        fx = new FxRocketSmokeTrail(entity.worldObj, color, entity.posX, entity.posY, entity.posZ, vel.x(), vel.y(), vel.z(), 200);
+                    }
                 }
             }
             Minecraft.getMinecraft().effectRenderer.addEffect(fx);

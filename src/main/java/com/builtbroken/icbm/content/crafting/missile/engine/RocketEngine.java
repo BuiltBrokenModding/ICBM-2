@@ -124,6 +124,18 @@ public abstract class RocketEngine extends MissileModule implements IRocketEngin
         doEngineSmoke(missile, missileCenter.add(angle), vel);
     }
 
+    @Override
+    public Color getEngineFireColor(IMissileEntity missile, IMissile missileModule)
+    {
+        return engineFireColor;
+    }
+
+    @Override
+    public Color getEngineSmokeColor(IMissileEntity missile, IMissile missileModule)
+    {
+        return engineSmokeColor;
+    }
+
     /**
      * Called to render engine flames, keep in mind this is called server side
      *

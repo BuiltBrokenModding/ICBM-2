@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.crafting.missile;
 
+import com.builtbroken.icbm.api.modules.IMissileModule;
 import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import net.minecraft.item.ItemStack;
@@ -8,7 +9,7 @@ import net.minecraft.item.ItemStack;
  * Prefab for any module that can fit on a missile
  * Created by robert on 12/28/2014.
  */
-public class MissileModule extends AbstractModule
+public class MissileModule extends AbstractModule implements IMissileModule
 {
     /**
      * Default constructor
@@ -21,11 +22,7 @@ public class MissileModule extends AbstractModule
         super(item, name);
     }
 
-    /**
-     * Called each tick the missile exists
-     *
-     * @param missile - missile entity
-     */
+    @Override
     public void update(EntityMissile missile)
     {
 
@@ -39,5 +36,11 @@ public class MissileModule extends AbstractModule
     public float getMass()
     {
         return 1;
+    }
+
+    @Override
+    public int getMissileSize()
+    {
+        return -1;
     }
 }

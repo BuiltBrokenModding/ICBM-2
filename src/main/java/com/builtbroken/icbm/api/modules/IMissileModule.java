@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.api.modules;
 
+import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.mc.api.modules.IModule;
 
 /**
@@ -27,4 +28,12 @@ public interface IMissileModule extends IModule
      * @return int value matching enum {@link com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings}
      */
     int getMissileSize();
+
+
+    /**
+     * Called each tick the missile exists
+     *
+     * @param missile - missile entity
+     */
+    void update(EntityMissile missile);
 }

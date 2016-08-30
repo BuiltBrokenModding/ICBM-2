@@ -34,7 +34,7 @@ public enum WarheadCasings
 
     public static void register()
     {
-        if(!reg)
+        if (!reg)
         {
             reg = true;
             for (WarheadCasings size : values())
@@ -47,7 +47,18 @@ public enum WarheadCasings
     public static WarheadCasings get(int i)
     {
         if (i >= 0 && i < values().length)
+        {
             return values()[i];
+        }
         return EXPLOSIVE_MICRO;
+    }
+
+    public static WarheadCasings fromMeta(int itemDamage)
+    {
+        if (itemDamage >= 0 && itemDamage < values().length)
+        {
+            return values()[itemDamage];
+        }
+        return EXPLOSIVE_SMALL;
     }
 }

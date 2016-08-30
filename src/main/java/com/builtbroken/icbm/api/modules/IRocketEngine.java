@@ -2,6 +2,8 @@ package com.builtbroken.icbm.api.modules;
 
 import com.builtbroken.icbm.api.missile.IMissileEntity;
 
+import java.awt.*;
+
 /**
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 10/28/2015.
@@ -53,4 +55,22 @@ public interface IRocketEngine extends IMissileModule
      * @return true if the engine generates fire
      */
     boolean generatesFire(IMissileEntity missile, IMissile missileModule);
+
+    /**
+     * Gets the color of an engine
+     *
+     * @param missile       - may be null
+     * @param missileModule - may be null
+     * @return color, or null to disable
+     */
+    Color getEngineFireColor(IMissileEntity missile, IMissile missileModule);
+
+    /**
+     * Gets the color of an engine smoke trail
+     *
+     * @param missile       - may be null
+     * @param missileModule - may be null
+     * @return color, or null to disable
+     */
+    Color getEngineSmokeColor(IMissileEntity missile, IMissile missileModule);
 }

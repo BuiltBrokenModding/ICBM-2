@@ -1,12 +1,15 @@
 package com.builtbroken.icbm.content.crafting.missile.casing;
 
+import com.builtbroken.icbm.api.modules.IGuidance;
 import com.builtbroken.icbm.api.modules.IMissile;
+import com.builtbroken.icbm.api.modules.IRocketEngine;
+import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.content.crafting.AbstractModule;
-import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
 import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.mc.api.modules.IModule;
+import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -23,9 +26,9 @@ public abstract class Missile extends AbstractModule implements IMissile
     /** Size of the missile */
     public final MissileCasings casing;
 
-    private Warhead warhead;
-    private Guidance guidance;
-    private RocketEngine engine;
+    private IWarhead warhead;
+    private IGuidance guidance;
+    private IRocketEngine engine;
 
     public Missile(ItemStack stack, MissileCasings casing)
     {
@@ -39,16 +42,29 @@ public abstract class Missile extends AbstractModule implements IMissile
     {
         if (nbt.hasKey("warhead"))
         {
-            setWarhead(MissileModuleBuilder.INSTANCE.buildWarhead(ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("warhead"))));
+            IModule module = getModule(nbt, "warhead");
+            setWarhead(module instanceof IWarhead ? (IWarhead) module : null);
         }
         if (nbt.hasKey("engine"))
         {
-            setEngine(MissileModuleBuilder.INSTANCE.buildEngine(ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("engine"))));
+            IModule module = getModule(nbt, "engine");
+            setEngine(module instanceof IRocketEngine ? (IRocketEngine) module : null);
         }
         if (nbt.hasKey("guidance"))
         {
-            setGuidance(MissileModuleBuilder.INSTANCE.buildGuidance(ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("guidance"))));
+            IModule module = getModule(nbt, "guidance");
+            setGuidance(module instanceof IGuidance ? (IGuidance) module : null);
         }
+    }
+
+    private IModule getModule(NBTTagCompound nbt, String id)
+    {
+        ItemStack stack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag(id));
+        if (stack != null && stack.getItem() instanceof IModuleItem)
+        {
+            return ((IModuleItem) stack.getItem()).getModule(stack);
+        }
+        return null;
     }
 
     @Override
@@ -103,32 +119,32 @@ public abstract class Missile extends AbstractModule implements IMissile
         return getEngine() != null && getEngine().getMaxDistance(this) > 0 && getEngine().getSpeed(this) > 0;
     }
 
-    public void setWarhead(Warhead warhead)
+    public void setWarhead(IWarhead warhead)
     {
         this.warhead = warhead;
     }
 
-    public void setGuidance(Guidance guidance)
+    public void setGuidance(IGuidance guidance)
     {
         this.guidance = guidance;
     }
 
-    public void setEngine(RocketEngine engine)
+    public void setEngine(IRocketEngine engine)
     {
         this.engine = engine;
     }
 
-    public Warhead getWarhead()
+    public IWarhead getWarhead()
     {
         return warhead;
     }
 
-    public Guidance getGuidance()
+    public IGuidance getGuidance()
     {
         return guidance;
     }
 
-    public RocketEngine getEngine()
+    public IRocketEngine getEngine()
     {
         return engine;
     }
