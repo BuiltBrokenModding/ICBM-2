@@ -3,6 +3,7 @@ package com.builtbroken.icbm.content.crafting.missile.guidance;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.modules.IGuidance;
 import com.builtbroken.icbm.content.crafting.missile.ItemAbstractModule;
+import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import cpw.mods.fml.relauncher.Side;
@@ -12,6 +13,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 
 import java.util.List;
@@ -77,5 +79,25 @@ public class ItemGuidanceModules extends ItemAbstractModule implements IPostInit
         {
             engine.icon = reg.registerIcon(ICBM.PREFIX + engine.name);
         }
+    }
+
+    @Override
+    public IGuidance getModule(ItemStack stack)
+    {
+        if (stack != null)
+        {
+            ItemStack insert = stack.copy();
+            insert.stackSize = 1;
+            IGuidance guidance = MissileModuleBuilder.INSTANCE.buildGuidance(insert);
+            if(guidance == null)
+            {
+                //Data is invalid TODO see if we can save data if NBT is not null
+                guidance = GuidanceModules.get(insert).newModule();
+                stack.setTagCompound(guidance.save(new NBTTagCompound()));
+                insert.setTagCompound(guidance.save(new NBTTagCompound()));
+            }
+            return guidance;
+        }
+        return null;
     }
 }

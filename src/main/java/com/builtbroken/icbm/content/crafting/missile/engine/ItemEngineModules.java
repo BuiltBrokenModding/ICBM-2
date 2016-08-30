@@ -16,6 +16,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
@@ -120,5 +121,25 @@ public class ItemEngineModules extends ItemAbstractModule implements IPostInit
         {
             engine.icon = reg.registerIcon(ICBM.PREFIX + engine.name);
         }
+    }
+
+    @Override
+    public IRocketEngine getModule(ItemStack stack)
+    {
+        if (stack != null)
+        {
+            ItemStack insert = stack.copy();
+            insert.stackSize = 1;
+            IRocketEngine engine = MissileModuleBuilder.INSTANCE.buildEngine(insert);
+            if(engine == null)
+            {
+                //Data is invalid TODO see if we can save data if NBT is not null
+                engine = Engines.get(insert).newModule();
+                stack.setTagCompound(engine.save(new NBTTagCompound()));
+                insert.setTagCompound(engine.save(new NBTTagCompound()));
+            }
+            return engine;
+        }
+        return null;
     }
 }
