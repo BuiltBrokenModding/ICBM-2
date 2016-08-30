@@ -59,4 +59,20 @@ public enum MissileCasings
     {
         return maxHitPoints;
     }
+
+    /**
+     * Gets a missile casing from the metadata given.
+     * Basicly an array access with upper and lower limit
+     *
+     * @param itemDamage - meta data
+     * @return casing or small if the itemDamage was invalid
+     */
+    public static MissileCasings fromMeta(int itemDamage)
+    {
+        if (itemDamage >= 0 && itemDamage < values().length)
+        {
+            return MissileCasings.values()[itemDamage];
+        }
+        return MissileCasings.SMALL;
+    }
 }

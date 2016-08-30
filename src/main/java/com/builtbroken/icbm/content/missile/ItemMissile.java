@@ -12,6 +12,7 @@ import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.icbm.content.crafting.parts.MissileCraftingParts;
+import com.builtbroken.jlib.data.Colors;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.explosives.IExplosiveContainerItem;
 import com.builtbroken.mc.api.items.explosives.IExplosiveItem;
@@ -179,65 +180,71 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
     {
         super.addInformation(stack, player, list, bool);
-        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
-
-
-        //Guidance localization
-        String guidance_translation = LanguageUtility.getLocal("info." + ICBM.PREFIX + "guidance.name") + ": ";
-        if (missile.getEngine() != null)
+        Missile missile = toMissile(stack);
+        if (missile != null)
         {
-            guidance_translation += LanguageUtility.getLocal(missile.getGuidance().getUnlocalizedName() + ".name");
-        }
-        else
-        {
-            guidance_translation += "----";
-        }
-
-        list.add(guidance_translation);
-
-        //Engine localization
-        String engine_translation = LanguageUtility.getLocal("info." + ICBM.PREFIX + "engine.name") + ": ";
-        if (missile.getEngine() != null)
-        {
-            engine_translation += LanguageUtility.getLocal(missile.getEngine().getUnlocalizedName() + ".name");
-        }
-        else
-        {
-            engine_translation += "----";
-        }
-        list.add(engine_translation);
-
-
-        IExplosiveHandler ex = missile.getWarhead() != null ? missile.getWarhead().getExplosive() : null;
-        if (ex != null)
-        {
-            List<String> l = new ArrayList();
-            if (ex instanceof IWarheadHandler)
+            //Guidance localization
+            String guidance_translation = LanguageUtility.getLocal("info." + ICBM.PREFIX + "guidance.name") + ": ";
+            if (missile.getEngine() != null)
             {
-                ((IWarheadHandler) ex).addInfoToItem(player, missile.getWarhead(), l);
+                guidance_translation += LanguageUtility.getLocal(missile.getGuidance().getUnlocalizedName() + ".name");
             }
             else
             {
-                ex.addInfoToItem(player, missile.getWarhead().toStack(), l);
+                guidance_translation += "----";
             }
 
-            for (String s : l)
+            list.add(guidance_translation);
+
+            //Engine localization
+            String engine_translation = LanguageUtility.getLocal("info." + ICBM.PREFIX + "engine.name") + ": ";
+            if (missile.getEngine() != null)
             {
-                list.add(s);
+                engine_translation += LanguageUtility.getLocal(missile.getEngine().getUnlocalizedName() + ".name");
+            }
+            else
+            {
+                engine_translation += "----";
+            }
+            list.add(engine_translation);
+
+
+            IExplosiveHandler ex = missile.getWarhead() != null ? missile.getWarhead().getExplosive() : null;
+            if (ex != null)
+            {
+                List<String> l = new ArrayList();
+                if (ex instanceof IWarheadHandler)
+                {
+                    ((IWarheadHandler) ex).addInfoToItem(player, missile.getWarhead(), l);
+                }
+                else
+                {
+                    ex.addInfoToItem(player, missile.getWarhead().toStack(), l);
+                }
+
+                for (String s : l)
+                {
+                    list.add(s);
+                }
+            }
+            else
+            {
+                String ex_translation = LanguageUtility.getLocal("info." + References.PREFIX + "explosive.name") + ": ";
+                ex_translation += "----";
+                list.add(ex_translation);
             }
         }
         else
         {
-            String ex_translation = LanguageUtility.getLocal("info." + References.PREFIX + "explosive.name") + ": ";
-            ex_translation += "----";
-            list.add(ex_translation);
+            list.add(Colors.RED.code + "Error broken NBT data");
+            list.add(Colors.RED.code + " Place in crafting grid to fix");
         }
     }
 
     @Override
     public boolean isAmmo(ItemStack stack)
     {
-        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
+        Missile missile = toMissile(stack);
         return missile != null && missile.canLaunch();
     }
 
@@ -286,7 +293,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     public Entity getMissileEntity(ItemStack stack)
     {
         EntityMissile missile = new EntityMissile((World) null);
-        missile.setMissile(MissileModuleBuilder.INSTANCE.buildMissile(stack));
+        missile.setMissile(toMissile(stack));
         return missile;
     }
 
@@ -296,7 +303,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
         if (firedBy instanceof EntityLivingBase)
         {
             EntityMissile missile = new EntityMissile((EntityLivingBase) firedBy);
-            missile.setMissile(MissileModuleBuilder.INSTANCE.buildMissile(stack));
+            missile.setMissile(toMissile(stack));
             return missile;
         }
         return null;
@@ -359,14 +366,14 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     public ItemStack getEngine(ItemStack stack)
     {
         //TODO Directly access stack to increase performance
-        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
+        Missile missile = toMissile(stack);
         return missile != null && missile.getEngine() != null ? missile.getEngine().toStack() : null;
     }
 
     @Override
     public boolean setEngine(ItemStack m_stack, ItemStack stack, boolean simulate)
     {
-        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(m_stack);
+        Missile missile = toMissile(m_stack);
         if (missile != null)
         {
             if (missile.getEngine() == null)
@@ -402,7 +409,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     public ItemStack getWarhead(ItemStack stack)
     {
         //TODO Directly access stack to increase performance
-        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
+        Missile missile = toMissile(stack);
         return missile != null && missile.getWarhead() != null ? missile.getWarhead().toStack() : null;
     }
 
@@ -442,7 +449,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     public ItemStack getGuidance(ItemStack stack)
     {
         //TODO Directly access stack to increase performance
-        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
+        Missile missile = toMissile(stack);
         return missile != null && missile.getGuidance() != null ? missile.getGuidance().toStack() : null;
     }
 
@@ -481,8 +488,8 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     @Override
     public ItemStack getExplosiveStack(ItemStack stack)
     {
-        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
-        if (missile.getWarhead() != null)
+        Missile missile = toMissile(stack);
+        if (missile != null && missile.getWarhead() != null)
         {
             return missile.getWarhead().getExplosiveStack();
         }
@@ -492,11 +499,24 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     @Override
     public boolean setExplosiveStack(ItemStack stack, ItemStack explosive)
     {
-        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
-        if (missile.getWarhead() != null)
+        Missile missile = toMissile(stack);
+        if (missile != null && missile.getWarhead() != null)
         {
             return missile.getWarhead().setExplosiveStack(explosive);
         }
         return false;
+    }
+
+    @Override
+    public Missile toMissile(ItemStack stack)
+    {
+        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
+        if (missile == null)
+        {
+            //TODO if NBT is not null see if we can validate some parts of it
+            missile = MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.fromMeta(stack.getItemDamage()), (ItemStack) null);
+            stack.setTagCompound(missile.save(new NBTTagCompound())); //Save new valid data
+        }
+        return missile;
     }
 }
