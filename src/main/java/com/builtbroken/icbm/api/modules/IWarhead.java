@@ -4,6 +4,8 @@ import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosive;
 import com.builtbroken.mc.api.explosive.IExplosiveContainer;
 import com.builtbroken.mc.lib.world.edit.WorldChangeHelper;
+import com.builtbroken.mc.prefab.inventory.InventoryUtility;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 /**
@@ -33,4 +35,36 @@ public interface IWarhead extends IMissileModule, IExplosive, IExplosiveContaine
      * @return stack limit for explosives, normally returns inventory size
      */
     int getMaxExplosives();
+
+    /**
+     * Helper method for checking if the explosive can be inserted.
+     * Does not check the stack size of the explosive but should
+     * check if a minimal of 1 size can be inserted.
+     *
+     * @param explosiveStack - explosive being inserted
+     * @return true if at least 1 can be inserted
+     */
+    default boolean hasSpaceForExplosives(ItemStack explosiveStack)
+    {
+        return getExplosiveStack() == null || InventoryUtility.stacksMatch(getExplosiveStack(), explosiveStack) && getSpaceForExplosives() > 0;
+    }
+
+    /**
+     * Calculates how much space is left to
+     * store explosives items.
+     * <p>
+     * If value returned is negative assume
+     * something is broken or forced stack size
+     * to be larger than possible. If possible
+     * try to remove extra explosives by
+     * ejecting the items into the world. If removal
+     * will result in loss of items ignore or
+     * print out an error.
+     *
+     * @return space left 0 to {@link #getMaxExplosives()}
+     */
+    default int getSpaceForExplosives()
+    {
+        return getExplosiveStack() == null ? getMaxExplosives() : getMaxExplosives() - getExplosiveStack().stackSize;
+    }
 }
