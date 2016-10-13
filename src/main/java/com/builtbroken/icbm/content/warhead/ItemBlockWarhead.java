@@ -2,13 +2,13 @@ package com.builtbroken.icbm.content.warhead;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.IWarheadHandler;
+import com.builtbroken.icbm.api.IWarheadItem;
+import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.api.items.explosives.IExplosiveContainerItem;
 import com.builtbroken.mc.api.items.explosives.IExplosiveItem;
-import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.client.ExplosiveRegistryClient;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
@@ -33,7 +33,7 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IExplosiveContainerItem, IModuleItem
+public class ItemBlockWarhead extends ItemBlock implements IWarheadItem
 {
     public ItemBlockWarhead(Block block)
     {
@@ -116,7 +116,7 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IExpl
     public void addInformation(ItemStack stack, EntityPlayer player, List lines, boolean b)
     {
         super.addInformation(stack, player, lines, b);
-        Warhead warhead = getModule(stack);
+        IWarhead warhead = getModule(stack);
         if (warhead != null)
         {
             IExplosiveHandler ex = warhead.getExplosive();
@@ -236,19 +236,21 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IExpl
     }
 
     @Override
-    public Warhead getModule(ItemStack stack)
+    public IWarhead getModule(ItemStack stack)
     {
         if (stack != null)
         {
             ItemStack insert = stack.copy();
             insert.stackSize = 1;
-            Warhead warhead = MissileModuleBuilder.INSTANCE.buildWarhead(insert);
+            IWarhead warhead = MissileModuleBuilder.INSTANCE.buildWarhead(insert);
+
             if(warhead == null)
             {
                 warhead = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.fromMeta(insert.getItemDamage()), (ItemStack)null);
             }
-            insert.setTagCompound(warhead.save(new NBTTagCompound()));
-            stack.setTagCompound(warhead.save(new NBTTagCompound()));
+
+            warhead.save(insert);
+            warhead.save(stack);
             return warhead;
         }
         return null;
@@ -296,11 +298,11 @@ public class ItemBlockWarhead extends ItemBlock implements IExplosiveItem, IExpl
     @Override
     public boolean setExplosiveStack(ItemStack stack, ItemStack explosive)
     {
-        Warhead warhead = getModule(stack);
+        IWarhead warhead = getModule(stack);
         if (warhead != null && !InventoryUtility.stacksMatchExact(getExplosiveStack(stack), explosive))
         {
             warhead.setExplosiveStack(explosive);
-            warhead.save(stack);
+            warhead.save(stack.getTagCompound());
             return true;
         }
         return false;

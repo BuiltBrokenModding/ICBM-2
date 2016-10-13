@@ -14,6 +14,7 @@ import com.builtbroken.icbm.content.blast.util.ExRegen;
 import com.builtbroken.icbm.content.blast.util.ExRegenLocal;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstationClient;
+import com.builtbroken.icbm.content.crafting.station.warhead.TileWarheadStationClient;
 import com.builtbroken.icbm.content.fof.TileFoFClient;
 import com.builtbroken.icbm.content.launcher.controller.remote.antenna.ItemRendererAntennaFrame;
 import com.builtbroken.icbm.content.launcher.controller.remote.antenna.TESRAntenna;
@@ -23,6 +24,7 @@ import com.builtbroken.icbm.content.launcher.launcher.standard.TileStandardLaunc
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.RenderMissile;
 import com.builtbroken.icbm.content.rocketlauncher.RenderRocketLauncher;
+import com.builtbroken.mc.client.SharedAssets;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.mod.compat.nei.NEIProxy;
 import com.builtbroken.mc.lib.render.fx.*;
@@ -65,6 +67,7 @@ public class ClientProxy extends CommonProxy
         ICBM.blockAMS = ICBM.INSTANCE.getManager().newBlock("ICBMxAMS", TileAMSClient.class);
         ICBM.blockFoFStation = ICBM.INSTANCE.getManager().newBlock("ICBMxFoF", TileFoFClient.class);
         ICBM.blockCommandSiloDisplay = ICBM.INSTANCE.getManager().newBlock("icbmCommandSiloDisplay", TileSiloInterfaceClient.class);
+        ICBM.blockWarheadWorkstation = ICBM.INSTANCE.getManager().newBlock("icbmWarheadWorkstation", TileWarheadStationClient.class);
 
         ICBM.blockStandardLauncher.setCreativeTab(null);
         NEIProxy.hideItem(ICBM.blockStandardLauncher);
@@ -74,6 +77,7 @@ public class ClientProxy extends CommonProxy
     public void init()
     {
         super.init();
+        SharedAssets.loadModels();
         ClientRegistry.bindTileEntitySpecialRenderer(TileAntennaPart.class, new TESRAntenna());
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ICBM.blockAntenna), new ItemRendererAntennaFrame());
         MinecraftForgeClient.registerItemRenderer(ICBM.itemRocketLauncher, new RenderRocketLauncher());

@@ -151,6 +151,7 @@ public final class ICBM extends AbstractMod
 
     public static Block blockSiloController;
     public static Block blockMissileWorkstation;
+    public static Block blockWarheadWorkstation;
     public static Block blockDirectSiloController;
 
     public static Block blockSmallPortableLauncher;

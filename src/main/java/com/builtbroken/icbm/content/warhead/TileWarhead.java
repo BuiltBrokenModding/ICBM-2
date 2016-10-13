@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.warhead;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
@@ -68,7 +69,7 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
 {
     public boolean exploding = false;
 
-    private Warhead warhead;
+    private IWarhead warhead;
 
     public TileWarhead()
     {
@@ -459,9 +460,10 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
     public ItemStack toItemStack()
     {
         ItemStack stack = new ItemStack(this.getBlockType());
+        stack.setTagCompound(new NBTTagCompound());
         if (getWarhead() != null)
         {
-            getWarhead().save(stack);
+            getWarhead().save(stack.getTagCompound());
         }
         else
         {
@@ -532,7 +534,7 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         return WarheadCasings.get(meta).icon;
     }
 
-    public Warhead getWarhead()
+    public IWarhead getWarhead()
     {
         if (warhead == null)
         {
@@ -545,7 +547,7 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         return warhead;
     }
 
-    public Warhead getNewWarhead()
+    public IWarhead getNewWarhead()
     {
         //TODO replace with better solution
         Warhead warhead = null;
@@ -590,7 +592,7 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
     }
 
 
-    public void setWarhead(Warhead warhead)
+    public void setWarhead(IWarhead warhead)
     {
         this.warhead = warhead;
     }

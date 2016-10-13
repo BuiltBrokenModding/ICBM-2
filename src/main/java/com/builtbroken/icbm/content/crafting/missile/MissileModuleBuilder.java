@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.crafting.missile;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.icbm.content.crafting.ModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
@@ -81,12 +82,12 @@ public class MissileModuleBuilder extends ModuleBuilder
         return null;
     }
 
-    public Warhead buildWarhead(ItemStack stack)
+    public IWarhead buildWarhead(ItemStack stack)
     {
         IModule module = super.build(stack);
-        if (module instanceof Warhead)
+        if (module instanceof IWarhead)
         {
-            return (Warhead) module;
+            return (IWarhead) module;
         }
         return null;
     }

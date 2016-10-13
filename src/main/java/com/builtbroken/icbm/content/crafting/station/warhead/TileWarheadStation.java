@@ -1,17 +1,20 @@
 package com.builtbroken.icbm.content.crafting.station.warhead;
 
+import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.IWarheadItem;
 import com.builtbroken.icbm.api.modules.IWarhead;
+import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
-import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
+import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
+import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.TileModuleMachine;
+import com.builtbroken.mc.prefab.tile.module.TileModuleInventory;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
 /**
@@ -20,7 +23,7 @@ import net.minecraft.item.ItemStack;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 1/6/2016.
  */
-public class TileWarheadStation extends TileModuleMachine implements IPacketIDReceiver
+public class TileWarheadStation extends TileModuleMachine implements IPacketIDReceiver, IGuiTile
 {
     public static final int WARHEAD_SLOT = 0;
     public static final int EXPLOSIVE_SLOT = 1;
@@ -34,6 +37,14 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
         super("warheadStation", Material.iron);
         this.resistance = 10f;
         this.hardness = 10f;
+        this.renderTileEntity = true;
+        this.renderNormalBlock = false;
+    }
+
+    @Override
+    public Tile newTile()
+    {
+        return new TileWarheadStation();
     }
 
     /** Called to process a crafting request */
@@ -49,7 +60,7 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
             if (warhead != null && warhead.hasSpaceForExplosives(explosiveStack))
             {
                 int insert = Math.min(explosiveStack.stackSize, warhead.getSpaceForExplosives());
-
+                //Update warhead's explosive stack
                 if (warhead.getExplosiveStack() == null)
                 {
                     ItemStack insertStack = explosiveStack.copy();
@@ -106,16 +117,73 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
         }
     }
 
+    /**
+     * Checks if it is possible to process a crafting recipe
+     *
+     * @return true if possible
+     */
+    public boolean canCraft()
+    {
+        return getOutputStack() == null || InventoryUtility.stacksMatch(getCraftResult(), getOutputStack());
+    }
+
+    /**
+     * Gets the expected output of a crafting recipe
+     *
+     * @return ItemStack, or null if not possible to craft
+     */
+    public ItemStack getCraftResult()
+    {
+        final ItemStack warheadStack = getWarheadStack();
+        final ItemStack explosiveStack = getExplosiveStack();
+        final ItemStack outputStack = getOutputStack();
+
+        if (warheadStack != null && warheadStack.getItem() instanceof IWarheadItem && ExplosiveRegistry.get(explosiveStack) != null && (outputStack == null || outputStack.stackSize < outputStack.getMaxStackSize()))
+        {
+            final IWarhead warhead = ((IWarheadItem) warheadStack.getItem()).getModule(warheadStack);
+            if (warhead != null && warhead.hasSpaceForExplosives(explosiveStack))
+            {
+                int insert = Math.min(explosiveStack.stackSize, warhead.getSpaceForExplosives());
+                //Update warhead's explosive stack
+                if (warhead.getExplosiveStack() == null)
+                {
+                    ItemStack insertStack = explosiveStack.copy();
+                    insertStack.stackSize = insert;
+                    warhead.setExplosiveStack(insertStack);
+                }
+                else
+                {
+                    //Increase explosive stack
+                    warhead.getExplosiveStack().stackSize += insert;
+                    //Trigger any events for warhead change
+                    warhead.setExplosiveStack(warhead.getExplosiveStack());
+                }
+                return warhead.toStack();
+            }
+        }
+        return null;
+    }
 
     @Override
-    public IInventory getInventory()
+    protected boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
+    {
+        if (isServer())
+        {
+            openGui(player, ICBM.INSTANCE);
+        }
+        return true;
+    }
+
+
+    @Override
+    public TileModuleInventory getInventory()
     {
         if (super.getInventory() == null)
         {
             //lazy init of inventory
             addInventoryModule(3);
         }
-        return super.getInventory();
+        return (TileModuleInventory) super.getInventory();
     }
 
     protected ItemStack getWarheadStack()
@@ -137,11 +205,11 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
     public boolean read(ByteBuf buf, int id, EntityPlayer player, PacketType type)
     {
         super.doUpdateGuiUsers();
-        if(!super.read(buf, id, player, type))
+        if (!super.read(buf, id, player, type))
         {
-            if(isServer())
+            if (isServer())
             {
-                if(id == 1)
+                if (id == 1)
                 {
                     doCrafting();
                     return true;
@@ -157,30 +225,29 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
     }
 
     @Override
-    public void readDescPacket(ByteBuf buf)
-    {
-        super.readDescPacket(buf);
-        //TODO read to inventory local
-    }
-
-    @Override
     public void writeDescPacket(ByteBuf buf)
     {
         super.writeDescPacket(buf);
-        //TODO send inventory
     }
 
     @Override
     public void doUpdateGuiUsers()
     {
-        if(ticks % 5 == 0)
+        if (ticks % 5 == 0)
         {
             //PacketTile packet = new PacketTile(this, 5, );
         }
     }
 
-    public void sendCraftingPacket()
+    @Override
+    public Object getServerGuiElement(int ID, EntityPlayer player)
     {
-        sendPacketToServer(new PacketTile(this, 1));
+        return new ContainerWarheadStation(player, this);
+    }
+
+    @Override
+    public Object getClientGuiElement(int ID, EntityPlayer player)
+    {
+        return null;
     }
 }
