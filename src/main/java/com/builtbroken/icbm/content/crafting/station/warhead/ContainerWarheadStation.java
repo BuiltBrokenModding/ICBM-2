@@ -16,6 +16,7 @@ public class ContainerWarheadStation extends ContainerBase
         this.addSlotToContainer(new SlotWarhead(inventory, 0, startX + 20, 25));
         this.addSlotToContainer(new SlotExplosive(inventory, 1, startX + 60, 25));
         this.addSlotToContainer(new SlotWarhead(inventory, 2, startX + 100, 25));
+        this.addSlotToContainer(new SlotWarhead(inventory, 3, startX + 100, 25));
         this.addPlayerInventory(player);
     }
 }

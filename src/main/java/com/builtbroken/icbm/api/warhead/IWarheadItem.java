@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.api;
+package com.builtbroken.icbm.api.warhead;
 
 import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.mc.api.items.explosives.IExplosiveContainerItem;

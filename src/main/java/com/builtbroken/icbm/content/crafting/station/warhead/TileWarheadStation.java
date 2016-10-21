@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.crafting.station.warhead;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.api.IWarheadItem;
+import com.builtbroken.icbm.api.warhead.IWarheadItem;
 import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
@@ -28,6 +28,7 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
     public static final int WARHEAD_SLOT = 0;
     public static final int EXPLOSIVE_SLOT = 1;
     public static final int OUTPUT_SLOT = 2;
+    public static final int TRIGGER_SLOT = 3;
 
     //TODO add tabs, crafting, configuration, reverse crafting
     //TODO add option to limit number of inserted explosives per craft (1-64 scale, all)
@@ -181,7 +182,7 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
         if (super.getInventory() == null)
         {
             //lazy init of inventory
-            addInventoryModule(3);
+            addInventoryModule(4);
         }
         return (TileModuleInventory) super.getInventory();
     }
@@ -199,6 +200,11 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
     protected ItemStack getOutputStack()
     {
         return getInventory().getStackInSlot(OUTPUT_SLOT);
+    }
+
+    protected ItemStack getTriggerStack()
+    {
+        return getInventory().getStackInSlot(TRIGGER_SLOT);
     }
 
     @Override

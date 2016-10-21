@@ -1,11 +1,15 @@
 package com.builtbroken.icbm.content.crafting.missile.warhead;
 
 import com.builtbroken.icbm.api.modules.IWarhead;
+import com.builtbroken.icbm.api.warhead.ITrigger;
+import com.builtbroken.icbm.api.warhead.ITriggerAccepter;
 import com.builtbroken.icbm.content.crafting.missile.MissileModule;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.explosives.IExplosiveHolderItem;
 import com.builtbroken.mc.api.items.explosives.IExplosiveItem;
+import com.builtbroken.mc.api.modules.IModule;
+import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.world.edit.WorldChangeHelper;
@@ -18,10 +22,12 @@ import net.minecraft.world.World;
  * Container for explosive data to make implementing warhead like objects easier
  * Created by robert on 12/25/2014.
  */
-public abstract class Warhead extends MissileModule implements IWarhead, Cloneable
+public abstract class Warhead extends MissileModule implements IWarhead, ITriggerAccepter, Cloneable
 {
     /** Explosive item used to ID the explosive handler. */
     public ItemStack explosive;
+    /** Logic object used to check if the warhead needs to trigger. */
+    public ITrigger trigger;
 
     /** Size of the warhead case. */
     public final WarheadCasings casing;
@@ -143,6 +149,52 @@ public abstract class Warhead extends MissileModule implements IWarhead, Cloneab
     public int getMissileSize()
     {
         return -1;
+    }
+
+    @Override
+    public ITrigger getTrigger()
+    {
+        return trigger;
+    }
+
+    @Override
+    public boolean setTrigger(ITrigger trigger)
+    {
+        if (this.trigger != null)
+        {
+            this.trigger.removedFromDevice(this);
+        }
+        this.trigger = trigger;
+        if (this.trigger != null)
+        {
+            this.trigger.addedToDevice(this);
+        }
+        return true;
+    }
+
+    @Override
+    public ItemStack setTrigger(ItemStack stack)
+    {
+        ItemStack temp = trigger != null ? trigger.toStack() : null;
+        if (stack == null)
+        {
+            if (setTrigger((ITrigger) null))
+            {
+                return temp;
+            }
+        }
+        else if (stack.getItem() instanceof IModuleItem)
+        {
+            IModule module = ((IModuleItem) stack.getItem()).getModule(stack);
+            if (module instanceof ITrigger)
+            {
+                if (setTrigger((ITrigger) module))
+                {
+                    return temp;
+                }
+            }
+        }
+        return null;
     }
 
     @Override

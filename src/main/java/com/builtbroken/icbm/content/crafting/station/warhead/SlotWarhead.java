@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.content.crafting.station.warhead;
 
-import com.builtbroken.icbm.api.IWarheadItem;
+import com.builtbroken.icbm.api.warhead.IWarheadItem;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
