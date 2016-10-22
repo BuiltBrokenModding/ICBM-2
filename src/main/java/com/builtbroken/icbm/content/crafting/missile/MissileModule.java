@@ -43,4 +43,5 @@ public class MissileModule extends AbstractModule implements IMissileModule
     {
         return -1;
     }
+
 }

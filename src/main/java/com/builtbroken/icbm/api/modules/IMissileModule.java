@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.api.modules;
 
 import com.builtbroken.icbm.content.missile.EntityMissile;
-import com.builtbroken.mc.api.modules.IModule;
+import com.builtbroken.mc.api.modules.IModuleEntityDriven;
 
 /**
  * Prefab interface for all missile based module interfaces.
@@ -9,7 +9,7 @@ import com.builtbroken.mc.api.modules.IModule;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 1/13/2016.
  */
-public interface IMissileModule extends IModule
+public interface IMissileModule extends IModuleEntityDriven<EntityMissile> //TODO move to interface instead of direct entity class
 {
     /**
      * Size of the missile this part is

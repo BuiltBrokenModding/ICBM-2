@@ -1,14 +1,17 @@
 package com.builtbroken.icbm.content.crafting.missile.warhead;
 
+import com.builtbroken.icbm.api.modules.IMissileModule;
 import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.api.warhead.ITrigger;
 import com.builtbroken.icbm.api.warhead.ITriggerAccepter;
 import com.builtbroken.icbm.content.crafting.missile.MissileModule;
+import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.explosives.IExplosiveHolderItem;
 import com.builtbroken.mc.api.items.explosives.IExplosiveItem;
 import com.builtbroken.mc.api.modules.IModule;
+import com.builtbroken.mc.api.modules.IModuleComponent;
 import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
@@ -81,20 +84,33 @@ public abstract class Warhead extends MissileModule implements IWarhead, ITrigge
     }
 
     @Override
+    public void update(EntityMissile missile)
+    {
+        if(getTrigger() instanceof IMissileModule)
+        {
+            ((IMissileModule) getTrigger()).update(missile);
+        }
+    }
+
+    @Override
     public WorldChangeHelper.ChangeResult trigger(TriggerCause triggerCause, World world, double x, double y, double z)
     {
-        if (getExplosive() != null)
+        //Assume no trigger is an all trigger LEGACY SUPPORT DO NOT REMOVE (Trigger == null)
+        if(trigger == null || trigger.shouldTrigger(triggerCause, world, x, y, z))
         {
-            //Rare this will happen but check is added just in case, Notes: happens client side if triggered incorrectly
-            if (world == null || Double.isNaN(x) || Double.isNaN(y) || Double.isNaN(z))
+            if (getExplosive() != null)
             {
-                if (Engine.runningAsDev)
+                //Rare this will happen but check is added just in case, Notes: happens client side if triggered incorrectly
+                if (world == null || Double.isNaN(x) || Double.isNaN(y) || Double.isNaN(z))
                 {
-                    Engine.error("Warhead trigger with an invalid location " + world + " " + x + "x " + y + "y " + z + "z ");
+                    if (Engine.runningAsDev)
+                    {
+                        Engine.error("Warhead trigger with an invalid location " + world + " " + x + "x " + y + "y " + z + "z ");
+                    }
+                    return WorldChangeHelper.ChangeResult.FAILED;
                 }
-                return WorldChangeHelper.ChangeResult.FAILED;
+                return ExplosiveRegistry.triggerExplosive(world, x, y, z, getExplosive(), triggerCause, getExplosiveSize() * triggerCause.effectScaleChange, getAdditionalExplosiveData());
             }
-            return ExplosiveRegistry.triggerExplosive(world, x, y, z, getExplosive(), triggerCause, getExplosiveSize() * triggerCause.effectScaleChange, getAdditionalExplosiveData());
         }
         return WorldChangeHelper.ChangeResult.FAILED; //Maybe switch to completed or better error result
     }
@@ -160,14 +176,14 @@ public abstract class Warhead extends MissileModule implements IWarhead, ITrigge
     @Override
     public boolean setTrigger(ITrigger trigger)
     {
-        if (this.trigger != null)
+        if (this.trigger instanceof IModuleComponent)
         {
-            this.trigger.removedFromDevice(this);
+            ((IModuleComponent)this.trigger).removedFromDevice(this);
         }
         this.trigger = trigger;
-        if (this.trigger != null)
+        if (this.trigger instanceof IModuleComponent)
         {
-            this.trigger.addedToDevice(this);
+            ((IModuleComponent)this.trigger).addedToDevice(this);
         }
         return true;
     }
