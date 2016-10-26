@@ -20,10 +20,10 @@ public class ContainerWarheadStation extends ContainerBase
             this.addSlotToContainer(new SlotWarhead(inventory, 0, 30, 10));
 
             //Explosive slot
-            this.addSlotToContainer(new SlotExplosive(inventory, 1, 50, 35));
+            this.addSlotToContainer(new SlotExplosive(inventory, 1, 50, 37));
 
             //Trigger slot
-            this.addSlotToContainer(new Slot(inventory, 3, 10, 35));
+            this.addSlotToContainer(new Slot(inventory, 3, 10, 37));
 
             //Output slot
             this.addSlotToContainer(new SlotWarhead(inventory, 2, 140, 25));

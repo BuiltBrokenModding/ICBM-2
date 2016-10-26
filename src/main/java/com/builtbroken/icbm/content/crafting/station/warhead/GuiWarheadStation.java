@@ -1,5 +1,7 @@
 package com.builtbroken.icbm.content.crafting.station.warhead;
 
+import com.builtbroken.icbm.ICBM;
+import com.builtbroken.mc.core.References;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.prefab.gui.GuiButton2;
 import com.builtbroken.mc.prefab.gui.GuiContainerBase;
@@ -7,6 +9,7 @@ import com.builtbroken.mc.prefab.gui.buttons.GuiImageButton;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
+import net.minecraft.util.ResourceLocation;
 
 /**
  * GUI for the warhead crafting station
@@ -16,6 +19,11 @@ import net.minecraft.inventory.Slot;
  */
 public class GuiWarheadStation extends GuiContainerBase
 {
+    private static final ResourceLocation guiTexture0 = new ResourceLocation(ICBM.DOMAIN, References.GUI_DIRECTORY + "warhead.workstation.0.png");
+    private static final ResourceLocation guiTexture1 = new ResourceLocation(ICBM.DOMAIN, References.GUI_DIRECTORY + "warhead.workstation.1.png");
+    private static final ResourceLocation guiTexture2 = new ResourceLocation(ICBM.DOMAIN, References.GUI_DIRECTORY + "warhead.workstation.2.png");
+    private static final ResourceLocation guiTexture3 = new ResourceLocation(ICBM.DOMAIN, References.GUI_DIRECTORY + "warhead.workstation.3.png");
+
     private final TileWarheadStationClient tile;
 
     private final int id;
@@ -31,6 +39,21 @@ public class GuiWarheadStation extends GuiContainerBase
         super(new ContainerWarheadStation(player, tile, id));
         this.tile = tile;
         this.id = id;
+        switch (id)
+        {
+            case 0:
+                baseTexture = guiTexture0;
+                break;
+            case 1:
+                baseTexture = guiTexture1;
+                break;
+            case 2:
+                baseTexture = guiTexture2;
+                break;
+            case 3:
+                baseTexture = guiTexture3;
+                break;
+        }
     }
 
     @Override
@@ -65,7 +88,7 @@ public class GuiWarheadStation extends GuiContainerBase
     public void updateScreen()
     {
         super.updateScreen();
-        if(id == 0)
+        if (id == 0)
         {
             if (tile.canCraft())
             {
