@@ -122,12 +122,15 @@ public class GuiWarheadStation extends GuiContainerBase
                 break;
             case 1:
                 drawString("Explosive Configuration", 33, 7);
+                drawString("Not implemented yet", 33, 30);
                 break;
             case 2:
                 drawString("Trigger Configuration", 33, 7);
+                drawString("Not implemented yet", 33, 30);
                 break;
             case 3:
-                drawString("Extras", 33, 7);
+                drawString("Extra Settings", 33, 7);
+                drawString("Not implemented yet", 33, 30);
                 break;
         }
     }
