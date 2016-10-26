@@ -1,45 +1,80 @@
 package com.builtbroken.icbm.content.crafting.station.warhead;
 
+import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.prefab.gui.GuiButton2;
 import com.builtbroken.mc.prefab.gui.GuiContainerBase;
+import com.builtbroken.mc.prefab.gui.buttons.GuiImageButton;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 
 /**
+ * GUI for the warhead crafting station
+ *
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 10/13/2016.
  */
 public class GuiWarheadStation extends GuiContainerBase
 {
-    private TileWarheadStationClient tile;
-    private GuiButton2 craftButton;
+    private final TileWarheadStationClient tile;
 
-    public GuiWarheadStation(EntityPlayer player, TileWarheadStationClient tile)
+    private final int id;
+
+    private GuiButton2 craftButton;
+    private GuiImageButton craftingWindowButton;
+    private GuiImageButton explosiveWindowButton;
+    private GuiImageButton triggerWindowButton;
+    private GuiImageButton otherWindowButton;
+
+    public GuiWarheadStation(EntityPlayer player, TileWarheadStationClient tile, int id)
     {
-        super(new ContainerWarheadStation(player, tile));
+        super(new ContainerWarheadStation(player, tile, id));
         this.tile = tile;
+        this.id = id;
     }
 
     @Override
     public void initGui()
     {
         super.initGui();
-        craftButton = new GuiButton2(0, guiLeft + 120, guiTop + 50, 50, 20, "Craft");
-        buttonList.add(craftButton);
+        craftingWindowButton = addButton(GuiImageButton.newRefreshButton(1, guiLeft - 18, guiTop + 5));
+        explosiveWindowButton = addButton(GuiImageButton.newRefreshButton(2, guiLeft - 18, guiTop + 5 + 19));
+        triggerWindowButton = addButton(GuiImageButton.newRefreshButton(3, guiLeft - 18, guiTop + 5 + 19 * 2));
+        otherWindowButton = addButton(GuiImageButton.newRefreshButton(4, guiLeft - 18, guiTop + 5 + 19 * 3));
+
+        //Disable buttons that go to this GUI instead of a new GUI
+        switch (id)
+        {
+            case 0:
+                craftButton = addButton(new GuiButton2(0, guiLeft + 80, guiTop + 23, 50, 20, "Craft"));
+                craftingWindowButton.disable();
+                break;
+            case 1:
+                explosiveWindowButton.disable();
+                break;
+            case 2:
+                triggerWindowButton.disable();
+                break;
+            case 3:
+                otherWindowButton.disable();
+                break;
+        }
     }
 
     @Override
     public void updateScreen()
     {
         super.updateScreen();
-        if (tile.canCraft())
+        if(id == 0)
         {
-            craftButton.enable();
-        }
-        else
-        {
-            craftButton.disable();
+            if (tile.canCraft())
+            {
+                craftButton.enable();
+            }
+            else
+            {
+                craftButton.disable();
+            }
         }
     }
 
@@ -54,11 +89,37 @@ public class GuiWarheadStation extends GuiContainerBase
     }
 
     @Override
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
+    {
+        super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+        switch (id)
+        {
+            case 0:
+                drawString("Warhead Workstation", 50, 7);
+                break;
+            case 1:
+                drawString("Explosive Configuration", 33, 7);
+                break;
+            case 2:
+                drawString("Trigger Configuration", 33, 7);
+                break;
+            case 3:
+                drawString("Extras", 33, 7);
+                break;
+        }
+    }
+
+    @Override
     protected void actionPerformed(GuiButton button)
     {
-        if (button.id == 0)
+        final int buttonId = button.id;
+        if (buttonId == 0)
         {
             tile.sendCraftingPacket();
+        }
+        else if (buttonId > 0 && buttonId < 5 && buttonId - 1 != id)
+        {
+            tile.sendPacketToServer(new PacketTile(tile, 2, buttonId - 1));
         }
     }
 }

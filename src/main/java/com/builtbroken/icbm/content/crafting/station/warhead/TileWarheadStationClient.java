@@ -3,6 +3,7 @@ package com.builtbroken.icbm.content.crafting.station.warhead;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.client.SharedAssets;
 import com.builtbroken.mc.core.network.packet.PacketTile;
+import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.client.FMLClientHandler;
@@ -66,6 +67,17 @@ public class TileWarheadStationClient extends TileWarheadStation implements ISim
         SharedAssets.TOOL_TABLE.renderAll(); //TODO render warhead on table, remove some tools
     }
 
+    @Override
+    public boolean read(ByteBuf buf, int id, EntityPlayer player, PacketType type)
+    {
+        super.doUpdateGuiUsers();
+        if (!super.read(buf, id, player, type))
+        {
+            return false;
+        }
+        return true;
+    }
+
     public void sendCraftingPacket()
     {
         sendPacketToServer(new PacketTile(this, 1));
@@ -74,6 +86,6 @@ public class TileWarheadStationClient extends TileWarheadStation implements ISim
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer player)
     {
-        return new GuiWarheadStation(player, this);
+        return new GuiWarheadStation(player, this, ID);
     }
 }

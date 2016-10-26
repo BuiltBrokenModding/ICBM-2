@@ -220,10 +220,10 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
                     doCrafting();
                     return true;
                 }
-            }
-            else
-            {
-
+                else if (id == 2)
+                {
+                    openGui(player, buf.readInt(), ICBM.INSTANCE);
+                }
             }
             return false;
         }
@@ -248,7 +248,7 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
     @Override
     public Object getServerGuiElement(int ID, EntityPlayer player)
     {
-        return new ContainerWarheadStation(player, this);
+        return new ContainerWarheadStation(player, this, ID);
     }
 
     @Override
