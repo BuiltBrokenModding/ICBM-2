@@ -12,11 +12,11 @@ import net.minecraft.util.IIcon;
  */
 public enum WarheadCasings
 {
-    EXPLOSIVE_MICRO(WarheadMicro.class, true),
-    EXPLOSIVE_SMALL(WarheadSmall.class, true),
-    EXPLOSIVE_STANDARD(WarheadStandard.class, true),
-    EXPLOSIVE_MEDIUM(WarheadMedium.class, false),
-    EXPLOSIVE_LARGE(WarheadLarge.class, false);
+    EXPLOSIVE_MICRO(WarheadMicro.class, 1000, true),
+    EXPLOSIVE_SMALL(WarheadSmall.class, 3500, true),
+    EXPLOSIVE_STANDARD(WarheadStandard.class, 8000, true),
+    EXPLOSIVE_MEDIUM(WarheadMedium.class, 150000, false),
+    EXPLOSIVE_LARGE(WarheadLarge.class, 400000, false);
 
     public final Class<? extends Warhead> warhead_clazz;
     public final boolean enabled;
@@ -26,9 +26,13 @@ public enum WarheadCasings
     @SideOnly(Side.CLIENT)
     public IIcon icon;
 
-    WarheadCasings(Class<? extends Warhead> warhead_clazz, boolean enabled)
+    /** Mass of the metal casing not including parts. */
+    public double mass;
+
+    WarheadCasings(Class<? extends Warhead> warhead_clazz, double mass, boolean enabled)
     {
         this.warhead_clazz = warhead_clazz;
+        this.mass = mass;
         this.enabled = enabled;
     }
 

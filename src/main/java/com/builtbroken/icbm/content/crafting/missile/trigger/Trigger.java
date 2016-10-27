@@ -1,7 +1,9 @@
 package com.builtbroken.icbm.content.crafting.missile.trigger;
 
+import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.warhead.ITrigger;
 import com.builtbroken.icbm.content.crafting.AbstractModule;
+import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleComponent;
 import net.minecraft.item.ItemStack;
 
@@ -13,8 +15,41 @@ import net.minecraft.item.ItemStack;
  */
 public abstract class Trigger extends AbstractModule implements ITrigger, IModuleComponent
 {
-    public Trigger(ItemStack item, String name)
+    /** Current module this is contained inside */
+    private IModule host;
+    private Triggers triggerType;
+
+    public Trigger(ItemStack item, Triggers trigger)
     {
-        super(item, name);
+        super(item, trigger.moduleName);
+        this.triggerType = trigger;
+    }
+
+    @Override
+    public void addedToDevice(IModule module)
+    {
+        this.host = module;
+    }
+
+    @Override
+    public void removedFromDevice(IModule module)
+    {
+        if (this.host != null && module != null && this.host != module)
+        {
+            ICBM.INSTANCE.logger().error(this + " was removed from a module[" + module + "] that was not it's host. Meaning something may have miss configured.");
+        }
+        this.host = null;
+    }
+
+    @Override
+    public IModule getHost()
+    {
+        return this.host;
+    }
+
+    @Override
+    public double getMass()
+    {
+        return triggerType.mass;
     }
 }

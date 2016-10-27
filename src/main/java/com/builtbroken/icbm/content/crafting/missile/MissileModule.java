@@ -28,16 +28,6 @@ public class MissileModule extends AbstractModule implements IMissileModule
 
     }
 
-    /**
-     * Gets the mass of the module in kg
-     *
-     * @return mass
-     */
-    public float getMass()
-    {
-        return 1;
-    }
-
     @Override
     public int getMissileSize()
     {

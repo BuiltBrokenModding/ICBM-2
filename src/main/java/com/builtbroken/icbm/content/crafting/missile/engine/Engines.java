@@ -20,21 +20,28 @@ public enum Engines
 {
     //https://en.wikipedia.org/wiki/Rocket_propellant
     //Engines
-    CREATIVE_ENGINE("engine.creative", RocketEngineCreative.class),
-    COAL_ENGINE("engine.coal", RocketEngineCoalPowered.class),
-    OIL_ENGINE("engine.oil", RocketEngineOil.class),
-    FUEL_ENGINE("engine.fuel", RocketEngineFuel.class),
-    GUNPOWDER_ENGINE("engine.gunpowder", RocketEngineGunpowder.class);
+    CREATIVE_ENGINE("engine.creative", RocketEngineCreative.class, 0),
+    //TODO redo coal engine when mass if fully implemented
+    COAL_ENGINE("engine.coal", RocketEngineCoalPowered.class, 500000),
+    OIL_ENGINE("engine.oil", RocketEngineOil.class, 104326),
+    FUEL_ENGINE("engine.fuel", RocketEngineFuel.class, 90326),
+    GUNPOWDER_ENGINE("engine.gunpowder", RocketEngineGunpowder.class, 500);
 
-    protected final String name;
+    /** Mass of the engine without it's fuel */
+    public final double mass;
+
+    /** Name used to register and reference the engine module */
+    protected final String moduleName;
+    /** Class of the module */
     protected final Class<? extends AbstractModule> clazz;
 
     protected IIcon icon;
 
-    Engines(String name, Class<? extends AbstractModule> clazz)
+    Engines(String name, Class<? extends AbstractModule> clazz, double mass)
     {
-        this.name = name;
+        this.moduleName = name;
         this.clazz = clazz;
+        this.mass = mass;
     }
 
     public static Engines get(ItemStack stack)
@@ -55,7 +62,7 @@ public enum Engines
     {
         ItemStack stack = new ItemStack(ICBM.itemEngineModules, 1, ordinal());
         stack.setTagCompound(new NBTTagCompound());
-        stack.getTagCompound().setString(ModuleBuilder.SAVE_ID, "icbm." + name);
+        stack.getTagCompound().setString(ModuleBuilder.SAVE_ID, "icbm." + moduleName);
         return stack;
     }
 
@@ -68,7 +75,7 @@ public enum Engines
     {
         for (Engines module : values())
         {
-            MissileModuleBuilder.INSTANCE.register(ICBM.DOMAIN, module.name, module.clazz, true);
+            MissileModuleBuilder.INSTANCE.register(ICBM.DOMAIN, module.moduleName, module.clazz, true);
         }
     }
 }

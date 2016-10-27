@@ -279,7 +279,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     protected void onImpactEntity(Entity ent, float v)
     {
         super.onImpactEntity(ent, v);
-        onImpact(ent.posX, ent.posY, ent.posZ, false);
+        onImpact(ent.posX, ent.posY, ent.posZ, false, new TriggerCause.TriggerEntityImpact(ent, this, v));
     }
 
     @Override
@@ -303,7 +303,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
         }
         else
         {
-            onImpact(xTile, yTile, zTile, true);
+            onImpact(xTile, yTile, zTile, true, new TriggerCause.TriggerBlockImpact(inBlockID, this, getVelocity())); //TODO check that velocity is correct
         }
     }
 
@@ -332,12 +332,12 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
      * @param y
      * @param z
      */
-    protected void onImpact(double x, double y, double z, boolean tile)
+    protected void onImpact(double x, double y, double z, boolean tile, TriggerCause triggerCause)
     {
         //TODO implement impact senor
         //TODO check to see if nose cone hit the ground
-        //TODO use 30 degree check for nose hit /\
-        //TODO if not hit leave entity on ground to roll around
+        //  TODO use 30 degree check for nose hit /\
+        //  TODO if not hit leave entity on ground to roll around
         if (!worldObj.isRemote)
         {
             ICBM.INSTANCE.logger().info(this + String.format(" impact %1$,.2fx %1$,.2fy %1$,.2fz", x, y, z));
@@ -356,7 +356,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
                 //TODO add event call for failure chance
                 //TODO add event for failure pre
                 //TODO add event for failure post
-                WorldChangeHelper.ChangeResult result = missile.getWarhead().trigger(new TriggerCause.TriggerCauseEntity(this), worldObj, x, y, z);
+                WorldChangeHelper.ChangeResult result = missile.getWarhead().trigger(triggerCause, worldObj, x, y, z);
                 explosiveBlew = result == WorldChangeHelper.ChangeResult.COMPLETED || result == WorldChangeHelper.ChangeResult.PARTIAL_COMPLETE_WITH_FAILURE;
             }
             if (missile != null && missile.getEngine() != null)
@@ -388,7 +388,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
 
             if (canPlaceTile)
             {
-                if(tile)
+                if (tile)
                 {
                     Pos pos = new Pos(xTile, yTile, zTile).add(ForgeDirection.getOrientation(sideTile));
                     TileCrashedMissile.placeFromMissile(this, worldObj, pos.xi(), pos.yi(), pos.zi());
@@ -511,9 +511,9 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
         if (nbt.hasKey("missileStack"))
         {
             ItemStack stack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("missileStack"));
-            if(stack != null)
+            if (stack != null)
             {
-                if(stack.getItem() instanceof IMissileItem)
+                if (stack.getItem() instanceof IMissileItem)
                 {
                     setMissile(((IMissileItem) stack.getItem()).toMissile(stack));
                 }

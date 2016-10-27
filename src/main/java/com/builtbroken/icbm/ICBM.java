@@ -30,6 +30,8 @@ import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
 import com.builtbroken.icbm.content.crafting.missile.engine.ItemEngineModules;
 import com.builtbroken.icbm.content.crafting.missile.guidance.GuidanceModules;
 import com.builtbroken.icbm.content.crafting.missile.guidance.ItemGuidanceModules;
+import com.builtbroken.icbm.content.crafting.missile.trigger.ItemTriggerModules;
+import com.builtbroken.icbm.content.crafting.missile.trigger.Triggers;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.icbm.content.crafting.parts.ItemExplosive;
 import com.builtbroken.icbm.content.crafting.parts.ItemExplosiveParts;
@@ -190,8 +192,10 @@ public final class ICBM extends AbstractMod
     public static Item itemMissileParts;
     public static Item itemExplosive;
     public static Item itemExplosivePart;
+    public static Item itemTrigger;
 
     public static ItemRemoteDetonator itemRemoteDetonator;
+
 
     public final ModCreativeTab CREATIVE_TAB;
 
@@ -315,6 +319,7 @@ public final class ICBM extends AbstractMod
         itemExplosive = manager.newItem("explosiveUnit", ItemExplosive.class);
         itemExplosivePart = manager.newItem("explosiveUnitParts", ItemExplosiveParts.class);
         itemRemoteDetonator = manager.newItem("icbmRemoteDet", ItemRemoteDetonator.class);
+        itemTrigger = manager.newItem("icbmTriggers", ItemTriggerModules.class);
         NEIProxy.hideItem(ItemExplosive.ExplosiveItems.NBT.newItem());
 
         // Register modules, need to do this or they will not build from ItemStacks
@@ -322,6 +327,7 @@ public final class ICBM extends AbstractMod
         WarheadCasings.register();
         Engines.register();
         GuidanceModules.register();
+        Triggers.register();
 
         //Set tab item last so to avoid NPE
         CREATIVE_TAB.itemStack = new ItemStack(itemRemoteDetonator);

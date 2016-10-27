@@ -2,6 +2,7 @@ package com.builtbroken.icbm.content.crafting.missile;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.modules.IWarhead;
+import com.builtbroken.icbm.api.warhead.ITrigger;
 import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.icbm.content.crafting.ModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
@@ -10,6 +11,8 @@ import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
 import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
 import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
 import com.builtbroken.icbm.content.crafting.missile.guidance.GuidanceModules;
+import com.builtbroken.icbm.content.crafting.missile.trigger.Trigger;
+import com.builtbroken.icbm.content.crafting.missile.trigger.Triggers;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
@@ -108,6 +111,16 @@ public class MissileModuleBuilder extends ModuleBuilder
         if (module instanceof Guidance)
         {
             return (Guidance) module;
+        }
+        return null;
+    }
+
+    public Trigger buildTrigger(ItemStack stack)
+    {
+        IModule module = super.build(stack);
+        if (module instanceof Trigger)
+        {
+            return (Trigger) module;
         }
         return null;
     }
@@ -217,6 +230,34 @@ public class MissileModuleBuilder extends ModuleBuilder
         try
         {
             return size.warhead_clazz.getConstructor(ItemStack.class).newInstance(new ItemStack(ICBM.blockWarhead, 1, size.ordinal()));
+        }
+        catch (InstantiationException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IllegalAccessException e)
+        {
+            e.printStackTrace();
+        }
+        catch (NoSuchMethodException e)
+        {
+            e.printStackTrace();
+        }
+        catch (InvocationTargetException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+
+    public ITrigger buildTrigger(Triggers trigger)
+    {
+        //TODO replace reflection
+        try
+        {
+            return trigger.clazz.getConstructor(ItemStack.class).newInstance(new ItemStack(ICBM.itemTrigger, 1, trigger.ordinal()));
         }
         catch (InstantiationException e)
         {

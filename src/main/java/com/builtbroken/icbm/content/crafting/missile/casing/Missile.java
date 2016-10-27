@@ -14,6 +14,9 @@ import com.builtbroken.mc.lib.helper.LanguageUtility;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Crafting object for the missile
  * Contains all the peaces that make up the
@@ -35,6 +38,31 @@ public abstract class Missile extends AbstractModule implements IMissile
         super(stack, "missile");
         this.casing = casing;
         load(stack);
+    }
+
+    @Override
+    public double getMass()
+    {
+        return casing.mass;
+    }
+
+    @Override
+    public List<IModule> getSubModules()
+    {
+        List<IModule> module = new ArrayList();
+        if (warhead != null)
+        {
+            module.add(warhead);
+        }
+        if (guidance != null)
+        {
+            module.add(guidance);
+        }
+        if (engine != null)
+        {
+            module.add(engine);
+        }
+        return module;
     }
 
     @Override
@@ -87,13 +115,13 @@ public abstract class Missile extends AbstractModule implements IMissile
     }
 
     @Override
-    public boolean canInstallModule(ItemStack stack, IModule module)
+    public boolean canInstallModule(IModule module)
     {
         return module instanceof RocketEngine || module instanceof Warhead || module instanceof Guidance;
     }
 
     @Override
-    public boolean installModule(ItemStack stack, IModule module)
+    public boolean installModule(IModule module)
     {
         if (module instanceof RocketEngine && engine == null)
         {

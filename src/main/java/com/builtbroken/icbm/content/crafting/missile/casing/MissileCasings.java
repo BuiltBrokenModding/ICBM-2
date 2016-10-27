@@ -13,23 +13,30 @@ import net.minecraft.nbt.NBTTagCompound;
  */
 public enum MissileCasings
 {
-    MICRO(WarheadCasings.EXPLOSIVE_MICRO, MissileMicro.class, 1200, 3, true),
-    SMALL(WarheadCasings.EXPLOSIVE_SMALL, MissileSmall.class, 12000, 10, true),
-    STANDARD(WarheadCasings.EXPLOSIVE_STANDARD, MissileStandard.class, 72000, 100, true),
-    MEDIUM(WarheadCasings.EXPLOSIVE_MEDIUM, MissileMedium.class, 360000, 700, false),
-    LARGE(WarheadCasings.EXPLOSIVE_LARGE, MissileLarge.class, 1440000, 2000, false);
+    //https://en.wikipedia.org/wiki/RPG-7
+    MICRO(WarheadCasings.EXPLOSIVE_MICRO, MissileMicro.class, 1200, 3, 2000, true),
+    //http://www.army-technology.com/projects/hellfire-ii-missile/
+    SMALL(WarheadCasings.EXPLOSIVE_SMALL, MissileSmall.class, 12000, 10, 96000, true),
+    STANDARD(WarheadCasings.EXPLOSIVE_STANDARD, MissileStandard.class, 72000, 100, 800000, true),
+    MEDIUM(WarheadCasings.EXPLOSIVE_MEDIUM, MissileMedium.class, 360000, 700, 1500000, false),
+    LARGE(WarheadCasings.EXPLOSIVE_LARGE, MissileLarge.class, 1440000, 2000, 4500000, false);
 
     public final WarheadCasings warhead_casing;
     public final Class<? extends Missile> missile_clazz;
     public final int maxFlightTimeInTicks;
     public boolean enabled = true;
+
     private final float maxHitPoints;
 
-    MissileCasings(WarheadCasings warhead, Class<? extends Missile> missile_clazz, int maxFlightTicks, float maxHitPoints, boolean enabled)
+    /** Mass of the metal casing no parts, engine, warhead, or fuel */
+    public final double mass;
+
+    MissileCasings(WarheadCasings warhead, Class<? extends Missile> missile_clazz, int maxFlightTicks, float maxHitPoints, double mass, boolean enabled)
     {
         this.warhead_casing = warhead;
         this.missile_clazz = missile_clazz;
         this.maxFlightTimeInTicks = maxFlightTicks;
+        this.mass = mass;
         this.enabled = enabled;
         this.maxHitPoints = maxHitPoints;
     }

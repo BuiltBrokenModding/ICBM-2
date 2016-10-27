@@ -3,7 +3,7 @@ package com.builtbroken.icbm.content.crafting;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.mc.api.modules.IModule;
-import com.builtbroken.mc.api.modules.IModuleContainer;
+import com.builtbroken.mc.api.modules.IModuleWeighted;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -14,7 +14,7 @@ import net.minecraft.util.IIcon;
 /**
  * Created by robert on 12/28/2014.
  */
-public class AbstractModule implements IModule
+public class AbstractModule implements IModule, IModuleWeighted
 {
     /** ItemStack that represents this module */
     protected ItemStack item;
@@ -34,6 +34,13 @@ public class AbstractModule implements IModule
         this.name = name;
     }
 
+    @Override
+    public double getMass()
+    {
+        return 1;
+    }
+
+    @Override
     public String getUnlocalizedName()
     {
         return "module." + ICBM.PREFIX + name;
@@ -55,14 +62,7 @@ public class AbstractModule implements IModule
         }
     }
 
-    public final ItemStack save()
-    {
-        ItemStack stack = item.copy();
-        save(stack);
-        return stack;
-    }
-
-    /** Saves to an ItemStack's NBT, can be used to clone to an itemstakc */
+    @Override
     public final void save(ItemStack stack)
     {
         stack.setTagCompound(new NBTTagCompound());
@@ -71,7 +71,16 @@ public class AbstractModule implements IModule
         stack.getTagCompound().setString(ModuleBuilder.SAVE_ID, MissileModuleBuilder.INSTANCE.getID(this));
     }
 
+    @Override
     public ItemStack toStack()
+    {
+        ItemStack stack = item.copy();
+        save(stack);
+        return stack;
+    }
+
+    /** Does the same thing as {@link #toStack()} */
+    public final ItemStack save()
     {
         ItemStack stack = item.copy();
         save(stack);
@@ -90,18 +99,6 @@ public class AbstractModule implements IModule
         return nbt;
     }
 
-    /** Called when the module is installed */
-    public void onAdded(IModuleContainer container)
-    {
-
-    }
-
-    /** Called when the module is removed */
-    public void onRemoved(IModuleContainer container)
-    {
-
-    }
-
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(ItemStack stack, int pass)
     {
@@ -113,4 +110,11 @@ public class AbstractModule implements IModule
     {
 
     }
+
+    @Override
+    public String toString()
+    {
+        return getClass().getName() + "@" + hashCode();
+    }
+
 }

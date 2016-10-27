@@ -119,7 +119,7 @@ public class ItemEngineModules extends ItemAbstractModule implements IPostInit
     {
         for (Engines engine : Engines.values())
         {
-            engine.icon = reg.registerIcon(ICBM.PREFIX + engine.name);
+            engine.icon = reg.registerIcon(ICBM.PREFIX + engine.moduleName);
         }
     }
 

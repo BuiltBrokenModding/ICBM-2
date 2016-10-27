@@ -48,6 +48,12 @@ public abstract class Warhead extends MissileModule implements IWarhead, ITrigge
     }
 
     @Override
+    public double getMass()
+    {
+        return casing.mass;
+    }
+
+    @Override
     public void load(NBTTagCompound nbt)
     {
         explosive = loadExplosiveItemFromNBT(nbt);

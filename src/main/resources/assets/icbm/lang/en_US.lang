@@ -242,6 +242,10 @@ module.icbm:guidance.chip.1.name=Novice Guidance Chip
 module.icbm:guidance.chip.2.name=Guidance Chip
 module.icbm:guidance.chip.3.name=Improved Guidance Chip
 
+## Trigger Modules
+module.icbm:trigger.impact.mechanical.name=Mechanical Impact Sensor
+module.icbm:trigger.impact.electrical.name=Electrical Impact Sensor
+
 ## FoF station GUI
 gui.fof.message.default=Use the dialog to set the id
 gui.fof.message.confirm=Action Completed
