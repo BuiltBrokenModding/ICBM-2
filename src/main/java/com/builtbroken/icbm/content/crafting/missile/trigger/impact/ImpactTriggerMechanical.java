@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
  */
 public class ImpactTriggerMechanical extends ImpactTrigger
 {
+    //TODO high failure chance, minimal energy value needed to trigger
     public ImpactTriggerMechanical(ItemStack item)
     {
         super(item, Triggers.MECHANICAL_IMPACT);

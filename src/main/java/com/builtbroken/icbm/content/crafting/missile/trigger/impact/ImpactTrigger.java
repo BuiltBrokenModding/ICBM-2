@@ -18,6 +18,8 @@ public abstract class ImpactTrigger extends Trigger
     //TODO implement interface to allow new impact triggers to be made without internal code
     private double minimalForce = 0;
     private double maximalForce = Integer.MAX_VALUE;
+    //TODO implement failure chance
+    private float failureChance = 0;
 
     public ImpactTrigger(ItemStack item, Triggers trigger)
     {

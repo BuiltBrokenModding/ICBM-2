@@ -9,6 +9,9 @@ import net.minecraft.item.ItemStack;
  */
 public class ImpactTriggerElectrical extends ImpactTrigger
 {
+    //TODO add low failure chance, max energy breaking point
+    //TODO add scaled energy values - %mass% * constant
+    //TODO add pre-programmed hardness to energy value comparators (eg stone is 1K energy or something)
     public ImpactTriggerElectrical(ItemStack item)
     {
         super(item, Triggers.ELECTRICAL_IMPACT);
