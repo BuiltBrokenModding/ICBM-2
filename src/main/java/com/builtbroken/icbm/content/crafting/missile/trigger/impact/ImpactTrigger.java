@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.crafting.missile.trigger.impact;
 
 import com.builtbroken.icbm.content.crafting.missile.trigger.Trigger;
 import com.builtbroken.icbm.content.crafting.missile.trigger.Triggers;
-import com.builtbroken.mc.api.entity.IWeightedEntity;
+import com.builtbroken.mc.api.VoltzEngineAPI;
 import com.builtbroken.mc.api.event.TriggerCause;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -15,6 +15,7 @@ import net.minecraft.world.World;
  */
 public abstract class ImpactTrigger extends Trigger
 {
+    //TODO implement interface to allow new impact triggers to be made without internal code
     private double minimalForce = 0;
     private double maximalForce = Integer.MAX_VALUE;
 
@@ -41,7 +42,7 @@ public abstract class ImpactTrigger extends Trigger
      */
     protected boolean isEnoughForceToTrigger(TriggerCause.TriggerCauseImpact cause)
     {
-        double mass = IWeightedEntity.getMassOfEntity(cause.source);
+        double mass = VoltzEngineAPI.massRegistry.getMass(cause.source);
         //https://www.chem.wisc.edu/deptfiles/genchem/netorial/modules/thermodynamics/energy/energy2.htm
         final double ke = 0.5 * mass * cause.velocity * cause.velocity;
         return ke >= getMinimalForce() && ke <= getMaximalForce();

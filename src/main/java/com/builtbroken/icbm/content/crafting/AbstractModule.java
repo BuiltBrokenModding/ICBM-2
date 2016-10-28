@@ -3,7 +3,7 @@ package com.builtbroken.icbm.content.crafting;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.mc.api.modules.IModule;
-import com.builtbroken.mc.api.modules.IModuleWeighted;
+import com.builtbroken.mc.api.modules.IModuleHasMass;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -14,7 +14,7 @@ import net.minecraft.util.IIcon;
 /**
  * Created by robert on 12/28/2014.
  */
-public class AbstractModule implements IModule, IModuleWeighted
+public class AbstractModule implements IModule, IModuleHasMass
 {
     /** ItemStack that represents this module */
     protected ItemStack item;

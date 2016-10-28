@@ -1,6 +1,9 @@
 package com.builtbroken.icbm.content.crafting.missile;
 
+import com.builtbroken.mc.api.IHasMass;
+import com.builtbroken.mc.api.items.IItemHasMass;
 import com.builtbroken.mc.api.modules.IModule;
+import com.builtbroken.mc.api.modules.IModuleHasMass;
 import com.builtbroken.mc.api.modules.IModuleItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -11,7 +14,7 @@ import net.minecraft.item.ItemStack;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 10/26/2015.
  */
-public class ItemAbstractModule extends Item implements IModuleItem
+public class ItemAbstractModule extends Item implements IModuleItem, IItemHasMass
 {
     @Override
     public String getUnlocalizedName(ItemStack stack)
@@ -34,5 +37,20 @@ public class ItemAbstractModule extends Item implements IModuleItem
             return MissileModuleBuilder.INSTANCE.build(insert);
         }
         return null;
+    }
+
+    @Override
+    public double getMass(ItemStack stack)
+    {
+        IModule module = getModule(stack);
+        if (module instanceof IModuleHasMass)
+        {
+            return ((IModuleHasMass) module).getMass() + ((IModuleHasMass) module).getSubPartMass();
+        }
+        else if (module instanceof IHasMass)
+        {
+            return ((IHasMass) module).getMass();
+        }
+        return -1;
     }
 }
