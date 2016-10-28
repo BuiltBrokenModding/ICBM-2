@@ -48,7 +48,7 @@ public class ItemTriggerModules extends ItemAbstractModule implements IPostInit
             //TODO replace with translation keys
             list.add("Kinetic Energy Trigger Values");
             list.add("Min: " + new UnitDisplay(UnitDisplay.Unit.JOULES, ((ImpactTrigger) module).getMinimalForce(), true));
-            list.add("Min: " + new UnitDisplay(UnitDisplay.Unit.JOULES, ((ImpactTrigger) module).getMinimalForce(), true));
+            list.add("Max: " + new UnitDisplay(UnitDisplay.Unit.JOULES, ((ImpactTrigger) module).getMaximalForce(), true));
         }
     }
 
