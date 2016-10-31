@@ -25,39 +25,45 @@ public class ICBMCreativeTab extends ModCreativeTab
         add(list, ICBM.blockFoFStation);
         add(list, ICBM.blockLauncherFrame);
         add(list, ICBM.blockSmallSilo);
+
+        add(list, ICBM.itemLinkTool);
+        add(list, ICBM.itemGPSTool);
+
         add(list, ICBM.blockAntenna);
         add(list, ICBM.blockCommandCentral);
         add(list, ICBM.blockCommandSiloConnector);
         add(list, ICBM.blockCommandSiloDisplay);
         add(list, ICBM.itemRemoteDetonator);
+        add(list, ICBM.itemRadarGun);
+        add(list, ICBM.itemLaserDet);
+
         if (Engine.runningAsDev)
         {
             add(list, ICBM.blockStandardSilo);
         }
+
         add(list, ICBM.blockSiloController);
         add(list, ICBM.blockSmallPortableLauncher);
+
         add(list, ICBM.blockMissileWorkstation);
         add(list, ICBM.blockWarheadWorkstation);
-        add(list, ICBM.itemLinkTool);
-        add(list, ICBM.itemGPSTool);
-        add(list, ICBM.itemRadarGun);
-        add(list, ICBM.itemLaserDet);
+
+        if (Engine.runningAsDev)
+        {
+            add(list, ICBM.itemMissileCart);
+            add(list, ICBM.blockMissileRail);
+            add(list, ICBM.blockMissileCartRotator);
+        }
+
         add(list, ICBM.itemRocketLauncher);
         add(list, ICBM.blockLauncherParts);
         //add(list, ICBM.itemMissile);
         //add(list, ICBM.blockWarhead);
-        add(list, ICBM.itemExplosive);
+        //add(list, ICBM.itemExplosive);
         add(list, ICBM.itemEngineModules);
         add(list, ICBM.itemGuidanceModules);
         add(list, ICBM.itemMissileParts);
         add(list, ICBM.itemTrigger);
-        add(list, ICBM.itemExplosivePart);
         add(list, ICBM.blockLaunchPad);
-    }
-
-    @Override
-    public boolean hasSearchBar()
-    {
-        return true;
     }
 }

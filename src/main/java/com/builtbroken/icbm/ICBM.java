@@ -1,5 +1,6 @@
 package com.builtbroken.icbm;
 
+import com.builtbroken.icbm.client.CreativeTabExplosives;
 import com.builtbroken.icbm.client.CreativeTabMissiles;
 import com.builtbroken.icbm.client.CreativeTabWarheads;
 import com.builtbroken.icbm.client.ICBMCreativeTab;
@@ -59,6 +60,10 @@ import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.ItemMissile;
 import com.builtbroken.icbm.content.missile.tile.TileCrashedMissile;
 import com.builtbroken.icbm.content.missile.tracking.MissileTracker;
+import com.builtbroken.icbm.content.rail.BlockRail;
+import com.builtbroken.icbm.content.rail.EntityCart;
+import com.builtbroken.icbm.content.rail.ItemCart;
+import com.builtbroken.icbm.content.rail.TilePowerRail;
 import com.builtbroken.icbm.content.rocketlauncher.ItemRocketLauncher;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
 import com.builtbroken.icbm.mods.cc.CCProxyICBM;
@@ -180,6 +185,9 @@ public final class ICBM extends AbstractMod
 
     public static Block blockCrashMissile;
 
+    public static Block blockMissileRail;
+    public static Block blockMissileCartRotator;
+
     // Items
     public static Item itemMissile;
     public static Item itemRocketLauncher;
@@ -194,6 +202,8 @@ public final class ICBM extends AbstractMod
     public static Item itemExplosivePart;
     public static Item itemTrigger;
 
+    public static Item itemMissileCart;
+
     public static ItemRemoteDetonator itemRemoteDetonator;
 
 
@@ -205,6 +215,7 @@ public final class ICBM extends AbstractMod
 
     public static CreativeTabMissiles[] missileTabs;
     public static CreativeTabWarheads warheadsTab;
+    public static CreativeTabExplosives explosiveTab;
 
     public ICBM()
     {
@@ -212,7 +223,12 @@ public final class ICBM extends AbstractMod
         CREATIVE_TAB = new ICBMCreativeTab();
         super.manager.setTab(CREATIVE_TAB);
 
-        missileTabs = new CreativeTabMissiles[]{new CreativeTabMissiles(MissileCasings.MICRO), new CreativeTabMissiles(MissileCasings.SMALL), new CreativeTabMissiles(MissileCasings.STANDARD)};
+        explosiveTab = new CreativeTabExplosives();
+        missileTabs = new CreativeTabMissiles[]{
+                new CreativeTabMissiles(MissileCasings.MICRO),
+                new CreativeTabMissiles(MissileCasings.SMALL),
+                new CreativeTabMissiles(MissileCasings.STANDARD)
+        };
         warheadsTab = new CreativeTabWarheads();
 
         fireProxyPreInit = false;
@@ -304,6 +320,11 @@ public final class ICBM extends AbstractMod
         {
             blockExplosiveMarker = manager.newBlock(BlockExplosiveMarker.class, ItemBlockMetadata.class);
             manager.newBlock(TileRotationTest.class);
+
+            //WIP stuff, never to be released without Dark's approval - Dark
+            blockMissileRail = manager.newBlock("icbmMissileRail", BlockRail.class);
+            blockMissileCartRotator = manager.newBlock("icbmMissileRailRotator", TilePowerRail.class);
+            itemMissileCart = manager.newItem("icbmMissileCart", ItemCart.class);
         }
 
         // ITEMS
@@ -332,6 +353,7 @@ public final class ICBM extends AbstractMod
         //Set tab item last so to avoid NPE
         CREATIVE_TAB.itemStack = new ItemStack(itemRemoteDetonator);
         warheadsTab.itemStack = new ItemStack(blockWarhead);
+        explosiveTab.itemStack = ItemExplosiveParts.ExplosiveParts.GUNPOWDER_CHARGE.newItem();
         getProxy().registerExplosives();
     }
 
@@ -385,6 +407,9 @@ public final class ICBM extends AbstractMod
 
         EntityRegistry.registerGlobalEntityID(EntityFragment.class, "ICBMFragment", EntityRegistry.findGlobalUniqueEntityId());
         EntityRegistry.registerModEntity(EntityFragment.class, "ICBMFragment", ENTITY_ID_PREFIX + 4, this, 500, 1, true);
+
+        EntityRegistry.registerGlobalEntityID(EntityCart.class, "ICBMMissileCart", EntityRegistry.findGlobalUniqueEntityId());
+        EntityRegistry.registerModEntity(EntityCart.class, "ICBMMissileCart", ENTITY_ID_PREFIX + 5, this, 500, 1, true);
 
         super.init(event);
     }

@@ -7,6 +7,7 @@ itemGroup.icbm.missiles.standard=ICBM Missiles
 itemGroup.icbm.missiles.medium=ICBM Medium Missiles
 itemGroup.icbm.missiles.large=ICBM Large Missiles
 itemGroup.icbm.warheads=ICBM Warheads
+itemGroup.icbm.explosives=ICBM Explosives
 
 ## Missile
 item.icbm:missile.name=Missile
@@ -42,6 +43,8 @@ item.icbm:laserDetonator.name=Laser Detonator
 item.icbm:radarGun.name=Radar Gun
 item.icbm:radarGun.info=Shift+Right to clear , Right click to transfer to a machine , Right click air to capture data, 200m range limit
 
+item.icbm:missileRailCart.name=Missile Transport Cart
+
 ## Parts
 item.icbm:missileParts.name=Missile Crafting Part
 item.icbm:missileParts.smallMissileCasing.name=Small Missile Skin
@@ -71,6 +74,7 @@ item.icbm:explosiveItem.BiomeChange.name=Biome Shift Charge
 item.icbm:explosiveItem.Cake.name=Cake Package
 item.icbm:explosiveItem.OrePuller.name=Ore Up Draft Charge
 item.icbm:explosiveItem.Emp.name=Emp Battery
+icbm.icbm:explosiveItem.SlimeRain.name=Royal Slime
 
 item.icbm:explosiveItem.fragment.arrow.name=Arrow Bundle Charge
 item.icbm:explosiveItem.fragment.cobblestone.name=Cobblestone Frag Charge
@@ -80,6 +84,9 @@ item.icbm:explosiveItem.fragment.blaze.name=Blaze Frag Charge
 ## Tiles
 tile.icbm:TileMissile.0.name=Wooden Rocket Display
 tile.icbm:TileMissile.1.name=Wooden Small Missile Display
+
+tile.icbm:icbmMissileRail.name=Missile Transport Rail
+tile.icbm:cartRotator.name=Missile Transport Rotation Rail
 
 tile.icbm:antennaParts.name=Antenna Part
 tile.icbm:antennaParts.0.name=Antenna Part
@@ -167,6 +174,7 @@ explosive.icbm:cake.name=Cake
 explosive.icbm:biomeChange.name=Biome Shift
 explosive.icbm:OrePuller.name=Ore Up Draft
 explosive.icbm:Emp.name=Universal EMP
+explosive.icbm:SlimeRain.name=Slime Rain
 
 ## Damage
 damage.fragment.cobblestone=%s was stoned to death by cobble fragments
