@@ -61,6 +61,7 @@ public class ItemTriggerModules extends ItemAbstractModule implements IPostInit
         }
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIconFromDamage(int meta)
     {
@@ -84,14 +85,14 @@ public class ItemTriggerModules extends ItemAbstractModule implements IPostInit
         {
             ItemStack insert = stack.copy();
             insert.stackSize = 1;
-            ITrigger engine = MissileModuleBuilder.INSTANCE.buildTrigger(insert);
-            if(engine == null)
+            ITrigger trigger = MissileModuleBuilder.INSTANCE.buildTrigger(insert);
+            if (trigger == null)
             {
-                engine = Triggers.get(insert).newModule();
-                stack.setTagCompound(engine.save(new NBTTagCompound()));
-                insert.setTagCompound(engine.save(new NBTTagCompound()));
+                trigger = Triggers.get(insert).newModule();
+                stack.setTagCompound(trigger.save(new NBTTagCompound()));
+                insert.setTagCompound(trigger.save(new NBTTagCompound()));
             }
-            return engine;
+            return trigger;
         }
         return null;
     }

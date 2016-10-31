@@ -1,6 +1,12 @@
 package com.builtbroken.icbm.content.rail;
 
+import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
+import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
+import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
+import com.builtbroken.icbm.content.crafting.missile.guidance.GuidanceModules;
+import com.builtbroken.icbm.content.crafting.parts.ItemExplosive;
+import com.builtbroken.mc.lib.helper.MathUtility;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.entity.EntityBase;
 import cpw.mods.fml.relauncher.Side;
@@ -21,15 +27,89 @@ import java.util.List;
 public class EntityCart extends EntityBase
 {
     //Thing we are carrying
-    private Missile cargo;
+    public Missile cargo;
 
     /** Side of the cart that the rail exists */
     public ForgeDirection railSide;
+    /** Direction the cart is facing */
+    public ForgeDirection facingDirection = ForgeDirection.NORTH;
+
+    public float length = 3;
+    private boolean invalidBox = false;
 
     public EntityCart(World world)
     {
         super(world);
-        this.setSize(0.5f, 0.5f);
+        height = 0.7f;
+        width = .95f;
+        cargo = MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.SMALL, ItemExplosive.ExplosiveItems.CAKE.newItem(), Engines.COAL_ENGINE.newModule(), GuidanceModules.CHIP_ONE.newModule());
+    }
+
+    @Override
+    public void setPosition(double x, double y, double z)
+    {
+        this.posX = x;
+        this.posY = y;
+        this.posZ = z;
+        invalidBox = true;
+    }
+
+    @Override
+    protected void setRotation(float yaw, float pitch)
+    {
+        this.rotationYaw = yaw % 360.0F;
+        this.rotationPitch = pitch % 360.0F;
+        invalidBox = true;
+
+        float yaw2 = (float) MathUtility.clampAngleTo180(this.rotationYaw);
+        if (yaw2 >= -45 && yaw2 <= 45)
+        {
+            facingDirection = ForgeDirection.NORTH;
+        }
+        else if (yaw2 <= -135 || yaw2 >= 135)
+        {
+            facingDirection = ForgeDirection.SOUTH;
+        }
+        else if (yaw2 >= 45 && yaw2 <= 135)
+        {
+            facingDirection = ForgeDirection.EAST;
+        }
+        else if (yaw2 >= -135 && yaw2 <= -45)
+        {
+            facingDirection = ForgeDirection.WEST;
+        }
+    }
+
+    /**
+     * Updates the collision box to match it's rotation
+     */
+    protected void validateBoundBox()
+    {
+        invalidBox = false;
+
+        float halfWidth = this.width / 2.0F;
+        float halfLength = this.length / 2.0F;
+        float yaw = (float) Math.abs(MathUtility.clampAngleTo180(this.rotationYaw));
+        if (yaw >= 45 && yaw <= 135)
+        {
+            halfWidth = this.length / 2.0F;
+            halfLength = this.width / 2.0F;
+        }
+        this.boundingBox.setBounds(
+                posX - (double) halfWidth,
+                posY - (double) this.yOffset + (double) this.ySize,
+                posZ - (double) halfLength,
+
+                posX + (double) halfWidth,
+                posY - (double) this.yOffset + (double) this.ySize + this.height,
+                posZ + (double) halfLength);
+    }
+
+
+    @Override
+    protected void setSize(float p_70105_1_, float p_70105_2_)
+    {
+        //Empty to prevent issues
     }
 
     @Override
@@ -41,6 +121,11 @@ public class EntityCart extends EntityBase
         this.prevPosZ = this.posZ;
         this.prevRotationPitch = this.rotationPitch;
         this.prevRotationYaw = this.rotationYaw;
+
+        if (invalidBox)
+        {
+            validateBoundBox();
+        }
 
         //Grab rail side if null
         if (railSide == null)
@@ -60,8 +145,13 @@ public class EntityCart extends EntityBase
 
         if (!worldObj.isRemote)
         {
-            final Pos pos = new Pos(this).add(railSide);
-            final Block block = pos.getBlock(worldObj);
+            Pos pos = new Pos(this);
+            Block block = pos.getBlock(worldObj);
+            if (block == null)
+            {
+                pos = pos.add(railSide);
+                block = pos.getBlock(worldObj);
+            }
             final TileEntity tile = pos.getTileEntity(worldObj);
             //Kills entity if it falls out of the world, should never happen
             if (this.posY < -64.0D)
@@ -84,7 +174,13 @@ public class EntityCart extends EntityBase
                 BlockRail.RailDirections railType = BlockRail.RailDirections.get(meta);
                 recenterCartOnRail(railType.side, railType.facing, block.getBlockBoundsMaxY());
             }
+
+            if(ticksExisted % 20 == 0)
+            {
+                setRotation(rotationYaw + 90, rotationPitch);
+            }
         }
+
         doCollisionLogic();
     }
 

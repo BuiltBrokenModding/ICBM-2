@@ -25,7 +25,7 @@ public class ItemCart extends Item
     }
 
     @Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float xf, float yf, float zf)
+    public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
     {
         if (!world.isRemote)
         {
@@ -35,7 +35,9 @@ public class ItemCart extends Item
             if (block instanceof BlockRail)
             {
                 BlockRail.RailDirections railType = BlockRail.RailDirections.get(world.getBlockMetadata(x, y, z));
-                mountEntity(getCart(world, stack.getItemDamage()), railType.side, railType.facing, block.getBlockBoundsMaxY());
+                EntityCart cart = getCart(world, stack.getItemDamage());
+                cart.setPosition(x + 0.5, y + 0.5, z + 0.5);
+                mountEntity(cart, railType.side, railType.facing, block.getBlockBoundsMaxY());
             }
             else if (tile instanceof IMissileRail)
             {
@@ -46,6 +48,12 @@ public class ItemCart extends Item
                 stack.stackSize--;
             }
         }
+        return false;
+    }
+
+    @Override
+    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float xf, float yf, float zf)
+    {
         return true;
     }
 
@@ -53,6 +61,7 @@ public class ItemCart extends Item
     {
         cart.railSide = side;
         cart.recenterCartOnRail(side, facing, railHeight);
+        cart.worldObj.spawnEntityInWorld(cart);
     }
 
     /**

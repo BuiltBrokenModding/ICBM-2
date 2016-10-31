@@ -23,6 +23,8 @@ import com.builtbroken.icbm.content.launcher.controller.remote.display.TileSiloI
 import com.builtbroken.icbm.content.launcher.launcher.standard.TileStandardLauncherClient;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.RenderMissile;
+import com.builtbroken.icbm.content.rail.EntityCart;
+import com.builtbroken.icbm.content.rail.RenderCart;
 import com.builtbroken.icbm.content.rocketlauncher.RenderRocketLauncher;
 import com.builtbroken.mc.client.SharedAssets;
 import com.builtbroken.mc.core.Engine;
@@ -84,6 +86,8 @@ public class ClientProxy extends CommonProxy
 
         MinecraftForgeClient.registerItemRenderer(ICBM.itemMissile, RenderMissile.INSTANCE);
         RenderingRegistry.registerEntityRenderingHandler(EntityMissile.class, RenderMissile.INSTANCE);
+
+        RenderingRegistry.registerEntityRenderingHandler(EntityCart.class, new RenderCart());
 
         MinecraftForge.EVENT_BUS.register(this);
         FMLCommonHandler.instance().bus().register(this);

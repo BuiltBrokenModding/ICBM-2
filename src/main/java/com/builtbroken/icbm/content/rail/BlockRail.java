@@ -36,10 +36,7 @@ public class BlockRail extends Block
         this.setBlockName(ICBM.PREFIX + "icbmMissileRail");
         this.setHardness(5);
         this.setResistance(5);
-        //0.4 blocks wide, 0.4 blocks tall
-        this.setBlockBounds(0.3f, 0f, 0f, 0.7f, RAIL_HEIGHT, 1f);
     }
-
 
     //TODO implement connections
     //      only same rails connect visually
@@ -47,16 +44,19 @@ public class BlockRail extends Block
     //TODO implement renderer
 
     @Override
+    public void setBlockBoundsForItemRender()
+    {
+        this.setBlockBounds(0.3f, 0f, 0f, 0.7f, RAIL_HEIGHT, 1f);
+    }
+
+    @Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
     {
-        RailDirections railType = RailDirections.get(world.getBlockMetadata(x, y, z));
-        if (railType == RailDirections.NorthSouth)
+        final int meta = world.getBlockMetadata(x, y, z);
+        final RailDirections railType = RailDirections.get(meta);
+        if (railType == RailDirections.EastWest)
         {
-            this.setBlockBounds(0.3f, 0f, 0f, 0.7f, RAIL_HEIGHT, 1f);
-        }
-        else if (railType == RailDirections.EastFace)
-        {
-            this.setBlockBounds(1f, 0f, 0.3f, 1f, RAIL_HEIGHT, 0.7f);
+            this.setBlockBounds(0f, 0f, 0.3f, 1f, RAIL_HEIGHT, 0.7f);
         }
         else if (railType == RailDirections.NorthSouthCeiling)
         {
@@ -66,18 +66,37 @@ public class BlockRail extends Block
         {
 
         }
+        //Default to north
+        else
+        {
+            this.setBlockBounds(0.3f, 0f, 0f, 0.7f, RAIL_HEIGHT, 1f);
+        }
+    }
+
+    @Override
+    public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_149668_1_, int p_149668_2_, int p_149668_3_, int p_149668_4_)
+    {
+        this.setBlockBoundsBasedOnState(p_149668_1_, p_149668_2_, p_149668_3_, p_149668_4_);
+        return super.getCollisionBoundingBoxFromPool(p_149668_1_, p_149668_2_, p_149668_3_, p_149668_4_);
+    }
+
+    @Override @SideOnly(Side.CLIENT)
+    public AxisAlignedBB getSelectedBoundingBoxFromPool(World p_149633_1_, int p_149633_2_, int p_149633_3_, int p_149633_4_)
+    {
+        this.setBlockBoundsBasedOnState(p_149633_1_, p_149633_2_, p_149633_3_, p_149633_4_);
+        return super.getSelectedBoundingBoxFromPool(p_149633_1_, p_149633_2_, p_149633_3_, p_149633_4_);
     }
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float xf, float yf, float zf)
     {
-        if (Engine.runningAsDev)
+        if (Engine.runningAsDev && !world.isRemote)
         {
-            if (player.getItemInUse() != null && player.getItemInUse().getItem() == Items.stick)
+            if (player.getHeldItem() != null && player.getHeldItem().getItem() == Items.stick)
             {
                 player.addChatComponentMessage(new ChatComponentText("Type: " + RailDirections.get(world.getBlockMetadata(x, y, z))));
+                return true;
             }
-            return true;
         }
         return false;
     }

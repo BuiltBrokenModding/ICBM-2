@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.crafting.station.small;
 
 import com.builtbroken.icbm.client.Assets;
+import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.lib.transform.region.Cube;
@@ -92,9 +93,15 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
     @SideOnly(Side.CLIENT)
     public void renderDynamic(Pos pos, float frame, int pass)
     {
+        renderDynamic(pos, new Pos(1, 0, 2), connectedBlockSide, getDirection(), getMissile(), frame, pass);
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static void renderDynamic(Pos pos, Pos offset, ForgeDirection connectedBlockSide, ForgeDirection direction, Missile missile, float frame, int pass)
+    {
         //Render launcher
         GL11.glPushMatrix();
-        GL11.glTranslatef(pos.xf() + 1, pos.yf(), pos.zf() + 2);
+        GL11.glTranslatef(pos.xf() + offset.xf(), pos.yf() + offset.yf(), pos.zf()  + offset.zf());
         GL11.glRotated(90, 0, 1, 0);
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_WORKSTATION_TEXTURE);
 
@@ -102,7 +109,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
         switch (connectedBlockSide)
         {
             case UP:
-                if (getDirection() == ForgeDirection.WEST || getDirection() == ForgeDirection.EAST)
+                if (direction == ForgeDirection.WEST || direction == ForgeDirection.EAST)
                 {
                     GL11.glRotated(-90, 0, 1, 0);
                     //x y z
@@ -113,7 +120,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
                 GL11.glRotated(180, 1, 0, 0);
                 // z y x
                 GL11.glTranslatef(0f, -1f, 1f);
-                if (getDirection() == ForgeDirection.WEST || getDirection() == ForgeDirection.EAST)
+                if (direction == ForgeDirection.WEST || direction == ForgeDirection.EAST)
                 {
                     GL11.glRotated(-90, 0, 1, 0);
                     //x y z
@@ -124,7 +131,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
                 GL11.glRotated(90, 1, 0, 0);
                 // z x y
                 GL11.glTranslatef(0f, -1f, 0f);
-                if (getDirection() == ForgeDirection.UP || getDirection() == ForgeDirection.DOWN)
+                if (direction == ForgeDirection.UP || direction == ForgeDirection.DOWN)
                 {
                     GL11.glRotated(-90, 0, 1, 0);
                     // y x z
@@ -134,7 +141,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
             case WEST:
                 GL11.glRotated(-90, 1, 0, 0);
                 // z x y
-                if (getDirection() == ForgeDirection.UP || getDirection() == ForgeDirection.DOWN)
+                if (direction == ForgeDirection.UP || direction == ForgeDirection.DOWN)
                 {
                     GL11.glRotated(-90, 0, 1, 0);
                     // y x z
@@ -150,7 +157,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
                 GL11.glRotated(90, 1, 0, 0);
                 // y x z
                 GL11.glTranslatef(-1f, 1f, 0f);
-                if (getDirection() == ForgeDirection.UP || getDirection() == ForgeDirection.DOWN)
+                if (direction == ForgeDirection.UP || direction == ForgeDirection.DOWN)
                 {
                     GL11.glRotated(-90, 0, 1, 0);
                     // y z x
@@ -162,7 +169,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
                 GL11.glRotated(-90, 1, 0, 0);
                 // x z y
                 GL11.glTranslatef(-1f, -2f, 1f);
-                if (getDirection() == ForgeDirection.UP || getDirection() == ForgeDirection.DOWN)
+                if (direction == ForgeDirection.UP || direction == ForgeDirection.DOWN)
                 {
                     GL11.glRotated(-90, 0, 1, 0);
                     // y z x
@@ -175,10 +182,10 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
         GL11.glPopMatrix();
 
         //render missile
-        if (getMissileItem() != null)
+        if (missile != null)
         {
             GL11.glPushMatrix();
-            renderMissile(pos);
+            renderMissile(pos, missile, connectedBlockSide, direction);
             GL11.glPopMatrix();
         }
     }
@@ -188,7 +195,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
      *
      * @param pos - offset for render
      */
-    private void renderMissile(Pos pos)
+    public static void renderMissile(Pos pos, Missile misssile, ForgeDirection connectedBlockSide, ForgeDirection direction)
     {
         GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.6f, pos.zf() + 0.5f);
 
@@ -197,31 +204,31 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
         {
             case UP:
             case DOWN:
-                handleMissileRotationUD();
+                handleMissileRotationUD(direction);
                 break;
             case EAST:
             case WEST:
-                handleMissileRotationEW();
+                handleMissileRotationEW(direction);
                 break;
             case SOUTH:
             case NORTH:
-                handleMissileRotationNS();
+                handleMissileRotationNS(direction);
                 break;
         }
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_MISSILE_TEXTURE);
         //Group_001 body
         //Component_1_001 - 4 Body Fins
-        if (getMissile().getWarhead() != null)
+        if (misssile.getWarhead() != null)
         {
             //Group_004 nose of warhead
             //Group_005 warhead
             Assets.SMALL_MISSILE_MODEL.renderOnly("Group_005");
-            if (getMissile().getWarhead().getExplosive() != null)
+            if (misssile.getWarhead().getExplosive() != null)
             {
                 Assets.SMALL_MISSILE_MODEL.renderOnly("Group_004");
             }
         }
-        if (getMissile().getEngine() != null)
+        if (misssile.getEngine() != null)
         {
             //Group_002 - Engine thruster
             //Group_003 - Engine case
@@ -237,7 +244,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
                 Assets.SMALL_MISSILE_MODEL.renderOnly("Component_2_00" + i);
             }
         }
-        if (getMissile().getGuidance() != null)
+        if (misssile.getGuidance() != null)
         {
             //TODO add model indication showing no guidance added
         }
@@ -245,9 +252,9 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
         Assets.SMALL_MISSILE_MODEL.renderOnly("Group_001", "Component_1_001", "Component_1_002", "Component_1_003", "Component_1_004");
     }
 
-    private void handleMissileRotationUD()
+    private static void handleMissileRotationUD(ForgeDirection direction)
     {
-        switch (getDirection())
+        switch (direction)
         {
             case EAST:
                 GL11.glRotated(-90, 0, 0, 1);
@@ -275,9 +282,9 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
     /**
      * Handles rotation for east and west
      */
-    private void handleMissileRotationEW()
+    private static void handleMissileRotationEW(ForgeDirection direction)
     {
-        switch (getDirection())
+        switch (direction)
         {
             //UP is already done by default
             //EAST and WEST are invalid rotations
@@ -305,9 +312,9 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
     /**
      * Handles rotation for north and south
      */
-    private void handleMissileRotationNS()
+    private static void handleMissileRotationNS(ForgeDirection direction)
     {
-        switch (getDirection())
+        switch (direction)
         {
             //UP is already done by default
             //NORTH and SOUTH are invalid rotations

@@ -13,9 +13,9 @@ public class ImpactTriggerRedstone extends ImpactTrigger
 {
     //TODO add handling for shacking of the missile
     //TODO add handling for entity bumping into the missile
-    public ImpactTriggerRedstone(ItemStack item, Triggers trigger)
+    public ImpactTriggerRedstone(ItemStack item)
     {
-        super(item, trigger);
+        super(item, Triggers.REDSTONE_IMPACT);
     }
 
     @Override
