@@ -18,6 +18,7 @@ public abstract class Trigger extends AbstractModule implements ITrigger, IModul
     /** Current module this is contained inside */
     private IModule host;
     private Triggers triggerType;
+    protected boolean enabled = false;
 
     public Trigger(ItemStack item, Triggers trigger)
     {
@@ -39,6 +40,25 @@ public abstract class Trigger extends AbstractModule implements ITrigger, IModul
             ICBM.INSTANCE.logger().error(this + " was removed from a module[" + module + "] that was not it's host. Meaning something may have miss configured.");
         }
         this.host = null;
+    }
+
+    @Override
+    public boolean enableTrigger(boolean yes)
+    {
+        this.enabled = yes;
+        return yes;
+    }
+
+    @Override
+    public boolean canToogleTriggerEnabled()
+    {
+        return true;
+    }
+
+    @Override
+    public boolean isTriggerEnabled()
+    {
+        return enabled;
     }
 
     @Override

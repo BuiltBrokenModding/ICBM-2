@@ -1,13 +1,19 @@
 package com.builtbroken.icbm.content.rail;
 
+import com.builtbroken.icbm.ICBM;
+import com.builtbroken.mc.core.Engine;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -21,11 +27,19 @@ import java.util.List;
  */
 public class BlockRail extends Block
 {
+    public static final float RAIL_HEIGHT = 0.4f;
+
     //TODO move to stand-alone mod later so this can be used in place of MC's rail system
     public BlockRail()
     {
         super(Material.iron);
+        this.setBlockName(ICBM.PREFIX + "icbmMissileRail");
+        this.setHardness(5);
+        this.setResistance(5);
+        //0.4 blocks wide, 0.4 blocks tall
+        this.setBlockBounds(0.3f, 0f, 0f, 0.7f, RAIL_HEIGHT, 1f);
     }
+
 
     //TODO implement connections
     //      only same rails connect visually
@@ -33,14 +47,38 @@ public class BlockRail extends Block
     //TODO implement renderer
 
     @Override
-    public boolean isNormalCube()
+    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
     {
-        return false;
+        RailDirections railType = RailDirections.get(world.getBlockMetadata(x, y, z));
+        if (railType == RailDirections.NorthSouth)
+        {
+            this.setBlockBounds(0.3f, 0f, 0f, 0.7f, RAIL_HEIGHT, 1f);
+        }
+        else if (railType == RailDirections.EastFace)
+        {
+            this.setBlockBounds(1f, 0f, 0.3f, 1f, RAIL_HEIGHT, 0.7f);
+        }
+        else if (railType == RailDirections.NorthSouthCeiling)
+        {
+
+        }
+        else if (railType == RailDirections.EastWestCeiling)
+        {
+
+        }
     }
 
     @Override
-    public boolean renderAsNormalBlock()
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float xf, float yf, float zf)
     {
+        if (Engine.runningAsDev)
+        {
+            if (player.getItemInUse() != null && player.getItemInUse().getItem() == Items.stick)
+            {
+                player.addChatComponentMessage(new ChatComponentText("Type: " + RailDirections.get(world.getBlockMetadata(x, y, z))));
+            }
+            return true;
+        }
         return false;
     }
 
@@ -58,7 +96,7 @@ public class BlockRail extends Block
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int p_149691_1_, int p_149691_2_)
+    public IIcon getIcon(int side, int meta)
     {
         return Blocks.anvil.getIcon(0, 0);
     }
@@ -68,6 +106,24 @@ public class BlockRail extends Block
     {
         //Should be pushed by pistons, in theory?
         return 0;
+    }
+
+    @Override
+    public boolean isNormalCube()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isOpaqueCube()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean renderAsNormalBlock()
+    {
+        return false;
     }
 
     /** Used for metadata look up to save metal sanity during coding. */

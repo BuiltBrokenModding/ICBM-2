@@ -5,6 +5,7 @@ import com.builtbroken.icbm.content.crafting.ModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.trigger.impact.ImpactTriggerElectrical;
 import com.builtbroken.icbm.content.crafting.missile.trigger.impact.ImpactTriggerMechanical;
+import com.builtbroken.icbm.content.crafting.missile.trigger.impact.ImpactTriggerRedstone;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
@@ -21,7 +22,9 @@ public enum Triggers
     /** Triggers on impact, can fail to trigger */
     MECHANICAL_IMPACT("impact.mechanical", ImpactTriggerMechanical.class, 54431.1), //120 pounds
     /** Triggers on impact, less chance to fail */
-    ELECTRICAL_IMPACT("impact.electrical", ImpactTriggerElectrical.class, 27215.5); //60 pounds
+    ELECTRICAL_IMPACT("impact.electrical", ImpactTriggerElectrical.class, 27215.5), //60 pounds
+    /** Triggers on impact, no fail chance, no safety, no customization, extremely cheap, DANGEROUS TO USE */
+    REDSTONE_IMPACT("impact.redstone", ImpactTriggerRedstone.class, 9071.85);
     /** Triggers after x time, can break when impacts */
     //MECHANICAL_TIMER("timer.mechanical", ImpactTriggerMechanical.class, 6803.89),
     /** Triggers after x time, can be set in ticks */

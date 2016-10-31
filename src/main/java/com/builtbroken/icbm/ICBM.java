@@ -60,10 +60,7 @@ import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.ItemMissile;
 import com.builtbroken.icbm.content.missile.tile.TileCrashedMissile;
 import com.builtbroken.icbm.content.missile.tracking.MissileTracker;
-import com.builtbroken.icbm.content.rail.BlockRail;
-import com.builtbroken.icbm.content.rail.EntityCart;
-import com.builtbroken.icbm.content.rail.ItemCart;
-import com.builtbroken.icbm.content.rail.TilePowerRail;
+import com.builtbroken.icbm.content.rail.*;
 import com.builtbroken.icbm.content.rocketlauncher.ItemRocketLauncher;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
 import com.builtbroken.icbm.mods.cc.CCProxyICBM;
@@ -322,7 +319,7 @@ public final class ICBM extends AbstractMod
             manager.newBlock(TileRotationTest.class);
 
             //WIP stuff, never to be released without Dark's approval - Dark
-            blockMissileRail = manager.newBlock("icbmMissileRail", BlockRail.class);
+            blockMissileRail = manager.newBlock("icbmMissileRail", BlockRail.class, ItemBlockRail.class);
             blockMissileCartRotator = manager.newBlock("icbmMissileRailRotator", TilePowerRail.class);
             itemMissileCart = manager.newItem("icbmMissileCart", ItemCart.class);
         }
