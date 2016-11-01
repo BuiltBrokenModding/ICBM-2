@@ -55,7 +55,7 @@ public class TilePowerRailClient extends TilePowerRail
                     }
                     else if (getFacingDirection() == ForgeDirection.EAST)
                     {
-                        return arrow3;
+                        return arrow4;
                     }
                     else if (getFacingDirection() == ForgeDirection.SOUTH)
                     {
@@ -63,7 +63,7 @@ public class TilePowerRailClient extends TilePowerRail
                     }
                     else if (getFacingDirection() == ForgeDirection.WEST)
                     {
-                        return arrow4;
+                        return arrow3;
                     }
                 }
                 else if (getAttachedDirection() == ForgeDirection.DOWN)

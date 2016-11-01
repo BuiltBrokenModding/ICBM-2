@@ -2,13 +2,18 @@ package com.builtbroken.icbm.content.rail.powered;
 
 import com.builtbroken.icbm.content.rail.IMissileRail;
 import com.builtbroken.icbm.content.rail.entity.EntityCart;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.lib.transform.region.Cube;
+import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.TileEnt;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.util.ForgeDirection;
 
 /**
@@ -132,7 +137,7 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
 
     protected void handlePush(EntityCart cart)
     {
-        if(isServer())
+        if (isServer())
         {
             final double vel = 0.3;
             cart.recenterCartOnRail(getAttachedDirection(), getFacingDirection(), getRailHeight());
@@ -162,6 +167,30 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
                     }
             }
         }
+    }
+
+    @Override
+    protected boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
+    {
+        if (Engine.runningAsDev)
+        {
+            if (player.getHeldItem() != null && player.getHeldItem().getItem() == Items.stick)
+            {
+                if (isServer())
+                {
+                    player.addChatMessage(new ChatComponentText("A: " + getAttachedDirection() + " F:" + getFacingDirection() + " T:" + type));
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    protected boolean onPlayerRightClickWrench(EntityPlayer player, int side, Pos hit)
+    {
+        //TODO rotate tile
+        return false;
     }
 
     @Override
