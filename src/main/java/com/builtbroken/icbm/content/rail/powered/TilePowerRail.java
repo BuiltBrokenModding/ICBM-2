@@ -132,18 +132,35 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
 
     protected void handlePush(EntityCart cart)
     {
-        final double vel = 0.3;
-        cart.recenterCartOnRail(getAttachedDirection(), getFacingDirection(), getRailHeight());
-        switch (getAttachedDirection())
+        if(isServer())
         {
-            case UP:
-                switch (getFacingDirection())
-                {
-                    case NORTH:
-                    case SOUTH:
-                    case EAST:
-                    case WEST:
-                }
+            final double vel = 0.3;
+            cart.recenterCartOnRail(getAttachedDirection(), getFacingDirection(), getRailHeight());
+
+            //Cancel existing motion
+            cart.motionX = 0;
+            cart.motionY = 0;
+            cart.motionZ = 0;
+
+            switch (getAttachedDirection())
+            {
+                case UP:
+                    switch (getFacingDirection())
+                    {
+                        case NORTH:
+                            cart.motionZ = -vel;
+                            break;
+                        case SOUTH:
+                            cart.motionZ = vel;
+                            break;
+                        case EAST:
+                            cart.motionX = vel;
+                            break;
+                        case WEST:
+                            cart.motionX = -vel;
+                            break;
+                    }
+            }
         }
     }
 
@@ -173,7 +190,7 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
     @Override
     public Cube getCollisionBounds()
     {
-        if(world() != null)
+        if (world() != null)
         {
             switch (ForgeDirection.getOrientation(world().getBlockMetadata(xi(), yi(), zi())))
             {

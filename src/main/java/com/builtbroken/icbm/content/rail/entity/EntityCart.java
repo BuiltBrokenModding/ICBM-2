@@ -145,39 +145,49 @@ public class EntityCart extends EntityBase
             }
         }
 
+        Pos pos = new Pos(this).floor();
+        Block block = pos.getBlock(worldObj);
+        if (block == null)
+        {
+            pos = pos.add(railSide);
+            block = pos.getBlock(worldObj);
+        }
+        final TileEntity tile = pos.getTileEntity(worldObj);
+
         if (!worldObj.isRemote)
         {
-            Pos pos = new Pos(this);
-            Block block = pos.getBlock(worldObj);
-            if (block == null)
-            {
-                pos = pos.add(railSide);
-                block = pos.getBlock(worldObj);
-            }
-            final TileEntity tile = pos.getTileEntity(worldObj);
             //Kills entity if it falls out of the world, should never happen
             if (this.posY < -64.0D)
             {
                 this.kill();
+                return;
             }
             //Breaks entity if its not on a track
             else if (!(block instanceof BlockRail || tile instanceof IMissileRail))
             {
                 destroyCart();
+                return;
             }
-            else if (tile instanceof IMissileRail)
+
+            //Moves the entity
+            if (motionX != 0 || motionY != 0 || motionZ != 0)
             {
-                ((IMissileRail) tile).tickRailFromCart(this);
-                recenterCartOnRail(((IMissileRail) tile).getAttachedDirection(), ((IMissileRail) tile).getFacingDirection(), 0.4);
-            }
-            else
-            {
-                final int meta = pos.getBlockMetadata(worldObj);
-                BlockRail.RailDirections railType = BlockRail.RailDirections.get(meta);
-                recenterCartOnRail(railType.side, railType.facing, block.getBlockBoundsMaxY());
+                moveEntity(motionX, motionY, motionZ);
             }
         }
+        //Updates the rail and cart position
+        if (tile instanceof IMissileRail)
+        {
+            ((IMissileRail) tile).tickRailFromCart(this);
+        }
+        else
+        {
+            final int meta = pos.getBlockMetadata(worldObj);
+            BlockRail.RailDirections railType = BlockRail.RailDirections.get(meta);
+            recenterCartOnRail(railType.side, railType.facing, block.getBlockBoundsMaxY());
+        }
 
+        //Handles pushing entities out of the way
         doCollisionLogic();
     }
 
@@ -275,7 +285,8 @@ public class EntityCart extends EntityBase
         final double prevMoveZ = byZ;
 
         //Get collision boxes
-        List collisionBoxes = this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.addCoord(byX, byY, byZ));
+        //TODO adjust by attached side
+        List collisionBoxes = this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.getOffsetBoundingBox(0, .1, 0).addCoord(byX, byY, byZ));
 
         //Calculate offset for y collision
         for (Object collisionBoxe : collisionBoxes)

@@ -43,7 +43,9 @@ public class ItemCart extends Item
             }
             else if (tile instanceof IMissileRail)
             {
-                mountEntity(getCart(world, stack.getItemDamage()), ((IMissileRail) tile).getAttachedDirection(), ((IMissileRail) tile).getFacingDirection(), ((IMissileRail) tile).getRailHeight());
+                EntityCart cart = getCart(world, stack.getItemDamage());
+                cart.setPosition(x + 0.5, y + 0.5, z + 0.5);
+                mountEntity(cart, ((IMissileRail) tile).getAttachedDirection(), ((IMissileRail) tile).getFacingDirection(), ((IMissileRail) tile).getRailHeight());
             }
             if (!player.capabilities.isCreativeMode)
             {
