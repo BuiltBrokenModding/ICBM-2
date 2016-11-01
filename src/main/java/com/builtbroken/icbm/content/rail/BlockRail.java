@@ -60,11 +60,43 @@ public class BlockRail extends Block
         }
         else if (railType == RailDirections.NorthSouthCeiling)
         {
-
+            this.setBlockBounds(0.3f, 1 - RAIL_HEIGHT, 0f, 0.7f, 1, 1f);
         }
         else if (railType == RailDirections.EastWestCeiling)
         {
-
+            this.setBlockBounds(0f, 1 - RAIL_HEIGHT, 0.3f, 1f, 1, 0.7f);
+        }
+        else if (railType == RailDirections.NorthFace)
+        {
+            this.setBlockBounds(0.3f, 0, 1 - RAIL_HEIGHT, 0.7f, 1, 1f);
+        }
+        else if (railType == RailDirections.NorthFaceSideWays)
+        {
+            this.setBlockBounds(0, 0.3f, 1 - RAIL_HEIGHT, 1f, 0.7f, 1f);
+        }
+        else if (railType == RailDirections.SouthFace)
+        {
+            this.setBlockBounds(0.3f, 0, 0, 0.7f, 1, RAIL_HEIGHT);
+        }
+        else if (railType == RailDirections.SouthFaceSideWays)
+        {
+            this.setBlockBounds(0, 0.3f, 0, 1f, 0.7f, RAIL_HEIGHT);
+        }
+        else if (railType == RailDirections.EastFace)
+        {
+            this.setBlockBounds(0, 0, 0.3f, RAIL_HEIGHT, 1, 0.7f);
+        }
+        else if (railType == RailDirections.EastFaceSideWays)
+        {
+            this.setBlockBounds(0, 0.3f, 0, RAIL_HEIGHT, 0.7f, 1f);
+        }
+        else if (railType == RailDirections.WestFace)
+        {
+            this.setBlockBounds(1 - RAIL_HEIGHT, 0, 0.3f, 1, 1, 0.7f);
+        }
+        else if (railType == RailDirections.WestFaceSideWays)
+        {
+            this.setBlockBounds(1 - RAIL_HEIGHT, 0.3f, 0, 1f, 0.7f, 1f);
         }
         //Default to north
         else
@@ -80,7 +112,8 @@ public class BlockRail extends Block
         return super.getCollisionBoundingBoxFromPool(p_149668_1_, p_149668_2_, p_149668_3_, p_149668_4_);
     }
 
-    @Override @SideOnly(Side.CLIENT)
+    @Override
+    @SideOnly(Side.CLIENT)
     public AxisAlignedBB getSelectedBoundingBoxFromPool(World p_149633_1_, int p_149633_2_, int p_149633_3_, int p_149633_4_)
     {
         this.setBlockBoundsBasedOnState(p_149633_1_, p_149633_2_, p_149633_3_, p_149633_4_);
@@ -173,7 +206,7 @@ public class BlockRail extends Block
         /** UpDown Rail */
         EastFaceSideWays(ForgeDirection.EAST, ForgeDirection.NORTH),
         /** UpDown Rail */
-        WestFaceSideWaysm(ForgeDirection.WEST, ForgeDirection.SOUTH),
+        WestFaceSideWays(ForgeDirection.WEST, ForgeDirection.SOUTH),
 
         /** Diagonal, Also is SouthWest */
         NorthEast(ForgeDirection.UP, ForgeDirection.UNKNOWN),

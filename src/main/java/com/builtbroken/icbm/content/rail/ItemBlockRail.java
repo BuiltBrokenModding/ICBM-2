@@ -37,7 +37,7 @@ public class ItemBlockRail extends ItemBlock
                 metadata = BlockRail.RailDirections.NorthSouth.ordinal();
             }
         }
-        else if (attachedSide == ForgeDirection.UP)
+        else if (attachedSide == ForgeDirection.DOWN)
         {
             if (facing == ForgeDirection.EAST || facing == ForgeDirection.WEST)
             {
@@ -46,6 +46,58 @@ public class ItemBlockRail extends ItemBlock
             else
             {
                 metadata = BlockRail.RailDirections.NorthSouthCeiling.ordinal();
+            }
+        }
+        //North
+        else if (side == 2)
+        {
+            //Click left or right side (Not middle)
+            if (hitX <= 0.3 || hitX >= 0.7)
+            {
+                metadata = BlockRail.RailDirections.NorthFaceSideWays.ordinal();
+            }
+            else
+            {
+                metadata = BlockRail.RailDirections.NorthFace.ordinal();
+            }
+        }
+        //South
+        else if (side == 3)
+        {
+            //Click left or right side (Not middle)
+            if (hitX <= 0.3 || hitX >= 0.7)
+            {
+                metadata = BlockRail.RailDirections.SouthFaceSideWays.ordinal();
+            }
+            else
+            {
+                metadata = BlockRail.RailDirections.SouthFace.ordinal();
+            }
+        }
+        //West
+        else if (side == 4)
+        {
+            //Click left or right side (Not middle)
+            if (hitZ <= 0.3 || hitZ >= 0.7)
+            {
+                metadata = BlockRail.RailDirections.WestFaceSideWays.ordinal();
+            }
+            else
+            {
+                metadata = BlockRail.RailDirections.WestFace.ordinal();
+            }
+        }
+        //East
+        else if (side == 5)
+        {
+            //Click left or right side (Not middle)
+            if (hitZ <= 0.3 || hitZ >= 0.7)
+            {
+                metadata = BlockRail.RailDirections.EastFaceSideWays.ordinal();
+            }
+            else
+            {
+                metadata = BlockRail.RailDirections.EastFace.ordinal();
             }
         }
         //TODO finish implementing sides
