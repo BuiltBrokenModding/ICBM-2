@@ -176,11 +176,6 @@ public class EntityCart extends EntityBase
                 BlockRail.RailDirections railType = BlockRail.RailDirections.get(meta);
                 recenterCartOnRail(railType.side, railType.facing, block.getBlockBoundsMaxY());
             }
-
-            if(ticksExisted % 20 == 0)
-            {
-                setRotation(rotationYaw + 90, rotationPitch);
-            }
         }
 
         doCollisionLogic();

@@ -41,20 +41,127 @@ public class TilePowerRailClient extends TilePowerRail
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon()
+    public IIcon getIcon(int side, int meta)
     {
-        facingDirection = ForgeDirection.NORTH;
-
-        if (getAttachedDirection() == ForgeDirection.UP)
+        if (this != block.staticTile)
         {
-            if(facingDirection == ForgeDirection.NORTH)
+            if (side == getAttachedDirection().ordinal())
             {
-                return arrow1;
+                if (getAttachedDirection() == ForgeDirection.UP)
+                {
+                    if (getFacingDirection() == ForgeDirection.NORTH)
+                    {
+                        return arrow1;
+                    }
+                    else if (getFacingDirection() == ForgeDirection.EAST)
+                    {
+                        return arrow3;
+                    }
+                    else if (getFacingDirection() == ForgeDirection.SOUTH)
+                    {
+                        return arrow2;
+                    }
+                    else if (getFacingDirection() == ForgeDirection.WEST)
+                    {
+                        return arrow4;
+                    }
+                }
+                else if (getAttachedDirection() == ForgeDirection.DOWN)
+                {
+                    if (getFacingDirection() == ForgeDirection.NORTH)
+                    {
+                        return arrow1;
+                    }
+                    else if (getFacingDirection() == ForgeDirection.EAST)
+                    {
+                        return arrow3;
+                    }
+                    else if (getFacingDirection() == ForgeDirection.SOUTH)
+                    {
+                        return arrow2;
+                    }
+                    else if (getFacingDirection() == ForgeDirection.WEST)
+                    {
+                        return arrow4;
+                    }
+                }
+                else if (getAttachedDirection() == ForgeDirection.EAST)
+                {
+                    if (getFacingDirection() == ForgeDirection.NORTH)
+                    {
+                        return arrow4;
+                    }
+                    else if (getFacingDirection() == ForgeDirection.UP)
+                    {
+                        return arrow1;
+                    }
+                    else if (getFacingDirection() == ForgeDirection.SOUTH)
+                    {
+                        return arrow3;
+                    }
+                    else if (getFacingDirection() == ForgeDirection.DOWN)
+                    {
+                        return arrow2;
+                    }
+                }
+                else if (getAttachedDirection() == ForgeDirection.WEST)
+                {
+                    if (getFacingDirection() == ForgeDirection.NORTH)
+                    {
+                        return arrow3;
+                    }
+                    else if (getFacingDirection() == ForgeDirection.UP)
+                    {
+                        return arrow1;
+                    }
+                    else if (getFacingDirection() == ForgeDirection.SOUTH)
+                    {
+                        return arrow4;
+                    }
+                    else if (getFacingDirection() == ForgeDirection.DOWN)
+                    {
+                        return arrow2;
+                    }
+                }
+                else if (getAttachedDirection() == ForgeDirection.NORTH)
+                {
+                    if (getFacingDirection() == ForgeDirection.EAST)
+                    {
+                        return arrow3;
+                    }
+                    else if (getFacingDirection() == ForgeDirection.UP)
+                    {
+                        return arrow1;
+                    }
+                    else if (getFacingDirection() == ForgeDirection.WEST)
+                    {
+                        return arrow4;
+                    }
+                    else if (getFacingDirection() == ForgeDirection.DOWN)
+                    {
+                        return arrow2;
+                    }
+                }
+                else if (getAttachedDirection() == ForgeDirection.SOUTH)
+                {
+                    if (getFacingDirection() == ForgeDirection.WEST)
+                    {
+                        return arrow3;
+                    }
+                    else if (getFacingDirection() == ForgeDirection.UP)
+                    {
+                        return arrow1;
+                    }
+                    else if (getFacingDirection() == ForgeDirection.EAST)
+                    {
+                        return arrow4;
+                    }
+                    else if (getFacingDirection() == ForgeDirection.DOWN)
+                    {
+                        return arrow2;
+                    }
+                }
             }
-        }
-        else if (getAttachedDirection() == ForgeDirection.DOWN)
-        {
-
         }
         return main;
     }
@@ -62,6 +169,6 @@ public class TilePowerRailClient extends TilePowerRail
     @Override
     public void readDescPacket(ByteBuf buf)
     {
-        facingDirection = ForgeDirection.getOrientation(buf.readInt());
+        setFacingDirection(ForgeDirection.getOrientation(buf.readInt()));
     }
 }

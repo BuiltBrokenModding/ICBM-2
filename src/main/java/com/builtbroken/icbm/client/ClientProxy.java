@@ -71,7 +71,7 @@ public class ClientProxy extends CommonProxy
         ICBM.blockFoFStation = ICBM.INSTANCE.getManager().newBlock("ICBMxFoF", TileFoFClient.class);
         ICBM.blockCommandSiloDisplay = ICBM.INSTANCE.getManager().newBlock("icbmCommandSiloDisplay", TileSiloInterfaceClient.class);
         ICBM.blockWarheadWorkstation = ICBM.INSTANCE.getManager().newBlock("icbmWarheadWorkstation", TileWarheadStationClient.class);
-        ICBM.blockMissileCartRotator =  ICBM.INSTANCE.getManager().newBlock("icbmMissileRailRotator", TilePowerRailClient.class);
+        ICBM.blockMissileCartRotator =  ICBM.INSTANCE.getManager().newBlock("icbmCartPowerRail", TilePowerRailClient.class);
 
         ICBM.blockStandardLauncher.setCreativeTab(null);
         NEIProxy.hideItem(ICBM.blockStandardLauncher);

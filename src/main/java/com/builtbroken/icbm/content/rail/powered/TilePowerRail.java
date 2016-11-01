@@ -38,17 +38,30 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
     //TODO D type needs to have a redstone upgrade
     //TODO D type needs to show when its power and if it will stop a cart (Use gate symbol | | open /\ closed)
     protected int type = 0;
+    /** How much to rotate */
+    protected int rotateYaw = 90;
+    /** Are we rotating to an angle or just rotating by an angle */
+    protected boolean rotateToAngle = true;
+    /** Are we rotating clockwise, not used if setting angle */
+    protected boolean rotateClockwise = true;
 
     /** Side of the block we are attached to */
     private ForgeDirection attachedSide;
 
-    /** Direction we are facing */
-    protected ForgeDirection facingDirection = ForgeDirection.NORTH;
+    private ForgeDirection facingDirection = ForgeDirection.NORTH;
 
+    //Collision/Render/Selection boxes
+    private static final Cube COLLISION_BOX_DOWN = new Cube(0, .6, 0, 1, 1, 1);
+
+    private static final Cube COLLISION_BOX_NORTH = new Cube(0, 0, .6, 1, 1, 1);
+    private static final Cube COLLISION_BOX_SOUTH = new Cube(0, 0, 0, 1, 1, .4);
+
+    private static final Cube COLLISION_BOX_EAST = new Cube(0, 0, 0, .4, 1, 1);
+    private static final Cube COLLISION_BOX_WEST = new Cube(.6, 0, 0, 1, 1, 1);
 
     public TilePowerRail()
     {
-        super("cartRotator", Material.iron);
+        super("cartPowerRail", Material.iron);
         this.bounds = new Cube(0, 0, 0, 1, .4, 1);
         this.itemBlock = ItemBlockPowerRail.class;
     }
@@ -64,20 +77,47 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
     {
         if (type == 1)
         {
-            handlePush(cart, facingDirection);
+            //TODO lerp rotation to provide a transition
+            if (rotateToAngle)
+            {
+                cart.rotationYaw = rotateYaw;
+            }
+            else if (rotateClockwise)
+            {
+                cart.rotationYaw += rotateYaw;
+            }
+            else
+            {
+                cart.rotationYaw -= rotateYaw;
+            }
+            handlePush(cart);
+        }
+        else if (type == 0)
+        {
+            handlePush(cart);
         }
     }
 
     @Override
     public ForgeDirection getAttachedDirection()
     {
-        if(attachedSide == null)
+        if (attachedSide == null)
         {
             attachedSide = ForgeDirection.getOrientation(getMetadata());
         }
         return attachedSide;
     }
 
+    public void setFacingDirection(ForgeDirection facingDirection)
+    {
+        this.facingDirection = facingDirection;
+        if (world() != null && isServer())
+        {
+            sendDescPacket();
+        }
+    }
+
+    /** Direction we are facing */
     @Override
     public ForgeDirection getFacingDirection()
     {
@@ -85,21 +125,32 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
     }
 
     @Override
-    public double railHeight()
+    public double getRailHeight()
     {
         return 0.4;
     }
 
-    protected void handlePush(EntityCart cart, ForgeDirection pushDirection)
+    protected void handlePush(EntityCart cart)
     {
         final double vel = 0.3;
-
+        cart.recenterCartOnRail(getAttachedDirection(), getFacingDirection(), getRailHeight());
+        switch (getAttachedDirection())
+        {
+            case UP:
+                switch (getFacingDirection())
+                {
+                    case NORTH:
+                    case SOUTH:
+                    case EAST:
+                    case WEST:
+                }
+        }
     }
 
     @Override
     public void writeDescPacket(ByteBuf buf)
     {
-        buf.writeInt(facingDirection.ordinal());
+        buf.writeInt(getFacingDirection().ordinal());
     }
 
     @Override
@@ -108,7 +159,7 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
         super.readFromNBT(nbt);
         if (nbt.hasKey("facingDirection"))
         {
-            facingDirection = ForgeDirection.getOrientation(nbt.getInteger("facingDirection"));
+            setFacingDirection(ForgeDirection.getOrientation(nbt.getInteger("facingDirection")));
         }
     }
 
@@ -116,6 +167,28 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
     public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
-        nbt.setInteger("facingDirection", facingDirection.ordinal());
+        nbt.setInteger("facingDirection", getFacingDirection().ordinal());
+    }
+
+    @Override
+    public Cube getCollisionBounds()
+    {
+        if(world() != null)
+        {
+            switch (ForgeDirection.getOrientation(world().getBlockMetadata(xi(), yi(), zi())))
+            {
+                case DOWN:
+                    return COLLISION_BOX_DOWN;
+                case NORTH:
+                    return COLLISION_BOX_NORTH;
+                case SOUTH:
+                    return COLLISION_BOX_SOUTH;
+                case EAST:
+                    return new Cube(0, 0, 0, .4, 1, 1);
+                case WEST:
+                    return COLLISION_BOX_WEST;
+            }
+        }
+        return bounds;
     }
 }
