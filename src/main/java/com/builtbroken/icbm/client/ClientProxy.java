@@ -23,8 +23,9 @@ import com.builtbroken.icbm.content.launcher.controller.remote.display.TileSiloI
 import com.builtbroken.icbm.content.launcher.launcher.standard.TileStandardLauncherClient;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.RenderMissile;
-import com.builtbroken.icbm.content.rail.EntityCart;
-import com.builtbroken.icbm.content.rail.RenderCart;
+import com.builtbroken.icbm.content.rail.entity.EntityCart;
+import com.builtbroken.icbm.content.rail.entity.RenderCart;
+import com.builtbroken.icbm.content.rail.powered.TilePowerRailClient;
 import com.builtbroken.icbm.content.rocketlauncher.RenderRocketLauncher;
 import com.builtbroken.mc.client.SharedAssets;
 import com.builtbroken.mc.core.Engine;
@@ -70,6 +71,7 @@ public class ClientProxy extends CommonProxy
         ICBM.blockFoFStation = ICBM.INSTANCE.getManager().newBlock("ICBMxFoF", TileFoFClient.class);
         ICBM.blockCommandSiloDisplay = ICBM.INSTANCE.getManager().newBlock("icbmCommandSiloDisplay", TileSiloInterfaceClient.class);
         ICBM.blockWarheadWorkstation = ICBM.INSTANCE.getManager().newBlock("icbmWarheadWorkstation", TileWarheadStationClient.class);
+        ICBM.blockMissileCartRotator =  ICBM.INSTANCE.getManager().newBlock("icbmMissileRailRotator", TilePowerRailClient.class);
 
         ICBM.blockStandardLauncher.setCreativeTab(null);
         NEIProxy.hideItem(ICBM.blockStandardLauncher);

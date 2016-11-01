@@ -1,5 +1,7 @@
-package com.builtbroken.icbm.content.rail;
+package com.builtbroken.icbm.content.rail.powered;
 
+import com.builtbroken.icbm.content.rail.IMissileRail;
+import com.builtbroken.icbm.content.rail.entity.EntityCart;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.prefab.tile.Tile;
@@ -38,7 +40,7 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
     protected int type = 0;
 
     /** Side of the block we are attached to */
-    protected ForgeDirection attachedSide = ForgeDirection.NORTH;
+    private ForgeDirection attachedSide;
 
     /** Direction we are facing */
     protected ForgeDirection facingDirection = ForgeDirection.NORTH;
@@ -48,6 +50,7 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
     {
         super("cartRotator", Material.iron);
         this.bounds = new Cube(0, 0, 0, 1, .4, 1);
+        this.itemBlock = ItemBlockPowerRail.class;
     }
 
     @Override
@@ -68,6 +71,10 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
     @Override
     public ForgeDirection getAttachedDirection()
     {
+        if(attachedSide == null)
+        {
+            attachedSide = ForgeDirection.getOrientation(getMetadata());
+        }
         return attachedSide;
     }
 
@@ -92,7 +99,6 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
     @Override
     public void writeDescPacket(ByteBuf buf)
     {
-        buf.writeInt(attachedSide.ordinal());
         buf.writeInt(facingDirection.ordinal());
     }
 
@@ -104,10 +110,6 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
         {
             facingDirection = ForgeDirection.getOrientation(nbt.getInteger("facingDirection"));
         }
-        if (nbt.hasKey("attachedDirection"))
-        {
-            attachedSide = ForgeDirection.getOrientation(nbt.getInteger("attachedDirection"));
-        }
     }
 
     @Override
@@ -115,6 +117,5 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
     {
         super.writeToNBT(nbt);
         nbt.setInteger("facingDirection", facingDirection.ordinal());
-        nbt.setInteger("attachedDirection", attachedSide.ordinal());
     }
 }

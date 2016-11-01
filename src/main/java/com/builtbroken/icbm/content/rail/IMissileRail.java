@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.rail;
 
+import com.builtbroken.icbm.content.rail.entity.EntityCart;
 import net.minecraftforge.common.util.ForgeDirection;
 
 /**

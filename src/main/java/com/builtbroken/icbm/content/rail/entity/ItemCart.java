@@ -1,6 +1,8 @@
-package com.builtbroken.icbm.content.rail;
+package com.builtbroken.icbm.content.rail.entity;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.content.rail.BlockRail;
+import com.builtbroken.icbm.content.rail.IMissileRail;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;

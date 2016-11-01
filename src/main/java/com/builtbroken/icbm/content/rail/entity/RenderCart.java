@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.rail;
+package com.builtbroken.icbm.content.rail.entity;
 
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstationClient;

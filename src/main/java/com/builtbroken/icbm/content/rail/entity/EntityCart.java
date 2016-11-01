@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.rail;
+package com.builtbroken.icbm.content.rail.entity;
 
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
@@ -6,6 +6,8 @@ import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
 import com.builtbroken.icbm.content.crafting.missile.guidance.GuidanceModules;
 import com.builtbroken.icbm.content.crafting.parts.ItemExplosive;
+import com.builtbroken.icbm.content.rail.BlockRail;
+import com.builtbroken.icbm.content.rail.IMissileRail;
 import com.builtbroken.mc.lib.helper.MathUtility;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.entity.EntityBase;
