@@ -3,13 +3,18 @@ package com.builtbroken.icbm.content.rail.entity;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.rail.BlockRail;
 import com.builtbroken.icbm.content.rail.IMissileRail;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import java.util.List;
 
 /**
  * Handles placement and inventory movement of the missile rail cart
@@ -24,6 +29,7 @@ public class ItemCart extends Item
         this.setMaxStackSize(5);
         this.setUnlocalizedName(ICBM.PREFIX + "missileRailCart");
         this.setTextureName(ICBM.PREFIX + "missileCartItem");
+        this.setHasSubtypes(true);
     }
 
     @Override
@@ -61,7 +67,15 @@ public class ItemCart extends Item
         return true;
     }
 
-    protected void mountEntity(EntityCart cart, ForgeDirection side, ForgeDirection facing, double railHeight)
+    /**
+     * Sets the cart onto the rail
+     *
+     * @param cart
+     * @param side
+     * @param facing
+     * @param railHeight
+     */
+    protected void mountEntity(final EntityCart cart, final ForgeDirection side, final ForgeDirection facing, double railHeight)
     {
         cart.railSide = side;
         cart.recenterCartOnRail(side, facing, railHeight);
@@ -75,9 +89,21 @@ public class ItemCart extends Item
      * @param meta
      * @return
      */
-    protected EntityCart getCart(World world, int meta)
+    protected EntityCart getCart(final World world, int meta)
     {
         //More types will be added later
-        return new EntityCart(world);
+        final EntityCart cart = new EntityCart(world);
+        cart.setType(CartTypes.values()[meta]);
+        return cart;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(Item p_150895_1_, CreativeTabs p_150895_2_, List p_150895_3_)
+    {
+        for (int i = 0; i < CartTypes.values().length; i++)
+        {
+            p_150895_3_.add(new ItemStack(p_150895_1_, 1, i));
+        }
     }
 }

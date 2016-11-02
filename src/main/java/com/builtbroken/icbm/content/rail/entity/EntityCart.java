@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.rail.entity;
 
+import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
@@ -9,12 +10,15 @@ import com.builtbroken.icbm.content.crafting.parts.ItemExplosive;
 import com.builtbroken.icbm.content.rail.BlockRail;
 import com.builtbroken.icbm.content.rail.IMissileRail;
 import com.builtbroken.mc.lib.helper.MathUtility;
+import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.entity.EntityBase;
+import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
@@ -28,6 +32,7 @@ import java.util.List;
  */
 public class EntityCart extends EntityBase
 {
+    public static final int TYPE_DATA_ID = 23;
     //Thing we are carrying
     public Missile cargo;
 
@@ -36,7 +41,9 @@ public class EntityCart extends EntityBase
     /** Direction the cart is facing */
     public ForgeDirection facingDirection = ForgeDirection.NORTH;
 
+    /** Length of the cart */
     public float length = 3;
+    /** Toggle to invalidate the collision box and have it reset next tick */
     private boolean invalidBox = false;
 
     public EntityCart(World world)
@@ -45,6 +52,44 @@ public class EntityCart extends EntityBase
         height = 0.7f;
         width = .95f;
         cargo = MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.SMALL, ItemExplosive.ExplosiveItems.CAKE.newItem(), Engines.COAL_ENGINE.newModule(), GuidanceModules.CHIP_ONE.newModule());
+    }
+
+    @Override
+    protected void entityInit()
+    {
+        super.entityInit();
+        this.dataWatcher.addObject(TYPE_DATA_ID, 0);
+    }
+
+    /**
+     * Sets the type of the cart, should
+     * never be run after the cart is created
+     *
+     * @param cartType - type of the cart
+     */
+    public void setType(final CartTypes cartType)
+    {
+        if (cartType == null)
+        {
+            this.dataWatcher.updateObject(TYPE_DATA_ID, 0);
+        }
+        else
+        {
+            this.dataWatcher.updateObject(TYPE_DATA_ID, cartType.ordinal());
+        }
+        this.width = getType().width;
+        this.length = getType().length;
+        invalidBox = true;
+    }
+
+    /**
+     * Gets the type of cart
+     *
+     * @return cart type
+     */
+    public CartTypes getType()
+    {
+        return CartTypes.values()[this.dataWatcher.getWatchableObjectInt(TYPE_DATA_ID)];
     }
 
     @Override
@@ -124,6 +169,17 @@ public class EntityCart extends EntityBase
         this.prevRotationPitch = this.rotationPitch;
         this.prevRotationYaw = this.rotationYaw;
 
+        final CartTypes type = getType();
+
+        //Checks if the size changed, No change should result in zero
+        if (Math.abs(type.length - length - type.width - width) > 0.1)
+        {
+            length = type.length;
+            width = type.width;
+            invalidBox = true;
+        }
+
+        //Updates the collision box
         if (invalidBox)
         {
             validateBoundBox();
@@ -269,7 +325,7 @@ public class EntityCart extends EntityBase
 
     public void destroyCart()
     {
-        //TODO drop item
+        InventoryUtility.dropItemStack(new Location(this), new ItemStack(ICBM.itemMissileCart, 1, getType().ordinal()));
         setDead();
     }
 

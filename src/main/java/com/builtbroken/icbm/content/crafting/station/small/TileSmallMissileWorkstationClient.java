@@ -85,8 +85,8 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
         GL11.glTranslatef(-1f, 0f, 0.1f);
         GL11.glRotatef(-20f, 0, 1, 0);
         GL11.glScaled(.7f, .7f, .7f);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_WORKSTATION_TEXTURE);
-        Assets.SMALL_MISSILE_STATION_MODEL.renderAll();
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_WORKSTATION_TEXTURE2);
+        Assets.SMALL_MISSILE_STATION_MODEL2.renderAll();
     }
 
     @Override
@@ -103,7 +103,8 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
         GL11.glPushMatrix();
         GL11.glTranslatef(pos.xf() + offset.xf(), pos.yf() + offset.yf(), pos.zf()  + offset.zf());
         GL11.glRotated(90, 0, 1, 0);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_WORKSTATION_TEXTURE);
+        GL11.glScaled(1.5, 1, 1);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_WORKSTATION_TEXTURE2);
 
         //Keep in mind the directions are of the facing block
         switch (connectedBlockSide)
@@ -178,7 +179,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
                 break;
 
         }
-        Assets.SMALL_MISSILE_STATION_MODEL.renderAll();
+        Assets.SMALL_MISSILE_STATION_MODEL2.renderAll();
         GL11.glPopMatrix();
 
         //render missile

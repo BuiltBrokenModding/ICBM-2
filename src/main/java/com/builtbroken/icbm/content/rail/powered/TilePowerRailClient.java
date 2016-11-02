@@ -163,6 +163,10 @@ public class TilePowerRailClient extends TilePowerRail
                 }
             }
         }
+        else if(side == 1)
+        {
+            return arrow4;
+        }
         return main;
     }
 
