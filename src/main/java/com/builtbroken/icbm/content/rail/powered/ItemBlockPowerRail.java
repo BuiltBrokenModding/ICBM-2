@@ -1,12 +1,10 @@
 package com.builtbroken.icbm.content.rail.powered;
 
-import com.builtbroken.mc.lib.helper.BlockUtility;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -19,6 +17,7 @@ public class ItemBlockPowerRail extends ItemBlock
     public ItemBlockPowerRail(Block block)
     {
         super(block);
+        this.setHasSubtypes(true);
     }
 
     @Override
@@ -31,7 +30,34 @@ public class ItemBlockPowerRail extends ItemBlock
             {
                 if (side == 0 || side == 1)
                 {
-                    ((TilePowerRail) tile).setFacingDirection(BlockUtility.determineForgeDirection(player));
+                    boolean high = hitZ >= 0.7;
+                    boolean low = hitZ <= 0.3;
+                    //Left & right are inverted for South
+                    boolean left = hitX <= 0.3;
+                    boolean right = hitX >= 0.7;
+
+                    if (!left && !right)
+                    {
+                        if (high)
+                        {
+                            ((TilePowerRail) tile).setFacingDirection(ForgeDirection.SOUTH);
+                        }
+                        else if (low)
+                        {
+                            ((TilePowerRail) tile).setFacingDirection(ForgeDirection.NORTH);
+                        }
+                    }
+                    else
+                    {
+                        if (left)
+                        {
+                            ((TilePowerRail) tile).setFacingDirection(side == 0 ? ForgeDirection.EAST : ForgeDirection.WEST);
+                        }
+                        else if (right)
+                        {
+                            ((TilePowerRail) tile).setFacingDirection(side == 0 ? ForgeDirection.WEST : ForgeDirection.EAST);
+                        }
+                    }
                 }
                 //North South
                 else if (side == 2 || side == 3)
@@ -58,12 +84,10 @@ public class ItemBlockPowerRail extends ItemBlock
                         if (left)
                         {
                             ((TilePowerRail) tile).setFacingDirection(ForgeDirection.WEST);
-                            player.addChatComponentMessage(new ChatComponentText("West"));
                         }
                         else if (right)
                         {
                             ((TilePowerRail) tile).setFacingDirection(ForgeDirection.EAST);
-                            player.addChatComponentMessage(new ChatComponentText("East"));
                         }
                     }
                 }
@@ -99,10 +123,16 @@ public class ItemBlockPowerRail extends ItemBlock
                         }
                     }
                 }
-                ((TilePowerRail) tile).type = metadata;
+                ((TilePowerRail) tile).type = stack.getItemDamage();
             }
             return true;
         }
         return false;
+    }
+
+    @Override
+    public String getUnlocalizedName(ItemStack stack)
+    {
+        return this.field_150939_a.getUnlocalizedName() + "." + stack.getItemDamage();
     }
 }

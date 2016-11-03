@@ -37,26 +37,11 @@ public class ItemCart extends Item
     {
         if (!world.isRemote)
         {
-            final Block block = world.getBlock(x, y, z);
-            final TileEntity tile = world.getTileEntity(x, y, z);
-
-            if (block instanceof BlockRail)
-            {
-                BlockRail.RailDirections railType = BlockRail.RailDirections.get(world.getBlockMetadata(x, y, z));
-                EntityCart cart = getCart(world, stack.getItemDamage());
-                cart.setPosition(x + 0.5, y + 0.5, z + 0.5);
-                mountEntity(cart, railType.side, railType.facing, block.getBlockBoundsMaxY());
-            }
-            else if (tile instanceof IMissileRail)
-            {
-                EntityCart cart = getCart(world, stack.getItemDamage());
-                cart.setPosition(x + 0.5, y + 0.5, z + 0.5);
-                mountEntity(cart, ((IMissileRail) tile).getAttachedDirection(), ((IMissileRail) tile).getFacingDirection(), ((IMissileRail) tile).getRailHeight());
-            }
-            if (!player.capabilities.isCreativeMode)
+            if (placeCart(world, x, y, z, stack.getItemDamage()) != null && !player.capabilities.isCreativeMode)
             {
                 stack.stackSize--;
             }
+            return true;
         }
         return false;
     }
@@ -68,14 +53,48 @@ public class ItemCart extends Item
     }
 
     /**
-     * Sets the cart onto the rail
+     * Places the cart on top of the rail
+     *
+     * @param world
+     * @param x
+     * @param y
+     * @param z
+     * @param type  - type of the cart @see {@link CartTypes}
+     * @return true if the entity was placed into the world
+     */
+    public static EntityCart placeCart(World world, int x, int y, int z, int type)
+    {
+        final Block block = world.getBlock(x, y, z);
+        final TileEntity tile = world.getTileEntity(x, y, z);
+
+        if (block instanceof BlockRail)
+        {
+            BlockRail.RailDirections railType = BlockRail.RailDirections.get(world.getBlockMetadata(x, y, z));
+            EntityCart cart = getCart(world, type);
+            cart.setPosition(x + 0.5, y + 0.5, z + 0.5);
+            mountEntity(cart, railType.side, railType.facing, block.getBlockBoundsMaxY());
+            return cart;
+        }
+        else if (tile instanceof IMissileRail)
+        {
+            EntityCart cart = getCart(world, type);
+            cart.setPosition(x + 0.5, y + 0.5, z + 0.5);
+            mountEntity(cart, ((IMissileRail) tile).getAttachedDirection(), ((IMissileRail) tile).getFacingDirection(), ((IMissileRail) tile).getRailHeight());
+            return cart;
+        }
+        return null;
+    }
+
+
+    /**
+     * Sets the cart onto the rail and spawns it into the world
      *
      * @param cart
      * @param side
      * @param facing
      * @param railHeight
      */
-    protected void mountEntity(final EntityCart cart, final ForgeDirection side, final ForgeDirection facing, double railHeight)
+    public static void mountEntity(final EntityCart cart, final ForgeDirection side, final ForgeDirection facing, double railHeight)
     {
         cart.railSide = side;
         cart.recenterCartOnRail(side, facing, railHeight);
@@ -89,7 +108,7 @@ public class ItemCart extends Item
      * @param meta
      * @return
      */
-    protected EntityCart getCart(final World world, int meta)
+    public static EntityCart getCart(final World world, int meta)
     {
         //More types will be added later
         final EntityCart cart = new EntityCart(world);

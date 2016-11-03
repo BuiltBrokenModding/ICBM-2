@@ -10,11 +10,16 @@ import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.TileEnt;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import java.util.List;
 
 /**
  * Handles different functions
@@ -80,7 +85,7 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
     @Override
     public void tickRailFromCart(EntityCart cart)
     {
-        if (type == 1)
+        if (isRotationRail())
         {
             //TODO lerp rotation to provide a transition
             if (rotateToAngle)
@@ -97,10 +102,38 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
             }
             handlePush(cart);
         }
-        else if (type == 0)
+        else if (isPoweredRail())
         {
             handlePush(cart);
         }
+        else if (isOrientationRail())
+        {
+
+        }
+        else if (isStopRail())
+        {
+
+        }
+    }
+
+    public boolean isPoweredRail()
+    {
+        return type == 1;
+    }
+
+    public boolean isRotationRail()
+    {
+        return type == 0;
+    }
+
+    public boolean isOrientationRail()
+    {
+        return type == 2;
+    }
+
+    public boolean isStopRail()
+    {
+        return type == 3;
     }
 
     @Override
@@ -189,14 +222,134 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
     @Override
     protected boolean onPlayerRightClickWrench(EntityPlayer player, int side, Pos hit)
     {
-        //TODO rotate tile
-        return false;
+        if(player.isSneaking())
+        {
+            if(isRotationRail())
+            {
+                rotateClockwise = !rotateClockwise;
+                if(isServer())
+                {
+                    sendDescPacket();
+                }
+                else
+                {
+                    world().markBlockRangeForRenderUpdate(xi(), yi(), zi(), xi(), yi(), zi());
+                }
+            }
+        }
+        else
+        {
+            if (side == 0 || side == 1)
+            {
+                boolean high = hit.z() >= 0.7;
+                boolean low = hit.z() <= 0.3;
+                //Left & right are inverted for South
+                boolean left = hit.x() <= 0.3;
+                boolean right = hit.x() >= 0.7;
+
+                if (!left && !right)
+                {
+                    if (high)
+                    {
+                        setFacingDirection(ForgeDirection.SOUTH);
+                    }
+                    else if (low)
+                    {
+                        setFacingDirection(ForgeDirection.NORTH);
+                    }
+                }
+                else
+                {
+                    if (left)
+                    {
+                        setFacingDirection(side == 0 ? ForgeDirection.EAST : ForgeDirection.WEST);
+                    }
+                    else if (right)
+                    {
+                        setFacingDirection(side == 0 ? ForgeDirection.WEST : ForgeDirection.EAST);
+                    }
+                }
+            }
+            //North South
+            else if (side == 2 || side == 3)
+            {
+                boolean high = hit.y() >= 0.7;
+                boolean low = hit.y() <= 0.3;
+                //Left & right are inverted for South
+                boolean left = hit.x() <= 0.3;
+                boolean right = hit.x() >= 0.7;
+
+                if (!left && !right)
+                {
+                    if (high)
+                    {
+                        setFacingDirection(ForgeDirection.UP);
+                    }
+                    else if (low)
+                    {
+                        setFacingDirection(ForgeDirection.DOWN);
+                    }
+                }
+                else
+                {
+                    if (left)
+                    {
+                        setFacingDirection(ForgeDirection.WEST);
+                    }
+                    else if (right)
+                    {
+                        setFacingDirection(ForgeDirection.EAST);
+                    }
+                }
+            }
+            //West East
+            else if (side == 4 || side == 5)
+            {
+                boolean high = hit.y() >= 0.7;
+                boolean low = hit.y() <= 0.3;
+                //Left & right are inverted for East
+                boolean left = hit.z() <= 0.3;
+                boolean right = hit.z() >= 0.7;
+
+                if (!left && !right)
+                {
+                    if (high)
+                    {
+                        setFacingDirection(ForgeDirection.UP);
+                    }
+                    else if (low)
+                    {
+                       setFacingDirection(ForgeDirection.DOWN);
+                    }
+                }
+                else
+                {
+                    if (left)
+                    {
+                        setFacingDirection(ForgeDirection.NORTH);
+                    }
+                    else if (right)
+                    {
+                        setFacingDirection(ForgeDirection.SOUTH);
+                    }
+                }
+            }
+            world().markBlockRangeForRenderUpdate(xi(), yi(), zi(), xi(), yi(), zi());
+        }
+        return true;
     }
 
     @Override
     public void writeDescPacket(ByteBuf buf)
     {
+        buf.writeInt(type);
         buf.writeInt(getFacingDirection().ordinal());
+        if (isRotationRail())
+        {
+            buf.writeBoolean(rotateToAngle);
+            buf.writeBoolean(rotateClockwise);
+            buf.writeInt(rotateYaw);
+        }
     }
 
     @Override
@@ -207,6 +360,22 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
         {
             setFacingDirection(ForgeDirection.getOrientation(nbt.getInteger("facingDirection")));
         }
+        type = nbt.getInteger("railType");
+        if (isRotationRail())
+        {
+            if (nbt.hasKey("rotateToAngle"))
+            {
+                rotateToAngle = nbt.getBoolean("rotateToAngle");
+            }
+            if (nbt.hasKey("rotateClockwise"))
+            {
+                rotateClockwise = nbt.getBoolean("rotateClockwise");
+            }
+            if (nbt.hasKey("rotationYaw"))
+            {
+                rotateYaw = nbt.getInteger("rotationYaw");
+            }
+        }
     }
 
     @Override
@@ -214,6 +383,13 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
     {
         super.writeToNBT(nbt);
         nbt.setInteger("facingDirection", getFacingDirection().ordinal());
+        nbt.setInteger("railType", type);
+        if (isRotationRail())
+        {
+            nbt.setBoolean("rotateToAngle", rotateToAngle);
+            nbt.setBoolean("rotateClockwise", rotateClockwise);
+            nbt.setInteger("rotationYaw", rotateYaw);
+        }
     }
 
     @Override
@@ -230,11 +406,20 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
                 case SOUTH:
                     return COLLISION_BOX_SOUTH;
                 case EAST:
-                    return new Cube(0, 0, 0, .4, 1, 1);
+                    return COLLISION_BOX_EAST;
                 case WEST:
                     return COLLISION_BOX_WEST;
             }
         }
         return bounds;
+    }
+
+    @Override
+    public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list)
+    {
+        list.add(new ItemStack(item, 1, 0));
+        list.add(new ItemStack(item, 1, 1));
+        list.add(new ItemStack(item, 1, 2));
+        list.add(new ItemStack(item, 1, 3));
     }
 }

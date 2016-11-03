@@ -1,12 +1,7 @@
 package com.builtbroken.icbm.content.rail.entity;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
-import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
-import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
-import com.builtbroken.icbm.content.crafting.missile.guidance.GuidanceModules;
-import com.builtbroken.icbm.content.crafting.parts.ItemExplosive;
 import com.builtbroken.icbm.content.rail.BlockRail;
 import com.builtbroken.icbm.content.rail.IMissileRail;
 import com.builtbroken.mc.lib.helper.MathUtility;
@@ -19,6 +14,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
@@ -34,7 +30,7 @@ public class EntityCart extends EntityBase
 {
     public static final int TYPE_DATA_ID = 23;
     //Thing we are carrying
-    public Missile cargo;
+    private Missile cargo;
 
     /** Side of the cart that the rail exists */
     public ForgeDirection railSide;
@@ -51,7 +47,6 @@ public class EntityCart extends EntityBase
         super(world);
         height = 0.7f;
         width = .95f;
-        cargo = MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.SMALL, ItemExplosive.ExplosiveItems.CAKE.newItem(), Engines.COAL_ENGINE.newModule(), GuidanceModules.CHIP_ONE.newModule());
     }
 
     @Override
@@ -230,6 +225,12 @@ public class EntityCart extends EntityBase
             {
                 moveEntity(motionX, motionY, motionZ);
             }
+
+            if (isAirBorne)
+            {
+                motionY -= (9.8 / 20);
+                motionY = Math.max(-2, motionY);
+            }
         }
         //Updates the rail and cart position
         if (tile instanceof IMissileRail)
@@ -311,7 +312,7 @@ public class EntityCart extends EntityBase
     }
 
     @Override
-    public void applyEntityCollision(Entity p_70108_1_)
+    public void applyEntityCollision(Entity entity)
     {
 
     }
@@ -400,5 +401,29 @@ public class EntityCart extends EntityBase
     public void onEntityUpdate()
     {
         //Empty to ignore default entity code
+    }
+
+    @Override
+    protected void readEntityFromNBT(NBTTagCompound nbt)
+    {
+        super.readEntityFromNBT(nbt);
+        setType(CartTypes.values()[nbt.getInteger("cartType")]);
+    }
+
+    @Override
+    protected void writeEntityToNBT(NBTTagCompound nbt)
+    {
+        writeEntityToNBT(nbt);
+        nbt.setInteger("cartType", getType().ordinal());
+    }
+
+    public Missile getCargo()
+    {
+        return cargo;
+    }
+
+    public void setCargo(Missile cargo)
+    {
+        this.cargo = cargo;
     }
 }

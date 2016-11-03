@@ -38,7 +38,7 @@ public class RenderCart extends Render
         final EntityCart cart = (EntityCart) entity;
         if (cart.getType() == CartTypes.SMALL)
         {
-            TileSmallMissileWorkstationClient.renderDynamic(new Pos(xx - .5, yy, zz - .5), new Pos(1, 0, 2), cart.railSide.getOpposite(), cart.facingDirection, cart.cargo, 0, 0);
+            TileSmallMissileWorkstationClient.renderDynamic(new Pos(xx - .5, yy, zz - .5), new Pos(1, 0, 2), cart.railSide.getOpposite(), cart.facingDirection, cart.getCargo(), 0, 0);
         }
         else
         {

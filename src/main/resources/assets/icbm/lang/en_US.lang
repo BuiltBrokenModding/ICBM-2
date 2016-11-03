@@ -86,7 +86,11 @@ tile.icbm:TileMissile.0.name=Wooden Rocket Display
 tile.icbm:TileMissile.1.name=Wooden Small Missile Display
 
 tile.icbm:icbmMissileRail.name=Missile Transport Rail
-tile.icbm:cartRotator.name=Missile Transport Rotation Rail
+
+tile.icbm:cartPowerRail.0.name=Missile Transport Rotation Rail
+tile.icbm:cartPowerRail.1.name=Missile Transport Powered Rail
+tile.icbm:cartPowerRail.2.name=Missile Transport Orientation Rail
+tile.icbm:cartPowerRail.3.name=Missile Transport Stop Rail
 
 tile.icbm:antennaParts.name=Antenna Part
 tile.icbm:antennaParts.0.name=Antenna Part
