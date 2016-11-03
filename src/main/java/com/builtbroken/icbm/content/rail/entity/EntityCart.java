@@ -413,7 +413,7 @@ public class EntityCart extends EntityBase
     @Override
     protected void writeEntityToNBT(NBTTagCompound nbt)
     {
-        writeEntityToNBT(nbt);
+        super.writeEntityToNBT(nbt);
         nbt.setInteger("cartType", getType().ordinal());
     }
 

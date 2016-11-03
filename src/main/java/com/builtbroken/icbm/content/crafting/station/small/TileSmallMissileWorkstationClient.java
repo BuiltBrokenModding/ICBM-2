@@ -334,7 +334,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
         Assets.SMALL_MISSILE_MODEL.renderOnly("Group_001", "Component_1_001", "Component_1_002", "Component_1_003", "Component_1_004");
     }
 
-    private static void handleMissileRotationUD(ForgeDirection direction)
+    public static void handleMissileRotationUD(ForgeDirection direction)
     {
         switch (direction)
         {
@@ -364,7 +364,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
     /**
      * Handles rotation for east and west
      */
-    private static void handleMissileRotationEW(ForgeDirection direction)
+    public static void handleMissileRotationEW(ForgeDirection direction)
     {
         switch (direction)
         {
@@ -394,7 +394,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
     /**
      * Handles rotation for north and south
      */
-    private static void handleMissileRotationNS(ForgeDirection direction)
+    public static void handleMissileRotationNS(ForgeDirection direction)
     {
         switch (direction)
         {

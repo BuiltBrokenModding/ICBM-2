@@ -1,11 +1,11 @@
 package com.builtbroken.icbm.content.rail.entity;
 
 import com.builtbroken.icbm.client.Assets;
+import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstationClient;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.helper.MathUtility;
 import com.builtbroken.mc.lib.render.RenderUtility;
-import com.builtbroken.mc.lib.transform.vector.Pos;
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.entity.Render;
@@ -13,6 +13,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -38,7 +39,21 @@ public class RenderCart extends Render
         final EntityCart cart = (EntityCart) entity;
         if (cart.getType() == CartTypes.SMALL)
         {
-            TileSmallMissileWorkstationClient.renderDynamic(new Pos(xx - .5, yy, zz - .5), new Pos(1, 0, 2), cart.railSide.getOpposite(), cart.facingDirection, cart.getCargo(), 0, 0);
+            GL11.glPushMatrix();
+            GL11.glTranslated(xx, yy, zz);
+            GL11.glTranslatef(0.5f, 0.5f, 0.5f);
+            GL11.glRotated(90, 0, 1, 0);
+
+            GL11.glRotated(cart.rotationYaw, 0, 1, 0);
+
+            //Renders the cart
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_WORKSTATION_TEXTURE2);
+            Assets.CART1x3.renderAll();
+
+            //Render missile
+            renderMissile(cart.getCargo(), cart.railSide, cart.facingDirection);
+
+            GL11.glPopMatrix();
         }
         else
         {
@@ -104,5 +119,67 @@ public class RenderCart extends Render
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glDepthMask(true);
+    }
+
+    /**
+     * Handles rendering of the missile
+     */
+    public static void renderMissile(Missile misssile, ForgeDirection connectedBlockSide, ForgeDirection direction)
+    {
+        ///Center render view to tile center
+        GL11.glTranslatef(0.5f, 0.5f, 0.5f);
+
+        //Handles setting the rotation based on the side
+        switch (connectedBlockSide)
+        {
+            case UP:
+            case DOWN:
+                TileSmallMissileWorkstationClient.handleMissileRotationUD(direction);
+                break;
+            case EAST:
+            case WEST:
+                TileSmallMissileWorkstationClient.handleMissileRotationEW(direction);
+                break;
+            case SOUTH:
+            case NORTH:
+                TileSmallMissileWorkstationClient.handleMissileRotationNS(direction);
+                break;
+        }
+        //Bind texture
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_MISSILE_TEXTURE);
+        //Group_001 body
+        //Component_1_001 - 4 Body Fins
+        if (misssile.getWarhead() != null)
+        {
+            //Group_004 nose of warhead
+            //Group_005 warhead
+            Assets.SMALL_MISSILE_MODEL.renderOnly("Group_005");
+            if (misssile.getWarhead().getExplosive() != null)
+            {
+                Assets.SMALL_MISSILE_MODEL.renderOnly("Group_004");
+            }
+        }
+        if (misssile.getEngine() != null)
+        {
+            //Group_002 - Engine thruster
+            //Group_003 - Engine case
+            //Component_3_001 - 8 Engine lower segments
+            //Component_2_001 - 4 Engine fins
+            Assets.SMALL_MISSILE_MODEL.renderOnly("Group_002", "Group_003");
+            for (int i = 1; i < 9; i++)
+            {
+                Assets.SMALL_MISSILE_MODEL.renderOnly("Component_3_00" + i);
+            }
+            for (int i = 1; i < 5; i++)
+            {
+                Assets.SMALL_MISSILE_MODEL.renderOnly("Component_2_00" + i);
+            }
+        }
+        if (misssile.getGuidance() != null)
+        {
+            //TODO add model indication showing no guidance added
+        }
+        //Render body and fins
+        Assets.SMALL_MISSILE_MODEL.renderOnly("Group_001", "Component_1_001", "Component_1_002", "Component_1_003", "Component_1_004");
     }
 }

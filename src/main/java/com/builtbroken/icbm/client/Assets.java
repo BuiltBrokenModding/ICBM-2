@@ -56,6 +56,9 @@ public final class Assets
     public static final WavefrontObject ANTENNA_ARM_MODEL = (WavefrontObject) model("antenna/AntennaArm.obj");
     public static final WavefrontObject ANTENNA_ARM2_MODEL = (WavefrontObject) model("antenna/AntennaArm2.obj");
 
+    //Carts
+    public static final WavefrontObject CART1x3 = (WavefrontObject) model("carts/ThreeByOneMissileCart.obj");
+
     //Textures
     public static final ResourceLocation GREY_FAKE_TEXTURE = texture("grey");
 
