@@ -3,6 +3,7 @@ package com.builtbroken.icbm.content.crafting.station.small;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
+import com.builtbroken.mc.client.SharedAssets;
 import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Pos;
@@ -101,56 +102,104 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
     {
         //Render launcher
         GL11.glPushMatrix();
-        GL11.glTranslatef(pos.xf() + offset.xf(), pos.yf() + offset.yf(), pos.zf()  + offset.zf());
+        GL11.glTranslatef(pos.xf() + offset.xf(), pos.yf() + offset.yf(), pos.zf() + offset.zf());
         GL11.glRotated(90, 0, 1, 0);
-        GL11.glScaled(1.5, 1, 1);
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_WORKSTATION_TEXTURE2);
 
+        int tableX = 2;
         //Keep in mind the directions are of the facing block
         switch (connectedBlockSide)
         {
             case UP:
-                if (direction == ForgeDirection.WEST || direction == ForgeDirection.EAST)
+                if (direction == ForgeDirection.EAST)
                 {
                     GL11.glRotated(-90, 0, 1, 0);
                     //x y z
                     GL11.glTranslatef(-2, 0f, -1);
+                }
+                else if (direction == ForgeDirection.WEST)
+                {
+                    GL11.glRotated(90, 0, 1, 0);
+                    //x y z
+                    GL11.glTranslatef(-1, 0f, 2);
+                }
+                else if (direction == ForgeDirection.SOUTH)
+                {
+                    GL11.glRotated(180, 0, 1, 0);
+                    //x y z
+                    GL11.glTranslatef(-3, 0f, 1);
                 }
                 break;
             case DOWN:
                 GL11.glRotated(180, 1, 0, 0);
                 // z y x
                 GL11.glTranslatef(0f, -1f, 1f);
-                if (direction == ForgeDirection.WEST || direction == ForgeDirection.EAST)
+                if (direction == ForgeDirection.WEST)
                 {
                     GL11.glRotated(-90, 0, 1, 0);
                     //x y z
                     GL11.glTranslatef(-2f, 0f, -1f);
+                }
+                else if (direction == ForgeDirection.EAST)
+                {
+                    GL11.glRotated(90, 0, 1, 0);
+                    //x y z
+                    GL11.glTranslatef(-1f, 0f, 2f);
+                }
+                else if (direction == ForgeDirection.SOUTH)
+                {
+                    GL11.glRotated(180, 0, 1, 0);
+                    //x y z
+                    GL11.glTranslatef(-3, 0f, 1);
                 }
                 break;
             case EAST:
                 GL11.glRotated(90, 1, 0, 0);
                 // z x y
                 GL11.glTranslatef(0f, -1f, 0f);
-                if (direction == ForgeDirection.UP || direction == ForgeDirection.DOWN)
+                if (direction == ForgeDirection.DOWN)
                 {
                     GL11.glRotated(-90, 0, 1, 0);
                     // y x z
                     GL11.glTranslatef(-2f, 0f, -1f);
                 }
+                else if (direction == ForgeDirection.UP)
+                {
+                    GL11.glRotated(90, 0, 1, 0);
+                    // y x z
+                    GL11.glTranslatef(-1f, 0f, 2f);
+                }
+                if (direction == ForgeDirection.SOUTH)
+                {
+                    GL11.glRotated(180, 0, 1, 0);
+                    // y x z
+                    GL11.glTranslatef(-3f, 0f, 1f);
+                }
                 break;
             case WEST:
                 GL11.glRotated(-90, 1, 0, 0);
                 // z x y
-                if (direction == ForgeDirection.UP || direction == ForgeDirection.DOWN)
+                if (direction == ForgeDirection.UP)
                 {
                     GL11.glRotated(-90, 0, 1, 0);
                     // y x z
                     GL11.glTranslatef(-1f, 0f, -1f);
                 }
+                else if (direction == ForgeDirection.DOWN)
+                {
+                    GL11.glRotated(90, 0, 1, 0);
+                    // y x z
+                    GL11.glTranslatef(-2f, 0f, 2f);
+                }
                 else
                 {
                     GL11.glTranslatef(0f, 0f, 1f);
+                    if (direction == ForgeDirection.SOUTH)
+                    {
+                        GL11.glRotated(180, 0, 1, 0);
+                        // y x z
+                        GL11.glTranslatef(-3f, 0f, 1f);
+                    }
                 }
                 break;
             case NORTH:
@@ -158,11 +207,22 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
                 GL11.glRotated(90, 1, 0, 0);
                 // y x z
                 GL11.glTranslatef(-1f, 1f, 0f);
-                if (direction == ForgeDirection.UP || direction == ForgeDirection.DOWN)
+                if (direction == ForgeDirection.DOWN)
                 {
                     GL11.glRotated(-90, 0, 1, 0);
                     // y z x
                     GL11.glTranslatef(-2f, 0f, -1f);
+                }
+                else if (direction == ForgeDirection.EAST)
+                {
+                    GL11.glRotated(180, 0, 1, 0);
+                    GL11.glTranslatef(-3f, 0f, 1f);
+                }
+                else if (direction == ForgeDirection.UP)
+                {
+                    GL11.glRotated(90, 0, 1, 0);
+                    // y z x
+                    GL11.glTranslatef(-1f, 0f, 2f);
                 }
                 break;
             case SOUTH:
@@ -170,16 +230,31 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
                 GL11.glRotated(-90, 1, 0, 0);
                 // x z y
                 GL11.glTranslatef(-1f, -2f, 1f);
-                if (direction == ForgeDirection.UP || direction == ForgeDirection.DOWN)
+                if (direction == ForgeDirection.UP)
                 {
                     GL11.glRotated(-90, 0, 1, 0);
                     // y z x
                     GL11.glTranslatef(-2f, 0f, -1f);
                 }
+                else if (direction == ForgeDirection.EAST)
+                {
+                    GL11.glRotated(180, 0, 1, 0);
+                    // x z y
+                    GL11.glTranslatef(-3f, 0, 1f);
+                }
+                else if (direction == ForgeDirection.DOWN)
+                {
+                    GL11.glRotated(90, 0, 1, 0);
+                    // y z x
+                    GL11.glTranslatef(-1f, 0f, 2f);
+                }
                 break;
 
         }
         Assets.SMALL_MISSILE_STATION_MODEL2.renderAll();
+        GL11.glTranslatef(tableX, 0, 0);
+        FMLClientHandler.instance().getClient().renderEngine.bindTexture(SharedAssets.TOOL_TABLE_TEXTURE);
+        SharedAssets.TOOL_TABLE.renderAll();
         GL11.glPopMatrix();
 
         //render missile
@@ -199,6 +274,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
     public static void renderMissile(Pos pos, Missile misssile, ForgeDirection connectedBlockSide, ForgeDirection direction)
     {
         GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.6f, pos.zf() + 0.5f);
+        GL11.glScaled(1, .9, 1);
 
         //TODO optimize as it seems each rotation method looks similar to the next
         switch (connectedBlockSide)
@@ -321,8 +397,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
             //NORTH and SOUTH are invalid rotations
             case DOWN:
                 GL11.glRotated(180, 0, 0, 1);
-                // ? -y ?
-                //GL11.glTranslatef(-1f, -1.8f, 0f);
+                GL11.glTranslatef(0, -0.3f, 0);
                 break;
             case EAST:
                 GL11.glRotated(-90, 0, 0, 1);
