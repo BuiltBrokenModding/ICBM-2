@@ -273,10 +273,12 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
      */
     public static void renderMissile(Pos pos, Missile misssile, ForgeDirection connectedBlockSide, ForgeDirection direction)
     {
-        GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.6f, pos.zf() + 0.5f);
+        ///Center render view to tile center
+        GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.5f, pos.zf() + 0.5f);
+        //Slight scale of the lenght to fit on the table
         GL11.glScaled(1, .9, 1);
 
-        //TODO optimize as it seems each rotation method looks similar to the next
+        //Handles setting the rotation based on the side
         switch (connectedBlockSide)
         {
             case UP:
@@ -292,6 +294,9 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
                 handleMissileRotationNS(direction);
                 break;
         }
+        //Moves the missile slightly over to sit on its rack
+        GL11.glTranslatef(0, -0.4f, 0);
+        //Bind texture
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_MISSILE_TEXTURE);
         //Group_001 body
         //Component_1_001 - 4 Body Fins
@@ -343,12 +348,12 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
                 // y x z
                 //GL11.glTranslatef(0.5f, -1.4f, 0.15f);
                 break;
-            case NORTH:
+            case SOUTH:
                 GL11.glRotated(90, 1, 0, 0);
                 // x z y
                 //GL11.glTranslatef(0f, -0.6f, -1.2f);
                 break;
-            case SOUTH:
+            case NORTH:
                 GL11.glRotated(-90, 1, 0, 0);
                 // x z y
                 //GL11.glTranslatef(0f, -1.3f, 0.75f);
@@ -397,17 +402,12 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
             //NORTH and SOUTH are invalid rotations
             case DOWN:
                 GL11.glRotated(180, 0, 0, 1);
-                GL11.glTranslatef(0, -0.3f, 0);
                 break;
             case EAST:
                 GL11.glRotated(-90, 0, 0, 1);
-                //-y x z
-                //GL11.glTranslatef(-1.35f, -0.5f, 0f);
                 break;
             case WEST:
                 GL11.glRotated(90, 0, 0, 1);
-                //y -x z
-                //GL11.glTranslatef(0.45f, -1.4f, 0f);
                 break;
         }
     }
