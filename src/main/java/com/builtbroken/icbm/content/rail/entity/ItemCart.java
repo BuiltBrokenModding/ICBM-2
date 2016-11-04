@@ -37,11 +37,14 @@ public class ItemCart extends Item
     {
         if (!world.isRemote)
         {
-            if (placeCart(world, x, y, z, stack.getItemDamage()) != null && !player.capabilities.isCreativeMode)
+            if(placeCart(world, x, y, z, stack.getItemDamage()) != null)
             {
-                stack.stackSize--;
+                if (!player.capabilities.isCreativeMode)
+                {
+                    stack.stackSize--;
+                }
+                return true;
             }
-            return true;
         }
         return false;
     }
@@ -49,7 +52,7 @@ public class ItemCart extends Item
     @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float xf, float yf, float zf)
     {
-        return true;
+        return world.getBlock(x, y, z) instanceof BlockRail || world.getTileEntity(x, y, z) instanceof IMissileRail;
     }
 
     /**
