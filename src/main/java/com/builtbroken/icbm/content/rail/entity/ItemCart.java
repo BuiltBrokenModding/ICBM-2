@@ -97,7 +97,7 @@ public class ItemCart extends Item
     public static void mountEntity(final EntityCart cart, final ForgeDirection side, final ForgeDirection facing, double railHeight)
     {
         cart.railSide = side;
-        cart.recenterCartOnRail(side, facing, railHeight);
+        cart.recenterCartOnRail(side, facing, railHeight, true);
         cart.worldObj.spawnEntityInWorld(cart);
     }
 

@@ -123,7 +123,7 @@ public class ItemBlockPowerRail extends ItemBlock
                         }
                     }
                 }
-                ((TilePowerRail) tile).type = stack.getItemDamage();
+                ((TilePowerRail) tile).railType = stack.getItemDamage();
             }
             return true;
         }

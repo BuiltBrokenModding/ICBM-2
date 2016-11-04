@@ -42,12 +42,13 @@ import java.util.List;
  */
 public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDReceiver
 {
-    //TODO A type rails need to have a rotation symbol to show the direction the cart is rotated towards
-    //TODO B type rails need to have an arrow showing the push direction
     //TODO C type rails need to show a stair case symbol to show it moving up or down
     //TODO D type needs to have a redstone upgrade
-    //TODO D type needs to show when its power and if it will stop a cart (Use gate symbol | | open /\ closed)
-    protected int type = 0;
+
+    /** What type of rail are we */
+    protected int railType = 0;
+
+    //////////////ROTATION RAIL STUFF
     /** How much to rotate */
     protected int rotateYaw = 90;
     /** Are we rotating to an angle or just rotating by an angle */
@@ -55,9 +56,23 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
     /** Are we rotating clockwise, not used if setting angle */
     protected boolean rotateClockwise = true;
 
+    /////////////STOP RAIL STUFF
+    /** Should we stop carts */
+    protected boolean stopCarts = true;
+    /** Should we use restone to override stopping of carts */
+    protected boolean useRedstoneToInvertStop = true;
+
+    /////////////LOADER UNLOADER STUFF
+    /** Direction to load/unload cargo */
+    protected ForgeDirection loadDirecton = ForgeDirection.NORTH;
+    /** Should we trigger connected stop rails when we have cargo or no cargo */
+    protected boolean triggerStopRails = true;
+    /** Should we emmit redstone when we have cargo or no cargo */
+    protected boolean doRedstoneOnLoad = true;
+
     /** Side of the block we are attached to */
     private ForgeDirection attachedSide;
-
+    /** Direction the rail is pointing towards */
     private ForgeDirection facingDirection = ForgeDirection.NORTH;
 
     //Collision/Render/Selection boxes
@@ -80,6 +95,22 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
     public Tile newTile()
     {
         return new TilePowerRail();
+    }
+
+    @Override
+    public void update()
+    {
+        super.update();
+        if (useRedstoneToInvertStop)
+        {
+            //TODO move to neighbor block change
+            boolean prevRed = stopCarts;
+            stopCarts = !isIndirectlyPowered();
+            if (prevRed != stopCarts)
+            {
+                sendDescPacket();
+            }
+        }
     }
 
     @Override
@@ -112,28 +143,92 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
         }
         else if (isStopRail())
         {
-
+            if (ticks % 5 == 0)
+            {
+                final Pos delta = new Pos(this).add(0.5).sub(cart.posX, cart.posY, cart.posZ);
+                boolean stop = true;
+                // Moving negative <--- -0.5 -0.4 -0.3 -0.2 -0.1 [0] 0.1 0.2 0.3 0.4 0.5 <- coming into station
+                // Moving positive <--- 0.5 0.4 0.3 0.2 0.1 [0] -0.1 -0.2 -0.3 -0.4 -0.5 <- coming into station
+                switch (getFacingDirection())
+                {
+                    case DOWN:
+                        stop = delta.y() > -0.05;
+                        break;
+                    case UP:
+                        stop = delta.y() < 0.05;
+                        break;
+                    case NORTH:
+                        stop = delta.z() > -0.05;
+                        break;
+                    case SOUTH:
+                        stop = delta.z() < 0.05;
+                        break;
+                    case EAST:
+                        stop = delta.x() < 0.05;
+                        break;
+                    case WEST:
+                        stop = delta.x() > -0.05;
+                        break;
+                }
+                if (stopCarts)
+                {
+                    if(stop)
+                    {
+                        cart.motionX = 0;
+                        cart.motionY = 0;
+                        cart.motionZ = 0;
+                        cart.recenterCartOnRail(this, true);
+                    }
+                }
+                else
+                {
+                    handlePush(cart);
+                    cart.recenterCartOnRail(this, false);
+                }
+            }
         }
     }
 
     public boolean isPoweredRail()
     {
-        return type == 1;
+        return railType == 1;
     }
 
     public boolean isRotationRail()
     {
-        return type == 0;
+        return railType == 0;
     }
 
     public boolean isOrientationRail()
     {
-        return type == 2;
+        return railType == 3;
     }
 
     public boolean isStopRail()
     {
-        return type == 3;
+        return railType == 2;
+    }
+
+    public boolean isLoaderRail()
+    {
+        return railType == 4;
+    }
+
+    public boolean isUnloadRail()
+    {
+        return railType == 5;
+    }
+
+    /**
+     * Extender tracks allow tiles to be connected to
+     * loaders and unloads a little distance from the
+     * track itself
+     *
+     * @return
+     */
+    public boolean isLoaderExtendTrack()
+    {
+        return railType == 6;
     }
 
     @Override
@@ -172,8 +267,7 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
     {
         if (isServer())
         {
-            final double vel = 0.3;
-            cart.recenterCartOnRail(getAttachedDirection(), getFacingDirection(), getRailHeight());
+            cart.recenterCartOnRail(this, false);
 
             //Cancel existing motion
             cart.motionX = 0;
@@ -186,16 +280,16 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
                     switch (getFacingDirection())
                     {
                         case NORTH:
-                            cart.motionZ = -vel;
+                            cart.motionZ = -EntityCart.vel;
                             break;
                         case SOUTH:
-                            cart.motionZ = vel;
+                            cart.motionZ = EntityCart.vel;
                             break;
                         case EAST:
-                            cart.motionX = vel;
+                            cart.motionX = EntityCart.vel;
                             break;
                         case WEST:
-                            cart.motionX = -vel;
+                            cart.motionX = -EntityCart.vel;
                             break;
                     }
             }
@@ -211,7 +305,7 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
             {
                 if (isServer())
                 {
-                    player.addChatMessage(new ChatComponentText("A: " + getAttachedDirection() + " F:" + getFacingDirection() + " T:" + type));
+                    player.addChatMessage(new ChatComponentText("A: " + getAttachedDirection() + " F:" + getFacingDirection() + " T:" + railType));
                 }
                 return true;
             }
@@ -222,12 +316,12 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
     @Override
     protected boolean onPlayerRightClickWrench(EntityPlayer player, int side, Pos hit)
     {
-        if(player.isSneaking())
+        if (player.isSneaking())
         {
-            if(isRotationRail())
+            if (isRotationRail())
             {
                 rotateClockwise = !rotateClockwise;
-                if(isServer())
+                if (isServer())
                 {
                     sendDescPacket();
                 }
@@ -319,7 +413,7 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
                     }
                     else if (low)
                     {
-                       setFacingDirection(ForgeDirection.DOWN);
+                        setFacingDirection(ForgeDirection.DOWN);
                     }
                 }
                 else
@@ -342,13 +436,17 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
     @Override
     public void writeDescPacket(ByteBuf buf)
     {
-        buf.writeInt(type);
+        buf.writeInt(railType);
         buf.writeInt(getFacingDirection().ordinal());
         if (isRotationRail())
         {
             buf.writeBoolean(rotateToAngle);
             buf.writeBoolean(rotateClockwise);
             buf.writeInt(rotateYaw);
+        }
+        else if (isStopRail())
+        {
+            buf.writeBoolean(stopCarts);
         }
     }
 
@@ -360,7 +458,7 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
         {
             setFacingDirection(ForgeDirection.getOrientation(nbt.getInteger("facingDirection")));
         }
-        type = nbt.getInteger("railType");
+        railType = nbt.getInteger("railType");
         if (isRotationRail())
         {
             if (nbt.hasKey("rotateToAngle"))
@@ -383,7 +481,7 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
     {
         super.writeToNBT(nbt);
         nbt.setInteger("facingDirection", getFacingDirection().ordinal());
-        nbt.setInteger("railType", type);
+        nbt.setInteger("railType", railType);
         if (isRotationRail())
         {
             nbt.setBoolean("rotateToAngle", rotateToAngle);

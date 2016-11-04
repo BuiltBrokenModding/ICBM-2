@@ -28,6 +28,7 @@ import java.util.List;
  */
 public class EntityCart extends EntityBase
 {
+    public static final double vel = 0.1;
     public static final int TYPE_DATA_ID = 23;
     //Thing we are carrying
     private Missile cargo;
@@ -241,13 +242,17 @@ public class EntityCart extends EntityBase
         {
             final int meta = pos.getBlockMetadata(worldObj);
             BlockRail.RailDirections railType = BlockRail.RailDirections.get(meta);
-            recenterCartOnRail(railType.side, railType.facing, block.getBlockBoundsMaxY());
+            recenterCartOnRail(railType.side, railType.facing, block.getBlockBoundsMaxY(), false);
         }
 
         //Handles pushing entities out of the way
         doCollisionLogic();
     }
 
+    public void recenterCartOnRail(IMissileRail rail, boolean trueCenter)
+    {
+        this.recenterCartOnRail(rail.getAttachedDirection(), rail.getFacingDirection(), rail.getRailHeight(), trueCenter);
+    }
     /**
      * Clamps the movement of the cart and position data so the
      * cart stays on the rail.
@@ -256,7 +261,7 @@ public class EntityCart extends EntityBase
      * @param facing     - direction the movement is going into
      * @param railHeight - height of the rail the cart is on
      */
-    public void recenterCartOnRail(ForgeDirection side, ForgeDirection facing, double railHeight)
+    public void recenterCartOnRail(ForgeDirection side, ForgeDirection facing, double railHeight, boolean trueCenter)
     {
         if (side == ForgeDirection.UP)
         {
@@ -264,13 +269,23 @@ public class EntityCart extends EntityBase
             {
                 motionX = 0;
                 motionY = 0;
+                posX = ((int) posX) + 0.5;
                 posY = ((int) posY) + railHeight;
+                if(trueCenter)
+                {
+                    posZ = ((int) posZ) + 0.5;
+                }
             }
             else if (facing == ForgeDirection.EAST || facing == ForgeDirection.WEST)
             {
                 motionZ = 0;
                 motionY = 0;
+                posZ = ((int) posZ) + 0.5;
                 posY = ((int) posY) + railHeight;
+                if(trueCenter)
+                {
+                    posX = ((int) posX) + 0.5;
+                }
             }
         }
         //TODO fix as this will not work with the current rail logic
@@ -280,13 +295,23 @@ public class EntityCart extends EntityBase
             {
                 motionX = 0;
                 motionY = 0;
+                posX = ((int) posX) + 0.5;
                 posY = ((int) posY) + 1 - railHeight;
+                if(trueCenter)
+                {
+                    posZ = ((int) posZ) + 0.5;
+                }
             }
             else if (facing == ForgeDirection.EAST || facing == ForgeDirection.WEST)
             {
                 motionZ = 0;
                 motionY = 0;
+                posZ = ((int) posZ) + 0.5;
                 posY = ((int) posY) + 1 - railHeight;
+                if(trueCenter)
+                {
+                    posX = ((int) posX) + 0.5;
+                }
             }
         }
     }
@@ -314,7 +339,7 @@ public class EntityCart extends EntityBase
     @Override
     public void applyEntityCollision(Entity entity)
     {
-
+        //TODO toggle a center rail method to call next tick
     }
 
     @Override
