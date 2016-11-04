@@ -1,14 +1,17 @@
 package com.builtbroken.icbm.content.rail.powered;
 
 import com.builtbroken.icbm.content.rail.IMissileRail;
+import com.builtbroken.icbm.content.rail.IRailInventoryTile;
 import com.builtbroken.icbm.content.rail.entity.EntityCart;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.lib.transform.region.Cube;
+import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.Tile;
-import com.builtbroken.mc.prefab.tile.TileEnt;
+import com.builtbroken.mc.prefab.tile.TileModuleMachine;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,6 +19,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -40,13 +44,13 @@ import java.util.List;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 10/29/2016.
  */
-public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDReceiver
+public class TilePowerRail extends TileModuleMachine implements IMissileRail, IPacketIDReceiver
 {
     //TODO C type rails need to show a stair case symbol to show it moving up or down
     //TODO D type needs to have a redstone upgrade
 
     /** What type of rail are we */
-    protected int railType = 0;
+    protected PoweredRails railType = PoweredRails.POWERED;
 
     //////////////ROTATION RAIL STUFF
     /** How much to rotate */
@@ -101,6 +105,12 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
     public void update()
     {
         super.update();
+    }
+
+    @Override
+    public void onNeighborChanged(Block block)
+    {
+        super.onNeighborChanged(block);
         if (useRedstoneToInvertStop)
         {
             //TODO move to neighbor block change
@@ -139,7 +149,7 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
         }
         else if (isOrientationRail())
         {
-
+            //TODO implements
         }
         else if (isStopRail())
         {
@@ -172,7 +182,7 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
                 }
                 if (stopCarts)
                 {
-                    if(stop)
+                    if (stop)
                     {
                         cart.motionX = 0;
                         cart.motionY = 0;
@@ -187,36 +197,138 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
                 }
             }
         }
+        else if (isLoaderRail())
+        {
+            if (cart.getCargo() == null)
+            {
+                cart.motionX = 0;
+                cart.motionY = 0;
+                cart.motionZ = 0;
+                cart.recenterCartOnRail(this, true);
+
+                IRailInventoryTile tile = getLoadTile();
+                int[] slots = tile.getSlotsToUnload(loadDirecton.getOpposite());
+            }
+            else
+            {
+                handlePush(cart);
+                cart.recenterCartOnRail(this, false);
+                return;
+            }
+        }
+        else if (isUnloadRail())
+        {
+            if (cart.getCargo() != null)
+            {
+                cart.motionX = 0;
+                cart.motionY = 0;
+                cart.motionZ = 0;
+                cart.recenterCartOnRail(this, true);
+
+                IRailInventoryTile tile = getLoadTile();
+                int[] slots = tile.getSlotsToLoad(loadDirecton.getOpposite());
+            }
+            else
+            {
+                handlePush(cart);
+                cart.recenterCartOnRail(this, false);
+                return;
+            }
+        }
     }
 
+    /**
+     * Gets the tile that will be used to load or unload
+     * into
+     *
+     * @return
+     */
+    public IRailInventoryTile getLoadTile()
+    {
+        Location location = toLocation().add(loadDirecton);
+        TileEntity tile = location.getTileEntity();
+        if (tile instanceof IRailInventoryTile)
+        {
+            return (IRailInventoryTile) tile;
+        }
+        return null;
+    }
+
+    @Override
+    public boolean isUsableRail()
+    {
+        return !isLoaderExtendTrack();
+    }
+
+    /**
+     * Pushs the cart
+     *
+     * @return
+     */
     public boolean isPoweredRail()
     {
-        return railType == 1;
+        return railType == PoweredRails.POWERED;
     }
 
+    /**
+     * Rotates the cart
+     *
+     * @return
+     */
     public boolean isRotationRail()
     {
-        return railType == 0;
+        return railType == PoweredRails.ROTATION;
     }
 
+    /**
+     * Changes the side of a tile the cart is on
+     *
+     * @return
+     */
     public boolean isOrientationRail()
     {
-        return railType == 3;
+        return railType == PoweredRails.ORIENTATION;
     }
 
+    /**
+     * Stops a cart
+     *
+     * @return
+     */
     public boolean isStopRail()
     {
-        return railType == 2;
+        return railType == PoweredRails.STOP;
     }
 
+    /**
+     * Loads cargo from carts from a tile
+     *
+     * @return
+     */
     public boolean isLoaderRail()
     {
-        return railType == 4;
+        return railType == PoweredRails.LOADER;
     }
 
+    /**
+     * Unloads cargo from carts into a tile
+     *
+     * @return
+     */
     public boolean isUnloadRail()
     {
-        return railType == 5;
+        return railType == PoweredRails.UNLOADER;
+    }
+
+    /**
+     * Two way splitter rail
+     * Sends cart left or right
+     *
+     * @return
+     */
+    public boolean isSplitterRail()
+    {
+        return railType == PoweredRails.SPLITTER;
     }
 
     /**
@@ -228,7 +340,7 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
      */
     public boolean isLoaderExtendTrack()
     {
-        return railType == 6;
+        return railType == PoweredRails.EXTENDER;
     }
 
     @Override
@@ -318,7 +430,7 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
     {
         if (player.isSneaking())
         {
-            if (isRotationRail())
+            if (isRotationRail() || isUnloadRail() || isLoaderRail())
             {
                 rotateClockwise = !rotateClockwise;
                 if (isServer())
@@ -436,7 +548,7 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
     @Override
     public void writeDescPacket(ByteBuf buf)
     {
-        buf.writeInt(railType);
+        buf.writeInt(railType.ordinal());
         buf.writeInt(getFacingDirection().ordinal());
         if (isRotationRail())
         {
@@ -448,6 +560,10 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
         {
             buf.writeBoolean(stopCarts);
         }
+        else if(isLoaderRail() || isUnloadRail())
+        {
+            buf.writeBoolean(rotateClockwise);
+        }
     }
 
     @Override
@@ -458,7 +574,7 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
         {
             setFacingDirection(ForgeDirection.getOrientation(nbt.getInteger("facingDirection")));
         }
-        railType = nbt.getInteger("railType");
+        railType = PoweredRails.get(nbt.getInteger("railType"));
         if (isRotationRail())
         {
             if (nbt.hasKey("rotateToAngle"))
@@ -474,6 +590,13 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
                 rotateYaw = nbt.getInteger("rotationYaw");
             }
         }
+        else if(isUnloadRail() || isLoaderRail())
+        {
+            if (nbt.hasKey("rotateClockwise"))
+            {
+                rotateClockwise = nbt.getBoolean("rotateClockwise");
+            }
+        }
     }
 
     @Override
@@ -481,12 +604,16 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
     {
         super.writeToNBT(nbt);
         nbt.setInteger("facingDirection", getFacingDirection().ordinal());
-        nbt.setInteger("railType", railType);
+        nbt.setInteger("railType", railType.ordinal());
         if (isRotationRail())
         {
             nbt.setBoolean("rotateToAngle", rotateToAngle);
             nbt.setBoolean("rotateClockwise", rotateClockwise);
             nbt.setInteger("rotationYaw", rotateYaw);
+        }
+        else if(isLoaderRail() || isUnloadRail())
+        {
+            nbt.setBoolean("rotateClockwise", rotateClockwise);
         }
     }
 
@@ -515,9 +642,9 @@ public class TilePowerRail extends TileEnt implements IMissileRail, IPacketIDRec
     @Override
     public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list)
     {
-        list.add(new ItemStack(item, 1, 0));
-        list.add(new ItemStack(item, 1, 1));
-        list.add(new ItemStack(item, 1, 2));
-        list.add(new ItemStack(item, 1, 3));
+        for (PoweredRails rails : PoweredRails.values())
+        {
+            list.add(new ItemStack(item, 1, rails.ordinal()));
+        }
     }
 }

@@ -123,7 +123,7 @@ public class ItemBlockPowerRail extends ItemBlock
                         }
                     }
                 }
-                ((TilePowerRail) tile).railType = stack.getItemDamage();
+                ((TilePowerRail) tile).railType = PoweredRails.get(stack.getItemDamage());
             }
             return true;
         }
@@ -133,6 +133,6 @@ public class ItemBlockPowerRail extends ItemBlock
     @Override
     public String getUnlocalizedName(ItemStack stack)
     {
-        return this.field_150939_a.getUnlocalizedName() + "." + stack.getItemDamage();
+        return this.field_150939_a.getUnlocalizedName() + "." + PoweredRails.get(stack.getItemDamage()).name().toLowerCase();
     }
 }
