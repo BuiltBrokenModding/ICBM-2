@@ -162,13 +162,13 @@ public class TileMissileContainer extends TileModuleMachine implements IPacketID
     @Override
     public int[] getSlotsToLoad(ForgeDirection side)
     {
-        return new int[0];
+        return new int[]{0};
     }
 
     @Override
     public int[] getSlotsToUnload(ForgeDirection side)
     {
-        return new int[0];
+        return new int[]{0};
     }
 
     @Override
@@ -202,5 +202,17 @@ public class TileMissileContainer extends TileModuleMachine implements IPacketID
     public boolean canRemove(ItemStack slotStack, int slot, ForgeDirection side)
     {
         return slot == 0;
+    }
+
+    @Override
+    public boolean canStore(ItemStack stack, ForgeDirection side)
+    {
+        return true;
+    }
+
+    @Override
+    public boolean canRemove(ItemStack stack, ForgeDirection side)
+    {
+        return true;
     }
 }

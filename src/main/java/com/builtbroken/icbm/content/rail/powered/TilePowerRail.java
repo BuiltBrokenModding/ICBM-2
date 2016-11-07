@@ -643,25 +643,10 @@ public class TilePowerRail extends TileModuleMachine implements IMissileRail, IP
             cart.motionY = 0;
             cart.motionZ = 0;
 
-            switch (getAttachedDirection())
-            {
-                case UP:
-                    switch (getFacingDirection())
-                    {
-                        case NORTH:
-                            cart.motionZ = -EntityCart.vel;
-                            break;
-                        case SOUTH:
-                            cart.motionZ = EntityCart.vel;
-                            break;
-                        case EAST:
-                            cart.motionX = EntityCart.vel;
-                            break;
-                        case WEST:
-                            cart.motionX = -EntityCart.vel;
-                            break;
-                    }
-            }
+            Pos pos = new Pos(facingDirection).multiply(EntityCart.vel);
+            cart.motionX = pos.x();
+            cart.motionY = pos.y();
+            cart.motionZ = pos.z();
         }
     }
 

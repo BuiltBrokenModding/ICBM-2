@@ -348,6 +348,8 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
                 motionY -= (9.8 / 20);
                 motionY = Math.max(-2, motionY);
             }
+            //Handles pushing entities out of the way
+            doCollisionLogic();
         }
         //Updates the rail and cart position
         if (tile instanceof IMissileRail)
@@ -361,8 +363,7 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
             recenterCartOnRail(railType.side, railType.facing, block.getBlockBoundsMaxY(), false);
         }
 
-        //Handles pushing entities out of the way
-        doCollisionLogic();
+
 
         if (!worldObj.isRemote && updateClient)
         {
@@ -387,53 +388,31 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
     {
         if (side == ForgeDirection.UP)
         {
-            if (facing == ForgeDirection.NORTH || facing == ForgeDirection.SOUTH)
-            {
-                motionX = 0;
-                motionY = 0;
-                posX = ((int) posX) + 0.5;
-                posY = ((int) posY) + railHeight;
-                if (trueCenter)
-                {
-                    posZ = ((int) posZ) + 0.5;
-                }
-            }
-            else if (facing == ForgeDirection.EAST || facing == ForgeDirection.WEST)
-            {
-                motionZ = 0;
-                motionY = 0;
-                posZ = ((int) posZ) + 0.5;
-                posY = ((int) posY) + railHeight;
-                if (trueCenter)
-                {
-                    posX = ((int) posX) + 0.5;
-                }
-            }
+            posY = ((int) posY) + railHeight;
+            motionY = 0;
         }
-        //TODO fix as this will not work with the current rail logic
         else if (side == ForgeDirection.DOWN)
         {
-            if (facing == ForgeDirection.NORTH || facing == ForgeDirection.SOUTH)
+            posY = ((int) posY) + 1 - railHeight;
+            motionY = 0;
+        }
+
+        if (facing == ForgeDirection.NORTH || facing == ForgeDirection.SOUTH)
+        {
+            motionX = 0;
+            posX = ((int) posX) + 0.5;
+            if (trueCenter)
             {
-                motionX = 0;
-                motionY = 0;
-                posX = ((int) posX) + 0.5;
-                posY = ((int) posY) + 1 - railHeight;
-                if (trueCenter)
-                {
-                    posZ = ((int) posZ) + 0.5;
-                }
-            }
-            else if (facing == ForgeDirection.EAST || facing == ForgeDirection.WEST)
-            {
-                motionZ = 0;
-                motionY = 0;
                 posZ = ((int) posZ) + 0.5;
-                posY = ((int) posY) + 1 - railHeight;
-                if (trueCenter)
-                {
-                    posX = ((int) posX) + 0.5;
-                }
+            }
+        }
+        else if (facing == ForgeDirection.EAST || facing == ForgeDirection.WEST)
+        {
+            motionZ = 0;
+            posZ = ((int) posZ) + 0.5;
+            if (trueCenter)
+            {
+                posX = ((int) posX) + 0.5;
             }
         }
     }
