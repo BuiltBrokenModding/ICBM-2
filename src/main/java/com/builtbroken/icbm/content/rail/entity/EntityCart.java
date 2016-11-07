@@ -51,6 +51,8 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
     public ForgeDirection railSide;
     /** Direction the cart is facing */
     public ForgeDirection facingDirection = ForgeDirection.NORTH;
+    /** Last measure height of a the rail. */
+    public float railHeight = BlockRail.RAIL_HEIGHT;
 
     /** Length of the cart */
     public float length = 3;
@@ -60,6 +62,13 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
     private boolean updateClient = true;
 
     private CartTypes _cartType = CartTypes.SMALL;
+
+    @SideOnly(Side.CLIENT)
+    public double lastRenderX;
+    @SideOnly(Side.CLIENT)
+    public double lastRenderY;
+    @SideOnly(Side.CLIENT)
+    public double lastRenderZ;
 
     public EntityCart(World world)
     {
@@ -337,33 +346,36 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
                 return;
             }
 
-            //Moves the entity
-            if (motionX != 0 || motionY != 0 || motionZ != 0)
-            {
-                moveEntity(motionX, motionY, motionZ);
-            }
-
-            if (isAirBorne)
-            {
-                motionY -= (9.8 / 20);
-                motionY = Math.max(-2, motionY);
-            }
-            //Handles pushing entities out of the way
-            doCollisionLogic();
         }
+
+        //Moves the entity
+        if (motionX != 0 || motionY != 0 || motionZ != 0)
+        {
+            moveEntity(motionX, motionY, motionZ);
+        }
+
+        if (isAirBorne)
+        {
+            motionY -= (9.8 / 20);
+            motionY = Math.max(-2, motionY);
+        }
+
+        //Handles pushing entities out of the way
+        doCollisionLogic();
+
         //Updates the rail and cart position
         if (tile instanceof IMissileRail)
         {
             ((IMissileRail) tile).tickRailFromCart(this);
+            railHeight = ((IMissileRail) tile).getRailHeight();
         }
         else
         {
             final int meta = pos.getBlockMetadata(worldObj);
             BlockRail.RailDirections railType = BlockRail.RailDirections.get(meta);
-            recenterCartOnRail(railType.side, railType.facing, block.getBlockBoundsMaxY(), false);
+            recenterCartOnRail(railType.side, railType.facing, BlockRail.RAIL_HEIGHT, false);
+            railHeight = BlockRail.RAIL_HEIGHT;
         }
-
-
 
         if (!worldObj.isRemote && updateClient)
         {
@@ -470,7 +482,15 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
         //Cancels out motion from gravity
         if (railSide == ForgeDirection.DOWN || railSide == ForgeDirection.UP)
         {
+            byY = 0;
+        }
+        else if (railSide == ForgeDirection.EAST || railSide == ForgeDirection.WEST)
+        {
             byX = 0;
+        }
+        else if (railSide == ForgeDirection.SOUTH || railSide == ForgeDirection.NORTH)
+        {
+            byZ = 0;
         }
 
         //Store previous movement values
@@ -480,28 +500,40 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
 
         //Get collision boxes
         //TODO adjust by attached side
-        List collisionBoxes = this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.getOffsetBoundingBox(0, .1, 0).addCoord(byX, byY, byZ));
+        final List collisionBoxes = this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.getOffsetBoundingBox(0, .1, 0).addCoord(byX, byY, byZ));
 
-        //Calculate offset for y collision
-        for (Object collisionBoxe : collisionBoxes)
+        //No Y movement or collision detection is needed in Y direction of on top or bottom of a block
+        if (railSide != ForgeDirection.DOWN && railSide != ForgeDirection.UP)
         {
-            byY = ((AxisAlignedBB) collisionBoxe).calculateYOffset(this.boundingBox, byY);
+            //Calculate offset for y collision
+            for (Object collisionBoxe : collisionBoxes)
+            {
+                byY = ((AxisAlignedBB) collisionBoxe).calculateYOffset(this.boundingBox, byY);
+            }
+            this.boundingBox.offset(0.0D, byY, 0.0D);
         }
-        this.boundingBox.offset(0.0D, byY, 0.0D);
 
-        //Calculate offset for x collision
-        for (Object collisionBoxe : collisionBoxes)
+        //No X movement or collision detection is needed in X direction if rail is east or west
+        if (railSide != ForgeDirection.EAST && railSide != ForgeDirection.WEST)
         {
-            byX = ((AxisAlignedBB) collisionBoxe).calculateXOffset(this.boundingBox, byX);
+            //Calculate offset for x collision
+            for (Object collisionBoxe : collisionBoxes)
+            {
+                byX = ((AxisAlignedBB) collisionBoxe).calculateXOffset(this.boundingBox, byX);
+            }
+            this.boundingBox.offset(byX, 0.0D, 0.0D);
         }
-        this.boundingBox.offset(byX, 0.0D, 0.0D);
 
-        //Calculate offset for z collision
-        for (Object collisionBoxe : collisionBoxes)
+        //No Z movement or collision detection is needed in Z direction if rail is north or south
+        if (railSide != ForgeDirection.NORTH && railSide != ForgeDirection.SOUTH)
         {
-            byZ = ((AxisAlignedBB) collisionBoxe).calculateZOffset(this.boundingBox, byZ);
+            //Calculate offset for z collision
+            for (Object collisionBoxe : collisionBoxes)
+            {
+                byZ = ((AxisAlignedBB) collisionBoxe).calculateZOffset(this.boundingBox, byZ);
+            }
+            this.boundingBox.offset(0.0D, 0.0D, byZ);
         }
-        this.boundingBox.offset(0.0D, 0.0D, byZ);
 
         this.worldObj.theProfiler.endSection();
         this.worldObj.theProfiler.startSection("rest");

@@ -44,5 +44,5 @@ public interface IMissileRail
      *
      * @return
      */
-    double getRailHeight();
+    float getRailHeight();
 }

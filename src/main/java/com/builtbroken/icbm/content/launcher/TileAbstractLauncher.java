@@ -68,7 +68,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
 
     public TileAbstractLauncher(String name, Material mat, int slots)
     {
-        super(name, mat, 1);
+        super(name, mat, slots);
     }
 
     public void setTarget(Pos target)

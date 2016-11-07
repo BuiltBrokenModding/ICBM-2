@@ -627,9 +627,9 @@ public class TilePowerRail extends TileModuleMachine implements IMissileRail, IP
     }
 
     @Override
-    public double getRailHeight()
+    public float getRailHeight()
     {
-        return 0.4;
+        return 0.4f;
     }
 
     protected void handlePush(EntityCart cart)
