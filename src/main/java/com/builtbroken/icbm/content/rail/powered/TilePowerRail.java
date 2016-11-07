@@ -76,7 +76,7 @@ public class TilePowerRail extends TileModuleMachine implements IMissileRail, IP
 
     /////////////LOADER UNLOADER STUFF
     /** Direction to load/unload cargo */
-    protected ForgeDirection loadDirecton = ForgeDirection.NORTH;
+    protected ForgeDirection loadDirection;
     /** Should we trigger connected stop rails when we have cargo or no cargo */
     protected boolean triggerStopRails = true;
     /** Should we emmit redstone when we have cargo or no cargo */
@@ -272,43 +272,46 @@ public class TilePowerRail extends TileModuleMachine implements IMissileRail, IP
     public ItemStack storeItemInTile(ItemStack stack)
     {
         final IRailInventoryTile tile = getLoadTile();
-        //Check if we can globally store the item
-        if (tile.canStore(stack, loadDirecton.getOpposite()))
+        if (tile != null)
         {
-            final int[] slots = tile.getSlotsToLoad(stack, loadDirecton.getOpposite());
-            final int stackLimit = tile.getInventory().getInventoryStackLimit();
-            final IInventory inventory = tile.getInventory();
-
-            for (int index = 0; index < slots.length; index++)
+            //Check if we can globally store the item
+            if (tile.canStore(stack, getLoadingDirection().getOpposite()))
             {
-                final int slot = slots[index];
-                //Check if we can store the exact item
-                if (tile.canStore(stack, slot, loadDirecton.getOpposite()))
+                final int[] slots = tile.getSlotsToLoad(stack, getLoadingDirection().getOpposite());
+                final int stackLimit = tile.getInventory().getInventoryStackLimit();
+                final IInventory inventory = tile.getInventory();
+
+                for (int index = 0; index < slots.length; index++)
                 {
-                    final ItemStack slotStack = inventory.getStackInSlot(slot);
-                    if (slotStack == null)
+                    final int slot = slots[index];
+                    //Check if we can store the exact item
+                    if (tile.canStore(stack, slot, getLoadingDirection().getOpposite()))
                     {
-                        if (stack.stackSize > stackLimit)
+                        final ItemStack slotStack = inventory.getStackInSlot(slot);
+                        if (slotStack == null)
                         {
-                            ItemStack copyStack = stack.copy();
-                            copyStack.stackSize = stackLimit;
-                            inventory.setInventorySlotContents(slot, copyStack);
-                            stack.stackSize -= copyStack.stackSize;
+                            if (stack.stackSize > stackLimit)
+                            {
+                                ItemStack copyStack = stack.copy();
+                                copyStack.stackSize = stackLimit;
+                                inventory.setInventorySlotContents(slot, copyStack);
+                                stack.stackSize -= copyStack.stackSize;
+                            }
+                            else
+                            {
+                                inventory.setInventorySlotContents(slot, stack);
+                                return null;
+                            }
                         }
-                        else
+                        else if (InventoryUtility.stacksMatch(slotStack, stack))
                         {
-                            inventory.setInventorySlotContents(slot, stack);
-                            return null;
-                        }
-                    }
-                    else if (InventoryUtility.stacksMatch(slotStack, stack))
-                    {
-                        final int roomLeft = stackLimit - slotStack.stackSize;
-                        if (roomLeft > 0)
-                        {
-                            slotStack.stackSize += roomLeft;
-                            inventory.setInventorySlotContents(slot, slotStack);
-                            stack.stackSize -= roomLeft;
+                            final int roomLeft = stackLimit - slotStack.stackSize;
+                            if (roomLeft > 0)
+                            {
+                                slotStack.stackSize += roomLeft;
+                                inventory.setInventorySlotContents(slot, slotStack);
+                                stack.stackSize -= roomLeft;
+                            }
                         }
                     }
                 }
@@ -326,37 +329,40 @@ public class TilePowerRail extends TileModuleMachine implements IMissileRail, IP
      */
     public Pair<ItemStack, Integer> takeItemFromTile(EntityCart cart)
     {
-        IRailInventoryTile tile = getLoadTile();
-        int[] slots = tile.getSlotsToUnload(loadDirecton.getOpposite());
-        final IInventory inventory = tile.getInventory();
-
-        for (int index = 0; index < slots.length; index++)
+        final IRailInventoryTile tile = getLoadTile();
+        if (tile != null)
         {
-            final int slot = slots[index];
-            final ItemStack slotStack = inventory.getStackInSlot(slot);
-            if (slotStack != null)
-            {
-                IMissile missile = null;
-                if (slotStack.getItem() instanceof IMissileItem)
-                {
-                    missile = ((IMissileItem) slotStack.getItem()).toMissile(slotStack);
-                }
-                else if (slotStack.getItem() instanceof IModuleItem)
-                {
-                    IModule module = ((IModuleItem) slotStack.getItem()).getModule(slotStack);
-                    if (module instanceof IMissile)
-                    {
-                        missile = (IMissile) module;
-                    }
-                }
-                else
-                {
-                    missile = MissileModuleBuilder.INSTANCE.buildMissile(slotStack);
-                }
+            int[] slots = tile.getSlotsToUnload(getLoadingDirection().getOpposite());
+            final IInventory inventory = tile.getInventory();
 
-                if (missile != null && cart.canAcceptMissile(missile))
+            for (int index = 0; index < slots.length; index++)
+            {
+                final int slot = slots[index];
+                final ItemStack slotStack = inventory.getStackInSlot(slot);
+                if (slotStack != null && tile.canRemove(slotStack, getLoadingDirection().getOpposite()))
                 {
-                    return new Pair(slotStack, slot);
+                    IMissile missile = null;
+                    if (slotStack.getItem() instanceof IMissileItem)
+                    {
+                        missile = ((IMissileItem) slotStack.getItem()).toMissile(slotStack);
+                    }
+                    else if (slotStack.getItem() instanceof IModuleItem)
+                    {
+                        IModule module = ((IModuleItem) slotStack.getItem()).getModule(slotStack);
+                        if (module instanceof IMissile)
+                        {
+                            missile = (IMissile) module;
+                        }
+                    }
+                    else
+                    {
+                        missile = MissileModuleBuilder.INSTANCE.buildMissile(slotStack);
+                    }
+
+                    if (missile != null && cart.canAcceptMissile(missile))
+                    {
+                        return new Pair(slotStack, slot);
+                    }
                 }
             }
         }
@@ -371,7 +377,7 @@ public class TilePowerRail extends TileModuleMachine implements IMissileRail, IP
      */
     public IRailInventoryTile getLoadTile()
     {
-        Location location = toLocation().add(loadDirecton);
+        Location location = toLocation().add(getLoadingDirection());
         TileEntity tile = location.getTileEntity();
         if (tile instanceof IRailInventoryTile)
         {
@@ -469,6 +475,131 @@ public class TilePowerRail extends TileModuleMachine implements IMissileRail, IP
         return railType == PoweredRails.EXTENDER;
     }
 
+    /**
+     * Calculates that direction to access tiles
+     * for loading and unloading.
+     */
+    protected void setupLoadingDirection()
+    {
+        switch (getFacingDirection())
+        {
+            case UP:
+                switch (attachedSide)
+                {
+                    case NORTH:
+                        loadDirection = ForgeDirection.WEST;
+                        break;
+                    case SOUTH:
+                        loadDirection = ForgeDirection.EAST;
+                        break;
+                    case EAST:
+                        loadDirection = ForgeDirection.NORTH;
+                        break;
+                    case WEST:
+                        loadDirection = ForgeDirection.SOUTH;
+                        break;
+                }
+                break;
+            case DOWN:
+                switch (attachedSide)
+                {
+                    case NORTH:
+                        loadDirection = ForgeDirection.EAST;
+                        break;
+                    case SOUTH:
+                        loadDirection = ForgeDirection.WEST;
+                        break;
+                    case EAST:
+                        loadDirection = ForgeDirection.SOUTH;
+                        break;
+                    case WEST:
+                        loadDirection = ForgeDirection.NORTH;
+                        break;
+                }
+                break;
+            case NORTH:
+                switch (attachedSide)
+                {
+                    case EAST:
+                        loadDirection = ForgeDirection.DOWN;
+                        break;
+                    case WEST:
+                        loadDirection = ForgeDirection.UP;
+                        break;
+                    default:
+                        loadDirection = ForgeDirection.EAST;
+                }
+                break;
+            case SOUTH:
+                switch (attachedSide)
+                {
+                    case EAST:
+                        loadDirection = ForgeDirection.UP;
+                        break;
+                    case WEST:
+                        loadDirection = ForgeDirection.DOWN;
+                        break;
+                    default:
+                        loadDirection = ForgeDirection.WEST;
+                }
+                break;
+            case WEST:
+                switch (attachedSide)
+                {
+                    case NORTH:
+                        loadDirection = ForgeDirection.DOWN;
+                        break;
+                    case SOUTH:
+                        loadDirection = ForgeDirection.UP;
+                        break;
+                    default:
+                        loadDirection = ForgeDirection.NORTH;
+                }
+                break;
+            case EAST:
+                switch (attachedSide)
+                {
+                    case NORTH:
+                        loadDirection = ForgeDirection.UP;
+                        break;
+                    case SOUTH:
+                        loadDirection = ForgeDirection.DOWN;
+                        break;
+                    default:
+                        loadDirection = ForgeDirection.SOUTH;
+                }
+                break;
+        }
+        if (!rotateClockwise)
+        {
+            loadDirection = loadDirection.getOpposite();
+        }
+    }
+
+    /**
+     * Sets the loading direction for accessing tiles
+     *
+     * @param direction
+     */
+    public void setLoadingDirection(ForgeDirection direction)
+    {
+        this.loadDirection = direction;
+    }
+
+    /**
+     * Direction to load/unload items from tiles
+     *
+     * @return direction
+     */
+    public ForgeDirection getLoadingDirection()
+    {
+        if (loadDirection == null)
+        {
+            setupLoadingDirection();
+        }
+        return loadDirection;
+    }
+
     @Override
     public ForgeDirection getAttachedDirection()
     {
@@ -544,6 +675,11 @@ public class TilePowerRail extends TileModuleMachine implements IMissileRail, IP
                 if (isServer())
                 {
                     player.addChatMessage(new ChatComponentText("A: " + getAttachedDirection() + " F:" + getFacingDirection() + " T:" + railType));
+                    if (isUnloadRail() || isLoaderRail())
+                    {
+                        setupLoadingDirection();
+                        player.addChatMessage(new ChatComponentText("L: " + loadDirection + " C: " + rotateClockwise));
+                    }
                 }
                 return true;
             }
@@ -559,6 +695,7 @@ public class TilePowerRail extends TileModuleMachine implements IMissileRail, IP
             if (isRotationRail() || isUnloadRail() || isLoaderRail())
             {
                 rotateClockwise = !rotateClockwise;
+                setupLoadingDirection();
                 if (isServer())
                 {
                     sendDescPacket();

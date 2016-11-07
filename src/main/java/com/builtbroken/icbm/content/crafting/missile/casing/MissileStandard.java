@@ -106,9 +106,15 @@ public final class MissileStandard extends Missile implements ICustomMissileRend
     }
 
     @Override
+    public float getRenderHeightOffset()
+    {
+        return ((float)getHeight() / 2f) - 0.375f;
+    }
+
+    @Override
     public double getHeight()
     {
-        return 5;
+        return 4.6;
     }
 
     @Override

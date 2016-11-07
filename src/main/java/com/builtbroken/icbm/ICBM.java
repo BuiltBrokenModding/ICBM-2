@@ -185,7 +185,7 @@ public final class ICBM extends AbstractMod
     public static Block blockCrashMissile;
 
     public static Block blockMissileRail;
-    public static Block blockMissileCartRotator;
+    public static Block blockPowerRail;
 
     // Items
     public static Item itemMissile;

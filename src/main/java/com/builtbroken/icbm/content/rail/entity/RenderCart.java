@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.rail.entity;
 
+import com.builtbroken.icbm.api.missile.ICustomMissileRender;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstationClient;
@@ -41,7 +42,7 @@ public class RenderCart extends Render
         {
             GL11.glPushMatrix();
             GL11.glTranslated(xx, yy, zz);
-            GL11.glTranslatef(0.5f, 0.5f, 0.5f);
+            GL11.glTranslatef(0f, 0.05f, 0f);
             GL11.glRotated(90, 0, 1, 0);
 
             GL11.glRotated(cart.rotationYaw, 0, 1, 0);
@@ -50,8 +51,58 @@ public class RenderCart extends Render
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_WORKSTATION_TEXTURE2);
             Assets.CART1x3.renderAll();
 
-            //Render missile
-            renderMissile(cart.getCargoMissile(), cart.railSide, cart.facingDirection);
+            if (cart.getCargoMissile() != null)
+            {
+                //Render missile
+                GL11.glRotated(-90, 0, 1, 0);
+                renderMissile(cart.getCargoMissile(), cart.railSide, cart.facingDirection);
+            }
+
+            GL11.glPopMatrix();
+        }
+        else if (cart.getType() == CartTypes.MICRO)
+        {
+            GL11.glPushMatrix();
+            GL11.glTranslated(xx, yy, zz);
+            GL11.glTranslatef(0f, .32f, 0f);
+            GL11.glRotated(90, 0, 1, 0);
+
+            //Renders the cart
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
+            Assets.CART1x1.renderAll();
+
+            if (cart.getCargoMissile() != null)
+            {
+                GL11.glTranslated(0, -0.44, 0);
+                if (cart.getCargoMissile() instanceof ICustomMissileRender)
+                {
+                    GL11.glTranslatef(0f, ((ICustomMissileRender) cart.getCargoMissile()).getRenderHeightOffset(), 0f);
+                }
+                renderMissile(cart.getCargoMissile(), ForgeDirection.EAST, ForgeDirection.UP);
+            }
+
+            GL11.glPopMatrix();
+        }
+        else if (cart.getType() == CartTypes.ThreeByThree)
+        {
+            GL11.glPushMatrix();
+            GL11.glTranslated(xx, yy, zz);
+            GL11.glTranslatef(0f, -0.05f, 0f);
+            GL11.glRotated(90, 0, 1, 0);
+
+            //Renders the cart
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
+            Assets.CART3x3.renderAll();
+
+            if (cart.getCargoMissile() != null)
+            {
+                GL11.glTranslated(0, -0.3, 0);
+                if (cart.getCargoMissile() instanceof ICustomMissileRender)
+                {
+                    GL11.glTranslatef(0f, ((ICustomMissileRender) cart.getCargoMissile()).getRenderHeightOffset(), 0f);
+                }
+                renderMissile(cart.getCargoMissile(), ForgeDirection.EAST, ForgeDirection.UP);
+            }
 
             GL11.glPopMatrix();
         }
@@ -78,12 +129,23 @@ public class RenderCart extends Render
             GL11.glTranslated(xx, yy, zz);
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
             RenderUtility.renderCube(bounds, Blocks.iron_block, Blocks.iron_block.getIcon(0, 0));
+
+            if (cart.getCargoMissile() != null)
+            {
+                GL11.glTranslated(0, -0.1, 0);
+                if (cart.getCargoMissile() instanceof ICustomMissileRender)
+                {
+                    GL11.glTranslatef(0f, ((ICustomMissileRender) cart.getCargoMissile()).getRenderHeightOffset(), 0f);
+                }
+                renderMissile(cart.getCargoMissile(), ForgeDirection.EAST, ForgeDirection.UP);
+            }
+
             GL11.glPopMatrix();
         }
 
         if (Engine.runningAsDev)
         {
-            drawBounds(cart, xx, yy, zz);
+           // drawBounds(cart, xx, yy, zz);
         }
     }
 
@@ -124,10 +186,10 @@ public class RenderCart extends Render
     /**
      * Handles rendering of the missile
      */
-    public static void renderMissile(IMissile misssile, ForgeDirection connectedBlockSide, ForgeDirection direction)
+    public static void renderMissile(IMissile missile, ForgeDirection connectedBlockSide, ForgeDirection direction)
     {
         ///Center render view to tile center
-        GL11.glTranslatef(0.5f, 0.5f, 0.5f);
+        GL11.glTranslatef(0f, 0.4f, 0f);
 
         //Handles setting the rotation based on the side
         switch (connectedBlockSide)
@@ -145,41 +207,48 @@ public class RenderCart extends Render
                 TileSmallMissileWorkstationClient.handleMissileRotationNS(direction);
                 break;
         }
-        //Bind texture
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_MISSILE_TEXTURE);
-        //Group_001 body
-        //Component_1_001 - 4 Body Fins
-        if (misssile.getWarhead() != null)
+        if (missile instanceof ICustomMissileRender)
         {
-            //Group_004 nose of warhead
-            //Group_005 warhead
-            Assets.SMALL_MISSILE_MODEL.renderOnly("Group_005");
-            if (misssile.getWarhead().getExplosive() != null)
-            {
-                Assets.SMALL_MISSILE_MODEL.renderOnly("Group_004");
-            }
+            ((ICustomMissileRender) missile).renderMissileInWorld(0, 0, 0);
         }
-        if (misssile.getEngine() != null)
+        else
         {
-            //Group_002 - Engine thruster
-            //Group_003 - Engine case
-            //Component_3_001 - 8 Engine lower segments
-            //Component_2_001 - 4 Engine fins
-            Assets.SMALL_MISSILE_MODEL.renderOnly("Group_002", "Group_003");
-            for (int i = 1; i < 9; i++)
+            //Bind texture
+            FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_MISSILE_TEXTURE);
+            //Group_001 body
+            //Component_1_001 - 4 Body Fins
+            if (missile.getWarhead() != null)
             {
-                Assets.SMALL_MISSILE_MODEL.renderOnly("Component_3_00" + i);
+                //Group_004 nose of warhead
+                //Group_005 warhead
+                Assets.SMALL_MISSILE_MODEL.renderOnly("Group_005");
+                if (missile.getWarhead().getExplosive() != null)
+                {
+                    Assets.SMALL_MISSILE_MODEL.renderOnly("Group_004");
+                }
             }
-            for (int i = 1; i < 5; i++)
+            if (missile.getEngine() != null)
             {
-                Assets.SMALL_MISSILE_MODEL.renderOnly("Component_2_00" + i);
+                //Group_002 - Engine thruster
+                //Group_003 - Engine case
+                //Component_3_001 - 8 Engine lower segments
+                //Component_2_001 - 4 Engine fins
+                Assets.SMALL_MISSILE_MODEL.renderOnly("Group_002", "Group_003");
+                for (int i = 1; i < 9; i++)
+                {
+                    Assets.SMALL_MISSILE_MODEL.renderOnly("Component_3_00" + i);
+                }
+                for (int i = 1; i < 5; i++)
+                {
+                    Assets.SMALL_MISSILE_MODEL.renderOnly("Component_2_00" + i);
+                }
             }
+            if (missile.getGuidance() != null)
+            {
+                //TODO add model indication showing no guidance added
+            }
+            //Render body and fins
+            Assets.SMALL_MISSILE_MODEL.renderOnly("Group_001", "Component_1_001", "Component_1_002", "Component_1_003", "Component_1_004");
         }
-        if (misssile.getGuidance() != null)
-        {
-            //TODO add model indication showing no guidance added
-        }
-        //Render body and fins
-        Assets.SMALL_MISSILE_MODEL.renderOnly("Group_001", "Component_1_001", "Component_1_002", "Component_1_003", "Component_1_004");
     }
 }

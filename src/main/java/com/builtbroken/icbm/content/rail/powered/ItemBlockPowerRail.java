@@ -51,11 +51,11 @@ public class ItemBlockPowerRail extends ItemBlock
                     {
                         if (left)
                         {
-                            ((TilePowerRail) tile).setFacingDirection(side == 0 ? ForgeDirection.EAST : ForgeDirection.WEST);
+                            ((TilePowerRail) tile).setFacingDirection(ForgeDirection.WEST);
                         }
                         else if (right)
                         {
-                            ((TilePowerRail) tile).setFacingDirection(side == 0 ? ForgeDirection.WEST : ForgeDirection.EAST);
+                            ((TilePowerRail) tile).setFacingDirection(ForgeDirection.EAST);
                         }
                     }
                 }

@@ -12,8 +12,8 @@ public enum CartTypes
 {
     MICRO(1, 1, MissileCasings.SMALL),
     SMALL(1, 3, MissileCasings.SMALL),
-    MEDIUM(3, 3, MissileCasings.MEDIUM),
-    LARGE(5, 5, MissileCasings.MEDIUM);
+    ThreeByThree(3, 3, MissileCasings.STANDARD);
+    //LARGE(4, 4, MissileCasings.STANDARD);
 
     public final float width;
     public final float length;

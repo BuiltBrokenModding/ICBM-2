@@ -10,6 +10,7 @@ import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.lib.helper.MathUtility;
+import com.builtbroken.mc.lib.helper.WrenchUtility;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.entity.EntityBase;
@@ -55,6 +56,10 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
     public float length = 3;
     /** Toggle to invalidate the collision box and have it reset next tick */
     private boolean invalidBox = false;
+    /** Called to trigger a packet update next tick */
+    private boolean updateClient = true;
+
+    private CartTypes _cartType = CartTypes.SMALL;
 
     public EntityCart(World world)
     {
@@ -64,10 +69,32 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
     }
 
     @Override
-    protected void entityInit()
+    public boolean hitByEntity(Entity entity)
     {
-        super.entityInit();
-        this.dataWatcher.addObject(TYPE_DATA_ID, 0);
+        if (entity instanceof EntityPlayer && ((EntityPlayer) entity).capabilities.isCreativeMode)
+        {
+            kill();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public AxisAlignedBB getCollisionBox(Entity entity)
+    {
+        return boundingBox;
+    }
+
+    @Override
+    public AxisAlignedBB getBoundingBox()
+    {
+        return boundingBox;
+    }
+
+    @Override
+    public boolean canBeCollidedWith()
+    {
+        return !this.isDead;
     }
 
     @Override
@@ -83,9 +110,30 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
                     player.inventory.setInventorySlotContents(player.inventory.currentItem, cargoStack);
                     player.inventoryContainer.detectAndSendChanges();
                     setCargo(null);
+                    updateClient = true;
                 }
                 return true;
             }
+            else
+            {
+                if (!worldObj.isRemote)
+                {
+                    //TODO add handling for stacking missile
+                    player.inventory.setInventorySlotContents(player.inventory.currentItem, toStack());
+                    player.inventoryContainer.detectAndSendChanges();
+                    kill();
+                }
+                return true;
+            }
+        }
+        else if (WrenchUtility.isWrench(player.getHeldItem()))
+        {
+            if (!worldObj.isRemote)
+            {
+                //TODO may need to modify based on side
+                this.setRotation(rotationYaw + 90, rotationPitch);
+            }
+            return true;
         }
         else if (cargoStack == null) //TODO add handling for stacking missile
         {
@@ -122,6 +170,7 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
                     }
                     player.inventory.setInventorySlotContents(player.inventory.currentItem, heldItem);
                     player.inventoryContainer.detectAndSendChanges();
+                    updateClient = true;
                 }
                 return true;
             }
@@ -137,17 +186,11 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
      */
     public void setType(final CartTypes cartType)
     {
-        if (cartType == null)
-        {
-            this.dataWatcher.updateObject(TYPE_DATA_ID, 0);
-        }
-        else
-        {
-            this.dataWatcher.updateObject(TYPE_DATA_ID, cartType.ordinal());
-        }
+        _cartType = cartType;
         this.width = getType().width;
         this.length = getType().length;
         invalidBox = true;
+        updateClient = true;
     }
 
     /**
@@ -157,12 +200,13 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
      */
     public CartTypes getType()
     {
-        return CartTypes.values()[this.dataWatcher.getWatchableObjectInt(TYPE_DATA_ID)];
+        return _cartType;
     }
 
     @Override
     public void setPosition(double x, double y, double z)
     {
+        //isPushedByWater()
         this.posX = x;
         this.posY = y;
         this.posZ = z;
@@ -248,7 +292,7 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
         }
 
         //Updates the collision box
-        if (invalidBox)
+        if (invalidBox || boundingBox == null)
         {
             validateBoundBox();
         }
@@ -319,6 +363,11 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
 
         //Handles pushing entities out of the way
         doCollisionLogic();
+
+        if (!worldObj.isRemote && updateClient)
+        {
+            sentDescriptionPacket();
+        }
     }
 
     public void recenterCartOnRail(IMissileRail rail, boolean trueCenter)
@@ -424,8 +473,13 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
 
     public void destroyCart()
     {
-        InventoryUtility.dropItemStack(new Location(this), new ItemStack(ICBM.itemMissileCart, 1, getType().ordinal()));
+        InventoryUtility.dropItemStack(new Location(this), toStack());
         setDead();
+    }
+
+    public ItemStack toStack()
+    {
+        return new ItemStack(ICBM.itemMissileCart, 1, getType().ordinal());
     }
 
     @Override
@@ -433,6 +487,12 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
     {
         this.worldObj.theProfiler.startSection("move");
         this.ySize *= 0.4F;
+
+        //Cancels out motion from gravity
+        if (railSide == ForgeDirection.DOWN || railSide == ForgeDirection.UP)
+        {
+            byX = 0;
+        }
 
         //Store previous movement values
         final double prevMoveX = byX;
@@ -506,6 +566,10 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
     {
         super.readEntityFromNBT(nbt);
         setType(CartTypes.values()[nbt.getInteger("cartType")]);
+        if (nbt.hasKey("missile"))
+        {
+            setCargo(ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("missile")));
+        }
     }
 
     @Override
@@ -513,6 +577,10 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
     {
         super.writeEntityToNBT(nbt);
         nbt.setInteger("cartType", getType().ordinal());
+        if (cargoStack != null)
+        {
+            nbt.setTag("missile", cargoStack.writeToNBT(new NBTTagCompound()));
+        }
     }
 
     /**
@@ -535,10 +603,7 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
     public void setCargoMissile(IMissile cargoMissile)
     {
         this.cargoMissile = cargoMissile;
-        if (!worldObj.isRemote)
-        {
-            sentDescriptionPacket();
-        }
+        updateClient = true;
     }
 
     /**
@@ -553,6 +618,27 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
         if (cargo == null)
         {
             setCargoMissile(null);
+        }
+        else
+        {
+            IMissile missile = null;
+            if (cargo.getItem() instanceof IMissileItem)
+            {
+                missile = ((IMissileItem) cargo.getItem()).toMissile(cargo);
+            }
+            else if (cargo.getItem() instanceof IModuleItem)
+            {
+                IModule module = ((IModuleItem) cargo.getItem()).getModule(cargo);
+                if (module instanceof IMissile)
+                {
+                    missile = (IMissile) module;
+                }
+            }
+            else
+            {
+                missile = MissileModuleBuilder.INSTANCE.buildMissile(cargo);
+            }
+            setCargoMissile(missile);
         }
     }
 
@@ -570,6 +656,7 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
     @Override
     public void writeSpawnData(ByteBuf buffer)
     {
+        buffer.writeInt(getType().ordinal());
         buffer.writeBoolean(cargoStack != null);
         if (cargoStack != null)
         {
@@ -580,6 +667,7 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
     @Override
     public void readSpawnData(ByteBuf additionalData)
     {
+        setType(CartTypes.values()[additionalData.readInt()]);
         if (additionalData.readBoolean())
         {
             setCargo(ByteBufUtils.readItemStack(additionalData));
@@ -588,5 +676,6 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
         {
             setCargo(null);
         }
+        invalidBox = true;
     }
 }

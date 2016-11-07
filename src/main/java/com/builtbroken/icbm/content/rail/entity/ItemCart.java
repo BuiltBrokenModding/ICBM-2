@@ -32,6 +32,12 @@ public class ItemCart extends Item
         this.setHasSubtypes(true);
     }
 
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean p_77624_4_)
+    {
+        list.add("Size: " + CartTypes.values()[stack.getItemDamage()]);
+    }
+
     @Override
     public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
     {

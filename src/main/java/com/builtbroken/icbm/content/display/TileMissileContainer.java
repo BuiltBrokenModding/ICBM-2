@@ -19,6 +19,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.util.ForgeDirection;
 
 /**
+ * Prefab for anything that can store a missile
  * Created by robert on 1/18/2015.
  */
 public class TileMissileContainer extends TileModuleMachine implements IPacketIDReceiver, IRailInventoryTile
@@ -167,7 +168,7 @@ public class TileMissileContainer extends TileModuleMachine implements IPacketID
     @Override
     public int[] getSlotsToUnload(ForgeDirection side)
     {
-        return null;
+        return new int[0];
     }
 
     @Override
@@ -195,5 +196,11 @@ public class TileMissileContainer extends TileModuleMachine implements IPacketID
             return missile != null && canAcceptMissile(missile);
         }
         return false;
+    }
+
+    @Override
+    public boolean canRemove(ItemStack slotStack, int slot, ForgeDirection side)
+    {
+        return slot == 0;
     }
 }

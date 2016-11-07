@@ -28,7 +28,7 @@ public class ServerProxy extends CommonProxy
         ICBM.blockFoFStation = ICBM.INSTANCE.getManager().newBlock("ICBMxFoF", TileFoF.class);
         ICBM.blockCommandSiloDisplay = ICBM.INSTANCE.getManager().newBlock("icbmCommandSiloDisplay", TileSiloInterface.class);
         ICBM.blockWarheadWorkstation = ICBM.INSTANCE.getManager().newBlock("icbmWarheadWorkstation", TileWarheadStation.class);
-        ICBM.blockMissileCartRotator =  ICBM.INSTANCE.getManager().newBlock("icbmCartPowerRail", TilePowerRail.class);
+        ICBM.blockPowerRail =  ICBM.INSTANCE.getManager().newBlock("icbmCartPowerRail", TilePowerRail.class);
     }
 
     @Override

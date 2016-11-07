@@ -24,6 +24,13 @@ public interface ICustomMissileRender
     boolean renderMissileItem(IItemRenderer.ItemRenderType type, ItemStack stack, Object... data);
 
     /**
+     * Height offset to render a missile perfectly on top of a block
+     *
+     * @return value to allow the missile to render correctly
+     */
+    float getRenderHeightOffset();
+
+    /**
      * Called to render the entity version of the missile.
      * Location is already set before being called
      * <p>

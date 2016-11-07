@@ -58,6 +58,8 @@ public final class Assets
 
     //Carts
     public static final WavefrontObject CART1x3 = (WavefrontObject) model("carts/ThreeByOneMissileCart.obj");
+    public static final WavefrontObject CART1x1 = (WavefrontObject) model("carts/1x1missiletransporter.obj");
+    public static final WavefrontObject CART3x3 = (WavefrontObject) model("carts/3x3missiletransporter.obj");
 
     //Textures
     public static final ResourceLocation GREY_FAKE_TEXTURE = texture("grey");

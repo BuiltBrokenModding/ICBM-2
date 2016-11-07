@@ -51,6 +51,12 @@ public class MissileMicro extends Missile implements ICustomMissileRender
     }
 
     @Override
+    public float getRenderHeightOffset()
+    {
+        return ((float)getHeight() / 2f);
+    }
+
+    @Override
     public boolean renderMissileInWorld(float yaw, float pitch, float f)
     {
         GL11.glRotatef(yaw, 0.0F, 1.0F, 0.0F);

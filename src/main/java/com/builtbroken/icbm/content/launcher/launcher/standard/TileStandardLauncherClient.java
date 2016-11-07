@@ -63,11 +63,12 @@ public class TileStandardLauncherClient extends TileStandardLauncher
         {
             //Render launcher
             GL11.glPushMatrix();
-            Pos pos = center.add(getDirection()).add(0.5, 1.9, 0.5);
+            Pos pos = center.add(getDirection()).add(0.5, 0, 0.5);
             GL11.glTranslatef(pos.xf(), pos.yf(), pos.zf());
             GL11.glRotatef(45f, 0, 1, 0);
             if (missile instanceof ICustomMissileRender)
             {
+                GL11.glTranslatef(0, ((ICustomMissileRender) missile).getRenderHeightOffset(), 0);
                 ((ICustomMissileRender) missile).renderMissileInWorld(0, 0, f);
             }
             GL11.glPopMatrix();
@@ -272,7 +273,7 @@ public class TileStandardLauncherClient extends TileStandardLauncher
         if (type == 0)
         {
             ItemStack missileStack = ByteBufUtils.readItemStack(buf);
-            if(missileStack.getItem() instanceof IMissileItem)
+            if (missileStack.getItem() instanceof IMissileItem)
             {
                 missile = ((IMissileItem) missileStack.getItem()).toMissile(missileStack);
             }

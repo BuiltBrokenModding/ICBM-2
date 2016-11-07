@@ -52,7 +52,7 @@ public class ICBMCreativeTab extends ModCreativeTab
         {
             add(list, ICBM.itemMissileCart);
             add(list, ICBM.blockMissileRail);
-            add(list, ICBM.blockMissileCartRotator);
+            add(list, ICBM.blockPowerRail);
         }
 
         add(list, ICBM.itemRocketLauncher);
