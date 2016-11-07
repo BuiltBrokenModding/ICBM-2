@@ -154,6 +154,13 @@ public class TileMissileContainer extends TileModuleMachine implements IPacketID
     }
 
     @Override
+    public void markDirty()
+    {
+        super.markDirty();
+        sendDescPacket();
+    }
+
+    @Override
     public int getInventoryStackLimit()
     {
         return 1;

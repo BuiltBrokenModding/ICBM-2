@@ -27,6 +27,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -38,7 +39,7 @@ import java.util.List;
  */
 public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntityAdditionalSpawnData
 {
-    public static final double vel = 0.1;
+    public static final double vel = 0.05;
     public static final int TYPE_DATA_ID = 23;
 
     /** Missile object being carried, if changed update {@link #cargoStack} */
@@ -49,6 +50,8 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
 
     /** Side of the cart that the rail exists */
     public ForgeDirection railSide;
+    /** Direction the rail below us is facing. */
+    public ForgeDirection railDirection;
     /** Direction the cart is facing */
     public ForgeDirection facingDirection = ForgeDirection.NORTH;
     /** Last measure height of a the rail. */
@@ -352,6 +355,7 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
         if (motionX != 0 || motionY != 0 || motionZ != 0)
         {
             moveEntity(motionX, motionY, motionZ);
+            recenterCartOnRail();
         }
 
         if (isAirBorne)
@@ -368,12 +372,14 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
         {
             ((IMissileRail) tile).tickRailFromCart(this);
             railHeight = ((IMissileRail) tile).getRailHeight();
+            railDirection = ((IMissileRail) tile).getFacingDirection();
         }
         else
         {
             final int meta = pos.getBlockMetadata(worldObj);
             BlockRail.RailDirections railType = BlockRail.RailDirections.get(meta);
             recenterCartOnRail(railType.side, railType.facing, BlockRail.RAIL_HEIGHT, false);
+            railDirection = railType.facing;
             railHeight = BlockRail.RAIL_HEIGHT;
         }
 
@@ -383,18 +389,40 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
         }
     }
 
+    /**
+     * Clamps the movement of the cart and position data so the
+     * cart stays on the rail.
+     * <p>
+     * Will cancel out motion in directions that are not valid for rail movement. This
+     * includes gravity as the rails are thought of as magnetic.
+     *
+     * @param rail       - rail to pull data from
+     * @param trueCenter - will force the cart to the very center of the rail
+     */
     public void recenterCartOnRail(IMissileRail rail, boolean trueCenter)
     {
         this.recenterCartOnRail(rail.getAttachedDirection(), rail.getFacingDirection(), rail.getRailHeight(), trueCenter);
     }
 
     /**
+     * Call to renter the cart based on the last know rail data
+     */
+    public void recenterCartOnRail()
+    {
+        this.recenterCartOnRail(railSide, railDirection, railHeight, false);
+    }
+
+    /**
      * Clamps the movement of the cart and position data so the
      * cart stays on the rail.
+     * <p>
+     * Will cancel out motion in directions that are not valid for rail movement. This
+     * includes gravity as the rails are thought of as magnetic.
      *
      * @param side       - side the rail is attached to
      * @param facing     - direction the movement is going into
      * @param railHeight - height of the rail the cart is on
+     * @param trueCenter - will force the cart to the very center of the rail
      */
     public void recenterCartOnRail(ForgeDirection side, ForgeDirection facing, double railHeight, boolean trueCenter)
     {
@@ -471,99 +499,6 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
     public ItemStack toStack()
     {
         return new ItemStack(ICBM.itemMissileCart, 1, getType().ordinal());
-    }
-
-    @Override
-    public void moveEntity(double byX, double byY, double byZ)
-    {
-        this.worldObj.theProfiler.startSection("move");
-        this.ySize *= 0.4F;
-
-        //Cancels out motion from gravity
-        if (railSide == ForgeDirection.DOWN || railSide == ForgeDirection.UP)
-        {
-            byY = 0;
-        }
-        else if (railSide == ForgeDirection.EAST || railSide == ForgeDirection.WEST)
-        {
-            byX = 0;
-        }
-        else if (railSide == ForgeDirection.SOUTH || railSide == ForgeDirection.NORTH)
-        {
-            byZ = 0;
-        }
-
-        //Store previous movement values
-        final double prevMoveX = byX;
-        final double prevMoveY = byY;
-        final double prevMoveZ = byZ;
-
-        //Get collision boxes
-        //TODO adjust by attached side
-        final List collisionBoxes = this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox.getOffsetBoundingBox(0, .1, 0).addCoord(byX, byY, byZ));
-
-        //No Y movement or collision detection is needed in Y direction of on top or bottom of a block
-        if (railSide != ForgeDirection.DOWN && railSide != ForgeDirection.UP)
-        {
-            //Calculate offset for y collision
-            for (Object collisionBoxe : collisionBoxes)
-            {
-                byY = ((AxisAlignedBB) collisionBoxe).calculateYOffset(this.boundingBox, byY);
-            }
-            this.boundingBox.offset(0.0D, byY, 0.0D);
-        }
-
-        //No X movement or collision detection is needed in X direction if rail is east or west
-        if (railSide != ForgeDirection.EAST && railSide != ForgeDirection.WEST)
-        {
-            //Calculate offset for x collision
-            for (Object collisionBoxe : collisionBoxes)
-            {
-                byX = ((AxisAlignedBB) collisionBoxe).calculateXOffset(this.boundingBox, byX);
-            }
-            this.boundingBox.offset(byX, 0.0D, 0.0D);
-        }
-
-        //No Z movement or collision detection is needed in Z direction if rail is north or south
-        if (railSide != ForgeDirection.NORTH && railSide != ForgeDirection.SOUTH)
-        {
-            //Calculate offset for z collision
-            for (Object collisionBoxe : collisionBoxes)
-            {
-                byZ = ((AxisAlignedBB) collisionBoxe).calculateZOffset(this.boundingBox, byZ);
-            }
-            this.boundingBox.offset(0.0D, 0.0D, byZ);
-        }
-
-        this.worldObj.theProfiler.endSection();
-        this.worldObj.theProfiler.startSection("rest");
-
-        this.posX = (this.boundingBox.minX + this.boundingBox.maxX) / 2.0D;
-        this.posY = this.boundingBox.minY + (double) this.yOffset - (double) this.ySize;
-        this.posZ = (this.boundingBox.minZ + this.boundingBox.maxZ) / 2.0D;
-
-        this.isCollidedHorizontally = prevMoveX != byX || prevMoveZ != byZ;
-        this.isCollidedVertically = prevMoveY != byY;
-
-        this.onGround = prevMoveY != byY && prevMoveY < 0.0D;
-        this.isCollided = this.isCollidedHorizontally || this.isCollidedVertically;
-
-        if (prevMoveX != byX)
-        {
-            this.motionX = 0.0D;
-        }
-
-        if (prevMoveY != byY)
-        {
-            this.motionY = 0.0D;
-        }
-
-        if (prevMoveZ != byZ)
-        {
-            this.motionZ = 0.0D;
-        }
-
-        this.worldObj.theProfiler.endSection();
     }
 
     @Override
@@ -688,5 +623,11 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
             setCargo(null);
         }
         invalidBox = true;
+    }
+
+    @Override
+    public ItemStack getPickedResult(MovingObjectPosition target)
+    {
+        return toStack();
     }
 }

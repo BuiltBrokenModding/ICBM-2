@@ -214,12 +214,15 @@ public class TilePowerRail extends TileModuleMachine implements IMissileRail, IP
                 cart.motionZ = 0;
                 cart.recenterCartOnRail(this, true);
 
-                final Pair<ItemStack, Integer> stack = takeItemFromTile(cart);
-                if (stack != null && stack.left() != null && stack.left().stackSize >= 0)
+                if(!worldObj.isRemote)
                 {
-                    IRailInventoryTile tile = getLoadTile();
-                    cart.setCargo(InventoryUtility.copyStack(stack.left(), 1));
-                    tile.getInventory().setInventorySlotContents(stack.right(), InventoryUtility.decrStackSize(stack.left(), 1));
+                    final Pair<ItemStack, Integer> stack = takeItemFromTile(cart);
+                    if (stack != null && stack.left() != null && stack.left().stackSize >= 0)
+                    {
+                        IRailInventoryTile tile = getLoadTile();
+                        cart.setCargo(InventoryUtility.copyStack(stack.left(), 1));
+                        tile.getInventory().setInventorySlotContents(stack.right(), InventoryUtility.decrStackSize(stack.left(), 1));
+                    }
                 }
                 //Else nothing happened
             }
@@ -239,15 +242,20 @@ public class TilePowerRail extends TileModuleMachine implements IMissileRail, IP
                 cart.motionY = 0;
                 cart.motionZ = 0;
                 cart.recenterCartOnRail(this, true);
-                final ItemStack prev = cart.getCargoMissile().toStack().copy();
-                ItemStack stack = storeItemInTile(cart.getCargoMissile().toStack().copy());
-                if (stack == null || stack.stackSize <= 0)
+
+                if(!worldObj.isRemote)
                 {
-                    cart.setCargo(null);
-                }
-                else if (!InventoryUtility.stacksMatchExact(prev, stack))
-                {
-                    cart.setCargo(stack);
+                    final ItemStack prev = cart.getCargoMissile().toStack().copy();
+                    ItemStack stack = storeItemInTile(cart.getCargoMissile().toStack().copy());
+
+                    if (stack == null || stack.stackSize <= 0)
+                    {
+                        cart.setCargo(null);
+                    }
+                    else if (!InventoryUtility.stacksMatchExact(prev, stack))
+                    {
+                        cart.setCargo(stack);
+                    }
                 }
                 //Else nothing happened
             }
@@ -484,7 +492,7 @@ public class TilePowerRail extends TileModuleMachine implements IMissileRail, IP
         switch (getFacingDirection())
         {
             case UP:
-                switch (attachedSide)
+                switch (getAttachedDirection())
                 {
                     case NORTH:
                         loadDirection = ForgeDirection.WEST;
@@ -501,7 +509,7 @@ public class TilePowerRail extends TileModuleMachine implements IMissileRail, IP
                 }
                 break;
             case DOWN:
-                switch (attachedSide)
+                switch (getAttachedDirection())
                 {
                     case NORTH:
                         loadDirection = ForgeDirection.EAST;
@@ -518,7 +526,7 @@ public class TilePowerRail extends TileModuleMachine implements IMissileRail, IP
                 }
                 break;
             case NORTH:
-                switch (attachedSide)
+                switch (getAttachedDirection())
                 {
                     case EAST:
                         loadDirection = ForgeDirection.DOWN;
@@ -531,7 +539,7 @@ public class TilePowerRail extends TileModuleMachine implements IMissileRail, IP
                 }
                 break;
             case SOUTH:
-                switch (attachedSide)
+                switch (getAttachedDirection())
                 {
                     case EAST:
                         loadDirection = ForgeDirection.UP;
@@ -544,7 +552,7 @@ public class TilePowerRail extends TileModuleMachine implements IMissileRail, IP
                 }
                 break;
             case WEST:
-                switch (attachedSide)
+                switch (getAttachedDirection())
                 {
                     case NORTH:
                         loadDirection = ForgeDirection.DOWN;
@@ -557,7 +565,7 @@ public class TilePowerRail extends TileModuleMachine implements IMissileRail, IP
                 }
                 break;
             case EAST:
-                switch (attachedSide)
+                switch (getAttachedDirection())
                 {
                     case NORTH:
                         loadDirection = ForgeDirection.UP;
@@ -823,26 +831,16 @@ public class TilePowerRail extends TileModuleMachine implements IMissileRail, IP
             setFacingDirection(ForgeDirection.getOrientation(nbt.getInteger("facingDirection")));
         }
         railType = PoweredRails.get(nbt.getInteger("railType"));
+        rotateClockwise = nbt.getBoolean("rotateClockwise");
         if (isRotationRail())
         {
             if (nbt.hasKey("rotateToAngle"))
             {
                 rotateToAngle = nbt.getBoolean("rotateToAngle");
             }
-            if (nbt.hasKey("rotateClockwise"))
-            {
-                rotateClockwise = nbt.getBoolean("rotateClockwise");
-            }
             if (nbt.hasKey("rotationYaw"))
             {
                 rotateYaw = nbt.getInteger("rotationYaw");
-            }
-        }
-        else if (isUnloadRail() || isLoaderRail())
-        {
-            if (nbt.hasKey("rotateClockwise"))
-            {
-                rotateClockwise = nbt.getBoolean("rotateClockwise");
             }
         }
     }
@@ -853,15 +851,11 @@ public class TilePowerRail extends TileModuleMachine implements IMissileRail, IP
         super.writeToNBT(nbt);
         nbt.setInteger("facingDirection", getFacingDirection().ordinal());
         nbt.setInteger("railType", railType.ordinal());
+        nbt.setBoolean("rotateClockwise", rotateClockwise);
         if (isRotationRail())
         {
             nbt.setBoolean("rotateToAngle", rotateToAngle);
-            nbt.setBoolean("rotateClockwise", rotateClockwise);
             nbt.setInteger("rotationYaw", rotateYaw);
-        }
-        else if (isLoaderRail() || isUnloadRail())
-        {
-            nbt.setBoolean("rotateClockwise", rotateClockwise);
         }
     }
 
