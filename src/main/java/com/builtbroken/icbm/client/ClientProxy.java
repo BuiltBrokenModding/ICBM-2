@@ -3,6 +3,7 @@ package com.builtbroken.icbm.client;
 import com.builtbroken.icbm.CommonProxy;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.missile.IMissileEntity;
+import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.client.blast.*;
 import com.builtbroken.icbm.content.ams.TileAMSClient;
 import com.builtbroken.icbm.content.blast.entity.ExSlimeRain;
@@ -12,7 +13,6 @@ import com.builtbroken.icbm.content.blast.explosive.ExMicroQuake;
 import com.builtbroken.icbm.content.blast.util.ExOrePuller;
 import com.builtbroken.icbm.content.blast.util.ExRegen;
 import com.builtbroken.icbm.content.blast.util.ExRegenLocal;
-import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstationClient;
 import com.builtbroken.icbm.content.crafting.station.warhead.TileWarheadStationClient;
 import com.builtbroken.icbm.content.fof.TileFoFClient;
@@ -166,7 +166,7 @@ public class ClientProxy extends CommonProxy
         //Gen and add smoke effect
         if (entity instanceof EntityMissile)
         {
-            Missile missile = ((EntityMissile) entity).getMissile();
+            IMissile missile = ((EntityMissile) entity).getMissile();
             if (missile.getEngine() != null)
             {
                 Color color = missile.getEngine().getEngineFireColor(entity instanceof IMissileEntity ? (IMissileEntity) entity : null, missile);
@@ -191,7 +191,7 @@ public class ClientProxy extends CommonProxy
             //Gen and add smoke effect
             if (entity instanceof EntityMissile)
             {
-                Missile missile = ((EntityMissile) entity).getMissile();
+                IMissile missile = ((EntityMissile) entity).getMissile();
                 if (missile.getEngine() != null)
                 {
                     Color color = missile.getEngine().getEngineSmokeColor(entity instanceof IMissileEntity ? (IMissileEntity) entity : null, missile);

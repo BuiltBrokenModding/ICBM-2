@@ -3,8 +3,8 @@ package com.builtbroken.icbm.content.crafting.station.small;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
 import com.builtbroken.icbm.api.missile.IMissileItem;
+import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
-import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
 import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
@@ -74,7 +74,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
         northSouthMap.put(new Pos(0, 0, -1), EnumMultiblock.INVENTORY.getName() + "#RenderBlock=false");
     }
 
-    private Missile missile; //TODO change assemble and disassemble to use this object to reduce object creation
+    private IMissile missile; //TODO change assemble and disassemble to use this object to reduce object creation
 
     public TileSmallMissileWorkstation()
     {
@@ -470,8 +470,8 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
             //Missile slots
             if (stack.getItem() instanceof IModularMissileItem && slot == INPUT_SLOT)
             {
-                Missile missile = ((IModularMissileItem) stack.getItem()).toMissile(stack);
-                return missile.casing == MissileCasings.SMALL;
+                IMissile missile = ((IModularMissileItem) stack.getItem()).toMissile(stack);
+                return missile.getMissileSize() == MissileCasings.SMALL.ordinal();
             }
         }
         return false;
@@ -652,7 +652,7 @@ public class TileSmallMissileWorkstation extends TileAbstractWorkstation impleme
     }
 
     /** Missile object, create from the input slot stack */
-    public Missile getMissile()
+    public IMissile getMissile()
     {
         if (getMissileItem() != null && getMissileItem().getItem() instanceof IMissileItem && missile == null)
         {

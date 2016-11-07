@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.api.missile;
 
-import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
+import com.builtbroken.icbm.api.modules.IMissile;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 
@@ -39,5 +39,5 @@ public interface IMissileItem
      * @param stack
      * @return
      */
-    Missile toMissile(ItemStack stack);
+    IMissile toMissile(ItemStack stack);
 }

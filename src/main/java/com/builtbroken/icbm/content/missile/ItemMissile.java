@@ -1,9 +1,10 @@
 package com.builtbroken.icbm.content.missile;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.api.warhead.IWarheadHandler;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
 import com.builtbroken.icbm.api.missile.IMissileItem;
+import com.builtbroken.icbm.api.modules.IMissile;
+import com.builtbroken.icbm.api.warhead.IWarheadHandler;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
@@ -119,21 +120,21 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     @Override
     public IExplosiveHandler getExplosive(ItemStack itemStack)
     {
-        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(itemStack);
+        IMissile missile = MissileModuleBuilder.INSTANCE.buildMissile(itemStack);
         return missile.getWarhead() != null ? missile.getWarhead().getExplosive() : null;
     }
 
     @Override
     public NBTTagCompound getAdditionalExplosiveData(ItemStack itemStack)
     {
-        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(itemStack);
+        IMissile missile = MissileModuleBuilder.INSTANCE.buildMissile(itemStack);
         return missile.getWarhead() != null ? missile.getWarhead().getAdditionalExplosiveData() : null;
     }
 
     @Override
     public double getExplosiveSize(ItemStack itemStack)
     {
-        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(itemStack);
+        IMissile missile = MissileModuleBuilder.INSTANCE.buildMissile(itemStack);
         return missile.getWarhead() != null ? missile.getWarhead().getExplosiveSize() : 0;
     }
 
@@ -180,7 +181,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
     {
         super.addInformation(stack, player, list, bool);
-        Missile missile = toMissile(stack);
+        IMissile missile = toMissile(stack);
         if (missile != null)
         {
             //Guidance localization
@@ -244,7 +245,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     @Override
     public boolean isAmmo(ItemStack stack)
     {
-        Missile missile = toMissile(stack);
+        IMissile missile = toMissile(stack);
         return missile != null && missile.canLaunch();
     }
 
@@ -366,14 +367,14 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     public ItemStack getEngine(ItemStack stack)
     {
         //TODO Directly access stack to increase performance
-        Missile missile = toMissile(stack);
+        IMissile missile = toMissile(stack);
         return missile != null && missile.getEngine() != null ? missile.getEngine().toStack() : null;
     }
 
     @Override
     public boolean setEngine(ItemStack m_stack, ItemStack stack, boolean simulate)
     {
-        Missile missile = toMissile(m_stack);
+        IMissile missile = toMissile(m_stack);
         if (missile != null)
         {
             if (missile.getEngine() == null)
@@ -409,14 +410,14 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     public ItemStack getWarhead(ItemStack stack)
     {
         //TODO Directly access stack to increase performance
-        Missile missile = toMissile(stack);
+        IMissile missile = toMissile(stack);
         return missile != null && missile.getWarhead() != null ? missile.getWarhead().toStack() : null;
     }
 
     @Override
     public boolean setWarhead(ItemStack m_stack, ItemStack stack, boolean simulate)
     {
-        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(m_stack);
+        IMissile missile = MissileModuleBuilder.INSTANCE.buildMissile(m_stack);
         if (missile != null)
         {
             if (missile.getWarhead() == null && stack != null && stack.getItem() instanceof IModuleItem)
@@ -449,14 +450,14 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     public ItemStack getGuidance(ItemStack stack)
     {
         //TODO Directly access stack to increase performance
-        Missile missile = toMissile(stack);
+        IMissile missile = toMissile(stack);
         return missile != null && missile.getGuidance() != null ? missile.getGuidance().toStack() : null;
     }
 
     @Override
     public boolean setGuidance(ItemStack m_stack, ItemStack stack, boolean simulate)
     {
-        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(m_stack);
+        IMissile missile = MissileModuleBuilder.INSTANCE.buildMissile(m_stack);
         if (missile != null)
         {
             if (missile.getGuidance() == null && stack != null && stack.getItem() instanceof IModuleItem)
@@ -488,7 +489,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     @Override
     public ItemStack getExplosiveStack(ItemStack stack)
     {
-        Missile missile = toMissile(stack);
+        IMissile missile = toMissile(stack);
         if (missile != null && missile.getWarhead() != null)
         {
             return missile.getWarhead().getExplosiveStack();
@@ -499,7 +500,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     @Override
     public boolean setExplosiveStack(ItemStack stack, ItemStack explosive)
     {
-        Missile missile = toMissile(stack);
+        IMissile missile = toMissile(stack);
         if (missile != null && missile.getWarhead() != null)
         {
             return missile.getWarhead().setExplosiveStack(explosive);
@@ -508,9 +509,9 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     }
 
     @Override
-    public Missile toMissile(ItemStack stack)
+    public IMissile toMissile(ItemStack stack)
     {
-        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
+        IMissile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
         if (missile == null)
         {
             //TODO if NBT is not null see if we can validate some parts of it

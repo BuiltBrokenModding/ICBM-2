@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.mods.oc;
 
-import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
+import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.launcher.controller.direct.TileSiloController;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.Tile;
@@ -145,7 +145,7 @@ public class TileSiloControllerOC extends TileSiloController implements Environm
         {
             throw new RuntimeException("Not connected to a launcher");
         }
-        Missile missile = launcher.getMissile();
+        IMissile missile = launcher.getMissile();
         if (missile == null)
         {
             throw new RuntimeException("No missile loaded");
@@ -160,7 +160,7 @@ public class TileSiloControllerOC extends TileSiloController implements Environm
         {
             throw new RuntimeException("Not connected to a launcher");
         }
-        Missile missile = launcher.getMissile();
+        IMissile missile = launcher.getMissile();
         if (missile == null)
         {
             throw new RuntimeException("No missile loaded");
@@ -175,7 +175,7 @@ public class TileSiloControllerOC extends TileSiloController implements Environm
         {
             throw new RuntimeException("Not connected to a launcher");
         }
-        Missile missile = launcher.getMissile();
+        IMissile missile = launcher.getMissile();
         if (missile == null)
         {
             throw new RuntimeException("No missile loaded");
@@ -210,7 +210,7 @@ public class TileSiloControllerOC extends TileSiloController implements Environm
         }
         if (!launcher.canFireMissile())
         {
-            Missile missile = launcher.getMissile();
+            IMissile missile = launcher.getMissile();
             if (missile == null)
             {
                 if (launcher.getMissileItem() != null)

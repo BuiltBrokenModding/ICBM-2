@@ -1,8 +1,8 @@
 package com.builtbroken.icbm.content.launcher;
 
 import com.builtbroken.icbm.api.missile.IMissileItem;
+import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
-import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.mc.api.ISave;
 import net.minecraft.item.ItemStack;
@@ -21,7 +21,7 @@ public class LauncherReport implements ISave
     public UUID entityUUID;
 
     //Saved data
-    public Missile missile;
+    public IMissile missile;
     public boolean impacted;
 
     //TODO add method to get flight time to string(hhmmss), and convert both times to readable values(hhmmss)

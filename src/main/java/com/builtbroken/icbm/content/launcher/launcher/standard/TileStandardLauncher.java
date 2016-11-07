@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.launcher.launcher.standard;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
-import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
+import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.launcher.launcher.TileAbstractLauncherPad;
 import com.builtbroken.icbm.content.missile.EntityMissile;
@@ -208,7 +208,7 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
             {
                 if (isServer())
                 {
-                    Missile missile = ((IModularMissileItem) player.getHeldItem().getItem()).toMissile(player.getHeldItem());
+                    IMissile missile = ((IModularMissileItem) player.getHeldItem().getItem()).toMissile(player.getHeldItem());
                     if (missile != null)
                     {
                         if (canAcceptMissile(missile))
@@ -482,9 +482,9 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
     }
 
     @Override
-    public boolean canAcceptMissile(Missile missile)
+    public boolean canAcceptMissile(IMissile missile)
     {
-        return super.canAcceptMissile(missile) && missile.casing == MissileCasings.STANDARD;
+        return super.canAcceptMissile(missile) && missile.getMissileSize() == MissileCasings.STANDARD.ordinal();
     }
 
     @Override

@@ -1,9 +1,9 @@
 package com.builtbroken.icbm.content.missile;
 
 import com.builtbroken.icbm.api.missile.ICustomMissileRender;
+import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
-import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -28,7 +28,7 @@ public class RenderMissile extends Render implements IItemRenderer
     public void doRender(Entity entity, double x, double y, double z, float f, float f1)
     {
         EntityMissile entityMissile = (EntityMissile) entity;
-        Missile missile = entityMissile.getMissile();
+        IMissile missile = entityMissile.getMissile();
 
         GL11.glPushMatrix();
         GL11.glTranslated(x - 0.5, y - 0.5, z - 0.5);
@@ -74,7 +74,7 @@ public class RenderMissile extends Render implements IItemRenderer
     {
         if (this.shouldUseRenderHelper(type, item, null))
         {
-            Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(item);
+            IMissile missile = MissileModuleBuilder.INSTANCE.buildMissile(item);
 
             float yaw = 0;
             float pitch = -90;

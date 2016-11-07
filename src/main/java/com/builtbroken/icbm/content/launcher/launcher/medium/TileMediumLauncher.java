@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.launcher.launcher.medium;
 
+import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.client.Assets;
-import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.launcher.launcher.TileAbstractLauncherPad;
 import com.builtbroken.mc.lib.transform.region.Cube;
@@ -27,9 +27,9 @@ public class TileMediumLauncher extends TileAbstractLauncherPad
     }
 
     @Override
-    public boolean canAcceptMissile(Missile missile)
+    public boolean canAcceptMissile(IMissile missile)
     {
-        return super.canAcceptMissile(missile) && missile.casing == MissileCasings.MEDIUM;
+        return super.canAcceptMissile(missile) && missile.getMissileSize() == MissileCasings.MEDIUM.ordinal();
     }
 
     @Override

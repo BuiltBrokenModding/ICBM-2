@@ -1,8 +1,8 @@
 package com.builtbroken.icbm.content.launcher.controller;
 
 import com.builtbroken.icbm.api.missile.IMissileItem;
+import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
-import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import net.minecraft.item.ItemStack;
@@ -17,7 +17,7 @@ import net.minecraft.nbt.NBTTagCompound;
 public class LauncherData
 {
     public Pos location;
-    public Missile missile;
+    public IMissile missile;
 
     public LauncherData(TileAbstractLauncher launcher)
     {

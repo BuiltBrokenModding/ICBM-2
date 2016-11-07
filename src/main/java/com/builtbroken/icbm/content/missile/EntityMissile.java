@@ -6,8 +6,10 @@ import com.builtbroken.icbm.api.blast.IExHandlerTileMissile;
 import com.builtbroken.icbm.api.missile.IFoF;
 import com.builtbroken.icbm.api.missile.IMissileEntity;
 import com.builtbroken.icbm.api.missile.IMissileItem;
+import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
+import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.icbm.content.missile.tile.TileCrashedMissile;
 import com.builtbroken.icbm.content.missile.tracking.MissileTracker;
@@ -44,7 +46,7 @@ import java.util.List;
  */
 public class EntityMissile extends EntityProjectile implements IExplosive, IMissileEntity, IEntityAdditionalSpawnData, IFoF
 {
-    private Missile missile;
+    private IMissile missile;
 
     //Used for guided version
     public IPos3D target_pos;
@@ -493,15 +495,15 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
         }
     }
 
-    public Missile getMissile()
+    public IMissile getMissile()
     {
         return missile;
     }
 
-    public void setMissile(Missile missile)
+    public void setMissile(IMissile missile)
     {
         this.missile = missile;
-        this.inAirKillTime = missile.casing.maxFlightTimeInTicks;
+        this.inAirKillTime = MissileCasings.get(missile.getMissileSize()).maxFlightTimeInTicks;
     }
 
     @Override

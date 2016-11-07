@@ -1,18 +1,27 @@
 package com.builtbroken.icbm.content.rail.entity;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
+import com.builtbroken.icbm.api.missile.IMissileItem;
+import com.builtbroken.icbm.api.modules.IMissile;
+import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.rail.BlockRail;
 import com.builtbroken.icbm.content.rail.IMissileRail;
+import com.builtbroken.mc.api.modules.IModule;
+import com.builtbroken.mc.api.modules.IModuleItem;
+import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.lib.helper.MathUtility;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.entity.EntityBase;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
+import cpw.mods.fml.common.network.ByteBufUtils;
+import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -26,12 +35,16 @@ import java.util.List;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 10/29/2016.
  */
-public class EntityCart extends EntityBase
+public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntityAdditionalSpawnData
 {
     public static final double vel = 0.1;
     public static final int TYPE_DATA_ID = 23;
-    //Thing we are carrying
-    private Missile cargo;
+
+    /** Missile object being carried, if changed update {@link #cargoStack} */
+    private IMissile cargoMissile;
+
+    /** Missile ItemStack being carried, if changed update {@link #cargoMissile} */
+    private ItemStack cargoStack;
 
     /** Side of the cart that the rail exists */
     public ForgeDirection railSide;
@@ -55,6 +68,65 @@ public class EntityCart extends EntityBase
     {
         super.entityInit();
         this.dataWatcher.addObject(TYPE_DATA_ID, 0);
+    }
+
+    @Override
+    public boolean interactFirst(EntityPlayer player)
+    {
+        if (player.getHeldItem() == null)
+        {
+            if (cargoStack != null)
+            {
+                if (!worldObj.isRemote)
+                {
+                    //TODO add handling for stacking missile
+                    player.inventory.setInventorySlotContents(player.inventory.currentItem, cargoStack);
+                    player.inventoryContainer.detectAndSendChanges();
+                    setCargo(null);
+                }
+                return true;
+            }
+        }
+        else if (cargoStack == null) //TODO add handling for stacking missile
+        {
+            ItemStack heldItem = player.getHeldItem();
+            IMissile missile = null;
+            if (heldItem.getItem() instanceof IMissileItem)
+            {
+                missile = ((IMissileItem) heldItem.getItem()).toMissile(heldItem);
+            }
+            else if (heldItem.getItem() instanceof IModuleItem)
+            {
+                IModule module = ((IModuleItem) heldItem.getItem()).getModule(heldItem);
+                if (module instanceof IMissile)
+                {
+                    missile = (IMissile) module;
+                }
+            }
+            else
+            {
+                missile = MissileModuleBuilder.INSTANCE.buildMissile(heldItem);
+            }
+
+            if (missile != null)
+            {
+                if (!worldObj.isRemote)
+                {
+                    ItemStack copyStack = heldItem.copy();
+                    copyStack.stackSize = 1;
+                    setCargo(copyStack);
+                    heldItem.stackSize -= 1;
+                    if (heldItem.stackSize <= 0)
+                    {
+                        heldItem = null;
+                    }
+                    player.inventory.setInventorySlotContents(player.inventory.currentItem, heldItem);
+                    player.inventoryContainer.detectAndSendChanges();
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -253,6 +325,7 @@ public class EntityCart extends EntityBase
     {
         this.recenterCartOnRail(rail.getAttachedDirection(), rail.getFacingDirection(), rail.getRailHeight(), trueCenter);
     }
+
     /**
      * Clamps the movement of the cart and position data so the
      * cart stays on the rail.
@@ -271,7 +344,7 @@ public class EntityCart extends EntityBase
                 motionY = 0;
                 posX = ((int) posX) + 0.5;
                 posY = ((int) posY) + railHeight;
-                if(trueCenter)
+                if (trueCenter)
                 {
                     posZ = ((int) posZ) + 0.5;
                 }
@@ -282,7 +355,7 @@ public class EntityCart extends EntityBase
                 motionY = 0;
                 posZ = ((int) posZ) + 0.5;
                 posY = ((int) posY) + railHeight;
-                if(trueCenter)
+                if (trueCenter)
                 {
                     posX = ((int) posX) + 0.5;
                 }
@@ -297,7 +370,7 @@ public class EntityCart extends EntityBase
                 motionY = 0;
                 posX = ((int) posX) + 0.5;
                 posY = ((int) posY) + 1 - railHeight;
-                if(trueCenter)
+                if (trueCenter)
                 {
                     posZ = ((int) posZ) + 0.5;
                 }
@@ -308,7 +381,7 @@ public class EntityCart extends EntityBase
                 motionY = 0;
                 posZ = ((int) posZ) + 0.5;
                 posY = ((int) posY) + 1 - railHeight;
-                if(trueCenter)
+                if (trueCenter)
                 {
                     posX = ((int) posX) + 0.5;
                 }
@@ -442,13 +515,78 @@ public class EntityCart extends EntityBase
         nbt.setInteger("cartType", getType().ordinal());
     }
 
-    public Missile getCargo()
+    /**
+     * Cargo missile being carried
+     *
+     * @return
+     */
+    public IMissile getCargoMissile()
     {
-        return cargo;
+        return cargoMissile;
     }
 
-    public void setCargo(Missile cargo)
+    /**
+     * Called to set the missile object data.
+     * Never call this directly unless you need
+     * special handling. Instead call {@link #setCargo(ItemStack)}
+     *
+     * @param cargoMissile - missile object
+     */
+    public void setCargoMissile(IMissile cargoMissile)
     {
-        this.cargo = cargo;
+        this.cargoMissile = cargoMissile;
+        if (!worldObj.isRemote)
+        {
+            sentDescriptionPacket();
+        }
+    }
+
+    /**
+     * Sets the ItemStack, representing a missile,
+     * that is being carried as cargo
+     *
+     * @param cargo - cargo, should be convertable to a IMissile object
+     */
+    public void setCargo(ItemStack cargo)
+    {
+        this.cargoStack = cargo;
+        if (cargo == null)
+        {
+            setCargoMissile(null);
+        }
+    }
+
+    /**
+     * Checks if the missile can be stored inside of the cart
+     *
+     * @param missile - missile to test
+     * @return true if it can
+     */
+    public boolean canAcceptMissile(IMissile missile)
+    {
+        return missile.getMissileSize() == getType().supportedCasingSize.ordinal();
+    }
+
+    @Override
+    public void writeSpawnData(ByteBuf buffer)
+    {
+        buffer.writeBoolean(cargoStack != null);
+        if (cargoStack != null)
+        {
+            ByteBufUtils.writeItemStack(buffer, cargoStack);
+        }
+    }
+
+    @Override
+    public void readSpawnData(ByteBuf additionalData)
+    {
+        if (additionalData.readBoolean())
+        {
+            setCargo(ByteBufUtils.readItemStack(additionalData));
+        }
+        else
+        {
+            setCargo(null);
+        }
     }
 }

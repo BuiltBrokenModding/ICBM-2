@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.crafting.station.small;
 
+import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.client.Assets;
-import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.client.SharedAssets;
 import com.builtbroken.mc.core.network.packet.PacketType;
@@ -98,7 +98,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
     }
 
     @SideOnly(Side.CLIENT)
-    public static void renderDynamic(Pos pos, Pos offset, ForgeDirection connectedBlockSide, ForgeDirection direction, Missile missile, float frame, int pass)
+    public static void renderDynamic(Pos pos, Pos offset, ForgeDirection connectedBlockSide, ForgeDirection direction, IMissile missile, float frame, int pass)
     {
         //Render launcher
         GL11.glPushMatrix();
@@ -271,7 +271,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
      *
      * @param pos - offset for render
      */
-    public static void renderMissile(Pos pos, Missile misssile, ForgeDirection connectedBlockSide, ForgeDirection direction)
+    public static void renderMissile(Pos pos, IMissile misssile, ForgeDirection connectedBlockSide, ForgeDirection direction)
     {
         ///Center render view to tile center
         GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.5f, pos.zf() + 0.5f);

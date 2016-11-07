@@ -6,9 +6,9 @@ import com.builtbroken.icbm.api.blast.IExHandlerTileMissile;
 import com.builtbroken.icbm.api.missile.ICustomMissileRender;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.missile.ITileMissile;
+import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
-import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.mc.api.edit.IWorldChangeAction;
 import com.builtbroken.mc.api.event.TriggerCause;
@@ -69,7 +69,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
     }
 
     /** Missile object that defines render and blast information */
-    public Missile missile;
+    public IMissile missile;
 
     private ForgeDirection attachedSide;
     /** Render rotation yaw of the entity */

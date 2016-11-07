@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.rail.entity;
 
+import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.client.Assets;
-import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstationClient;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.helper.MathUtility;
@@ -51,7 +51,7 @@ public class RenderCart extends Render
             Assets.CART1x3.renderAll();
 
             //Render missile
-            renderMissile(cart.getCargo(), cart.railSide, cart.facingDirection);
+            renderMissile(cart.getCargoMissile(), cart.railSide, cart.facingDirection);
 
             GL11.glPopMatrix();
         }
@@ -124,7 +124,7 @@ public class RenderCart extends Render
     /**
      * Handles rendering of the missile
      */
-    public static void renderMissile(Missile misssile, ForgeDirection connectedBlockSide, ForgeDirection direction)
+    public static void renderMissile(IMissile misssile, ForgeDirection connectedBlockSide, ForgeDirection direction)
     {
         ///Center render view to tile center
         GL11.glTranslatef(0.5f, 0.5f, 0.5f);

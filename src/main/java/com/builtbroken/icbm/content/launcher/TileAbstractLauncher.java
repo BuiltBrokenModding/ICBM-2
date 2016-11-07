@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.launcher;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.launcher.INamedLauncher;
-import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
+import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.display.TileMissileContainer;
 import com.builtbroken.icbm.content.fof.IFoFStation;
 import com.builtbroken.icbm.content.items.ItemRemoteDetonator;
@@ -245,7 +245,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         if (canFireMissile())
         {
             //We have a missile?
-            Missile missile = getMissile();
+            IMissile missile = getMissile();
             if (missile != null)
             {
                 //Does it have an engine
@@ -654,7 +654,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     @Override
     public int getTravelTimeTo(IPos3D target)
     {
-        Missile missile = getMissile();
+        IMissile missile = getMissile();
         return missile == null ? -1 : (int) MissileTrackingData.getRespawnTicks(toPos(), new Pos(getTarget()), missile.getEngine() != null ? missile.getEngine().getSpeed(missile) : 1);
     }
 

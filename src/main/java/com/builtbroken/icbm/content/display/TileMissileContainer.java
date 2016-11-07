@@ -1,7 +1,11 @@
 package com.builtbroken.icbm.content.display;
 
 import com.builtbroken.icbm.api.missile.IMissileItem;
-import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
+import com.builtbroken.icbm.api.modules.IMissile;
+import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
+import com.builtbroken.icbm.content.rail.IRailInventoryTile;
+import com.builtbroken.mc.api.modules.IModule;
+import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.TileModuleMachine;
@@ -12,11 +16,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * Created by robert on 1/18/2015.
  */
-public class TileMissileContainer extends TileModuleMachine implements IPacketIDReceiver
+public class TileMissileContainer extends TileModuleMachine implements IPacketIDReceiver, IRailInventoryTile
 {
     public TileMissileContainer(String name, Material material)
     {
@@ -36,9 +41,13 @@ public class TileMissileContainer extends TileModuleMachine implements IPacketID
         //Silo item
         ItemStack stack = ByteBufUtils.readItemStack(buf);
         if (stack.getItem() instanceof IMissileItem)
+        {
             this.setInventorySlotContents(0, stack);
+        }
         else
+        {
             this.setInventorySlotContents(0, null);
+        }
     }
 
     @Override
@@ -57,7 +66,7 @@ public class TileMissileContainer extends TileModuleMachine implements IPacketID
 
     public boolean playerRemoveMissile(EntityPlayer player, int side, Pos hit)
     {
-        if(player.getHeldItem() == null && getMissile() != null)
+        if (player.getHeldItem() == null && getMissile() != null)
         {
             if (isServer())
             {
@@ -76,11 +85,11 @@ public class TileMissileContainer extends TileModuleMachine implements IPacketID
     public boolean playerAddMissile(EntityPlayer player, int side, Pos hit)
     {
         ItemStack heldItem = player.getHeldItem();
-        if(heldItem != null && getMissile() == null)
+        if (heldItem != null && getMissile() == null)
         {
             if (isServer() && heldItem.getItem() instanceof IMissileItem)
             {
-                Missile missile = ((IMissileItem) heldItem.getItem()).toMissile(heldItem);
+                IMissile missile = ((IMissileItem) heldItem.getItem()).toMissile(heldItem);
 
                 if (canAcceptMissile(missile))
                 {
@@ -111,16 +120,33 @@ public class TileMissileContainer extends TileModuleMachine implements IPacketID
         return false;
     }
 
-    public boolean canAcceptMissile(Missile missile)
+    /**
+     * Can the launcher accept the missile
+     *
+     * @param missile
+     * @return
+     */
+    public boolean canAcceptMissile(IMissile missile)
     {
         return missile != null;
     }
 
-    public Missile getMissile()
+    /**
+     * Gets the missile object, converts from ItemStack
+     * so cache if you plan to call often.
+     *
+     * @return new missile instance created from stored item
+     */
+    public IMissile getMissile()
     {
         return getMissileItem() != null && getMissileItem().getItem() instanceof IMissileItem ? ((IMissileItem) getMissileItem().getItem()).toMissile(getMissileItem()) : null;
     }
 
+    /**
+     * Gets the item for the missile
+     *
+     * @return ItemStack
+     */
     public ItemStack getMissileItem()
     {
         return getStackInSlot(0);
@@ -130,5 +156,44 @@ public class TileMissileContainer extends TileModuleMachine implements IPacketID
     public int getInventoryStackLimit()
     {
         return 1;
+    }
+
+    @Override
+    public int[] getSlotsToLoad(ForgeDirection side)
+    {
+        return new int[0];
+    }
+
+    @Override
+    public int[] getSlotsToUnload(ForgeDirection side)
+    {
+        return null;
+    }
+
+    @Override
+    public boolean canStore(ItemStack slotStack, int slot, ForgeDirection side)
+    {
+        if (slot == 0)
+        {
+            IMissile missile = null;
+            if (slotStack.getItem() instanceof IMissileItem)
+            {
+                missile = ((IMissileItem) slotStack.getItem()).toMissile(slotStack);
+            }
+            else if (slotStack.getItem() instanceof IModuleItem)
+            {
+                IModule module = ((IModuleItem) slotStack.getItem()).getModule(slotStack);
+                if (module instanceof IMissile)
+                {
+                    missile = (IMissile) module;
+                }
+            }
+            else
+            {
+                missile = MissileModuleBuilder.INSTANCE.buildMissile(slotStack);
+            }
+            return missile != null && canAcceptMissile(missile);
+        }
+        return false;
     }
 }

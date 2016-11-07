@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.rail;
 
 import com.builtbroken.mc.api.tile.IInventoryProvider;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 
 /**
@@ -18,13 +19,37 @@ public interface IRailInventoryTile extends IInventoryProvider
      * Slots that will be accessed to load items into the cart.
      *
      * @param side - side of the block pointing away from the tile
+     * @return array of slots, never null
      */
     int[] getSlotsToLoad(ForgeDirection side);
+
+    /**
+     * Slots that will be accessed to load items into the cart.
+     *
+     * @param side - side of the block pointing away from the tile
+     * @return array of slots, never null
+     */
+    default int[] getSlotsToLoad(ItemStack stack, ForgeDirection side)
+    {
+        return getSlotsToLoad(side);
+    }
 
     /**
      * Slots that will be accessed to unload items from the cart.
      *
      * @param side - side of the block pointing away from the tile
+     * @return array of slots, never null
      */
     int[] getSlotsToUnload(ForgeDirection side);
+
+    /**
+     * Slots that will be accessed to unload items from the cart.
+     *
+     * @param side - side of the block pointing away from the tile
+     * @return array of slots, never null
+     */
+    default int[] getSlotsToUnload(ItemStack stack, ForgeDirection side)
+    {
+        return getSlotsToUnload(side);
+    }
 }

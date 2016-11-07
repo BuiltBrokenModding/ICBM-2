@@ -2,8 +2,8 @@ package com.builtbroken.icbm.content.launcher.silo;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.missile.ICustomMissileRender;
+import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.client.Assets;
-import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.jlib.data.vector.IPos3D;
@@ -71,9 +71,9 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
     }
 
     @Override
-    public boolean canAcceptMissile(Missile missile)
+    public boolean canAcceptMissile(IMissile missile)
     {
-        return super.canAcceptMissile(missile) && missile.casing == MissileCasings.SMALL;
+        return super.canAcceptMissile(missile) && missile.getMissileSize() == MissileCasings.SMALL.ordinal();
     }
 
     @Override
@@ -127,7 +127,7 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
         Assets.SMALL_SILO_MODEL.renderAll();
         GL11.glPopMatrix();
 
-        Missile missile = getMissile();
+        IMissile missile = getMissile();
         //Render missile
         if (missile != null)
         {

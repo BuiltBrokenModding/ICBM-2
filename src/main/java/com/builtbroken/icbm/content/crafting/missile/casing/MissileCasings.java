@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.crafting.missile.casing;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.crafting.ModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
@@ -49,7 +50,7 @@ public enum MissileCasings
         return stack;
     }
 
-    public Missile newModule()
+    public IMissile newModule()
     {
         return MissileModuleBuilder.INSTANCE.buildMissile(newModuleStack());
     }
@@ -81,5 +82,16 @@ public enum MissileCasings
             return MissileCasings.values()[itemDamage];
         }
         return MissileCasings.SMALL;
+    }
+
+    /**
+     * Gets the size of the missile
+     *
+     * @param missileSize
+     * @return
+     */
+    public static MissileCasings get(int missileSize)
+    {
+        return fromMeta(missileSize);
     }
 }

@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.content.display;
 
-import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
+import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.RenderMissile;
 import com.builtbroken.jlib.data.vector.IPos3D;
@@ -76,7 +76,7 @@ public class TileMissileDisplay extends TileMissileContainer implements IPos3D
         super.update();
         if (isClient())
         {
-            Missile missileObj = getMissile();
+            IMissile missileObj = getMissile();
             if (missile == null)
             {
                 if (missileObj != null)

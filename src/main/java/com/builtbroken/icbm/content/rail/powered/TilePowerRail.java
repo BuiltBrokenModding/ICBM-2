@@ -1,13 +1,20 @@
 package com.builtbroken.icbm.content.rail.powered;
 
+import com.builtbroken.icbm.api.missile.IMissileItem;
+import com.builtbroken.icbm.api.modules.IMissile;
+import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.rail.IMissileRail;
 import com.builtbroken.icbm.content.rail.IRailInventoryTile;
 import com.builtbroken.icbm.content.rail.entity.EntityCart;
+import com.builtbroken.jlib.type.Pair;
+import com.builtbroken.mc.api.modules.IModule;
+import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.TileModuleMachine;
 import io.netty.buffer.ByteBuf;
@@ -16,6 +23,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -199,18 +207,25 @@ public class TilePowerRail extends TileModuleMachine implements IMissileRail, IP
         }
         else if (isLoaderRail())
         {
-            if (cart.getCargo() == null)
+            if (cart.getCargoMissile() == null)
             {
                 cart.motionX = 0;
                 cart.motionY = 0;
                 cart.motionZ = 0;
                 cart.recenterCartOnRail(this, true);
 
-                IRailInventoryTile tile = getLoadTile();
-                int[] slots = tile.getSlotsToUnload(loadDirecton.getOpposite());
+                final Pair<ItemStack, Integer> stack = takeItemFromTile(cart);
+                if (stack != null && stack.left() != null && stack.left().stackSize >= 0)
+                {
+                    IRailInventoryTile tile = getLoadTile();
+                    cart.setCargo(InventoryUtility.copyStack(stack.left(), 1));
+                    tile.getInventory().setInventorySlotContents(stack.right(), InventoryUtility.decrStackSize(stack.left(), 1));
+                }
+                //Else nothing happened
             }
             else
             {
+                //TODO trigger redstone 3 ticks
                 handlePush(cart);
                 cart.recenterCartOnRail(this, false);
                 return;
@@ -218,23 +233,134 @@ public class TilePowerRail extends TileModuleMachine implements IMissileRail, IP
         }
         else if (isUnloadRail())
         {
-            if (cart.getCargo() != null)
+            if (cart.getCargoMissile() != null)
             {
                 cart.motionX = 0;
                 cart.motionY = 0;
                 cart.motionZ = 0;
                 cart.recenterCartOnRail(this, true);
-
-                IRailInventoryTile tile = getLoadTile();
-                int[] slots = tile.getSlotsToLoad(loadDirecton.getOpposite());
+                final ItemStack prev = cart.getCargoMissile().toStack().copy();
+                ItemStack stack = storeItemInTile(cart.getCargoMissile().toStack().copy());
+                if (stack == null || stack.stackSize <= 0)
+                {
+                    cart.setCargo(null);
+                }
+                else if (!InventoryUtility.stacksMatchExact(prev, stack))
+                {
+                    cart.setCargo(stack);
+                }
+                //Else nothing happened
             }
             else
             {
+                //TODO trigger redstone 3 ticks
                 handlePush(cart);
                 cart.recenterCartOnRail(this, false);
                 return;
             }
         }
+    }
+
+    /**
+     * Stores the item in the first open slot
+     * <p>
+     * Consumes the item and places into the inventory
+     *
+     * @param stack - input stack
+     * @return what is left of the stack
+     */
+    public ItemStack storeItemInTile(ItemStack stack)
+    {
+        final IRailInventoryTile tile = getLoadTile();
+        //Check if we can globally store the item
+        if (tile.canStore(stack, loadDirecton.getOpposite()))
+        {
+            final int[] slots = tile.getSlotsToLoad(stack, loadDirecton.getOpposite());
+            final int stackLimit = tile.getInventory().getInventoryStackLimit();
+            final IInventory inventory = tile.getInventory();
+
+            for (int index = 0; index < slots.length; index++)
+            {
+                final int slot = slots[index];
+                //Check if we can store the exact item
+                if (tile.canStore(stack, slot, loadDirecton.getOpposite()))
+                {
+                    final ItemStack slotStack = inventory.getStackInSlot(slot);
+                    if (slotStack == null)
+                    {
+                        if (stack.stackSize > stackLimit)
+                        {
+                            ItemStack copyStack = stack.copy();
+                            copyStack.stackSize = stackLimit;
+                            inventory.setInventorySlotContents(slot, copyStack);
+                            stack.stackSize -= copyStack.stackSize;
+                        }
+                        else
+                        {
+                            inventory.setInventorySlotContents(slot, stack);
+                            return null;
+                        }
+                    }
+                    else if (InventoryUtility.stacksMatch(slotStack, stack))
+                    {
+                        final int roomLeft = stackLimit - slotStack.stackSize;
+                        if (roomLeft > 0)
+                        {
+                            slotStack.stackSize += roomLeft;
+                            inventory.setInventorySlotContents(slot, slotStack);
+                            stack.stackSize -= roomLeft;
+                        }
+                    }
+                }
+            }
+        }
+        return stack;
+    }
+
+    /**
+     * Takes the first stack the matches the requirements.
+     * <p>
+     * Does not actually consume the item
+     *
+     * @return the item
+     */
+    public Pair<ItemStack, Integer> takeItemFromTile(EntityCart cart)
+    {
+        IRailInventoryTile tile = getLoadTile();
+        int[] slots = tile.getSlotsToUnload(loadDirecton.getOpposite());
+        final IInventory inventory = tile.getInventory();
+
+        for (int index = 0; index < slots.length; index++)
+        {
+            final int slot = slots[index];
+            final ItemStack slotStack = inventory.getStackInSlot(slot);
+            if (slotStack != null)
+            {
+                IMissile missile = null;
+                if (slotStack.getItem() instanceof IMissileItem)
+                {
+                    missile = ((IMissileItem) slotStack.getItem()).toMissile(slotStack);
+                }
+                else if (slotStack.getItem() instanceof IModuleItem)
+                {
+                    IModule module = ((IModuleItem) slotStack.getItem()).getModule(slotStack);
+                    if (module instanceof IMissile)
+                    {
+                        missile = (IMissile) module;
+                    }
+                }
+                else
+                {
+                    missile = MissileModuleBuilder.INSTANCE.buildMissile(slotStack);
+                }
+
+                if (missile != null && cart.canAcceptMissile(missile))
+                {
+                    return new Pair(slotStack, slot);
+                }
+            }
+        }
+        return null;
     }
 
     /**
@@ -560,7 +686,7 @@ public class TilePowerRail extends TileModuleMachine implements IMissileRail, IP
         {
             buf.writeBoolean(stopCarts);
         }
-        else if(isLoaderRail() || isUnloadRail())
+        else if (isLoaderRail() || isUnloadRail())
         {
             buf.writeBoolean(rotateClockwise);
         }
@@ -590,7 +716,7 @@ public class TilePowerRail extends TileModuleMachine implements IMissileRail, IP
                 rotateYaw = nbt.getInteger("rotationYaw");
             }
         }
-        else if(isUnloadRail() || isLoaderRail())
+        else if (isUnloadRail() || isLoaderRail())
         {
             if (nbt.hasKey("rotateClockwise"))
             {
@@ -611,7 +737,7 @@ public class TilePowerRail extends TileModuleMachine implements IMissileRail, IP
             nbt.setBoolean("rotateClockwise", rotateClockwise);
             nbt.setInteger("rotationYaw", rotateYaw);
         }
-        else if(isLoaderRail() || isUnloadRail())
+        else if (isLoaderRail() || isUnloadRail())
         {
             nbt.setBoolean("rotateClockwise", rotateClockwise);
         }

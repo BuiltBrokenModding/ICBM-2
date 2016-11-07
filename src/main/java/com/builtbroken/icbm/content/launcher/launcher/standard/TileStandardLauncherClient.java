@@ -2,9 +2,9 @@ package com.builtbroken.icbm.content.launcher.launcher.standard;
 
 import com.builtbroken.icbm.api.missile.ICustomMissileRender;
 import com.builtbroken.icbm.api.missile.IMissileItem;
+import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
-import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.Tile;
@@ -28,7 +28,7 @@ import java.util.List;
  */
 public class TileStandardLauncherClient extends TileStandardLauncher
 {
-    private Missile missile;
+    private IMissile missile;
     private AxisAlignedBB renderBounds;
 
     private static boolean processedModel = false;

@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.content.missile.tracking;
 
-import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
+import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.lib.helper.NBTUtility;
@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 public class MissileTrackingData
 {
     protected NBTTagCompound m_save;
-    protected Missile missile;
+    protected IMissile missile;
     protected IPos3D target;
     protected Long ticks = 0L;
     protected Long respawnTicks = -1L;
