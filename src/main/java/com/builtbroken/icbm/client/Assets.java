@@ -31,13 +31,16 @@ public final class Assets
     public static final IModelCustom SMALL_SILO_MODEL = model("smallSilo/small-missile-silo.obj");
     public static final WavefrontObject STANDARD_SILO_MODEL = (WavefrontObject) model("standardSilo/StandardSilo.obj");
 
+    //Mag
+    public static final WavefrontObject SMALL_MAG_MODEL = (WavefrontObject) model("mag/small.mag.obj");
+
     //Weapon Models
     public static final IModelCustom RPG_MODEL = model("rocketLauncher.tcn");
 
     //Machine Models
     public static final IModelCustom LAUNCHER_CONTROLLER_MODEL = model("LauncherController.tcn");
     public static final IModelCustom WEAPON_CASE_MODEL = model("WeaponCase.tcn");
-    public static final WavefrontObject SMALL_MISSILE_STATION_MODEL = (WavefrontObject) model("small-missile-workstation.obj");
+    //public static final WavefrontObject SMALL_MISSILE_STATION_MODEL = (WavefrontObject) model("small-missile-workstation.obj"); TODO update old model
     public static final WavefrontObject SMALL_MISSILE_STATION_MODEL2 = (WavefrontObject) model("workstation.missile.small.obj");
     public static final WavefrontObject AMS_TOP_MODEL = (WavefrontObject) model("ams/AMS-top.obj");
     public static final WavefrontObject AMS_BOTTOM_MODEL = (WavefrontObject) model("ams/AMS-bottom.obj");
@@ -88,7 +91,9 @@ public final class Assets
 
     public static final ResourceLocation SMALL_WORKSTATION_TEXTURE = texture("small-missile-workstation");
     public static final ResourceLocation SMALL_WORKSTATION_TEXTURE2 = texture("workstation.missile.small");
+
     public static final ResourceLocation SMALL_SILO_TEXTURE = texture("small-missile-silo");
+    public static final ResourceLocation SMALL_MAG_TEXTURE = texture("small-missile-mag");
 
     public static IModelCustom model(String name)
     {

@@ -1,32 +1,24 @@
-Rail System
-    Rotating Rails
+###Rail System
+    ##Rotating Rails
         Rotate Cart by angle
         Rotate Cart to angle
         Push Cart after rotating
         Animation delay for rotation
-    Change Side
+    ##Change Side
         Move block to side of rail
             Ex. Ground floor to wall
         Animation with delay
         Push after moving
-    Cart Stopper
-        Stops cart
+    ##Cart Stopper
         Add queue for carts behind stopper
-        Add redstone support
-    Loader
-        Upgradable from stopper
-        Loads missiles onto the cart
-    Unloader
-        Upgradable from stopper
-        Unloads missiles from carts
-    Cart Creator
+    ##Cart Creator
         Generate cart
         Place cart on rail
         Push cart
-    Cart Destroyer
+    ##Cart Destroyer
         Break cart
         Only break if unloaded
-    Missile mag.
+    ##Missile mag.
         Move cart from unloader
         Queue carts into next mag 
         Add arrow to show queue direction
@@ -40,20 +32,17 @@ Rail System
             Redstone support
             OC support
             
-Carts    
+###Carts    
     1x1 cart
         Load 5 micro missiles
-        Load 1 small missile
     2x2 cart
         Load 5 small missiles
         Load 1 standard missile
     2x1 cart
         Load 1 small missile
     3x3 cart
-        Load 1 standard missile
         Load 1 medium missile
     5x5 cart
-        Load 1 standard
         Load 1 medium
         Load 1 large
 Autocrafting

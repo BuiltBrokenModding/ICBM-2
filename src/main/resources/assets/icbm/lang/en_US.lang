@@ -85,6 +85,8 @@ item.icbm:explosiveItem.fragment.blaze.name=Blaze Frag Charge
 tile.icbm:TileMissile.0.name=Wooden Rocket Display
 tile.icbm:TileMissile.1.name=Wooden Small Missile Display
 
+tile.icbm:smallMissileMag.name=Small Missile Mag
+
 tile.icbm:icbmMissileRail.name=Missile Transport Rail
 
 tile.icbm:cartPowerRail.rotation.name=Missile Transport Rotation Rail

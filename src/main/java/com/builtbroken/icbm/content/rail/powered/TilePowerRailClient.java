@@ -17,9 +17,9 @@ import net.minecraftforge.common.util.ForgeDirection;
  */
 public class TilePowerRailClient extends TilePowerRail
 {
-    private static IIcon main;
+    public static IIcon main;
     //TODO replace with tree array
-    private static IIcon[][] arrow;
+    public static IIcon[][] arrow;
 
     @Override
     public Tile newTile()
@@ -63,122 +63,26 @@ public class TilePowerRailClient extends TilePowerRail
         //IT only runs once per block update or block change
         if (this != block.staticTile)
         {
-            if (side == getAttachedDirection().ordinal())
+            if(side == getAttachedDirection().ordinal())
             {
-                if (getAttachedDirection() == ForgeDirection.UP)
+                final int arrowIndex = getArrowIndex();
+                if (isUnloadRail())
                 {
-                    if (getFacingDirection() == ForgeDirection.NORTH)
-                    {
-                        return isUnloadRail() ? arrow[0][!rotateClockwise ? 5 : 6] : isLoaderRail() ? arrow[0][!rotateClockwise ? 7 : 8] : isStopRail() ? stopCarts ? arrow[0][3] : arrow[0][4] : isPoweredRail() ? arrow[0][0] : !rotateClockwise ? arrow[0][1] : arrow[0][2];
-                    }
-                    else if (getFacingDirection() == ForgeDirection.EAST)
-                    {
-                        return isUnloadRail() ? arrow[3][!rotateClockwise ? 5 : 6] : isLoaderRail() ? arrow[3][!rotateClockwise ? 7 : 8] : isStopRail() ? stopCarts ? arrow[3][3] : arrow[3][4] : isPoweredRail() ? arrow[3][0] : !rotateClockwise ? arrow[3][1] : arrow[3][2];
-                    }
-                    else if (getFacingDirection() == ForgeDirection.SOUTH)
-                    {
-                        return isUnloadRail() ? arrow[1][!rotateClockwise ? 5 : 6] : isLoaderRail() ? arrow[1][!rotateClockwise ? 7 : 8] : isStopRail() ? stopCarts ? arrow[1][3] : arrow[1][4] : isPoweredRail() ? arrow[1][0] : !rotateClockwise ? arrow[1][1] : arrow[1][2];
-                    }
-                    else if (getFacingDirection() == ForgeDirection.WEST)
-                    {
-                        return isUnloadRail() ? arrow[2][!rotateClockwise ? 5 : 6] : isLoaderRail() ? arrow[2][!rotateClockwise ? 7 : 8] : isStopRail() ? stopCarts ? arrow[2][3] : arrow[2][4] : isPoweredRail() ? arrow[2][0] : !rotateClockwise ? arrow[2][1] : arrow[2][2];
-                    }
+                    return arrow[arrowIndex][!rotateClockwise ? 5 : 6];
                 }
-                else if (getAttachedDirection() == ForgeDirection.DOWN)
+                else if (isLoaderRail())
                 {
-                    if (getFacingDirection() == ForgeDirection.NORTH)
-                    {
-                        return isUnloadRail() ? arrow[0][!rotateClockwise ? 5 : 6] : isLoaderRail() ? arrow[0][!rotateClockwise ? 7 : 8] : isStopRail() ? stopCarts ? arrow[0][3] : arrow[0][4] : isPoweredRail() ? arrow[0][0] : !rotateClockwise ? arrow[0][1] : arrow[0][2];
-                    }
-                    else if (getFacingDirection() == ForgeDirection.WEST)
-                    {
-                        return isUnloadRail() ? arrow[2][!rotateClockwise ? 5 : 6] : isLoaderRail() ? arrow[2][!rotateClockwise ? 7 : 8] : isStopRail() ? stopCarts ? arrow[2][3] : arrow[2][4] : isPoweredRail() ? arrow[2][0] : !rotateClockwise ? arrow[2][1] : arrow[2][2];
-                    }
-                    else if (getFacingDirection() == ForgeDirection.SOUTH)
-                    {
-                        return isUnloadRail() ? arrow[1][!rotateClockwise ? 5 : 6] : isLoaderRail() ? arrow[1][!rotateClockwise ? 7 : 8] : isStopRail() ? stopCarts ? arrow[1][3] : arrow[1][4] : isPoweredRail() ? arrow[1][0] : !rotateClockwise ? arrow[1][1] : arrow[1][2];
-                    }
-                    else if (getFacingDirection() == ForgeDirection.EAST)
-                    {
-                        return isUnloadRail() ? arrow[3][!rotateClockwise ? 5 : 6] : isLoaderRail() ? arrow[3][!rotateClockwise ? 7 : 8] : isStopRail() ? stopCarts ? arrow[3][3] : arrow[3][4] : isPoweredRail() ? arrow[3][0] : !rotateClockwise ? arrow[3][1] : arrow[3][2];
-                    }
+                    return arrow[arrowIndex][!rotateClockwise ? 7 : 8];
                 }
-                else if (getAttachedDirection() == ForgeDirection.EAST)
+                else if (isStopRail())
                 {
-                    if (getFacingDirection() == ForgeDirection.NORTH)
-                    {
-                        return isUnloadRail() ? arrow[3][!rotateClockwise ? 5 : 6] : isLoaderRail() ? arrow[3][!rotateClockwise ? 7 : 8] : isStopRail() ? stopCarts ? arrow[3][3] : arrow[3][4] : isPoweredRail() ? arrow[3][0] : !rotateClockwise ? arrow[3][1] : arrow[3][2];
-                    }
-                    else if (getFacingDirection() == ForgeDirection.UP)
-                    {
-                        return isUnloadRail() ? arrow[0][!rotateClockwise ? 5 : 6] : isLoaderRail() ? arrow[0][!rotateClockwise ? 7 : 8] : isStopRail() ? stopCarts ? arrow[0][3] : arrow[0][4] : isPoweredRail() ? arrow[0][0] : !rotateClockwise ? arrow[0][1] : arrow[0][2];
-                    }
-                    else if (getFacingDirection() == ForgeDirection.SOUTH)
-                    {
-                        return isUnloadRail() ? arrow[2][!rotateClockwise ? 5 : 6] : isLoaderRail() ? arrow[2][!rotateClockwise ? 7 : 8] : isStopRail() ? stopCarts ? arrow[2][3] : arrow[2][4] : isPoweredRail() ? arrow[2][0] : !rotateClockwise ? arrow[2][1] : arrow[2][2];
-                    }
-                    else if (getFacingDirection() == ForgeDirection.DOWN)
-                    {
-                        return isUnloadRail() ? arrow[1][!rotateClockwise ? 5 : 6] : isLoaderRail() ? arrow[1][!rotateClockwise ? 7 : 8] : isStopRail() ? stopCarts ? arrow[1][3] : arrow[1][4] : isPoweredRail() ? arrow[1][0] : !rotateClockwise ? arrow[1][1] : arrow[1][2];
-                    }
+                    return stopCarts ? arrow[arrowIndex][3] : arrow[arrowIndex][4];
                 }
-                else if (getAttachedDirection() == ForgeDirection.WEST)
+                else if (isRotationRail())
                 {
-                    if (getFacingDirection() == ForgeDirection.NORTH)
-                    {
-                        return isUnloadRail() ? arrow[2][!rotateClockwise ? 5 : 6] : isLoaderRail() ? arrow[2][!rotateClockwise ? 7 : 8] : isStopRail() ? stopCarts ? arrow[2][3] : arrow[2][4] : isPoweredRail() ? arrow[2][0] : !rotateClockwise ? arrow[2][1] : arrow[2][2];
-                    }
-                    else if (getFacingDirection() == ForgeDirection.UP)
-                    {
-                        return isUnloadRail() ? arrow[0][!rotateClockwise ? 5 : 6] : isLoaderRail() ? arrow[0][!rotateClockwise ? 7 : 8] : isStopRail() ? stopCarts ? arrow[0][3] : arrow[0][4] : isPoweredRail() ? arrow[0][0] : !rotateClockwise ? arrow[0][1] : arrow[0][2];
-                    }
-                    else if (getFacingDirection() == ForgeDirection.SOUTH)
-                    {
-                        return isUnloadRail() ? arrow[3][!rotateClockwise ? 5 : 6] : isLoaderRail() ? arrow[3][!rotateClockwise ? 7 : 8] : isStopRail() ? stopCarts ? arrow[3][3] : arrow[3][4] : isPoweredRail() ? arrow[3][0] : !rotateClockwise ? arrow[3][1] : arrow[3][2];
-                    }
-                    else if (getFacingDirection() == ForgeDirection.DOWN)
-                    {
-                        return isUnloadRail() ? arrow[1][!rotateClockwise ? 5 : 6] : isLoaderRail() ? arrow[1][!rotateClockwise ? 7 : 8] : isStopRail() ? stopCarts ? arrow[1][3] : arrow[1][4] : isPoweredRail() ? arrow[1][0] : !rotateClockwise ? arrow[1][1] : arrow[1][2];
-                    }
+                    return rotateClockwise ? arrow[arrowIndex][1] : arrow[arrowIndex][2];
                 }
-                else if (getAttachedDirection() == ForgeDirection.NORTH)
-                {
-                    if (getFacingDirection() == ForgeDirection.EAST)
-                    {
-                        return isUnloadRail() ? arrow[2][!rotateClockwise ? 5 : 6] : isLoaderRail() ? arrow[2][!rotateClockwise ? 7 : 8] : isStopRail() ? stopCarts ? arrow[2][3] : arrow[2][4] : isPoweredRail() ? arrow[2][0] : !rotateClockwise ? arrow[2][1] : arrow[2][2];
-                    }
-                    else if (getFacingDirection() == ForgeDirection.UP)
-                    {
-                        return isUnloadRail() ? arrow[0][!rotateClockwise ? 5 : 6] : isLoaderRail() ? arrow[0][!rotateClockwise ? 7 : 8] : isStopRail() ? stopCarts ? arrow[0][3] : arrow[0][4] : isPoweredRail() ? arrow[0][0] : !rotateClockwise ? arrow[0][1] : arrow[0][2];
-                    }
-                    else if (getFacingDirection() == ForgeDirection.WEST)
-                    {
-                        return isUnloadRail() ? arrow[3][!rotateClockwise ? 5 : 6] : isLoaderRail() ? arrow[3][!rotateClockwise ? 7 : 8] : isStopRail() ? stopCarts ? arrow[3][3] : arrow[3][4] : isPoweredRail() ? arrow[3][0] : !rotateClockwise ? arrow[3][1] : arrow[3][2];
-                    }
-                    else if (getFacingDirection() == ForgeDirection.DOWN)
-                    {
-                        return isUnloadRail() ? arrow[1][!rotateClockwise ? 5 : 6] : isLoaderRail() ? arrow[1][!rotateClockwise ? 7 : 8] : isStopRail() ? stopCarts ? arrow[1][3] : arrow[1][4] : isPoweredRail() ? arrow[1][0] : !rotateClockwise ? arrow[1][1] : arrow[1][2];
-                    }
-                }
-                else if (getAttachedDirection() == ForgeDirection.SOUTH)
-                {
-                    if (getFacingDirection() == ForgeDirection.WEST)
-                    {
-                        return isUnloadRail() ? arrow[2][!rotateClockwise ? 5 : 6] : isLoaderRail() ? arrow[2][!rotateClockwise ? 7 : 8] : isStopRail() ? stopCarts ? arrow[2][3] : arrow[2][4] : isPoweredRail() ? arrow[2][0] : !rotateClockwise ? arrow[2][1] : arrow[2][2];
-                    }
-                    else if (getFacingDirection() == ForgeDirection.UP)
-                    {
-                        return isUnloadRail() ? arrow[0][!rotateClockwise ? 5 : 6] : isLoaderRail() ? arrow[0][!rotateClockwise ? 7 : 8] : isStopRail() ? stopCarts ? arrow[0][3] : arrow[0][4] : isPoweredRail() ? arrow[0][0] : !rotateClockwise ? arrow[0][1] : arrow[0][2];
-                    }
-                    else if (getFacingDirection() == ForgeDirection.EAST)
-                    {
-                        return isUnloadRail() ? arrow[3][!rotateClockwise ? 5 : 6] : isLoaderRail() ? arrow[3][!rotateClockwise ? 7 : 8] : isStopRail() ? stopCarts ? arrow[3][3] : arrow[3][4] : isPoweredRail() ? arrow[3][0] : !rotateClockwise ? arrow[3][1] : arrow[3][2];
-                    }
-                    else if (getFacingDirection() == ForgeDirection.DOWN)
-                    {
-                        return isUnloadRail() ? arrow[1][!rotateClockwise ? 5 : 6] : isLoaderRail() ? arrow[1][!rotateClockwise ? 7 : 8] : isStopRail() ? stopCarts ? arrow[1][3] : arrow[1][4] : isPoweredRail() ? arrow[1][0] : !rotateClockwise ? arrow[1][1] : arrow[1][2];
-                    }
-                }
+                return arrow[arrowIndex][0];
             }
         }
         //Item renderer
@@ -188,6 +92,107 @@ public class TilePowerRailClient extends TilePowerRail
             return type == PoweredRails.UNLOADER ? arrow[3][7] : type == PoweredRails.LOADER ? arrow[3][5] : type == PoweredRails.STOP ? arrow[3][3] : type == PoweredRails.ROTATION ? arrow[3][1] :  /**Powered Rail DEFAULT */arrow[3][0];
         }
         return main;
+    }
+
+    /** Gets the arrow direction index */
+    public final int getArrowIndex()
+    {
+        if (getAttachedDirection() == ForgeDirection.UP || getAttachedDirection() == ForgeDirection.DOWN)
+        {
+            if (getFacingDirection() == ForgeDirection.NORTH)
+            {
+                return 0;
+            }
+            else if (getFacingDirection() == ForgeDirection.EAST)
+            {
+                return 3;
+            }
+            else if (getFacingDirection() == ForgeDirection.SOUTH)
+            {
+                return 1;
+            }
+            else if (getFacingDirection() == ForgeDirection.WEST)
+            {
+                return 2;
+            }
+        }
+        else if (getAttachedDirection() == ForgeDirection.EAST)
+        {
+            if (getFacingDirection() == ForgeDirection.NORTH)
+            {
+                return 3;
+            }
+            else if (getFacingDirection() == ForgeDirection.UP)
+            {
+                return 0;
+            }
+            else if (getFacingDirection() == ForgeDirection.SOUTH)
+            {
+                return 2;
+            }
+            else if (getFacingDirection() == ForgeDirection.DOWN)
+            {
+                return 1;
+            }
+        }
+        else if (getAttachedDirection() == ForgeDirection.WEST)
+        {
+            if (getFacingDirection() == ForgeDirection.NORTH)
+            {
+                return 2;
+            }
+            else if (getFacingDirection() == ForgeDirection.UP)
+            {
+                return 0;
+            }
+            else if (getFacingDirection() == ForgeDirection.SOUTH)
+            {
+                return 3;
+            }
+            else if (getFacingDirection() == ForgeDirection.DOWN)
+            {
+                return 1;
+            }
+        }
+        else if (getAttachedDirection() == ForgeDirection.NORTH)
+        {
+            if (getFacingDirection() == ForgeDirection.EAST)
+            {
+                return 2;
+            }
+            else if (getFacingDirection() == ForgeDirection.UP)
+            {
+                return 0;
+            }
+            else if (getFacingDirection() == ForgeDirection.WEST)
+            {
+                return 3;
+            }
+            else if (getFacingDirection() == ForgeDirection.DOWN)
+            {
+                return 1;
+            }
+        }
+        else if (getAttachedDirection() == ForgeDirection.SOUTH)
+        {
+            if (getFacingDirection() == ForgeDirection.EAST)
+            {
+                return 3;
+            }
+            else if (getFacingDirection() == ForgeDirection.UP)
+            {
+                return 0;
+            }
+            else if (getFacingDirection() == ForgeDirection.WEST)
+            {
+                return 2;
+            }
+            else if (getFacingDirection() == ForgeDirection.DOWN)
+            {
+                return 1;
+            }
+        }
+        return 0;
     }
 
     @Override

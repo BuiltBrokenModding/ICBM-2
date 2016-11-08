@@ -13,6 +13,7 @@ import com.builtbroken.icbm.content.launcher.gui.ContainerSilo;
 import com.builtbroken.icbm.content.launcher.gui.GuiSiloSettings;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.tracking.MissileTrackingData;
+import com.builtbroken.icbm.content.storage.IMissileMagOutput;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
@@ -47,7 +48,7 @@ import java.util.List;
  * Prefab for all missile launchers and silos.
  * Created by robert on 1/18/2015.
  */
-public abstract class TileAbstractLauncher extends TileMissileContainer implements INamedLauncher, IPacketIDReceiver, IPassCode, ILinkFeedback, ILinkable, IGuiTile
+public abstract class TileAbstractLauncher extends TileMissileContainer implements INamedLauncher, IPacketIDReceiver, IPassCode, ILinkFeedback, ILinkable, IGuiTile, IMissileMagOutput
 {
     /** Current target location */
     public Pos target = new Pos(0, -1, 0);

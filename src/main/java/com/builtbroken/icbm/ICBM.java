@@ -60,10 +60,12 @@ import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.ItemMissile;
 import com.builtbroken.icbm.content.missile.tile.TileCrashedMissile;
 import com.builtbroken.icbm.content.missile.tracking.MissileTracker;
-import com.builtbroken.icbm.content.rail.*;
+import com.builtbroken.icbm.content.rail.BlockRail;
+import com.builtbroken.icbm.content.rail.ItemBlockRail;
 import com.builtbroken.icbm.content.rail.entity.EntityCart;
 import com.builtbroken.icbm.content.rail.entity.ItemCart;
 import com.builtbroken.icbm.content.rocketlauncher.ItemRocketLauncher;
+import com.builtbroken.icbm.content.storage.small.TileSmallMag;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
 import com.builtbroken.icbm.mods.cc.CCProxyICBM;
 import com.builtbroken.icbm.mods.oc.OCProxyICBM;
@@ -186,6 +188,8 @@ public final class ICBM extends AbstractMod
 
     public static Block blockMissileRail;
     public static Block blockPowerRail;
+
+    public static Block blockSmallMissileMag;
 
     // Items
     public static Item itemMissile;
@@ -322,9 +326,11 @@ public final class ICBM extends AbstractMod
         }
 
         blockMissileRail = manager.newBlock("icbmMissileRail", BlockRail.class, ItemBlockRail.class);
-        itemMissileCart = manager.newItem("icbmMissileCart", ItemCart.class);
+        blockSmallMissileMag = manager.newBlock("smallMissileMag", TileSmallMag.class);
+
 
         // ITEMS
+        itemMissileCart = manager.newItem("icbmMissileCart", ItemCart.class);
         itemMissile = manager.newItem("missile", ItemMissile.class);
         itemRocketLauncher = manager.newItem("rocketLauncher", ItemRocketLauncher.class);
         itemEngineModules = manager.newItem("engineModules", ItemEngineModules.class);

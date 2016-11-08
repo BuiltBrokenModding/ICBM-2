@@ -24,6 +24,9 @@ import net.minecraftforge.common.util.ForgeDirection;
  */
 public class TileMissileContainer extends TileModuleMachine implements IPacketIDReceiver, IRailInventoryTile
 {
+    /** Cached missile version of the stored missile item. */
+    protected IMissile missile;
+
     public TileMissileContainer(String name, Material material)
     {
         this(name, material, 1);
@@ -57,6 +60,17 @@ public class TileMissileContainer extends TileModuleMachine implements IPacketID
         super.writeDescPacket(buf);
         //Silo item
         ByteBufUtils.writeItemStack(buf, getStackInSlot(0) != null ? getStackInSlot(0) : new ItemStack(Blocks.stone));
+    }
+
+    /**
+     * Should the missile object be cached
+     * when the item version changes?
+     *
+     * @return true if yes
+     */
+    protected boolean shouldCacheMissile()
+    {
+        return false;
     }
 
     @Override
@@ -122,14 +136,33 @@ public class TileMissileContainer extends TileModuleMachine implements IPacketID
     }
 
     /**
-     * Can the launcher accept the missile
+     * Checks if the missile can be stored
      *
-     * @param missile
-     * @return
+     * @param missile - missile
+     * @return true if it can be stored
      */
     public boolean canAcceptMissile(IMissile missile)
     {
         return missile != null;
+    }
+
+    /**
+     * Stores the missile into the tile
+     * <p>
+     * Coverts it into an item
+     *
+     * @param missile - missile, does not check if it is valid
+     * @return true
+     */
+    public boolean storeMissile(IMissile missile)
+    {
+        if (getMissileItem() == null)
+        {
+            setInventorySlotContents(0, missile.toStack());
+            sendDescPacket();
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -139,6 +172,22 @@ public class TileMissileContainer extends TileModuleMachine implements IPacketID
      * @return new missile instance created from stored item
      */
     public IMissile getMissile()
+    {
+        if (shouldCacheMissile())
+        {
+            if (missile == null)
+            {
+                missile = createMissileObject();
+            }
+            if (missile != null)
+            {
+                return missile;
+            }
+        }
+        return createMissileObject();
+    }
+
+    protected IMissile createMissileObject()
     {
         return getMissileItem() != null && getMissileItem().getItem() instanceof IMissileItem ? ((IMissileItem) getMissileItem().getItem()).toMissile(getMissileItem()) : null;
     }
@@ -154,10 +203,16 @@ public class TileMissileContainer extends TileModuleMachine implements IPacketID
     }
 
     @Override
-    public void markDirty()
+    public void onInventoryChanged(int slot, ItemStack prev, ItemStack item)
     {
-        super.markDirty();
-        sendDescPacket();
+        if (slot == 0)
+        {
+            sendDescPacket();
+            if (shouldCacheMissile())
+            {
+                missile = createMissileObject();
+            }
+        }
     }
 
     @Override
