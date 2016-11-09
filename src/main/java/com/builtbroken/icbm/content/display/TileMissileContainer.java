@@ -3,7 +3,7 @@ package com.builtbroken.icbm.content.display;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
-import com.builtbroken.icbm.content.rail.IRailInventoryTile;
+import com.builtbroken.mc.api.rails.IRailInventoryTile;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;

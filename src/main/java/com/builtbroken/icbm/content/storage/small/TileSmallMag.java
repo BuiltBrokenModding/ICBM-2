@@ -1,12 +1,12 @@
 package com.builtbroken.icbm.content.storage.small;
 
+import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.missile.ICustomMissileRender;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.display.TileMissileContainer;
 import com.builtbroken.icbm.content.launcher.silo.ItemBlockSmallSilo;
-import com.builtbroken.icbm.content.rail.powered.TilePowerRailClient;
 import com.builtbroken.icbm.content.storage.IMissileMag;
 import com.builtbroken.icbm.content.storage.IMissileMagOutput;
 import com.builtbroken.jlib.data.vector.IPos3D;
@@ -77,6 +77,12 @@ public class TileSmallMag extends TileMissileContainer implements ISimpleItemRen
     private boolean doMotion = false;
 
     private static final Cube blockRenderBounds = new Cube(0, 0, 0, 1, .2, 1);
+
+    @SideOnly(Side.CLIENT)
+    public static IIcon main;
+
+    @SideOnly(Side.CLIENT)
+    public static IIcon[] arrow;
 
     public TileSmallMag()
     {
@@ -240,29 +246,36 @@ public class TileSmallMag extends TileMissileContainer implements ISimpleItemRen
         {
             if (facing == ForgeDirection.NORTH)
             {
-                return TilePowerRailClient.arrow[0][0];
+                return arrow[0];
             }
             else if (facing == ForgeDirection.EAST)
             {
-                return TilePowerRailClient.arrow[3][0];
+                return arrow[3];
             }
             else if (facing == ForgeDirection.SOUTH)
             {
-                return TilePowerRailClient.arrow[1][0];
+                return arrow[1];
             }
             else if (facing == ForgeDirection.WEST)
             {
-                return TilePowerRailClient.arrow[2][0];
+                return arrow[2];
             }
         }
-        return TilePowerRailClient.main;
+        return main;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister iconRegister)
     {
-        //We have no icons to register
+        main = iconRegister.registerIcon(ICBM.PREFIX + "PowerRailBody");
+        final String[] sideName = new String[]{"Up", "Down", "Left", "Right"};
+
+        arrow = new IIcon[sideName.length];
+        for (int i = 0; i < sideName.length; i++)
+        {
+            arrow[i] = iconRegister.registerIcon(ICBM.PREFIX + "PowerRailArrow" + sideName[i]);
+        }
     }
 
     @Override

@@ -60,8 +60,6 @@ import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.ItemMissile;
 import com.builtbroken.icbm.content.missile.tile.TileCrashedMissile;
 import com.builtbroken.icbm.content.missile.tracking.MissileTracker;
-import com.builtbroken.icbm.content.rail.BlockRail;
-import com.builtbroken.icbm.content.rail.ItemBlockRail;
 import com.builtbroken.icbm.content.rail.entity.EntityCart;
 import com.builtbroken.icbm.content.rail.entity.ItemCart;
 import com.builtbroken.icbm.content.rocketlauncher.ItemRocketLauncher;
@@ -185,9 +183,6 @@ public final class ICBM extends AbstractMod
     public static Block blockCake;
 
     public static Block blockCrashMissile;
-
-    public static Block blockMissileRail;
-    public static Block blockPowerRail;
 
     public static Block blockSmallMissileMag;
 
@@ -324,8 +319,6 @@ public final class ICBM extends AbstractMod
             blockExplosiveMarker = manager.newBlock(BlockExplosiveMarker.class, ItemBlockMetadata.class);
             manager.newBlock(TileRotationTest.class);
         }
-
-        blockMissileRail = manager.newBlock("icbmMissileRail", BlockRail.class, ItemBlockRail.class);
         blockSmallMissileMag = manager.newBlock("smallMissileMag", TileSmallMag.class);
 
 

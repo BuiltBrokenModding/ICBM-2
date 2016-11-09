@@ -4,14 +4,14 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
-import com.builtbroken.icbm.content.rail.BlockRail;
-import com.builtbroken.icbm.content.rail.IMissileRail;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
+import com.builtbroken.mc.api.rails.ITransportCartHasItem;
+import com.builtbroken.mc.api.rails.ITransportRail;
+import com.builtbroken.mc.api.rails.ITransportRailBlock;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.lib.helper.MathUtility;
 import com.builtbroken.mc.lib.helper.WrenchUtility;
-import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.entity.EntityBase;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
@@ -37,10 +37,10 @@ import java.util.List;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 10/29/2016.
  */
-public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntityAdditionalSpawnData
+public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntityAdditionalSpawnData, ITransportCartHasItem
 {
-    public static final double vel = 0.05;
-    public static final int TYPE_DATA_ID = 23;
+    /** Speed the cart wants to be pushed at */
+    public static final float PUSH_SPEED = 0.05f;
 
     /** Missile object being carried, if changed update {@link #cargoStack} */
     private IMissile cargoMissile;
@@ -55,7 +55,7 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
     /** Direction the cart is facing */
     public ForgeDirection facingDirection = ForgeDirection.NORTH;
     /** Last measure height of a the rail. */
-    public float railHeight = BlockRail.RAIL_HEIGHT;
+    public float railHeight = 0.3f;
 
     /** Length of the cart */
     public float length = 3;
@@ -86,7 +86,7 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
         if (entity instanceof EntityPlayer && ((EntityPlayer) entity).capabilities.isCreativeMode)
         {
             kill();
-            return true;
+            return false;
         }
         return false;
     }
@@ -226,7 +226,7 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
     }
 
     @Override
-    protected void setRotation(float yaw, float pitch)
+    public void setRotation(float yaw, float pitch)
     {
         this.rotationYaw = yaw % 360.0F;
         this.rotationPitch = pitch % 360.0F;
@@ -249,6 +249,12 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
         {
             facingDirection = ForgeDirection.WEST;
         }
+    }
+
+    @Override
+    public float getDesiredPushVelocity()
+    {
+        return PUSH_SPEED;
     }
 
     /**
@@ -314,10 +320,10 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
         {
             for (ForgeDirection side : ForgeDirection.VALID_DIRECTIONS)
             {
-                Pos pos = new Pos(this).add(side);
+                Pos pos = new Pos((Entity) this).add(side);
                 Block block = pos.getBlock(worldObj);
                 final TileEntity tile = pos.getTileEntity(worldObj);
-                if (!(block instanceof BlockRail || tile instanceof IMissileRail))
+                if (!(block instanceof ITransportRailBlock || tile instanceof ITransportRail))
                 {
                     railSide = side;
                     break;
@@ -325,7 +331,7 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
             }
         }
 
-        Pos pos = new Pos(this).floor();
+        Pos pos = new Pos((Entity) this).floor();
         Block block = pos.getBlock(worldObj);
         if (block == null)
         {
@@ -343,19 +349,17 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
                 return;
             }
             //Breaks entity if its not on a track
-            else if (!(block instanceof BlockRail || tile instanceof IMissileRail))
+            else if (!(block instanceof ITransportRailBlock || tile instanceof ITransportRail))
             {
                 destroyCart();
                 return;
             }
-
-        }
-
-        //Moves the entity
-        if (motionX != 0 || motionY != 0 || motionZ != 0)
-        {
-            moveEntity(motionX, motionY, motionZ);
-            recenterCartOnRail();
+            //Moves the entity
+            if (motionX != 0 || motionY != 0 || motionZ != 0)
+            {
+                moveEntity(motionX, motionY, motionZ);
+                recenterCartOnRail();
+            }
         }
 
         if (isAirBorne)
@@ -368,19 +372,13 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
         doCollisionLogic();
 
         //Updates the rail and cart position
-        if (tile instanceof IMissileRail)
+        if (tile instanceof ITransportRail)
         {
-            ((IMissileRail) tile).tickRailFromCart(this);
-            railHeight = ((IMissileRail) tile).getRailHeight();
-            railDirection = ((IMissileRail) tile).getFacingDirection();
+            ((ITransportRail) tile).tickRailFromCart(this);
         }
-        else
+        else if (block instanceof ITransportRailBlock)
         {
-            final int meta = pos.getBlockMetadata(worldObj);
-            BlockRail.RailDirections railType = BlockRail.RailDirections.get(meta);
-            recenterCartOnRail(railType.side, railType.facing, BlockRail.RAIL_HEIGHT, false);
-            railDirection = railType.facing;
-            railHeight = BlockRail.RAIL_HEIGHT;
+            ((ITransportRailBlock) block).tickRailFromCart(this, world(), pos.xi(), pos.yi(), pos.zi(), worldObj.getBlockMetadata(pos.xi(), pos.yi(), pos.zi()));
         }
 
         if (!worldObj.isRemote && updateClient)
@@ -389,72 +387,57 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
         }
     }
 
-    /**
-     * Clamps the movement of the cart and position data so the
-     * cart stays on the rail.
-     * <p>
-     * Will cancel out motion in directions that are not valid for rail movement. This
-     * includes gravity as the rails are thought of as magnetic.
-     *
-     * @param rail       - rail to pull data from
-     * @param trueCenter - will force the cart to the very center of the rail
-     */
-    public void recenterCartOnRail(IMissileRail rail, boolean trueCenter)
-    {
-        this.recenterCartOnRail(rail.getAttachedDirection(), rail.getFacingDirection(), rail.getRailHeight(), trueCenter);
-    }
-
-    /**
-     * Call to renter the cart based on the last know rail data
-     */
+    @Override
     public void recenterCartOnRail()
     {
         this.recenterCartOnRail(railSide, railDirection, railHeight, false);
     }
 
-    /**
-     * Clamps the movement of the cart and position data so the
-     * cart stays on the rail.
-     * <p>
-     * Will cancel out motion in directions that are not valid for rail movement. This
-     * includes gravity as the rails are thought of as magnetic.
-     *
-     * @param side       - side the rail is attached to
-     * @param facing     - direction the movement is going into
-     * @param railHeight - height of the rail the cart is on
-     * @param trueCenter - will force the cart to the very center of the rail
-     */
+    @Override
     public void recenterCartOnRail(ForgeDirection side, ForgeDirection facing, double railHeight, boolean trueCenter)
     {
+        //Update cached data
+        this.railDirection = facing;
+        this.railHeight = (float) railHeight;
+        this.railSide = side;
+
         if (side == ForgeDirection.UP)
         {
-            posY = ((int) posY) + railHeight;
+            posY = Math.floor(posY) + railHeight;
             motionY = 0;
         }
         else if (side == ForgeDirection.DOWN)
         {
-            posY = ((int) posY) + 1 - railHeight;
+            posY = Math.floor(posY) + 1 - railHeight;
             motionY = 0;
         }
 
         if (facing == ForgeDirection.NORTH || facing == ForgeDirection.SOUTH)
         {
             motionX = 0;
-            posX = ((int) posX) + 0.5;
+            posX = Math.floor(posX) + 0.5;
             if (trueCenter)
             {
-                posZ = ((int) posZ) + 0.5;
+                posZ = Math.floor(posZ) + 0.5;
             }
         }
         else if (facing == ForgeDirection.EAST || facing == ForgeDirection.WEST)
         {
             motionZ = 0;
-            posZ = ((int) posZ) + 0.5;
+            posZ = Math.floor(posZ) + 0.5;
             if (trueCenter)
             {
-                posX = ((int) posX) + 0.5;
+                posX = Math.floor(posX) + 0.5;
             }
         }
+    }
+
+    @Override
+    public void setMotion(double x, double y, double z)
+    {
+        this.motionX = x;
+        this.motionY = y;
+        this.motionZ = z;
     }
 
     protected void doCollisionLogic()
@@ -492,7 +475,7 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
 
     public void destroyCart()
     {
-        InventoryUtility.dropItemStack(new Location(this), toStack());
+        InventoryUtility.dropItemStack(this, toStack());
         setDead();
     }
 
@@ -629,5 +612,58 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
     public ItemStack getPickedResult(MovingObjectPosition target)
     {
         return toStack();
+    }
+
+    @Override
+    public ItemStack getTransportedItem()
+    {
+        return cargoStack;
+    }
+
+    @Override
+    public ItemStack setTransportedItem(ItemStack stack)
+    {
+        if (stack == null)
+        {
+            cargoStack = null;
+        }
+        else if (cargoStack == null)
+        {
+            cargoStack = stack;
+        }
+        else if (InventoryUtility.stacksMatch(cargoStack, stack))
+        {
+            int room = InventoryUtility.roomLeftInStack(cargoStack);
+            if (room > 0)
+            {
+                cargoStack.stackSize += room;
+                stack.stackSize -= room;
+                return stack;
+            }
+        }
+        return stack;
+    }
+
+    @Override
+    public boolean canAcceptItemForTransport(ItemStack stack)
+    {
+        IMissile missile = null;
+        if (stack.getItem() instanceof IMissileItem)
+        {
+            missile = ((IMissileItem) stack.getItem()).toMissile(stack);
+        }
+        else if (stack.getItem() instanceof IModuleItem)
+        {
+            IModule module = ((IModuleItem) stack.getItem()).getModule(stack);
+            if (module instanceof IMissile)
+            {
+                missile = (IMissile) module;
+            }
+        }
+        else
+        {
+            missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
+        }
+        return missile != null && canAcceptMissile(missile);
     }
 }

@@ -158,7 +158,7 @@ public class RenderCart extends Render
 
         if (Engine.runningAsDev)
         {
-            // drawBounds(cart, xx, yy, zz);
+            drawBounds(cart, xx, yy, zz);
         }
     }
 

@@ -1,8 +1,8 @@
 package com.builtbroken.icbm.content.rail.entity;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.rail.BlockRail;
-import com.builtbroken.icbm.content.rail.IMissileRail;
+import com.builtbroken.mc.api.rails.ITransportRail;
+import com.builtbroken.mc.api.rails.ITransportRailBlock;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -58,7 +58,7 @@ public class ItemCart extends Item
     @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float xf, float yf, float zf)
     {
-        return world.getBlock(x, y, z) instanceof BlockRail || world.getTileEntity(x, y, z) instanceof IMissileRail;
+        return world.getBlock(x, y, z) instanceof ITransportRailBlock || world.getTileEntity(x, y, z) instanceof ITransportRail;
     }
 
     /**
@@ -75,20 +75,20 @@ public class ItemCart extends Item
     {
         final Block block = world.getBlock(x, y, z);
         final TileEntity tile = world.getTileEntity(x, y, z);
+        final int meta = world.getBlockMetadata(x, y, z);
 
-        if (block instanceof BlockRail)
+        if (block instanceof ITransportRailBlock)
         {
-            BlockRail.RailDirections railType = BlockRail.RailDirections.get(world.getBlockMetadata(x, y, z));
             EntityCart cart = getCart(world, type);
             cart.setPosition(x + 0.5, y + 0.5, z + 0.5);
-            mountEntity(cart, railType.side, railType.facing, block.getBlockBoundsMaxY());
+            mountEntity(cart, ((ITransportRailBlock) block).getAttachedDirection(world, x, y, z, meta), ((ITransportRailBlock) block).getFacingDirection(world, x, y, z, meta), ((ITransportRailBlock) block).getRailHeight(world, x, y, z, meta));
             return cart;
         }
-        else if (tile instanceof IMissileRail)
+        else if (tile instanceof ITransportRail)
         {
             EntityCart cart = getCart(world, type);
             cart.setPosition(x + 0.5, y + 0.5, z + 0.5);
-            mountEntity(cart, ((IMissileRail) tile).getAttachedDirection(), ((IMissileRail) tile).getFacingDirection(), ((IMissileRail) tile).getRailHeight());
+            mountEntity(cart, ((ITransportRail) tile).getAttachedDirection(), ((ITransportRail) tile).getFacingDirection(), ((ITransportRail) tile).getRailHeight());
             return cart;
         }
         return null;
