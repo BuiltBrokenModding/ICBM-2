@@ -11,7 +11,7 @@ import net.minecraftforge.client.model.obj.WavefrontObject;
 
 /**
  * Reference class for holding all model and textures used for rendering.
- * <p/>
+ * <p>
  * Created by Dark (DarkGuardsman, Robert) on 3/1/2015.
  */
 @SideOnly(Side.CLIENT)
@@ -94,6 +94,9 @@ public final class Assets
 
     public static final ResourceLocation SMALL_SILO_TEXTURE = texture("small-missile-silo");
     public static final ResourceLocation SMALL_MAG_TEXTURE = texture("small-missile-mag");
+
+    //GUI
+    public static final ResourceLocation GUI_BUTTONS = new ResourceLocation(ICBM.DOMAIN, "textures/gui/gui.buttons.32pix.png");
 
     public static IModelCustom model(String name)
     {

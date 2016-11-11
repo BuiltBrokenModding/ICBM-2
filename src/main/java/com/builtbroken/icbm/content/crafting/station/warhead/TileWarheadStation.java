@@ -1,10 +1,17 @@
 package com.builtbroken.icbm.content.crafting.station.warhead;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.api.warhead.IWarheadItem;
 import com.builtbroken.icbm.api.modules.IWarhead;
+import com.builtbroken.icbm.api.warhead.ITrigger;
+import com.builtbroken.icbm.api.warhead.ITriggerAccepter;
+import com.builtbroken.icbm.api.warhead.IWarheadItem;
+import com.builtbroken.mc.api.automation.IAutomatedCrafter;
+import com.builtbroken.mc.api.automation.IAutomation;
+import com.builtbroken.mc.api.modules.IModule;
+import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
+import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
@@ -16,6 +23,10 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.util.ForgeDirection;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Handles crafting and configuration of warheads
@@ -23,15 +34,25 @@ import net.minecraft.item.ItemStack;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 1/6/2016.
  */
-public class TileWarheadStation extends TileModuleMachine implements IPacketIDReceiver, IGuiTile
+public class TileWarheadStation extends TileModuleMachine implements IPacketIDReceiver, IGuiTile, IAutomatedCrafter
 {
     public static final int WARHEAD_SLOT = 0;
     public static final int EXPLOSIVE_SLOT = 1;
     public static final int OUTPUT_SLOT = 2;
     public static final int TRIGGER_SLOT = 3;
+    public static final int[] INPUT_SLOTS = new int[]{WARHEAD_SLOT, EXPLOSIVE_SLOT, TRIGGER_SLOT};
+    public static final int[] OUTPUT_SLOTS = new int[]{OUTPUT_SLOT};
 
     //TODO add tabs, crafting, configuration, reverse crafting
     //TODO add option to limit number of inserted explosives per craft (1-64 scale, all)
+
+    /** Is the machine setup to autocraft */
+    protected boolean isAutocrafting = false;
+    /** Triggers crafting logic. */
+    protected boolean checkForCraft = false;
+    /** Number of explosives to craft */
+    protected int explosiveStackSizeRequired = 1;
+
 
     public TileWarheadStation()
     {
@@ -48,19 +69,38 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
         return new TileWarheadStation();
     }
 
+    @Override
+    public void update()
+    {
+        super.update();
+        if (isServer())
+        {
+            if (checkForCraft)
+            {
+                checkForCraft = false;
+                //TODO add crafting timer
+                if (canCraft())
+                {
+                    doCrafting();
+                }
+            }
+        }
+    }
+
     /** Called to process a crafting request */
     public void doCrafting()
     {
         final ItemStack warheadStack = getWarheadStack();
         final ItemStack explosiveStack = getExplosiveStack();
         final ItemStack outputStack = getOutputStack();
+        ItemStack triggerStack = getTriggerStack();
 
         if (warheadStack != null && warheadStack.getItem() instanceof IWarheadItem && ExplosiveRegistry.get(explosiveStack) != null && (outputStack == null || outputStack.stackSize < outputStack.getMaxStackSize()))
         {
             final IWarhead warhead = ((IWarheadItem) warheadStack.getItem()).getModule(warheadStack);
             if (warhead != null && warhead.hasSpaceForExplosives(explosiveStack))
             {
-                int insert = Math.min(explosiveStack.stackSize, warhead.getSpaceForExplosives());
+                int insert = Math.min(explosiveStackSizeRequired, Math.min(explosiveStack.stackSize, warhead.getSpaceForExplosives()));
                 //Update warhead's explosive stack
                 if (warhead.getExplosiveStack() == null)
                 {
@@ -75,6 +115,13 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
                     //Trigger any events for warhead change
                     warhead.setExplosiveStack(warhead.getExplosiveStack());
                 }
+
+                //Install trigger
+                if (triggerStack != null && warhead instanceof ITriggerAccepter && ((ITriggerAccepter) warhead).getTrigger() == null)
+                {
+                    triggerStack = ((ITriggerAccepter) warhead).setTrigger(triggerStack);
+                }
+
                 final ItemStack newWarhead = warhead.toStack();
 
                 if (outputStack == null || InventoryUtility.stacksMatch(newWarhead, outputStack))
@@ -102,6 +149,8 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
                         //Update inventory
                         getInventory().setInventorySlotContents(WARHEAD_SLOT, warheadStack);
                     }
+                    //Update trigger slot inventory
+                    setInventorySlotContents(TRIGGER_SLOT, triggerStack);
 
                     //Increase output
                     if (getOutputStack() == null)
@@ -128,6 +177,145 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
         return getOutputStack() == null || InventoryUtility.stacksMatch(getCraftResult(), getOutputStack());
     }
 
+    @Override
+    public float getCraftingProgress()
+    {
+        return 0;
+    }
+
+    @Override
+    public List<ItemStack> getRequiredItems()
+    {
+        return new ArrayList();
+    }
+
+    @Override
+    public ItemStack insertRequiredItem(ItemStack stack, IAutomation entity, ForgeDirection side)
+    {
+        if (isAutocrafting && stack != null)
+        {
+            if (stack.getItem() instanceof IModuleItem)
+            {
+                final IModule module = ((IModuleItem) stack.getItem()).getModule(stack);
+                if (module instanceof IWarhead)
+                {
+                    if (getWarheadStack() == null)
+                    {
+                        ItemStack insert = stack.copy();
+                        insert.stackSize = 1;
+                        setInventorySlotContents(WARHEAD_SLOT, insert);
+                        stack.stackSize -= 1;
+                        return stack;
+                    }
+                }
+                else if (module instanceof ITrigger)
+                {
+                    if (getTriggerStack() == null)
+                    {
+                        ItemStack insert = stack.copy();
+                        insert.stackSize = 1;
+                        setInventorySlotContents(TRIGGER_SLOT, insert);
+                        stack.stackSize -= 1;
+                        return stack;
+                    }
+                }
+            }
+            else if (ExplosiveRegistry.get(stack) != null)
+            {
+                if (getTriggerStack() == null)
+                {
+                    ItemStack insert = stack.copy();
+                    insert.stackSize = 1;
+                    setInventorySlotContents(TRIGGER_SLOT, insert);
+                    stack.stackSize -= 1;
+                    return stack;
+                }
+            }
+        }
+        return stack;
+    }
+
+    @Override
+    public ItemStack insertRequiredItem(ItemStack stack, int slot, IAutomation entity, ForgeDirection side)
+    {
+        if (isAutocrafting && stack != null)
+        {
+            if ((slot == WARHEAD_SLOT || slot == TRIGGER_SLOT) && stack.getItem() instanceof IModuleItem)
+            {
+                final IModule module = ((IModuleItem) stack.getItem()).getModule(stack);
+                if (slot == WARHEAD_SLOT && module instanceof IWarhead)
+                {
+                    if (getWarheadStack() == null)
+                    {
+                        ItemStack insert = stack.copy();
+                        insert.stackSize = 1;
+                        setInventorySlotContents(WARHEAD_SLOT, insert);
+                        stack.stackSize -= 1;
+                        return stack;
+                    }
+                }
+                else if (slot == TRIGGER_SLOT && module instanceof ITrigger)
+                {
+                    if (getTriggerStack() == null)
+                    {
+                        ItemStack insert = stack.copy();
+                        insert.stackSize = 1;
+                        setInventorySlotContents(TRIGGER_SLOT, insert);
+                        stack.stackSize -= 1;
+                        return stack;
+                    }
+                }
+            }
+            else if (slot == EXPLOSIVE_SLOT && ExplosiveRegistry.get(stack) != null)
+            {
+                if (getTriggerStack() == null)
+                {
+                    ItemStack insert = stack.copy();
+                    insert.stackSize = 1;
+                    setInventorySlotContents(TRIGGER_SLOT, insert);
+                    stack.stackSize -= 1;
+                    return stack;
+                }
+            }
+        }
+        return stack;
+    }
+
+    @Override
+    public int[] getCraftingOutputSlots(IAutomation entity, ForgeDirection side)
+    {
+        return OUTPUT_SLOTS;
+    }
+
+    @Override
+    public int[] getCraftingInputSlots(IAutomation entity, ForgeDirection side)
+    {
+        return INPUT_SLOTS;
+    }
+
+    @Override
+    public boolean canStore(ItemStack stack, ForgeDirection side)
+    {
+        if (stack.getItem() instanceof IModuleItem)
+        {
+            final IModule module = ((IModuleItem) stack.getItem()).getModule(stack);
+            return module instanceof IWarhead || module instanceof ITrigger;
+        }
+        return ExplosiveRegistry.get(stack) != null;
+    }
+
+    @Override
+    public boolean canRemove(ItemStack stack, ForgeDirection side)
+    {
+        return true;
+    }
+
+    @Override
+    public void onInventoryChanged(int slot, ItemStack prev, ItemStack item)
+    {
+        sendDescPacket();
+    }
+
     /**
      * Gets the expected output of a crafting recipe
      *
@@ -138,13 +326,14 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
         final ItemStack warheadStack = getWarheadStack();
         final ItemStack explosiveStack = getExplosiveStack();
         final ItemStack outputStack = getOutputStack();
+        final ItemStack triggerStack = getTriggerStack();
 
         if (warheadStack != null && warheadStack.getItem() instanceof IWarheadItem && ExplosiveRegistry.get(explosiveStack) != null && (outputStack == null || outputStack.stackSize < outputStack.getMaxStackSize()))
         {
             final IWarhead warhead = ((IWarheadItem) warheadStack.getItem()).getModule(warheadStack);
             if (warhead != null && warhead.hasSpaceForExplosives(explosiveStack))
             {
-                int insert = Math.min(explosiveStack.stackSize, warhead.getSpaceForExplosives());
+                int insert = Math.min(explosiveStackSizeRequired, Math.min(explosiveStack.stackSize, warhead.getSpaceForExplosives()));
                 //Update warhead's explosive stack
                 if (warhead.getExplosiveStack() == null)
                 {
@@ -159,10 +348,42 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
                     //Trigger any events for warhead change
                     warhead.setExplosiveStack(warhead.getExplosiveStack());
                 }
+
+                if (triggerStack != null && warhead instanceof ITriggerAccepter && ((ITriggerAccepter) warhead).getTrigger() == null)
+                {
+                    ((ITriggerAccepter) warhead).setTrigger(triggerStack);
+                }
                 return warhead.toStack();
             }
         }
         return null;
+    }
+
+    @Override
+    public boolean canStore(ItemStack stack, int slot, ForgeDirection side)
+    {
+        if (stack != null)
+        {
+            if (WARHEAD_SLOT == slot)
+            {
+                return stack.getItem() instanceof IModuleItem && ((IModuleItem) stack.getItem()).getModule(stack) instanceof IWarhead;
+            }
+            else if (EXPLOSIVE_SLOT == slot)
+            {
+                return ExplosiveRegistry.get(stack) != null;
+            }
+            else if (TRIGGER_SLOT == slot)
+            {
+                return stack.getItem() instanceof IModuleItem && ((IModuleItem) stack.getItem()).getModule(stack) instanceof ITrigger;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean canRemove(ItemStack stack, int slot, ForgeDirection side)
+    {
+        return slot == OUTPUT_SLOT;
     }
 
     @Override
@@ -223,6 +444,15 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
                 else if (id == 2)
                 {
                     openGui(player, buf.readInt(), ICBM.INSTANCE);
+                    return true;
+                }
+                //Gui updated some settings
+                else if (id == 3)
+                {
+                    isAutocrafting = buf.readBoolean();
+                    explosiveStackSizeRequired = Math.min(Math.max(1, buf.readInt()), 64);
+                    _doUpdateGuiUsers();
+                    return true;
                 }
             }
             return false;
@@ -241,8 +471,14 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
     {
         if (ticks % 5 == 0)
         {
-            //PacketTile packet = new PacketTile(this, 5, );
+            _doUpdateGuiUsers();
         }
+    }
+
+    public void _doUpdateGuiUsers()
+    {
+        PacketTile packet = new PacketTile(this, 5, isAutocrafting, explosiveStackSizeRequired);
+        sendPacketToGuiUsers(packet);
     }
 
     @Override

@@ -1,14 +1,22 @@
 package com.builtbroken.icbm.content.crafting.station.warhead;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.modules.IWarhead;
+import com.builtbroken.icbm.api.warhead.ITrigger;
+import com.builtbroken.icbm.api.warhead.ITriggerAccepter;
+import com.builtbroken.icbm.client.Assets;
+import com.builtbroken.mc.api.modules.IModule;
+import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.core.References;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.prefab.gui.GuiButton2;
 import com.builtbroken.mc.prefab.gui.GuiContainerBase;
 import com.builtbroken.mc.prefab.gui.buttons.GuiImageButton;
+import com.builtbroken.mc.prefab.gui.buttons.GuiIncrementButton;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 /**
@@ -32,7 +40,7 @@ public class GuiWarheadStation extends GuiContainerBase
     private GuiImageButton craftingWindowButton;
     private GuiImageButton explosiveWindowButton;
     private GuiImageButton triggerWindowButton;
-    private GuiImageButton otherWindowButton;
+    private GuiImageButton autocraftingButton;
 
     public GuiWarheadStation(EntityPlayer player, TileWarheadStationClient tile, int id)
     {
@@ -53,6 +61,9 @@ public class GuiWarheadStation extends GuiContainerBase
             case 3:
                 baseTexture = guiTexture3;
                 break;
+            case 4:
+                baseTexture = guiTexture3;
+                break;
         }
     }
 
@@ -60,16 +71,18 @@ public class GuiWarheadStation extends GuiContainerBase
     public void initGui()
     {
         super.initGui();
-        craftingWindowButton = addButton(GuiImageButton.newRefreshButton(1, guiLeft - 18, guiTop + 5));
-        explosiveWindowButton = addButton(GuiImageButton.newRefreshButton(2, guiLeft - 18, guiTop + 5 + 19));
-        triggerWindowButton = addButton(GuiImageButton.newRefreshButton(3, guiLeft - 18, guiTop + 5 + 19 * 2));
-        otherWindowButton = addButton(GuiImageButton.newRefreshButton(4, guiLeft - 18, guiTop + 5 + 19 * 3));
+        craftingWindowButton = addButton(GuiImageButton.newButton18(1, guiLeft - 18, guiTop + 5, 0, 0).setTexture(Assets.GUI_BUTTONS));
+        explosiveWindowButton = addButton(GuiImageButton.newButton18(2, guiLeft - 18, guiTop + 5 + 19, 1, 0).setTexture(Assets.GUI_BUTTONS));
+        triggerWindowButton = addButton(GuiImageButton.newButton18(3, guiLeft - 18, guiTop + 5 + 19 * 2, 3, 0).setTexture(Assets.GUI_BUTTONS));
+        autocraftingButton = addButton(GuiImageButton.newButton18(4, guiLeft - 18, guiTop + 5 + 19 * 3, 2, 0).setTexture(Assets.GUI_BUTTONS));
 
         //Disable buttons that go to this GUI instead of a new GUI
         switch (id)
         {
             case 0:
                 craftButton = addButton(new GuiButton2(0, guiLeft + 80, guiTop + 23, 50, 20, "Craft"));
+                buttonList.add(new GuiIncrementButton(11, guiLeft + 102, guiTop + 70, false));
+                buttonList.add(new GuiIncrementButton(10, guiLeft + 102, guiTop + 52, true));
                 craftingWindowButton.disable();
                 break;
             case 1:
@@ -79,7 +92,8 @@ public class GuiWarheadStation extends GuiContainerBase
                 triggerWindowButton.disable();
                 break;
             case 3:
-                otherWindowButton.disable();
+                craftButton = addButton(new GuiButton2(12, guiLeft + 12, guiTop + 20, 120, 20, tile.isAutocrafting ? "Disable Autocrafting" : "Enable Autocrafting"));
+                autocraftingButton.disable();
                 break;
         }
     }
@@ -119,6 +133,8 @@ public class GuiWarheadStation extends GuiContainerBase
         {
             case 0:
                 drawString("Warhead Workstation", 50, 7);
+                drawString("Explosives to use:", 5, 62);
+                drawString("" + tile.explosiveStackSizeRequired, 104, 62);
                 break;
             case 1:
                 drawString("Explosive Configuration", 33, 7);
@@ -126,11 +142,52 @@ public class GuiWarheadStation extends GuiContainerBase
                 break;
             case 2:
                 drawString("Trigger Configuration", 33, 7);
-                drawString("Not implemented yet", 33, 30);
+                if (tile.getTriggerStack() != null)
+                {
+                    drawString("No options for this trigger", 25, 50);
+                }
+                else if (tile.getWarheadStack() != null)
+                {
+                    ItemStack stack = tile.getWarheadStack();
+                    if (stack.getItem() instanceof IModuleItem)
+                    {
+                        IModule module = ((IModuleItem) stack.getItem()).getModule(stack);
+                        if (module != null && module instanceof IWarhead)
+                        {
+                            if (module instanceof ITriggerAccepter)
+                            {
+                                ITrigger trigger = ((ITriggerAccepter) module).getTrigger();
+                                if (trigger != null)
+                                {
+                                    drawString("No options for this trigger", 25, 50);
+                                }
+                                else
+                                {
+                                    drawString("No options for this trigger", 25, 50);
+                                }
+                            }
+                            else
+                            {
+                                drawString("Warhead does not support triggers", 25, 50);
+                            }
+                        }
+                        else
+                        {
+                            drawString("Failed to read warhead data", 25, 50);
+                        }
+                    }
+                    else
+                    {
+                        drawString("Insert trigger for options", 25, 50);
+                    }
+                }
+                else
+                {
+                    drawString("Insert trigger for options", 25, 50);
+                }
                 break;
             case 3:
-                drawString("Extra Settings", 33, 7);
-                drawString("Not implemented yet", 33, 30);
+                drawString("Autocrafting Settings", 10, 7);
                 break;
         }
     }
@@ -146,6 +203,27 @@ public class GuiWarheadStation extends GuiContainerBase
         else if (buttonId > 0 && buttonId < 5 && buttonId - 1 != id)
         {
             tile.sendPacketToServer(new PacketTile(tile, 2, buttonId - 1));
+        }
+        else if (buttonId == 10)
+        {
+            if (tile.explosiveStackSizeRequired < 64)
+            {
+                tile.explosiveStackSizeRequired += 1;
+                tile.sendGUIDataUpdate();
+            }
+        }
+        else if (buttonId == 11)
+        {
+            if (tile.explosiveStackSizeRequired > 1)
+            {
+                tile.explosiveStackSizeRequired -= 1;
+                tile.sendGUIDataUpdate();
+            }
+        }
+        else if (buttonId == 12)
+        {
+            tile.isAutocrafting = !tile.isAutocrafting;
+            tile.sendGUIDataUpdate();
         }
     }
 }

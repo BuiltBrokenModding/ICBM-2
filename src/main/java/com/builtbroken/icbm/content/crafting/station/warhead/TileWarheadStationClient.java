@@ -73,6 +73,12 @@ public class TileWarheadStationClient extends TileWarheadStation implements ISim
         super.doUpdateGuiUsers();
         if (!super.read(buf, id, player, type))
         {
+            if (id == 5)
+            {
+                isAutocrafting = buf.readBoolean();
+                explosiveStackSizeRequired = buf.readInt();
+                return true;
+            }
             return false;
         }
         return true;
@@ -81,6 +87,11 @@ public class TileWarheadStationClient extends TileWarheadStation implements ISim
     public void sendCraftingPacket()
     {
         sendPacketToServer(new PacketTile(this, 1));
+    }
+
+    public void sendGUIDataUpdate()
+    {
+        sendPacketToServer(new PacketTile(this, 3, isAutocrafting, explosiveStackSizeRequired));
     }
 
     @Override
