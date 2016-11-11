@@ -36,7 +36,15 @@ public class GuiWarheadStation extends GuiContainerBase
 
     private final int id;
 
+    //Main GUI
     private GuiButton2 craftButton;
+
+    //Automation GUI
+    private GuiButton2 autoCraftButton;
+    private GuiButton2 requireTriggerButton;
+    private GuiButton2 requireExplosiveButton;
+
+    //Tabs on left of GUI
     private GuiImageButton craftingWindowButton;
     private GuiImageButton explosiveWindowButton;
     private GuiImageButton triggerWindowButton;
@@ -92,7 +100,9 @@ public class GuiWarheadStation extends GuiContainerBase
                 triggerWindowButton.disable();
                 break;
             case 3:
-                craftButton = addButton(new GuiButton2(12, guiLeft + 12, guiTop + 20, 120, 20, tile.isAutocrafting ? "Disable Autocrafting" : "Enable Autocrafting"));
+                autoCraftButton = addButton(new GuiButton2(12, guiLeft + 12, guiTop + 20, 120, 20, tile.isAutocrafting ? "Disable Autocrafting" : "Enable Autocrafting"));
+                requireTriggerButton = addButton(new GuiButton2(13, guiLeft + 12, guiTop + 42, 20, 20, tile.requireTrigger ? "[X]" : "[ ]"));
+                requireExplosiveButton = addButton(new GuiButton2(14, guiLeft + 12, guiTop + 64, 20, 20, tile.requireExplosive ? "[X]" : "[ ]"));
                 autocraftingButton.disable();
                 break;
         }
@@ -223,6 +233,19 @@ public class GuiWarheadStation extends GuiContainerBase
         else if (buttonId == 12)
         {
             tile.isAutocrafting = !tile.isAutocrafting;
+            autoCraftButton.displayString = tile.isAutocrafting ? "Disable Autocrafting" : "Enable Autocrafting";
+            tile.sendGUIDataUpdate();
+        }
+        else if (buttonId == 13)
+        {
+            tile.requireTrigger = !tile.requireTrigger;
+            requireTriggerButton.displayString = tile.requireTrigger ? "[x]" : "[ ]";
+            tile.sendGUIDataUpdate();
+        }
+        else if (buttonId == 14)
+        {
+            tile.requireExplosive = !tile.requireExplosive;
+            requireExplosiveButton.displayString = tile.requireExplosive ? "[x]" : "[ ]";
             tile.sendGUIDataUpdate();
         }
     }

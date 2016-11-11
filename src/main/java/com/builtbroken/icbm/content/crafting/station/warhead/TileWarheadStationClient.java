@@ -77,6 +77,8 @@ public class TileWarheadStationClient extends TileWarheadStation implements ISim
             {
                 isAutocrafting = buf.readBoolean();
                 explosiveStackSizeRequired = buf.readInt();
+                requireExplosive = buf.readBoolean();
+                requireTrigger = buf.readBoolean();
                 return true;
             }
             return false;
@@ -91,7 +93,7 @@ public class TileWarheadStationClient extends TileWarheadStation implements ISim
 
     public void sendGUIDataUpdate()
     {
-        sendPacketToServer(new PacketTile(this, 3, isAutocrafting, explosiveStackSizeRequired));
+        sendPacketToServer(new PacketTile(this, 3, isAutocrafting, explosiveStackSizeRequired, requireExplosive, requireTrigger));
     }
 
     @Override

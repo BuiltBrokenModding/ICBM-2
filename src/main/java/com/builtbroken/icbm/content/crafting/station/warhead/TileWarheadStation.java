@@ -48,6 +48,10 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
 
     /** Is the machine setup to autocraft */
     protected boolean isAutocrafting = false;
+    /** Forced auto explosive to check for trigger before crafting */
+    protected boolean requireExplosive = true;
+    /** Forced auto crafter to check for trigger before crafting */
+    protected boolean requireTrigger = false;
     /** Triggers crafting logic. */
     protected boolean checkForCraft = false;
     /** Number of explosives to craft */
@@ -73,7 +77,7 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
     public void update()
     {
         super.update();
-        if (isServer())
+        if (isServer() && ticks % 10 == 0)
         {
             if (checkForCraft)
             {
@@ -174,7 +178,34 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
      */
     public boolean canCraft()
     {
-        return getOutputStack() == null || InventoryUtility.stacksMatch(getCraftResult(), getOutputStack());
+        if (getWarheadStack() != null)
+        {
+            IWarhead result = getCraftResultAsWarhead();
+            if (result != null)
+            {
+                if (isAutocrafting)
+                {
+                    if (requireTrigger && result instanceof ITriggerAccepter && ((ITriggerAccepter) result).getTrigger() == null)
+                    {
+                        return false;
+                    }
+                    if (requireExplosive)
+                    {
+                        if (result.getExplosiveStack() == null)
+                        {
+                            return false;
+                        }
+                        else if (result.getExplosiveStack().stackSize < explosiveStackSizeRequired)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                //Check if we have space
+                return getOutputStack() == null || InventoryUtility.stacksMatch(getCraftResult(), result.toStack()) && InventoryUtility.roomLeftInSlot(this, OUTPUT_SLOT) > 0;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -205,6 +236,7 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
                         insert.stackSize = 1;
                         setInventorySlotContents(WARHEAD_SLOT, insert);
                         stack.stackSize -= 1;
+                        checkForCraft = true;
                         return stack;
                     }
                 }
@@ -216,6 +248,7 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
                         insert.stackSize = 1;
                         setInventorySlotContents(TRIGGER_SLOT, insert);
                         stack.stackSize -= 1;
+                        checkForCraft = true;
                         return stack;
                     }
                 }
@@ -226,8 +259,9 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
                 {
                     ItemStack insert = stack.copy();
                     insert.stackSize = 1;
-                    setInventorySlotContents(TRIGGER_SLOT, insert);
+                    setInventorySlotContents(EXPLOSIVE_SLOT, insert);
                     stack.stackSize -= 1;
+                    checkForCraft = true;
                     return stack;
                 }
             }
@@ -251,7 +285,8 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
                         insert.stackSize = 1;
                         setInventorySlotContents(WARHEAD_SLOT, insert);
                         stack.stackSize -= 1;
-                        return stack;
+                        checkForCraft = true;
+                        return stack.stackSize <= 0 ? null : stack;
                     }
                 }
                 else if (slot == TRIGGER_SLOT && module instanceof ITrigger)
@@ -262,19 +297,42 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
                         insert.stackSize = 1;
                         setInventorySlotContents(TRIGGER_SLOT, insert);
                         stack.stackSize -= 1;
-                        return stack;
+                        checkForCraft = true;
+                        return stack.stackSize <= 0 ? null : stack;
                     }
                 }
             }
             else if (slot == EXPLOSIVE_SLOT && ExplosiveRegistry.get(stack) != null)
             {
-                if (getTriggerStack() == null)
+                if (getExplosiveStack() == null)
                 {
                     ItemStack insert = stack.copy();
                     insert.stackSize = 1;
-                    setInventorySlotContents(TRIGGER_SLOT, insert);
+                    setInventorySlotContents(EXPLOSIVE_SLOT, insert);
                     stack.stackSize -= 1;
-                    return stack;
+                    checkForCraft = true;
+                    return stack.stackSize <= 0 ? null : stack;
+                }
+                else if (InventoryUtility.stacksMatch(stack, getExplosiveStack()))
+                {
+                    final ItemStack explosiveStack = getExplosiveStack();
+                    //Limit number of items to minimal required
+                    if (explosiveStack.stackSize >= explosiveStackSizeRequired)
+                    {
+                        return stack;
+                    }
+                    //Figure out out insert limit from space left, require items, and stack size of insert item
+                    int insert = Math.min(explosiveStackSizeRequired, InventoryUtility.roomLeftInSlot(this, EXPLOSIVE_SLOT));
+                    insert = Math.min(stack.stackSize, insert);
+                    //Increase explosive stack
+                    explosiveStack.stackSize += insert;
+                    //Update inventory
+                    setInventorySlotContents(EXPLOSIVE_SLOT, explosiveStack);
+                    //Decrease insert stack
+                    stack.stackSize -= insert;
+                    //Return
+                    checkForCraft = true;
+                    return stack.stackSize <= 0 ? null : stack;
                 }
             }
         }
@@ -313,15 +371,16 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
     @Override
     public void onInventoryChanged(int slot, ItemStack prev, ItemStack item)
     {
+        checkForCraft = true;
         sendDescPacket();
     }
 
     /**
      * Gets the expected output of a crafting recipe
      *
-     * @return ItemStack, or null if not possible to craft
+     * @return warhead
      */
-    public ItemStack getCraftResult()
+    public IWarhead getCraftResultAsWarhead()
     {
         final ItemStack warheadStack = getWarheadStack();
         final ItemStack explosiveStack = getExplosiveStack();
@@ -353,10 +412,21 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
                 {
                     ((ITriggerAccepter) warhead).setTrigger(triggerStack);
                 }
-                return warhead.toStack();
+                return warhead;
             }
         }
         return null;
+    }
+
+    /**
+     * Gets the expected output of a crafting recipe
+     *
+     * @return ItemStack, or null if not possible to craft
+     */
+    public ItemStack getCraftResult()
+    {
+        final IWarhead result = getCraftResultAsWarhead();
+        return result != null ? result.toStack() : null;
     }
 
     @Override
@@ -451,6 +521,8 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
                 {
                     isAutocrafting = buf.readBoolean();
                     explosiveStackSizeRequired = Math.min(Math.max(1, buf.readInt()), 64);
+                    requireExplosive = buf.readBoolean();
+                    requireTrigger = buf.readBoolean();
                     _doUpdateGuiUsers();
                     return true;
                 }
@@ -477,7 +549,7 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
 
     public void _doUpdateGuiUsers()
     {
-        PacketTile packet = new PacketTile(this, 5, isAutocrafting, explosiveStackSizeRequired);
+        PacketTile packet = new PacketTile(this, 5, isAutocrafting, explosiveStackSizeRequired, requireExplosive, requireTrigger);
         sendPacketToGuiUsers(packet);
     }
 
