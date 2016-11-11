@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.crafting.station.warhead;
+package com.builtbroken.icbm.content.crafting.station.small.auto;
 
 import com.builtbroken.icbm.client.gui.SlotExplosive;
 import com.builtbroken.icbm.client.gui.SlotWarhead;
@@ -10,9 +10,9 @@ import net.minecraft.inventory.Slot;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 10/13/2016.
  */
-public class ContainerWarheadStation extends ContainerBase
+public class ContainerSMAutoCraft extends ContainerBase
 {
-    public ContainerWarheadStation(EntityPlayer player, TileWarheadStation inventory, int id)
+    public ContainerSMAutoCraft(EntityPlayer player, TileSMAutoCraft inventory, int id)
     {
         super(player, inventory);
 
