@@ -43,8 +43,9 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
     public static final int[] INPUT_SLOTS = new int[]{WARHEAD_SLOT, EXPLOSIVE_SLOT, TRIGGER_SLOT};
     public static final int[] OUTPUT_SLOTS = new int[]{OUTPUT_SLOT};
 
-    //TODO add tabs, crafting, configuration, reverse crafting
-    //TODO add option to limit number of inserted explosives per craft (1-64 scale, all)
+    //TODO add pushing to next station (Saves on inserters)
+    //TODO add animation for moving missile to next station
+    //TODO to sync animation add a handler that chains all station into an AssemblyLine object
 
     /** Is the machine setup to autocraft */
     protected boolean isAutocrafting = false;

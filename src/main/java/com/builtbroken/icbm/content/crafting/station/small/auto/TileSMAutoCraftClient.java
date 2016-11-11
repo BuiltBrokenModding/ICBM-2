@@ -4,7 +4,6 @@ import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstationClient;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
-import com.builtbroken.mc.client.SharedAssets;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.lib.transform.vector.Pos;
@@ -13,6 +12,8 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -51,34 +52,23 @@ public class TileSMAutoCraftClient extends TileSMAutoCraft implements ISimpleIte
     {
         //Render launcher
         GL11.glPushMatrix();
-        GL11.glTranslatef(pos.xf() + 1, pos.yf(), pos.zf() + 2);
+        GL11.glTranslatef(pos.xf() + 0.5f, pos.yf(), pos.zf() + 0.5f);
         GL11.glRotated(90, 0, 1, 0);
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_WORKSTATION_TEXTURE2);
-
-        int tableX = 2;
 
         if (getDirection() == ForgeDirection.EAST)
         {
             GL11.glRotated(-90, 0, 1, 0);
-            //x y z
-            GL11.glTranslatef(-2, 0f, -1);
         }
         else if (getDirection() == ForgeDirection.WEST)
         {
             GL11.glRotated(90, 0, 1, 0);
-            //x y z
-            GL11.glTranslatef(-1, 0f, 2);
         }
         else if (getDirection() == ForgeDirection.SOUTH)
         {
             GL11.glRotated(180, 0, 1, 0);
-            //x y z
-            GL11.glTranslatef(-3, 0f, 1);
         }
-        Assets.SMALL_MISSILE_STATION_MODEL2.renderAll();
-        GL11.glTranslatef(tableX, 0, 0);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(SharedAssets.TOOL_TABLE_TEXTURE);
-        SharedAssets.TOOL_TABLE.renderAll();
+        Assets.CART1x3.renderAll();
         GL11.glPopMatrix();
 
         //render missile
@@ -93,11 +83,11 @@ public class TileSMAutoCraftClient extends TileSMAutoCraft implements ISimpleIte
     @Override
     public void renderInventoryItem(IItemRenderer.ItemRenderType type, ItemStack itemStack, Object... data)
     {
-        GL11.glTranslatef(-1f, 0f, 0.1f);
+        GL11.glTranslatef(0f, 0f, 0f);
         GL11.glRotatef(-20f, 0, 1, 0);
         GL11.glScaled(.7f, .7f, .7f);
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_WORKSTATION_TEXTURE2);
-        Assets.SMALL_MISSILE_STATION_MODEL2.renderAll();
+        Assets.CART1x3.renderAll();
     }
 
     @Override
@@ -109,7 +99,15 @@ public class TileSMAutoCraftClient extends TileSMAutoCraft implements ISimpleIte
             if (id == 5)
             {
                 isAutocrafting = buf.readBoolean();
-                //TODO
+                requiresWarhead = buf.readBoolean();
+                requiresGuidance = buf.readBoolean();
+                requiresEngine = buf.readBoolean();
+                //Reload GUI
+                final GuiScreen screen = Minecraft.getMinecraft().currentScreen;
+                if (screen instanceof GuiSMAutoCraft)
+                {
+                    screen.initGui();
+                }
                 return true;
             }
             return false;
@@ -132,7 +130,7 @@ public class TileSMAutoCraftClient extends TileSMAutoCraft implements ISimpleIte
 
     public void sendGUIDataUpdate()
     {
-        sendPacketToServer(new PacketTile(this, 3, isAutocrafting));  //TODO
+        sendPacketToServer(new PacketTile(this, 3, isAutocrafting, requiresWarhead, requiresGuidance, requiresEngine));  //TODO
     }
 
     @Override

@@ -10,6 +10,8 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -79,6 +81,12 @@ public class TileWarheadStationClient extends TileWarheadStation implements ISim
                 explosiveStackSizeRequired = buf.readInt();
                 requireExplosive = buf.readBoolean();
                 requireTrigger = buf.readBoolean();
+                //Reload GUI
+                final GuiScreen screen = Minecraft.getMinecraft().currentScreen;
+                if (screen instanceof GuiWarheadStation)
+                {
+                    screen.initGui();
+                }
                 return true;
             }
             return false;

@@ -14,6 +14,7 @@ import com.builtbroken.icbm.content.blast.util.ExOrePuller;
 import com.builtbroken.icbm.content.blast.util.ExRegen;
 import com.builtbroken.icbm.content.blast.util.ExRegenLocal;
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstationClient;
+import com.builtbroken.icbm.content.crafting.station.small.auto.TileSMAutoCraftClient;
 import com.builtbroken.icbm.content.crafting.station.warhead.TileWarheadStationClient;
 import com.builtbroken.icbm.content.fof.TileFoFClient;
 import com.builtbroken.icbm.content.launcher.controller.remote.antenna.ItemRendererAntennaFrame;
@@ -70,6 +71,7 @@ public class ClientProxy extends CommonProxy
         ICBM.blockFoFStation = ICBM.INSTANCE.getManager().newBlock("ICBMxFoF", TileFoFClient.class);
         ICBM.blockCommandSiloDisplay = ICBM.INSTANCE.getManager().newBlock("icbmCommandSiloDisplay", TileSiloInterfaceClient.class);
         ICBM.blockWarheadWorkstation = ICBM.INSTANCE.getManager().newBlock("icbmWarheadWorkstation", TileWarheadStationClient.class);
+        ICBM.blockSMAuto = ICBM.INSTANCE.getManager().newBlock("icbmSMAuto", TileSMAutoCraftClient.class);
 
         ICBM.blockStandardLauncher.setCreativeTab(null);
         NEIProxy.hideItem(ICBM.blockStandardLauncher);

@@ -47,15 +47,14 @@ public class ICBMCreativeTab extends ModCreativeTab
 
         add(list, ICBM.blockMissileWorkstation);
         add(list, ICBM.blockWarheadWorkstation);
+        add(list, ICBM.blockSMAuto);
 
         add(list, ICBM.itemMissileCart);
         add(list, ICBM.blockSmallMissileMag);
 
         add(list, ICBM.itemRocketLauncher);
         add(list, ICBM.blockLauncherParts);
-        //add(list, ICBM.itemMissile);
-        //add(list, ICBM.blockWarhead);
-        //add(list, ICBM.itemExplosive);
+
         add(list, ICBM.itemEngineModules);
         add(list, ICBM.itemGuidanceModules);
         add(list, ICBM.itemMissileParts);

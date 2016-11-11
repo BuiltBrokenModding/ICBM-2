@@ -5,6 +5,7 @@ import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
 import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.TileModuleMachine;
 import com.builtbroken.mc.prefab.tile.multiblock.MultiBlockHelper;
 import net.minecraft.block.Block;
@@ -176,6 +177,21 @@ public abstract class TileAbstractWorkstation extends TileModuleMachine implemen
         if (this.rotation != ForgeDirection.NORTH)
         {
             nbt.setByte("siloRotation", (byte) rotation.ordinal());
+        }
+    }
+
+    /**
+     * Called to eject crafting items
+     */
+    public void ejectCraftingItems()
+    {
+        for (int i = 0; i <= getSizeInventory(); i++)
+        {
+            if (getStackInSlot(i) != null)
+            {
+                InventoryUtility.dropItemStack(toLocation(), getStackInSlot(i));
+                setInventorySlotContents(i, null);
+            }
         }
     }
 }

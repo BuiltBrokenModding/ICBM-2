@@ -1,22 +1,15 @@
 package com.builtbroken.icbm.content.crafting.station.small.auto;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.api.modules.IWarhead;
-import com.builtbroken.icbm.api.warhead.ITrigger;
-import com.builtbroken.icbm.api.warhead.ITriggerAccepter;
 import com.builtbroken.icbm.client.Assets;
-import com.builtbroken.mc.api.modules.IModule;
-import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.core.References;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.prefab.gui.GuiButton2;
 import com.builtbroken.mc.prefab.gui.GuiContainerBase;
 import com.builtbroken.mc.prefab.gui.buttons.GuiImageButton;
-import com.builtbroken.mc.prefab.gui.buttons.GuiIncrementButton;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 /**
@@ -27,10 +20,18 @@ import net.minecraft.util.ResourceLocation;
  */
 public class GuiSMAutoCraft extends GuiContainerBase
 {
-    private static final ResourceLocation guiTexture0 = new ResourceLocation(ICBM.DOMAIN, References.GUI_DIRECTORY + "warhead.workstation.0.png");
-    private static final ResourceLocation guiTexture1 = new ResourceLocation(ICBM.DOMAIN, References.GUI_DIRECTORY + "warhead.workstation.1.png");
-    private static final ResourceLocation guiTexture2 = new ResourceLocation(ICBM.DOMAIN, References.GUI_DIRECTORY + "warhead.workstation.2.png");
-    private static final ResourceLocation guiTexture3 = new ResourceLocation(ICBM.DOMAIN, References.GUI_DIRECTORY + "warhead.workstation.3.png");
+    public static final int CRAFTING_WINDOW_BUTTON_ID = 1;
+    public static final int WARHEAD_WINDOW_BUTTON_ID = 2;
+    public static final int GUIDANCE_WINDOW_BUTTON_ID = 3;
+    public static final int ENGINE_WINDOW_BUTTON_ID = 4;
+    public static final int AUTO_CRAFT_WINDOW_BUTTON_ID = 5;
+
+    public static final int AUTO_CRAFT_TOGGLE_BUTTON_ID = 12;
+    public static final int WARHEAD_TOGGLE_BUTTON_ID = 13;
+    public static final int ENGINE_TOGGLE_BUTTON_ID = 14;
+    public static final int GUIDANCE_TOGGLE_BUTTON_ID = 15;
+
+    private static final ResourceLocation guiTexture0 = new ResourceLocation(ICBM.DOMAIN, References.GUI_DIRECTORY + "missile.small.workstation.png");
 
     private final TileSMAutoCraftClient tile;
 
@@ -41,8 +42,9 @@ public class GuiSMAutoCraft extends GuiContainerBase
 
     //Automation GUI
     private GuiButton2 autoCraftButton;
-    private GuiButton2 requireTriggerButton;
-    private GuiButton2 requireExplosiveButton;
+    private GuiButton2 requireWarheadButton;
+    private GuiButton2 requireGuidanceButton;
+    private GuiButton2 requireEngineButton;
 
     //Tabs on left of GUI
     private GuiImageButton craftingWindowButton;
@@ -56,23 +58,9 @@ public class GuiSMAutoCraft extends GuiContainerBase
         super(new ContainerSMAutoCraft(player, tile, id));
         this.tile = tile;
         this.id = id;
-        switch (id)
+        if (id == 0)
         {
-            case 0:
-                baseTexture = guiTexture0;
-                break;
-            case 1:
-                baseTexture = guiTexture1;
-                break;
-            case 2:
-                baseTexture = guiTexture2;
-                break;
-            case 3:
-                baseTexture = guiTexture3;
-                break;
-            case 4:
-                baseTexture = guiTexture3;
-                break;
+            baseTexture = guiTexture0;
         }
     }
 
@@ -80,19 +68,17 @@ public class GuiSMAutoCraft extends GuiContainerBase
     public void initGui()
     {
         super.initGui();
-        craftingWindowButton = addButton(GuiImageButton.newButton18(1, guiLeft - 18, guiTop + 5, 0, 0).setTexture(Assets.GUI_BUTTONS));
-        warheadWindowButton = addButton(GuiImageButton.newButton18(2, guiLeft - 18, guiTop + 5 + 19, 1, 0).setTexture(Assets.GUI_BUTTONS));
-        guidanceWindowButton = addButton(GuiImageButton.newButton18(3, guiLeft - 18, guiTop + 5 + 19 * 2, 3, 0).setTexture(Assets.GUI_BUTTONS));
-        engineWindowButton = addButton(GuiImageButton.newButton18(4, guiLeft - 18, guiTop + 5 + 19 * 2, 3, 0).setTexture(Assets.GUI_BUTTONS));
-        autocraftingButton = addButton(GuiImageButton.newButton18(5, guiLeft - 18, guiTop + 5 + 19 * 4, 2, 0).setTexture(Assets.GUI_BUTTONS));
+        craftingWindowButton = addButton(GuiImageButton.newButton18(CRAFTING_WINDOW_BUTTON_ID, guiLeft - 18, guiTop + 5, 0, 0).setTexture(Assets.GUI_BUTTONS));
+        warheadWindowButton = addButton(GuiImageButton.newButton18(WARHEAD_WINDOW_BUTTON_ID, guiLeft - 18, guiTop + 5 + 19, 6, 0).setTexture(Assets.GUI_BUTTONS));
+        guidanceWindowButton = addButton(GuiImageButton.newButton18(GUIDANCE_WINDOW_BUTTON_ID, guiLeft - 18, guiTop + 5 + 19 * 2, 7, 0).setTexture(Assets.GUI_BUTTONS));
+        engineWindowButton = addButton(GuiImageButton.newButton18(ENGINE_WINDOW_BUTTON_ID, guiLeft - 18, guiTop + 5 + 19 * 3, 8, 0).setTexture(Assets.GUI_BUTTONS));
+        autocraftingButton = addButton(GuiImageButton.newButton18(AUTO_CRAFT_WINDOW_BUTTON_ID, guiLeft - 18, guiTop + 5 + 19 * 4, 2, 0).setTexture(Assets.GUI_BUTTONS));
 
         //Disable buttons that go to this GUI instead of a new GUI
         switch (id)
         {
             case 0:
                 craftButton = addButton(new GuiButton2(0, guiLeft + 80, guiTop + 23, 50, 20, "Craft"));
-                buttonList.add(new GuiIncrementButton(11, guiLeft + 102, guiTop + 70, false));
-                buttonList.add(new GuiIncrementButton(10, guiLeft + 102, guiTop + 52, true));
                 craftingWindowButton.disable();
                 break;
             case 1:
@@ -102,15 +88,14 @@ public class GuiSMAutoCraft extends GuiContainerBase
                 guidanceWindowButton.disable();
                 break;
             case 3:
-                guidanceWindowButton.disable();
-                break;
-            case 4:
                 engineWindowButton.disable();
                 break;
-            case 5:
-                autoCraftButton = addButton(new GuiButton2(12, guiLeft + 12, guiTop + 20, 120, 20, tile.isAutocrafting ? "Disable Autocrafting" : "Enable Autocrafting"));
-                //requireTriggerButton = addButton(new GuiButton2(13, guiLeft + 12, guiTop + 42, 20, 20, tile.requireTrigger ? "[X]" : "[ ]")); TODO
-                //requireExplosiveButton = addButton(new GuiButton2(14, guiLeft + 12, guiTop + 64, 20, 20, tile.requireExplosive ? "[X]" : "[ ]")); TODO
+            case 4:
+                final int left = 80;
+                autoCraftButton = addButton(new GuiButton2(AUTO_CRAFT_TOGGLE_BUTTON_ID, guiLeft + left, guiTop + 20, 20, 20, tile.isAutocrafting ? "[x]" : "[ ]"));
+                requireWarheadButton = addButton(new GuiButton2(WARHEAD_TOGGLE_BUTTON_ID, guiLeft + left, guiTop + 42, 20, 20, tile.requiresWarhead ? "[x]" : "[ ]"));
+                requireGuidanceButton = addButton(new GuiButton2(GUIDANCE_TOGGLE_BUTTON_ID, guiLeft + left, guiTop + 64, 20, 20, tile.requiresGuidance ? "[x]" : "[ ]"));
+                requireEngineButton = addButton(new GuiButton2(ENGINE_TOGGLE_BUTTON_ID, guiLeft + left, guiTop + 86, 20, 20, tile.requiresEngine ? "[x]" : "[ ]"));
                 autocraftingButton.disable();
                 break;
         }
@@ -150,61 +135,22 @@ public class GuiSMAutoCraft extends GuiContainerBase
         switch (id)
         {
             case 0:
-                drawString("Warhead Workstation", 50, 7);
-                drawString("Explosives to use:", 5, 62);
+                drawString("Missile Workstation", 50, 7);
                 //drawString("" + tile.explosiveStackSizeRequired, 104, 62); TODO
                 break;
             case 1:
-                drawString("Explosive Configuration", 33, 7);
+                drawString("Warhead Configuration", 33, 7);
                 drawString("Not implemented yet", 33, 30);
                 break;
             case 2:
-                drawString("Trigger Configuration", 33, 7);
-                if (tile.getTriggerStack() != null)
-                {
-                    drawString("No options for this trigger", 25, 50);
-                }
-                else if (tile.getWarheadStack() != null)
-                {
-                    ItemStack stack = tile.getWarheadStack();
-                    if (stack.getItem() instanceof IModuleItem)
-                    {
-                        IModule module = ((IModuleItem) stack.getItem()).getModule(stack);
-                        if (module != null && module instanceof IWarhead)
-                        {
-                            if (module instanceof ITriggerAccepter)
-                            {
-                                ITrigger trigger = ((ITriggerAccepter) module).getTrigger();
-                                if (trigger != null)
-                                {
-                                    drawString("No options for this trigger", 25, 50);
-                                }
-                                else
-                                {
-                                    drawString("No options for this trigger", 25, 50);
-                                }
-                            }
-                            else
-                            {
-                                drawString("Warhead does not support triggers", 25, 50);
-                            }
-                        }
-                        else
-                        {
-                            drawString("Failed to read warhead data", 25, 50);
-                        }
-                    }
-                    else
-                    {
-                        drawString("Insert trigger for options", 25, 50);
-                    }
-                }
-                else
-                {
-                    drawString("Insert trigger for options", 25, 50);
-                }
+                drawString("Guidance Configuration", 33, 7);
+                drawString("Not implemented yet", 33, 30);
                 break;
             case 3:
+                drawString("Engine Configuration", 33, 7);
+                drawString("Not implemented yet", 33, 30);
+                break;
+            case 4:
                 drawString("Autocrafting Settings", 10, 7);
                 break;
         }
@@ -222,24 +168,28 @@ public class GuiSMAutoCraft extends GuiContainerBase
         {
             tile.sendPacketToServer(new PacketTile(tile, 2, buttonId - 1));
         }
-        else if (buttonId == 12)
+        else if (buttonId == AUTO_CRAFT_TOGGLE_BUTTON_ID)
         {
             tile.isAutocrafting = !tile.isAutocrafting;
-            autoCraftButton.displayString = tile.isAutocrafting ? "Disable Autocrafting" : "Enable Autocrafting";
+            autoCraftButton.displayString = tile.isAutocrafting ? "[x]" : "[ ]";
             tile.sendGUIDataUpdate();
         }
-        else if (buttonId == 13)
+        else if (buttonId == WARHEAD_TOGGLE_BUTTON_ID)
         {
-            //TODO
-            //tile.requireTrigger = !tile.requireTrigger;
-            //requireTriggerButton.displayString = tile.requireTrigger ? "[x]" : "[ ]";
+            tile.requiresWarhead = !tile.requiresWarhead;
+            requireWarheadButton.displayString = tile.requiresWarhead ? "[x]" : "[ ]";
             tile.sendGUIDataUpdate();
         }
-        else if (buttonId == 14)
+        else if (buttonId == GUIDANCE_TOGGLE_BUTTON_ID)
         {
-            //TODO
-            //tile.requireExplosive = !tile.requireExplosive;
-            //requireExplosiveButton.displayString = tile.requireExplosive ? "[x]" : "[ ]";
+            tile.requiresGuidance = !tile.requiresGuidance;
+            requireGuidanceButton.displayString = tile.requiresGuidance ? "[x]" : "[ ]";
+            tile.sendGUIDataUpdate();
+        }
+        else if (buttonId == ENGINE_TOGGLE_BUTTON_ID)
+        {
+            tile.requiresEngine = !tile.requiresEngine;
+            requireEngineButton.displayString = tile.requiresEngine ? "[x]" : "[ ]";
             tile.sendGUIDataUpdate();
         }
     }

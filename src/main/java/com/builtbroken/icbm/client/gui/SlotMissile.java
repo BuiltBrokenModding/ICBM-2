@@ -1,7 +1,8 @@
 package com.builtbroken.icbm.client.gui;
 
-import com.builtbroken.icbm.api.modules.IWarhead;
-import com.builtbroken.icbm.api.warhead.IWarheadItem;
+import com.builtbroken.icbm.api.missile.IMissileItem;
+import com.builtbroken.icbm.api.modules.IMissile;
+import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -13,11 +14,14 @@ import net.minecraft.item.ItemStack;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 10/13/2016.
  */
-public class SlotWarhead extends Slot
+public class SlotMissile extends Slot
 {
-    public SlotWarhead(IInventory inventory, int id, int x, int y)
+    private final int size;
+
+    public SlotMissile(IInventory inventory, int id, int x, int y, int size)
     {
         super(inventory, id, x, y);
+        this.size = size;
     }
 
     @Override
@@ -25,13 +29,15 @@ public class SlotWarhead extends Slot
     {
         if (compareStack != null)
         {
-            if (compareStack.getItem() instanceof IWarheadItem)
+            if (compareStack.getItem() instanceof IMissileItem)
             {
-                return true;
+                IMissile missile = ((IMissileItem) compareStack.getItem()).toMissile(compareStack);
+                return missile != null && missile.getMissileSize() == size;
             }
             else if (compareStack.getItem() instanceof IModuleItem)
             {
-                return ((IModuleItem) compareStack.getItem()).getModule(compareStack) instanceof IWarhead;
+                IModule module = ((IModuleItem) compareStack.getItem()).getModule(compareStack);
+                return module instanceof IMissile && ((IMissile) module).getMissileSize() == size;
             }
         }
         return false;
