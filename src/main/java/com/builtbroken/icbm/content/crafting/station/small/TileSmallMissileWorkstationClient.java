@@ -88,6 +88,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
         GL11.glScaled(.7f, .7f, .7f);
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_WORKSTATION_TEXTURE2);
         Assets.SMALL_MISSILE_STATION_MODEL2.renderAll();
+        //TODO add work table
     }
 
     @Override

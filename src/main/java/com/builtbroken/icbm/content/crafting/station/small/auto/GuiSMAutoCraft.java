@@ -46,8 +46,9 @@ public class GuiSMAutoCraft extends GuiContainerBase
 
     //Tabs on left of GUI
     private GuiImageButton craftingWindowButton;
-    private GuiImageButton explosiveWindowButton;
-    private GuiImageButton triggerWindowButton;
+    private GuiImageButton warheadWindowButton;
+    private GuiImageButton guidanceWindowButton;
+    private GuiImageButton engineWindowButton;
     private GuiImageButton autocraftingButton;
 
     public GuiSMAutoCraft(EntityPlayer player, TileSMAutoCraftClient tile, int id)
@@ -80,9 +81,10 @@ public class GuiSMAutoCraft extends GuiContainerBase
     {
         super.initGui();
         craftingWindowButton = addButton(GuiImageButton.newButton18(1, guiLeft - 18, guiTop + 5, 0, 0).setTexture(Assets.GUI_BUTTONS));
-        explosiveWindowButton = addButton(GuiImageButton.newButton18(2, guiLeft - 18, guiTop + 5 + 19, 1, 0).setTexture(Assets.GUI_BUTTONS));
-        triggerWindowButton = addButton(GuiImageButton.newButton18(3, guiLeft - 18, guiTop + 5 + 19 * 2, 3, 0).setTexture(Assets.GUI_BUTTONS));
-        autocraftingButton = addButton(GuiImageButton.newButton18(4, guiLeft - 18, guiTop + 5 + 19 * 3, 2, 0).setTexture(Assets.GUI_BUTTONS));
+        warheadWindowButton = addButton(GuiImageButton.newButton18(2, guiLeft - 18, guiTop + 5 + 19, 1, 0).setTexture(Assets.GUI_BUTTONS));
+        guidanceWindowButton = addButton(GuiImageButton.newButton18(3, guiLeft - 18, guiTop + 5 + 19 * 2, 3, 0).setTexture(Assets.GUI_BUTTONS));
+        engineWindowButton = addButton(GuiImageButton.newButton18(4, guiLeft - 18, guiTop + 5 + 19 * 2, 3, 0).setTexture(Assets.GUI_BUTTONS));
+        autocraftingButton = addButton(GuiImageButton.newButton18(5, guiLeft - 18, guiTop + 5 + 19 * 4, 2, 0).setTexture(Assets.GUI_BUTTONS));
 
         //Disable buttons that go to this GUI instead of a new GUI
         switch (id)
@@ -94,12 +96,18 @@ public class GuiSMAutoCraft extends GuiContainerBase
                 craftingWindowButton.disable();
                 break;
             case 1:
-                explosiveWindowButton.disable();
+                warheadWindowButton.disable();
                 break;
             case 2:
-                triggerWindowButton.disable();
+                guidanceWindowButton.disable();
                 break;
             case 3:
+                guidanceWindowButton.disable();
+                break;
+            case 4:
+                engineWindowButton.disable();
+                break;
+            case 5:
                 autoCraftButton = addButton(new GuiButton2(12, guiLeft + 12, guiTop + 20, 120, 20, tile.isAutocrafting ? "Disable Autocrafting" : "Enable Autocrafting"));
                 //requireTriggerButton = addButton(new GuiButton2(13, guiLeft + 12, guiTop + 42, 20, 20, tile.requireTrigger ? "[X]" : "[ ]")); TODO
                 //requireExplosiveButton = addButton(new GuiButton2(14, guiLeft + 12, guiTop + 64, 20, 20, tile.requireExplosive ? "[X]" : "[ ]")); TODO
@@ -210,7 +218,7 @@ public class GuiSMAutoCraft extends GuiContainerBase
         {
             tile.sendCraftingPacket();
         }
-        else if (buttonId > 0 && buttonId < 5 && buttonId - 1 != id)
+        else if (buttonId > 0 && buttonId <= 5 && buttonId - 1 != id)
         {
             tile.sendPacketToServer(new PacketTile(tile, 2, buttonId - 1));
         }
