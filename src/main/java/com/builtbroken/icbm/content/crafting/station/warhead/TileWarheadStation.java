@@ -382,33 +382,42 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
      */
     public IWarhead getCraftResultAsWarhead()
     {
+        //Grab items from inventory
         final ItemStack warheadStack = getWarheadStack();
         final ItemStack explosiveStack = getExplosiveStack();
-        final ItemStack outputStack = getOutputStack();
         final ItemStack triggerStack = getTriggerStack();
 
-        if (warheadStack != null && warheadStack.getItem() instanceof IWarheadItem && ExplosiveRegistry.get(explosiveStack) != null && (outputStack == null || outputStack.stackSize < outputStack.getMaxStackSize()))
+        //Check that the warhead stack contains a warhead
+        if (warheadStack != null && warheadStack.getItem() instanceof IWarheadItem)
         {
+            //Get warhead from stack
             final IWarhead warhead = ((IWarheadItem) warheadStack.getItem()).getModule(warheadStack);
-            if (warhead != null && warhead.hasSpaceForExplosives(explosiveStack))
+            //Ensure it's not null
+            if (warhead != null)
             {
-                int insert = Math.min(explosiveStackSizeRequired, Math.min(explosiveStack.stackSize, warhead.getSpaceForExplosives()));
-                //Update warhead's explosive stack
-                if (warhead.getExplosiveStack() == null)
+                //Insert explosive
+                if ((!isAutocrafting || requireExplosive) && ExplosiveRegistry.get(explosiveStack) != null && warhead.hasSpaceForExplosives(explosiveStack))
                 {
-                    ItemStack insertStack = explosiveStack.copy();
-                    insertStack.stackSize = insert;
-                    warhead.setExplosiveStack(insertStack);
-                }
-                else
-                {
-                    //Increase explosive stack
-                    warhead.getExplosiveStack().stackSize += insert;
-                    //Trigger any events for warhead change
-                    warhead.setExplosiveStack(warhead.getExplosiveStack());
+                    //Figure out how many explosives are needed
+                    int insert = Math.min(explosiveStackSizeRequired, Math.min(explosiveStack.stackSize, warhead.getSpaceForExplosives()));
+                    //Update warhead's explosive stack
+                    if (warhead.getExplosiveStack() == null)
+                    {
+                        ItemStack insertStack = explosiveStack.copy();
+                        insertStack.stackSize = insert;
+                        warhead.setExplosiveStack(insertStack);
+                    }
+                    else
+                    {
+                        //Increase explosive stack
+                        warhead.getExplosiveStack().stackSize += insert;
+                        //Trigger any events for warhead change
+                        warhead.setExplosiveStack(warhead.getExplosiveStack());
+                    }
                 }
 
-                if (triggerStack != null && warhead instanceof ITriggerAccepter && ((ITriggerAccepter) warhead).getTrigger() == null)
+                //Insert trigger
+                if ((!isAutocrafting || requireTrigger) && triggerStack != null && warhead instanceof ITriggerAccepter && ((ITriggerAccepter) warhead).getTrigger() == null)
                 {
                     ((ITriggerAccepter) warhead).setTrigger(triggerStack);
                 }
