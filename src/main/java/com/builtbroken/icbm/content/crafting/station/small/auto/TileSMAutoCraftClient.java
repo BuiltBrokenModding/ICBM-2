@@ -4,11 +4,14 @@ import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstationClient;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
+import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.Tile;
+import com.builtbroken.mc.prefab.tile.module.TileModuleInventory;
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -30,8 +33,8 @@ import org.lwjgl.opengl.GL11;
  */
 public class TileSMAutoCraftClient extends TileSMAutoCraft implements ISimpleItemRenderer
 {
-    /** Object used to render the missile in real time */
-    private IMissile renderMissile;
+    private IMissile completedMissile;
+    private IMissile startedMissile;
 
     @Override
     public Tile newTile()
@@ -72,10 +75,16 @@ public class TileSMAutoCraftClient extends TileSMAutoCraft implements ISimpleIte
         GL11.glPopMatrix();
 
         //render missile
-        if (renderMissile != null)
+        if (completedMissile != null)
         {
             GL11.glPushMatrix();
-            TileSmallMissileWorkstationClient.renderMissile(pos, renderMissile, ForgeDirection.UP, getDirection());
+            TileSmallMissileWorkstationClient.renderMissile(pos, completedMissile, ForgeDirection.UP, getDirection());
+            GL11.glPopMatrix();
+        }
+        else if (startedMissile != null)
+        {
+            GL11.glPushMatrix();
+            TileSmallMissileWorkstationClient.renderMissile(pos, startedMissile, ForgeDirection.UP, getDirection());
             GL11.glPopMatrix();
         }
     }
@@ -120,7 +129,29 @@ public class TileSMAutoCraftClient extends TileSMAutoCraft implements ISimpleIte
     public void readDescPacket(ByteBuf buf)
     {
         super.readDescPacket(buf);
-        //TODO read missile
+        //Temp load remote inventory for rendering
+        final TileModuleInventory clientRenderInv = new TileModuleInventory(this, getInventory().getSizeInventory());
+        clientRenderInv.load(ByteBufUtils.readTag(buf));
+
+        //Generate output missile renderer
+        ItemStack outputStack = clientRenderInv.getStackInSlot(OUTPUT_SLOT);
+        if (outputStack != null)
+        {
+            IModule module = toModule(outputStack);
+            if (module instanceof IMissile)
+            {
+                completedMissile = (IMissile) module;
+            }
+        }
+        else
+        {
+            completedMissile = null;
+        }
+        //Generate input missile renderer with parts attached
+        final TileModuleInventory tempInv = getInventory();
+        inventory_module_$eq(clientRenderInv);
+        startedMissile = getCraftedMissile();
+        inventory_module_$eq(tempInv);
     }
 
     public void sendCraftingPacket()

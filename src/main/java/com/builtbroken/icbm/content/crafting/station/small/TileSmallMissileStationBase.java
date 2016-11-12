@@ -1,9 +1,5 @@
 package com.builtbroken.icbm.content.crafting.station.small;
 
-import com.builtbroken.icbm.api.crafting.IModularMissileItem;
-import com.builtbroken.icbm.api.missile.IMissileItem;
-import com.builtbroken.icbm.api.modules.IMissile;
-import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.station.TileAbstractWorkstation;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.core.network.packet.PacketTile;
@@ -13,8 +9,6 @@ import com.builtbroken.mc.prefab.tile.multiblock.EnumMultiblock;
 import com.builtbroken.mc.prefab.tile.multiblock.MultiBlockHelper;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -52,8 +46,6 @@ public abstract class TileSmallMissileStationBase extends TileAbstractWorkstatio
         northSouthMap.put(new Pos(0, 0, -1), EnumMultiblock.INVENTORY.getName() + "#RenderBlock=false");
     }
 
-    protected IMissile missile; //TODO change assemble and disassemble to use this object to reduce object creation
-
     public TileSmallMissileStationBase(String name, Material material)
     {
         super(name, material);
@@ -74,22 +66,6 @@ public abstract class TileSmallMissileStationBase extends TileAbstractWorkstatio
             MultiBlockHelper.buildMultiBlock(world(), this, true, true);
         }
         world().markBlockForUpdate(xi(), yi(), zi());
-    }
-
-    @Override
-    public void onInventoryChanged(int slot, ItemStack prev, ItemStack item)
-    {
-        if(slot == INPUT_SLOT)
-        {
-            if (item == null)
-            {
-                missile = null;
-            }
-            else if (item.getItem() instanceof IModularMissileItem && !InventoryUtility.stacksMatchExact(getStackInSlot(slot), item))
-            {
-                missile = ((IModularMissileItem) item.getItem()).toMissile(item);
-            }
-        }
     }
 
     @Override
@@ -337,52 +313,6 @@ public abstract class TileSmallMissileStationBase extends TileAbstractWorkstatio
     public boolean isValidRotation(ForgeDirection dir)
     {
         return dir != ForgeDirection.UNKNOWN && dir != connectedBlockSide && dir != connectedBlockSide.getOpposite();
-    }
-
-    /** Missile object, create from the input slot stack */
-    public IMissile getMissile()
-    {
-        if (getMissileItem() != null && getMissileItem().getItem() instanceof IMissileItem && missile == null)
-        {
-            missile = ((IMissileItem) getMissileItem().getItem()).toMissile(getMissileItem());
-        }
-        return missile;
-    }
-
-
-    public ItemStack getMissileItem()
-    {
-        return getStackInSlot(INPUT_SLOT);
-    }
-
-    @Override
-    public PacketTile getDescPacket()
-    {
-        if (getMissileItem() != null)
-        {
-            return new PacketTile(this, 1, (byte) rotation.ordinal(), getMissileItem());
-        }
-        return new PacketTile(this, 1, (byte) rotation.ordinal(), new ItemStack(Items.apple));
-    }
-
-    public void updateMissile()
-    {
-        if (getMissileItem() != null)
-        {
-            this.missile = MissileModuleBuilder.INSTANCE.buildMissile(getMissileItem());
-        }
-        else
-        {
-            this.missile = null;
-        }
-    }
-
-    public void updateMissileItem()
-    {
-        if (getMissile() != null)
-        {
-            setInventorySlotContents(INPUT_SLOT, getMissile().toStack());
-        }
     }
 
     protected void reducePlayerHeldItem(EntityPlayer player)

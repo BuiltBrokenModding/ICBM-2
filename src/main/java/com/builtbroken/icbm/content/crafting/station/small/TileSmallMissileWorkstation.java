@@ -2,7 +2,9 @@ package com.builtbroken.icbm.content.crafting.station.small;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
+import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
+import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
 import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
@@ -14,6 +16,7 @@ import com.builtbroken.mc.api.tile.IRotatable;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
+import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
@@ -22,6 +25,7 @@ import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
@@ -33,6 +37,8 @@ import net.minecraftforge.common.util.ForgeDirection;
  */
 public class TileSmallMissileWorkstation extends TileSmallMissileStationBase implements IPacketIDReceiver, IRotatable, IPostInit
 {
+    protected IMissile missile; //TODO change assemble and disassemble to use this object to reduce object creation
+
     public TileSmallMissileWorkstation()
     {
         super("missileworkstation", Material.iron);
@@ -56,6 +62,22 @@ public class TileSmallMissileWorkstation extends TileSmallMissileStationBase imp
     public Tile newTile()
     {
         return new TileSmallMissileWorkstation();
+    }
+
+    @Override
+    public void onInventoryChanged(int slot, ItemStack prev, ItemStack item)
+    {
+        if(slot == INPUT_SLOT)
+        {
+            if (item == null)
+            {
+                missile = null;
+            }
+            else if (item.getItem() instanceof IModularMissileItem && !InventoryUtility.stacksMatchExact(getStackInSlot(slot), item))
+            {
+                missile = ((IModularMissileItem) item.getItem()).toMissile(item);
+            }
+        }
     }
 
     @Override
@@ -266,5 +288,54 @@ public class TileSmallMissileWorkstation extends TileSmallMissileStationBase imp
             }
         }
         return false;
+    }
+
+
+
+    /** Missile object, create from the input slot stack */
+    public IMissile getMissile()
+    {
+        if (getMissileItem() != null && getMissileItem().getItem() instanceof IMissileItem && missile == null)
+        {
+            missile = ((IMissileItem) getMissileItem().getItem()).toMissile(getMissileItem());
+        }
+        return missile;
+    }
+
+
+    public ItemStack getMissileItem()
+    {
+        return getStackInSlot(INPUT_SLOT);
+    }
+
+    @Override
+    public PacketTile getDescPacket()
+    {
+        if (getMissileItem() != null)
+        {
+            return new PacketTile(this, 1, (byte) rotation.ordinal(), getMissileItem());
+        }
+        return new PacketTile(this, 1, (byte) rotation.ordinal(), new ItemStack(Items.apple));
+    }
+
+    public void updateMissile()
+    {
+        if (getMissileItem() != null)
+        {
+            this.missile = MissileModuleBuilder.INSTANCE.buildMissile(getMissileItem());
+        }
+        else
+        {
+            this.missile = null;
+        }
+    }
+
+    public void updateMissileItem()
+    {
+        if (getMissile() != null)
+        {
+            setInventorySlotContents(INPUT_SLOT, getMissile().toStack());
+        }
+
     }
 }

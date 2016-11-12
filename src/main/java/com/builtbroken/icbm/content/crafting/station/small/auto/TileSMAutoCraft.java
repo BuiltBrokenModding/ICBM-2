@@ -1,7 +1,6 @@
 package com.builtbroken.icbm.content.crafting.station.small.auto;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IGuidance;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.api.modules.IRocketEngine;
@@ -20,10 +19,12 @@ import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.module.TileModuleInventory;
+import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
@@ -60,6 +61,7 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase implements IPac
     public TileSMAutoCraft()
     {
         super("warheadStation", Material.iron);
+        this.addInventoryModule(5);
         this.resistance = 10f;
         this.hardness = 10f;
         this.renderTileEntity = true;
@@ -78,7 +80,7 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase implements IPac
         super.update();
         if (isServer() && ticks % 10 == 0)
         {
-            if (checkForCraft)
+            if (isAutocrafting && checkForCraft)
             {
                 checkForCraft = false;
                 //TODO add crafting timer
@@ -116,8 +118,8 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase implements IPac
                     {
                         decrStackSize(ENGINE_SLOT, 1);
                     }
-                    decrStackSize(INPUT_SLOT, 1);
                     setInventorySlotContents(OUTPUT_SLOT, result.toStack());
+                    decrStackSize(INPUT_SLOT, 1);
                 }
             }
         }
@@ -135,17 +137,17 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase implements IPac
         {
             if (isAutocrafting)
             {
-                if (requiresWarhead && missile.getWarhead() == null)
+                if (requiresWarhead && result.getWarhead() == null)
                 {
                     return false;
                 }
 
-                if (requiresGuidance && missile.getGuidance() == null)
+                if (requiresGuidance && result.getGuidance() == null)
                 {
                     return false;
                 }
 
-                if (requiresEngine && missile.getEngine() == null)
+                if (requiresEngine && result.getEngine() == null)
                 {
                     return false;
                 }
@@ -178,15 +180,12 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase implements IPac
     {
         if (isAutocrafting && stack != null)
         {
-            final ItemStack insert = stack.copy();
-            insert.stackSize = 1;
-
             final IModule module = toModule(stack);
             if (INPUT_SLOT == slot)
             {
                 if (module instanceof IMissile && getInputStack() == null)
                 {
-                    setInventorySlotContents(INPUT_SLOT, insert);
+                    setInventorySlotContents(INPUT_SLOT, module.toStack());
                     stack.stackSize--;
                     return stack.stackSize <= 0 ? null : stack;
                 }
@@ -195,7 +194,7 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase implements IPac
             {
                 if (module instanceof IWarhead && getWarheadStack() == null)
                 {
-                    setInventorySlotContents(INPUT_SLOT, insert);
+                    setInventorySlotContents(WARHEAD_SLOT, module.toStack());
                     stack.stackSize--;
                     return stack.stackSize <= 0 ? null : stack;
                 }
@@ -204,7 +203,7 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase implements IPac
             {
                 if (module instanceof IGuidance && getGuidanceStack() == null)
                 {
-                    setInventorySlotContents(INPUT_SLOT, insert);
+                    setInventorySlotContents(GUIDANCE_SLOT, module.toStack());
                     stack.stackSize--;
                     return stack.stackSize <= 0 ? null : stack;
                 }
@@ -213,7 +212,7 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase implements IPac
             {
                 if (module instanceof IRocketEngine && getEngineStack() == null)
                 {
-                    setInventorySlotContents(INPUT_SLOT, insert);
+                    setInventorySlotContents(ENGINE_SLOT, module.toStack());
                     stack.stackSize--;
                     return stack.stackSize <= 0 ? null : stack;
                 }
@@ -222,12 +221,15 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase implements IPac
         return stack;
     }
 
-    private IModule toModule(ItemStack stack)
+    protected IModule toModule(final ItemStack stack)
     {
-        IModule module = MissileModuleBuilder.INSTANCE.build(stack);
+        final ItemStack insert = stack.copy();
+        insert.stackSize = 1;
+
+        IModule module = MissileModuleBuilder.INSTANCE.build(insert);
         if (module == null && stack.getItem() instanceof IModuleItem)
         {
-            module = ((IModuleItem) stack.getItem()).getModule(stack);
+            module = ((IModuleItem) stack.getItem()).getModule(insert);
         }
         return module;
     }
@@ -264,30 +266,20 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase implements IPac
      */
     public IMissile getCraftedMissile()
     {
-        ItemStack inputStack = getInputStack();
-        ItemStack warheadStack = getWarheadStack();
-        ItemStack guidanceStack = getGuidanceStack();
-        ItemStack engineStack = getEngineStack();
+        final ItemStack inputStack = getInputStack();
+        final ItemStack warheadStack = getWarheadStack();
+        final ItemStack guidanceStack = getGuidanceStack();
+        final ItemStack engineStack = getEngineStack();
 
         if (inputStack != null)
         {
-            IModule module = MissileModuleBuilder.INSTANCE.build(inputStack);
-            if (module == null && inputStack.getItem() instanceof IModuleItem)
-            {
-                module = ((IModuleItem) inputStack.getItem()).getModule(inputStack);
-            }
+            IModule module = toModule(inputStack);
             if (module instanceof IMissile)
             {
                 final IMissile missile = (IMissile) module;
                 if ((!isAutocrafting || requiresWarhead) && warheadStack != null && missile.getWarhead() == null)
                 {
-                    warheadStack = warheadStack.copy();
-                    warheadStack.stackSize = 1;
-                    module = MissileModuleBuilder.INSTANCE.build(warheadStack);
-                    if (module == null && inputStack.getItem() instanceof IModuleItem)
-                    {
-                        module = ((IModuleItem) inputStack.getItem()).getModule(warheadStack);
-                    }
+                    module = toModule(warheadStack);
                     if (module instanceof IWarhead)
                     {
                         missile.setWarhead((IWarhead) module);
@@ -296,13 +288,7 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase implements IPac
 
                 if ((!isAutocrafting || requiresGuidance) && guidanceStack != null && missile.getGuidance() == null)
                 {
-                    guidanceStack = guidanceStack.copy();
-                    guidanceStack.stackSize = 1;
-                    module = MissileModuleBuilder.INSTANCE.build(guidanceStack);
-                    if (module == null && inputStack.getItem() instanceof IModuleItem)
-                    {
-                        module = ((IModuleItem) inputStack.getItem()).getModule(guidanceStack);
-                    }
+                    module = toModule(guidanceStack);
                     if (module instanceof IGuidance)
                     {
                         missile.setGuidance((IGuidance) module);
@@ -311,13 +297,7 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase implements IPac
 
                 if ((!isAutocrafting || requiresEngine) && engineStack != null && missile.getEngine() == null)
                 {
-                    engineStack = engineStack.copy();
-                    engineStack.stackSize = 1;
-                    module = MissileModuleBuilder.INSTANCE.build(engineStack);
-                    if (module == null && inputStack.getItem() instanceof IModuleItem)
-                    {
-                        module = ((IModuleItem) inputStack.getItem()).getModule(engineStack);
-                    }
+                    module = toModule(engineStack);
                     if (module instanceof IRocketEngine)
                     {
                         missile.setEngine((IRocketEngine) module);
@@ -345,11 +325,7 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase implements IPac
     {
         if (stack != null)
         {
-            IModule module = MissileModuleBuilder.INSTANCE.build(stack);
-            if (module == null && stack.getItem() instanceof IModuleItem)
-            {
-                module = ((IModuleItem) stack.getItem()).getModule(stack);
-            }
+            final IModule module = toModule(stack);
             return module instanceof IMissile || module instanceof IWarhead || module instanceof IGuidance || module instanceof IRocketEngine;
         }
         return false;
@@ -360,11 +336,7 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase implements IPac
     {
         if (stack != null)
         {
-            IModule module = MissileModuleBuilder.INSTANCE.build(stack);
-            if (module == null && stack.getItem() instanceof IModuleItem)
-            {
-                module = ((IModuleItem) stack.getItem()).getModule(stack);
-            }
+            IModule module = toModule(stack);
             if (INPUT_SLOT == slot)
             {
                 return module instanceof IMissile;
@@ -405,11 +377,6 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase implements IPac
     @Override
     public TileModuleInventory getInventory()
     {
-        if (super.getInventory() == null)
-        {
-            //lazy init of inventory
-            addInventoryModule(4);
-        }
         return (TileModuleInventory) super.getInventory();
     }
 
@@ -436,23 +403,6 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase implements IPac
     protected ItemStack getOutputStack()
     {
         return getInventory().getStackInSlot(OUTPUT_SLOT);
-    }
-
-
-    /** Missile object, create from the input slot stack */
-    public IMissile getMissile()
-    {
-        if (getMissileItem() != null && getMissileItem().getItem() instanceof IMissileItem && missile == null)
-        {
-            missile = ((IMissileItem) getMissileItem().getItem()).toMissile(getMissileItem());
-        }
-        return missile;
-    }
-
-
-    public ItemStack getMissileItem()
-    {
-        return getStackInSlot(INPUT_SLOT);
     }
 
     @Override
@@ -493,6 +443,8 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase implements IPac
     public void writeDescPacket(ByteBuf buf)
     {
         super.writeDescPacket(buf);
+        NBTTagCompound tag = getInventory().save(new NBTTagCompound());
+        ByteBufUtils.writeTag(buf, tag);
     }
 
     @Override
