@@ -101,8 +101,8 @@ public class GuiWarheadStation extends GuiContainerBase
                 break;
             case 3:
                 autoCraftButton = addButton(new GuiButton2(12, guiLeft + 12, guiTop + 20, 120, 20, tile.isAutocrafting ? "Disable Autocrafting" : "Enable Autocrafting"));
-                requireTriggerButton = addButton(new GuiButton2(13, guiLeft + 12, guiTop + 42, 20, 20, tile.requireTrigger ? "[X]" : "[ ]"));
-                requireExplosiveButton = addButton(new GuiButton2(14, guiLeft + 12, guiTop + 64, 20, 20, tile.requireExplosive ? "[X]" : "[ ]"));
+                requireTriggerButton = addButton(new GuiButton2(13, guiLeft + 105, guiTop + 42, 20, 20, tile.requireTrigger ? "[X]" : "[ ]"));
+                requireExplosiveButton = addButton(new GuiButton2(14, guiLeft + 105, guiTop + 64, 20, 20, tile.requireExplosive ? "[X]" : "[ ]"));
                 autocraftingButton.disable();
                 break;
         }
@@ -198,6 +198,8 @@ public class GuiWarheadStation extends GuiContainerBase
                 break;
             case 3:
                 drawString("Autocrafting Settings", 10, 7);
+                drawString("Require Explosive:", 12, 47);
+                drawString("Require Trigger:", 12, 67);
                 break;
         }
     }

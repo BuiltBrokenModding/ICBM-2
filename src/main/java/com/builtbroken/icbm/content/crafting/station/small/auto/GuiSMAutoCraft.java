@@ -62,6 +62,10 @@ public class GuiSMAutoCraft extends GuiContainerBase
         {
             baseTexture = guiTexture0;
         }
+        else
+        {
+            this.baseTexture = References.GUI__MC_EMPTY_FILE;
+        }
     }
 
     @Override
@@ -91,7 +95,7 @@ public class GuiSMAutoCraft extends GuiContainerBase
                 engineWindowButton.disable();
                 break;
             case 4:
-                final int left = 80;
+                final int left = 105;
                 autoCraftButton = addButton(new GuiButton2(AUTO_CRAFT_TOGGLE_BUTTON_ID, guiLeft + left, guiTop + 20, 20, 20, tile.isAutocrafting ? "[x]" : "[ ]"));
                 requireWarheadButton = addButton(new GuiButton2(WARHEAD_TOGGLE_BUTTON_ID, guiLeft + left, guiTop + 42, 20, 20, tile.requiresWarhead ? "[x]" : "[ ]"));
                 requireGuidanceButton = addButton(new GuiButton2(GUIDANCE_TOGGLE_BUTTON_ID, guiLeft + left, guiTop + 64, 20, 20, tile.requiresGuidance ? "[x]" : "[ ]"));
@@ -151,7 +155,11 @@ public class GuiSMAutoCraft extends GuiContainerBase
                 drawString("Not implemented yet", 33, 30);
                 break;
             case 4:
-                drawString("Autocrafting Settings", 10, 7);
+                drawString("Automation & Crafting Settings", 10, 7);
+                drawString("Enable Automation:", 12, 26);
+                drawString("Require Warhead:", 12, 47);
+                drawString("Require Guidance:", 12, 69);
+                drawString("Require Engine:", 12, 90);
                 break;
         }
     }

@@ -23,6 +23,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
@@ -546,6 +547,36 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
     public void writeDescPacket(ByteBuf buf)
     {
         super.writeDescPacket(buf);
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound nbt)
+    {
+        super.readFromNBT(nbt);
+        isAutocrafting = getBoolean(nbt, "isAutocrafting", false);
+        requireExplosive = getBoolean(nbt, "requireExplosive", true);
+        requireTrigger = getBoolean(nbt, "requireTrigger", false);
+        checkForCraft = getBoolean(nbt, "checkForCraft", false);
+        if (nbt.hasKey("explosiveStackSizeRequired"))
+        {
+            explosiveStackSizeRequired = nbt.getInteger("explosiveStackSizeRequired");
+        }
+    }
+
+    private boolean getBoolean(NBTTagCompound nbt, String key, boolean b)
+    {
+        return nbt.hasKey(key) ? nbt.getBoolean("isAutocrafting") : b;
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound nbt)
+    {
+        super.writeToNBT(nbt);
+        nbt.setBoolean("isAutocrafting", isAutocrafting);
+        nbt.setBoolean("requireExplosive", requireExplosive);
+        nbt.setBoolean("requireTrigger", requireTrigger);
+        nbt.setBoolean("checkForCraft", checkForCraft);
+        nbt.setInteger("explosiveStackSizeRequired", explosiveStackSizeRequired);
     }
 
     @Override

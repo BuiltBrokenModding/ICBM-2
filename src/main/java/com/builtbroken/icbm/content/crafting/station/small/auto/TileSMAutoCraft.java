@@ -473,4 +473,31 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase implements IPac
     {
         return null;
     }
+
+    @Override
+    public void readFromNBT(NBTTagCompound nbt)
+    {
+        super.readFromNBT(nbt);
+        isAutocrafting = getBoolean(nbt, "isAutocrafting", false);
+        requiresWarhead = getBoolean(nbt, "requiresWarhead", true);
+        requiresEngine = getBoolean(nbt, "requiresEngine", true);
+        requiresGuidance = getBoolean(nbt, "requiresGuidance", true);
+        checkForCraft = getBoolean(nbt, "checkForCraft", false);
+    }
+
+    private boolean getBoolean(NBTTagCompound nbt, String key, boolean b)
+    {
+        return nbt.hasKey(key) ? nbt.getBoolean("isAutocrafting") : b;
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound nbt)
+    {
+        super.writeToNBT(nbt);
+        nbt.setBoolean("isAutocrafting", isAutocrafting);
+        nbt.setBoolean("requiresWarhead", requiresWarhead);
+        nbt.setBoolean("requiresEngine", requiresEngine);
+        nbt.setBoolean("requiresGuidance", requiresGuidance);
+        nbt.setBoolean("checkForCraft", checkForCraft);
+    }
 }
