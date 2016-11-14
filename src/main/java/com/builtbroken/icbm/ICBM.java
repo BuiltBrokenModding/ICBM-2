@@ -253,6 +253,7 @@ public final class ICBM extends AbstractMod
         Engine.requestMultiBlock();
         Engine.requestSimpleTools();
         Engine.requestCircuits();
+        Engine.requestCraftingParts();
 
         loader.applyModule(OCProxyICBM.class, Mods.OC.isLoaded());
         loader.applyModule(CCProxyICBM.class, Mods.CC.isLoaded());

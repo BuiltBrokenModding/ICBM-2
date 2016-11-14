@@ -147,7 +147,7 @@ public class TileSmallMag extends TileMissileContainer implements ISimpleItemRen
         {
             if (targetTile == null || targetTile.get() == null || ((TileEntity) targetTile.get()).isInvalid())
             {
-                Location location = toLocation().add(facing);
+                Location location = toLocation().add(getFacing());
                 TileEntity tile = location.getTileEntity();
                 if (tile instanceof IMissileMagOutput)
                 {
@@ -186,25 +186,25 @@ public class TileSmallMag extends TileMissileContainer implements ISimpleItemRen
     {
         if (isServer())
         {
-            if (facing == ForgeDirection.NORTH)
+            if (getFacing() == ForgeDirection.NORTH)
             {
-                facing = ForgeDirection.EAST;
+                setFacing(ForgeDirection.EAST);
             }
-            else if (facing == ForgeDirection.EAST)
+            else if (getFacing() == ForgeDirection.EAST)
             {
-                facing = ForgeDirection.SOUTH;
+                setFacing(ForgeDirection.SOUTH);
             }
-            else if (facing == ForgeDirection.SOUTH)
+            else if (getFacing() == ForgeDirection.SOUTH)
             {
-                facing = ForgeDirection.WEST;
+                setFacing(ForgeDirection.WEST);
             }
-            else if (facing == ForgeDirection.WEST)
+            else if (getFacing() == ForgeDirection.WEST)
             {
-                facing = ForgeDirection.NORTH;
+                setFacing(ForgeDirection.NORTH);
             }
             if (isServer())
             {
-                player.addChatComponentMessage(new ChatComponentText("Rotation set to " + facing.toString().toLowerCase()));
+                player.addChatComponentMessage(new ChatComponentText("Rotation set to " + getFacing().toString().toLowerCase()));
             }
             sendDescPacket();
         }
@@ -244,19 +244,19 @@ public class TileSmallMag extends TileMissileContainer implements ISimpleItemRen
     {
         if (side == 1)
         {
-            if (facing == ForgeDirection.NORTH)
+            if (getFacing() == ForgeDirection.NORTH)
             {
                 return arrow[0];
             }
-            else if (facing == ForgeDirection.EAST)
+            else if (getFacing() == ForgeDirection.EAST)
             {
                 return arrow[3];
             }
-            else if (facing == ForgeDirection.SOUTH)
+            else if (getFacing() == ForgeDirection.SOUTH)
             {
                 return arrow[1];
             }
-            else if (facing == ForgeDirection.WEST)
+            else if (getFacing() == ForgeDirection.WEST)
             {
                 return arrow[2];
             }
@@ -307,7 +307,7 @@ public class TileSmallMag extends TileMissileContainer implements ISimpleItemRen
         GL11.glPushMatrix();
         GL11.glTranslatef(pos.xf() + 0.5f, pos.yf(), pos.zf() + 0.5f);
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.GREY_FAKE_TEXTURE);
-        if (facing == ForgeDirection.EAST || facing == ForgeDirection.WEST)
+        if (getFacing() == ForgeDirection.EAST || getFacing() == ForgeDirection.WEST)
         {
             GL11.glRotatef(90, 0, 1, 0);
         }

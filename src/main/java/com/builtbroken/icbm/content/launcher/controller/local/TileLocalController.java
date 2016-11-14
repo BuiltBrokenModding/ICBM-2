@@ -410,7 +410,7 @@ public class TileLocalController extends TileModuleMachine implements ILinkable,
         //Render launcher
         GL11.glPushMatrix();
         GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.5f, pos.zf() + 0.5f);
-        switch (facing)
+        switch (getFacing())
         {
             case EAST:
                 break;
