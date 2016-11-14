@@ -41,17 +41,17 @@ public class ContainerSMAutoCraft extends ContainerBase
         else if (id == 1)
         {
             //Warhead
-            this.addSlotToContainer(new SlotWarhead(inventory, 1, 10, 10));
+            this.addSlotToContainer(new SlotWarhead(inventory, TileSMAutoCraft.WARHEAD_SLOT, 10, 10));
         }
         else if (id == 2)
         {
             //Guidance
-            this.addSlotToContainer(new SlotGuidance(inventory, 3, 10, 10));
+            this.addSlotToContainer(new SlotGuidance(inventory, TileSMAutoCraft.GUIDANCE_SLOT, 10, 10));
         }
         else if (id == 3)
         {
             //Engine
-            this.addSlotToContainer(new SlotEngine(inventory, 3, 10, 10));
+            this.addSlotToContainer(new SlotEngine(inventory, TileSMAutoCraft.ENGINE_SLOT, 10, 10));
         }
     }
 }
