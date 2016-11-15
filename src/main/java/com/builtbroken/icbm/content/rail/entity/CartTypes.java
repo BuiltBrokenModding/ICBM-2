@@ -1,6 +1,8 @@
 package com.builtbroken.icbm.content.rail.entity;
 
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
+import com.builtbroken.icbm.content.missile.InventoryFilterMissile;
+import com.builtbroken.mc.prefab.inventory.filters.IInventoryFilter;
 
 /**
  * List of cart types that are supported by {@link EntityCart}
@@ -20,10 +22,13 @@ public enum CartTypes
     /** Size of missiles that are supported */
     public final MissileCasings supportedCasingSize; //TODO change to list
 
+    public final IInventoryFilter filter;
+
     CartTypes(float width, float length, MissileCasings supportedCasingSize)
     {
         this.width = width;
         this.length = length;
         this.supportedCasingSize = supportedCasingSize;
+        this.filter = new InventoryFilterMissile(supportedCasingSize.ordinal());
     }
 }

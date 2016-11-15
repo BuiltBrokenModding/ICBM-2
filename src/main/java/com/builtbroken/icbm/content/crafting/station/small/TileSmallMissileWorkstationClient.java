@@ -55,7 +55,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
         {
             if (id == 1)
             {
-                this.rotation = ForgeDirection.getOrientation(buf.readByte());
+                this.facing = ForgeDirection.getOrientation(buf.readByte());
                 this.bounds = null;
                 ItemStack stack = ByteBufUtils.readItemStack(buf);
                 if (InventoryUtility.stacksMatch(stack, new ItemStack(Items.apple)))
@@ -66,13 +66,6 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
                 {
                     this.setInventorySlotContents(INPUT_SLOT, stack);
                 }
-                worldObj.markBlockForUpdate(xi(), yi(), zi());
-                return true;
-            }
-            else if (id == 5)
-            {
-                this.rotation = ForgeDirection.getOrientation(Math.min(0, Math.max(buf.readByte(), 5)));
-                this.bounds = null;
                 worldObj.markBlockForUpdate(xi(), yi(), zi());
                 return true;
             }
@@ -422,7 +415,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
             {
                 case UP:
                 case DOWN:
-                    if (rotation == ForgeDirection.EAST || rotation == ForgeDirection.WEST)
+                    if (facing == ForgeDirection.EAST || facing == ForgeDirection.WEST)
                     {
                         bounds = new Cube(-1, 0, 0, 1, 0, 0).add(toPos()).toAABB();
                     }
@@ -433,7 +426,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
                     break;
                 case EAST:
                 case WEST:
-                    if (rotation == ForgeDirection.DOWN || rotation == ForgeDirection.UP)
+                    if (facing == ForgeDirection.DOWN || facing == ForgeDirection.UP)
                     {
                         bounds = new Cube(0, -1, 0, 0, 1, 0).add(toPos()).toAABB();
                     }
@@ -444,7 +437,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
                     break;
                 case NORTH:
                 case SOUTH:
-                    if (rotation == ForgeDirection.DOWN || rotation == ForgeDirection.UP)
+                    if (facing == ForgeDirection.DOWN || facing == ForgeDirection.UP)
                     {
                         bounds = new Cube(0, -1, 0, 0, 1, 0).add(toPos()).toAABB();
                     }

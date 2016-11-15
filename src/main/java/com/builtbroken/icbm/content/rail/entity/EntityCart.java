@@ -15,6 +15,7 @@ import com.builtbroken.mc.lib.helper.WrenchUtility;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.entity.EntityBase;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
+import com.builtbroken.mc.prefab.inventory.filters.IInventoryFilter;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import cpw.mods.fml.relauncher.Side;
@@ -629,7 +630,10 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
         }
         else if (cargoStack == null)
         {
-            cargoStack = stack;
+            ItemStack copy = stack.copy();
+            copy.stackSize = 1;
+            stack.stackSize -= 1;
+            cargoStack = copy;
         }
         else if (InventoryUtility.stacksMatch(cargoStack, stack))
         {
@@ -647,23 +651,12 @@ public class EntityCart extends EntityBase implements IPacketIDReceiver, IEntity
     @Override
     public boolean canAcceptItemForTransport(ItemStack stack)
     {
-        IMissile missile = null;
-        if (stack.getItem() instanceof IMissileItem)
-        {
-            missile = ((IMissileItem) stack.getItem()).toMissile(stack);
-        }
-        else if (stack.getItem() instanceof IModuleItem)
-        {
-            IModule module = ((IModuleItem) stack.getItem()).getModule(stack);
-            if (module instanceof IMissile)
-            {
-                missile = (IMissile) module;
-            }
-        }
-        else
-        {
-            missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
-        }
-        return missile != null && canAcceptMissile(missile);
+        return getInventoryFilter().isStackInFilter(stack);
+    }
+
+    @Override
+    public IInventoryFilter getInventoryFilter()
+    {
+        return getType().filter;
     }
 }

@@ -268,7 +268,7 @@ public class TileSmallMissileWorkstation extends TileSmallMissileStationBase imp
 
     private boolean isWarheadSide(Pos pos)
     {
-        if (rotation == ForgeDirection.NORTH || rotation == ForgeDirection.SOUTH)
+        if (facing == ForgeDirection.NORTH || facing == ForgeDirection.SOUTH)
         {
             return pos.toForgeDirection() == getDirection().getOpposite();
         }
@@ -313,9 +313,9 @@ public class TileSmallMissileWorkstation extends TileSmallMissileStationBase imp
     {
         if (getMissileItem() != null)
         {
-            return new PacketTile(this, 1, (byte) rotation.ordinal(), getMissileItem());
+            return new PacketTile(this, 1, (byte) facing.ordinal(), getMissileItem());
         }
-        return new PacketTile(this, 1, (byte) rotation.ordinal(), new ItemStack(Items.apple));
+        return new PacketTile(this, 1, (byte) facing.ordinal(), new ItemStack(Items.apple));
     }
 
     public void updateMissile()

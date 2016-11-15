@@ -1,6 +1,5 @@
 package com.builtbroken.icbm.content.crafting.station;
 
-import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstation;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
@@ -30,8 +29,6 @@ public abstract class TileAbstractWorkstation extends TileModuleMachine implemen
     /** Trigger to prevent break blocks while the multi block is rotating */
     protected boolean rotating = false;
 
-    /** Rotation of the block, not all rotation are valid, do not set directly see {@link TileSmallMissileWorkstation#setDirection(ForgeDirection)}. */
-    public ForgeDirection rotation = ForgeDirection.NORTH;
     /** Connected side of the block, if set reset mutli block structure to avoid ghost blocks & invalid renders. */
     public ForgeDirection connectedBlockSide = ForgeDirection.UP;
 
@@ -98,7 +95,7 @@ public abstract class TileAbstractWorkstation extends TileModuleMachine implemen
     @Override
     public boolean onMultiTileActivated(IMultiTile tile, EntityPlayer player, int side, IPos3D hit)
     {
-        return false;
+        return onPlayerActivated(player, side, hit instanceof Pos ? (Pos) hit : new Pos(hit));
     }
 
     @Override
@@ -126,12 +123,12 @@ public abstract class TileAbstractWorkstation extends TileModuleMachine implemen
     @Override
     public ForgeDirection getDirection()
     {
-        return rotation;
+        return facing;
     }
 
     public void setDirection(ForgeDirection newDir)
     {
-        this.rotation = newDir;
+        this.facing = newDir;
     }
 
     /**
@@ -164,20 +161,12 @@ public abstract class TileAbstractWorkstation extends TileModuleMachine implemen
     public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
-        if (nbt.hasKey("siloRotation"))
-        {
-            this.rotation = ForgeDirection.getOrientation(nbt.getByte("siloRotation"));
-        }
     }
 
     @Override
     public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
-        if (this.rotation != ForgeDirection.NORTH)
-        {
-            nbt.setByte("siloRotation", (byte) rotation.ordinal());
-        }
     }
 
     /**

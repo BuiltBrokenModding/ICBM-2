@@ -113,92 +113,92 @@ public class TestSmallMissileStation extends AbstractTileTest<TileSmallMissileWo
 
         //Test layout for side down
         tile.connectedBlockSide = ForgeDirection.DOWN;
-        tile.rotation = ForgeDirection.UP;
+        tile.setFacing(ForgeDirection.UP);
         assertSame(tile.getLayoutOfMultiBlock(), tile.northSouthMap);
-        tile.rotation = ForgeDirection.DOWN;
+        tile.setFacing(ForgeDirection.DOWN);
         assertSame(tile.getLayoutOfMultiBlock(), tile.northSouthMap);
-        tile.rotation = ForgeDirection.NORTH;
+        tile.setFacing(ForgeDirection.NORTH);
         assertSame(tile.getLayoutOfMultiBlock(), tile.northSouthMap);
-        tile.rotation = ForgeDirection.SOUTH;
+        tile.setFacing(ForgeDirection.SOUTH);
         assertSame(tile.getLayoutOfMultiBlock(), tile.northSouthMap);
-        tile.rotation = ForgeDirection.EAST;
+        tile.setFacing(ForgeDirection.EAST);
         assertSame(tile.getLayoutOfMultiBlock(), tile.eastWestMap);
-        tile.rotation = ForgeDirection.WEST;
+        tile.setFacing(ForgeDirection.WEST);
         assertSame(tile.getLayoutOfMultiBlock(), tile.eastWestMap);
 
         //Test layout for side up
         tile.connectedBlockSide = ForgeDirection.UP;
-        tile.rotation = ForgeDirection.UP;
+        tile.setFacing(ForgeDirection.UP);
         assertSame(tile.getLayoutOfMultiBlock(), tile.northSouthMap);
-        tile.rotation = ForgeDirection.DOWN;
+        tile.setFacing(ForgeDirection.DOWN);
         assertSame(tile.getLayoutOfMultiBlock(), tile.northSouthMap);
-        tile.rotation = ForgeDirection.NORTH;
+        tile.setFacing(ForgeDirection.NORTH);
         assertSame(tile.getLayoutOfMultiBlock(), tile.northSouthMap);
-        tile.rotation = ForgeDirection.SOUTH;
+        tile.setFacing(ForgeDirection.SOUTH);
         assertSame(tile.getLayoutOfMultiBlock(), tile.northSouthMap);
-        tile.rotation = ForgeDirection.EAST;
+        tile.setFacing(ForgeDirection.EAST);
         assertSame(tile.getLayoutOfMultiBlock(), tile.eastWestMap);
-        tile.rotation = ForgeDirection.WEST;
+        tile.setFacing(ForgeDirection.WEST);
         assertSame(tile.getLayoutOfMultiBlock(), tile.eastWestMap);
 
         //Test layout for side north
         tile.connectedBlockSide = ForgeDirection.NORTH;
-        tile.rotation = ForgeDirection.UP;
+        tile.setFacing(ForgeDirection.UP);
         assertSame(tile.getLayoutOfMultiBlock(), tile.upDownMap);
-        tile.rotation = ForgeDirection.DOWN;
+        tile.setFacing(ForgeDirection.DOWN);
         assertSame(tile.getLayoutOfMultiBlock(), tile.upDownMap);
-        tile.rotation = ForgeDirection.NORTH;
+        tile.setFacing(ForgeDirection.NORTH);
         assertSame(tile.getLayoutOfMultiBlock(), tile.eastWestMap);
-        tile.rotation = ForgeDirection.SOUTH;
+        tile.setFacing(ForgeDirection.SOUTH);
         assertSame(tile.getLayoutOfMultiBlock(), tile.eastWestMap);
-        tile.rotation = ForgeDirection.EAST;
+        tile.setFacing(ForgeDirection.EAST);
         assertSame(tile.getLayoutOfMultiBlock(), tile.eastWestMap);
-        tile.rotation = ForgeDirection.WEST;
+        tile.setFacing(ForgeDirection.WEST);
         assertSame(tile.getLayoutOfMultiBlock(), tile.eastWestMap);
 
         //Test layout for side south
         tile.connectedBlockSide = ForgeDirection.SOUTH;
-        tile.rotation = ForgeDirection.UP;
+        tile.setFacing(ForgeDirection.UP);
         assertSame(tile.getLayoutOfMultiBlock(), tile.upDownMap);
-        tile.rotation = ForgeDirection.DOWN;
+        tile.setFacing(ForgeDirection.DOWN);
         assertSame(tile.getLayoutOfMultiBlock(), tile.upDownMap);
-        tile.rotation = ForgeDirection.NORTH;
+        tile.setFacing(ForgeDirection.NORTH);
         assertSame(tile.getLayoutOfMultiBlock(), tile.eastWestMap);
-        tile.rotation = ForgeDirection.SOUTH;
+        tile.setFacing(ForgeDirection.SOUTH);
         assertSame(tile.getLayoutOfMultiBlock(), tile.eastWestMap);
-        tile.rotation = ForgeDirection.EAST;
+        tile.setFacing(ForgeDirection.EAST);
         assertSame(tile.getLayoutOfMultiBlock(), tile.eastWestMap);
-        tile.rotation = ForgeDirection.WEST;
+        tile.setFacing(ForgeDirection.WEST);
         assertSame(tile.getLayoutOfMultiBlock(), tile.eastWestMap);
 
         //Test layout for side east
         tile.connectedBlockSide = ForgeDirection.EAST;
-        tile.rotation = ForgeDirection.UP;
+        tile.setFacing(ForgeDirection.UP);
         assertSame(tile.getLayoutOfMultiBlock(), tile.upDownMap);
-        tile.rotation = ForgeDirection.DOWN;
+        tile.setFacing(ForgeDirection.DOWN);
         assertSame(tile.getLayoutOfMultiBlock(), tile.upDownMap);
-        tile.rotation = ForgeDirection.NORTH;
+        tile.setFacing(ForgeDirection.NORTH);
         assertSame(tile.getLayoutOfMultiBlock(), tile.northSouthMap);
-        tile.rotation = ForgeDirection.SOUTH;
+        tile.setFacing(ForgeDirection.SOUTH);
         assertSame(tile.getLayoutOfMultiBlock(), tile.northSouthMap);
-        tile.rotation = ForgeDirection.EAST;
+        tile.setFacing(ForgeDirection.EAST);
         assertSame(tile.getLayoutOfMultiBlock(), tile.northSouthMap);
-        tile.rotation = ForgeDirection.WEST;
+        tile.setFacing(ForgeDirection.WEST);
         assertSame(tile.getLayoutOfMultiBlock(), tile.northSouthMap);
 
         //Test layout for side west
         tile.connectedBlockSide = ForgeDirection.WEST;
-        tile.rotation = ForgeDirection.UP;
+        tile.setFacing(ForgeDirection.UP);
         assertSame(tile.getLayoutOfMultiBlock(), tile.upDownMap);
-        tile.rotation = ForgeDirection.DOWN;
+        tile.setFacing(ForgeDirection.DOWN);
         assertSame(tile.getLayoutOfMultiBlock(), tile.upDownMap);
-        tile.rotation = ForgeDirection.NORTH;
+        tile.setFacing(ForgeDirection.NORTH);
         assertSame(tile.getLayoutOfMultiBlock(), tile.northSouthMap);
-        tile.rotation = ForgeDirection.SOUTH;
+        tile.setFacing(ForgeDirection.SOUTH);
         assertSame(tile.getLayoutOfMultiBlock(), tile.northSouthMap);
-        tile.rotation = ForgeDirection.EAST;
+        tile.setFacing(ForgeDirection.EAST);
         assertSame(tile.getLayoutOfMultiBlock(), tile.northSouthMap);
-        tile.rotation = ForgeDirection.WEST;
+        tile.setFacing(ForgeDirection.WEST);
         assertSame(tile.getLayoutOfMultiBlock(), tile.northSouthMap);
 
         //Test unknown... this should never happen
@@ -241,68 +241,68 @@ public class TestSmallMissileStation extends AbstractTileTest<TileSmallMissileWo
 
         ////Test down
         workstation.connectedBlockSide = ForgeDirection.DOWN;
-        workstation.rotation = ForgeDirection.NORTH;
+        workstation.setFacing(ForgeDirection.NORTH);
         assertTrue(workstation.getNextRotation() == ForgeDirection.EAST);
-        workstation.rotation = ForgeDirection.EAST;
+        workstation.setFacing(ForgeDirection.EAST);
         assertTrue(workstation.getNextRotation() == ForgeDirection.SOUTH);
-        workstation.rotation = ForgeDirection.SOUTH;
+        workstation.setFacing(ForgeDirection.SOUTH);
         assertTrue(workstation.getNextRotation() == ForgeDirection.WEST);
-        workstation.rotation = ForgeDirection.WEST;
+        workstation.setFacing(ForgeDirection.WEST);
 
 
         ////Test up
         workstation.connectedBlockSide = ForgeDirection.UP;
-        workstation.rotation = ForgeDirection.NORTH;
+        workstation.setFacing(ForgeDirection.NORTH);
         assertTrue(workstation.getNextRotation() == ForgeDirection.EAST);
-        workstation.rotation = ForgeDirection.EAST;
+        workstation.setFacing(ForgeDirection.EAST);
         assertTrue(workstation.getNextRotation() == ForgeDirection.SOUTH);
-        workstation.rotation = ForgeDirection.SOUTH;
+        workstation.setFacing(ForgeDirection.SOUTH);
         assertTrue(workstation.getNextRotation() == ForgeDirection.WEST);
-        workstation.rotation = ForgeDirection.WEST;
+        workstation.setFacing(ForgeDirection.WEST);
         assertTrue(workstation.getNextRotation() == ForgeDirection.NORTH);
 
         ////Test east
         workstation.connectedBlockSide = ForgeDirection.EAST;
-        workstation.rotation = ForgeDirection.NORTH;
+        workstation.setFacing(ForgeDirection.NORTH);
         assertTrue(workstation.getNextRotation() == ForgeDirection.DOWN);
-        workstation.rotation = ForgeDirection.DOWN;
+        workstation.setFacing(ForgeDirection.DOWN);
         assertTrue(workstation.getNextRotation() == ForgeDirection.SOUTH);
-        workstation.rotation = ForgeDirection.SOUTH;
+        workstation.setFacing(ForgeDirection.SOUTH);
         assertTrue(workstation.getNextRotation() == ForgeDirection.UP);
-        workstation.rotation = ForgeDirection.UP;
+        workstation.setFacing(ForgeDirection.UP);
         assertTrue(workstation.getNextRotation() == ForgeDirection.NORTH);
 
         ////Test west
         workstation.connectedBlockSide = ForgeDirection.EAST;
-        workstation.rotation = ForgeDirection.NORTH;
+        workstation.setFacing(ForgeDirection.NORTH);
         assertTrue(workstation.getNextRotation() == ForgeDirection.DOWN);
-        workstation.rotation = ForgeDirection.DOWN;
+        workstation.setFacing(ForgeDirection.DOWN);
         assertTrue(workstation.getNextRotation() == ForgeDirection.SOUTH);
-        workstation.rotation = ForgeDirection.SOUTH;
+        workstation.setFacing(ForgeDirection.SOUTH);
         assertTrue(workstation.getNextRotation() == ForgeDirection.UP);
-        workstation.rotation = ForgeDirection.UP;
+        workstation.setFacing(ForgeDirection.UP);
         assertTrue(workstation.getNextRotation() == ForgeDirection.NORTH);
 
         ////Test north
         workstation.connectedBlockSide = ForgeDirection.NORTH;
-        workstation.rotation = ForgeDirection.EAST;
+        workstation.setFacing(ForgeDirection.EAST);
         assertTrue(workstation.getNextRotation() == ForgeDirection.DOWN);
-        workstation.rotation = ForgeDirection.DOWN;
+        workstation.setFacing(ForgeDirection.DOWN);
         assertTrue(workstation.getNextRotation() == ForgeDirection.WEST);
-        workstation.rotation = ForgeDirection.WEST;
+        workstation.setFacing(ForgeDirection.WEST);
         assertTrue(workstation.getNextRotation() == ForgeDirection.UP);
-        workstation.rotation = ForgeDirection.UP;
+        workstation.setFacing(ForgeDirection.UP);
         assertTrue(workstation.getNextRotation() == ForgeDirection.EAST);
 
         ////Test south
         workstation.connectedBlockSide = ForgeDirection.SOUTH;
-        workstation.rotation = ForgeDirection.EAST;
+        workstation.setFacing(ForgeDirection.EAST);
         assertTrue(workstation.getNextRotation() == ForgeDirection.DOWN);
-        workstation.rotation = ForgeDirection.DOWN;
+        workstation.setFacing(ForgeDirection.DOWN);
         assertTrue(workstation.getNextRotation() == ForgeDirection.WEST);
-        workstation.rotation = ForgeDirection.WEST;
+        workstation.setFacing(ForgeDirection.WEST);
         assertTrue(workstation.getNextRotation() == ForgeDirection.UP);
-        workstation.rotation = ForgeDirection.UP;
+        workstation.setFacing(ForgeDirection.UP);
         assertTrue(workstation.getNextRotation() == ForgeDirection.EAST);
     }
 
@@ -315,7 +315,7 @@ public class TestSmallMissileStation extends AbstractTileTest<TileSmallMissileWo
         TileSmallMissileWorkstation tile = ((TileSmallMissileWorkstation) world.getTileEntity(0, 10, 0));
 
         tile.connectedBlockSide = ForgeDirection.UP;
-        tile.rotation = ForgeDirection.NORTH;
+        tile.setFacing(ForgeDirection.NORTH);
         //Init tile as we want the structure to generate
         tile.firstTick();
 
@@ -335,21 +335,21 @@ public class TestSmallMissileStation extends AbstractTileTest<TileSmallMissileWo
         assertTrue(tile.setDirectionDO(ForgeDirection.SOUTH, false));
         assertTrue(world.getBlock(0, 10, 1) instanceof BlockMultiblock);
         assertTrue(world.getBlock(0, 10, -1) instanceof BlockMultiblock);
-        tile.rotation = ForgeDirection.NORTH;
+        tile.setFacing(ForgeDirection.NORTH);
 
         //Test valid rotation, with 90 degree change, block updates, nothing blocked
         assertTrue(tile.setDirectionDO(ForgeDirection.EAST, false));
         assertTrue(world.getBlock(1, 10, 0) instanceof BlockMultiblock);
         assertTrue(world.getBlock(-1, 10, 0) instanceof BlockMultiblock);
         tile.invalidate();
-        tile.rotation = ForgeDirection.NORTH;
+        tile.setFacing(ForgeDirection.NORTH);
 
         //Test valid rotation, with 90 degree change, block updates, with some stuff blocked
         world.setBlock(1, 10, 0, Blocks.dirt);
         world.setBlock(-1, 10, 0, Blocks.dirt);
         assertFalse(tile.setDirectionDO(ForgeDirection.EAST, false));
         tile.invalidate();
-        tile.rotation = ForgeDirection.NORTH;
+        tile.setFacing(ForgeDirection.NORTH);
     }
 
     @Test
@@ -499,7 +499,7 @@ public class TestSmallMissileStation extends AbstractTileTest<TileSmallMissileWo
         {
             TileSmallMissileWorkstation sender = new TileSmallMissileWorkstation();
             sender.setWorldObj(world);
-            sender.rotation = ForgeDirection.EAST;
+            sender.setFacing(ForgeDirection.EAST);
             sender.setInventorySlotContents(sender.INPUT_SLOT, item);
 
 
@@ -517,7 +517,7 @@ public class TestSmallMissileStation extends AbstractTileTest<TileSmallMissileWo
             PacketTile packet = sender.getDescPacket();
 
             packet.handle(player, receiver);
-            assertTrue(receiver.rotation == ForgeDirection.EAST);
+            assertTrue(receiver.getFacing() == ForgeDirection.EAST);
             assertTrue(InventoryUtility.stacksMatchExact(receiver.getStackInSlot(receiver.INPUT_SLOT), item));
         }
     }

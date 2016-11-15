@@ -56,11 +56,11 @@ public class ItemBlockMissileStation extends ItemBlock
                 {
                     if(one)
                     {
-                        ((TileSmallMissileWorkstation) tile).rotation = rotation;
+                        ((TileSmallMissileWorkstation) tile).setFacing(rotation);
                     }
                     else
                     {
-                        ((TileSmallMissileWorkstation) tile).rotation = rotation2;
+                        ((TileSmallMissileWorkstation) tile).setFacing(rotation2);
                     }
                 }
                 world.markBlockForUpdate(x, y, z);

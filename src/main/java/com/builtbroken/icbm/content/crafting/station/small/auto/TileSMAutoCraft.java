@@ -12,6 +12,7 @@ import com.builtbroken.mc.api.automation.IAutomation;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.api.tile.IGuiTile;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
@@ -23,8 +24,10 @@ import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
@@ -366,7 +369,12 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase implements IPac
     @Override
     protected boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
     {
-        if (isServer())
+        if (Engine.runningAsDev && player.getHeldItem() != null && player.getHeldItem().getItem() == Items.stick)
+        {
+            player.addChatComponentMessage(new ChatComponentText(isServer() + "  Facing = " + getDirection()));
+        }
+
+        else if (isServer())
         {
             openGui(player, ICBM.INSTANCE);
         }

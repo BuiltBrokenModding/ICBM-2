@@ -2,7 +2,6 @@ package com.builtbroken.icbm.content.crafting.station.small;
 
 import com.builtbroken.icbm.content.crafting.station.TileAbstractWorkstation;
 import com.builtbroken.jlib.data.vector.IPos3D;
-import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.multiblock.EnumMultiblock;
@@ -57,9 +56,9 @@ public abstract class TileSmallMissileStationBase extends TileAbstractWorkstatio
         super.firstTick();
         this.connectedBlockSide = ForgeDirection.getOrientation(world().getBlockMetadata(xi(), yi(), zi()));
         //Force rotation update if it is invalid or blocked
-        if (!isRotationValid() || isRotationBlocked(rotation))
+        if (!isRotationValid() || isRotationBlocked(facing))
         {
-            this.rotation = getDirection();
+            this.facing = getDirection();
         }
         else
         {
@@ -112,15 +111,15 @@ public abstract class TileSmallMissileStationBase extends TileAbstractWorkstatio
         {
             case UP:
             case DOWN:
-                if (rotation == ForgeDirection.NORTH)
+                if (facing == ForgeDirection.NORTH)
                 {
                     newDir = ForgeDirection.EAST;
                 }
-                else if (rotation == ForgeDirection.EAST)
+                else if (facing == ForgeDirection.EAST)
                 {
                     newDir = ForgeDirection.SOUTH;
                 }
-                else if (rotation == ForgeDirection.SOUTH)
+                else if (facing == ForgeDirection.SOUTH)
                 {
                     newDir = ForgeDirection.WEST;
                 }
@@ -131,15 +130,15 @@ public abstract class TileSmallMissileStationBase extends TileAbstractWorkstatio
                 break;
             case EAST:
             case WEST:
-                if (rotation == ForgeDirection.NORTH)
+                if (facing == ForgeDirection.NORTH)
                 {
                     newDir = ForgeDirection.DOWN;
                 }
-                else if (rotation == ForgeDirection.DOWN)
+                else if (facing == ForgeDirection.DOWN)
                 {
                     newDir = ForgeDirection.SOUTH;
                 }
-                else if (rotation == ForgeDirection.SOUTH)
+                else if (facing == ForgeDirection.SOUTH)
                 {
                     newDir = ForgeDirection.UP;
                 }
@@ -150,15 +149,15 @@ public abstract class TileSmallMissileStationBase extends TileAbstractWorkstatio
                 break;
             case NORTH:
             case SOUTH:
-                if (rotation == ForgeDirection.EAST)
+                if (facing == ForgeDirection.EAST)
                 {
                     newDir = ForgeDirection.DOWN;
                 }
-                else if (rotation == ForgeDirection.DOWN)
+                else if (facing == ForgeDirection.DOWN)
                 {
                     newDir = ForgeDirection.WEST;
                 }
-                else if (rotation == ForgeDirection.WEST)
+                else if (facing == ForgeDirection.WEST)
                 {
                     newDir = ForgeDirection.UP;
                 }
@@ -181,18 +180,18 @@ public abstract class TileSmallMissileStationBase extends TileAbstractWorkstatio
     public ForgeDirection getDirection()
     {
         //Fixed invalid rotations
-        if (!isValidRotation(rotation))
+        if (!isValidRotation(facing))
         {
             for (int i = 0; i < 5; i++)
             {
                 if (setDirectionDO(getNextRotation(), isServer()))
                 {
-                    return rotation;
+                    return facing;
                 }
             }
             InventoryUtility.dropBlockAsItem(world(), xi(), yi(), zi(), true);
         }
-        return rotation;
+        return facing;
     }
 
 
@@ -207,10 +206,10 @@ public abstract class TileSmallMissileStationBase extends TileAbstractWorkstatio
     public boolean setDirectionDO(ForgeDirection newDir, boolean sendPacket)
     {
         //Rotation can't equal the connected side or it's opposite as this will place it into a wall
-        if (rotation != newDir && newDir != connectedBlockSide && newDir != connectedBlockSide.getOpposite())
+        if (facing != newDir && newDir != connectedBlockSide && newDir != connectedBlockSide.getOpposite())
         {
             //Only run placement and structure checks if rotated by 90 degrees
-            if (newDir != rotation.getOpposite())
+            if (newDir != facing.getOpposite())
             {
                 if (!isRotationBlocked(newDir))
                 {
@@ -218,7 +217,7 @@ public abstract class TileSmallMissileStationBase extends TileAbstractWorkstatio
                     rotating = true;
                     breakDownStructure(false, false);
                     //Change rotation after breaking down the structure and before making the new structure
-                    rotation = newDir;
+                    facing = newDir;
                     MultiBlockHelper.buildMultiBlock(world(), this, true, true);
                     MultiBlockHelper.updateStructure(world(), this, true);
                     rotating = false;
@@ -231,11 +230,11 @@ public abstract class TileSmallMissileStationBase extends TileAbstractWorkstatio
             }
             else
             {
-                rotation = newDir;
+                facing = newDir;
             }
             if (sendPacket)
             {
-                sendPacket(new PacketTile(this, 5, (byte) rotation.ordinal()));
+                sendDescPacket();
             }
             return true;
         }
@@ -301,7 +300,7 @@ public abstract class TileSmallMissileStationBase extends TileAbstractWorkstatio
      */
     public boolean isRotationValid()
     {
-        return isValidRotation(rotation);
+        return isValidRotation(facing);
     }
 
     /**
