@@ -12,9 +12,9 @@ import com.builtbroken.mc.prefab.inventory.filters.IInventoryFilter;
  */
 public enum CartTypes
 {
-    MICRO(1, 1, MissileCasings.SMALL),
-    SMALL(1, 3, MissileCasings.SMALL),
-    ThreeByThree(3, 3, MissileCasings.STANDARD);
+    MICRO(0.7f, 0.7f, MissileCasings.SMALL),
+    SMALL(0.7f, 2.4f, MissileCasings.SMALL),
+    ThreeByThree(2.4f, 2.4f, MissileCasings.STANDARD);
     //LARGE(4, 4, MissileCasings.STANDARD);
 
     public final float width;
