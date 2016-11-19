@@ -85,7 +85,7 @@ public class ItemRocketLauncher extends Item implements IReloadableWeapon, IPost
                         if (ammo.isAmmo(inventoryStack))
                         {
                             IAmmoType type = ammo.getAmmoType(inventoryStack);
-                            if ("missile".equalsIgnoreCase(type.getCategory()) && ("micro".equalsIgnoreCase(type.getType()) || "small".equalsIgnoreCase(type.getType())))
+                            if ("missile".equalsIgnoreCase(type.getAmmoCategory()) && ("micro".equalsIgnoreCase(type.getAmmoType()) || "small".equalsIgnoreCase(type.getAmmoType())))
                             {
                                 ammo.fireAmmo(this, itemStack, inventoryStack, player);
 

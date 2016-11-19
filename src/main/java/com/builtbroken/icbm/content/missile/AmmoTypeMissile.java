@@ -24,13 +24,13 @@ public class AmmoTypeMissile implements IAmmoType
     }
 
     @Override
-    public String getCategory()
+    public String getAmmoCategory()
     {
         return "Missile";
     }
 
     @Override
-    public String getType()
+    public String getAmmoType()
     {
         return size.name().toLowerCase();
     }
@@ -38,6 +38,6 @@ public class AmmoTypeMissile implements IAmmoType
     @Override
     public String getUnlocalizedName()
     {
-        return ICBM.PREFIX + getCategory() +"." + getType();
+        return ICBM.PREFIX + getAmmoCategory() +"." + getAmmoType();
     }
 }
