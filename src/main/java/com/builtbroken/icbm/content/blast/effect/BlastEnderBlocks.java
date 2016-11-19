@@ -3,7 +3,7 @@ package com.builtbroken.icbm.content.blast.effect;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.core.Engine;
-import com.builtbroken.mc.core.network.packet.PacketSpawnEnderStream;
+import com.builtbroken.mc.core.network.packet.PacketSpawnStream;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.prefab.explosive.blast.BlastSimplePath;
@@ -171,7 +171,7 @@ public class BlastEnderBlocks extends BlastSimplePath<BlastEnderBlocks>
     {
         if (!world.isRemote)
         {
-            Engine.instance.packetHandler.sendToAllAround(new PacketSpawnEnderStream(world.provider.dimensionId, x, y, z, blocks.x(), blocks.y(), blocks.z()), new NetworkRegistry.TargetPoint(world.provider.dimensionId, blocks.x(), blocks.y(), blocks.z(), 90));
+            Engine.instance.packetHandler.sendToAllAround(new PacketSpawnStream(world.provider.dimensionId, x, y, z, blocks.x(), blocks.y(), blocks.z(), 0), new NetworkRegistry.TargetPoint(world.provider.dimensionId, blocks.x(), blocks.y(), blocks.z(), 90));
         }
     }
 
