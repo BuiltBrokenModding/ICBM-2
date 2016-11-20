@@ -1,8 +1,8 @@
 package com.builtbroken.icbm.content.missile;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.mc.api.items.weapons.IAmmoType;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
+import com.builtbroken.mc.api.data.weapon.IAmmoType;
 
 /**
  * Created by robert on 12/28/2014.
@@ -38,6 +38,18 @@ public class AmmoTypeMissile implements IAmmoType
     @Override
     public String getUnlocalizedName()
     {
-        return ICBM.PREFIX + getAmmoCategory() +"." + getAmmoType();
+        return ICBM.PREFIX + getAmmoCategory() + "." + getAmmoType();
+    }
+
+    @Override
+    public String getUniqueID()
+    {
+        return "icbm:ammoType.missile." + size.name().toLowerCase();
+    }
+
+    @Override
+    public String getDataType()
+    {
+        return "ammoType";
     }
 }

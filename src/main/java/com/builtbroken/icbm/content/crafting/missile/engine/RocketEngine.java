@@ -4,7 +4,6 @@ import com.builtbroken.icbm.api.missile.IMissileEntity;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.api.modules.IRocketEngine;
 import com.builtbroken.icbm.content.crafting.missile.MissileModule;
-import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.mc.lib.transform.rotation.EulerAngle;
 import com.builtbroken.mc.lib.transform.vector.Pos;
@@ -29,12 +28,6 @@ public abstract class RocketEngine extends MissileModule implements IRocketEngin
     public RocketEngine(ItemStack item, String name)
     {
         super(item, name);
-    }
-
-    @Override
-    protected final String getSaveID()
-    {
-        return MissileModuleBuilder.INSTANCE.getID(this);
     }
 
     /**

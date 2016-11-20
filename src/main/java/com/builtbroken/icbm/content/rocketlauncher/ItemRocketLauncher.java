@@ -1,9 +1,9 @@
 package com.builtbroken.icbm.content.rocketlauncher;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.mc.api.items.weapons.IAmmo;
-import com.builtbroken.mc.api.items.weapons.IAmmoType;
-import com.builtbroken.mc.api.items.weapons.IReloadableWeapon;
+import com.builtbroken.mc.api.data.weapon.IAmmoType;
+import com.builtbroken.mc.api.items.weapons.IItemAmmo;
+import com.builtbroken.mc.api.items.weapons.IItemReloadableWeapon;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.helper.recipe.OreNames;
@@ -33,7 +33,7 @@ import java.util.List;
  * @author Calclavia, DarkGuardsman
  */
 
-public class ItemRocketLauncher extends Item implements IReloadableWeapon, IPostInit
+public class ItemRocketLauncher extends Item implements IItemReloadableWeapon, IPostInit
 {
     private static final int firingDelay = 1000;
     private HashMap<String, Long> clickTimePlayer = new HashMap<String, Long>();
@@ -79,9 +79,9 @@ public class ItemRocketLauncher extends Item implements IReloadableWeapon, IPost
 
                 if (inventoryStack != null)
                 {
-                    if (inventoryStack.getItem() instanceof IAmmo)
+                    if (inventoryStack.getItem() instanceof IItemAmmo.IItemAmmoFireHandler)
                     {
-                        IAmmo ammo = (IAmmo) inventoryStack.getItem();
+                        IItemAmmo.IItemAmmoFireHandler ammo = (IItemAmmo.IItemAmmoFireHandler) inventoryStack.getItem();
                         if (ammo.isAmmo(inventoryStack))
                         {
                             IAmmoType type = ammo.getAmmoType(inventoryStack);

@@ -3,7 +3,6 @@ package com.builtbroken.icbm.content.crafting.missile.guidance;
 import com.builtbroken.icbm.api.modules.IGuidance;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.crafting.missile.MissileModule;
-import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import net.minecraft.item.ItemStack;
 
 /**
@@ -15,12 +14,6 @@ public abstract class Guidance extends MissileModule implements IGuidance
     public Guidance(ItemStack item, String name)
     {
         super(item, name);
-    }
-
-    @Override
-    protected final String getSaveID()
-    {
-        return MissileModuleBuilder.INSTANCE.getID(this);
     }
 
     @Override

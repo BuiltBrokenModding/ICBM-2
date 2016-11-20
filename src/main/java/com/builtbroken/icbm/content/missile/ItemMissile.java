@@ -17,9 +17,9 @@ import com.builtbroken.jlib.data.Colors;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.explosives.IExplosiveContainerItem;
 import com.builtbroken.mc.api.items.explosives.IExplosiveItem;
-import com.builtbroken.mc.api.items.weapons.IAmmo;
-import com.builtbroken.mc.api.items.weapons.IAmmoType;
-import com.builtbroken.mc.api.items.weapons.IReloadableWeapon;
+import com.builtbroken.mc.api.data.weapon.IAmmoType;
+import com.builtbroken.mc.api.items.weapons.IItemAmmo;
+import com.builtbroken.mc.api.items.weapons.IItemReloadableWeapon;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.client.ExplosiveRegistryClient;
@@ -55,7 +55,7 @@ import java.util.List;
  *
  * @author Darkguardsman
  */
-public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissileItem, IPostInit, IModularMissileItem, IExplosiveContainerItem
+public class ItemMissile extends Item implements IExplosiveItem, IItemAmmo.IItemAmmoFireHandler, IMissileItem, IPostInit, IModularMissileItem, IExplosiveContainerItem
 {
     @SideOnly(Side.CLIENT)
     IIcon microMissile;
@@ -279,13 +279,13 @@ public class ItemMissile extends Item implements IExplosiveItem, IAmmo, IMissile
     }
 
     @Override
-    public void fireAmmo(IReloadableWeapon weapon, ItemStack weaponStack, ItemStack ammoStack, Entity firingEntity)
+    public void fireAmmo(IItemReloadableWeapon weapon, ItemStack weaponStack, ItemStack ammoStack, Entity firingEntity)
     {
         EntityMissile.fireMissileByEntity(firingEntity, ammoStack);
     }
 
     @Override
-    public void consumeAmmo(IReloadableWeapon weapon, ItemStack weaponStack, ItemStack ammoStack, int shotsFired)
+    public void consumeAmmo(IItemReloadableWeapon weapon, ItemStack weaponStack, ItemStack ammoStack, int shotsFired)
     {
         ammoStack.stackSize -= shotsFired;
     }

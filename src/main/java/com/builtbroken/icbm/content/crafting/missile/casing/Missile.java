@@ -42,7 +42,7 @@ public abstract class Missile extends AbstractModule implements IMissile
     }
 
     @Override
-    protected final String getSaveID()
+    public final String getSaveID()
     {
         return MissileModuleBuilder.INSTANCE.getID(this);
     }

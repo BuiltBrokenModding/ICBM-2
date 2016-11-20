@@ -28,7 +28,7 @@ public abstract class Trigger extends AbstractModule implements ITrigger, IModul
     }
 
     @Override
-    protected final String getSaveID()
+    public final String getSaveID()
     {
         return MissileModuleBuilder.INSTANCE.getID(this);
     }
