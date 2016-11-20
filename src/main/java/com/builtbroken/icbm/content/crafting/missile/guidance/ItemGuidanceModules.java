@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.crafting.missile.guidance;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.modules.IGuidance;
-import com.builtbroken.icbm.content.crafting.missile.ItemAbstractModule;
+import com.builtbroken.mc.prefab.module.ItemAbstractModule;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
@@ -99,5 +99,11 @@ public class ItemGuidanceModules extends ItemAbstractModule implements IPostInit
             return guidance;
         }
         return null;
+    }
+
+    @Override
+    public IModule newModule(ItemStack stack)
+    {
+        return MissileModuleBuilder.INSTANCE.build(stack);
     }
 }

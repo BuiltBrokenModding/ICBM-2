@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.crafting.missile.guidance;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.crafting.ModuleBuilder;
+import com.builtbroken.mc.prefab.module.ModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.guidance.chips.GuidanceChipOne;
 import com.builtbroken.icbm.content.crafting.missile.guidance.chips.GuidanceChipThree;

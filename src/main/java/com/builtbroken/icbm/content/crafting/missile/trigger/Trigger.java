@@ -2,7 +2,8 @@ package com.builtbroken.icbm.content.crafting.missile.trigger;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.warhead.ITrigger;
-import com.builtbroken.icbm.content.crafting.AbstractModule;
+import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
+import com.builtbroken.mc.prefab.module.AbstractModule;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleComponent;
 import net.minecraft.item.ItemStack;
@@ -24,6 +25,12 @@ public abstract class Trigger extends AbstractModule implements ITrigger, IModul
     {
         super(item, trigger.moduleName);
         this.triggerType = trigger;
+    }
+
+    @Override
+    protected final String getSaveID()
+    {
+        return MissileModuleBuilder.INSTANCE.getID(this);
     }
 
     @Override

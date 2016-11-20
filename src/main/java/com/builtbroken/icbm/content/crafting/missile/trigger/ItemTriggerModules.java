@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.crafting.missile.trigger;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.warhead.ITrigger;
-import com.builtbroken.icbm.content.crafting.missile.ItemAbstractModule;
+import com.builtbroken.mc.prefab.module.ItemAbstractModule;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.trigger.impact.ImpactTrigger;
 import com.builtbroken.jlib.data.science.units.UnitDisplay;
@@ -95,5 +95,11 @@ public class ItemTriggerModules extends ItemAbstractModule implements IPostInit
             return trigger;
         }
         return null;
+    }
+
+    @Override
+    public IModule newModule(ItemStack stack)
+    {
+        return MissileModuleBuilder.INSTANCE.build(stack);
     }
 }

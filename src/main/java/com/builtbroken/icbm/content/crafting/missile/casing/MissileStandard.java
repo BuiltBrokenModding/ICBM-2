@@ -29,7 +29,6 @@ public final class MissileStandard extends Missile implements ICustomMissileRend
         super(stack, MissileCasings.STANDARD);
     }
 
-
     @Override
     @SideOnly(Side.CLIENT)
     public boolean renderMissileItem(IItemRenderer.ItemRenderType type, ItemStack stack, Object... data)

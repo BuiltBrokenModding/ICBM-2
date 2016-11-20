@@ -4,7 +4,8 @@ import com.builtbroken.icbm.api.modules.IGuidance;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.api.modules.IRocketEngine;
 import com.builtbroken.icbm.api.modules.IWarhead;
-import com.builtbroken.icbm.content.crafting.AbstractModule;
+import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
+import com.builtbroken.mc.prefab.module.AbstractModule;
 import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
 import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
@@ -38,6 +39,12 @@ public abstract class Missile extends AbstractModule implements IMissile
         super(stack, "missile");
         this.casing = casing;
         load(stack);
+    }
+
+    @Override
+    protected final String getSaveID()
+    {
+        return MissileModuleBuilder.INSTANCE.getID(this);
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.builtbroken.icbm.content.crafting.missile;
 
 import com.builtbroken.icbm.api.modules.IMissileModule;
-import com.builtbroken.icbm.content.crafting.AbstractModule;
 import com.builtbroken.icbm.content.missile.EntityMissile;
+import com.builtbroken.mc.prefab.module.AbstractModule;
 import net.minecraft.item.ItemStack;
 
 /**
@@ -20,6 +20,12 @@ public class MissileModule extends AbstractModule implements IMissileModule
     public MissileModule(ItemStack item, String name)
     {
         super(item, name);
+    }
+
+    @Override
+    protected String getSaveID()
+    {
+        return MissileModuleBuilder.INSTANCE.getID(this);
     }
 
     @Override

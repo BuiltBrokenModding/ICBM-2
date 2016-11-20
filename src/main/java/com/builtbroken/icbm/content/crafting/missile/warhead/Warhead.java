@@ -5,6 +5,7 @@ import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.api.warhead.ITrigger;
 import com.builtbroken.icbm.api.warhead.ITriggerAccepter;
 import com.builtbroken.icbm.content.crafting.missile.MissileModule;
+import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
@@ -45,6 +46,12 @@ public abstract class Warhead extends MissileModule implements IWarhead, ITrigge
     {
         super(warhead, "warhead");
         this.casing = casing;
+    }
+
+    @Override
+    protected final String getSaveID()
+    {
+        return MissileModuleBuilder.INSTANCE.getID(this);
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.builtbroken.icbm.content.crafting.missile.engine;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.crafting.AbstractModule;
-import com.builtbroken.icbm.content.crafting.ModuleBuilder;
+import com.builtbroken.mc.prefab.module.AbstractModule;
+import com.builtbroken.mc.prefab.module.ModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.engine.fluid.RocketEngineFuel;
 import com.builtbroken.icbm.content.crafting.missile.engine.fluid.RocketEngineOil;

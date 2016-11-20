@@ -1,9 +1,6 @@
 package com.builtbroken.icbm.content.crafting.missile.casing;
 
-import com.builtbroken.mc.api.modules.IModule;
 import net.minecraft.item.ItemStack;
-
-import java.util.List;
 
 /**
  * Created by robert on 12/29/2014.

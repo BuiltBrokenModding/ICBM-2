@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.crafting.missile.engine;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.modules.IRocketEngine;
-import com.builtbroken.icbm.content.crafting.missile.ItemAbstractModule;
+import com.builtbroken.mc.prefab.module.ItemAbstractModule;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.engine.fluid.RocketEngineFluid;
 import com.builtbroken.icbm.content.crafting.missile.engine.solid.RocketEngineSolid;
@@ -141,5 +141,11 @@ public class ItemEngineModules extends ItemAbstractModule implements IPostInit
             return engine;
         }
         return null;
+    }
+
+    @Override
+    public IModule newModule(ItemStack stack)
+    {
+        return MissileModuleBuilder.INSTANCE.build(stack);
     }
 }

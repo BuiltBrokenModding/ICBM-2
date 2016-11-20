@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.crafting.missile.casing;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.modules.IMissile;
-import com.builtbroken.icbm.content.crafting.ModuleBuilder;
+import com.builtbroken.mc.prefab.module.ModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import net.minecraft.item.ItemStack;
