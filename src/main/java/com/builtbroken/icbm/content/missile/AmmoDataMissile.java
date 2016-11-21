@@ -43,15 +43,15 @@ public class AmmoDataMissile implements IAmmoData
     }
 
     @Override
-    public void onImpactEntity(Entity shooter, Entity entity)
+    public boolean onImpactEntity(Entity shooter, Entity entity, float velocity)
     {
-
+        return true;
     }
 
     @Override
-    public void onImpactGround(World world, int x, int y, int z, double hitX, double hitY, double hitZ)
+    public boolean onImpactGround(Entity shooter, World world, int x, int y, int z, double hitX, double hitY, double hitZ, float velocity)
     {
-
+        return true;
     }
 
     @Override
