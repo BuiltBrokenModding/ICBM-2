@@ -511,7 +511,7 @@ public class TestSmallMissileStation extends AbstractTileTest<TileSmallMissileWo
                     return true;
                 }
             };
-            sender.setWorldObj(world);
+            receiver.setWorldObj(world);
 
             //Create and encode packet
             PacketTile packet = sender.getDescPacket();

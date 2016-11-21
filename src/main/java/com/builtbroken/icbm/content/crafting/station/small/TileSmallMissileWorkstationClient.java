@@ -51,7 +51,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
     @Override
     public boolean read(ByteBuf buf, int id, EntityPlayer player, PacketType type)
     {
-        if (isClient())
+        if (isClient() && worldObj != null)
         {
             if (id == 1)
             {
