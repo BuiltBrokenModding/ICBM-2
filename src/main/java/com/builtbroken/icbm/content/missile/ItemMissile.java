@@ -14,10 +14,10 @@ import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.icbm.content.crafting.parts.MissileCraftingParts;
 import com.builtbroken.jlib.data.Colors;
+import com.builtbroken.mc.api.data.weapon.IAmmoData;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.explosives.IExplosiveContainerItem;
 import com.builtbroken.mc.api.items.explosives.IExplosiveItem;
-import com.builtbroken.mc.api.data.weapon.IAmmoType;
 import com.builtbroken.mc.api.items.weapons.IItemAmmo;
 import com.builtbroken.mc.api.items.weapons.IItemReloadableWeapon;
 import com.builtbroken.mc.api.modules.IModule;
@@ -256,20 +256,20 @@ public class ItemMissile extends Item implements IExplosiveItem, IItemAmmo.IItem
     }
 
     @Override
-    public IAmmoType getAmmoType(ItemStack stack)
+    public IAmmoData getAmmoData(ItemStack stack)
     {
         switch (stack.getItemDamage())
         {
             case 1:
-                return AmmoTypeMissile.SMALL;
+                return AmmoDataMissile.SMALL;
             case 2:
-                return AmmoTypeMissile.STANDARD;
+                return AmmoDataMissile.STANDARD;
             case 3:
-                return AmmoTypeMissile.MEDIUM;
+                return AmmoDataMissile.MEDIUM;
             case 4:
-                return AmmoTypeMissile.LARGE;
+                return AmmoDataMissile.LARGE;
         }
-        return AmmoTypeMissile.MICRO;
+        return AmmoDataMissile.MICRO;
     }
 
     @Override

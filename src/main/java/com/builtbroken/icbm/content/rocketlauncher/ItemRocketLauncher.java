@@ -84,7 +84,7 @@ public class ItemRocketLauncher extends Item implements IItemReloadableWeapon, I
                         IItemAmmo.IItemAmmoFireHandler ammo = (IItemAmmo.IItemAmmoFireHandler) inventoryStack.getItem();
                         if (ammo.isAmmo(inventoryStack))
                         {
-                            IAmmoType type = ammo.getAmmoType(inventoryStack);
+                            IAmmoType type = ammo.getAmmoData(inventoryStack).getAmmoType();
                             if ("missile".equalsIgnoreCase(type.getAmmoCategory()) && ("micro".equalsIgnoreCase(type.getAmmoType()) || "small".equalsIgnoreCase(type.getAmmoType())))
                             {
                                 ammo.fireAmmo(this, itemStack, inventoryStack, player);
