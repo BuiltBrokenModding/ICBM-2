@@ -37,6 +37,12 @@ public class AmmoDataMissile implements IAmmoData
     }
 
     @Override
+    public float getProjectileVelocity()
+    {
+        return -1;
+    }
+
+    @Override
     public void onImpactEntity(Entity shooter, Entity entity)
     {
 
