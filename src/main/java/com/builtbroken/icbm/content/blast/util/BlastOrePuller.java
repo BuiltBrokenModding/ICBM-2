@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.blast.util;
 
 import com.builtbroken.mc.api.edit.IWorldEdit;
+import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.core.content.resources.BlockOre;
 import com.builtbroken.mc.core.content.resources.gems.BlockGemOre;
 import com.builtbroken.mc.lib.transform.vector.Location;
@@ -26,6 +27,11 @@ public class BlastOrePuller extends BlastSimplePath<BlastOrePuller>
 {
     public static final List<Block> whiteList = new ArrayList();
     public static final List<Block> blackList = new ArrayList();
+
+    public BlastOrePuller(IExplosiveHandler handler)
+    {
+        super(handler);
+    }
 
     @Override
     public void getEffectedBlocks(List<IWorldEdit> list)

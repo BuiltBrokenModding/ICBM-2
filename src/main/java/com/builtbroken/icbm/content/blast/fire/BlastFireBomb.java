@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.blast.fire;
 
 import com.builtbroken.mc.api.edit.IWorldEdit;
+import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
@@ -16,6 +17,11 @@ import net.minecraftforge.common.util.ForgeDirection;
  */
 public class BlastFireBomb extends BlastSimplePath<BlastFireBomb>
 {
+    public BlastFireBomb(IExplosiveHandler handler)
+    {
+        super(handler);
+    }
+
     @Override
     public BlockEdit changeBlock(Location location)
     {

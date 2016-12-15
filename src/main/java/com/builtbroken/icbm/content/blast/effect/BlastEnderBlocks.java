@@ -2,6 +2,7 @@ package com.builtbroken.icbm.content.blast.effect;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.mc.api.edit.IWorldEdit;
+import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.packet.PacketSpawnStream;
 import com.builtbroken.mc.lib.transform.vector.Location;
@@ -24,6 +25,11 @@ import java.util.List;
  */
 public class BlastEnderBlocks extends BlastSimplePath<BlastEnderBlocks>
 {
+    public BlastEnderBlocks(IExplosiveHandler handler)
+    {
+        super(handler);
+    }
+
     @Override
     public void getEffectedBlocks(List<IWorldEdit> list)
     {

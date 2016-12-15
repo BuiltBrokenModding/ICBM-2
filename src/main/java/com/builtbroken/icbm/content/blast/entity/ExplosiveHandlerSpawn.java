@@ -25,7 +25,7 @@ public class ExplosiveHandlerSpawn extends ExplosiveHandlerICBM<BlastSpawn>
         if (tag != null)
         {
             int entityID = tag.getInteger("EntityID");
-            return new BlastEntitySpawn(entityID);
+            return new BlastEntitySpawn(this, entityID);
         }
         return null;
     }
@@ -34,7 +34,7 @@ public class ExplosiveHandlerSpawn extends ExplosiveHandlerICBM<BlastSpawn>
     protected BlastSpawn newBlast(NBTTagCompound tag)
     {
         int entityID = tag.getInteger("EntityID");
-        return new BlastEntitySpawn(entityID);
+        return new BlastEntitySpawn(this, entityID);
     }
 
     @Override

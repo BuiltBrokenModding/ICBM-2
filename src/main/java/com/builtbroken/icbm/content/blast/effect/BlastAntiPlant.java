@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.blast.effect;
 
 import com.builtbroken.mc.api.edit.IWorldEdit;
+import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Location;
@@ -26,6 +27,11 @@ import java.util.List;
  */
 public class BlastAntiPlant extends BlastSimplePath<BlastAntiPlant>
 {
+    public BlastAntiPlant(IExplosiveHandler handler)
+    {
+        super(handler);
+    }
+
     @Override
     public BlockEdit changeBlock(Location location)
     {

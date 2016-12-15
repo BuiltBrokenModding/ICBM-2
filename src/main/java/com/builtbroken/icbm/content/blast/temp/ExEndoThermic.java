@@ -19,7 +19,7 @@ public class ExEndoThermic extends ExplosiveHandlerICBM<BlastEndoThermic>
     @Override
     protected BlastEndoThermic newBlast()
     {
-        return new BlastEndoThermic();
+        return new BlastEndoThermic(this);
     }
 
     @Override

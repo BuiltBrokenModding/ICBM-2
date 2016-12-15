@@ -20,7 +20,7 @@ public enum Fragments
         @Override
         public Blast getBlast(NBTTagCompound tag)
         {
-            return new BlastArrows();
+            return new BlastArrows(null);
         }
     }),
     COBBLESTONE("ex.icon.fragment.cobblestone", "fragment.background.cobblestone", "blank", new FragmentGen()

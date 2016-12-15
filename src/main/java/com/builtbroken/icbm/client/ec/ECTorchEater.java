@@ -1,7 +1,7 @@
-package com.builtbroken.icbm.client.blast;
+package com.builtbroken.icbm.client.ec;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.blast.fire.ExFireBomb;
+import com.builtbroken.icbm.content.blast.effect.ExTorchEater;
 import com.builtbroken.mc.api.explosive.ITexturedExplosiveHandler;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
@@ -11,7 +11,7 @@ import net.minecraft.util.IIcon;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 4/25/2016.
  */
-public class ECFireBomb extends ExFireBomb implements ITexturedExplosiveHandler
+public class ECTorchEater extends ExTorchEater implements ITexturedExplosiveHandler
 {
     IIcon icon;
 
@@ -26,7 +26,7 @@ public class ECFireBomb extends ExFireBomb implements ITexturedExplosiveHandler
     {
         if (!blocks)
         {
-            icon = reg.registerIcon(ICBM.PREFIX + "ex.icon.firebomb");
+            icon = reg.registerIcon(ICBM.PREFIX + "ex.icon.torcheater");
         }
     }
 }

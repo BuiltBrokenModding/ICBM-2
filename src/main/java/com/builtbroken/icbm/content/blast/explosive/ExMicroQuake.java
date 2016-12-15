@@ -20,7 +20,7 @@ public class ExMicroQuake extends ExplosiveHandlerICBM<BlastMicroQuake> implemen
     @Override
     protected BlastMicroQuake newBlast()
     {
-        return new BlastMicroQuake();
+        return new BlastMicroQuake(this);
     }
 
     @Override

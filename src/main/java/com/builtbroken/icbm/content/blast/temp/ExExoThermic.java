@@ -19,7 +19,7 @@ public class ExExoThermic extends ExplosiveHandlerICBM<BlastExoThermic>
     @Override
     protected BlastExoThermic newBlast()
     {
-        return new BlastExoThermic();
+        return new BlastExoThermic(this);
     }
 
     @Override

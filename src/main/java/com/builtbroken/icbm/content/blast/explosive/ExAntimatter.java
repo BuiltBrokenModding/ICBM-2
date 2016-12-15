@@ -22,7 +22,7 @@ public class ExAntimatter extends ExplosiveHandlerICBM<BlastAntimatter>
     @Override
     protected BlastAntimatter newBlast()
     {
-        return new BlastAntimatter();
+        return new BlastAntimatter(this);
     }
 
     @Override

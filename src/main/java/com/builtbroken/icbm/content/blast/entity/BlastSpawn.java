@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.blast.entity;
 
 import com.builtbroken.icbm.api.event.WorldChangeSpawnEntityEvent;
+import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.prefab.explosive.blast.Blast;
 import cpw.mods.fml.common.eventhandler.Event;
@@ -23,6 +24,11 @@ public abstract class BlastSpawn extends Blast
      * Max amount of entities to spawn
      */
     protected int maxEntities = 1;
+
+    public BlastSpawn(IExplosiveHandler handler)
+    {
+        super(handler);
+    }
 
     @Override
     public BlastSpawn setYield(double size)

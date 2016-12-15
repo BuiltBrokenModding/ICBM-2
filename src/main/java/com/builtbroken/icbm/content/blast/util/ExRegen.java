@@ -19,7 +19,7 @@ public class ExRegen extends ExplosiveHandlerICBM<BlastRegen>
     @Override
     protected BlastRegen newBlast()
     {
-        return new BlastRegen();
+        return new BlastRegen(this);
     }
 
     @Override

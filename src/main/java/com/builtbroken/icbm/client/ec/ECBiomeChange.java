@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.client.blast;
+package com.builtbroken.icbm.client.ec;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.blast.biome.ExBiomeChange;

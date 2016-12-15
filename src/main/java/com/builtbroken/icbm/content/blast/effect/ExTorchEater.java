@@ -19,7 +19,7 @@ public class ExTorchEater extends ExplosiveHandlerICBM<BlastTorchEater>
     @Override
     protected BlastTorchEater newBlast()
     {
-        return new BlastTorchEater();
+        return new BlastTorchEater(this);
     }
 
     @Override

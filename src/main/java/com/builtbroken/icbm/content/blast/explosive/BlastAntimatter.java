@@ -2,6 +2,7 @@ package com.builtbroken.icbm.content.blast.explosive;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.mc.api.edit.IWorldEdit;
+import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
@@ -23,6 +24,10 @@ import java.util.List;
  */
 public class BlastAntimatter extends BlastSimplePath<BlastAntimatter>
 {
+    public BlastAntimatter(IExplosiveHandler handler)
+    {
+        super(handler);
+    }
     //TODO add delay secondary blast trigger that uses energy released to destroy more blocks
 
     @Override

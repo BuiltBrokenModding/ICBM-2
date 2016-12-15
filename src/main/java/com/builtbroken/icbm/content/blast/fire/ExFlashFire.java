@@ -16,6 +16,6 @@ public class ExFlashFire extends ExplosiveHandlerICBM<BlastFlashFire>
     @Override
     protected BlastFlashFire newBlast()
     {
-        return new BlastFlashFire();
+        return new BlastFlashFire(this);
     }
 }

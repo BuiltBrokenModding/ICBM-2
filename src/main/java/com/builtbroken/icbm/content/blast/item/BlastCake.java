@@ -2,6 +2,7 @@ package com.builtbroken.icbm.content.blast.item;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.mc.api.edit.IWorldEdit;
+import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.prefab.explosive.blast.Blast;
@@ -21,6 +22,11 @@ import java.util.List;
  */
 public class BlastCake extends Blast<BlastCake>
 {
+    public BlastCake(IExplosiveHandler handler)
+    {
+        super(handler);
+    }
+
     @Override
     public void getEffectedBlocks(final List<IWorldEdit> list)
     {

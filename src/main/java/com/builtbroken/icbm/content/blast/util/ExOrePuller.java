@@ -19,7 +19,7 @@ public class ExOrePuller extends ExplosiveHandlerICBM<BlastOrePuller>
     @Override
     protected BlastOrePuller newBlast()
     {
-        return new BlastOrePuller();
+        return new BlastOrePuller(this);
     }
 
     @Override

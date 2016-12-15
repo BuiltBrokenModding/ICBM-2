@@ -2,6 +2,7 @@ package com.builtbroken.icbm.content.blast.power;
 
 import com.builtbroken.mc.api.IWorldPosition;
 import com.builtbroken.mc.api.edit.IWorldEdit;
+import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.lib.energy.UniversalEnergySystem;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
@@ -21,6 +22,11 @@ import net.minecraft.world.chunk.Chunk;
  */
 public class BlastEMP extends BlastSimplePath<BlastEMP>
 {
+    public BlastEMP(IExplosiveHandler handler)
+    {
+        super(handler);
+    }
+
     @Override
     public IWorldEdit changeBlock(Location location)
     {

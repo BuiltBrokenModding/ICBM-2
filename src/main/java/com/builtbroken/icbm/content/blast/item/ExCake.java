@@ -19,7 +19,7 @@ public class ExCake extends ExplosiveHandlerICBM<BlastCake>
     @Override
     protected BlastCake newBlast()
     {
-        return new BlastCake();
+        return new BlastCake(this);
     }
 
     @Override

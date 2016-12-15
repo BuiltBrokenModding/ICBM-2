@@ -3,6 +3,7 @@ package com.builtbroken.icbm.content.blast.entity;
 import com.builtbroken.icbm.api.blast.IBlastTileMissile;
 import com.builtbroken.icbm.api.missile.ITileMissile;
 import com.builtbroken.icbm.api.modules.IMissile;
+import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.prefab.explosive.blast.Blast;
 
 /**
@@ -18,6 +19,11 @@ public class BlastSlimeRain extends Blast<BlastSlimeRain> implements IBlastTileM
 
     private int ticks = 0;
     private int duration = 100;
+
+    public BlastSlimeRain(IExplosiveHandler handler)
+    {
+        super(handler);
+    }
 
     @Override
     public void tickBlast(ITileMissile tile, IMissile missile)

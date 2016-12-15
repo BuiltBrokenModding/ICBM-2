@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.blast.util;
 
+import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 
 /**
@@ -10,6 +11,11 @@ import com.builtbroken.mc.lib.transform.vector.Pos;
  */
 public class BlastRegenLocal extends BlastRegen
 {
+    public BlastRegenLocal(IExplosiveHandler handler)
+    {
+        super(handler);
+    }
+
     @Override
     protected boolean shouldRegenLocation(int x, int y, int z)
     {

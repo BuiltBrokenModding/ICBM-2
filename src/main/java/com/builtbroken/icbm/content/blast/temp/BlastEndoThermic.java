@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.blast.temp;
 
 import com.builtbroken.mc.api.edit.IWorldEdit;
+import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.lib.world.edit.PlacementData;
@@ -22,6 +23,11 @@ import java.util.List;
  */
 public class BlastEndoThermic extends BlastSimplePath<BlastEndoThermic>
 {
+    public BlastEndoThermic(IExplosiveHandler handler)
+    {
+        super(handler);
+    }
+
     @Override
     public BlockEdit changeBlock(Location location)
     {

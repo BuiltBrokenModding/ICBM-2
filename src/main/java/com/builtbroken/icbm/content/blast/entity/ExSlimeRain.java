@@ -20,7 +20,7 @@ public class ExSlimeRain extends ExplosiveHandlerICBM<BlastSlimeRain> implements
     @Override
     protected BlastSlimeRain newBlast()
     {
-        return new BlastSlimeRain();
+        return new BlastSlimeRain(this);
     }
 
     @Override

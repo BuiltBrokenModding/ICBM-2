@@ -73,7 +73,7 @@ public class TestBlastEnderBlocks extends AbstractTest
 
     private final List<IWorldEdit> popBlast(World world, int x, int y, int z, int size)
     {
-        BlastEnderBlocks blast = new BlastEnderBlocks();
+        BlastEnderBlocks blast = new BlastEnderBlocks(null);
         blast.setLocation(world, x, y, z);
         blast.setYield(size);
         List<IWorldEdit> edits = new ArrayList();

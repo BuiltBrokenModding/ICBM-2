@@ -19,7 +19,7 @@ public class ExRegenLocal extends ExplosiveHandlerICBM<BlastRegenLocal>
     @Override
     protected BlastRegenLocal newBlast()
     {
-        return new BlastRegenLocal();
+        return new BlastRegenLocal(this);
     }
 
     @Override

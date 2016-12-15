@@ -19,7 +19,7 @@ public class ExEnderBlocks extends ExplosiveHandlerICBM<BlastEnderBlocks>
     @Override
     protected BlastEnderBlocks newBlast()
     {
-        return new BlastEnderBlocks();
+        return new BlastEnderBlocks(this);
     }
 
     @Override

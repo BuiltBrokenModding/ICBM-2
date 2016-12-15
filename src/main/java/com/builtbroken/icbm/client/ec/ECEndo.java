@@ -1,7 +1,7 @@
-package com.builtbroken.icbm.client.blast;
+package com.builtbroken.icbm.client.ec;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.blast.item.ExCake;
+import com.builtbroken.icbm.content.blast.temp.ExEndoThermic;
 import com.builtbroken.mc.api.explosive.ITexturedExplosiveHandler;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
@@ -9,9 +9,9 @@ import net.minecraft.util.IIcon;
 
 /**
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
- * Created by Dark(DarkGuardsman, Robert) on 4/1/2016.
+ * Created by Dark(DarkGuardsman, Robert) on 4/25/2016.
  */
-public class ECCake extends ExCake implements ITexturedExplosiveHandler
+public class ECEndo extends ExEndoThermic implements ITexturedExplosiveHandler
 {
     IIcon icon;
 
@@ -26,7 +26,7 @@ public class ECCake extends ExCake implements ITexturedExplosiveHandler
     {
         if (!blocks)
         {
-            icon = reg.registerIcon(ICBM.PREFIX + "ex.icon.cake");
+            icon = reg.registerIcon(ICBM.PREFIX + "ex.icon.endothermic");
         }
     }
 }

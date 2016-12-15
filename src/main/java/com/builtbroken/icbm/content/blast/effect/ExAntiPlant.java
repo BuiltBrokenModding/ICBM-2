@@ -19,7 +19,7 @@ public class ExAntiPlant extends ExplosiveHandlerICBM<BlastAntiPlant>
     @Override
     protected BlastAntiPlant newBlast()
     {
-        return new BlastAntiPlant();
+        return new BlastAntiPlant(this);
     }
 
     @Override

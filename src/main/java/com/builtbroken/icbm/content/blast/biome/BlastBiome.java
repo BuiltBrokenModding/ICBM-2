@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.blast.biome;
 
+import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.packet.PacketBiomeData;
 import com.builtbroken.mc.lib.transform.region.Cube;
@@ -17,8 +18,9 @@ public class BlastBiome extends Blast<BlastBiome>
 {
     public final int biomeID;
 
-    public BlastBiome(int id)
+    public BlastBiome(IExplosiveHandler handler, int id)
     {
+        super(handler);
         this.biomeID = id;
     }
 

@@ -19,7 +19,7 @@ public class ExEmp extends ExplosiveHandlerICBM<BlastEMP>
     @Override
     protected BlastEMP newBlast()
     {
-        return new BlastEMP();
+        return new BlastEMP(this);
     }
 
     @Override

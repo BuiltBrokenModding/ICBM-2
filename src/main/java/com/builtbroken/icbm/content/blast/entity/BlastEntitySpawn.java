@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.blast.entity;
 
+import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.world.World;
@@ -13,8 +14,9 @@ public class BlastEntitySpawn extends BlastSpawn
 {
     int entityId;
 
-    public BlastEntitySpawn(int id)
+    public BlastEntitySpawn(IExplosiveHandler handler, int id)
     {
+        super(handler);
         this.entityId = id;
     }
 

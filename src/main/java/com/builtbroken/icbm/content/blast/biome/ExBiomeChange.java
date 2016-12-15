@@ -34,7 +34,7 @@ public class ExBiomeChange extends ExplosiveHandlerICBM<BlastBiome>
         int id = getBiomeID(tag);
         if (id >= 0 && id < BiomeGenBase.getBiomeGenArray().length && BiomeGenBase.getBiome(id) != null && !bannedBiomeIds.contains(id))
         {
-            BlastBiome blast = new BlastBiome(BiomeGenBase.getBiome(id).biomeID);
+            BlastBiome blast = new BlastBiome(this, BiomeGenBase.getBiome(id).biomeID);
             if (blast != null)
             {
                 blast.setLocation(world, x, y, z);

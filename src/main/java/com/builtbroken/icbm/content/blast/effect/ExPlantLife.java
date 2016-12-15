@@ -19,7 +19,7 @@ public class ExPlantLife extends ExplosiveHandlerICBM<BlastPlantLife>
     @Override
     protected BlastPlantLife newBlast()
     {
-        return new BlastPlantLife();
+        return new BlastPlantLife(this);
     }
 
     @Override

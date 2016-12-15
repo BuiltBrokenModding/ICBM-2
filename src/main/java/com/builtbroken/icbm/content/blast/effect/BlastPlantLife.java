@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.blast.effect;
 
 import com.builtbroken.mc.api.edit.IWorldEdit;
+import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
@@ -17,6 +18,11 @@ import net.minecraft.init.Blocks;
  */
 public class BlastPlantLife extends BlastSimplePath<BlastPlantLife>
 {
+    public BlastPlantLife(IExplosiveHandler handler)
+    {
+        super(handler);
+    }
+
     @Override
     public BlockEdit changeBlock(Location location)
     {
