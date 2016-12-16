@@ -144,7 +144,7 @@ public class ItemCart extends Item implements IRecipeContainer
     public void genRecipes(List<IRecipe> recipes)
     {
         recipes.add(newShapedRecipe(new ItemStack(this, 1, 0), "SCS", "RTR", 'S', OreNames.ROD_IRON, 'C', UniversalRecipe.CIRCUIT_T1.get(), 'R', OreNames.REDSTONE, 'T', Items.minecart));
-        recipes.add(newShapedRecipe(new ItemStack(this, 1, 2), "RTR", 'R', OreNames.PLATE_IRON, 'T', new ItemStack(this, 1, 0)));
+        recipes.add(newShapedRecipe(new ItemStack(this, 1, 1), "RTR", 'R', OreNames.PLATE_IRON, 'T', new ItemStack(this, 1, 0)));
         recipes.add(newShapedRecipe(new ItemStack(this, 1, 2), "RRR", "RTR", "RRR", 'R', OreNames.PLATE_IRON, 'T', new ItemStack(this, 1, 0)));
     }
 }
