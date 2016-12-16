@@ -1,10 +1,16 @@
 package com.builtbroken.icbm.content.crafting.missile.engine.fluid;
 
 import com.builtbroken.icbm.api.modules.IMissile;
+import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
+import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
+import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 /**
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
@@ -50,5 +56,11 @@ public class RocketEngineOil extends RocketEngineFluid
         {
             tank.fill(new FluidStack(FluidRegistry.getFluid("oil"), tank.getCapacity()), true);
         }
+    }
+
+    @Override
+    public void onPostInit()
+    {
+        GameRegistry.addRecipe(new ShapedOreRecipe(Engines.OIL_ENGINE.newModuleStack(), "SCS", "SGS", "SIS", 'S', OreNames.PLATE_IRON, 'G', OreNames.GEAR_IRON, 'I', Items.flint_and_steel, 'C', UniversalRecipe.CIRCUIT_T1.get()));
     }
 }

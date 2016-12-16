@@ -74,7 +74,7 @@ item.icbm:explosiveItem.BiomeChange.name=Biome Shift Charge
 item.icbm:explosiveItem.Cake.name=Cake Package
 item.icbm:explosiveItem.OrePuller.name=Ore Up Draft Charge
 item.icbm:explosiveItem.Emp.name=Emp Battery
-icbm.icbm:explosiveItem.SlimeRain.name=Royal Slime
+item.icbm:explosiveItem.SlimeRain.name=Royal Slime
 
 item.icbm:explosiveItem.fragment.arrow.name=Arrow Bundle Charge
 item.icbm:explosiveItem.fragment.cobblestone.name=Cobblestone Frag Charge
@@ -84,6 +84,9 @@ item.icbm:explosiveItem.fragment.blaze.name=Blaze Frag Charge
 ## Tiles
 tile.icbm:TileMissile.0.name=Wooden Rocket Display
 tile.icbm:TileMissile.1.name=Wooden Small Missile Display
+
+tile.icbm:warheadstation.name=Warhead Station
+tile.icbm:missileDisplay.name=Missile Display
 
 tile.icbm:smallMissileMag.name=Small Missile Mag
 
@@ -263,6 +266,7 @@ module.icbm:guidance.chip.3.name=Improved Guidance Chip
 ## Trigger Modules
 module.icbm:trigger.impact.mechanical.name=Mechanical Impact Sensor
 module.icbm:trigger.impact.electrical.name=Electrical Impact Sensor
+module.icbm:trigger.impact.redstone.name=Redstone Impact Sensor
 
 ## FoF station GUI
 gui.fof.message.default=Use the dialog to set the id

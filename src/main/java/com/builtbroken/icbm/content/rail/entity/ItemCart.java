@@ -3,13 +3,18 @@ package com.builtbroken.icbm.content.rail.entity;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.mc.api.rails.ITransportRail;
 import com.builtbroken.mc.api.rails.ITransportRailBlock;
+import com.builtbroken.mc.core.registry.implement.IRecipeContainer;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
+import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -22,7 +27,7 @@ import java.util.List;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 10/29/2016.
  */
-public class ItemCart extends Item
+public class ItemCart extends Item implements IRecipeContainer
 {
     public ItemCart()
     {
@@ -43,7 +48,7 @@ public class ItemCart extends Item
     {
         if (!world.isRemote)
         {
-            if(placeCart(world, x, y, z, stack.getItemDamage()) != null)
+            if (placeCart(world, x, y, z, stack.getItemDamage()) != null)
             {
                 if (!player.capabilities.isCreativeMode)
                 {
@@ -133,5 +138,13 @@ public class ItemCart extends Item
         {
             p_150895_3_.add(new ItemStack(p_150895_1_, 1, i));
         }
+    }
+
+    @Override
+    public void genRecipes(List<IRecipe> recipes)
+    {
+        recipes.add(newShapedRecipe(new ItemStack(this, 1, 0), "SCS", "RTR", 'S', OreNames.ROD_IRON, 'C', UniversalRecipe.CIRCUIT_T1.get(), 'R', OreNames.REDSTONE, 'T', Items.minecart));
+        recipes.add(newShapedRecipe(new ItemStack(this, 1, 2), "RTR", 'R', OreNames.PLATE_IRON, 'T', new ItemStack(this, 1, 0)));
+        recipes.add(newShapedRecipe(new ItemStack(this, 1, 2), "RRR", "RTR", "RRR", 'R', OreNames.PLATE_IRON, 'T', new ItemStack(this, 1, 0)));
     }
 }

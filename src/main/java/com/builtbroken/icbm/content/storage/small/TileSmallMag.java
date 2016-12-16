@@ -13,7 +13,11 @@ import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
+import com.builtbroken.mc.core.content.parts.CraftingParts;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
+import com.builtbroken.mc.core.registry.implement.IRecipeContainer;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
+import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
@@ -31,6 +35,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -47,7 +52,7 @@ import java.util.*;
  * Small 2 block tall self contained launcher for small missiles.
  * Created by robert on 3/28/2015.
  */
-public class TileSmallMag extends TileMissileContainer implements ISimpleItemRenderer, IMultiTileHost, IPostInit, IMissileMag
+public class TileSmallMag extends TileMissileContainer implements ISimpleItemRenderer, IMultiTileHost, IPostInit, IMissileMag, IRecipeContainer
 {
     protected static final ForgeDirection[] rotations = new ForgeDirection[]{ForgeDirection.NORTH, ForgeDirection.EAST, ForgeDirection.WEST, ForgeDirection.WEST};
     public static final HashMap<IPos3D, String> tileMapCache = new HashMap();
@@ -456,5 +461,11 @@ public class TileSmallMag extends TileMissileContainer implements ISimpleItemRen
     public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
+    }
+
+    @Override
+    public void genRecipes(List<IRecipe> recipes)
+    {
+        recipes.add(newShapedRecipe(ICBM.blockSmallMissileMag, "ICI", "IMI", "GBG", 'I', Blocks.iron_bars, 'B', OreNames.PLATE_IRON, 'C', UniversalRecipe.CIRCUIT_T1.get(), 'M', CraftingParts.MOTOR.oreName, 'G', OreNames.GEAR_IRON));
     }
 }

@@ -3,6 +3,8 @@ package com.builtbroken.icbm.content.blast.explosive;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
+import com.builtbroken.mc.core.Engine;
+import com.builtbroken.mc.core.network.packet.callback.PacketBlast;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
@@ -73,5 +75,17 @@ public class BlastAntimatter extends BlastSimplePath<BlastAntimatter>
     public void playAudioForEdit(IWorldEdit blocks)
     {
 
+    }
+
+    @Override
+    public void doStartDisplay()
+    {
+        Engine.instance.packetHandler.sendToAllAround(new PacketBlast(this, PacketBlast.BlastPacketType.PRE_BLAST_DISPLAY), this, 400);
+    }
+
+    @Override
+    public void doEndDisplay()
+    {
+        Engine.instance.packetHandler.sendToAllAround(new PacketBlast(this, PacketBlast.BlastPacketType.POST_BLAST_DISPLAY), this, 400);
     }
 }
