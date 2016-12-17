@@ -23,7 +23,15 @@ public class ExFragment extends ExplosiveHandlerICBM<Blast>
     @Override
     protected Blast newBlast(NBTTagCompound tag)
     {
-        return getFragmentType(tag).newBlast(tag);
+        FragBlastType type = getFragmentType(tag);
+        if (type == FragBlastType.ARROW)
+        {
+            return new BlastArrows(this);
+        }
+        else
+        {
+            return new BlastFragments(this, type);
+        }
     }
 
     /**
@@ -32,9 +40,9 @@ public class ExFragment extends ExplosiveHandlerICBM<Blast>
      * @param stack - item
      * @return valid string, reference from an enum
      */
-    protected Fragments getFragmentType(ItemStack stack)
+    protected FragBlastType getFragmentType(ItemStack stack)
     {
-        return stack.getItem() instanceof IExplosiveItem ? getFragmentType(((IExplosiveItem) stack.getItem()).getAdditionalExplosiveData(stack)) : Fragments.ARROW;
+        return stack.getItem() instanceof IExplosiveItem ? getFragmentType(((IExplosiveItem) stack.getItem()).getAdditionalExplosiveData(stack)) : FragBlastType.ARROW;
     }
 
     /**
@@ -43,17 +51,17 @@ public class ExFragment extends ExplosiveHandlerICBM<Blast>
      * @param nbt - save file
      * @return valid string, reference from an enum
      */
-    public static Fragments getFragmentType(NBTTagCompound nbt)
+    public static FragBlastType getFragmentType(NBTTagCompound nbt)
     {
         if (nbt != null && nbt.hasKey("fragmentType"))
         {
             int i = nbt.getInteger("fragmentType");
-            if (i > 0 && i < Fragments.values().length)
+            if (i > 0 && i < FragBlastType.values().length)
             {
-                return Fragments.values()[i];
+                return FragBlastType.values()[i];
             }
         }
-        return Fragments.ARROW;
+        return FragBlastType.ARROW;
     }
 
     /**
@@ -63,7 +71,7 @@ public class ExFragment extends ExplosiveHandlerICBM<Blast>
      * @param stack - stack
      * @param frag  - type
      */
-    public static void setFragmentType(ItemStack stack, Fragments frag)
+    public static void setFragmentType(ItemStack stack, FragBlastType frag)
     {
         if (stack.getItem() instanceof IExplosiveItem)
         {
@@ -78,7 +86,7 @@ public class ExFragment extends ExplosiveHandlerICBM<Blast>
      * @param frag
      * @return
      */
-    public static NBTTagCompound setFragmentType(NBTTagCompound nbt, Fragments frag)
+    public static NBTTagCompound setFragmentType(NBTTagCompound nbt, FragBlastType frag)
     {
         if (frag != null)
         {

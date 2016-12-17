@@ -4,7 +4,7 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.client.ec.ECBiomeChange;
 import com.builtbroken.icbm.content.blast.biome.ExBiomeChange;
 import com.builtbroken.icbm.content.blast.fragment.ExFragment;
-import com.builtbroken.icbm.content.blast.fragment.Fragments;
+import com.builtbroken.icbm.content.blast.fragment.FragBlastType;
 import com.builtbroken.icbm.content.blast.fragment.IFragmentExplosiveHandler;
 import com.builtbroken.jlib.data.Colors;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
@@ -69,8 +69,8 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         }
         else if(stack.getItemDamage() == ExplosiveItems.FRAGMENT.ordinal())
         {
-            Fragments frag = ExFragment.getFragmentType(getAdditionalExplosiveData(stack));
-            if(frag != Fragments.ARROW)
+            FragBlastType frag = ExFragment.getFragmentType(getAdditionalExplosiveData(stack));
+            if(frag != FragBlastType.ARROW)
             {
                 list.add(Colors.RED.code + "!!!Not implemented!!!");
             }
@@ -223,7 +223,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
 
         //Fragment arrow explosive
         ItemStack arrowFrag = ExplosiveItems.FRAGMENT.newItem();
-        arrowFrag.setTagCompound(ExFragment.setFragmentType(new NBTTagCompound(), Fragments.ARROW));
+        arrowFrag.setTagCompound(ExFragment.setFragmentType(new NBTTagCompound(), FragBlastType.ARROW));
         GameRegistry.addRecipe(new ShapedOreRecipe(arrowFrag, "A A", " G ", "A A", 'A', arrowBundle, 'G', explosiveCharge));
 
         //Exothermic explosive TODO add tech based recipe
@@ -287,7 +287,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
                 ExplosiveRegistry.registerExplosiveItem(item.newItem());
             }
         }
-        for (Fragments frag : Fragments.values())
+        for (FragBlastType frag : FragBlastType.values())
         {
             ItemStack stack = ExplosiveItems.FRAGMENT.newItem();
             ExFragment.setFragmentType(stack, frag);
@@ -321,7 +321,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         {
             if (i == ExplosiveItems.FRAGMENT.ordinal())
             {
-                for (Fragments frag : Fragments.values())
+                for (FragBlastType frag : FragBlastType.values())
                 {
                     ItemStack stack = ExplosiveItems.values()[i].newItem();
                     ExFragment.setFragmentType(stack, frag);

@@ -17,6 +17,8 @@ import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorks
 import com.builtbroken.icbm.content.crafting.station.small.auto.TileSMAutoCraftClient;
 import com.builtbroken.icbm.content.crafting.station.warhead.TileWarheadStationClient;
 import com.builtbroken.icbm.content.fof.TileFoFClient;
+import com.builtbroken.icbm.content.fragments.EntityFragment;
+import com.builtbroken.icbm.content.fragments.RenderFragment;
 import com.builtbroken.icbm.content.launcher.controller.remote.antenna.ItemRendererAntennaFrame;
 import com.builtbroken.icbm.content.launcher.controller.remote.antenna.TESRAntenna;
 import com.builtbroken.icbm.content.launcher.controller.remote.antenna.TileAntennaPart;
@@ -90,6 +92,8 @@ public class ClientProxy extends CommonProxy
         RenderingRegistry.registerEntityRenderingHandler(EntityMissile.class, RenderMissile.INSTANCE);
 
         RenderingRegistry.registerEntityRenderingHandler(EntityCart.class, new RenderCart());
+
+        RenderingRegistry.registerEntityRenderingHandler(EntityFragment.class, new RenderFragment());
 
         MinecraftForge.EVENT_BUS.register(this);
         FMLCommonHandler.instance().bus().register(this);
@@ -170,7 +174,7 @@ public class ClientProxy extends CommonProxy
             if (missile.getEngine() != null)
             {
                 Color color = missile.getEngine().getEngineFireColor(entity instanceof IMissileEntity ? (IMissileEntity) entity : null, missile);
-                if(color != null)
+                if (color != null)
                 {
                     fx = new FxRocketFire(entity.worldObj, color, entity.posX, entity.posY, entity.posZ, vel.x(), vel.y(), vel.z());
                 }
@@ -195,7 +199,7 @@ public class ClientProxy extends CommonProxy
                 if (missile.getEngine() != null)
                 {
                     Color color = missile.getEngine().getEngineSmokeColor(entity instanceof IMissileEntity ? (IMissileEntity) entity : null, missile);
-                    if(color != null)
+                    if (color != null)
                     {
                         fx = new FxRocketSmokeTrail(entity.worldObj, color, entity.posX, entity.posY, entity.posZ, vel.x(), vel.y(), vel.z(), 200);
                     }

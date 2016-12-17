@@ -25,7 +25,7 @@ public class BlastAntimatterClient extends BlastAntimatter
     public void doStartDisplay()
     {
         final Pos center = new Pos(x, y, z);
-        int shells = Math.max((int) size, 10);
+        int shells = Math.min((int) size, 10);
         for (int shell = 0; shell < shells; shell++)
         {
             final int rotations = Math.min(((shell + 1) * 4), 60);
@@ -53,7 +53,7 @@ public class BlastAntimatterClient extends BlastAntimatter
         if (!(d6 * d6 + d7 * d7 + d8 * d8 > d9 * d9))
         {
             final Pos center = new Pos(x, y, z);
-            int shells = Math.max((int) size, 10);
+            int shells = Math.min((int) size, 10);
             for (int shell = 0; shell < shells; shell++)
             {
                 final int rotations = Math.min(((shell + 1) * 4), 20);

@@ -16,7 +16,7 @@ import com.builtbroken.icbm.content.blast.explosive.ExAntimatter;
 import com.builtbroken.icbm.content.blast.explosive.ExMicroQuake;
 import com.builtbroken.icbm.content.blast.fire.ExFireBomb;
 import com.builtbroken.icbm.content.blast.fire.ExFlashFire;
-import com.builtbroken.icbm.content.blast.fragment.EntityFragment;
+import com.builtbroken.icbm.content.fragments.EntityFragment;
 import com.builtbroken.icbm.content.blast.fragment.ExFragment;
 import com.builtbroken.icbm.content.blast.item.BlockFakeCake;
 import com.builtbroken.icbm.content.blast.item.ExCake;

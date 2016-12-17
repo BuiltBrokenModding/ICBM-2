@@ -1,11 +1,12 @@
 package com.builtbroken.icbm.client.ec;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.blast.fragment.ExFragment;
-import com.builtbroken.icbm.content.blast.fragment.Fragments;
-import com.builtbroken.icbm.content.blast.fragment.IFragmentExplosiveHandler;
+import com.builtbroken.icbm.client.blast.BlastFragmentsClient;
+import com.builtbroken.icbm.content.blast.fragment.*;
+import com.builtbroken.mc.prefab.explosive.blast.Blast;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 
 import java.util.HashMap;
@@ -19,10 +20,23 @@ public class ECFragment extends ExFragment implements IFragmentExplosiveHandler
 {
     IIcon corner_icon;
     IIcon back_icon;
-    Map<Fragments, IIcon> icons = new HashMap();
-    Map<Fragments, IIcon> icons_back = new HashMap();
-    Map<Fragments, IIcon> corner_icons = new HashMap();
+    Map<FragBlastType, IIcon> icons = new HashMap();
+    Map<FragBlastType, IIcon> icons_back = new HashMap();
+    Map<FragBlastType, IIcon> corner_icons = new HashMap();
 
+    @Override
+    protected Blast newBlast(NBTTagCompound tag)
+    {
+        FragBlastType type = getFragmentType(tag);
+        if (type == FragBlastType.ARROW)
+        {
+            return new BlastArrows(this);
+        }
+        else
+        {
+            return new BlastFragmentsClient(this, type);
+        }
+    }
 
     @Override
     public IIcon getFragmentIcon(ItemStack stack, int layer)
@@ -76,14 +90,14 @@ public class ECFragment extends ExFragment implements IFragmentExplosiveHandler
         if (!blocks)
         {
             back_icon = reg.registerIcon(ICBM.PREFIX + "tnt-icon-2");
-            for (Fragments frag : Fragments.values())
+            for (FragBlastType frag : FragBlastType.values())
             {
                 //TODO check to make sure duplicates only register once, as MC should return original if a duplicate registry is called
                 corner_icons.put(frag, reg.registerIcon(ICBM.PREFIX + frag.corner_icon_name));
                 icons.put(frag, reg.registerIcon(ICBM.PREFIX + frag.icon_name));
                 icons_back.put(frag, reg.registerIcon(ICBM.PREFIX + frag.back_ground_icon_name));
             }
-            corner_icon = corner_icons.get(Fragments.COBBLESTONE);
+            corner_icon = corner_icons.get(FragBlastType.COBBLESTONE);
         }
     }
 }
