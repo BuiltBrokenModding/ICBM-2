@@ -16,7 +16,6 @@ import com.builtbroken.icbm.content.blast.explosive.ExAntimatter;
 import com.builtbroken.icbm.content.blast.explosive.ExMicroQuake;
 import com.builtbroken.icbm.content.blast.fire.ExFireBomb;
 import com.builtbroken.icbm.content.blast.fire.ExFlashFire;
-import com.builtbroken.icbm.content.fragments.EntityFragment;
 import com.builtbroken.icbm.content.blast.fragment.ExFragment;
 import com.builtbroken.icbm.content.blast.item.BlockFakeCake;
 import com.builtbroken.icbm.content.blast.item.ExCake;
@@ -42,6 +41,8 @@ import com.builtbroken.icbm.content.debug.BlockExplosiveMarker;
 import com.builtbroken.icbm.content.debug.TileRotationTest;
 import com.builtbroken.icbm.content.display.TileMissile;
 import com.builtbroken.icbm.content.display.TileMissileDisplay;
+import com.builtbroken.icbm.content.fragments.EntityFragment;
+import com.builtbroken.icbm.content.fragments.FragmentEventHandler;
 import com.builtbroken.icbm.content.items.*;
 import com.builtbroken.icbm.content.launcher.block.BlockLaunchPad;
 import com.builtbroken.icbm.content.launcher.block.BlockLauncherPart;
@@ -242,6 +243,7 @@ public final class ICBM extends AbstractMod
     {
         super.preInit(event);
         MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(FragmentEventHandler.INSTANCE);
         FMLCommonHandler.instance().bus().register(this);
 
 
