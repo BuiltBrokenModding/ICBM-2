@@ -89,6 +89,11 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
                 list.add("Spawns " + BlastArrows.ARROWS + " arrows per explosive");
                 list.add("!!Breaks blocks!!");
             }
+            else if (type == FragBlastType.BLAZE)
+            {
+                list.add("Spawns " + BlastArrows.ARROWS + " fire balls per explosive");
+                list.add("!!Breaks blocks!!");
+            }
             else
             {
                 list.add("Spawns block fragments");

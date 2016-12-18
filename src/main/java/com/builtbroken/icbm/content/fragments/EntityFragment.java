@@ -1,8 +1,10 @@
 package com.builtbroken.icbm.content.fragments;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.helper.MathUtility;
 import com.builtbroken.mc.lib.transform.region.Cube;
+import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.entity.EntityProjectile;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import io.netty.buffer.ByteBuf;
@@ -16,6 +18,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * Entity that represents a fragment inside of the game world
@@ -54,6 +57,39 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
         this(world);
         this.fragmentType = fragmentType;
         this.fragmentMaterial = block;
+    }
+
+    @Override
+    public void onUpdate()
+    {
+        super.onUpdate();
+
+        if (worldObj.isRemote)
+        {
+            //Spawn fire effects
+            if (isOnFire())
+            {
+                final Pos orginalVel = new Pos(motionX, motionY, motionZ).normalize().multiply(-.1);
+                Pos vel;
+
+                vel = orginalVel.addRandom(worldObj.rand, .1);
+                Engine.proxy.spawnParticle("fire", worldObj, posX, posY, posZ, vel.xf(), vel.yf(), vel.zf());
+
+                vel = orginalVel.addRandom(worldObj.rand, .1);
+                Engine.proxy.spawnParticle("fire", worldObj, posX, posY, posZ, vel.xf(), vel.yf(), vel.zf());
+
+                vel = orginalVel.addRandom(worldObj.rand, .1);
+                Engine.proxy.spawnParticle("smoke", worldObj, posX, posY, posZ, vel.xf(), vel.yf(), vel.zf());
+
+                vel = orginalVel.addRandom(worldObj.rand, .1);
+                Engine.proxy.spawnParticle("smoke", worldObj, posX, posY, posZ, vel.xf(), vel.yf(), vel.zf());
+            }
+        }
+    }
+
+    public boolean isOnFire()
+    {
+        return fragmentType != null && fragmentType == FragmentType.BLAZE || isBurning();
     }
 
     @Override
@@ -104,6 +140,23 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
         this.posX -= this.motionX / (double) velocity * 0.05000000074505806D;
         this.posY -= this.motionY / (double) velocity * 0.05000000074505806D;
         this.posZ -= this.motionZ / (double) velocity * 0.05000000074505806D;
+
+        //Fire impact of ground, set ground on fire if fragment is on fire
+        if (!inGround && isOnFire() && worldObj.rand.nextBoolean())
+        {
+            final Pos firePos = new Pos(movingobjectposition).add(ForgeDirection.getOrientation(movingobjectposition.sideHit));
+            if (firePos.isReplaceable(worldObj))
+            {
+                firePos.setBlock(worldObj, Blocks.fire);
+                worldObj.markBlockForUpdate(firePos.xi(), firePos.yi(), firePos.zi());
+            }
+            if (fragmentType == FragmentType.BLAZE)
+            {
+                setDead();
+                return;
+            }
+        }
+
         //TODO this.playSound("random.bowhit", 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));
         this.inGround = true;
 
@@ -111,26 +164,42 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
         {
             this.inBlockID.onEntityCollidedWithBlock(this.worldObj, this.xTile, this.yTile, this.zTile, this);
         }
+
+        //TODO implement splintering of fragment
+        //TODO implement bouncing
+
         onImpactTile();
     }
 
     @Override
     protected void onImpactTile()
     {
-        super.onImpactTile();
-        this.setDead();
+        inGroundKillTime = 20 + worldObj.rand.nextInt(100);
+        //TODO add config to control kill time
+        //TODO add config to insta kill on impact
     }
 
     @Override
     protected void onImpactEntity(Entity entityHit, float velocity)
     {
+        //TODO implement chance for fragment to bounce off of armor
+        //TODO implement chance for fragment to stick into person
+        //TODO implement chance for fragment to go threw entity
+        //TODO implement body part fragmentation on impact
+        //TODO implement blood on impact
         if (!(entityHit instanceof EntityFragment))
         {
             float damage = 1;
             if (fragmentType == FragmentType.BLOCK && fragmentMaterial != null)
             {
                 //TODO get mass of block for better calculation
+                //TODO add sharpness of material into calculation (Ex obsidian and metals)
                 damage = fragmentMaterial.blockHardness * velocity;
+            }
+
+            if (isBurning())
+            {
+                entityHit.setFire(5);
             }
 
             //If entity takes damage add velocity to entity

@@ -61,12 +61,20 @@ public class BlastFragments extends BlastBasic<BlastFragments>
                 if (world.rand.nextBoolean())
                 {
                     EulerAngle rotation = new EulerAngle(yaw * degrees + (world.rand.nextFloat() * 2), pitch * degrees + (world.rand.nextFloat() * 2));
-                    Pos velocity = rotation.toPos().multiply(START_VELOCITY  + world.rand.nextFloat());
+                    Pos velocity = rotation.toPos().multiply(START_VELOCITY + world.rand.nextFloat());
                     Pos pos = center.add(rotation.toPos()).addRandom(world.rand, 0.2);
                     if (pos.isAirBlock(world)) //TODO add proper collision check
                     {
                         EntityFragment fragment = new EntityFragment(world, type, block);
                         fragment.setPosition(pos.x(), pos.y(), pos.z());
+
+                        //Random chance for fragment to be on fire
+                        if (world.rand.nextBoolean())
+                        {
+                            //TODO introduce better chance for some material types
+                            //TODO disable burning on some materials like obsidian
+                            fragment.setFire(3 + world.rand.nextInt(60));
+                        }
 
                         //Motion
                         fragment.motionX = velocity.x();

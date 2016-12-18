@@ -5,8 +5,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -32,11 +35,51 @@ public class RenderFragment extends Render
             RenderUtility.renderCube(entity.renderShape.toAABB(), entity.fragmentMaterial == null ? Blocks.stone : entity.fragmentMaterial);
             GL11.glPopMatrix();
         }
+        else if (type == FragmentType.BLAZE)
+        {
+            doRenderFireBall(entity, xx, yy, zz, p_76986_8_, p_76986_9_, 0.3f);
+        }
         else
         {
             this.bindEntityTexture(entity);
             doRenderArrow(entity, xx, yy, zz, p_76986_8_, p_76986_9_);
         }
+    }
+
+    public void doRenderFireBall(EntityFragment entity, double xx, double yy, double zz, float p_76986_8_, float p_76986_9_, float scale)
+    {
+        GL11.glPushMatrix();
+        this.renderManager.renderEngine.bindTexture(TextureMap.locationItemsTexture);
+
+        GL11.glTranslatef((float) xx, (float) yy, (float) zz);
+        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+        GL11.glScalef(scale / 1.0F, scale / 1.0F, scale / 1.0F);
+
+        IIcon iicon = Items.fire_charge.getIconFromDamage(0);
+        Tessellator tessellator = Tessellator.instance;
+
+        float minU = iicon.getMinU();
+        float maxU = iicon.getMaxU();
+        float minV = iicon.getMinV();
+        float maxV = iicon.getMaxV();
+
+        float f7 = 1.0F;
+        float f8 = 0.5F;
+        float f9 = 0.25F;
+
+        GL11.glRotatef(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+        GL11.glRotatef(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+
+        tessellator.startDrawingQuads();
+        tessellator.setNormal(0.0F, 1.0F, 0.0F);
+        tessellator.addVertexWithUV((double) (0.0F - f8), (double) (0.0F - f9), 0.0D, (double) minU, (double) maxV);
+        tessellator.addVertexWithUV((double) (f7 - f8), (double) (0.0F - f9), 0.0D, (double) maxU, (double) maxV);
+        tessellator.addVertexWithUV((double) (f7 - f8), (double) (1.0F - f9), 0.0D, (double) maxU, (double) minV);
+        tessellator.addVertexWithUV((double) (0.0F - f8), (double) (1.0F - f9), 0.0D, (double) minU, (double) minV);
+        tessellator.draw();
+
+        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+        GL11.glPopMatrix();
     }
 
     private void doRenderArrow(EntityFragment entity, double xx, double yy, double zz, float p_76986_8_, float p_76986_9_)
