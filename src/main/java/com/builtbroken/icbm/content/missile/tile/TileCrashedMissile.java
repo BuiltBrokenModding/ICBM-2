@@ -54,6 +54,7 @@ import java.util.List;
  */
 public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, ITileMissile
 {
+    public static int DECAY_TICKS = 20 * 60 * 60; //1 hour
     /** List of blocks to mimic as part of the model */
     public static List<Block> blocksToMimic = new ArrayList();
 
@@ -90,6 +91,8 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
     private int ticksForEngine;
     /** Amount of time to generate smoke */
     private int ticksForSmoke;
+
+    private int ticksAlive = 0;
 
     private Pos misislePos = toPos().add(0.5);
 
@@ -240,6 +243,15 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
                 {
                     blast = null;
                     missile.getWarhead().setExplosiveStack(null);
+                }
+            }
+            else
+            {
+                ticksAlive++;
+                if (ticksAlive > DECAY_TICKS)
+                {
+                    world().setBlockToAir(xi(), yi(), zi());
+                    return;
                 }
             }
 
@@ -429,6 +441,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
             block = Block.getBlockFromName(nbt.getString("block"));
             meta = nbt.getInteger("blockMeta");
         }
+        ticksAlive = nbt.getInteger("ticksAlive");
     }
 
     @Override
@@ -451,6 +464,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
             nbt.setString("block", Block.blockRegistry.getNameForObject(block));
             nbt.setInteger("blockMeta", meta);
         }
+        nbt.setInteger("ticksAlive", ticksAlive);
     }
 
     @Override
