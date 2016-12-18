@@ -9,7 +9,8 @@ import com.builtbroken.icbm.content.blast.effect.ExAntiPlant;
 import com.builtbroken.icbm.content.blast.effect.ExEnderBlocks;
 import com.builtbroken.icbm.content.blast.effect.ExPlantLife;
 import com.builtbroken.icbm.content.blast.effect.ExTorchEater;
-import com.builtbroken.icbm.content.blast.entity.ExSlimeRain;
+import com.builtbroken.icbm.content.blast.entity.slime.EntitySlimeRain;
+import com.builtbroken.icbm.content.blast.entity.slime.ExSlimeRain;
 import com.builtbroken.icbm.content.blast.entity.ExplosiveHandlerSpawn;
 import com.builtbroken.icbm.content.blast.explosive.BlastPathTester;
 import com.builtbroken.icbm.content.blast.explosive.ExAntimatter;
@@ -17,6 +18,7 @@ import com.builtbroken.icbm.content.blast.explosive.ExMicroQuake;
 import com.builtbroken.icbm.content.blast.fire.ExFireBomb;
 import com.builtbroken.icbm.content.blast.fire.ExFlashFire;
 import com.builtbroken.icbm.content.blast.fragment.ExFragment;
+import com.builtbroken.icbm.content.blast.gravity.ExGravity;
 import com.builtbroken.icbm.content.blast.item.BlockFakeCake;
 import com.builtbroken.icbm.content.blast.item.ExCake;
 import com.builtbroken.icbm.content.blast.power.ExEmp;
@@ -387,6 +389,7 @@ public final class ICBM extends AbstractMod
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "OrePuller", new ExOrePuller());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SlimeRain", new ExSlimeRain());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Emp", new ExEmp());
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Gravity", new ExGravity());
             if (Engine.runningAsDev)
             {
                 ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest1", new ExplosiveHandlerGeneric("SimplePathTest1", BlastPathTester.class, 1));
@@ -410,6 +413,9 @@ public final class ICBM extends AbstractMod
 
         EntityRegistry.registerGlobalEntityID(EntityCart.class, "ICBMMissileCart", EntityRegistry.findGlobalUniqueEntityId());
         EntityRegistry.registerModEntity(EntityCart.class, "ICBMMissileCart", ENTITY_ID_PREFIX + 5, this, 500, 1, true);
+
+        EntityRegistry.registerGlobalEntityID(EntitySlimeRain.class, "ICBMSlime", EntityRegistry.findGlobalUniqueEntityId());
+        EntityRegistry.registerModEntity(EntitySlimeRain.class, "ICBMSlime", ENTITY_ID_PREFIX + 6, this, 500, 1, true);
 
         super.init(event);
     }

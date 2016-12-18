@@ -79,4 +79,10 @@ public abstract class Trigger extends AbstractModule implements ITrigger, IModul
     {
         return triggerType.mass;
     }
+
+    @Override
+    public String getUnlocalizedName()
+    {
+        return "module.icbm:" + name;
+    }
 }

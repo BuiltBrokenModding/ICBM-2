@@ -363,7 +363,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
     @Override
     public void onCollide(Entity entity)
     {
-        if (isServer() && entity != null && entity.worldObj != null && missile != null)
+        if (isServer() && entity != null && entity.worldObj != null && missile != null && blast == null)
         {
             if (world().rand.nextFloat() <= 0.3 && missile.getWarhead() != null)
             {
@@ -379,7 +379,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
     @Override
     public boolean onPlayerLeftClick(EntityPlayer player)
     {
-        if (world().rand.nextFloat() <= 0.3 && missile.getWarhead() != null)
+        if (world().rand.nextFloat() <= 0.3 && missile.getWarhead() != null && blast == null)
         {
             missile.getWarhead().trigger(new TriggerCause.TriggerCauseEntity(player), world(), x() + 0.5, y() + 0.5, z() + 0.5);
         }
@@ -395,7 +395,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
     public void onDestroyedByExplosion(Explosion ex)
     {
         //TODO attempt to set off warhead
-        if (missile != null && missile.getWarhead() != null)
+        if (missile != null && missile.getWarhead() != null && blast == null)
         {
             missile.getWarhead().trigger(new TriggerCause.TriggerCauseExplosion(ex), world(), x() + 0.5, y() + 0.5, z() + 0.5);
         }

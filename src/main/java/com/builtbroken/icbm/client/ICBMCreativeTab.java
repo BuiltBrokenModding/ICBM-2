@@ -24,6 +24,7 @@ public class ICBMCreativeTab extends ModCreativeTab
         add(list, ICBM.blockAMS);
         add(list, ICBM.blockFoFStation);
         add(list, ICBM.blockLauncherFrame);
+        add(list, ICBM.blockLauncherParts);
         add(list, ICBM.blockSmallSilo);
 
         add(list, ICBM.itemLinkTool);
@@ -53,7 +54,6 @@ public class ICBMCreativeTab extends ModCreativeTab
         add(list, ICBM.blockSmallMissileMag);
 
         add(list, ICBM.itemRocketLauncher);
-        add(list, ICBM.blockLauncherParts);
 
         add(list, ICBM.itemEngineModules);
         add(list, ICBM.itemGuidanceModules);

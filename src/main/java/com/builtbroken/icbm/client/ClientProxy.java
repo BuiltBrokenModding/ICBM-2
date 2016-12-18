@@ -6,10 +6,13 @@ import com.builtbroken.icbm.api.missile.IMissileEntity;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.client.ec.*;
 import com.builtbroken.icbm.content.ams.TileAMSClient;
-import com.builtbroken.icbm.content.blast.entity.ExSlimeRain;
 import com.builtbroken.icbm.content.blast.entity.ExplosiveHandlerSpawn;
+import com.builtbroken.icbm.content.blast.entity.slime.EntitySlimeRain;
+import com.builtbroken.icbm.content.blast.entity.slime.ExSlimeRain;
+import com.builtbroken.icbm.content.blast.entity.slime.RenderSlimeRain;
 import com.builtbroken.icbm.content.blast.explosive.BlastPathTester;
 import com.builtbroken.icbm.content.blast.explosive.ExMicroQuake;
+import com.builtbroken.icbm.content.blast.gravity.ExGravity;
 import com.builtbroken.icbm.content.blast.util.ExOrePuller;
 import com.builtbroken.icbm.content.blast.util.ExRegen;
 import com.builtbroken.icbm.content.blast.util.ExRegenLocal;
@@ -94,6 +97,8 @@ public class ClientProxy extends CommonProxy
         RenderingRegistry.registerEntityRenderingHandler(EntityCart.class, new RenderCart());
 
         RenderingRegistry.registerEntityRenderingHandler(EntityFragment.class, new RenderFragment());
+
+        RenderingRegistry.registerEntityRenderingHandler(EntitySlimeRain.class, new RenderSlimeRain());
 
         MinecraftForge.EVENT_BUS.register(this);
         FMLCommonHandler.instance().bus().register(this);
@@ -272,6 +277,7 @@ public class ClientProxy extends CommonProxy
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "OrePuller", new ExOrePuller());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SlimeRain", new ExSlimeRain()); //TODO add texture
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Emp", new ECEmp());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Gravity", new ExGravity());
         if (Engine.runningAsDev)
         {
             ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SimplePathTest1", new ExplosiveHandlerGeneric("SimplePathTest1", BlastPathTester.class, 1));

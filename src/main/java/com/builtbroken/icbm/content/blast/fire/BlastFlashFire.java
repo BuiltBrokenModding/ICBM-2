@@ -29,7 +29,7 @@ public class BlastFlashFire extends BlastSimplePath<BlastFlashFire>
     @Override
     public BlockEdit changeBlock(Location location)
     {
-        if (location.isAirBlock())
+        if (location.isReplaceable())
         {
             Location loc = location.add(0, -1, 0);
             if (!loc.isAirBlock() && loc.isSideSolid(ForgeDirection.UP))
@@ -47,7 +47,7 @@ public class BlastFlashFire extends BlastSimplePath<BlastFlashFire>
     {
         if (super.shouldPathTo(last, next))
         {
-            if (last.isAirBlock() && next.isAirBlock())
+            if (last.isReplaceable() && next.isReplaceable())
                 return last.sub(next).toForgeDirection() != ForgeDirection.UP;
             return true;
         }

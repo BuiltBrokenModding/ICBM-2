@@ -264,21 +264,21 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         final ItemStack arrowBundle = ItemExplosiveParts.ExplosiveParts.ARROW_BUNDLE.newItem();
 
         //Fragment arrow explosive
-        ItemStack arrowFrag = ExplosiveItems.FRAGMENT.newItem();
-        ExFragment.setFragmentType(arrowFrag, FragBlastType.ARROW);
-        GameRegistry.addRecipe(new ShapedOreRecipe(arrowFrag, "A A", " G ", "A A", 'A', arrowBundle, 'G', explosiveCharge));
+        ItemStack fragStack = ExplosiveItems.FRAGMENT.newItem();
+        ExFragment.setFragmentType(fragStack, FragBlastType.ARROW);
+        GameRegistry.addRecipe(new ShapedOreRecipe(fragStack, "A A", " G ", "A A", 'A', arrowBundle, 'G', explosiveCharge));
 
-        ItemStack cobbleFrag = ExplosiveItems.FRAGMENT.newItem();
-        ExFragment.setFragmentType(cobbleFrag, FragBlastType.COBBLESTONE);
-        GameRegistry.addRecipe(new ShapedOreRecipe(cobbleFrag, "ccc", "cGc", "ccc", 'c', OreNames.COBBLESTONE, 'G', explosiveCharge));
+        fragStack = ExplosiveItems.FRAGMENT.newItem();
+        ExFragment.setFragmentType(fragStack, FragBlastType.COBBLESTONE);
+        GameRegistry.addRecipe(new ShapedOreRecipe(fragStack, "ccc", "cGc", "ccc", 'c', OreNames.COBBLESTONE, 'G', explosiveCharge));
 
-        ItemStack woodFrag = ExplosiveItems.FRAGMENT.newItem();
-        ExFragment.setFragmentType(cobbleFrag, FragBlastType.WOOD);
-        GameRegistry.addRecipe(new ShapedOreRecipe(woodFrag, "ccc", "cGc", "ccc", 'c', OreNames.WOOD, 'G', explosiveCharge));
+        fragStack = ExplosiveItems.FRAGMENT.newItem();
+        ExFragment.setFragmentType(fragStack, FragBlastType.WOOD);
+        GameRegistry.addRecipe(new ShapedOreRecipe(fragStack, "ccc", "cGc", "ccc", 'c', OreNames.WOOD, 'G', explosiveCharge));
 
-        ItemStack blazeFrag = ExplosiveItems.FRAGMENT.newItem();
-        ExFragment.setFragmentType(cobbleFrag, FragBlastType.BLAZE);
-        GameRegistry.addRecipe(new ShapedOreRecipe(blazeFrag, "ccc", "cGc", "ccc", 'c', Items.blaze_powder, 'G', explosiveCharge));
+        fragStack = ExplosiveItems.FRAGMENT.newItem();
+        ExFragment.setFragmentType(fragStack, FragBlastType.BLAZE);
+        GameRegistry.addRecipe(new ShapedOreRecipe(fragStack, "ccc", "cGc", "ccc", 'c', Items.blaze_powder, 'G', explosiveCharge));
 
         //Exothermic explosive TODO add tech based recipe
         newRecipe(ExplosiveItems.THERMIC_EXO, " B ", "BMB", " B ", 'B', Items.blaze_powder, 'M', magicCharge);
@@ -423,7 +423,8 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         BIOME_CHANGE("BiomeChange", 1),
         ORE_PULLER("OrePuller", 20),
         SLIME_RAIN("SlimeRain", 5),
-        EMP("Emp", 1);
+        EMP("Emp", 1),
+        GRAVITY("Gravity", 5);
 
         //TODO implement tool tips to hint at usage
 

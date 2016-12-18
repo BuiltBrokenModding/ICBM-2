@@ -2,12 +2,13 @@ package com.builtbroken.icbm.content.crafting.missile.trigger;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.warhead.ITrigger;
-import com.builtbroken.mc.prefab.module.ItemAbstractModule;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.trigger.impact.ImpactTrigger;
+import com.builtbroken.jlib.data.Colors;
 import com.builtbroken.jlib.data.science.units.UnitDisplay;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
+import com.builtbroken.mc.prefab.module.ItemAbstractModule;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -45,7 +46,7 @@ public class ItemTriggerModules extends ItemAbstractModule implements IPostInit
         IModule module = getModule(stack);
         if (module instanceof ImpactTrigger)
         {
-            //TODO replace with translation keys
+            list.add(Colors.RED + "Not implemented");
             list.add("Kinetic Energy Trigger Values");
             list.add("Min: " + new UnitDisplay(UnitDisplay.Unit.JOULES, ((ImpactTrigger) module).getMinimalForce(), true));
             list.add("Max: " + new UnitDisplay(UnitDisplay.Unit.JOULES, ((ImpactTrigger) module).getMaximalForce(), true));

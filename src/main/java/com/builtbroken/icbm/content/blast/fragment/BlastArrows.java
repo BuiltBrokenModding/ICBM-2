@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.blast.fragment;
 
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.lib.helper.MathUtility;
+import com.builtbroken.mc.lib.transform.rotation.EulerAngle;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.explosive.blast.Blast;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -26,21 +26,35 @@ public class BlastArrows extends Blast<BlastArrows>
     {
         if (!beforeBlocksPlaced)
         {
-            for (int i = 0; i < ARROWS * (int) size; i++)
+            final Pos center = new Pos((int)x + 0.5, (int)y + 0.5, (int)z + 0.5);
+            int rotations = (int) Math.ceil(Math.sqrt(size * 10));
+            double degrees = 360 / rotations;
+
+            for (int yaw = 0; yaw < rotations; yaw++)
             {
-                Pos pos = new Pos(x(), y(), z()).addRandom(MathUtility.rand, 2);
-                if (pos.isAirBlock(world()))
+                for (int pitch = 0; pitch < rotations; pitch++)
                 {
-                    EntityArrow arrow = new EntityArrow(world);
-                    arrow.setPosition(pos.x(), pos.y(), pos.z());
-                    pos = new Pos().addRandom(MathUtility.rand, 2);
+                    EulerAngle rotation = new EulerAngle(yaw * degrees + (world.rand.nextFloat() * 2), pitch * degrees + (world.rand.nextFloat() * 2));
+                    Pos velocity = rotation.toPos().multiply(1 + world.rand.nextFloat());
+                    Pos pos = center.add(rotation.toPos()).addRandom(world.rand, 0.3);
+                    if (pos.isAirBlock(world)) //TODO add proper collision check
+                    {
+                        EntityArrow arrow = new EntityArrow(world);
+                        arrow.setPosition(pos.x(), pos.y(), pos.z());
 
-                    //Motion
-                    arrow.motionX = pos.x();
-                    arrow.motionY = pos.y();
-                    arrow.motionZ = pos.z();
+                        //Random chance for fragment to be on fire
+                        if (world.rand.nextBoolean())
+                        {
+                            arrow.setFire(3 + world.rand.nextInt(60));
+                        }
 
-                    world.spawnEntityInWorld(arrow);
+                        //Motion
+                        arrow.motionX = velocity.x();
+                        arrow.motionY = velocity.y();
+                        arrow.motionZ = velocity.z();
+
+                        world.spawnEntityInWorld(arrow);
+                    }
                 }
             }
         }

@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.blast.entity;
+package com.builtbroken.icbm.content.blast.gravity;
 
 import com.builtbroken.icbm.api.blast.IExHandlerTileMissile;
 import com.builtbroken.icbm.api.missile.IMissileEntity;
@@ -10,24 +10,22 @@ import com.builtbroken.icbm.content.blast.ExplosiveHandlerICBM;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 4/30/2016.
  */
-public class ExSlimeRain extends ExplosiveHandlerICBM<BlastSlimeRain> implements IExHandlerTileMissile
+public class ExGravity extends ExplosiveHandlerICBM<BlastGravity> implements IExHandlerTileMissile
 {
-    public ExSlimeRain()
+    public ExGravity()
     {
-        super("SlimeRain", 2);
+        super("Gravity", 2);
     }
 
     @Override
-    protected BlastSlimeRain newBlast()
+    protected BlastGravity newBlast()
     {
-        return new BlastSlimeRain(this);
+        return new BlastGravity(this);
     }
 
     @Override
     public boolean doesSpawnMissileTile(IMissile missile, IMissileEntity entity)
     {
-        //TODO implement small pod spawn(10, etc entities only)
-        //TODO implement mob spawner version
         return true;
     }
 

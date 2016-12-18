@@ -197,6 +197,12 @@ public abstract class Missile extends AbstractModule implements IMissile
         return LanguageUtility.capitalizeFirst(casing.name().toLowerCase()) + "Missile[" + getWarhead() + ", " + getGuidance() + ", " + getEngine() + "]";
     }
 
+    @Override
+    public String getUnlocalizedName()
+    {
+        return "module.icbm:" + name;
+    }
+
     /**
      * Max number of hit points the missile has
      *

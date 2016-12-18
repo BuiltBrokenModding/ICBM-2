@@ -40,4 +40,9 @@ public class MissileModule extends AbstractModule implements IMissileModule
         return -1;
     }
 
+    @Override
+    public String getUnlocalizedName()
+    {
+        return "module.icbm:" + name;
+    }
 }
