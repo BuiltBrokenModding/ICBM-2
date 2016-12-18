@@ -41,13 +41,19 @@ public class BlastEndoThermic extends BlastSimplePath<BlastEndoThermic>
             edit.set(data.block(), data.meta() == -1 ? 0 : data.meta(), false, true);
             return edit;
         }
-        else if (location.isAirBlock())
+        else if (block == Blocks.snow)
+        {
+            BlockEdit edit = new BlockEdit(location);
+            edit.set(Blocks.snow_layer, Math.min(location.getBlockMetadata() + world.rand.nextInt(3), 15), false, true);
+            return edit;
+        }
+        else if (location.isReplaceable())
         {
             Location loc = location.add(0, -1, 0);
-            if (!loc.isAirBlock() && loc.isSideSolid(ForgeDirection.UP))
+            if (!loc.isAirBlock() && loc.isSideSolid(ForgeDirection.UP) && Blocks.snow.canPlaceBlockAt(world, location.xi(), location.yi(), location.zi()))
             {
                 BlockEdit edit = new BlockEdit(location);
-                edit.set(Blocks.snow_layer, 0, false, true);
+                edit.set(Blocks.snow_layer, world.rand.nextInt(3), false, true);
                 return edit;
             }
         }
