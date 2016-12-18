@@ -17,6 +17,7 @@ import net.minecraft.world.World;
  */
 public class BlastFragments extends BlastBasic<BlastFragments>
 {
+    public static final double START_VELOCITY = 2.0;
     public FragBlastType blastType;
 
     public BlastFragments(IExplosiveHandler handler, FragBlastType type)
@@ -49,7 +50,8 @@ public class BlastFragments extends BlastBasic<BlastFragments>
     public static void spawnFragments(final World world, final Pos center, int size, FragmentType type, Block block)
     {
         //TODO implement version with restricted directions
-        int rotations = Math.min(256, 3 + size); //Default of 1 = 5 rotations or 25 fragments
+        //If this is changed update item description so users are not confused
+        int rotations = Math.min(256, size); //Default of 1 = 5 rotations or 25 fragments
         double degrees = 360 / rotations;
         for (int yaw = 0; yaw < rotations; yaw++)
         {
@@ -59,7 +61,7 @@ public class BlastFragments extends BlastBasic<BlastFragments>
                 if (world.rand.nextBoolean())
                 {
                     EulerAngle rotation = new EulerAngle(yaw * degrees + (world.rand.nextFloat() * 2), pitch * degrees + (world.rand.nextFloat() * 2));
-                    Pos velocity = rotation.toPos().multiply(2 + world.rand.nextFloat());
+                    Pos velocity = rotation.toPos().multiply(START_VELOCITY  + world.rand.nextFloat());
                     Pos pos = center.add(rotation.toPos()).addRandom(world.rand, 0.2);
                     if (pos.isAirBlock(world)) //TODO add proper collision check
                     {

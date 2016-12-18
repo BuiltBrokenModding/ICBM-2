@@ -34,6 +34,4 @@ public enum FragBlastType
     {
         this(corner_icon_name, icon_name, back_ground_icon_name, type, null);
     }
-
-
 }

@@ -40,7 +40,7 @@ public class ExFragment extends ExplosiveHandlerICBM<Blast>
      * @param stack - item
      * @return valid string, reference from an enum
      */
-    protected FragBlastType getFragmentType(ItemStack stack)
+    public static FragBlastType getFragmentType(ItemStack stack)
     {
         return stack.getItem() instanceof IExplosiveItem ? getFragmentType(((IExplosiveItem) stack.getItem()).getAdditionalExplosiveData(stack)) : FragBlastType.ARROW;
     }

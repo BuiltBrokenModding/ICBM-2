@@ -8,10 +8,14 @@ import com.builtbroken.mc.prefab.explosive.blast.Blast;
 import net.minecraft.entity.projectile.EntityArrow;
 
 /**
+ * Handles the arrow blast
  * Created by robert on 2/25/2015.
  */
 public class BlastArrows extends Blast<BlastArrows>
 {
+    /** Number of arrows per size */
+    public static final int ARROWS = 10;
+
     public BlastArrows(IExplosiveHandler handler)
     {
         super(handler);
@@ -22,10 +26,10 @@ public class BlastArrows extends Blast<BlastArrows>
     {
         if (!beforeBlocksPlaced)
         {
-            for (int i = 0; i < 10 * size; i++)
+            for (int i = 0; i < ARROWS * (int) size; i++)
             {
                 Pos pos = new Pos(x(), y(), z()).addRandom(MathUtility.rand, 2);
-                if(pos.isAirBlock(world()))
+                if (pos.isAirBlock(world()))
                 {
                     EntityArrow arrow = new EntityArrow(world);
                     arrow.setPosition(pos.x(), pos.y(), pos.z());

@@ -1,7 +1,6 @@
 package com.builtbroken.icbm.content.fragments;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.blast.fragment.DamageFragment;
 import com.builtbroken.mc.lib.helper.MathUtility;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.prefab.entity.EntityProjectile;

@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.blast.fragment;
+package com.builtbroken.icbm.content.fragments;
 
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import net.minecraft.entity.Entity;

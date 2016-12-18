@@ -3,13 +3,12 @@ package com.builtbroken.icbm.content.crafting.parts;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.client.ec.ECBiomeChange;
 import com.builtbroken.icbm.content.blast.biome.ExBiomeChange;
-import com.builtbroken.icbm.content.blast.fragment.ExFragment;
-import com.builtbroken.icbm.content.blast.fragment.FragBlastType;
-import com.builtbroken.icbm.content.blast.fragment.IFragmentExplosiveHandler;
+import com.builtbroken.icbm.content.blast.fragment.*;
 import com.builtbroken.jlib.data.Colors;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.explosives.IExplosiveItem;
 import com.builtbroken.mc.client.ExplosiveRegistryClient;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.core.registry.implement.IRegistryInit;
 import com.builtbroken.mc.lib.helper.recipe.OreNames;
@@ -62,17 +61,55 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
             int id = ExBiomeChange.getBiomeID(stack);
             if (id >= 0)
             {
+                //TODO translate
                 list.add(Colors.RED.code + "!!!Use at your own risk!!!");
                 list.add("BiomeID: " + id);
                 list.add("Biome: " + (BiomeGenBase.getBiome(id) == null ? Colors.RED.code + "Error" : BiomeGenBase.getBiome(id).biomeName));
             }
         }
-        else if(stack.getItemDamage() == ExplosiveItems.FRAGMENT.ordinal())
+        else if (stack.getItemDamage() == ExplosiveItems.SLIME_RAIN.ordinal())
         {
-            FragBlastType frag = ExFragment.getFragmentType(getAdditionalExplosiveData(stack));
-            if(frag != FragBlastType.ARROW)
+            //TODO translate
+            list.add(Colors.RED.code + "!!!Not implemented!!!");
+        }
+        else if (stack.getItemDamage() == ExplosiveItems.REGEN_LOCAL.ordinal())
+        {
+            //TODO translate
+            list.add("Regenerates blocks in the area");
+            list.add("  Very limited regeneration");
+            list.add("  Does not do ores");
+            list.add("  Does not do plants");
+            list.add("  Does not do buildings");
+        }
+        else if (stack.getItemDamage() == ExplosiveItems.FRAGMENT.ordinal())
+        {
+            final FragBlastType type = ExFragment.getFragmentType(stack);
+            if (type == FragBlastType.ARROW)
             {
-                list.add(Colors.RED.code + "!!!Not implemented!!!");
+                list.add("Spawns " + BlastArrows.ARROWS + " arrows per explosive");
+                list.add("!!Breaks blocks!!");
+            }
+            else
+            {
+                list.add("Spawns block fragments");
+                list.add("!!Breaks blocks!!");
+                if (type.blockMaterial != null)
+                {
+                    list.add("Damage = " + type.blockMaterial.blockHardness * BlastFragments.START_VELOCITY);
+                }
+                int count = stack.stackSize * (int) ExplosiveItems.FRAGMENT.sizePerUnit;
+                list.add("Frags = " + (count * count));
+
+                if (Engine.proxy.isShiftHeld())
+                {
+                    list.add("f(Damage) = block hardness * velocity");
+                    list.add("f(Velocity) = " + BlastFragments.START_VELOCITY + " + rng(0.0 to 1.0)");
+                    list.add("f(Frags) = (explosives count * " + ExplosiveItems.FRAGMENT.sizePerUnit + ")^2");
+                }
+                else
+                {
+                    list.add("Data: Hold " + Colors.AQUA.code + "SHIFT");
+                }
             }
         }
     }
@@ -223,8 +260,20 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
 
         //Fragment arrow explosive
         ItemStack arrowFrag = ExplosiveItems.FRAGMENT.newItem();
-        arrowFrag.setTagCompound(ExFragment.setFragmentType(new NBTTagCompound(), FragBlastType.ARROW));
+        ExFragment.setFragmentType(arrowFrag, FragBlastType.ARROW);
         GameRegistry.addRecipe(new ShapedOreRecipe(arrowFrag, "A A", " G ", "A A", 'A', arrowBundle, 'G', explosiveCharge));
+
+        ItemStack cobbleFrag = ExplosiveItems.FRAGMENT.newItem();
+        ExFragment.setFragmentType(cobbleFrag, FragBlastType.COBBLESTONE);
+        GameRegistry.addRecipe(new ShapedOreRecipe(cobbleFrag, "ccc", "cGc", "ccc", 'c', OreNames.COBBLESTONE, 'G', explosiveCharge));
+
+        ItemStack woodFrag = ExplosiveItems.FRAGMENT.newItem();
+        ExFragment.setFragmentType(cobbleFrag, FragBlastType.WOOD);
+        GameRegistry.addRecipe(new ShapedOreRecipe(woodFrag, "ccc", "cGc", "ccc", 'c', OreNames.WOOD, 'G', explosiveCharge));
+
+        ItemStack blazeFrag = ExplosiveItems.FRAGMENT.newItem();
+        ExFragment.setFragmentType(cobbleFrag, FragBlastType.BLAZE);
+        GameRegistry.addRecipe(new ShapedOreRecipe(blazeFrag, "ccc", "cGc", "ccc", 'c', Items.blaze_powder, 'G', explosiveCharge));
 
         //Exothermic explosive TODO add tech based recipe
         newRecipe(ExplosiveItems.THERMIC_EXO, " B ", "BMB", " B ", 'B', Items.blaze_powder, 'M', magicCharge);
@@ -256,8 +305,11 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         //Cake
         newRecipe(ExplosiveItems.CAKE, "PPP", "PCP", "RRR", 'C', Items.cake, 'P', Blocks.glass_pane, 'R', UniversalRecipe.PRIMARY_PLATE.get());
 
+        //Ore Puller
+        newRecipe(ExplosiveItems.ORE_PULLER, "TBT", "BBB", "TBT", 'B', Blocks.coal_ore, 'T', Items.ender_pearl, 'M', magicCharge);
+
         //Emp
-        if(OreDictionary.doesOreNameExist("battery"))
+        if (OreDictionary.doesOreNameExist("battery"))
         {
             newRecipe(ExplosiveItems.EMP, "WRW", "RBR", "WRW", 'B', "battery", 'W', OreNames.WIRE_COPPER, 'R', OreNames.PLATE_GOLD); //TODO replace wires with large coils, TODO replace battery with capacitor, TODO make costly to balance size
         }
@@ -396,7 +448,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
          */
         public double getSize(int stackSize)
         {
-            if(stackSize == 1)
+            if (stackSize == 1)
             {
                 return sizePerUnit;
             }
