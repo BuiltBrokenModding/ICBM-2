@@ -63,7 +63,7 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase implements IPac
 
     public TileSMAutoCraft()
     {
-        super("warheadStation", Material.iron);
+        super("missileAutoStation", Material.iron);
         this.addInventoryModule(5);
         this.resistance = 10f;
         this.hardness = 10f;
