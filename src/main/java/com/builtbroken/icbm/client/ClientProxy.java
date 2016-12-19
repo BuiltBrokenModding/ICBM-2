@@ -8,14 +8,10 @@ import com.builtbroken.icbm.client.ec.*;
 import com.builtbroken.icbm.content.ams.TileAMSClient;
 import com.builtbroken.icbm.content.blast.entity.ExplosiveHandlerSpawn;
 import com.builtbroken.icbm.content.blast.entity.slime.EntitySlimeRain;
-import com.builtbroken.icbm.content.blast.entity.slime.ExSlimeRain;
 import com.builtbroken.icbm.content.blast.entity.slime.RenderSlimeRain;
 import com.builtbroken.icbm.content.blast.explosive.BlastPathTester;
 import com.builtbroken.icbm.content.blast.explosive.ExMicroQuake;
-import com.builtbroken.icbm.content.blast.gravity.ExGravity;
 import com.builtbroken.icbm.content.blast.util.ExOrePuller;
-import com.builtbroken.icbm.content.blast.util.ExRegen;
-import com.builtbroken.icbm.content.blast.util.ExRegenLocal;
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstationClient;
 import com.builtbroken.icbm.content.crafting.station.small.auto.TileSMAutoCraftClient;
 import com.builtbroken.icbm.content.crafting.station.warhead.TileWarheadStationClient;
@@ -269,15 +265,15 @@ public class ClientProxy extends CommonProxy
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "TorchEater", new ECTorchEater());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "PlantLife", new ECPlantLife());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "AntiPlant", new ECAntiPlant());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Regen", new ExRegen());//TODO Add texture
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "RegenLocal", new ExRegenLocal());//TODO Add texture
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Regen", new ECRegen());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "RegenLocal", new ECRegenLocal());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "MicroQuake", new ExMicroQuake());//TODO Add texture
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Cake", new ECCake());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "BiomeChange", new ECBiomeChange());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "OrePuller", new ExOrePuller());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SlimeRain", new ExSlimeRain()); //TODO add texture
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SlimeRain", new ECSlimeRain());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Emp", new ECEmp());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Gravity", new ExGravity());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Gravity", new ECGravity());
         if (Engine.runningAsDev)
         {
             ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SimplePathTest1", new ExplosiveHandlerGeneric("SimplePathTest1", BlastPathTester.class, 1));
