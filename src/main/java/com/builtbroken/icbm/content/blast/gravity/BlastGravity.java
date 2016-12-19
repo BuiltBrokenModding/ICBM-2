@@ -52,6 +52,10 @@ public class BlastGravity extends Blast<BlastGravity> implements IBlastTileMissi
     {
         //TODO add render effect to emulate a tractor beam
         ticks++;
+        if(bounds == null)
+        {
+            updateBounds();
+        }
 
         if (!world.isRemote)
         {
