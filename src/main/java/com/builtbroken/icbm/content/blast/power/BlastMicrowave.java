@@ -138,8 +138,7 @@ public class BlastMicrowave extends BlastSimplePath<BlastMicrowave>
     {
         if (!world.isRemote)
         {
-            //TODO get custom audio
-            //world.playSoundEffect(x, y, z, "random.explode", 4.0F, (float) ((1.0F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F) * size));
+            world.playSoundEffect(x, y, z, "icbm:icbm.buzz", 0.2F + world.rand.nextFloat() * 0.2F, 0.9F + world.rand.nextFloat() * 0.15F);
         }
     }
 

@@ -64,5 +64,11 @@
       "sounds":[
          "power/continuousspark"
       ]
+   },
+    "icbm.buzz":{
+      "category":"neutral",
+      "sounds":[
+         "power/buzz"
+      ]
    }
 }
