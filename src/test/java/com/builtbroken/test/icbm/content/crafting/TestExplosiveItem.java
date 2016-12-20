@@ -1,7 +1,7 @@
 package com.builtbroken.test.icbm.content.crafting;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.crafting.parts.ItemExplosive;
+import com.builtbroken.icbm.content.items.ItemExplosive;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.items.ItemStackWrapper;
 import com.builtbroken.mc.testing.junit.AbstractTest;

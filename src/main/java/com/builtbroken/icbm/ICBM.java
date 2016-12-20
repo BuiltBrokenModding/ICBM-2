@@ -22,6 +22,7 @@ import com.builtbroken.icbm.content.blast.gravity.ExGravity;
 import com.builtbroken.icbm.content.blast.item.BlockFakeCake;
 import com.builtbroken.icbm.content.blast.item.ExCake;
 import com.builtbroken.icbm.content.blast.power.ExEmp;
+import com.builtbroken.icbm.content.blast.power.ExMicrowave;
 import com.builtbroken.icbm.content.blast.temp.ExEndoThermic;
 import com.builtbroken.icbm.content.blast.temp.ExExoThermic;
 import com.builtbroken.icbm.content.blast.util.ExOrePuller;
@@ -35,7 +36,7 @@ import com.builtbroken.icbm.content.crafting.missile.guidance.ItemGuidanceModule
 import com.builtbroken.icbm.content.crafting.missile.trigger.ItemTriggerModules;
 import com.builtbroken.icbm.content.crafting.missile.trigger.Triggers;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
-import com.builtbroken.icbm.content.crafting.parts.ItemExplosive;
+import com.builtbroken.icbm.content.items.ItemExplosive;
 import com.builtbroken.icbm.content.crafting.parts.ItemExplosiveParts;
 import com.builtbroken.icbm.content.crafting.parts.ItemMissileParts;
 import com.builtbroken.icbm.content.crafting.parts.MissileCraftingParts;
@@ -390,6 +391,7 @@ public final class ICBM extends AbstractMod
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SlimeRain", new ExSlimeRain());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Emp", new ExEmp());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Gravity", new ExGravity());
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Microwave", new ExMicrowave());
             if (Engine.runningAsDev)
             {
                 ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest1", new ExplosiveHandlerGeneric("SimplePathTest1", BlastPathTester.class, 1));

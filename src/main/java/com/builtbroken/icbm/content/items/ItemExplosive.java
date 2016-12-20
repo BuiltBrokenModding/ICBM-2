@@ -1,9 +1,10 @@
-package com.builtbroken.icbm.content.crafting.parts;
+package com.builtbroken.icbm.content.items;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.client.ec.ECBiomeChange;
 import com.builtbroken.icbm.content.blast.biome.ExBiomeChange;
 import com.builtbroken.icbm.content.blast.fragment.*;
+import com.builtbroken.icbm.content.crafting.parts.ItemExplosiveParts;
 import com.builtbroken.jlib.data.Colors;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.explosives.IExplosiveItem;
@@ -11,6 +12,7 @@ import com.builtbroken.mc.client.ExplosiveRegistryClient;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.core.registry.implement.IRegistryInit;
+import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
@@ -55,7 +57,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean b)
     {
-        list.add(Colors.DARK_GREY.code + "Insert into a warhead to use");
+        list.add(Colors.DARK_GREY.code + "Insert into an explosive device to use");
         if (stack.getItemDamage() == ExplosiveItems.BIOME_CHANGE.ordinal())
         {
             int id = ExBiomeChange.getBiomeID(stack);
@@ -117,6 +119,15 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
                 }
             }
         }
+        else
+        {
+            final String translationKey = getUnlocalizedName(stack) + ".info";
+            String translation = LanguageUtility.getLocal(translationKey);
+            if (!translation.isEmpty() && !translation.equals(translationKey))
+            {
+                list.add(translation);
+            }
+        }
     }
 
     @Override
@@ -131,7 +142,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         }
         else if (stack.getItemDamage() >= 1 && stack.getItemDamage() < ExplosiveItems.values().length)
         {
-            return super.getUnlocalizedName() + "." + ExplosiveItems.values()[stack.getItemDamage()].ex_name;
+            return super.getUnlocalizedName() + "" + ExplosiveItems.values()[stack.getItemDamage()].ex_name;
         }
         return super.getUnlocalizedName(stack);
     }
@@ -424,7 +435,8 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         ORE_PULLER("OrePuller", 20),
         SLIME_RAIN("SlimeRain", 5),
         EMP("Emp", 1),
-        GRAVITY("Gravity", 5);
+        GRAVITY("Gravity", 5),
+        MICROWAVE("Microwave", 5);
 
         //TODO implement tool tips to hint at usage
 

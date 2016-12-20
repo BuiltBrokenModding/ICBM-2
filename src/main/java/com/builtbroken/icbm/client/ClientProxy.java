@@ -274,6 +274,7 @@ public class ClientProxy extends CommonProxy
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SlimeRain", new ECSlimeRain());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Emp", new ECEmp());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Gravity", new ECGravity());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Microwave", new ECMicrowave());
         if (Engine.runningAsDev)
         {
             ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SimplePathTest1", new ExplosiveHandlerGeneric("SimplePathTest1", BlastPathTester.class, 1));
