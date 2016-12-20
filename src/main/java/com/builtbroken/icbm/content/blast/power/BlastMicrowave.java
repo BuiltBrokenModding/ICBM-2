@@ -86,31 +86,32 @@ public class BlastMicrowave extends BlastSimplePath<BlastMicrowave>
     @Override
     public void doEffectOther(boolean beforeBlocksPlaced)
     {
+
+        AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(x - size, y - size, z - size, z + size, y + size, z + size);
+        List<EntityLivingBase> list = world.getEntitiesWithinAABB(EntityLivingBase.class, bounds);
+
+        for (EntityLivingBase entity : list)
+        {
+            double distanceToCenter = new Pos(entity).distance(x, y, z);
+            if (distanceToCenter < (size / 2))
+            {
+                float damage = (float) (size / 10); //Size 25 should do 2.5 damage at point blank range
+                damage = (float) (damage - damage * (distanceToCenter / (size / 2)));
+
+                int armorCount = InventoryUtility.getWornMetalCount(entity);
+                if (armorCount > 0)
+                {
+                    //+ 25% per armor worn that is metal
+                    damage += damage * armorCount * 0.25;
+                }
+                world.playSoundEffect(x, y, z, "icbm:icbm.fry", 0.2F + world.rand.nextFloat() * 0.2F, 0.9F + world.rand.nextFloat() * 0.15F);
+                entity.attackEntityFrom(new DamageMicrowave(cause instanceof TriggerCause.TriggerCauseEntity ? ((TriggerCause.TriggerCauseEntity) cause).source : this, new Location(entity)), damage);
+            }
+            //Set fire to entry
+            entity.setFire((int) (10 - 5 * (distanceToCenter / size)));
+        }
         if (!beforeBlocksPlaced)
         {
-            AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(x - size, y - size, z - size, z + size, y + size, z + size);
-            List<EntityLivingBase> list = world.getEntitiesWithinAABB(EntityLivingBase.class, bounds);
-            for (EntityLivingBase entity : list)
-            {
-                double distanceToCenter = new Pos(entity).distance(x, y, z);
-                if (distanceToCenter < (size / 2))
-                {
-                    float damage = (float) (size / 10); //Size 25 should do 2.5 damage at point blank range
-                    damage = (float) (damage - damage * (distanceToCenter / (size / 2)));
-
-                    int armorCount = InventoryUtility.getWornMetalCount(entity);
-                    if (armorCount > 0)
-                    {
-                        //+ 25% per armor worn that is metal
-                        damage += damage * armorCount * 0.25;
-                    }
-                    world.playSoundEffect(x, y, z, "icbm:icbm.fry", 0.2F + world.rand.nextFloat() * 0.2F, 0.9F + world.rand.nextFloat() * 0.15F);
-                    entity.attackEntityFrom(new DamageMicrowave(cause instanceof TriggerCause.TriggerCauseEntity ? ((TriggerCause.TriggerCauseEntity) cause).source : this, new Location(entity)), damage);
-                }
-                //Set fire to entry
-                entity.setFire((int) (10 - 5 * (distanceToCenter / size)));
-            }
-
             for (Pos pos : metalBlocks)
             {
                 double distanceToCenter = pos.distance(x, y, z);

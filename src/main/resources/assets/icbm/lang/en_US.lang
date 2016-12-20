@@ -112,19 +112,19 @@ item.icbm:explosiveItem.Gravity.info=Reverses gravity in a local area
 item.icbm:explosiveItem.Microwave.info=Converts water into steam,Sets entities on fire,Instant Effect,May cause lag for large sizes
 
 ## Explosive Items --- Tooltips -- Biome Change
-item.icbm:explosiveItem.BiomeChange.info=Changes the biome ID
+item.icbm:explosiveItem.BiomeChange.info=Changes the biome type
 item.icbm:explosiveItem.BiomeChange.id.info=Biome ID:
 item.icbm:explosiveItem.BiomeChange.name.info=Biome Name:
 
 ## Explosive Items --- Tooltips -- Fragments
 item.icbm:explosiveItem.fragment.arrow.info=Spawns %1 arrows per explosive
-item.icbm:explosiveItem.fragment.cobblestone.info=Spawns %1 fire balls per explosive
+item.icbm:explosiveItem.fragment.blaze.info=Spawns %1 fire balls per explosive
 item.icbm:explosiveItem.fragment.info=Spawns block fragments
 item.icbm:explosiveItem.fragment.damage.info=Damage = %1
 item.icbm:explosiveItem.fragment.frags.info=Frags = %1
-item.icbm:explosiveItem.fragment.damage.equation=f(Damage) = block hardness * velocity
-item.icbm:explosiveItem.fragment.velocity.equation= f(Velocity) = %1 + rng(0.0 to 1.0)
-item.icbm:explosiveItem.fragment.frags.equation=f(Frags) = (explosives count * %1)^2
+item.icbm:explosiveItem.fragment.damage.equation.info=f(Damage) = block hardness * velocity
+item.icbm:explosiveItem.fragment.velocity.equation.info= f(Velocity) = %1 + rng(0.0 to 1.0)
+item.icbm:explosiveItem.fragment.frags.equation.info=f(Frags) = (explosives count * %1)^2
 
 ## Explosive Items --- Tooltips -- Extra
 item.icbm:explosiveItem.explosive.name.info=Explosive: %1

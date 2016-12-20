@@ -37,7 +37,7 @@ public class BlastAntimatter extends BlastSimplePath<BlastAntimatter>
     {
         if (location.getBlock() == Blocks.air)
             return null;
-        return new BlockEdit(location).set(Blocks.air, 0, false, false);
+        return new BlockEdit(location).set(Blocks.air, 0, false, true);
     }
 
     @Override

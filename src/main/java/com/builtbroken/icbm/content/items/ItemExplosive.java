@@ -168,7 +168,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
                 IExplosiveHandler handler = getExplosive(stack);
 
                 translation = LanguageUtility.getLocal(getUnlocalizedName() + ".explosive.name.info");
-                translation = translation.replace("%1", "" + LanguageUtility.getLocal(handler.getTranslationKey()));
+                translation = translation.replace("%1", "" + LanguageUtility.getLocalName(handler.getTranslationKey()));
                 list.add(translation);
 
                 translation = LanguageUtility.getLocal(getUnlocalizedName() + ".explosive.size.info");
@@ -196,7 +196,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         }
         else if (stack.getItemDamage() >= 1 && stack.getItemDamage() < ExplosiveItems.values().length)
         {
-            return super.getUnlocalizedName() + "" + ExplosiveItems.values()[stack.getItemDamage()].ex_name;
+            return super.getUnlocalizedName() + "." + ExplosiveItems.values()[stack.getItemDamage()].ex_name;
         }
         return super.getUnlocalizedName(stack);
     }

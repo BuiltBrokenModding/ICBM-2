@@ -70,11 +70,11 @@
       "sounds":[
          "power/buzz"
       ]
-   }
-    "icbm.gry":{
+   },
+    "icbm.fry":{
       "category":"neutral",
       "sounds":[
-         "gry"
+         "fry"
       ]
    }
 }

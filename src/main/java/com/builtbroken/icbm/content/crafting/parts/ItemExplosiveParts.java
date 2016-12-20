@@ -71,7 +71,7 @@ public class ItemExplosiveParts extends ItemAbstract implements IPostInit
     {
         if (stack.getItemDamage() >= 0 && stack.getItemDamage() < ExplosiveParts.values().length)
         {
-            return super.getUnlocalizedName(stack) + "" + ExplosiveParts.values()[stack.getItemDamage()].iconName;
+            return super.getUnlocalizedName(stack) + "." + ExplosiveParts.values()[stack.getItemDamage()].iconName;
         }
         return super.getUnlocalizedName(stack);
     }
