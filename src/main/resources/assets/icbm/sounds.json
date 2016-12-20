@@ -71,4 +71,10 @@
          "power/buzz"
       ]
    }
+    "icbm.gry":{
+      "category":"neutral",
+      "sounds":[
+         "gry"
+      ]
+   }
 }

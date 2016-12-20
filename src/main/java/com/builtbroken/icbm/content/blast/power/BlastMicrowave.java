@@ -104,7 +104,7 @@ public class BlastMicrowave extends BlastSimplePath<BlastMicrowave>
                         //+ 25% per armor worn that is metal
                         damage += damage * armorCount * 0.25;
                     }
-                    //TODO play cooking meet sound to hit home that the entity its being cooked alive
+                    world.playSoundEffect(x, y, z, "icbm:icbm.fry", 0.2F + world.rand.nextFloat() * 0.2F, 0.9F + world.rand.nextFloat() * 0.15F);
                     entity.attackEntityFrom(new DamageMicrowave(cause instanceof TriggerCause.TriggerCauseEntity ? ((TriggerCause.TriggerCauseEntity) cause).source : this, new Location(entity)), damage);
                 }
                 //Set fire to entry
