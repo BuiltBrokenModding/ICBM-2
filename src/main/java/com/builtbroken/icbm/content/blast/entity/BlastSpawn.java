@@ -20,10 +20,6 @@ import java.util.Random;
  */
 public abstract class BlastSpawn extends Blast
 {
-    /**
-     * Max amount of entities to spawn
-     */
-    protected int maxEntities = 1;
 
     public BlastSpawn(IExplosiveHandler handler)
     {
@@ -34,7 +30,6 @@ public abstract class BlastSpawn extends Blast
     public BlastSpawn setYield(double size)
     {
         super.setYield(size);
-        this.maxEntities *= size;
         return this;
     }
 
@@ -68,7 +63,7 @@ public abstract class BlastSpawn extends Blast
                         }
                         if (spawn)
                         {
-                            location.add(rand.nextInt((int)size) - rand.nextInt((int)size), rand.nextInt((int)size), rand.nextInt((int)size) - rand.nextInt((int)size));
+                            location = location.add(rand.nextInt((int)size) - rand.nextInt((int)size), rand.nextInt((int)size) + 1, rand.nextInt((int)size) - rand.nextInt((int)size));
                             ent.setLocationAndAngles(location.x(), location.y(), location.z(), MathHelper.wrapAngleTo180_float(rand.nextFloat() * 360.0F), 0.0F);
                             if (ent instanceof EntityLivingBase)
                             {
@@ -81,8 +76,6 @@ public abstract class BlastSpawn extends Blast
                         }
                     }
                 }
-
-
             }
         }
     }
@@ -107,7 +100,7 @@ public abstract class BlastSpawn extends Blast
      */
     protected int numberOfEntities()
     {
-        return 1 + world.rand.nextInt(maxEntities);
+        return (int) size;
     }
 
     /**

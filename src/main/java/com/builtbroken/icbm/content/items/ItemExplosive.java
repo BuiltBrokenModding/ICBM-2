@@ -3,6 +3,7 @@ package com.builtbroken.icbm.content.items;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.client.ec.ECBiomeChange;
 import com.builtbroken.icbm.content.blast.biome.ExBiomeChange;
+import com.builtbroken.icbm.content.blast.entity.ExplosiveHandlerSpawn;
 import com.builtbroken.icbm.content.blast.fragment.*;
 import com.builtbroken.icbm.content.crafting.parts.ItemExplosiveParts;
 import com.builtbroken.jlib.data.Colors;
@@ -23,6 +24,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -35,6 +37,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -95,6 +98,15 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
                 translation = LanguageUtility.getLocal(getUnlocalizedName(stack) + ".name.info");
                 translation = translation.replace("%1", "" + (BiomeGenBase.getBiome(id) == null ? Colors.RED.code + "Error" : BiomeGenBase.getBiome(id).biomeName));
                 list.add(translation);
+            }
+        }
+
+        if (stack.getItemDamage() == ExplosiveItems.ENTITY_SPAWN.ordinal())
+        {
+            int id = ExplosiveHandlerSpawn.getEntityID(stack);
+            if (id != -1)
+            {
+                list.add("Entity: " + EntityList.getStringFromID(id));
             }
         }
 
@@ -424,6 +436,16 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
                 ExplosiveRegistry.registerExplosiveItem(stack);
             }
         }
+
+        Iterator iterator = EntityList.entityEggs.values().iterator();
+
+        while (iterator.hasNext())
+        {
+            EntityList.EntityEggInfo entityegginfo = (EntityList.EntityEggInfo) iterator.next();
+            ItemStack stack = ExplosiveItems.ENTITY_SPAWN.newItem();
+            ExplosiveHandlerSpawn.setEntityID(stack, entityegginfo.spawnedID);
+            ExplosiveRegistry.registerExplosiveItem(stack);
+        }
     }
 
     @Override
@@ -462,6 +484,18 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
                     }
                 }
             }
+            else if (i == ExplosiveItems.ENTITY_SPAWN.ordinal())
+            {
+                Iterator iterator = EntityList.entityEggs.values().iterator();
+
+                while (iterator.hasNext())
+                {
+                    EntityList.EntityEggInfo entityegginfo = (EntityList.EntityEggInfo) iterator.next();
+                    ItemStack stack = new ItemStack(item, 1, ExplosiveItems.ENTITY_SPAWN.ordinal());
+                    ExplosiveHandlerSpawn.setEntityID(stack, entityegginfo.spawnedID);
+                    list.add(stack);
+                }
+            }
             else
             {
                 list.add(ExplosiveItems.values()[i].newItem());
@@ -490,7 +524,8 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         SLIME_RAIN("SlimeRain", 5),
         EMP("Emp", 1),
         GRAVITY("Gravity", 5),
-        MICROWAVE("Microwave", 5);
+        MICROWAVE("Microwave", 5),
+        ENTITY_SPAWN("EntitySpawn", 1);
 
         //TODO implement tool tips to hint at usage
 
@@ -520,6 +555,10 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
          */
         public double getSize(int stackSize)
         {
+            if (this == ENTITY_SPAWN || this == CAKE || this == REGEN)
+            {
+                return stackSize;
+            }
             if (stackSize == 1)
             {
                 return sizePerUnit;

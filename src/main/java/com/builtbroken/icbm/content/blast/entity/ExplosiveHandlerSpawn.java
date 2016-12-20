@@ -4,10 +4,9 @@ import com.builtbroken.icbm.api.missile.IMissileEntity;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.content.blast.ExplosiveHandlerICBM;
-import com.builtbroken.mc.api.edit.IWorldChangeAction;
-import com.builtbroken.mc.api.event.TriggerCause;
+import com.builtbroken.mc.api.items.explosives.IExplosiveItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
 
 /**
  * Created by robert on 12/25/2014.
@@ -19,15 +18,17 @@ public class ExplosiveHandlerSpawn extends ExplosiveHandlerICBM<BlastSpawn>
         super("EntitySpawn", 1);
     }
 
-    @Override
-    public IWorldChangeAction createBlastForTrigger(World world, double x, double y, double z, TriggerCause triggerCause, double yieldMultiplier, NBTTagCompound tag)
+    public static int getEntityID(ItemStack stack)
     {
-        if (tag != null)
+        return stack.getItem() instanceof IExplosiveItem ? ((IExplosiveItem) stack.getItem()).getAdditionalExplosiveData(stack).getInteger("EntityID") : -1;
+    }
+
+    public static void setEntityID(ItemStack stack, int id)
+    {
+        if (stack.getItem() instanceof IExplosiveItem)
         {
-            int entityID = tag.getInteger("EntityID");
-            return new BlastEntitySpawn(this, entityID);
+            ((IExplosiveItem) stack.getItem()).getAdditionalExplosiveData(stack).setInteger("EntityID", id);
         }
-        return null;
     }
 
     @Override
