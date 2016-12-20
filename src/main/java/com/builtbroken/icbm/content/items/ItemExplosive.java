@@ -57,74 +57,119 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean b)
     {
-        list.add(Colors.DARK_GREY.code + "Insert into an explosive device to use");
+        //How to use info
+        String translation = Colors.DARK_GREY.code + LanguageUtility.getLocal(getUnlocalizedName() + ".info");
+        list.add(translation);
+
+        if (stack.getItemDamage() != ExplosiveItems.FRAGMENT.ordinal())
+        {
+            //What is "it" info
+            final String translationKey = getUnlocalizedName(stack) + ".info";
+            translation = LanguageUtility.getLocal(translationKey);
+            if (!translation.isEmpty() && !translation.equals(translationKey))
+            {
+                if (translation.contains(","))
+                {
+                    String[] split = translation.split(",");
+                    for (String s : split)
+                    {
+                        list.add(s.trim());
+                    }
+                }
+                else
+                {
+                    list.add(translation);
+                }
+            }
+        }
+
+        //Custom info per explosive
         if (stack.getItemDamage() == ExplosiveItems.BIOME_CHANGE.ordinal())
         {
             int id = ExBiomeChange.getBiomeID(stack);
             if (id >= 0)
             {
-                //TODO translate
-                list.add(Colors.RED.code + "!!!Use at your own risk!!!");
-                list.add("BiomeID: " + id);
-                list.add("Biome: " + (BiomeGenBase.getBiome(id) == null ? Colors.RED.code + "Error" : BiomeGenBase.getBiome(id).biomeName));
+                list.add(Colors.RED.code + LanguageUtility.getLocal(getUnlocalizedName() + ".WIP.info"));
+                list.add(Colors.RED.code + LanguageUtility.getLocal(getUnlocalizedName() + ".warning.WIP.info"));
+
+                translation = LanguageUtility.getLocal(getUnlocalizedName(stack) + ".id.info");
+                translation = translation.replace("%1", "" + id);
+                list.add(translation);
+
+                translation = LanguageUtility.getLocal(getUnlocalizedName(stack) + ".name.info");
+                translation = translation.replace("%1", "" + (BiomeGenBase.getBiome(id) == null ? Colors.RED.code + "Error" : BiomeGenBase.getBiome(id).biomeName));
+                list.add(translation);
             }
-        }
-        else if (stack.getItemDamage() == ExplosiveItems.SLIME_RAIN.ordinal())
-        {
-            //TODO translate
-            list.add(Colors.RED.code + "!!!Not implemented!!!");
-        }
-        else if (stack.getItemDamage() == ExplosiveItems.REGEN_LOCAL.ordinal())
-        {
-            //TODO translate
-            list.add("Regenerates blocks in the area");
-            list.add("  Very limited regeneration");
-            list.add("  Does not do ores");
-            list.add("  Does not do plants");
-            list.add("  Does not do buildings");
         }
         else if (stack.getItemDamage() == ExplosiveItems.FRAGMENT.ordinal())
         {
+            list.add(Colors.RED.code + LanguageUtility.getLocal(getUnlocalizedName() + ".warning.breaksBlocks.info"));
             final FragBlastType type = ExFragment.getFragmentType(stack);
             if (type == FragBlastType.ARROW)
             {
-                list.add("Spawns " + BlastArrows.ARROWS + " arrows per explosive");
-                list.add("!!Breaks blocks!!");
+                translation = LanguageUtility.getLocal(getUnlocalizedName(stack) + ".info");
+                translation = translation.replace("%1", "" + BlastArrows.ARROWS);
+                list.add(translation);
             }
             else if (type == FragBlastType.BLAZE)
             {
-                list.add("Spawns " + BlastArrows.ARROWS + " fire balls per explosive");
-                list.add("!!Breaks blocks!!");
+                translation = LanguageUtility.getLocal(getUnlocalizedName(stack) + ".info");
+                translation = translation.replace("%1", "" + BlastArrows.ARROWS);
+                list.add(translation);
             }
             else
             {
-                list.add("Spawns block fragments");
-                list.add("!!Breaks blocks!!");
+                translation = LanguageUtility.getLocal(getUnlocalizedName() + ".fragment.info");
+                list.add(translation);
                 if (type.blockMaterial != null)
                 {
-                    list.add("Damage = " + type.blockMaterial.blockHardness * BlastFragments.START_VELOCITY);
+                    translation = LanguageUtility.getLocal(getUnlocalizedName() + ".fragment.damage.info");
+                    translation = translation.replace("%1", "" + (type.blockMaterial.blockHardness * BlastFragments.START_VELOCITY));
+                    list.add(translation);
                 }
                 int count = stack.stackSize * (int) ExplosiveItems.FRAGMENT.sizePerUnit;
-                list.add("Frags = " + (count * count));
+                translation = LanguageUtility.getLocal(getUnlocalizedName() + ".fragment.frags.info");
+                translation = translation.replace("%1", "" + count);
+                list.add(translation);
 
                 if (Engine.proxy.isShiftHeld())
                 {
-                    list.add("f(Damage) = block hardness * velocity");
-                    list.add("f(Velocity) = " + BlastFragments.START_VELOCITY + " + rng(0.0 to 1.0)");
-                    list.add("f(Frags) = (explosives count * " + ExplosiveItems.FRAGMENT.sizePerUnit + ")^2");
+                    list.add(LanguageUtility.getLocal(getUnlocalizedName() + ".fragment.damage.equation.info"));
+
+                    translation = LanguageUtility.getLocal(getUnlocalizedName() + ".fragment.velocity.equation.info");
+                    translation = translation.replace("%1", "" + BlastFragments.START_VELOCITY);
+                    list.add(translation);
+
+                    translation = LanguageUtility.getLocal(getUnlocalizedName() + ".fragment.frags.equation.info");
+                    translation = translation.replace("%1", "" + ExplosiveItems.FRAGMENT.sizePerUnit);
+                    list.add(translation);
                 }
                 else
                 {
-                    list.add("Data: Hold " + Colors.AQUA.code + "SHIFT");
+                    translation = LanguageUtility.getLocal("item.tooltip.description.more");
+                    translation = translation.replace("%1", Colors.AQUA.code + "SHIFT");
+                    list.add(translation);
                 }
             }
         }
         else
         {
-            final String translationKey = getUnlocalizedName(stack) + ".info";
-            String translation = LanguageUtility.getLocal(translationKey);
-            if (!translation.isEmpty() && !translation.equals(translationKey))
+            if (Engine.proxy.isShiftHeld())
             {
+                IExplosiveHandler handler = getExplosive(stack);
+
+                translation = LanguageUtility.getLocal(getUnlocalizedName() + ".explosive.name.info");
+                translation = translation.replace("%1", "" + LanguageUtility.getLocal(handler.getTranslationKey()));
+                list.add(translation);
+
+                translation = LanguageUtility.getLocal(getUnlocalizedName() + ".explosive.size.info");
+                translation = translation.replace("%1", "" + ((int) ((ExplosiveItems.values()[stack.getItemDamage()].sizePerUnit * handler.getSizeScaleFactor()) * 100) / 100));
+                list.add(translation);
+            }
+            else
+            {
+                translation = LanguageUtility.getLocal("item.tooltip.description.more");
+                translation = translation.replace("%1", Colors.AQUA.code + "SHIFT");
                 list.add(translation);
             }
         }

@@ -74,13 +74,55 @@ item.icbm:explosiveItem.BiomeChange.name=Biome Shift Charge
 item.icbm:explosiveItem.Cake.name=Cake Package
 item.icbm:explosiveItem.OrePuller.name=Ore Up Draft Charge
 item.icbm:explosiveItem.Emp.name=Emp Battery
-item.icbm:explosiveItem.SlimeRain.name=Royal Slime
+item.icbm:explosiveItem.SlimeRain.name=Royal Slime Jar
 item.icbm:explosiveItem.Gravity.name=Anti-Gravity Device
 
 item.icbm:explosiveItem.fragment.arrow.name=Arrow Bundle Charge
 item.icbm:explosiveItem.fragment.cobblestone.name=Cobblestone Frag Charge
 item.icbm:explosiveItem.fragment.wood.name=Wood Frag Charge
 item.icbm:explosiveItem.fragment.blaze.name=Blaze Frag Charge
+
+## Explosive Items --- Tooltips
+item.icbm:explosiveItem.info=Insert into an explosive device to use
+item.icbm:explosiveItem.WIP.info=!!!WIP!!!
+item.icbm:explosiveItem.warning.WIP.info=!!!Use at your own risk!!!
+item.icbm:explosiveItem.warning.breaksBlocks.info="!!Breaks blocks!!"
+
+item.icbm:explosiveItem.ExoThermic.info=Releases heat energy, Melts stone into lava
+item.icbm:explosiveItem.EndoThermic.info=Consumes heat energy,Turns water in air into snow,Turns water blocks into ice
+item.icbm:explosiveItem.FireBomb.info=Spawns a single fire block
+item.icbm:explosiveItem.FlashFire.info=Spreads fire around an area
+item.icbm:explosiveItem.TorchEater.info=Uses magic to remove torches
+item.icbm:explosiveItem.EnderBlocks.info=Teleports blocks using endermen
+item.icbm:explosiveItem.Antimatter.info=Converts blocks into pure energy,Ignores hardness,Destroys everything at center,Generates secondary blast
+item.icbm:explosiveItem.AntiPlant.info=Uses magic to destroy plants
+item.icbm:explosiveItem.PlantLife.info=Heals the earth and regrows plants
+item.icbm:explosiveItem.Regen.info=Regenerates entire chunks
+item.icbm:explosiveItem.RegenLocal.info=Regenerates blocks in the area,--Very limited regeneration,--Does not do ores,--Does not do plants,--Does not do buildings
+item.icbm:explosiveItem.Cake.info=Cake in a box
+item.icbm:explosiveItem.OrePuller.info=Uses endermen to teleport ore
+item.icbm:explosiveItem.Emp.info=Generates an EMP pulse
+item.icbm:explosiveItem.SlimeRain.info=Summons the slimes
+item.icbm:explosiveItem.Gravity.info=Reverses gravity in a local area
+
+## Explosive Items --- Tooltips -- Biome Change
+item.icbm:explosiveItem.BiomeChange.info=Changes the biome ID
+item.icbm:explosiveItem.BiomeChange.id.info=Biome ID:
+item.icbm:explosiveItem.BiomeChange.name.info=Biome Name:
+
+## Explosive Items --- Tooltips -- Fragments
+item.icbm:explosiveItem.fragment.arrow.info=Spawns %1 arrows per explosive
+item.icbm:explosiveItem.fragment.cobblestone.info=Spawns %1 fire balls per explosive
+item.icbm:explosiveItem.fragment.info=Spawns block fragments
+item.icbm:explosiveItem.fragment.damage.info=Damage = %1
+item.icbm:explosiveItem.fragment.frags.info=Frags = %1
+item.icbm:explosiveItem.fragment.damage.equation=f(Damage) = block hardness * velocity
+item.icbm:explosiveItem.fragment.velocity.equation= f(Velocity) = %1 + rng(0.0 to 1.0)
+item.icbm:explosiveItem.fragment.frags.equation=f(Frags) = (explosives count * %1)^2
+
+## Explosive Items --- Tooltips -- Extra
+item.icbm:explosiveItem.explosive.name.info=Explosive: %1
+item.icbm:explosiveItem.explosive.size.info=Size: %1
 
 ## Tiles
 tile.icbm:TileMissile.0.name=Wooden Rocket Display
