@@ -1,5 +1,8 @@
 package com.builtbroken.icbm.content.blast.power;
 
+import com.builtbroken.icbm.api.missile.IMissileEntity;
+import com.builtbroken.icbm.api.modules.IMissile;
+import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.content.blast.ExplosiveHandlerICBM;
 
 /**
@@ -11,5 +14,11 @@ public class ExMicrowave extends ExplosiveHandlerICBM<BlastMicrowave>
     public ExMicrowave()
     {
         super("Microwave", 5);
+    }
+
+    @Override
+    public boolean doesDamageMissile(IMissileEntity entity, IMissile missile, IWarhead warhead, boolean warheadBlew, boolean engineBlew)
+    {
+        return engineBlew;
     }
 }

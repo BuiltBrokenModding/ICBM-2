@@ -1,17 +1,24 @@
 package com.builtbroken.icbm.content.blast.power;
 
 import com.builtbroken.mc.api.edit.IWorldEdit;
+import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.packet.callback.PacketBlast;
 import com.builtbroken.mc.lib.transform.vector.Location;
+import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
+import com.builtbroken.mc.prefab.entity.damage.DamageElectrical;
+import com.builtbroken.mc.prefab.entity.damage.DamageMicrowave;
 import com.builtbroken.mc.prefab.explosive.blast.BlastSimplePath;
+import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,6 +31,8 @@ import java.util.List;
  */
 public class BlastMicrowave extends BlastSimplePath<BlastMicrowave>
 {
+    protected List<Pos> metalBlocks = new ArrayList();
+
     public BlastMicrowave(IExplosiveHandler handler)
     {
         super(handler);
@@ -33,14 +42,43 @@ public class BlastMicrowave extends BlastSimplePath<BlastMicrowave>
     public IWorldEdit changeBlock(Location location)
     {
         Block block = location.getBlock();
-        //TODO set fire to wood near water
-        //TODO cause steam damage
-        //TODO send shocks out from metal
-        //TODO make energy based (Blocks destroyed consumes energy, Metal consumes a lot of energy, Travel distance consumes energy)
-        //TODO destroy plants
-        if (block == Blocks.water || block == Blocks.flowing_water)
+        if (block.blockHardness > -1)
         {
-            return new BlockEdit(location, Blocks.air, 0);
+            //TODO cause steam damage
+            //TODO send shocks out from metal
+            //TODO make energy based (Blocks destroyed consumes energy, Metal consumes a lot of energy, Travel distance consumes energy)
+            //TODO induce power and interference into wires
+            //TODO damage low grade wires
+            if (block == Blocks.water || block == Blocks.flowing_water)
+            {
+                return new BlockEdit(location, Blocks.air, 0);
+            }
+            else if (block == Blocks.cactus)
+            {
+                return new BlockEdit(location, Blocks.fire, 0);
+            }
+            else if (block.blockMaterial == Material.wood)
+            {
+                if (world.rand.nextFloat() < 0.05)
+                {
+                    return new BlockEdit(location, Blocks.fire, 0);
+                }
+            }
+            else if (block.blockMaterial == Material.plants || block.blockMaterial == Material.leaves)
+            {
+                if (world.rand.nextFloat() < 0.25 && block == Blocks.sapling)
+                {
+                    return new BlockEdit(location, Blocks.deadbush, 0);
+                }
+                else if (world.rand.nextFloat() < 0.10)
+                {
+                    return new BlockEdit(location, Blocks.fire, 0);
+                }
+            }
+            else if (block.blockMaterial == Material.anvil || block.blockMaterial == Material.iron)
+            {
+                metalBlocks.add(location.toPos());
+            }
         }
         return null;
     }
@@ -54,11 +92,37 @@ public class BlastMicrowave extends BlastSimplePath<BlastMicrowave>
             List<EntityLivingBase> list = world.getEntitiesWithinAABB(EntityLivingBase.class, bounds);
             for (EntityLivingBase entity : list)
             {
-                //TODO if wearing armor apply heat damage
-                //TODO apply heat damage directly
-                //TODO scale damage by distance
+                double distanceToCenter = new Pos(entity).distance(x, y, z);
+                if (distanceToCenter < (size / 2))
+                {
+                    float damage = (float) (size / 10); //Size 25 should do 2.5 damage at point blank range
+                    damage = (float) (damage - damage * (distanceToCenter / (size / 2)));
+
+                    int armorCount = InventoryUtility.getWornMetalCount(entity);
+                    if (armorCount > 0)
+                    {
+                        //+ 25% per armor worn that is metal
+                        damage += damage * armorCount * 0.25;
+                    }
+                    //TODO play cooking meet sound to hit home that the entity its being cooked alive
+                    entity.attackEntityFrom(new DamageMicrowave(cause instanceof TriggerCause.TriggerCauseEntity ? ((TriggerCause.TriggerCauseEntity) cause).source : this, new Location(entity)), damage);
+                }
                 //Set fire to entry
-                entity.setFire(10); //TODO only set on fire if close
+                entity.setFire((int) (10 - 5 * (distanceToCenter / size)));
+            }
+
+            for (Pos pos : metalBlocks)
+            {
+                double distanceToCenter = pos.distance(x, y, z);
+                float damage = (float) (6 - 5 * (distanceToCenter / size));
+                for (EntityLivingBase entity : list)
+                {
+                    if (pos.distance(entity) < 4 && world.rand.nextBoolean())
+                    {
+                        world.playSoundEffect(pos.x(), pos.y(), pos.z(), "icbm:icbm.emp", 0.2F + world.rand.nextFloat() * 0.2F, 0.9F + world.rand.nextFloat() * 0.15F);
+                        entity.attackEntityFrom(new DamageElectrical(cause instanceof TriggerCause.TriggerCauseEntity ? ((TriggerCause.TriggerCauseEntity) cause).source : this, new Location(world, pos)), damage);
+                    }
+                }
             }
         }
     }
