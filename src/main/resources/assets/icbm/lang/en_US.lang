@@ -90,6 +90,7 @@ tile.icbm:warheadstation.name=Warhead Station
 tile.icbm:missileDisplay.name=Missile Display
 
 tile.icbm:smallMissileMag.name=Small Missile Mag
+tile.icbm:smallMissileMag.info=Stores small missiles and allows for automated loading
 
 tile.icbm:icbmMissileRail.name=Missile Transport Rail
 
@@ -166,6 +167,7 @@ tile.icbm:siloWirelessDataPoint.name=Silo Command Connector
 tile.icbm:warheadStation.name=Warhead Station
 tile.icbm:missileStation.name=Missile Assembly Table
 tile.icbm:missileAutoStation.name=Missile Station
+tile.icbm:missileWorkstation.name=Missile Workstation
 
 ## Explosives
 explosive.error.null_ex.name=Empty
