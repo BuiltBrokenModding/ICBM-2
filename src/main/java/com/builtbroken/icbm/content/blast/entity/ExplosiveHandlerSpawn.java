@@ -5,8 +5,12 @@ import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.content.blast.ExplosiveHandlerICBM;
 import com.builtbroken.mc.api.items.explosives.IExplosiveItem;
+import net.minecraft.entity.EntityList;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+
+import java.util.List;
 
 /**
  * Created by robert on 12/25/2014.
@@ -16,6 +20,13 @@ public class ExplosiveHandlerSpawn extends ExplosiveHandlerICBM<BlastSpawn>
     public ExplosiveHandlerSpawn()
     {
         super("EntitySpawn", 1);
+    }
+
+    @Override
+    public void addInfoToItem(EntityPlayer player, ItemStack stack, List<String> lines)
+    {
+        lines.add("Entity: " + EntityList.getStringFromID(getEntityID(stack)));
+        lines.add("Count: " + stack.stackSize);
     }
 
     public static int getEntityID(ItemStack stack)

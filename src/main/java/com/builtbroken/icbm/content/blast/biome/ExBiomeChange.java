@@ -1,12 +1,16 @@
 package com.builtbroken.icbm.content.blast.biome;
 
+import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.missile.IMissileEntity;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.content.blast.ExplosiveHandlerICBM;
+import com.builtbroken.jlib.data.Colors;
 import com.builtbroken.mc.api.edit.IWorldChangeAction;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.items.explosives.IExplosiveItem;
+import com.builtbroken.mc.lib.helper.LanguageUtility;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -26,6 +30,20 @@ public class ExBiomeChange extends ExplosiveHandlerICBM<BlastBiome>
     public ExBiomeChange()
     {
         super("biomeChange", 1);
+    }
+
+    @Override
+    public void addInfoToItem(EntityPlayer player, ItemStack stack, List<String> lines)
+    {
+        super.addInfoToItem(player, stack, lines);
+        int id = getBiomeID(stack);
+        String translation = LanguageUtility.getLocal(ICBM.itemExplosive.getUnlocalizedName(stack) + ".id.info");
+        translation = translation.replace("%1", "" + id);
+        lines.add(translation);
+
+        translation = LanguageUtility.getLocal(ICBM.itemExplosive.getUnlocalizedName(stack) + ".name.info");
+        translation = translation.replace("%1", "" + (BiomeGenBase.getBiome(id) == null ? Colors.RED.code + "Error" : BiomeGenBase.getBiome(id).biomeName));
+        lines.add(translation);
     }
 
     @Override

@@ -81,6 +81,7 @@ item.icbm:explosiveItem.Emp.name=Emp Battery
 item.icbm:explosiveItem.SlimeRain.name=Royal Slime Jar
 item.icbm:explosiveItem.Gravity.name=Anti-Gravity Device
 item.icbm:explosiveItem.Microwave.name=Microwave Generator
+item.icbm:explosiveItem.EntitySpawn.name=Entity Egg Capsule
 
 item.icbm:explosiveItem.fragment.arrow.name=Arrow Bundle Charge
 item.icbm:explosiveItem.fragment.cobblestone.name=Cobblestone Frag Charge
@@ -110,6 +111,7 @@ item.icbm:explosiveItem.Emp.info=Generates an EMP pulse
 item.icbm:explosiveItem.SlimeRain.info=Summons the slimes
 item.icbm:explosiveItem.Gravity.info=Reverses gravity in a local area
 item.icbm:explosiveItem.Microwave.info=Converts water into steam,Sets entities on fire,Instant Effect,May cause lag for large sizes
+item.icbm:explosiveItem.EntitySpawn.info=Spawns entities into the world
 
 ## Explosive Items --- Tooltips -- Biome Change
 item.icbm:explosiveItem.BiomeChange.info=Changes the biome type
@@ -245,6 +247,7 @@ explosive.icbm:Emp.name=Universal EMP
 explosive.icbm:SlimeRain.name=Slime Rain
 explosive.icbm:Gravity.name=Anti-Gravity
 explosive.icbm:Microwave.name=Microwave
+explosive.icbm:EntitySpawn.name=Entity Spawn
 
 ## Damage
 damage.fragment.cobblestone=%s was stoned to death by cobble fragments
