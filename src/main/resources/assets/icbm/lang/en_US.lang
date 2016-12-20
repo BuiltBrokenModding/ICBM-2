@@ -49,12 +49,16 @@ item.icbm:missileRailCart.name=Missile Transport Cart
 item.icbm:missileParts.name=Missile Crafting Part
 item.icbm:missileParts.smallMissileCasing.name=Small Missile Skin
 
+## Explosive Crafting Parts
 item.icbm:explosivePart.name=Explosive Part
 item.icbm:explosivePart.arrowTube.name=Arrow Tube
 item.icbm:explosivePart.arrowBundle.name=Arrow Bundle
 item.icbm:explosivePart.explosiveItem.gunpowder.name=Gunpowder Charge
 item.icbm:explosivePart.explosiveItem.magic.name=Magic Charge
 item.icbm:explosivePart.powderStick.name=Powder Stick
+
+##      INFO
+item.icbm:explosivePart.info=Used to craft explosives
 
 ## Explosive Items
 item.icbm:explosiveItem.name=Explosive Unit
@@ -86,7 +90,7 @@ item.icbm:explosiveItem.fragment.blaze.name=Blaze Frag Charge
 item.icbm:explosiveItem.info=Insert into an explosive device to use
 item.icbm:explosiveItem.WIP.info=!!!WIP!!!
 item.icbm:explosiveItem.warning.WIP.info=!!!Use at your own risk!!!
-item.icbm:explosiveItem.warning.breaksBlocks.info="!!Breaks blocks!!"
+item.icbm:explosiveItem.warning.breaksBlocks.info=!!Breaks blocks!!
 
 item.icbm:explosiveItem.ExoThermic.info=Releases heat energy, Melts stone into lava
 item.icbm:explosiveItem.EndoThermic.info=Consumes heat energy,Turns water in air into snow,Turns water blocks into ice

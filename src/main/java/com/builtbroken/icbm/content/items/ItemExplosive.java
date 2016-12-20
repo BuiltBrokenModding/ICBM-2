@@ -83,7 +83,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
             }
         }
 
-        //Custom info per explosive
+        //Custom info for biome change
         if (stack.getItemDamage() == ExplosiveItems.BIOME_CHANGE.ordinal())
         {
             int id = ExBiomeChange.getBiomeID(stack);
@@ -92,16 +92,14 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
                 list.add(Colors.RED.code + LanguageUtility.getLocal(getUnlocalizedName() + ".WIP.info"));
                 list.add(Colors.RED.code + LanguageUtility.getLocal(getUnlocalizedName() + ".warning.WIP.info"));
 
-                translation = LanguageUtility.getLocal(getUnlocalizedName(stack) + ".id.info");
-                translation = translation.replace("%1", "" + id);
-                list.add(translation);
-
                 translation = LanguageUtility.getLocal(getUnlocalizedName(stack) + ".name.info");
                 translation = translation.replace("%1", "" + (BiomeGenBase.getBiome(id) == null ? Colors.RED.code + "Error" : BiomeGenBase.getBiome(id).biomeName));
                 list.add(translation);
             }
         }
-        else if (stack.getItemDamage() == ExplosiveItems.FRAGMENT.ordinal())
+
+        //Unique info for fragments
+        if (stack.getItemDamage() == ExplosiveItems.FRAGMENT.ordinal())
         {
             list.add(Colors.RED.code + LanguageUtility.getLocal(getUnlocalizedName() + ".warning.breaksBlocks.info"));
             final FragBlastType type = ExFragment.getFragmentType(stack);
@@ -147,7 +145,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
                 else
                 {
                     translation = LanguageUtility.getLocal("item.tooltip.description.more");
-                    translation = translation.replace("%1", Colors.AQUA.code + "SHIFT");
+                    translation = translation.replace("%key", Colors.AQUA.code + "SHIFT");
                     list.add(translation);
                 }
             }
@@ -156,6 +154,17 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         {
             if (Engine.proxy.isShiftHeld())
             {
+                //Custom info for biome change
+                if (stack.getItemDamage() == ExplosiveItems.BIOME_CHANGE.ordinal())
+                {
+                    int id = ExBiomeChange.getBiomeID(stack);
+                    if (id >= 0)
+                    {
+                        translation = LanguageUtility.getLocal(getUnlocalizedName(stack) + ".id.info");
+                        translation = translation.replace("%1", "" + id);
+                        list.add(translation);
+                    }
+                }
                 IExplosiveHandler handler = getExplosive(stack);
 
                 translation = LanguageUtility.getLocal(getUnlocalizedName() + ".explosive.name.info");
@@ -163,13 +172,13 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
                 list.add(translation);
 
                 translation = LanguageUtility.getLocal(getUnlocalizedName() + ".explosive.size.info");
-                translation = translation.replace("%1", "" + ((int) ((ExplosiveItems.values()[stack.getItemDamage()].sizePerUnit * handler.getSizeScaleFactor()) * 100) / 100));
+                translation = translation.replace("%1", "" + ((int) ((ExplosiveItems.values()[stack.getItemDamage()].sizePerUnit * handler.getYieldModifier()) * 100) / 100));
                 list.add(translation);
             }
             else
             {
                 translation = LanguageUtility.getLocal("item.tooltip.description.more");
-                translation = translation.replace("%1", Colors.AQUA.code + "SHIFT");
+                translation = translation.replace("%key", Colors.AQUA.code + "SHIFT");
                 list.add(translation);
             }
         }

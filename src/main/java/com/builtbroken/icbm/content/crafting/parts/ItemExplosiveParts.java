@@ -3,6 +3,7 @@ package com.builtbroken.icbm.content.crafting.parts;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.recipe.OreNames;
+import com.builtbroken.mc.prefab.items.ItemAbstract;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -22,7 +23,7 @@ import java.util.List;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 1/28/2016.
  */
-public class ItemExplosiveParts extends Item implements IPostInit
+public class ItemExplosiveParts extends ItemAbstract implements IPostInit
 {
     public ItemExplosiveParts()
     {
