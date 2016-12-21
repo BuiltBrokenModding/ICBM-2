@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.rail.entity;
+package com.builtbroken.icbm.content.rail;
 
 import com.builtbroken.icbm.api.missile.ICustomMissileRender;
 import com.builtbroken.icbm.api.modules.IMissile;
@@ -22,9 +22,9 @@ import org.lwjgl.opengl.GL11;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 10/31/2016.
  */
-public class RenderCart extends Render
+public class RenderMissileCart extends Render
 {
-    public RenderCart()
+    public RenderMissileCart()
     {
         this.shadowSize = 0.0F;
     }
@@ -38,7 +38,7 @@ public class RenderCart extends Render
     @Override
     public void doRender(final Entity entity, final double xx, final double yy, final double zz, final float p_76986_8_, final float delta)
     {
-        final EntityCart cart = (EntityCart) entity;
+        final EntityMissileCart cart = (EntityMissileCart) entity;
         float f5 = cart.prevRotationPitch + (cart.rotationPitch - cart.prevRotationPitch) * delta;
 
         double x2 = MathHelper.lerp(cart.lastRenderX, xx, delta);
@@ -54,7 +54,7 @@ public class RenderCart extends Render
         cart.lastRenderY = y2;
         cart.lastRenderZ = z2;
 
-        if (cart.getType() == CartTypes.SMALL)
+        if (cart.getType() == MissileCartTypes.SMALL)
         {
             GL11.glPushMatrix();
             GL11.glTranslatef(0f, 0.05f, 0f);
@@ -75,7 +75,7 @@ public class RenderCart extends Render
 
             GL11.glPopMatrix();
         }
-        else if (cart.getType() == CartTypes.MICRO)
+        else if (cart.getType() == MissileCartTypes.MICRO)
         {
             GL11.glPushMatrix();
             GL11.glTranslatef(0f, .32f, 0f);
@@ -97,7 +97,7 @@ public class RenderCart extends Render
 
             GL11.glPopMatrix();
         }
-        else if (cart.getType() == CartTypes.ThreeByThree)
+        else if (cart.getType() == MissileCartTypes.ThreeByThree)
         {
             GL11.glPushMatrix();
             GL11.glTranslatef(0f, -0.05f, 0f);
@@ -170,7 +170,7 @@ public class RenderCart extends Render
      * @param yy
      * @param zz
      */
-    protected void drawBounds(EntityCart cart, double xx, double yy, double zz)
+    protected void drawBounds(EntityMissileCart cart, double xx, double yy, double zz)
     {
         GL11.glDepthMask(false);
         GL11.glDisable(GL11.GL_TEXTURE_2D);

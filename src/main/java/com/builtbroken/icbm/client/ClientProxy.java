@@ -25,8 +25,8 @@ import com.builtbroken.icbm.content.launcher.controller.remote.display.TileSiloI
 import com.builtbroken.icbm.content.launcher.launcher.standard.TileStandardLauncherClient;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.RenderMissile;
-import com.builtbroken.icbm.content.rail.entity.EntityCart;
-import com.builtbroken.icbm.content.rail.entity.RenderCart;
+import com.builtbroken.icbm.content.rail.EntityMissileCart;
+import com.builtbroken.icbm.content.rail.RenderMissileCart;
 import com.builtbroken.icbm.content.rocketlauncher.RenderRocketLauncher;
 import com.builtbroken.mc.client.SharedAssets;
 import com.builtbroken.mc.core.Engine;
@@ -82,7 +82,7 @@ public class ClientProxy extends CommonProxy
     public void init()
     {
         super.init();
-        SharedAssets.loadModels();
+        SharedAssets.loadResources();
         ClientRegistry.bindTileEntitySpecialRenderer(TileAntennaPart.class, new TESRAntenna());
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ICBM.blockAntenna), new ItemRendererAntennaFrame());
         MinecraftForgeClient.registerItemRenderer(ICBM.itemRocketLauncher, new RenderRocketLauncher());
@@ -90,7 +90,7 @@ public class ClientProxy extends CommonProxy
         MinecraftForgeClient.registerItemRenderer(ICBM.itemMissile, RenderMissile.INSTANCE);
         RenderingRegistry.registerEntityRenderingHandler(EntityMissile.class, RenderMissile.INSTANCE);
 
-        RenderingRegistry.registerEntityRenderingHandler(EntityCart.class, new RenderCart());
+        RenderingRegistry.registerEntityRenderingHandler(EntityMissileCart.class, new RenderMissileCart());
 
         RenderingRegistry.registerEntityRenderingHandler(EntityFragment.class, new RenderFragment());
 

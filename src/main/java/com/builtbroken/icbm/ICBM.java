@@ -63,8 +63,8 @@ import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.ItemMissile;
 import com.builtbroken.icbm.content.missile.tile.TileCrashedMissile;
 import com.builtbroken.icbm.content.missile.tracking.MissileTracker;
-import com.builtbroken.icbm.content.rail.entity.EntityCart;
-import com.builtbroken.icbm.content.rail.entity.ItemCart;
+import com.builtbroken.icbm.content.rail.EntityMissileCart;
+import com.builtbroken.icbm.content.rail.ItemMissileCart;
 import com.builtbroken.icbm.content.rocketlauncher.ItemRocketLauncher;
 import com.builtbroken.icbm.content.storage.small.TileSmallMag;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
@@ -329,7 +329,7 @@ public final class ICBM extends AbstractMod
 
 
         // ITEMS
-        itemMissileCart = manager.newItem("icbmMissileCart", ItemCart.class);
+        itemMissileCart = manager.newItem("icbmMissileCart", ItemMissileCart.class);
         itemMissile = manager.newItem("missile", ItemMissile.class);
         itemRocketLauncher = manager.newItem("rocketLauncher", ItemRocketLauncher.class);
         itemEngineModules = manager.newItem("engineModules", ItemEngineModules.class);
@@ -412,8 +412,8 @@ public final class ICBM extends AbstractMod
         EntityRegistry.registerGlobalEntityID(EntityFragment.class, "ICBMFragment", EntityRegistry.findGlobalUniqueEntityId());
         EntityRegistry.registerModEntity(EntityFragment.class, "ICBMFragment", ENTITY_ID_PREFIX + 4, this, 500, 1, true);
 
-        EntityRegistry.registerGlobalEntityID(EntityCart.class, "ICBMMissileCart", EntityRegistry.findGlobalUniqueEntityId());
-        EntityRegistry.registerModEntity(EntityCart.class, "ICBMMissileCart", ENTITY_ID_PREFIX + 5, this, 500, 1, true);
+        EntityRegistry.registerGlobalEntityID(EntityMissileCart.class, "ICBMMissileCart", EntityRegistry.findGlobalUniqueEntityId());
+        EntityRegistry.registerModEntity(EntityMissileCart.class, "ICBMMissileCart", ENTITY_ID_PREFIX + 5, this, 500, 1, true);
 
         EntityRegistry.registerGlobalEntityID(EntitySlimeRain.class, "ICBMSlime", EntityRegistry.findGlobalUniqueEntityId());
         EntityRegistry.registerModEntity(EntitySlimeRain.class, "ICBMSlime", ENTITY_ID_PREFIX + 6, this, 500, 1, true);

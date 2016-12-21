@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.rail.entity;
+package com.builtbroken.icbm.content.rail;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.mc.api.rails.ITransportRail;
@@ -27,9 +27,9 @@ import java.util.List;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 10/29/2016.
  */
-public class ItemCart extends Item implements IRecipeContainer
+public class ItemMissileCart extends Item implements IRecipeContainer
 {
-    public ItemCart()
+    public ItemMissileCart()
     {
         this.setMaxStackSize(5);
         this.setUnlocalizedName(ICBM.PREFIX + "missileRailCart");
@@ -40,7 +40,7 @@ public class ItemCart extends Item implements IRecipeContainer
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean p_77624_4_)
     {
-        list.add("Size: " + CartTypes.values()[stack.getItemDamage()]);
+        list.add("Size: " + MissileCartTypes.values()[stack.getItemDamage()]);
     }
 
     @Override
@@ -73,10 +73,10 @@ public class ItemCart extends Item implements IRecipeContainer
      * @param x
      * @param y
      * @param z
-     * @param type  - type of the cart @see {@link CartTypes}
+     * @param type  - type of the cart @see {@link MissileCartTypes}
      * @return true if the entity was placed into the world
      */
-    public static EntityCart placeCart(World world, int x, int y, int z, int type)
+    public static EntityMissileCart placeCart(World world, int x, int y, int z, int type)
     {
         final Block block = world.getBlock(x, y, z);
         final TileEntity tile = world.getTileEntity(x, y, z);
@@ -84,15 +84,15 @@ public class ItemCart extends Item implements IRecipeContainer
 
         if (block instanceof ITransportRailBlock)
         {
-            EntityCart cart = getCart(world, type);
-            cart.setPosition(x + 0.5, y + 0.5, z + 0.5);
+            EntityMissileCart cart = getCart(world, type);
+            cart.setPosition(x, y, z);
             mountEntity(cart, ((ITransportRailBlock) block).getAttachedDirection(world, x, y, z, meta), ((ITransportRailBlock) block).getFacingDirection(world, x, y, z, meta), ((ITransportRailBlock) block).getRailHeight(world, x, y, z, meta));
             return cart;
         }
         else if (tile instanceof ITransportRail)
         {
-            EntityCart cart = getCart(world, type);
-            cart.setPosition(x + 0.5, y + 0.5, z + 0.5);
+            EntityMissileCart cart = getCart(world, type);
+            cart.setPosition(x, y, z);
             mountEntity(cart, ((ITransportRail) tile).getAttachedDirection(), ((ITransportRail) tile).getFacingDirection(), ((ITransportRail) tile).getRailHeight());
             return cart;
         }
@@ -108,7 +108,7 @@ public class ItemCart extends Item implements IRecipeContainer
      * @param facing
      * @param railHeight
      */
-    public static void mountEntity(final EntityCart cart, final ForgeDirection side, final ForgeDirection facing, double railHeight)
+    public static void mountEntity(final EntityMissileCart cart, final ForgeDirection side, final ForgeDirection facing, double railHeight)
     {
         cart.railSide = side;
         cart.recenterCartOnRail(side, facing, railHeight, true);
@@ -122,11 +122,11 @@ public class ItemCart extends Item implements IRecipeContainer
      * @param meta
      * @return
      */
-    public static EntityCart getCart(final World world, int meta)
+    public static EntityMissileCart getCart(final World world, int meta)
     {
         //More types will be added later
-        final EntityCart cart = new EntityCart(world);
-        cart.setType(CartTypes.values()[meta]);
+        final EntityMissileCart cart = new EntityMissileCart(world);
+        cart.setType(MissileCartTypes.values()[meta]);
         return cart;
     }
 
@@ -134,7 +134,7 @@ public class ItemCart extends Item implements IRecipeContainer
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item p_150895_1_, CreativeTabs p_150895_2_, List p_150895_3_)
     {
-        for (int i = 0; i < CartTypes.values().length; i++)
+        for (int i = 0; i < MissileCartTypes.values().length; i++)
         {
             p_150895_3_.add(new ItemStack(p_150895_1_, 1, i));
         }

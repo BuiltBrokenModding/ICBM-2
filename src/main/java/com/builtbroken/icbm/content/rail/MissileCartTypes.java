@@ -1,16 +1,16 @@
-package com.builtbroken.icbm.content.rail.entity;
+package com.builtbroken.icbm.content.rail;
 
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.missile.InventoryFilterMissile;
 import com.builtbroken.mc.prefab.inventory.filters.IInventoryFilter;
 
 /**
- * List of cart types that are supported by {@link EntityCart}
+ * List of cart types that are supported by {@link EntityMissileCart}
  *
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 11/2/2016.
  */
-public enum CartTypes
+public enum MissileCartTypes
 {
     MICRO(0.7f, 0.7f, MissileCasings.SMALL),
     SMALL(0.7f, 2.4f, MissileCasings.SMALL),
@@ -24,7 +24,7 @@ public enum CartTypes
 
     public final IInventoryFilter filter;
 
-    CartTypes(float width, float length, MissileCasings supportedCasingSize)
+    MissileCartTypes(float width, float length, MissileCasings supportedCasingSize)
     {
         this.width = width;
         this.length = length;
