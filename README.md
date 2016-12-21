@@ -86,6 +86,8 @@ validate the claim and add the missing name(s) to the list.
 						- http://www.freesound.org/people/BMacZero/sounds/94128/
 * unfa                  - http://www.freesound.org/people/unfa/sounds/222678/
 * simonsco              - http://www.freesound.org/people/simosco/sounds/235537/
+* ecfike                - http://www.freesound.org/people/ecfike/sounds/130139/
+* hoffy1138             - http://www.freesound.org/people/hoffy1138/sounds/276968/
 
 ## Download Locations
 * http://builtbroken.com/pages/icbm/

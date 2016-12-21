@@ -76,5 +76,17 @@
       "sounds":[
          "fry"
       ]
+   },
+   "icbm.missilelaunch.large":{
+      "category":"neutral",
+      "sounds":[
+         "engine/rocket_launch_01"
+      ]
+   },
+   "icbm.missile.boom":{
+      "category":"neutral",
+      "sounds":[
+         "explosive/missile_explode_01"
+      ]
    }
 }
