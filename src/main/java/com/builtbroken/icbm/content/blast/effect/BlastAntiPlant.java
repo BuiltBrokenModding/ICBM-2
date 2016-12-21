@@ -81,6 +81,7 @@ public class BlastAntiPlant extends BlastSimplePath<BlastAntiPlant>
     {
         if (beforeBlocksPlaced)
         {
+            Pos center = new Pos(x, y, z);
             //TODO add more plant based mob entries
             List<Entity> ents = world.getEntitiesWithinAABB(EntityCreeper.class, new Cube(-size, -size - 1, -size, size, size, size).add(x, y, z).cropToWorld().toAABB());
             for (Entity entity : ents)
