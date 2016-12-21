@@ -9,6 +9,7 @@ import com.builtbroken.mc.prefab.entity.EntityProjectile;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -19,6 +20,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.IFluidBlock;
 
 /**
  * Entity that represents a fragment inside of the game world
@@ -145,7 +147,7 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
         if (!inGround && isOnFire() && worldObj.rand.nextBoolean())
         {
             final Pos firePos = new Pos(movingobjectposition).add(ForgeDirection.getOrientation(movingobjectposition.sideHit));
-            if (firePos.isReplaceable(worldObj))
+            if (firePos.isReplaceable(worldObj) &&  !(inBlockID == Blocks.water || inBlockID == Blocks.flowing_water || inBlockID instanceof IFluidBlock || inBlockID instanceof BlockLiquid))
             {
                 firePos.setBlock(worldObj, Blocks.fire);
                 worldObj.markBlockForUpdate(firePos.xi(), firePos.yi(), firePos.zi());
