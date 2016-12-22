@@ -136,7 +136,7 @@ item.icbm:explosiveItem.explosive.size.info=Size: %1
 tile.icbm:TileMissile.0.name=Wooden Rocket Display
 tile.icbm:TileMissile.1.name=Wooden Small Missile Display
 
-tile.icbm:warheadstation.name=Warhead Station
+tile.icbm:warheadStation.name=Warhead Station
 tile.icbm:missileDisplay.name=Missile Display
 
 tile.icbm:smallMissileMag.name=Small Missile Mag
