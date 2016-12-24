@@ -4,7 +4,7 @@ import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.icbm.content.launcher.controller.LauncherData;
 import com.builtbroken.icbm.content.launcher.silo.TileSmallSilo;
 import com.builtbroken.icbm.content.launcher.silo.TileStandardSilo;
-import com.builtbroken.mc.core.References;
+import com.builtbroken.mc.client.SharedAssets;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
@@ -44,7 +44,7 @@ public class GuiLocalController extends GuiContainerBase
     {
         super(new ContainerDummy(player, launcher));
         this.controller = launcher;
-        this.baseTexture = References.GUI__MC_EMPTY_FILE;
+        this.baseTexture = SharedAssets.GUI__MC_EMPTY_FILE;
     }
 
     @Override

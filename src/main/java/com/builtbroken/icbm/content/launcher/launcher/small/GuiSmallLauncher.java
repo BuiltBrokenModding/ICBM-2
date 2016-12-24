@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.launcher.launcher.small;
 
 import com.builtbroken.jlib.data.Colors;
-import com.builtbroken.mc.core.References;
+import com.builtbroken.mc.client.SharedAssets;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.gui.GuiContainerBase;
@@ -29,7 +29,7 @@ public class GuiSmallLauncher extends GuiContainerBase
     {
         super(new ContainerSmallLauncher(player, launcher));
         this.launcher = launcher;
-        this.baseTexture = References.GUI__MC_EMPTY_FILE;
+        this.baseTexture = SharedAssets.GUI__MC_EMPTY_FILE;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.content.launcher.controller.remote.connector;
 
-import com.builtbroken.mc.core.References;
+import com.builtbroken.mc.client.SharedAssets;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
 import com.builtbroken.mc.prefab.gui.GuiContainerBase;
 import net.minecraft.client.Minecraft;
@@ -27,7 +27,7 @@ public class GuiCommandSiloConnector extends GuiContainerBase
     public GuiCommandSiloConnector(EntityPlayer player, TileCommandSiloConnector tile)
     {
         super(new ContainerDummy(player, tile));
-        baseTexture = References.GUI__MC_EMPTY_FILE;
+        baseTexture = SharedAssets.GUI__MC_EMPTY_FILE;
         this.tile = tile;
     }
 

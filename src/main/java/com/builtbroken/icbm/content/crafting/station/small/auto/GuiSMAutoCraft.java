@@ -2,6 +2,7 @@ package com.builtbroken.icbm.content.crafting.station.small.auto;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.client.Assets;
+import com.builtbroken.mc.client.SharedAssets;
 import com.builtbroken.mc.core.References;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.prefab.gui.GuiButton2;
@@ -64,7 +65,7 @@ public class GuiSMAutoCraft extends GuiContainerBase
         }
         else
         {
-            this.baseTexture = References.GUI__MC_EMPTY_FILE;
+            this.baseTexture = SharedAssets.GUI__MC_EMPTY_FILE;
         }
     }
 

@@ -3,7 +3,7 @@ package com.builtbroken.icbm.content.launcher.controller.remote.display;
 import com.builtbroken.icbm.api.controller.ISiloConnectionData;
 import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCommandSiloConnector;
 import com.builtbroken.mc.api.map.radio.wireless.ConnectionStatus;
-import com.builtbroken.mc.core.References;
+import com.builtbroken.mc.client.SharedAssets;
 import com.builtbroken.mc.lib.transform.region.Rectangle;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
@@ -49,7 +49,7 @@ public class GuiSiloInterface extends GuiContainerBase
         super(new ContainerDummy(player, tileSiloInterface));
         this.player = player;
         this.tileSiloInterface = tileSiloInterface;
-        this.baseTexture = References.GUI__MC_EMPTY_FILE;
+        this.baseTexture = SharedAssets.GUI__MC_EMPTY_FILE;
     }
 
     @Override
