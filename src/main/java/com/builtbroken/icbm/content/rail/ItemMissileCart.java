@@ -18,6 +18,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.List;
 
@@ -143,7 +144,14 @@ public class ItemMissileCart extends Item implements IRecipeContainer
     @Override
     public void genRecipes(List<IRecipe> recipes)
     {
-        recipes.add(newShapedRecipe(new ItemStack(this, 1, 0), "SCS", "RTR", 'S', OreNames.ROD_IRON, 'C', UniversalRecipe.CIRCUIT_T1.get(), 'R', OreNames.REDSTONE, 'T', Items.minecart));
+        if(OreDictionary.doesOreNameExist("alTransportCart"))
+        {
+            recipes.add(newShapedRecipe(new ItemStack(this, 1, 0), "SCS", "RTR", 'S', OreNames.ROD_IRON, 'C', UniversalRecipe.CIRCUIT_T1.get(), 'R', OreNames.REDSTONE, 'T', "alTransportCart"));
+        }
+        else
+        {
+            recipes.add(newShapedRecipe(new ItemStack(this, 1, 0), "SCS", "RTR", 'S', OreNames.ROD_IRON, 'C', UniversalRecipe.CIRCUIT_T1.get(), 'R', OreNames.REDSTONE, 'T', Items.minecart));
+        }
         recipes.add(newShapedRecipe(new ItemStack(this, 1, 1), "RTR", 'R', OreNames.PLATE_IRON, 'T', new ItemStack(this, 1, 0)));
         recipes.add(newShapedRecipe(new ItemStack(this, 1, 2), "RRR", "RTR", "RRR", 'R', OreNames.PLATE_IRON, 'T', new ItemStack(this, 1, 0)));
     }
