@@ -4,8 +4,6 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.api.warhead.ITrigger;
-import com.builtbroken.mc.prefab.module.AbstractModule;
-import com.builtbroken.mc.prefab.module.ModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.engine.Engines;
@@ -20,6 +18,7 @@ import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.items.ItemStackWrapper;
+import com.builtbroken.mc.prefab.module.ModuleBuilder;
 import net.minecraft.item.ItemStack;
 
 import java.lang.reflect.InvocationTargetException;
@@ -30,7 +29,7 @@ import java.util.List;
 /**
  * Created by robert on 12/28/2014.
  */
-public class MissileModuleBuilder extends ModuleBuilder
+public class MissileModuleBuilder<M extends MissileModule> extends ModuleBuilder<M>
 {
     public static MissileModuleBuilder INSTANCE = new MissileModuleBuilder();
 
@@ -40,7 +39,7 @@ public class MissileModuleBuilder extends ModuleBuilder
     public List<String> idToUseWithModuleItem = new ArrayList<String>();
 
 
-    public boolean register(String mod_id, String name, Class<? extends AbstractModule> clazz, boolean useItem)
+    public boolean register(String mod_id, String name, Class<M> clazz, boolean useItem)
     {
         if (this.register(mod_id, name, clazz))
         {
@@ -54,7 +53,7 @@ public class MissileModuleBuilder extends ModuleBuilder
     }
 
     @Override
-    public boolean register(String mod_id, String name, Class<? extends AbstractModule> clazz)
+    public boolean register(String mod_id, String name, Class<M> clazz)
     {
         if (super.register(mod_id, name, clazz))
         {
