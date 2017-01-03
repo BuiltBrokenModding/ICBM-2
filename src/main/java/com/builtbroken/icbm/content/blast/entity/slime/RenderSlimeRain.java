@@ -15,7 +15,7 @@ import org.lwjgl.opengl.GL11;
  */
 public class RenderSlimeRain extends RenderLiving
 {
-    private static final ResourceLocation texture = new ResourceLocation(ICBM.DOMAIN, "textures/entity/slime/slime.png");
+    private static final ResourceLocation texture = new ResourceLocation(ICBM.DOMAIN, "textures/entity/slime.png");
     private ModelBase scaleAmount;
 
     public RenderSlimeRain()
