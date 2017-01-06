@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.items;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.mc.api.items.hz.IItemFrequency;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.registry.implement.IRecipeContainer;
 import com.builtbroken.mc.lib.helper.recipe.OreNames;
@@ -26,7 +27,7 @@ import java.util.List;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 3/26/2016.
  */
-public class ItemRemoteDetonator extends Item implements IRecipeContainer
+public class ItemRemoteDetonator extends Item implements IRecipeContainer, IItemFrequency
 {
     public ItemRemoteDetonator()
     {
@@ -143,24 +144,6 @@ public class ItemRemoteDetonator extends Item implements IRecipeContainer
         setPassKey(stack, passKey);
         setGroupID(stack, groupID);
         setSiloName(stack, null);
-    }
-
-    public float getBroadCastHz(ItemStack stack)
-    {
-        if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("hz"))
-        {
-            return stack.getTagCompound().getFloat("hz");
-        }
-        return 0;
-    }
-
-    public void setBroadCastHz(ItemStack stack, float hz)
-    {
-        if (stack.getTagCompound() == null)
-        {
-            stack.setTagCompound(new NBTTagCompound());
-        }
-        stack.getTagCompound().setFloat("hz", hz);
     }
 
     public short getPassKey(ItemStack stack)
