@@ -77,6 +77,7 @@ public class TileSmallMissileWorkstation extends TileSmallMissileStationBase imp
             {
                 missile = ((IModularMissileItem) item.getItem()).toMissile(item);
             }
+            sendDescPacket();
         }
     }
 
@@ -328,6 +329,7 @@ public class TileSmallMissileWorkstation extends TileSmallMissileStationBase imp
         {
             this.missile = null;
         }
+        sendDescPacket();
     }
 
     public void updateMissileItem()
@@ -336,6 +338,5 @@ public class TileSmallMissileWorkstation extends TileSmallMissileStationBase imp
         {
             setInventorySlotContents(INPUT_SLOT, getMissile().toStack());
         }
-
     }
 }
