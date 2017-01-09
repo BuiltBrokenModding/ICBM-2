@@ -3,7 +3,7 @@ package com.builtbroken.icbm.content.launcher.controller.remote.central;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.controller.ISiloConnectionData;
 import com.builtbroken.icbm.api.controller.ISiloConnectionPoint;
-import com.builtbroken.icbm.content.items.FakeRadioSender;
+import com.builtbroken.mc.prefab.hz.FakeRadioSender;
 import com.builtbroken.icbm.content.launcher.controller.local.TileLocalController;
 import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCommandSiloConnector;
 import com.builtbroken.jlib.data.vector.IPos3D;
