@@ -13,9 +13,13 @@ import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.api.tile.IGuiTile;
 import com.builtbroken.mc.core.Engine;
+import com.builtbroken.mc.core.content.parts.CraftingParts;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
+import com.builtbroken.mc.core.registry.implement.IRecipeContainer;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
+import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.Tile;
@@ -26,6 +30,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -39,7 +44,7 @@ import java.util.List;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 1/6/2016.
  */
-public class TileSMAutoCraft extends TileSmallMissileStationBase implements IPacketIDReceiver, IGuiTile, IAutomatedCrafter
+public class TileSMAutoCraft extends TileSmallMissileStationBase implements IPacketIDReceiver, IGuiTile, IAutomatedCrafter, IRecipeContainer
 {
     public static final int WARHEAD_SLOT = 1;
     public static final int GUIDANCE_SLOT = 2;
@@ -507,5 +512,11 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase implements IPac
         nbt.setBoolean("requiresEngine", requiresEngine);
         nbt.setBoolean("requiresGuidance", requiresGuidance);
         nbt.setBoolean("checkForCraft", checkForCraft);
+    }
+
+    @Override
+    public void genRecipes(List<IRecipe> recipes)
+    {
+        recipes.add(newShapedRecipe(ICBM.blockSMAuto, "RRR", "MCM", "PSP", 'S', new ItemStack(ICBM.blockMissileWorkstation), 'P', OreNames.PLATE_IRON, 'M', CraftingParts.DC_MOTOR.oreName, 'R', OreNames.ROD_IRON, 'C', UniversalRecipe.CIRCUIT_T2.get()));
     }
 }
