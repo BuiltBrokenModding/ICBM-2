@@ -23,6 +23,7 @@ import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.Tile;
+import com.builtbroken.mc.prefab.tile.module.TileModuleInventory;
 import com.builtbroken.mc.prefab.tile.multiblock.EnumMultiblock;
 import com.builtbroken.mc.prefab.tile.multiblock.MultiBlockHelper;
 import cpw.mods.fml.client.FMLClientHandler;
@@ -34,6 +35,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
@@ -91,10 +93,16 @@ public class TileSmallMag extends TileMissileContainer implements ISimpleItemRen
 
     public TileSmallMag()
     {
-        super("smallMissileMag", Material.iron, 1);
+        super("smallMissileMag", Material.iron);
         this.itemBlock = ItemBlockSmallSilo.class;
         this.isOpaque = false;
         this.renderTileEntity = true;
+    }
+
+    @Override
+    protected IInventory createInventory()
+    {
+        return new TileModuleInventory(this, 1);
     }
 
     @Override

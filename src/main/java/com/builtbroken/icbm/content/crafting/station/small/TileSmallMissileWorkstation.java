@@ -22,10 +22,12 @@ import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.recipe.item.RecipeTool;
 import com.builtbroken.mc.prefab.tile.Tile;
+import com.builtbroken.mc.prefab.tile.module.TileModuleInventory;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
@@ -44,11 +46,16 @@ public class TileSmallMissileWorkstation extends TileSmallMissileStationBase imp
         super("missileWorkstation", Material.iron);
         this.resistance = 10f;
         this.hardness = 10f;
-        this.addInventoryModule(1);
         this.itemBlock = ItemBlockMissileStation.class;
         this.renderNormalBlock = false;
         this.renderTileEntity = true;
         this.isOpaque = false;
+    }
+
+    @Override
+    protected IInventory createInventory()
+    {
+        return new TileModuleInventory(this, 1);
     }
 
     @Override

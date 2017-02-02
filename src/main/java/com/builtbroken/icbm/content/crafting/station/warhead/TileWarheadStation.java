@@ -26,6 +26,7 @@ import com.builtbroken.mc.prefab.tile.module.TileModuleInventory;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
@@ -40,7 +41,7 @@ import java.util.List;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 1/6/2016.
  */
-public class TileWarheadStation extends TileModuleMachine implements IPacketIDReceiver, IGuiTile, IAutomatedCrafter, IRecipeContainer
+public class TileWarheadStation extends TileModuleMachine<IInventory> implements IPacketIDReceiver, IGuiTile, IAutomatedCrafter<IInventory>, IRecipeContainer
 {
     public static final int WARHEAD_SLOT = 0;
     public static final int EXPLOSIVE_SLOT = 1;
@@ -72,6 +73,12 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
         this.hardness = 10f;
         this.renderTileEntity = true;
         this.renderNormalBlock = false;
+    }
+
+    @Override
+    protected IInventory createInventory()
+    {
+        return new TileModuleInventory(this, 4);
     }
 
     @Override
@@ -480,18 +487,6 @@ public class TileWarheadStation extends TileModuleMachine implements IPacketIDRe
             openGui(player, ICBM.INSTANCE);
         }
         return true;
-    }
-
-
-    @Override
-    public TileModuleInventory getInventory()
-    {
-        if (super.getInventory() == null)
-        {
-            //lazy init of inventory
-            addInventoryModule(4);
-        }
-        return (TileModuleInventory) super.getInventory();
     }
 
     protected ItemStack getWarheadStack()

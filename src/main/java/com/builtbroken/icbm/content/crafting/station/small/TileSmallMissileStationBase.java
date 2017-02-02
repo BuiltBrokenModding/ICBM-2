@@ -8,6 +8,7 @@ import com.builtbroken.mc.prefab.tile.multiblock.EnumMultiblock;
 import com.builtbroken.mc.prefab.tile.multiblock.MultiBlockHelper;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -17,7 +18,7 @@ import java.util.HashMap;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 11/11/2016.
  */
-public abstract class TileSmallMissileStationBase extends TileAbstractWorkstation
+public abstract class TileSmallMissileStationBase<I extends IInventory> extends TileAbstractWorkstation<I>
 {
     //Static values
     public static final int INPUT_SLOT = 0;

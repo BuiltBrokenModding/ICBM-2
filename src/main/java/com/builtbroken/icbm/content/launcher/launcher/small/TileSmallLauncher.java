@@ -16,6 +16,7 @@ import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.Tile;
+import com.builtbroken.mc.prefab.tile.module.TileModuleInventory;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -26,6 +27,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
@@ -41,13 +43,19 @@ public class TileSmallLauncher extends TileAbstractLauncher implements ISimpleIt
 {
     public TileSmallLauncher()
     {
-        super("smallLauncher", Material.anvil, 1);
+        super("smallLauncher", Material.iron);
         this.hardness = 10f;
         this.resistance = 10f;
         this.bounds = new Cube(0, 0, 0, 1, .5, 1);
         this.isOpaque = false;
         this.renderNormalBlock = false;
         this.renderTileEntity = true;
+    }
+
+    @Override
+    protected IInventory createInventory()
+    {
+        return new TileModuleInventory(this, 1);
     }
 
     @Override

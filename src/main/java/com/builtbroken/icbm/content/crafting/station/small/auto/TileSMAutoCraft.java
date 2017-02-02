@@ -29,6 +29,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
@@ -44,7 +45,7 @@ import java.util.List;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 1/6/2016.
  */
-public class TileSMAutoCraft extends TileSmallMissileStationBase implements IPacketIDReceiver, IGuiTile, IAutomatedCrafter, IRecipeContainer
+public class TileSMAutoCraft extends TileSmallMissileStationBase<IInventory> implements IPacketIDReceiver, IGuiTile, IAutomatedCrafter<IInventory>, IRecipeContainer
 {
     public static final int WARHEAD_SLOT = 1;
     public static final int GUIDANCE_SLOT = 2;
@@ -69,11 +70,16 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase implements IPac
     public TileSMAutoCraft()
     {
         super("missileAutoStation", Material.iron);
-        this.addInventoryModule(5);
         this.resistance = 10f;
         this.hardness = 10f;
         this.renderTileEntity = true;
         this.renderNormalBlock = false;
+    }
+
+    @Override
+    protected IInventory createInventory()
+    {
+        return new TileModuleInventory(this, 5);
     }
 
     @Override

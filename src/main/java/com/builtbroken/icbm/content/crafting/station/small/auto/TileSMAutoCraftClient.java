@@ -149,9 +149,9 @@ public class TileSMAutoCraftClient extends TileSMAutoCraft implements ISimpleIte
         }
         //Generate input missile renderer with parts attached
         final TileModuleInventory tempInv = getInventory();
-        inventory_module_$eq(clientRenderInv);
+        inventory_module = clientRenderInv;
         startedMissile = getCraftedMissile();
-        inventory_module_$eq(tempInv);
+        inventory_module = tempInv;
     }
 
     public void sendCraftingPacket()

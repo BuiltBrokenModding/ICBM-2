@@ -8,12 +8,14 @@ import com.builtbroken.mc.lib.render.RenderUtility;
 import com.builtbroken.mc.lib.transform.rotation.EulerAngle;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.Tile;
+import com.builtbroken.mc.prefab.tile.module.TileModuleInventory;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
@@ -25,9 +27,14 @@ public class TileRotationTest extends TileMissileContainer
     public TileRotationTest()
     {
         super("TestRotation", Material.anvil);
-        this.addInventoryModule(1);
         this.renderTileEntity = true;
         this.isOpaque = false;
+    }
+
+    @Override
+    protected IInventory createInventory()
+    {
+        return new TileModuleInventory(this, 1);
     }
 
     EntityMissile missile = null;

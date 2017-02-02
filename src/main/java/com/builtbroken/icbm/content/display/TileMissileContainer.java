@@ -3,17 +3,19 @@ package com.builtbroken.icbm.content.display;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
-import com.builtbroken.mc.api.rails.IRailInventoryTile;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
+import com.builtbroken.mc.api.rails.IRailInventoryTile;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.TileModuleMachine;
+import com.builtbroken.mc.prefab.tile.module.TileModuleInventory;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -22,20 +24,20 @@ import net.minecraftforge.common.util.ForgeDirection;
  * Prefab for anything that can store a missile
  * Created by robert on 1/18/2015.
  */
-public class TileMissileContainer extends TileModuleMachine implements IPacketIDReceiver, IRailInventoryTile
+public class TileMissileContainer extends TileModuleMachine<IInventory> implements IPacketIDReceiver, IRailInventoryTile<IInventory>
 {
     /** Cached missile version of the stored missile item. */
     protected IMissile missile;
 
     public TileMissileContainer(String name, Material material)
     {
-        this(name, material, 1);
+        super(name, material);
     }
 
-    public TileMissileContainer(String name, Material material, int slots)
+    @Override
+    protected IInventory createInventory()
     {
-        super(name, material);
-        this.addInventoryModule(slots);
+        return new TileModuleInventory(this, 1);
     }
 
     @Override

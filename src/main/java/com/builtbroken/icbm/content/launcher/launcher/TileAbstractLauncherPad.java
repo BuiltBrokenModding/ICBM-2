@@ -16,12 +16,7 @@ public abstract class TileAbstractLauncherPad extends TileAbstractLauncher
 {
     public TileAbstractLauncherPad(String name)
     {
-        this(name, 1);
-    }
-
-    public TileAbstractLauncherPad(String name, int slots)
-    {
-        super(name, Material.iron, slots);
+        super(name, Material.iron);
         this.isOpaque = false;
         this.renderNormalBlock = true;
         this.renderTileEntity = true;

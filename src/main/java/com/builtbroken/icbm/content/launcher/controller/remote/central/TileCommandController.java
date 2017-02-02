@@ -3,7 +3,6 @@ package com.builtbroken.icbm.content.launcher.controller.remote.central;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.controller.ISiloConnectionData;
 import com.builtbroken.icbm.api.controller.ISiloConnectionPoint;
-import com.builtbroken.mc.prefab.hz.FakeRadioSender;
 import com.builtbroken.icbm.content.launcher.controller.local.TileLocalController;
 import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCommandSiloConnector;
 import com.builtbroken.jlib.data.vector.IPos3D;
@@ -26,9 +25,10 @@ import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Location;
 import com.builtbroken.mc.lib.transform.vector.Pos;
-import com.builtbroken.mc.prefab.inventory.IPrefabInventory;
+import com.builtbroken.mc.prefab.hz.FakeRadioSender;
 import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.TileModuleMachine;
+import com.builtbroken.mc.prefab.tile.module.TileModuleInventory;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
@@ -36,7 +36,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -48,7 +48,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Centralized point for link all objects into a central wireless grid.
@@ -56,7 +55,7 @@ import java.util.Map;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 3/26/2016.
  */
-public class TileCommandController extends TileModuleMachine implements ILinkable, IPacketIDReceiver, IGuiTile, IRecipeContainer, IPrefabInventory, IWirelessDataPoint, IWirelessDataListener, ILinkFeedback, IRadioWaveExternalReceiver
+public class TileCommandController extends TileModuleMachine implements ILinkable, IPacketIDReceiver, IGuiTile, IRecipeContainer, IWirelessDataPoint, IWirelessDataListener, ILinkFeedback, IRadioWaveExternalReceiver
 {
     /** Main texture */
     public static IIcon texture;
@@ -77,6 +76,12 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
         super("commandController", Material.iron);
         this.hardness = 10f;
         this.resistance = 10f;
+    }
+
+    @Override
+    protected IInventory createInventory()
+    {
+        return new TileModuleInventory(this, 2);
     }
 
     @Override
@@ -246,13 +251,6 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
     public Object getClientGuiElement(int ID, EntityPlayer player)
     {
         return new GuiCommandController(player, this);
-    }
-
-    @Override
-    public Map<Integer, ItemStack> getInventoryMap()
-    {
-        //TODO add battery slots
-        return null;
     }
 
     @Override

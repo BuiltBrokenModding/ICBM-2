@@ -35,6 +35,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -89,8 +90,12 @@ public class TileAMS extends TileModuleMachine implements IPacketIDReceiver, IGu
         this.resistance = 50f;
         this.itemBlock = ItemBlockICBM.class;
         this.renderNormalBlock = false;
-        this.addInventoryModule(10);
+    }
 
+    @Override
+    protected IInventory createInventory()
+    {
+        return new TileModuleInventory(this, 10);
     }
 
     @Override

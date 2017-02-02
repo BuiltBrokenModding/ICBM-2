@@ -10,6 +10,7 @@ import com.builtbroken.mc.prefab.tile.multiblock.MultiBlockHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -22,7 +23,7 @@ import java.util.HashMap;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 10/5/2015.
  */
-public abstract class TileAbstractWorkstation extends TileModuleMachine implements IMultiTileHost
+public abstract class TileAbstractWorkstation<I extends IInventory> extends TileModuleMachine<I> implements IMultiTileHost
 {
     /** Trigger to prevent breaking blocks while the multi block is being removed */
     private boolean _destroyingStructure = false;

@@ -67,9 +67,9 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
 
     public HashMap<EntityPlayer, Object[]> returnGuiData = new HashMap();
 
-    public TileAbstractLauncher(String name, Material mat, int slots)
+    public TileAbstractLauncher(String name, Material mat)
     {
-        super(name, mat, slots);
+        super(name, mat);
     }
 
     public void setTarget(Pos target)

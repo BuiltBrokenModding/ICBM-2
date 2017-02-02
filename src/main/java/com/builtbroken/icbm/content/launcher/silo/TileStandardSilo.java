@@ -14,6 +14,7 @@ import com.builtbroken.mc.lib.transform.region.Cube;
 import com.builtbroken.mc.lib.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.Tile;
+import com.builtbroken.mc.prefab.tile.module.TileModuleInventory;
 import com.builtbroken.mc.prefab.tile.multiblock.EnumMultiblock;
 import com.builtbroken.mc.prefab.tile.multiblock.MultiBlockHelper;
 import cpw.mods.fml.client.FMLClientHandler;
@@ -23,6 +24,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -57,11 +59,17 @@ public class TileStandardSilo extends TileAbstractLauncher implements ISimpleIte
 
     public TileStandardSilo()
     {
-        super("standardsilo", Material.iron, 1);
+        super("standardsilo", Material.iron);
         this.itemBlock = ItemBlockStandardSilo.class;
         this.isOpaque = false;
         this.renderNormalBlock = false;
         this.renderTileEntity = true;
+    }
+
+    @Override
+    protected IInventory createInventory()
+    {
+        return new TileModuleInventory(this, 1);
     }
 
     @Override
