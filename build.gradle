@@ -55,6 +55,7 @@ jar {
             "Implementation-Title": archivesBaseName,
             "Implementation-Version": project.version,
             "Git-Hash": gitHash,
+            "VoltzEngine-Version": $voltz_engine_version,
             "FMLAT": "ICBM_at.cfg")
 }
 
@@ -64,6 +65,7 @@ deobfJar {
             "Created-By": currentJvm,
             "Implementation-Title": archivesBaseName,
             "Implementation-Version": project.version,
+            "VoltzEngine-Version": $voltz_engine_version,
             "Git-Hash": gitHash,
             "FMLAT": "ICBM_at.cfg")
 }
@@ -74,6 +76,7 @@ sourcesJar {
             "Created-By": currentJvm,
             "Implementation-Title": archivesBaseName,
             "Implementation-Version": project.version,
+            "VoltzEngine-Version": $voltz_engine_version,
             "Git-Hash": gitHash,
             "FMLAT": "ICBM_at.cfg")
 }
