@@ -20,7 +20,7 @@ buildscript {
 }
 
 plugins {
-  id 'com.matthewprenger.cursegradle' version '1.0.1'
+  id "com.matthewprenger.cursegradle" version "1.0.8"
   id 'net.saliman.cobertura' version '2.2.5'
   id 'com.github.kt3k.coveralls' version '2.0.1'
   id "se.bjurr.gitchangelog.git-changelog-gradle-plugin" version "1.32"
@@ -91,6 +91,13 @@ dependencies
     compile "com.builtbroken.voltzengine:VoltzEngine:1.7.10-$voltz_engine_version+:deobf"
 }
 
+jacocoTestReport {
+    reports {
+        xml.enabled = true // coveralls plugin depends on xml format report
+        html.enabled = true
+    }
+}
+
 task makeChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
     filePath = "changelog.html"
     untaggedName = "Current release ${project.version}"
@@ -110,9 +117,4 @@ task makeChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
 """
 }
 
-jacocoTestReport {
-    reports {
-        xml.enabled = true // coveralls plugin depends on xml format report
-        html.enabled = true
-    }
-}
+tasks.build.dependsOn makeChangelog
