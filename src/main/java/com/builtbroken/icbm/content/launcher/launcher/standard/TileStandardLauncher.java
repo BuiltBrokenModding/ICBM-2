@@ -539,7 +539,7 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
     {
         if (tileMulti instanceof TileEntity)
         {
-            if (getLayoutOfMultiBlock().containsKey(new Pos(this).sub(new Pos((TileEntity) tileMulti))))
+            if (getLayoutOfMultiBlock().containsKey(new Pos((TileEntity)this).sub(new Pos((TileEntity) tileMulti))))
             {
                 tileMulti.setHost(this);
             }

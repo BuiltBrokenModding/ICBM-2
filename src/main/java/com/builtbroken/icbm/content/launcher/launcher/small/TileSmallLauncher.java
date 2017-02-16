@@ -29,6 +29,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
@@ -75,7 +76,7 @@ public class TileSmallLauncher extends TileAbstractLauncher implements ISimpleIt
                 {
                     if (target != null && target.y() > -1)
                     {
-                        double distance = target.distance(new Pos(this));
+                        double distance = target.distance(new Pos((TileEntity)this));
                         if (distance <= 200 && distance >= 20)
                         {
                             if(fireMissile(target))

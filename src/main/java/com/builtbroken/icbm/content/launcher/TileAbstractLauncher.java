@@ -169,7 +169,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     {
         if (!target.isAboveBedrock())
         {
-            target = new Pos(this);
+            target = new Pos((TileEntity)this);
         }
         if (link_code == 0)
         {
@@ -267,13 +267,13 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
                         }
 
                         //Set location data
-                        Pos start = new Pos(this).add(getMissileLaunchOffset());
+                        Pos start = new Pos((TileEntity)this).add(getMissileLaunchOffset());
                         entity.setPositionAndRotation(start.x(), start.y(), start.z(), 0, 0);
                         entity.motionY = missile.getEngine().getSpeed(missile);
 
                         //Set target data
                         entity.setTarget(target, true);
-                        entity.sourceOfProjectile = new Pos(this);
+                        entity.sourceOfProjectile = new Pos((TileEntity)this);
 
                         //Spawn and start moving
                         world().spawnEntityInWorld(entity);

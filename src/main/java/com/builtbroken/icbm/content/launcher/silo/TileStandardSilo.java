@@ -162,7 +162,7 @@ public class TileStandardSilo extends TileAbstractLauncher implements ISimpleIte
     {
         if (tileMulti instanceof TileEntity)
         {
-            if (tileMapCache.containsKey(new Pos(this).sub(new Pos((TileEntity) tileMulti))))
+            if (tileMapCache.containsKey(new Pos((TileEntity)this).sub(new Pos((TileEntity) tileMulti))))
             {
                 tileMulti.setHost(this);
             }
@@ -174,7 +174,7 @@ public class TileStandardSilo extends TileAbstractLauncher implements ISimpleIte
     {
         if (!_destroyingStructure && tileMulti instanceof TileEntity)
         {
-            Pos pos = new Pos((TileEntity) tileMulti).sub(new Pos(this));
+            Pos pos = new Pos((TileEntity) tileMulti).sub(new Pos((TileEntity)this));
 
             if (tileMapCache.containsKey(pos))
             {

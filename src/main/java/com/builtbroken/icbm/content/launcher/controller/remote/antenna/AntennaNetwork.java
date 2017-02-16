@@ -175,8 +175,8 @@ public class AntennaNetwork extends ArrayList<TileAntennaPart>
             senderRange = new Cube(-westRange, 0, -northRange, eastRange, 256, southRange);
 
             //Move range by center of antenna
-            senderRange.add(new Pos(base).add(0.5));
-            receiveRange = size.clone().add(new Pos(base).add(0.5));
+            senderRange.add(new Pos((TileEntity)base).add(0.5));
+            receiveRange = size.clone().add(new Pos((TileEntity)base).add(0.5));
         }
         else
         {

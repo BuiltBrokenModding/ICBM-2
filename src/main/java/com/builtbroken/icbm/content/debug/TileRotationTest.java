@@ -17,6 +17,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 
 /**
@@ -62,7 +63,7 @@ public class TileRotationTest extends TileMissileContainer
             }
             else
             {
-                missile.setTarget(new Pos(this).add(0.5, 3, 0.5), false);
+                missile.setTarget(new Pos((TileEntity)this).add(0.5, 3, 0.5), false);
             }
 
 

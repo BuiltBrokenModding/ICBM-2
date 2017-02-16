@@ -165,7 +165,7 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
     {
         if (tileMulti instanceof TileEntity)
         {
-            if (tileMapCache.containsKey(new Pos(this).sub(new Pos((TileEntity) tileMulti))))
+            if (tileMapCache.containsKey(new Pos((TileEntity)this).sub(new Pos((TileEntity) tileMulti))))
             {
                 tileMulti.setHost(this);
             }
@@ -177,7 +177,7 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
     {
         if (!_destroyingStructure && tileMulti instanceof TileEntity)
         {
-            Pos pos = new Pos((TileEntity) tileMulti).sub(new Pos(this));
+            Pos pos = new Pos((TileEntity) tileMulti).sub(new Pos((TileEntity)this));
 
             if (tileMapCache.containsKey(pos))
             {
@@ -228,7 +228,7 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
     public HashMap<IPos3D, String> getLayoutOfMultiBlock()
     {
         HashMap<IPos3D, String> map = new HashMap();
-        Pos center = new Pos(this);
+        Pos center = new Pos((TileEntity)this);
         for (Map.Entry<IPos3D, String> entry : tileMapCache.entrySet())
         {
             map.put(center.add(entry.getKey()), entry.getValue());

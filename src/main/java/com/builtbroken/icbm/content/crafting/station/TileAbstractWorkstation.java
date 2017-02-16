@@ -67,7 +67,7 @@ public abstract class TileAbstractWorkstation<I extends IInventory> extends Tile
     {
         if (!_destroyingStructure && !rotating && tileMulti instanceof TileEntity)
         {
-            Pos pos = new Pos((TileEntity) tileMulti).sub(new Pos(this));
+            Pos pos = new Pos((TileEntity) tileMulti).sub(new Pos((TileEntity)this));
             if (getLayoutOfMultiBlock().containsKey(pos))
             {
                 breakDownStructure(harvest, true);
