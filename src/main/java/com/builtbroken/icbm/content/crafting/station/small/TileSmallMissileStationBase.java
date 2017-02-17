@@ -34,16 +34,16 @@ public abstract class TileSmallMissileStationBase<I extends IInventory> extends 
     {
         //Only 3 actual multi-block sets used 4 times each to create the 12 different rotation cases
         upDownMap = new HashMap();
-        upDownMap.put(new Pos(0, 1, 0), EnumMultiblock.INVENTORY.getName() + "#RenderBlock=false");
-        upDownMap.put(new Pos(0, -1, 0), EnumMultiblock.INVENTORY.getName() + "#RenderBlock=false");
+        upDownMap.put(new Pos(0, 1, 0), EnumMultiblock.INVENTORY.getTileName() + "#RenderBlock=false");
+        upDownMap.put(new Pos(0, -1, 0), EnumMultiblock.INVENTORY.getTileName() + "#RenderBlock=false");
 
         eastWestMap = new HashMap();
-        eastWestMap.put(new Pos(1, 0, 0), EnumMultiblock.INVENTORY.getName() + "#RenderBlock=false");
-        eastWestMap.put(new Pos(-1, 0, 0), EnumMultiblock.INVENTORY.getName() + "#RenderBlock=false");
+        eastWestMap.put(new Pos(1, 0, 0), EnumMultiblock.INVENTORY.getTileName() + "#RenderBlock=false");
+        eastWestMap.put(new Pos(-1, 0, 0), EnumMultiblock.INVENTORY.getTileName() + "#RenderBlock=false");
 
         northSouthMap = new HashMap();
-        northSouthMap.put(new Pos(0, 0, 1), EnumMultiblock.INVENTORY.getName() + "#RenderBlock=false");
-        northSouthMap.put(new Pos(0, 0, -1), EnumMultiblock.INVENTORY.getName() + "#RenderBlock=false");
+        northSouthMap.put(new Pos(0, 0, 1), EnumMultiblock.INVENTORY.getTileName() + "#RenderBlock=false");
+        northSouthMap.put(new Pos(0, 0, -1), EnumMultiblock.INVENTORY.getTileName() + "#RenderBlock=false");
     }
 
     public TileSmallMissileStationBase(String name, Material material)

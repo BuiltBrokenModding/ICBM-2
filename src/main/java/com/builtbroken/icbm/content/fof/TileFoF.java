@@ -56,7 +56,7 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
 
     static
     {
-        STRUCTURE.put(new Pos(0, 1, 0), EnumMultiblock.TILE.getName());
+        STRUCTURE.put(new Pos(0, 1, 0), EnumMultiblock.TILE.getTileName());
     }
 
     /** Main ID used for FoF system */

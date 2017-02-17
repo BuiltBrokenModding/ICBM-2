@@ -64,8 +64,8 @@ public class TileSmallMag extends TileMissileContainer implements ISimpleItemRen
     //TODO add animation for missile movement
     static
     {
-        tileMapCache.put(new Pos(0, 1, 0), EnumMultiblock.TILE.getName());
-        tileMapCache.put(new Pos(0, 2, 0), EnumMultiblock.TILE.getName());
+        tileMapCache.put(new Pos(0, 1, 0), EnumMultiblock.TILE.getTileName());
+        tileMapCache.put(new Pos(0, 2, 0), EnumMultiblock.TILE.getTileName());
     }
 
     /** List of tiles to update */

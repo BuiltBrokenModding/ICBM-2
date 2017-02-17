@@ -51,8 +51,8 @@ public class TileSmallSilo extends TileAbstractLauncher implements ISimpleItemRe
 
     static
     {
-        tileMapCache.put(new Pos(0, 1, 0), EnumMultiblock.TILE.getName());
-        tileMapCache.put(new Pos(0, 2, 0), EnumMultiblock.TILE.getName());
+        tileMapCache.put(new Pos(0, 1, 0), EnumMultiblock.TILE.getTileName());
+        tileMapCache.put(new Pos(0, 2, 0), EnumMultiblock.TILE.getTileName());
     }
 
     private boolean _destroyingStructure = false;

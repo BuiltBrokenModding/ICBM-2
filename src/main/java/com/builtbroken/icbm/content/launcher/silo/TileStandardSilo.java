@@ -47,12 +47,12 @@ public class TileStandardSilo extends TileAbstractLauncher implements ISimpleIte
 
     static
     {
-        tileMapCache.put(new Pos(0, 1, 0), EnumMultiblock.TILE.getName());
-        tileMapCache.put(new Pos(0, 2, 0), EnumMultiblock.TILE.getName());
-        tileMapCache.put(new Pos(0, 3, 0), EnumMultiblock.TILE.getName());
-        tileMapCache.put(new Pos(0, 4, 0), EnumMultiblock.TILE.getName());
-        tileMapCache.put(new Pos(0, 5, 0), EnumMultiblock.TILE.getName());
-        tileMapCache.put(new Pos(0, 6, 0), EnumMultiblock.TILE.getName());
+        tileMapCache.put(new Pos(0, 1, 0), EnumMultiblock.TILE.getTileName());
+        tileMapCache.put(new Pos(0, 2, 0), EnumMultiblock.TILE.getTileName());
+        tileMapCache.put(new Pos(0, 3, 0), EnumMultiblock.TILE.getTileName());
+        tileMapCache.put(new Pos(0, 4, 0), EnumMultiblock.TILE.getTileName());
+        tileMapCache.put(new Pos(0, 5, 0), EnumMultiblock.TILE.getTileName());
+        tileMapCache.put(new Pos(0, 6, 0), EnumMultiblock.TILE.getTileName());
     }
 
     private boolean _destroyingStructure = false;

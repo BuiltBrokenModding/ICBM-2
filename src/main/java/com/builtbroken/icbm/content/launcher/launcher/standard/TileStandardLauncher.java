@@ -58,7 +58,7 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
             HashMap<IPos3D, String> map = new HashMap();
             for (int i = 0; i < 5; i++)
             {
-                map.put(new Pos(direction.offsetX, i, direction.offsetZ), EnumMultiblock.TILE.getName() + "#bounds={0.3,0,0.3,0.7,1,0.7}");
+                map.put(new Pos(direction.offsetX, i, direction.offsetZ), EnumMultiblock.TILE.getTileName() + "#bounds={0.3,0,0.3,0.7,1,0.7}");
             }
 
             STR_MAPS[direction.ordinal() - 2] = map;
