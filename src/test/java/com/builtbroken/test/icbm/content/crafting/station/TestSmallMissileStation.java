@@ -73,7 +73,9 @@ public class TestSmallMissileStation extends AbstractTileTest<TileSmallMissileWo
     @Test
     public void testInit()
     {
+        FakeWorld world = FakeWorld.newWorld("TestFirstTick");
         TileSmallMissileWorkstation station = new TileSmallMissileWorkstation();
+        station.setWorldObj(world);
         //Tested just to increase code coverage
         assertTrue(station.getDirection() == ForgeDirection.NORTH);
         assertTrue(station.newTile() instanceof TileSmallMissileWorkstation);
