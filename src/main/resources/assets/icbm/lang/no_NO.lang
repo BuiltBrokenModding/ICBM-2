@@ -1,47 +1,351 @@
 ## Master language file
 itemGroup.ICBM=ICBM
+itemGroup.icbm.missiles=ICBM Missiler
+itemGroup.icbm.missiles.micro=ICBM Raketter
+itemGroup.icbm.missiles.small=ICBM Små Missiler
+itemGroup.icbm.missiles.standard=ICBM Missiler
+itemGroup.icbm.missiles.medium=ICBM Medium Missiler
+itemGroup.icbm.missiles.large=ICBM Store Missiler
+itemGroup.icbm.warheads=ICBM Stridshoder
+itemGroup.icbm.explosives=ICBM Eksplosiver
 
 ## Missile
 item.icbm:missile.name=Missil
-item.icbm:missile.empty.name=Missilhus
+item.icbm:missile.empty.name=Missile Hylster
 
 item.icbm:missile.micro.name=Rakett
-item.icbm:missile.micro.empty.name=Raketthus
+item.icbm:missile.micro.empty.name=Rakett Hylster
 
 item.icbm:missile.small.name=Liten Missil
-item.icbm:missile.small.empty.name=Lite Missilhus  
+item.icbm:missile.small.empty.name=Lite Missil Hylster
 
 item.icbm:missile.standard.name=Missil
-item.icbm:missile.standard.empty.name=Missilhus
+item.icbm:missile.standard.empty.name=Missil Hylster
 
 item.icbm:missile.medium.name=Stor Missil
-item.icbm:missile.medium.empty.name=Stort Missilhus
+item.icbm:missile.medium.empty.name=Stor Missil Hylster
 
 item.icbm:missile.large.name=ICBM
-item.icbm:missile.large.empty.name=ICBM Hus
+item.icbm:missile.large.empty.name=ICBM Hylster
+
+
+## Items
+item.icbm:siloLinker.name=Data Chip
+item.icbm:siloLinker.info=Brukt til å linke maskine , Shift+Høyre klikk for å starte , Høyre klikk for å fullføre
+item.icbm:gpsFlag.name=GPS Data Chip
+item.icbm:gpsFlag.info=Shift+Høyre klikk for å lagre , Høyre klikk for å overføre til en maskin , Snik+Høyre klikk luften for å tømme
+
+item.icbm:rocketLauncher.name=Utskytningsapparat
+info.icbm:rocketLauncher.tooltip=Fyrer av mikro missiler
+
+item.icbm:remoteDetonator.name=Fjernkontroll
+item.icbm:laserDetonator.name=Laser Detonator
+item.icbm:radarGun.name=Radar Pistol
+item.icbm:radarGun.info=Shift+Høyre for å tømme , Høyre klikk for å overføre til en maskin , Høyre klikk luften for å fange data , 200m grense
+
+item.icbm:missileRailCart.name=Missil Transportvogn
+
+## Parts
+item.icbm:missileParts.name=Missil Snekrings Del
+item.icbm:missileParts.smallMissileCasing.name=Lite Missil Skall
+
+## Explosive Crafting Parts
+item.icbm:explosivePart.name=Eksplosiv Del
+item.icbm:explosivePart.arrowTube.name=Pilrør
+item.icbm:explosivePart.arrowBundle.name=Pilbunt
+item.icbm:explosivePart.explosiveItem.gunpowder.name=Kruttladning
+item.icbm:explosivePart.explosiveItem.magic.name=Magiladning
+item.icbm:explosivePart.powderStick.name=Pudderpinne
+
+##      INFO
+item.icbm:explosivePart.info=Brukt til å bygge eksplosiver
+
+## Explosive Items
+item.icbm:explosiveItem.name=Eksplosiv Enhet
+item.icbm:explosiveItem.Fragment.name=Fragmenteringsladning
+item.icbm:explosiveItem.ExoThermic.name=Eksotermiskladning
+item.icbm:explosiveItem.EndoThermic.name=Endotermiskladning
+item.icbm:explosiveItem.FireBomb.name=Brannstarterladning
+item.icbm:explosiveItem.FlashFire.name=Brannspredningsladning
+item.icbm:explosiveItem.TorchEater.name=Fakkelspisendeladning
+item.icbm:explosiveItem.EnderBlocks.name=Enderblokkladning
+item.icbm:explosiveItem.Antimatter.name=Antimaterieladning
+item.icbm:explosiveItem.AntiPlant.name=Plantedreperladning
+item.icbm:explosiveItem.PlantLife.name=Plantelivsladning
+item.icbm:explosiveItem.Regen.name=Regenereringsladning
+item.icbm:explosiveItem.RegenLocal.name=Limitertregeneringsladning
+item.icbm:explosiveItem.BiomeChange.name=Floraendringsladning
+item.icbm:explosiveItem.Cake.name=Kakepakke
+item.icbm:explosiveItem.OrePuller.name=Malmoppdraftsladning
+item.icbm:explosiveItem.Emp.name=Empladning
+item.icbm:explosiveItem.SlimeRain.name=Kongelig Slimkrukke
+item.icbm:explosiveItem.Gravity.name=Antigravitets Innretning
+item.icbm:explosiveItem.Microwave.name=Mikrobølge Generator
+item.icbm:explosiveItem.EntitySpawn.name=Enhetsegg Kapsel
+
+item.icbm:explosiveItem.fragment.arrow.name=Pil Buntsladning
+item.icbm:explosiveItem.fragment.cobblestone.name=Brosten Granatladning
+item.icbm:explosiveItem.fragment.wood.name=Tre Granatladning
+item.icbm:explosiveItem.fragment.blaze.name=Bluss Granatladning
+
+## Explosive Items --- Tooltips
+item.icbm:explosiveItem.info=For å bruke denne, sett den inn i en eksplosiv innretning
+item.icbm:explosiveItem.WIP.info=!!!WIP!!!
+item.icbm:explosiveItem.warning.WIP.info=!!!Bruk på eget ansvar!!!
+item.icbm:explosiveItem.warning.breaksBlocks.info=!!Ødelegerr blokker!!
+
+item.icbm:explosiveItem.ExoThermic.info=Frigjør Varmeenergi, Smelter om sten til lava
+item.icbm:explosiveItem.EndoThermic.info=Bruker Varmeenergi, Gjør vann i luft om til is, Gjør vann blokker om til is blokker
+item.icbm:explosiveItem.FireBomb.info=Lager en enkelt flammeblokk
+item.icbm:explosiveItem.FlashFire.info=Sprer flamme rundt ett område
+item.icbm:explosiveItem.TorchEater.info=Bruker magi til å fjenrne fakler
+item.icbm:explosiveItem.EnderBlocks.info=Teleporterer blokker ved hjelp av endermenn
+item.icbm:explosiveItem.Antimatter.info=Konverter blokker om til energi,Ignorerer hardhet,Ødelegger alt i sentrum,Generer en sekundær eksplosjon
+item.icbm:explosiveItem.AntiPlant.info=Bruker magi til å ødelegge planter
+item.icbm:explosiveItem.PlantLife.info=Helbreder jorden og gjenoppliver planter
+item.icbm:explosiveItem.Regen.info=Regenerer hele stykker av verden
+item.icbm:explosiveItem.RegenLocal.info=Regenere blokker i et lite område,--Veldig begrenset regenerering,--Regenerer ikke malm,--Regenerer ikke planter,--Regenerer ikke byggninger
+item.icbm:explosiveItem.Cake.info=Kake i en boks
+item.icbm:explosiveItem.OrePuller.info=Bruker endermenn til å telportere malm
+item.icbm:explosiveItem.Emp.info=Genererer en EMP puls
+item.icbm:explosiveItem.SlimeRain.info=Påkaller slimkuber
+item.icbm:explosiveItem.Gravity.info=Reverserer gravitasjonen i et lite område
+item.icbm:explosiveItem.Microwave.info=Konverterer vann om til damp,Setter fyr på eksistens,Umiddelbar effekt,Kan skape forsinkelser med store størrelser
+item.icbm:explosiveItem.EntitySpawn.info=Lager eksistens i verden
+
+## Explosive Items --- Tooltips -- Biome Change
+item.icbm:explosiveItem.BiomeChange.info=Endrer floratypen(Biome)
+item.icbm:explosiveItem.BiomeChange.id.info=Flora(Biome) ID:
+item.icbm:explosiveItem.BiomeChange.name.info=Flora(Biome) Navn:
+
+## Explosive Items --- Tooltips -- Fragments
+item.icbm:explosiveItem.fragment.arrow.info=Lager %1 piler per eksplosiv
+item.icbm:explosiveItem.fragment.blaze.info=Lager %1 pilballer per eksplosiv
+item.icbm:explosiveItem.fragment.info=Lager blokk fragmenter
+item.icbm:explosiveItem.fragment.damage.info=Skade = %1
+item.icbm:explosiveItem.fragment.frags.info=Granatfragmenter = %1
+item.icbm:explosiveItem.fragment.damage.equation.info=f(Skade) = blokk harhet * hastighet
+item.icbm:explosiveItem.fragment.velocity.equation.info= f(Hastighet) = %1 + rng(0.0 til 1.0)
+item.icbm:explosiveItem.fragment.frags.equation.info=f(Granatfragmenter) = (eksplosivtelling * %1)^2
+
+## Explosive Items --- Tooltips -- Extra
+item.icbm:explosiveItem.explosive.name.info=Eksplosiv: %1
+item.icbm:explosiveItem.explosive.size.info=Størrelse: %1
+
+## Tiles
+tile.icbm:TileMissile.0.name=Rakett Montér i Tre
+tile.icbm:TileMissile.1.name=Lite Rakett Montér i Tre
+
+tile.icbm:warheadStation.name=Stridshodestasjon
+tile.icbm:missileDisplay.name=Missil Montér
+
+tile.icbm:smallMissileMag.name=Lite Missil Magasin
+tile.icbm:smallMissileMag.info=Lagrer små missile og gjør det mulig for automatisk lastning
+
+tile.icbm:icbmMissileRail.name=Missil Transporteringskinne
+
+tile.icbm:cartPowerRail.rotation.name=Missil Transporterings Roteringsskinne
+tile.icbm:cartPowerRail.powered.name=Motordrevet Missil Transporteringsskinne
+tile.icbm:cartPowerRail.orientation.name=Missil Transporterings Orientasjonsskinne
+tile.icbm:cartPowerRail.stop.name=Missil Transporterings Stoppeskinne
+tile.icbm:cartPowerRail.loader.name=Missil Transporterings Lasteskinne
+tile.icbm:cartPowerRail.unloader.name=Missil Transporterings Avlastningskinne
+tile.icbm:cartPowerRail.extender.name=Missil Transporterings Utvidelsesskinne
+tile.icbm:cartPowerRail.splitter.name=Missil Transporterings Splittelsesksinne
+
+tile.icbm:antennaParts.name=Antennw Del
+tile.icbm:antennaParts.0.name=Antennedel
+tile.icbm:antennaParts.1.name=Antennestang
+tile.icbm:antennaParts.2.name=Antennekontroller
+tile.icbm:antennaParts.3.name=Antennekrysning
+tile.icbm:antennaParts.4.name=Antennehakk
+tile.icbm:antennaParts.5.name=Antennespiss
+tile.icbm:antennaParts.6.name=Antennearm
+tile.icbm:antennaParts.7.name=Antennearm
+tile.icbm:antennaParts.8.name=Antennedel
+
+tile.icbm:smallLauncher.name=Portabel Missil Utskytningsrampe
+tile.icbm:portableLauncher.container.name=Portabel Missil Utskytningsrampe
+tile.icbm:portableLauncher.container.invalidtarget=Ugyldig mål
+tile.icbm:portableLauncher.container.invaliddistance=Måldistanse må være mellom 20 og 100
+
+tile.icbm:missileController.name=Avfyringskontroller
+
+tile.icbm:standardlauncher.name=Standard Utskytningsrampe
+
+tile.icbm:smallsilo.name=Liten Silo
+tile.icbm:smallsilo.info=3 blokker høy , Laster små missiler
+tile.icbm:smallSilo.container.name=Liten Silo Skjerm
+
+tile.icbm:siloController.name=Silokontroller
+tile.icbm:siloController.info=Kontroller en silo direkte , Plasseres ved siden av siloen, Bruker rødstein for å fyre av missilen, Støtter Open Computers hvis den er installert
+tile.icbm:siloController.container.name=Silokontroller
+tile.icbm:siloController.msg.redstone.enabled=Rødstein støtte aktivert
+tile.icbm:siloController.msg.redstone.disabled=Rødstein støtte deaktivert
+
+tile.icbm:standardsilo.name=Standard Silo
+tile.icbm:standardsilo.info=7 blokker høy , Laster standard missiler
+tile.icbm:standardsilo.container.name=Standard Silo Skjerm
+
+tile.icbm:missileworkstation.name=Missilstasjon
+
+tile.icbm:ICBMxFoF.name=FoF Stasjon
+tile.icbm:ICBMxFoF.info=Linker til Silo eller AMS , Stopper AMS kanoner fra å skyte ned venners missiler
+tile.icbm:AMS.name=AMS Kanon
+tile.icbm:AMS.info=Skyter ned missiler , Bruker klumper som ammo
+
+tile.icbm:decorLaunchPad.name=Avfyringsplate
+tile.icbm:decorLaunchPad.0.name=Nordkant
+tile.icbm:decorLaunchPad.1.name=Sørkant
+tile.icbm:decorLaunchPad.2.name=Vestkant
+tile.icbm:decorLaunchPad.3.name=Østkant
+tile.icbm:decorLaunchPad.4.name=Sørvestkant
+tile.icbm:decorLaunchPad.5.name=Sørøstkant
+tile.icbm:decorLaunchPad.6.name=Nordvestkant
+tile.icbm:decorLaunchPad.7.name=Nordøstkant
+tile.icbm:decorLaunchPad.8.name=Senter
+
+tile.icbm:launcherPart.name=Utskytningsrampedel
+tile.icbm:launcherPart.0.name=Utskytningsrampekontroller
+
+tile.icbm:launcherFrame.name=Utskytningsramperamme
+
+tile.icbm:commandController.name=Silo Kommandokontroller
+tile.icbm:commandSiloDisplay.name=Silo Kommandskjerm
+tile.icbm:siloWirelessDataPoint.name=Silo Kommando Tilkobler
+
+tile.icbm:warheadStation.name=Stridshodestasjon
+tile.icbm:missileStation.name=Missil Monteringsbord
+tile.icbm:missileAutoStation.name=Missilstasjon
+tile.icbm:missileWorkstation.name=Missilarbedistasjon
 
 ## Explosives
+explosive.error.null_ex.name=Tom
 explosive.icbm:tnt.name=TNT
 explosive.icbm:snowmen.name=La det snø!
+explosive.icbm:EndoThermic.name=Endotermisk
+explosive.icbm:ExoThermic.name=Eksotermisk
+explosive.icbm:Fragment.name=Fragmentering
+explosive.icbm:Antimatter.name=Antimaterie
+explosive.icbm:FireBomb.name=Flamme Bombe
+explosive.icbm:FlashFire.name=Glimtladning
+explosive.icbm:TorchEater.name=Fakkelspiser
+explosive.icbm:EnderBlocks.name=Ender blokk
+explosive.icbm:AntiPlant.name=Anti-Planteliv
+explosive.icbm:PlantLife.name=Planteliv
+explosive.icbm:ThaumTaint.name=Fordervetkliss
+explosive.icbm:ThaumTaintBottle.name=Fordervelse på flaske
+explosive.icbm:ThaumNode.name=Node Dispense
+explosive.icbm:ThaumJar.name=Node Fanger
+explosive.icbm:MicroQuake.name=Mikro Jordskjelv
+explosive.icbm:Regen.name=Regenerering
+explosive.icbm:RegenLocal.name=Limitert Regernering
+explosive.icbm:cake.name=Kake
+explosive.icbm:biomeChange.name=Flora(Biome) Endrer
+explosive.icbm:OrePuller.name=Malmoppdrift
+explosive.icbm:Emp.name=Universiell EMP
+explosive.icbm:SlimeRain.name=Slimregn
+explosive.icbm:Gravity.name=Anti-Gravitasjon
+explosive.icbm:Microwave.name=Microbølge
+explosive.icbm:EntitySpawn.name=Ekistensskaper
 
-## Launcher
-item.icbm:rocketLauncher.name=Rakettavfyrer
-info.icbm:rocketlauncher.tooltip=Fyrer av små missiler
+## Damage
+damage.fragment.cobblestone=%s ble steinet av brosteinsbiter
+damage.fragment.wood=%s ble drept av en bunt med flis
+
+## Dev only Explosives, Optional to translate
+explosive.icbm:SimplePathTest1.name=Path Test
+explosive.icbm:SimplePathTest2.name=Path Test
+explosive.icbm:SimplePathTest3.name=Path Test
+explosive.icbm:SimplePathTest10.name=Path Test
+explosive.icbm:SimplePathTest20.name=Path Test
+
 
 ## Warhead
-tile.icbm:warhead.name=Lastet Stridshode
-tile.icbm:warhead.casing.name=Stridshode Hus
+tile.icbm:warhead.name=Stridshode
+tile.icbm:warhead.micro.name=Mikro Stridshode
+tile.icbm:warhead.small.name=Lite Stridshode
+tile.icbm:warhead.standard.name=Stridshode
 
 ## Info
 info.icbm:engine.name=Motor
 info.icbm:warhead.name=Stridshode
-info.icbm:guidance.name=Veiledning
+info.icbm:guidance.name=Styring
 info.icbm:trigger.name=Trigger
+info.icbm:missileStation.placement.blocked.name=Plassering Blokkert
+
+## Controller GUI
+tile.icbm:smallSiloController.container.name=Utskytningsrampe
+gui.icbm:controller.launcherName.name=Egendefinert navn
+gui.icbm:controller.target.name=Målplassering
+
+## Controller GUI error messages
+gui.icbm:controller.links.none=Ingen siloer er lenket
+gui.icbm:controller.links.none.hint=Prøv å bruke datachipen
+gui.icbm:controller.invalid.input.name=Ugylig inndata
+
+## Controller GUI buttons
+gui.icbm:controller.silo.name=Silo
+gui.icbm:controller.launcher.name=Utskytningsrampe
+gui.icbm:controller.fire.name=Avfyr
+gui.icbm:controller.update.name=Oppdater
+gui.icbm:controller.back.name=Tilbake
+
+container.TileController.name=Utskytningsrampekontroller
+
+gui.icbm:workstation.assemble.name=Monter
+gui.icbm:workstation.assemble.width=50
+
+gui.icbm:workstation.disassemble.name=Demonter
+gui.icbm:workstation.disassemble.width=70
+
+gui.icbm:workstation.mode.name=Modus
+gui.icbm:workstation.mode.width=30
 
 ## Triggers
-trigger.icbm:impact.name=Innvirkning
-trigger.icbm:gps.name=Plassering
-trigger.icbm:time.name=Timer
+trigger.icbm:impact.name=Sammenstøt
+trigger.icbm:gps.name=Beliggenhet
+trigger.icbm:time.name=Tidtaker
 
-## Modules
-module.icbm:engine.creative.name=Void Thruster
+## Engine Modules
+module.icbm:engine.creative.name=Anti-gravitasjonsmotor
+module.icbm:engine.coal.name=Brenner
+module.icbm:engine.oil.name=Oljebrenner
+module.icbm:engine.fuel.name=Enkel Thruster
+module.icbm:engine.gunpowder.name=Rask Hjelpemotor
+
+## Guidance Modules
+module.icbm:guidance.gears.wood.name=Styringsklokke av Tre
+module.icbm:guidance.gears.stone.name=Styringsklokke av stein
+module.icbm:guidance.gears.iron.name=Styringsklokke av jern
+module.icbm:guidance.gears.diamond.name=Styringsklokke av diamant
+module.icbm:guidance.chip.1.name=Enkel Styringschip
+module.icbm:guidance.chip.2.name=Styringschip
+module.icbm:guidance.chip.3.name=Forbedret Styringschip
+
+## Trigger Modules
+module.icbm:trigger.impact.mechanical.name=Mekanisk Sammenstøtsensor
+module.icbm:trigger.impact.electrical.name=Elektrisk Sammenstøtsensor
+module.icbm:trigger.impact.redstone.name=Rødsteins Sammenstøtsensor
+
+## FoF station GUI
+gui.fof.message.default=Bruk vinduet for å sette ID
+gui.fof.message.confirm=Handling utført
+gui.fof.message.wip=feil:Ikke implementert enda
+gui.fof.message.missing.perm=feil:Ingen Tilgang
+gui.fof.message.removed.ids=Fjernet %s entries
+
+## Thaumcraft Support
+tc.research_category.ICBM=Taumisk Forødelse
+thaumcraft.research.TaintWarhead.name=Forderevelses Stridshode
+thaumcraft.research.TaintWarhead.page.1=Mens du eksperimenterte med fordervelse la du merke til at ved hjelp av noen få aspekter kunne du holde fordervelse inne i ett stridshode
+thaumcraft.research.TaintWarhead.text=La moroen begynnen
+thaumcraft.research.BottledTaintWarhead.name=Fordervelsesstridshode
+thaumcraft.research.BottledTaintWarhead.page.1=Å spre fordervelse er ikke noen lett jobb, og for treig med bare slim. Med den nylige oppdagelsen om å lagre fordervelse i flasker er prosessen mye raskere. Men det er allikevel farlig å kaste disse selv. Det er lettere å pytte ett par flasker i inn i ett stridshode.
+thaumcraft.research.BottledTaintWarhead.text=Det blir bare bedre
+thaumcraft.research.JarWarhead.name=Node Fangendestridshode
+thaumcraft.research.JarWarhead.page.1=Det er vanskelig å fange noder, spesielt når de bare spiser glasset. Med dette i bakhodet ble en tom krukke festet til tuppen på en missil.
+thaumcraft.research.JarWarhead.text=Jeg har en krukke med jord!
+thaumcraft.research.JarWarhead.name=Node Dispenserstridshode
+thaumcraft.research.JarWarhead.page.1=Missiler er nyttige for å uføre langdistanse oppgaver. Med dette i bakhodet kom ideen om å plassere noder ved hjelp av missiler
+thaumcraft.research.JarWarhead.text=Sultne Noder
