@@ -109,7 +109,7 @@ task makeChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
   <h3>{{name}}</h3>
   <ul>
     {{#commits}}
-    <li> <a href="https://github.com/BuiltBrokenModding/VoltzEngine/commit/{{hash}}" target=_blank> {{{message}}}</a>
+    <li> <a href="https://github.com/BuiltBrokenModding/ICBM/commit/{{hash}}" target=_blank> {{{message}}}</a>
 </li>
     {{/commits}}
   </ul>
