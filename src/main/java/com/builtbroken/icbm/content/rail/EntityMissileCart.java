@@ -74,7 +74,7 @@ public class EntityMissileCart extends EntityAbstractCart implements IPacketIDRe
             if (!worldObj.isRemote)
             {
                 //TODO may need to modify based on side
-                this.setRotation(rotationYaw + 90, rotationPitch);
+                this.setCartRotation(rotationYaw + 90, rotationPitch);
             }
             return true;
         }
