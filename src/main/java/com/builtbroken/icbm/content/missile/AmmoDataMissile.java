@@ -3,9 +3,7 @@ package com.builtbroken.icbm.content.missile;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.mc.api.data.weapon.IAmmoData;
 import com.builtbroken.mc.api.data.weapon.IAmmoType;
-import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 
 /**
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
@@ -43,24 +41,6 @@ public class AmmoDataMissile implements IAmmoData
     public float getBaseDamage()
     {
         return 0;
-    }
-
-    @Override
-    public float getProjectileVelocity()
-    {
-        return -1;
-    }
-
-    @Override
-    public boolean onImpactEntity(Entity shooter, Entity entity, float velocity)
-    {
-        return true;
-    }
-
-    @Override
-    public boolean onImpactGround(Entity shooter, World world, int x, int y, int z, double hitX, double hitY, double hitZ, float velocity)
-    {
-        return true;
     }
 
     @Override
