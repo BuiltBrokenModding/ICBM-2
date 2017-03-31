@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.launcher.gui;
 
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
-import com.builtbroken.mc.lib.transform.vector.Location;
+import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.prefab.gui.ContainerBase;
 import com.builtbroken.mc.prefab.inventory.BasicInventory;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;

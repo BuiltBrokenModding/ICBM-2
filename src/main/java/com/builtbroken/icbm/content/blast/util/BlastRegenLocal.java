@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.blast.util;
 
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.imp.transform.vector.Pos;
 
 /**
  * Regens the chunk at the target location

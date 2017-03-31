@@ -30,7 +30,7 @@ import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.items.ItemStackWrapper;
-import com.builtbroken.mc.prefab.recipe.item.sheetmetal.RecipeSheetMetal;
+import com.builtbroken.mc.lib.recipe.item.sheetmetal.RecipeSheetMetal;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

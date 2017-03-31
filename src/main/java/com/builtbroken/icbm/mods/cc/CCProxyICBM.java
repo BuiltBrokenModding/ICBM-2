@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.mods.cc;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.mc.lib.mod.compat.Mods;
+import com.builtbroken.mc.lib.mod.Mods;
 import com.builtbroken.mc.lib.mod.loadable.AbstractLoadable;
 
 /**

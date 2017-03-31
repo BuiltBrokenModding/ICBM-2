@@ -2,8 +2,8 @@ package com.builtbroken.icbm.content.blast.util;
 
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.lib.transform.sorting.Vector3DistanceComparator;
-import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.imp.transform.sorting.Vector3DistanceComparator;
+import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.prefab.explosive.blast.Blast;
 import net.minecraft.block.Block;

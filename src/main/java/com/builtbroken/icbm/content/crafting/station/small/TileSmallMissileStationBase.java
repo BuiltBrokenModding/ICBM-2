@@ -2,10 +2,10 @@ package com.builtbroken.icbm.content.crafting.station.small;
 
 import com.builtbroken.icbm.content.crafting.station.TileAbstractWorkstation;
 import com.builtbroken.jlib.data.vector.IPos3D;
-import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
-import com.builtbroken.mc.prefab.tile.multiblock.EnumMultiblock;
-import com.builtbroken.mc.prefab.tile.multiblock.MultiBlockHelper;
+import com.builtbroken.mc.framework.multiblock.EnumMultiblock;
+import com.builtbroken.mc.framework.multiblock.MultiBlockHelper;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;

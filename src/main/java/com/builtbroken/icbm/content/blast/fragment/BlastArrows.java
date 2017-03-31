@@ -2,8 +2,8 @@ package com.builtbroken.icbm.content.blast.fragment;
 
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.lib.transform.rotation.EulerAngle;
-import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.imp.transform.rotation.EulerAngle;
+import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.prefab.explosive.blast.Blast;
 import net.minecraft.entity.projectile.EntityArrow;
 

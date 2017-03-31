@@ -2,7 +2,7 @@ package com.builtbroken.icbm.mods.oc;
 
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.launcher.controller.direct.TileSiloController;
-import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.Tile;
 import li.cil.oc.api.Network;
 import li.cil.oc.api.machine.Arguments;

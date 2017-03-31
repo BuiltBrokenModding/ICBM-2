@@ -1,8 +1,8 @@
 package com.builtbroken.icbm.content.missile.data;
 
 import com.builtbroken.icbm.content.missile.EntityMissile;
-import com.builtbroken.mc.lib.transform.rotation.EulerAngle;
-import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.imp.transform.rotation.EulerAngle;
+import com.builtbroken.mc.imp.transform.vector.Pos;
 
 /**
  * Created by robert on 1/22/2015.

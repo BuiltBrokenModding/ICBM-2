@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.fragments;
 
 import com.builtbroken.icbm.content.blast.fragment.BlastFragments;
 import com.builtbroken.mc.api.event.blast.BlastEventDestroyBlock;
-import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.imp.transform.vector.Pos;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 /**

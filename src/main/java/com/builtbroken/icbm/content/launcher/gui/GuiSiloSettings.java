@@ -3,7 +3,7 @@ package com.builtbroken.icbm.content.launcher.gui;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.jlib.data.Colors;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
-import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.prefab.gui.EnumGuiIconSheet;
 import com.builtbroken.mc.prefab.gui.GuiButton2;
 import com.builtbroken.mc.prefab.gui.GuiContainerBase;

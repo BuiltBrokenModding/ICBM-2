@@ -4,8 +4,8 @@ import com.builtbroken.icbm.content.blast.explosive.BlastAntimatter;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.render.fx.FXSmoke;
-import com.builtbroken.mc.lib.transform.rotation.EulerAngle;
-import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.imp.transform.rotation.EulerAngle;
+import com.builtbroken.mc.imp.transform.vector.Pos;
 import net.minecraft.client.Minecraft;
 
 import java.awt.*;

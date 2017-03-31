@@ -3,7 +3,7 @@ package com.builtbroken.icbm.content.blast.biome;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.packet.PacketBiomeData;
-import com.builtbroken.mc.lib.transform.region.Cube;
+import com.builtbroken.mc.imp.transform.region.Cube;
 import com.builtbroken.mc.prefab.explosive.blast.Blast;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import net.minecraft.world.chunk.Chunk;

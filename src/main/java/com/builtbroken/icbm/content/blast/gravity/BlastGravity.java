@@ -4,7 +4,7 @@ import com.builtbroken.icbm.api.blast.IBlastTileMissile;
 import com.builtbroken.icbm.api.missile.ITileMissile;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.lib.transform.region.Cube;
+import com.builtbroken.mc.imp.transform.region.Cube;
 import com.builtbroken.mc.prefab.explosive.blast.Blast;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;

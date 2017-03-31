@@ -4,7 +4,7 @@ import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
-import com.builtbroken.mc.prefab.inventory.filters.IInventoryFilter;
+import com.builtbroken.mc.api.IInventoryFilter;
 import net.minecraft.item.ItemStack;
 
 /**

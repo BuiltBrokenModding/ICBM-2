@@ -3,7 +3,7 @@ package com.builtbroken.icbm.content.blast.item;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.prefab.explosive.blast.Blast;
 import net.minecraft.entity.Entity;

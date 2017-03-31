@@ -7,7 +7,7 @@ import com.builtbroken.mc.api.map.radio.IRadioWaveSender;
 import com.builtbroken.mc.api.map.radio.RadioTowerStatus;
 import com.builtbroken.mc.api.map.radio.wireless.*;
 import com.builtbroken.mc.api.tile.IGuiTile;
-import com.builtbroken.mc.lib.transform.region.Cube;
+import com.builtbroken.mc.imp.transform.region.Cube;
 import com.builtbroken.mc.lib.world.radio.RadioRegistry;
 import com.builtbroken.mc.lib.world.radio.network.WirelessNetwork;
 import net.minecraft.entity.player.EntityPlayer;

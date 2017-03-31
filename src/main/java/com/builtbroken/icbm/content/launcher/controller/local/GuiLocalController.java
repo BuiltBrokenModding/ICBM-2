@@ -6,7 +6,7 @@ import com.builtbroken.icbm.content.launcher.silo.TileSmallSilo;
 import com.builtbroken.icbm.content.launcher.silo.TileStandardSilo;
 import com.builtbroken.mc.client.SharedAssets;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
-import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
 import com.builtbroken.mc.prefab.gui.GuiContainerBase;
 import net.minecraft.block.Block;

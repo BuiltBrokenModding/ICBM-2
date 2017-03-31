@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.api.event;
 
 import com.builtbroken.mc.api.edit.IWorldChangeAction;
-import com.builtbroken.mc.lib.transform.vector.Location;
+import com.builtbroken.mc.imp.transform.vector.Location;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;

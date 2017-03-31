@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.rail;
 
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.missile.InventoryFilterMissile;
-import com.builtbroken.mc.prefab.inventory.filters.IInventoryFilter;
+import com.builtbroken.mc.api.IInventoryFilter;
 
 /**
  * List of cart types that are supported by {@link EntityMissileCart}

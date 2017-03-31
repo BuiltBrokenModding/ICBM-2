@@ -11,7 +11,7 @@ import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.lib.helper.WrenchUtility;
 import com.builtbroken.mc.prefab.entity.cart.EntityAbstractCart;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
-import com.builtbroken.mc.prefab.inventory.filters.IInventoryFilter;
+import com.builtbroken.mc.api.IInventoryFilter;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import io.netty.buffer.ByteBuf;

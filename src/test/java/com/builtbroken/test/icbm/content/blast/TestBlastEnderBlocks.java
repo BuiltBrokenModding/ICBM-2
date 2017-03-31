@@ -2,7 +2,7 @@ package com.builtbroken.test.icbm.content.blast;
 
 import com.builtbroken.icbm.content.blast.effect.BlastEnderBlocks;
 import com.builtbroken.mc.api.edit.IWorldEdit;
-import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.testing.junit.AbstractTest;
 import com.builtbroken.mc.testing.junit.VoltzTestRunner;

@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.launcher.controller.remote.antenna;
 
-import com.builtbroken.mc.lib.transform.region.Cube;
-import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.imp.transform.region.Cube;
+import com.builtbroken.mc.imp.transform.vector.Pos;
 import net.minecraft.tileentity.TileEntity;
 
 import java.util.ArrayList;

@@ -4,8 +4,8 @@ import com.builtbroken.icbm.api.blast.IBlastTileMissile;
 import com.builtbroken.icbm.api.missile.ITileMissile;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.lib.transform.rotation.EulerAngle;
-import com.builtbroken.mc.lib.transform.vector.Location;
+import com.builtbroken.mc.imp.transform.rotation.EulerAngle;
+import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.prefab.explosive.blast.Blast;
 import net.minecraft.world.chunk.Chunk;
 

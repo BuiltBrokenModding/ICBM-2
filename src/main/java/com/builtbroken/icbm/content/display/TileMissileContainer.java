@@ -7,7 +7,7 @@ import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.api.rails.IRailInventoryTile;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
-import com.builtbroken.mc.lib.transform.vector.Pos;
+import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.prefab.tile.TileModuleMachine;
 import com.builtbroken.mc.prefab.tile.module.TileModuleInventory;
 import cpw.mods.fml.common.network.ByteBufUtils;
