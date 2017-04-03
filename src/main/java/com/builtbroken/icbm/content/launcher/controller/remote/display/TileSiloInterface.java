@@ -10,7 +10,7 @@ import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCom
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
 import com.builtbroken.mc.api.map.radio.wireless.IWirelessNetwork;
 import com.builtbroken.mc.api.map.radio.wireless.IWirelessNetworkObject;
-import com.builtbroken.mc.api.tile.IGuiTile;
+import com.builtbroken.mc.api.tile.access.IGuiTile;
 import com.builtbroken.mc.api.tile.ILinkFeedback;
 import com.builtbroken.mc.api.tile.ILinkable;
 import com.builtbroken.mc.api.tile.IPassCode;

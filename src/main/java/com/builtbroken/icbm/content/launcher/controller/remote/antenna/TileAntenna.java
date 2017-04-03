@@ -6,7 +6,7 @@ import com.builtbroken.mc.api.map.radio.IRadioWaveReceiver;
 import com.builtbroken.mc.api.map.radio.IRadioWaveSender;
 import com.builtbroken.mc.api.map.radio.RadioTowerStatus;
 import com.builtbroken.mc.api.map.radio.wireless.*;
-import com.builtbroken.mc.api.tile.IGuiTile;
+import com.builtbroken.mc.api.tile.access.IGuiTile;
 import com.builtbroken.mc.imp.transform.region.Cube;
 import com.builtbroken.mc.lib.world.radio.RadioRegistry;
 import com.builtbroken.mc.lib.world.radio.network.WirelessNetwork;

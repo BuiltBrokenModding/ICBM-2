@@ -6,7 +6,7 @@ import com.builtbroken.icbm.content.fof.gui.ContainerFoF;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.jlib.helpers.MathHelper;
 import com.builtbroken.jlib.lang.EnglishLetters;
-import com.builtbroken.mc.api.tile.IGuiTile;
+import com.builtbroken.mc.api.tile.access.IGuiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
 import com.builtbroken.mc.core.Engine;

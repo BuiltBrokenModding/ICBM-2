@@ -7,7 +7,7 @@ import com.builtbroken.icbm.content.launcher.controller.local.TileLocalControlle
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.prefab.ItemBlockICBM;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
-import com.builtbroken.mc.api.tile.IGuiTile;
+import com.builtbroken.mc.api.tile.access.IGuiTile;
 import com.builtbroken.mc.api.tile.ILinkable;
 import com.builtbroken.mc.api.tile.IPassCode;
 import com.builtbroken.mc.core.Engine;
