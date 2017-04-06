@@ -32,7 +32,7 @@ apply plugin: 'jacoco'
 apply from: 'https://raw.githubusercontent.com/BuiltBrokenModding/BuiltBrokenScripts/buildScripts/scripts/forge/deps.gradle'
 
 minecraft {
-    replace "required-after:VoltzEngine", "required-after:VoltzEngine@[$voltz_engine_version,)"
+    replace "required-after:voltzengine", "required-after:voltzengine@[$voltz_engine_version,)"
 }
 
 import org.ajoberstar.grgit.*
