@@ -4,6 +4,7 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
+import com.builtbroken.icbm.content.launcher.block.BlockLauncherPart;
 import com.builtbroken.icbm.content.launcher.launcher.TileAbstractLauncherPad;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.jlib.data.vector.IPos3D;
@@ -107,15 +108,15 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
             //Check if broken by counting number of frames
             int count = 0;
             Block block = world().getBlock(xi(), yi() + 1, zi());
-            while (count < 6 && block == ICBM.blockLauncherFrame)
+            while (count < BlockLauncherPart.STANDARD_LAUNCHER_HEIGHT && block == ICBM.blockLauncherFrame) //TODO make 5 a constant
             {
                 //Increase count
                 count++;
                 //Get next block above last
-                block = world().getBlock(xi(), yi() + count, zi());
+                block = world().getBlock(xi(), yi() + count + 1, zi());
             }
             //If we do not have 5 blocks drop the missile and set the block back to CPU
-            if (count != 6)
+            if (count != BlockLauncherPart.STANDARD_LAUNCHER_HEIGHT) //TODO make 5 a constant
             {
                 dropItems();
                 world().setBlock(xi(), yi(), zi(), ICBM.blockLauncherParts);
@@ -123,11 +124,11 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
             else
             {
                 //Updates top block meta for older versions of ICBM
-                int meta = world().getBlockMetadata(xi(), yi() + 6, zi());
+                int meta = world().getBlockMetadata(xi(), yi() + BlockLauncherPart.STANDARD_LAUNCHER_HEIGHT, zi());
                 int dMeta = getMetaForDirection(getDirection());
                 if (meta != dMeta)
                 {
-                    worldObj.setBlockMetadataWithNotify(xi(), yi() + 6, zi(), dMeta, 3);
+                    worldObj.setBlockMetadataWithNotify(xi(), yi() + BlockLauncherPart.STANDARD_LAUNCHER_HEIGHT, zi(), dMeta, 3);
                 }
             }
         }

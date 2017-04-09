@@ -33,6 +33,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
  */
 public final class BlockLauncherPart extends Block implements IPostInit
 {
+    public static final int STANDARD_LAUNCHER_HEIGHT = 5;
     @SideOnly(Side.CLIENT)
     IIcon cpuTop;
 
@@ -57,7 +58,7 @@ public final class BlockLauncherPart extends Block implements IPostInit
                 //Detects all launcher frame blocks above it(up to max)
                 int count = 0;
                 Block block = world.getBlock(x, y + 1, z);
-                while (count < 5 && block == ICBM.blockLauncherFrame)
+                while (count < STANDARD_LAUNCHER_HEIGHT && block == ICBM.blockLauncherFrame) //TODO make 5 a constant
                 {
                     //Increase count
                     count++;
@@ -71,22 +72,22 @@ public final class BlockLauncherPart extends Block implements IPostInit
                         return true;
                     }
                 }
-                if (count == 5)
+                if (count == STANDARD_LAUNCHER_HEIGHT) //TODO make 5 a constant
                 {
                     //create standard launcher
                     new Pos(x, y, z).setBlock(world, ICBM.blockStandardLauncher, side);
                     //TODO add translation key
                     player.addChatComponentMessage(new ChatComponentText("Standard launcher created"));
                 }
-                else if (count > 5)
+                else if (count > STANDARD_LAUNCHER_HEIGHT) //TODO make 5 a constant
                 {
                     //TODO add translation key
-                    player.addChatComponentMessage(new ChatComponentText("Detected " + (count - 5) + " extra tower blocks. You need only 5 for standard launcher setup."));
+                    player.addChatComponentMessage(new ChatComponentText("Detected " + (count - STANDARD_LAUNCHER_HEIGHT) + " extra tower blocks. You need only 5 for standard launcher setup."));
                 }
-                else if (count < 5)
+                else if (count < STANDARD_LAUNCHER_HEIGHT) //TODO make 5 a constant
                 {
                     //TODO add translation key
-                    player.addChatComponentMessage(new ChatComponentText("Detected " + (5 - count) + " missing tower blocks. You need 5 for standard launcher setup."));
+                    player.addChatComponentMessage(new ChatComponentText("Detected " + (STANDARD_LAUNCHER_HEIGHT - count) + " missing tower blocks. You need 5 for standard launcher setup."));
                 }
             }
             return true;
