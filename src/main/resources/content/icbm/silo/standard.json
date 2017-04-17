@@ -1,4 +1,61 @@
 {
+  "author": {
+    "name": "${voltzengine}"
+  },
+  "block": {
+    "name": "standardsilo",
+    "id": "standardsilo",
+    "mod": "icbm",
+    "material": "iron",
+    "renderType": -1,
+    "isOpaque": false,
+    "tileEntity": {
+      "id": "icbm:standardsilo",
+      "class": "com.builtbroken.icbm.content.launcher.silo.TileWrapperStandardSilo"
+    },
+    "listeners": [
+      "rotation",
+      "multiblock",
+      {
+        "id": "missileRender",
+        "renderOffset": {
+          "x": 0.5,
+          "y": 2.75,
+          "z": 0.5
+        }
+      }
+    ]
+  },
+  "render": {
+    "contentID": "icbm:standardsilo",
+    "type": "tile",
+    "tileClass": "com.builtbroken.test.mod.block.TileEntityVETestBlock",
+    "states": [
+      {
+        "id": "base",
+        "modelID": "icbm:standardSilo"
+      },
+      {
+        "id": "item.inventory",
+        "parent": "base",
+        "parts": "Group_001,Component_1_001",
+        "scale": 0.8,
+        "translation": -0.5
+      },
+      {
+        "id": "tile",
+        "parent": "base",
+        "translation": {
+          "z": 1
+        }
+      }
+    ]
+  },
+  "model": {
+    "key": "icbm:standardSilo",
+    "domain": "icbm",
+    "name": "standardSilo/StandardSilo.obj"
+  },
   "multiblock": {
     "key": "icbm:standardSilo",
     "tiles": [
