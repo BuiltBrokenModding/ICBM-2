@@ -4,9 +4,10 @@ import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.icbm.content.launcher.controller.LauncherData;
 import com.builtbroken.icbm.content.launcher.silo.TileSmallSilo;
 import com.builtbroken.icbm.content.launcher.silo.TileStandardSilo;
+import com.builtbroken.mc.api.tile.node.ITileNode;
 import com.builtbroken.mc.client.SharedAssets;
-import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.imp.transform.vector.Pos;
+import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
 import com.builtbroken.mc.prefab.gui.GuiContainerBase;
 import net.minecraft.block.Block;
@@ -14,7 +15,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
 
 /**
  * Main GUI for the small missile silo controller
@@ -68,7 +68,7 @@ public class GuiLocalController extends GuiContainerBase
 
                     String buttonName = launcherName;
                     String name = "" + i;
-                    TileEntity tile = controller.launcherData.get(i).location.getTileEntity(controller.world());
+                    ITileNode tile = controller.launcherData.get(i).location.getTileNode(controller.world());
                     if (tile instanceof TileAbstractLauncher)
                     {
                         if (tile instanceof TileSmallSilo || tile instanceof TileStandardSilo)
@@ -110,7 +110,7 @@ public class GuiLocalController extends GuiContainerBase
             x = guiLeft + 10;
             y = guiTop + 42;
 
-            TileEntity tile = controller.launcherData.get(editMissile).location.getTileEntity(controller.world());
+            ITileNode tile = controller.launcherData.get(editMissile).location.getTileNode(controller.world());
 
             if (tile instanceof TileAbstractLauncher && ((TileAbstractLauncher) tile).target != null)
             {
@@ -180,7 +180,7 @@ public class GuiLocalController extends GuiContainerBase
         }
         else if (this.x_field != null && this.y_field != null && this.z_field != null && this.x_field.isFocused() && this.y_field.isFocused() && this.z_field.isFocused())
         {
-            TileEntity tile = controller.launcherData.get(editMissile).location.getTileEntity(controller.world());
+            ITileNode tile = controller.launcherData.get(editMissile).location.getTileNode(controller.world());
 
             if (tile instanceof TileAbstractLauncher && ((TileAbstractLauncher) tile).target != null)
             {
@@ -232,7 +232,7 @@ public class GuiLocalController extends GuiContainerBase
             }
             else if (button.id == 1)
             {
-                TileEntity tile = controller.launcherData.get(editMissile).location.getTileEntity(controller.world());
+                ITileNode tile = controller.launcherData.get(editMissile).location.getTileNode(controller.world());
                 if (tile instanceof TileAbstractLauncher)
                 {
                     try

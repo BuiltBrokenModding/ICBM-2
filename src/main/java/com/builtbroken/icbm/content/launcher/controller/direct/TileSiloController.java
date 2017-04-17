@@ -4,11 +4,12 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.icbm.content.prefab.ItemBlockICBM;
 import com.builtbroken.mc.api.tile.access.IGuiTile;
+import com.builtbroken.mc.api.tile.node.ITileNode;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
+import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
-import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
 import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.TileMachine;
@@ -22,7 +23,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
@@ -72,7 +72,7 @@ public class TileSiloController extends TileMachine implements IPostInit, IPacke
             for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
             {
                 Pos pos = toPos().add(dir);
-                TileEntity tile = pos.getTileEntity(world());
+                ITileNode tile = pos.getTileNode(world());
                 if (tile instanceof TileAbstractLauncher)
                 {
                     launcher = (TileAbstractLauncher) tile;

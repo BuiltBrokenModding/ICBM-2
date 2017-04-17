@@ -6,19 +6,20 @@ import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.icbm.content.launcher.controller.LauncherData;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
-import com.builtbroken.mc.api.tile.access.IGuiTile;
 import com.builtbroken.mc.api.tile.ILinkFeedback;
 import com.builtbroken.mc.api.tile.ILinkable;
 import com.builtbroken.mc.api.tile.IPassCode;
+import com.builtbroken.mc.api.tile.access.IGuiTile;
+import com.builtbroken.mc.api.tile.node.ITileNode;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
-import com.builtbroken.mc.lib.helper.recipe.OreNames;
-import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.imp.transform.region.Cube;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.imp.transform.vector.Pos;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
+import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
 import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.TileModuleMachine;
@@ -112,7 +113,7 @@ public class TileLocalController extends TileModuleMachine implements ILinkable,
             if (index >= 0 && index < launcherLocations.size())
             {
                 Pos pos = launcherLocations.get(index);
-                TileEntity tile = pos.getTileEntity(world());
+                ITileNode tile = pos.getTileNode(world());
                 if (tile instanceof TileAbstractLauncher)
                 {
                     if (((TileAbstractLauncher) tile).fireMissile())
@@ -172,7 +173,7 @@ public class TileLocalController extends TileModuleMachine implements ILinkable,
         }
 
         //Compare tile pass code
-        TileEntity tile = pos.getTileEntity(loc.world());
+        ITileNode tile = pos.getTileNode(world());
         if (!(tile instanceof TileAbstractLauncher))
         {
             return "link.error.tile.invalid";
@@ -209,7 +210,7 @@ public class TileLocalController extends TileModuleMachine implements ILinkable,
         super.onNeighborChanged(pos);
         if (!launcherLocations.contains(pos))
         {
-            TileEntity tile = pos.getTileEntity(world());
+            ITileNode tile = pos.getTileNode(world());
             if (tile instanceof TileAbstractLauncher)
             {
                 launcherLocations.add(pos);
@@ -245,7 +246,7 @@ public class TileLocalController extends TileModuleMachine implements ILinkable,
         List<TileAbstractLauncher> list = new ArrayList();
         for (Pos pos : launcherLocations)
         {
-            TileEntity tile = pos.getTileEntity(world());
+            ITileNode tile = pos.getTileNode(world());
             if (tile instanceof TileAbstractLauncher)
             {
                 list.add((TileAbstractLauncher) tile);

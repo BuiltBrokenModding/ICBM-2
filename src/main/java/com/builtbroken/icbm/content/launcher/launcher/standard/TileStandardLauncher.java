@@ -86,9 +86,9 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
     }
 
     @Override
-    public void update()
+    public void update(long ticks)
     {
-        super.update();
+        super.update(ticks);
         if (ticks % 20 == 0)
         {
             if (buildMissileBlocks)
@@ -128,7 +128,7 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
                 int dMeta = getMetaForDirection(getDirection());
                 if (meta != dMeta)
                 {
-                    worldObj.setBlockMetadataWithNotify(xi(), yi() + BlockLauncherPart.STANDARD_LAUNCHER_HEIGHT, zi(), dMeta, 3);
+                    world().setBlockMetadataWithNotify(xi(), yi() + BlockLauncherPart.STANDARD_LAUNCHER_HEIGHT, zi(), dMeta, 3);
                 }
             }
         }
@@ -330,7 +330,7 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
     {
         if (slot == 0 && isServer())
         {
-            ItemStack stackPrev = getStackInSlot(slot);
+            ItemStack stackPrev = getInventory().getStackInSlot(slot);
             super.setInventorySlotContents(slot, stack);
             ItemStack newStack = getStackInSlot(slot);
             if (isCrafting && recipe != null)
@@ -477,12 +477,6 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
     }
 
     @Override
-    public Tile newTile()
-    {
-        return new TileStandardLauncher();
-    }
-
-    @Override
     public boolean canAcceptMissile(IMissile missile)
     {
         return super.canAcceptMissile(missile) && missile.getMissileSize() == MissileCasings.STANDARD.ordinal();
@@ -495,9 +489,9 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbt)
+    public void load(NBTTagCompound nbt)
     {
-        super.readFromNBT(nbt);
+        super.load(nbt);
         if (nbt.hasKey("missileRecipe"))
         {
             triggerCraftingMode();
@@ -507,15 +501,16 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbt)
+    public NBTTagCompound save(NBTTagCompound nbt)
     {
-        super.writeToNBT(nbt);
+        super.save(nbt);
         if (recipe != null)
         {
             NBTTagCompound tag = new NBTTagCompound();
             recipe.save(nbt);
             nbt.setTag("missileRecipe", tag);
         }
+        return nbt;
     }
 
     protected void triggerCraftingMode()
@@ -540,7 +535,7 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
     {
         if (tileMulti instanceof TileEntity)
         {
-            if (getLayoutOfMultiBlock().containsKey(new Pos((TileEntity)this).sub(new Pos((TileEntity) tileMulti))))
+            if (getLayoutOfMultiBlock().containsKey(toPos().sub(new Pos((TileEntity) tileMulti))))
             {
                 tileMulti.setHost(this);
             }
@@ -566,7 +561,7 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IMu
     @Override
     public boolean onMultiTileActivated(IMultiTile tile, EntityPlayer player, int side, IPos3D hit)
     {
-        return onPlayerActivated(player, side, new Pos(hit));
+        return onPlayerActivated(player, side, hit.xf(), hit.yf(), hit.zf());
     }
 
     @Override

@@ -89,7 +89,7 @@ public class GuiSiloSettings extends GuiContainerBase
             ticks = 0;
         }
         String name = "Silo";
-        Block block = launcher.getBlockType();
+        Block block = launcher.toLocation().getBlock();
         if (block != null)
         {
             String localization = block.getLocalizedName();
