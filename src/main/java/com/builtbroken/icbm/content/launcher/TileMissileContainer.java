@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.display;
+package com.builtbroken.icbm.content.launcher;
 
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
@@ -6,13 +6,11 @@ import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.api.rails.IRailInventoryTile;
-import com.builtbroken.mc.core.network.IPacketIDReceiver;
-import com.builtbroken.mc.imp.transform.vector.Pos;
-import com.builtbroken.mc.prefab.tile.TileModuleMachine;
+import com.builtbroken.mc.api.tile.listeners.IActivationListener;
+import com.builtbroken.mc.prefab.tile.logic.TileMachineNode;
 import com.builtbroken.mc.prefab.tile.module.TileModuleInventory;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
@@ -24,15 +22,10 @@ import net.minecraftforge.common.util.ForgeDirection;
  * Prefab for anything that can store a missile
  * Created by robert on 1/18/2015.
  */
-public class TileMissileContainer extends TileModuleMachine<IInventory> implements IPacketIDReceiver, IRailInventoryTile<IInventory>
+public class TileMissileContainer extends TileMachineNode<IInventory> implements IRailInventoryTile<IInventory>, IActivationListener
 {
     /** Cached missile version of the stored missile item. */
     protected IMissile missile;
-
-    public TileMissileContainer(String name, Material material)
-    {
-        super(name, material);
-    }
 
     @Override
     protected IInventory createInventory()
@@ -48,11 +41,11 @@ public class TileMissileContainer extends TileModuleMachine<IInventory> implemen
         ItemStack stack = ByteBufUtils.readItemStack(buf);
         if (stack.getItem() instanceof IMissileItem)
         {
-            this.setInventorySlotContents(0, stack);
+            getInventory().setInventorySlotContents(0, stack);
         }
         else
         {
-            this.setInventorySlotContents(0, null);
+            getInventory().setInventorySlotContents(0, null);
         }
     }
 
@@ -61,7 +54,7 @@ public class TileMissileContainer extends TileModuleMachine<IInventory> implemen
     {
         super.writeDescPacket(buf);
         //Silo item
-        ByteBufUtils.writeItemStack(buf, getStackInSlot(0) != null ? getStackInSlot(0) : new ItemStack(Blocks.stone));
+        ByteBufUtils.writeItemStack(buf, getInventory().getStackInSlot(0) != null ? getInventory().getStackInSlot(0) : new ItemStack(Blocks.stone));
     }
 
     /**
@@ -76,12 +69,12 @@ public class TileMissileContainer extends TileModuleMachine<IInventory> implemen
     }
 
     @Override
-    public boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
+    public boolean onPlayerActivated(EntityPlayer player, int side, float hitX, float hitY, float hitZ)
     {
-        return playerRemoveMissile(player, side, hit) || playerAddMissile(player, side, hit);
+        return playerRemoveMissile(player, side, hitX, hitY, hitZ) || playerAddMissile(player, side, hitX, hitY, hitZ);
     }
 
-    public boolean playerRemoveMissile(EntityPlayer player, int side, Pos hit)
+    public boolean playerRemoveMissile(EntityPlayer player, int side, float hitX, float hitY, float hitZ)
     {
         if (player.getHeldItem() == null && getMissile() != null)
         {
@@ -90,7 +83,7 @@ public class TileMissileContainer extends TileModuleMachine<IInventory> implemen
                 //TODO add translation
                 player.addChatComponentMessage(new ChatComponentText("*Removed Missile*"));
                 player.inventory.mainInventory[player.inventory.currentItem] = getMissile().toStack();
-                setInventorySlotContents(0, null);
+                getInventory().setInventorySlotContents(0, null);
                 player.inventoryContainer.detectAndSendChanges();
                 sendDescPacket();
             }
@@ -99,7 +92,7 @@ public class TileMissileContainer extends TileModuleMachine<IInventory> implemen
         return false;
     }
 
-    public boolean playerAddMissile(EntityPlayer player, int side, Pos hit)
+    public boolean playerAddMissile(EntityPlayer player, int side, float hitX, float hitY, float hitZ)
     {
         ItemStack heldItem = player.getHeldItem();
         if (heldItem != null && getMissile() == null)
@@ -114,7 +107,7 @@ public class TileMissileContainer extends TileModuleMachine<IInventory> implemen
                     player.addChatComponentMessage(new ChatComponentText("*Added Missile*"));
                     ItemStack stack = heldItem.copy();
                     stack.stackSize = 1;
-                    setInventorySlotContents(0, stack);
+                    getInventory().setInventorySlotContents(0, stack);
                     if (!player.capabilities.isCreativeMode)
                     {
                         heldItem.stackSize--;
@@ -160,7 +153,7 @@ public class TileMissileContainer extends TileModuleMachine<IInventory> implemen
     {
         if (getMissileItem() == null)
         {
-            setInventorySlotContents(0, missile.toStack());
+            getInventory().setInventorySlotContents(0, missile.toStack());
             sendDescPacket();
             return true;
         }
@@ -201,7 +194,7 @@ public class TileMissileContainer extends TileModuleMachine<IInventory> implemen
      */
     public ItemStack getMissileItem()
     {
-        return getStackInSlot(0);
+        return getInventory().getStackInSlot(0);
     }
 
     @Override
@@ -215,12 +208,6 @@ public class TileMissileContainer extends TileModuleMachine<IInventory> implemen
                 missile = createMissileObject();
             }
         }
-    }
-
-    @Override
-    public int getInventoryStackLimit()
-    {
-        return 1;
     }
 
     @Override

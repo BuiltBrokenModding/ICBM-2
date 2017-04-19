@@ -1,3 +1,104 @@
 {
-
+  "author": {
+    "name": "icbm"
+  },
+  "block": {
+    "name": "smallsilo",
+    "id": "smallsilo",
+    "mod": "icbm",
+    "material": "iron",
+    "renderType": -1,
+    "isOpaque": false,
+    "tileEntity": {
+      "id": "icbm:smallsilo",
+      "class": "com.builtbroken.icbm.content.launcher.silo.TileWrapperSmallSilo",
+      "renderBounds": {
+        "min": 0,
+        "max": {
+          "x": 1,
+          "y": 3,
+          "z": 1
+        }
+      }
+    },
+    "listeners": [
+      "rotation",
+      "multiblock",
+      {
+        "id": "missileRender",
+        "renderOffset": {
+          "x": 0.5,
+          "y": 0.4,
+          "z": 0.5
+        }
+      }
+    ]
+  },
+  "render": {
+    "contentID": "icbm:standardsilo",
+    "type": "tile",
+    "tileClass": "com.builtbroken.test.mod.block.TileEntityVETestBlock",
+    "states": [
+      {
+        "id": "base",
+        "modelID": "icbm:smallSilo"
+      },
+      {
+        "id": "item.inventory",
+        "parent": "base",
+        "parts": "Group_001,Component_1_001",
+        "scale": 0.8,
+        "translation": -0.5
+      },
+      {
+        "id": "tile",
+        "parent": "base",
+        "translation": {
+          "x": 0.5,
+          "y": 0.0935,
+          "z": 0.5
+        }
+      }
+    ]
+  },
+  "model": {
+    "key": "icbm:smallSilo",
+    "domain": "icbm",
+    "name": "smallSilo/small-missile-silo.obj"
+  },
+  "craftingGridRecipe": {
+    "type": "shaped",
+    "output":"block@icbm:smallsilo",
+    "grid": "I I,I I,CBC",
+    "items": {
+      "I": "block@iron_bars",
+      "B": "ore@blockIron",
+      "C": "ore@circuitBasic"
+    }
+  },
+  "craftingGridRecipe:1": {
+    "type": "shaped",
+    "output":"block@icbm:smallsilo",
+    "grid": "I I,I I,CBC",
+    "items": {
+      "I": "block@iron_bars",
+      "B": "ore@blockIron",
+      "C": "ore@electronicCircuit"
+    }
+  },
+  "multiblock": {
+    "key": "icbm:smallSilo",
+    "tiles": [
+      {
+        "pos": {
+          "y": 1
+        }
+      },
+      {
+        "pos": {
+          "y": 2
+        }
+      }
+    ]
+  }
 }

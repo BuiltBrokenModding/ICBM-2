@@ -8,7 +8,6 @@ import com.builtbroken.icbm.content.crafting.station.small.auto.TileSMAutoCraft;
 import com.builtbroken.icbm.content.crafting.station.warhead.TileWarheadStation;
 import com.builtbroken.icbm.content.fof.TileFoF;
 import com.builtbroken.icbm.content.launcher.controller.remote.display.TileSiloInterface;
-import com.builtbroken.icbm.content.launcher.launcher.standard.TileStandardLauncher;
 
 /**
  * Code that only loads on a dedicated server box
@@ -23,7 +22,7 @@ public class ServerProxy extends CommonProxy
     {
         super.preInit();
         ICBM.blockMissileWorkstation = ICBM.INSTANCE.getManager().newBlock("SmallMissileWorkStation", TileSmallMissileWorkstation.class);
-        ICBM.blockStandardLauncher = ICBM.INSTANCE.getManager().newBlock("StandardMissileLauncher", TileStandardLauncher.class);
+        //ICBM.blockStandardLauncher = ICBM.INSTANCE.getManager().newBlock("StandardMissileLauncher", TileStandardLauncher.class);
         ICBM.blockAMS = ICBM.INSTANCE.getManager().newBlock("ICBMxAMS", TileAMS.class);
         ICBM.blockFoFStation = ICBM.INSTANCE.getManager().newBlock("ICBMxFoF", TileFoF.class);
         ICBM.blockCommandSiloDisplay = ICBM.INSTANCE.getManager().newBlock("icbmCommandSiloDisplay", TileSiloInterface.class);

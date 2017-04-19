@@ -10,6 +10,7 @@ import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.recipe.item.sheetmetal.RecipeSheetMetal;
+import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -75,7 +76,7 @@ public final class BlockLauncherPart extends Block implements IPostInit
                 if (count == STANDARD_LAUNCHER_HEIGHT) //TODO make 5 a constant
                 {
                     //create standard launcher
-                    new Pos(x, y, z).setBlock(world, ICBM.blockStandardLauncher, side);
+                    new Pos(x, y, z).setBlock(world, InventoryUtility.getBlock("icbm:standardLauncher"), side); //TODO cache standard launcher block instance
                     //TODO add translation key
                     player.addChatComponentMessage(new ChatComponentText("Standard launcher created"));
                 }

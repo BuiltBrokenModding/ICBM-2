@@ -1,6 +1,6 @@
 {
   "author": {
-    "name": "${voltzengine}"
+    "name": "icbm"
   },
   "block": {
     "name": "standardsilo",
@@ -11,7 +11,15 @@
     "isOpaque": false,
     "tileEntity": {
       "id": "icbm:standardsilo",
-      "class": "com.builtbroken.icbm.content.launcher.silo.TileWrapperStandardSilo"
+      "class": "com.builtbroken.icbm.content.launcher.silo.TileWrapperStandardSilo",
+      "renderBounds": {
+        "min": 0,
+        "max": {
+          "x":1,
+          "y": 7,
+          "x":1
+        }
+      }
     },
     "listeners": [
       "rotation",
@@ -37,7 +45,7 @@
       },
       {
         "id": "item.inventory",
-        "parent": "base",
+        "modelID": "icbm:smallSilo",
         "parts": "Group_001,Component_1_001",
         "scale": 0.8,
         "translation": -0.5
@@ -55,6 +63,11 @@
     "key": "icbm:standardSilo",
     "domain": "icbm",
     "name": "standardSilo/StandardSilo.obj"
+  },
+  "model:1": {
+    "key": "icbm:smallSilo",
+    "domain": "icbm",
+    "name": "smallSilo/small-missile-silo.obj"
   },
   "multiblock": {
     "key": "icbm:standardSilo",

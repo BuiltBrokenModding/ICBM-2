@@ -40,9 +40,7 @@ import com.builtbroken.icbm.content.crafting.parts.ItemExplosiveParts;
 import com.builtbroken.icbm.content.crafting.parts.ItemMissileParts;
 import com.builtbroken.icbm.content.crafting.parts.MissileCraftingParts;
 import com.builtbroken.icbm.content.debug.BlockExplosiveMarker;
-import com.builtbroken.icbm.content.debug.TileRotationTest;
 import com.builtbroken.icbm.content.display.TileMissile;
-import com.builtbroken.icbm.content.display.TileMissileDisplay;
 import com.builtbroken.icbm.content.fragments.EntityFragment;
 import com.builtbroken.icbm.content.fragments.FragmentEventHandler;
 import com.builtbroken.icbm.content.items.*;
@@ -54,11 +52,6 @@ import com.builtbroken.icbm.content.launcher.controller.local.TileLocalControlle
 import com.builtbroken.icbm.content.launcher.controller.remote.antenna.BlockAntennaParts;
 import com.builtbroken.icbm.content.launcher.controller.remote.central.TileCommandController;
 import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCommandSiloConnector;
-import com.builtbroken.icbm.content.launcher.launcher.large.TileLargeLauncher;
-import com.builtbroken.icbm.content.launcher.launcher.medium.TileMediumLauncher;
-import com.builtbroken.icbm.content.launcher.launcher.small.TileSmallLauncher;
-import com.builtbroken.icbm.content.launcher.silo.TileSmallSilo;
-import com.builtbroken.icbm.content.launcher.silo.TileStandardSilo;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.ItemMissile;
 import com.builtbroken.icbm.content.missile.tile.TileCrashedMissile;
@@ -76,10 +69,10 @@ import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
 import com.builtbroken.mc.lib.mod.AbstractMod;
 import com.builtbroken.mc.lib.mod.ModCreativeTab;
 import com.builtbroken.mc.lib.mod.Mods;
-import com.builtbroken.mc.mods.nei.NEIProxy;
-import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
-import com.builtbroken.mc.prefab.explosive.ExplosiveHandlerGeneric;
 import com.builtbroken.mc.lib.recipe.item.sheetmetal.RecipeSheetMetal;
+import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
+import com.builtbroken.mc.mods.nei.NEIProxy;
+import com.builtbroken.mc.prefab.explosive.ExplosiveHandlerGeneric;
 import com.builtbroken.mc.prefab.tile.item.ItemBlockMetadata;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
@@ -155,7 +148,6 @@ public final class ICBM extends AbstractMod
     // Blocks
     public static Block blockWarhead;
     public static Block blockExplosiveMarker;
-    public static Block blockMissileDisplay;
     public static Block blockDisplayMissile;
 
     public static Block blockSiloController;
@@ -163,15 +155,6 @@ public final class ICBM extends AbstractMod
     public static Block blockWarheadWorkstation;
     public static Block blockSMAuto;
     public static Block blockDirectSiloController;
-
-    public static Block blockSmallPortableLauncher;
-
-    public static Block blockStandardLauncher;
-    public static Block blockMediumLauncher;
-    public static Block blockLargeLauncher;
-
-    public static Block blockSmallSilo;
-    public static Block blockStandardSilo;
 
     public static Block blockLauncherFrame;
     public static Block blockLauncherParts;
@@ -187,8 +170,6 @@ public final class ICBM extends AbstractMod
     public static Block blockCake;
 
     public static Block blockCrashMissile;
-
-    public static Block blockSmallMissileMag;
 
     // Items
     public static Item itemMissile;
@@ -281,7 +262,7 @@ public final class ICBM extends AbstractMod
         // Functional Blocks
         blockWarhead = manager.newBlock(TileWarhead.class);
         blockCrashMissile = manager.newBlock("icbmCrashedMissile", TileCrashedMissile.class);
-        blockMissileDisplay = manager.newBlock(TileMissileDisplay.class);
+        //blockMissileDisplay = manager.newBlock(TileMissileDisplay.class);
         blockLauncherFrame = manager.newBlock("icbmLauncherFrame", TileLauncherFrame.class);
         blockLauncherParts = manager.newBlock("icbmLauncherParts", BlockLauncherPart.class, ItemBlockMetadata.class);
         if (blockDirectSiloController == null)
@@ -296,19 +277,15 @@ public final class ICBM extends AbstractMod
         blockLaunchPad = manager.newBlock("icbmDecorLaunchPad", BlockLaunchPad.class, ItemBlockMetadata.class);
 
         //Launchers
-        blockSmallPortableLauncher = manager.newBlock(TileSmallLauncher.class);
-        blockSmallSilo = manager.newBlock(TileSmallSilo.class);
-        blockStandardSilo = manager.newBlock(TileStandardSilo.class);
+        //blockSmallPortableLauncher = manager.newBlock(TileSmallLauncher.class);
+        //blockSmallSilo = manager.newBlock(TileSmallSilo.class);
+        //blockStandardSilo = manager.newBlock(TileStandardSilo.class);
 
         //Troll blocks
         blockCake = manager.newBlock("ICBMxFakeCake", BlockFakeCake.class);
 
 
         //Clear launcher creative tab to prevent placement by user by mistake
-        blockMediumLauncher.setCreativeTab(null);
-        blockLargeLauncher.setCreativeTab(null);
-        NEIProxy.hideItem(blockMediumLauncher);
-        NEIProxy.hideItem(blockLargeLauncher);
         NEIProxy.hideItem(blockCrashMissile);
 
         //Missile workstation is loaded in the proxy
@@ -321,9 +298,8 @@ public final class ICBM extends AbstractMod
         if (Engine.runningAsDev)
         {
             blockExplosiveMarker = manager.newBlock(BlockExplosiveMarker.class, ItemBlockMetadata.class);
-            manager.newBlock(TileRotationTest.class);
         }
-        blockSmallMissileMag = manager.newBlock("smallMissileMag", TileSmallMag.class);
+        manager.newBlock("smallMissileMag", TileSmallMag.class);
 
 
         // ITEMS

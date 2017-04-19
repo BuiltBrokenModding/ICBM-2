@@ -22,7 +22,6 @@ import com.builtbroken.icbm.content.launcher.controller.remote.antenna.ItemRende
 import com.builtbroken.icbm.content.launcher.controller.remote.antenna.TESRAntenna;
 import com.builtbroken.icbm.content.launcher.controller.remote.antenna.TileAntennaPart;
 import com.builtbroken.icbm.content.launcher.controller.remote.display.TileSiloInterfaceClient;
-import com.builtbroken.icbm.content.launcher.launcher.standard.TileStandardLauncherClient;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.RenderMissile;
 import com.builtbroken.icbm.content.rail.EntityMissileCart;
@@ -30,9 +29,8 @@ import com.builtbroken.icbm.content.rail.RenderMissileCart;
 import com.builtbroken.icbm.content.rocketlauncher.RenderRocketLauncher;
 import com.builtbroken.mc.client.SharedAssets;
 import com.builtbroken.mc.core.Engine;
-import com.builtbroken.mc.mods.nei.NEIProxy;
-import com.builtbroken.mc.lib.render.fx.*;
 import com.builtbroken.mc.imp.transform.vector.Pos;
+import com.builtbroken.mc.lib.render.fx.*;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.explosive.ExplosiveHandlerGeneric;
 import cpw.mods.fml.client.FMLClientHandler;
@@ -67,15 +65,15 @@ public class ClientProxy extends CommonProxy
     {
         super.preInit();
         ICBM.blockMissileWorkstation = ICBM.INSTANCE.getManager().newBlock("SmallMissileWorkStation", TileSmallMissileWorkstationClient.class);
-        ICBM.blockStandardLauncher = ICBM.INSTANCE.getManager().newBlock("StandardMissileLauncher", TileStandardLauncherClient.class);
+        //ICBM.blockStandardLauncher = ICBM.INSTANCE.getManager().newBlock("StandardMissileLauncher", TileStandardLauncherClient.class);
         ICBM.blockAMS = ICBM.INSTANCE.getManager().newBlock("ICBMxAMS", TileAMSClient.class);
         ICBM.blockFoFStation = ICBM.INSTANCE.getManager().newBlock("ICBMxFoF", TileFoFClient.class);
         ICBM.blockCommandSiloDisplay = ICBM.INSTANCE.getManager().newBlock("icbmCommandSiloDisplay", TileSiloInterfaceClient.class);
         ICBM.blockWarheadWorkstation = ICBM.INSTANCE.getManager().newBlock("icbmWarheadWorkstation", TileWarheadStationClient.class);
         ICBM.blockSMAuto = ICBM.INSTANCE.getManager().newBlock("icbmSMAuto", TileSMAutoCraftClient.class);
 
-        ICBM.blockStandardLauncher.setCreativeTab(null);
-        NEIProxy.hideItem(ICBM.blockStandardLauncher);
+        //ICBM.blockStandardLauncher.setCreativeTab(null);
+        //NEIProxy.hideItem(ICBM.blockStandardLauncher);
     }
 
     @Override
