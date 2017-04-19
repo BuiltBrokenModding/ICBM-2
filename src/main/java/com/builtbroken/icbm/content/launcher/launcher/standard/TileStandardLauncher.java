@@ -13,6 +13,7 @@ import com.builtbroken.mc.api.tile.access.IRotation;
 import com.builtbroken.mc.api.tile.listeners.IActivationListener;
 import com.builtbroken.mc.api.tile.listeners.IWrenchListener;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
+import com.builtbroken.mc.codegen.annotations.MultiBlockWrapped;
 import com.builtbroken.mc.codegen.annotations.TileWrapped;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.packet.PacketType;
@@ -36,6 +37,7 @@ import net.minecraftforge.common.util.ForgeDirection;
  * Created by Dark(DarkGuardsman, Robert) on 12/2/2015.
  */
 @TileWrapped(className = "TileWrapperStandardLauncher")
+@MultiBlockWrapped()
 public class TileStandardLauncher extends TileAbstractLauncherPad implements IRotation, IWrenchListener, IActivationListener
 {
     /** Is the silo in crafting mode. */

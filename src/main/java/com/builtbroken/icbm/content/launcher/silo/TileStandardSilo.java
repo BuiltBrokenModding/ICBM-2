@@ -5,11 +5,10 @@ import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.mc.api.tile.listeners.IDestroyedListener;
 import com.builtbroken.mc.api.tile.listeners.IPlacementListener;
+import com.builtbroken.mc.codegen.annotations.MultiBlockWrapped;
 import com.builtbroken.mc.codegen.annotations.TileWrapped;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
-import com.builtbroken.mc.prefab.tile.module.TileModuleInventory;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraftforge.common.util.ForgeDirection;
 
 /**
@@ -19,14 +18,9 @@ import net.minecraftforge.common.util.ForgeDirection;
  * Created by Dark(DarkGuardsman, Robert) on 2/23/2016.
  */
 @TileWrapped(className = "TileWrapperStandardSilo")
+@MultiBlockWrapped()
 public class TileStandardSilo extends TileAbstractLauncher implements IPlacementListener, IDestroyedListener
 {
-    @Override
-    protected IInventory createInventory()
-    {
-        return new TileModuleInventory(this, 1);
-    }
-
     @Override
     public boolean canAcceptMissile(IMissile missile)
     {

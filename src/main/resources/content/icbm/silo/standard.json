@@ -10,7 +10,7 @@
     "renderType": -1,
     "isOpaque": false,
     "tileEntity": {
-      "id": "icbm:standardsilo",
+      "id": "standardsilo",
       "class": "com.builtbroken.icbm.content.launcher.silo.TileWrapperStandardSilo",
       "renderBounds": {
         "min": 0,

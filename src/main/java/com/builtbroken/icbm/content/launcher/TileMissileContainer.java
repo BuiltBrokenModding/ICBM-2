@@ -7,8 +7,8 @@ import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.api.rails.IRailInventoryTile;
 import com.builtbroken.mc.api.tile.listeners.IActivationListener;
+import com.builtbroken.mc.prefab.inventory.ExternalInventory;
 import com.builtbroken.mc.prefab.tile.logic.TileMachineNode;
-import com.builtbroken.mc.prefab.tile.module.TileModuleInventory;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
@@ -30,7 +30,7 @@ public class TileMissileContainer extends TileMachineNode<IInventory> implements
     @Override
     protected IInventory createInventory()
     {
-        return new TileModuleInventory(this, 1);
+        return new ExternalInventory(this, 1);
     }
 
     @Override

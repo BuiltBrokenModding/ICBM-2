@@ -11,7 +11,7 @@
     "material": "iron",
     "pickBlock": "block@icbmLauncherParts",
     "tileEntity": {
-      "id": "icbm:standardlauncher",
+      "id": "standardlauncher",
       "class": "com.builtbroken.icbm.content.launcher.launcher.standard.TileWrapperStandardLauncher",
       "renderBounds": {
         "min": {
