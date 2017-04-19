@@ -85,10 +85,7 @@ sourcesJar {
 
 dependencies
 {
-    if (project.hasProperty("bambooshortPlanName") && project.getProperty("bambooshortPlanName") == "BBM-Dev")
-    compile "dev.builtbroken.voltzengine:VoltzEngine:1.7.10-$voltz_engine_version+:deobf-dev"
-    else
-    compile "com.builtbroken.voltzengine:VoltzEngine:1.7.10-$voltz_engine_version+:deobf"
+    compile ("com.builtbroken.voltzengine:VoltzEngine:1.7.10-$voltz_engine_version+:deobf") { changing = true }
 }
 
 jacocoTestReport {
