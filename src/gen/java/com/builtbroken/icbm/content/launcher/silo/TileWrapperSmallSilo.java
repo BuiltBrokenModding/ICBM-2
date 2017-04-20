@@ -4,7 +4,6 @@
 //FUNCTIONALITY CAN NOT BE GUARANTIED IN ANY WAY 
 //USE AT YOUR OWN RISK 
 //-------------------------------------------------------
-//Build date: 04-20-2017 06:29:37.318
 //Built on: Rober
 //=======================================================
 package com.builtbroken.icbm.content.launcher.silo;
