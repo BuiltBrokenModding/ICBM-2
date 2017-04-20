@@ -33,7 +33,7 @@ public class StandardLauncherRenderListener extends TileListener implements IBlo
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void renderDynamic(TileEntity tile, double xx, double yy, double zz, int pass)
+    public void renderDynamic(TileEntity tile, double xx, double yy, double zz, float f)
     {
         Pos center = new Pos(xx, yy, zz);
         if (tile instanceof ITileNodeHost && ((ITileNodeHost) tile).getTileNode() instanceof TileStandardLauncher)

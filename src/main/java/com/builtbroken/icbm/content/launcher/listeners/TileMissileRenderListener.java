@@ -29,13 +29,8 @@ public class TileMissileRenderListener extends TileListener implements IBlockLis
     @JsonProcessorData(value = "renderRotation", type = "eulerAngle")
     public EulerAngle rotation = new EulerAngle(0, 0, 0);
 
-    public TileMissileRenderListener()
-    {
-
-    }
-
     @Override
-    public void renderDynamic(TileEntity tile, double xx, double yy, double zz, int pass)
+    public void renderDynamic(TileEntity tile, double xx, double yy, double zz, float f)
     {
         ITileNode node = tile instanceof ITileNodeHost ? ((ITileNodeHost) tile).getTileNode() : null;
 
@@ -47,7 +42,7 @@ public class TileMissileRenderListener extends TileListener implements IBlockLis
                 GL11.glPushMatrix();
                 GL11.glTranslated(xx + offset.x(), yy + offset.y(), zz + offset.z());
                 //TODO rotate
-                ((ICustomMissileRender) ((TileMissileContainer) node).getMissile()).renderMissileInWorld(0, 0, pass);
+                ((ICustomMissileRender) ((TileMissileContainer) node).getMissile()).renderMissileInWorld(0, 0, f);
                 GL11.glPopMatrix();
             }
         }
