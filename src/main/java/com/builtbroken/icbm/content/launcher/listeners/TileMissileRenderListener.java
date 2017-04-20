@@ -3,12 +3,16 @@ package com.builtbroken.icbm.content.launcher.listeners;
 import com.builtbroken.icbm.api.missile.ICustomMissileRender;
 import com.builtbroken.icbm.content.launcher.TileMissileContainer;
 import com.builtbroken.mc.api.tile.listeners.IBlockListener;
+import com.builtbroken.mc.api.tile.listeners.ITileEventListener;
+import com.builtbroken.mc.api.tile.listeners.ITileEventListenerBuilder;
 import com.builtbroken.mc.api.tile.listeners.client.ITileRenderListener;
 import com.builtbroken.mc.api.tile.node.ITileNode;
 import com.builtbroken.mc.api.tile.node.ITileNodeHost;
 import com.builtbroken.mc.imp.transform.rotation.EulerAngle;
 import com.builtbroken.mc.imp.transform.vector.Pos;
+import com.builtbroken.mc.lib.json.loading.JsonProcessorData;
 import com.builtbroken.mc.prefab.tile.listeners.TileListener;
+import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
 
@@ -20,7 +24,9 @@ import org.lwjgl.opengl.GL11;
  */
 public class TileMissileRenderListener extends TileListener implements IBlockListener, ITileRenderListener
 {
+    @JsonProcessorData(value = "renderOffset", type = "pos")
     public Pos offset = Pos.zero;
+    @JsonProcessorData(value = "renderRotation", type = "eulerAngle")
     public EulerAngle rotation = new EulerAngle(0, 0, 0);
 
     public TileMissileRenderListener()
@@ -44,6 +50,21 @@ public class TileMissileRenderListener extends TileListener implements IBlockLis
                 ((ICustomMissileRender) ((TileMissileContainer) node).getMissile()).renderMissileInWorld(0, 0, pass);
                 GL11.glPopMatrix();
             }
+        }
+    }
+
+    public static class Builder implements ITileEventListenerBuilder
+    {
+        @Override
+        public ITileEventListener createListener(Block block)
+        {
+            return new TileMissileRenderListener();
+        }
+
+        @Override
+        public String getListenerKey()
+        {
+            return "missileRender";
         }
     }
 }

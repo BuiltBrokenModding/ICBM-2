@@ -22,6 +22,7 @@ import com.builtbroken.icbm.content.launcher.controller.remote.antenna.ItemRende
 import com.builtbroken.icbm.content.launcher.controller.remote.antenna.TESRAntenna;
 import com.builtbroken.icbm.content.launcher.controller.remote.antenna.TileAntennaPart;
 import com.builtbroken.icbm.content.launcher.controller.remote.display.TileSiloInterfaceClient;
+import com.builtbroken.icbm.content.launcher.listeners.TileMissileRenderListener;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.RenderMissile;
 import com.builtbroken.icbm.content.rail.EntityMissileCart;
@@ -30,6 +31,7 @@ import com.builtbroken.icbm.content.rocketlauncher.RenderRocketLauncher;
 import com.builtbroken.mc.client.SharedAssets;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.imp.transform.vector.Pos;
+import com.builtbroken.mc.lib.json.processors.block.JsonBlockListenerProcessor;
 import com.builtbroken.mc.lib.render.fx.*;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.explosive.ExplosiveHandlerGeneric;
@@ -59,6 +61,13 @@ import java.util.List;
 public class ClientProxy extends CommonProxy
 {
     private boolean disableReflectionFX = false;
+
+    @Override
+    public void loadJsonContentHandlers()
+    {
+        super.loadJsonContentHandlers();
+        JsonBlockListenerProcessor.addBuilder(new TileMissileRenderListener.Builder());
+    }
 
     @Override
     public void preInit()

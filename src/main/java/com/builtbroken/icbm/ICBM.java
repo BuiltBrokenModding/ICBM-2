@@ -220,6 +220,13 @@ public final class ICBM extends AbstractMod
         APRIL_FIRST = (now.get(Calendar.MONTH) + 1) == 4 && now.get(Calendar.DAY_OF_MONTH) == 1;
     }
 
+    @Override
+    public void loadJsonContentHandlers()
+    {
+        super.loadJsonContentHandlers();
+        //TODO load listeners for silos
+        //TODO load processors for missiles
+    }
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
