@@ -31,7 +31,7 @@
         "id": "missileRender",
         "renderOffset": {
           "x": 0.5,
-          "y": 2.75,
+          "y": 0.75,
           "z": 0.5
         }
       }
@@ -40,11 +40,12 @@
   "render": {
     "contentID": "icbm:standardsilo",
     "type": "tile",
-    "tileClass": "com.builtbroken.test.mod.block.TileEntityVETestBlock",
+    "tileClass": "com.builtbroken.icbm.content.launcher.silo.TileWrapperStandardSilo",
     "states": [
       {
         "id": "base",
-        "modelID": "icbm:standardSilo"
+        "modelID": "icbm:standardSilo",
+        "textureID": "icbm:standardSilo"
       },
       {
         "id": "item.inventory",
@@ -56,11 +57,19 @@
       {
         "id": "tile",
         "parent": "base",
-        "translation": {
-          "z": 1
+        "offset": {
+          "x": -0.5,
+          "z": 0.5
         }
       }
     ]
+  },
+  "texture":
+  {
+    "key":"icbm:standardSilo",
+    "domain": "icbm",
+    "name": "reg-silo",
+    "type": "model"
   },
   "model": {
     "key": "icbm:standardSilo",

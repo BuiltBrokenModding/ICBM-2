@@ -44,7 +44,8 @@
     "states": [
       {
         "id": "base",
-        "modelID": "icbm:smallSilo"
+        "modelID": "icbm:smallSilo",
+        "textureID": "icbm:smallSilo"
       },
       {
         "id": "item.inventory",
@@ -56,13 +57,18 @@
       {
         "id": "tile",
         "parent": "base",
-        "translation": {
-          "x": 0.5,
-          "y": 0.0935,
-          "z": 0.5
+        "offset": {
+          "y": 0.0935
         }
       }
     ]
+  },
+  "texture":
+  {
+    "key":"icbm:smallSilo",
+    "domain": "icbm",
+    "name": "small-missile-silo",
+    "type": "model"
   },
   "model": {
     "key": "icbm:smallSilo",

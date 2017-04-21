@@ -7,6 +7,7 @@ import com.builtbroken.mc.api.tile.listeners.IDestroyedListener;
 import com.builtbroken.mc.api.tile.listeners.IPlacementListener;
 import com.builtbroken.mc.codegen.annotations.MultiBlockWrapped;
 import com.builtbroken.mc.codegen.annotations.TileWrapped;
+import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -25,6 +26,12 @@ public class TileStandardSilo extends TileAbstractLauncher implements IPlacement
     public boolean canAcceptMissile(IMissile missile)
     {
         return super.canAcceptMissile(missile) && missile.getMissileSize() == MissileCasings.STANDARD.ordinal();
+    }
+
+    @Override
+    public Pos getMissileLaunchOffset()
+    {
+        return new Pos(0, 7, 0);
     }
 
     //public String getInventoryName()

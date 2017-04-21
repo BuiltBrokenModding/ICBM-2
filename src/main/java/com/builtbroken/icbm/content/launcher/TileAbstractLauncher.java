@@ -340,7 +340,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
      */
     public Pos getMissileLaunchOffset()
     {
-        return new Pos(0.5, 3, 0.5);
+        return new Pos(0, 3, 0);
     }
 
     /**

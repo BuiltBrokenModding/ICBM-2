@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.launcher.listeners;
 
 import com.builtbroken.icbm.api.missile.ICustomMissileRender;
+import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.launcher.TileMissileContainer;
 import com.builtbroken.mc.api.tile.listeners.IBlockListener;
 import com.builtbroken.mc.api.tile.listeners.ITileEventListener;
@@ -15,6 +16,9 @@ import com.builtbroken.mc.prefab.tile.listeners.TileListener;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Handles rendering missiles on a tile
@@ -37,15 +41,25 @@ public class TileMissileRenderListener extends TileListener implements IBlockLis
         if (node instanceof TileMissileContainer)
         {
             //Render missile
-            if (((TileMissileContainer) node).getMissile() instanceof ICustomMissileRender)
+            IMissile missile = ((TileMissileContainer) node).getMissile();
+            if (missile instanceof ICustomMissileRender)
             {
                 GL11.glPushMatrix();
-                GL11.glTranslated(xx + offset.x(), yy + offset.y(), zz + offset.z());
+                double h = missile.getHeight() / 2;
+                GL11.glTranslated(xx + offset.x(), yy + offset.y() + h, zz + offset.z());
                 //TODO rotate
                 ((ICustomMissileRender) ((TileMissileContainer) node).getMissile()).renderMissileInWorld(0, 0, f);
                 GL11.glPopMatrix();
             }
         }
+    }
+
+    @Override
+    public List<String> getListenerKeys()
+    {
+        List<String> list = new ArrayList();
+        list.add("tilerender");
+        return list;
     }
 
     public static class Builder implements ITileEventListenerBuilder
