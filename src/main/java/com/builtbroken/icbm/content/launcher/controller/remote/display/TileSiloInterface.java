@@ -10,19 +10,20 @@ import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCom
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
 import com.builtbroken.mc.api.map.radio.wireless.IWirelessNetwork;
 import com.builtbroken.mc.api.map.radio.wireless.IWirelessNetworkObject;
-import com.builtbroken.mc.api.tile.access.IGuiTile;
 import com.builtbroken.mc.api.tile.ILinkFeedback;
 import com.builtbroken.mc.api.tile.ILinkable;
 import com.builtbroken.mc.api.tile.IPassCode;
+import com.builtbroken.mc.api.tile.access.IGuiTile;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.core.registry.implement.IRecipeContainer;
-import com.builtbroken.mc.lib.helper.recipe.OreNames;
-import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.imp.transform.vector.Pos;
+import com.builtbroken.mc.lib.helper.LanguageUtility;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
+import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
 import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.TileMachine;
@@ -336,18 +337,18 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
                     }
                     else
                     {
-                        //TODO Open Alt GUI or send error
+                        player.addChatComponentMessage(new ChatComponentText(LanguageUtility.getLocal("info.voltzengine:tile.error.gui.none")));
                     }
                 }
                 else
                 {
-                    //TODO send error
+                    player.addChatComponentMessage(new ChatComponentText(LanguageUtility.getLocal("info.voltzengine:tile.error.missing.data")));
                 }
             }
         }
         else
         {
-            //TODO send error
+            player.addChatComponentMessage(new ChatComponentText(LanguageUtility.getLocal("info.voltzengine:tile.error.missing")));
         }
     }
 
