@@ -12,6 +12,8 @@ import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
+import com.builtbroken.mc.api.tile.node.ITileNode;
+import com.builtbroken.mc.api.tile.node.ITileNodeHost;
 import com.builtbroken.mc.core.content.parts.CraftingParts;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.core.registry.implement.IRecipeContainer;
@@ -157,13 +159,24 @@ public class TileSmallMag extends TileMissileContainer implements ISimpleItemRen
         doMotion = false;
         if (getMissileItem() != null)
         {
-            if (targetTile == null || targetTile.get() == null || ((TileEntity) targetTile.get()).isInvalid())
+            if (targetTile == null
+                    || targetTile.get() == null
+                    || targetTile.get() instanceof TileEntity && ((TileEntity) targetTile.get()).isInvalid()
+                    || targetTile.get() instanceof ITileNode && !((ITileNode) targetTile.get()).getHost().isHostValid())
             {
                 Location location = toLocation().add(getFacing());
                 TileEntity tile = location.getTileEntity();
                 if (tile instanceof IMissileMagOutput)
                 {
                     targetTile = new WeakReference<IMissileMagOutput>((IMissileMagOutput) tile);
+                }
+                else if (tile instanceof ITileNodeHost)
+                {
+                    ITileNode node = ((ITileNodeHost) tile).getTileNode();
+                    if (node instanceof IMissileMagOutput)
+                    {
+                        targetTile = new WeakReference<IMissileMagOutput>((IMissileMagOutput) node);
+                    }
                 }
             }
             if (targetTile != null)
