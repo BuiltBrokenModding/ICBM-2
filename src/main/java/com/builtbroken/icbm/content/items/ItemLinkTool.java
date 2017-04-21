@@ -8,11 +8,12 @@ import com.builtbroken.mc.api.tile.ILinkable;
 import com.builtbroken.mc.api.tile.IPassCode;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
+import com.builtbroken.mc.api.tile.node.ITileNodeHost;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
+import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
-import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.prefab.items.ItemWorldPos;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -130,6 +131,10 @@ public class ItemLinkTool extends ItemWorldPos implements IWorldPosItem, IPassCo
                 if (tile instanceof IPassCode)
                 {
                     setCode(stack, ((IPassCode) tile).getCode());
+                }
+                else if (tile instanceof ITileNodeHost && ((ITileNodeHost) tile).getTileNode() instanceof IPassCode)
+                {
+                    setCode(stack, ((IPassCode) ((ITileNodeHost) tile).getTileNode()).getCode());
                 }
                 stack.setItemDamage(1);
                 player.inventoryContainer.detectAndSendChanges();

@@ -5,19 +5,21 @@ import com.builtbroken.icbm.api.controller.ISiloConnectionData;
 import com.builtbroken.icbm.api.controller.ISiloConnectionPoint;
 import com.builtbroken.icbm.api.launcher.ILauncher;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
-import com.builtbroken.mc.api.tile.access.IGuiTile;
 import com.builtbroken.mc.api.tile.ILinkFeedback;
 import com.builtbroken.mc.api.tile.ILinkable;
 import com.builtbroken.mc.api.tile.IPassCode;
+import com.builtbroken.mc.api.tile.access.IGuiTile;
+import com.builtbroken.mc.api.tile.node.ITileNode;
+import com.builtbroken.mc.api.tile.node.ITileNodeHost;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.core.registry.implement.IRecipeContainer;
-import com.builtbroken.mc.lib.helper.recipe.OreNames;
-import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.imp.transform.vector.Pos;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
+import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
 import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.TileModuleMachine;
@@ -137,62 +139,92 @@ public class TileCommandSiloConnector extends TileModuleMachine implements ILink
         {
             return "link.error.world.match";
         }
-
-        Pos pos = loc.toPos();
-        if (!pos.isAboveBedrock())
+        if (!loc.isAboveBedrock())
         {
             return "link.error.pos.invalid";
         }
-        if (distance(pos) > MAX_LINK_DISTANCE)
+        if (distance(loc) > MAX_LINK_DISTANCE)
         {
             return "link.error.pos.distance.max";
         }
 
-        //Compare tile pass code
-        TileEntity tile = pos.getTileEntity(loc.world());
-        if (!(tile instanceof ILauncher))
-        {
-            return "link.error.tile.invalid";
-        }
-        if (tile instanceof IPassCode && ((IPassCode) tile).getCode() != code)
-        {
-            return "link.error.code.match";
-        }
+        //Get the launcher from the tile or node
+        ILauncher launcher = getLauncher(loc);
 
-        //Add location
-        if (!posToData.containsKey(pos))
+        if (launcher != null)
         {
-            ISiloConnectionData data = new SiloConnectionData((ILauncher) tile);
-            if (!siloData.contains(data))
+            //Compare tile pass code
+            if (launcher instanceof IPassCode && ((IPassCode) launcher).getCode() != code)
             {
-                if (siloData.size() < MAX_CONNECTIONS)
+                return "link.error.code.match";
+            }
+
+            Pos pos = loc.toPos();
+            //Add location
+            if (!posToData.containsKey(pos))
+            {
+                ISiloConnectionData data = new SiloConnectionData(launcher);
+                if (!siloData.contains(data))
                 {
-                    siloData.add(data);
-                    posToData.put(pos, data);
-                    ((ILinkFeedback) tile).onLinked(toLocation());
-                    return "";
+                    if (siloData.size() < MAX_CONNECTIONS)
+                    {
+                        siloData.add(data);
+                        posToData.put(pos, data);
+                        if (launcher instanceof ILinkFeedback)
+                        {
+                            ((ILinkFeedback) launcher).onLinked(toLocation());
+                        }
+                        return "";
+                    }
+                    else
+                    {
+                        return "link.error.tile.limit.max";
+                    }
                 }
                 else
                 {
-                    return "link.error.tile.limit.max";
+                    data = posToData.get(pos);
+                    siloData.add(data);
+                    posToData.put(pos, data);
+                    if (launcher instanceof ILinkFeedback)
+                    {
+                        ((ILinkFeedback) launcher).onLinked(toLocation());
+                    }
+                    return "link.updated";
                 }
             }
             else
             {
-                data = posToData.get(pos);
-                siloData.add(data);
-                posToData.put(pos, data);
-                ((ILinkFeedback) tile).onLinked(toLocation());
-                return "link.updated";
+                ISiloConnectionData data = posToData.get(pos);
+                siloData.remove(data);
+                posToData.remove(pos);
+                return "link.removed";
             }
         }
         else
         {
-            ISiloConnectionData data = posToData.get(pos);
-            siloData.remove(data);
-            posToData.remove(pos);
-            return "link.removed";
+            return "link.error.tile.invalid";
         }
+    }
+
+    //TODO throw into helper class
+    private ILauncher getLauncher(Location location)
+    {
+        ILauncher launcher = null;
+        TileEntity tile = location.getTileEntity();
+        if (tile instanceof ITileNodeHost)
+        {
+            ITileNode node = ((ITileNodeHost) tile).getTileNode();
+            if (node instanceof ILauncher)
+            {
+                launcher = (ILauncher) node;
+            }
+        }
+        else if (tile instanceof ILauncher)
+        {
+            launcher = (ILauncher) tile;
+        }
+        return launcher;
     }
 
     @Override

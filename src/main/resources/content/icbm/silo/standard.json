@@ -31,7 +31,7 @@
         "id": "missileRender",
         "renderOffset": {
           "x": 0.5,
-          "y": 0.75,
+          "y": 0.25,
           "z": 0.5
         }
       }
@@ -52,7 +52,7 @@
         "modelID": "icbm:smallSilo",
         "parts": "Group_001,Component_1_001",
         "scale": 0.8,
-        "translation": -0.5
+        "offset": -0.5
       },
       {
         "id": "tile",

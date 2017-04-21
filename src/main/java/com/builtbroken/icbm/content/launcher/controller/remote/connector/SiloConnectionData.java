@@ -7,10 +7,12 @@ import com.builtbroken.icbm.api.launcher.ILauncher;
 import com.builtbroken.icbm.api.launcher.INamedLauncher;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
-import com.builtbroken.mc.api.ISave;
-import com.builtbroken.mc.api.map.radio.wireless.ConnectionStatus;
 import com.builtbroken.jlib.data.network.IByteBufReader;
 import com.builtbroken.jlib.data.network.IByteBufWriter;
+import com.builtbroken.mc.api.ISave;
+import com.builtbroken.mc.api.map.radio.wireless.ConnectionStatus;
+import com.builtbroken.mc.api.tile.node.ITileNode;
+import com.builtbroken.mc.api.tile.node.ITileNodeHost;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
@@ -34,9 +36,9 @@ public class SiloConnectionData implements ISiloConnectionData, ISave, IByteBufW
     {
         this.launcher = launcher;
         world = launcher.world();
-        x = (int) launcher.x();
-        y = (int) launcher.y();
-        z = (int) launcher.z();
+        x = (int) Math.floor(launcher.x());
+        y = (int) Math.floor(launcher.y());
+        z = (int) Math.floor(launcher.z());
     }
 
     public SiloConnectionData(NBTTagCompound compoundTagAt)
@@ -59,7 +61,9 @@ public class SiloConnectionData implements ISiloConnectionData, ISave, IByteBufW
     public ILauncher getSilo()
     {
         //Ensure invalid tiles are always removed
-        if (launcher instanceof TileEntity && ((TileEntity) launcher).isInvalid() || launcher instanceof Entity && !((Entity) launcher).isEntityAlive())
+        if (launcher instanceof TileEntity && ((TileEntity) launcher).isInvalid()
+                || launcher instanceof Entity && !((Entity) launcher).isEntityAlive()
+                || launcher instanceof ITileNode && !((ITileNode) launcher).getHost().isHostValid())
         {
             launcher = null;
         }
@@ -72,6 +76,10 @@ public class SiloConnectionData implements ISiloConnectionData, ISave, IByteBufW
                 if (tile instanceof ILauncher)
                 {
                     launcher = (ILauncher) tile;
+                }
+                else if (tile instanceof ITileNodeHost && ((ITileNodeHost) tile).getTileNode() instanceof ILauncher)
+                {
+                    launcher = (ILauncher) ((ITileNodeHost) tile).getTileNode();
                 }
             }
         }

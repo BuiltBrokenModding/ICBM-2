@@ -52,7 +52,7 @@
         "parent": "base",
         "parts": "Group_001,Component_1_001",
         "scale": 0.8,
-        "translation": -0.5
+        "offset": -0.5
       },
       {
         "id": "tile",
