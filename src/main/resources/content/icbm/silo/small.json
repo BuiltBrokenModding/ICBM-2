@@ -11,7 +11,7 @@
     "isOpaque": false,
     "tileEntity": {
       "id": "smallsilo",
-      "class": "com.builtbroken.icbm.content.launcher.silo.TileWrapperSmallSilo"
+      "class": "com.builtbroken.icbm.content.launcher.silo.small.TileWrapperSmallSilo"
     },
     "renderBounds": {
       "min": 0,
@@ -40,7 +40,7 @@
   "render": {
     "contentID": "icbm:smallsilo",
     "type": "tile",
-    "tileClass": "com.builtbroken.icbm.content.launcher.silo.TileWrapperSmallSilo",
+    "tileClass": "com.builtbroken.icbm.content.launcher.silo.small.TileWrapperSmallSilo",
     "states": [
       {
         "id": "base",
@@ -77,17 +77,53 @@
         }
       },
       {
+        "id": "item.entity",
+        "parent": "base",
+        "offset": {
+          "x": 0.5,
+          "y": 0.5,
+          "z": 0.5
+        }
+      },
+      {
         "id": "tile",
         "parent": "base",
         "offset": {
           "y": 0.0935
         }
+      },
+      {
+        "id": "tile.north",
+        "parent": "tile",
+        "rotation": {
+          "yaw": 180
+        }
+      },
+      {
+        "id": "tile.south",
+        "parent": "tile",
+        "rotation": {
+          "yaw": 0
+        }
+      },
+      {
+        "id": "tile.east",
+        "parent": "tile",
+        "rotation": {
+          "yaw": 90
+        }
+      },
+      {
+        "id": "tile.west",
+        "parent": "tile",
+        "rotation": {
+          "yaw": -90
+        }
       }
     ]
   },
-  "texture":
-  {
-    "key":"icbm:smallSilo",
+  "texture": {
+    "key": "icbm:smallSilo",
     "domain": "icbm",
     "name": "small-missile-silo",
     "type": "model"

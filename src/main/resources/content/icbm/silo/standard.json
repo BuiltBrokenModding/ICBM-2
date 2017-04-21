@@ -11,14 +11,14 @@
     "isOpaque": false,
     "tileEntity": {
       "id": "standardsilo",
-      "class": "com.builtbroken.icbm.content.launcher.silo.TileWrapperStandardSilo",
-      "renderBounds": {
-        "min": 0,
-        "max": {
-          "x":1,
-          "y": 7,
-          "x":1
-        }
+      "class": "com.builtbroken.icbm.content.launcher.silo.standard.TileWrapperStandardSilo"
+    },
+    "renderBounds": {
+      "min": 0,
+      "max": {
+        "x": 1,
+        "y": 7,
+        "x": 1
       }
     },
     "listeners": [
@@ -40,7 +40,7 @@
   "render": {
     "contentID": "icbm:standardsilo",
     "type": "tile",
-    "tileClass": "com.builtbroken.icbm.content.launcher.silo.TileWrapperStandardSilo",
+    "tileClass": "com.builtbroken.icbm.content.launcher.silo.standard.TileWrapperStandardSilo",
     "states": [
       {
         "id": "base",
@@ -73,6 +73,15 @@
         }
       },
       {
+        "id": "item.entity",
+        "parent": "base",
+        "offset": {
+          "x": 0.5,
+          "y": 0.5,
+          "z": 0.5
+        }
+      },
+      {
         "id": "tile",
         "parent": "base",
         "offset": {
@@ -82,9 +91,8 @@
       }
     ]
   },
-  "texture":
-  {
-    "key":"icbm:standardSilo",
+  "texture": {
+    "key": "icbm:standardSilo",
     "domain": "icbm",
     "name": "reg-silo",
     "type": "model"

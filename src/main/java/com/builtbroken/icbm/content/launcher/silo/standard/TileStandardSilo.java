@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.launcher.silo;
+package com.builtbroken.icbm.content.launcher.silo.standard;
 
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;

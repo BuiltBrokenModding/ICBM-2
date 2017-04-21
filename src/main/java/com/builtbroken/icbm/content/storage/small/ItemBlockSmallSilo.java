@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.launcher.silo;
+package com.builtbroken.icbm.content.storage.small;
 
 import com.builtbroken.icbm.content.prefab.ItemBlockICBM;
 import net.minecraft.block.Block;

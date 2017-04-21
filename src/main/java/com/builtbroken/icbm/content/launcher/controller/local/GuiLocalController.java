@@ -2,8 +2,8 @@ package com.builtbroken.icbm.content.launcher.controller.local;
 
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.icbm.content.launcher.controller.LauncherData;
-import com.builtbroken.icbm.content.launcher.silo.TileSmallSilo;
-import com.builtbroken.icbm.content.launcher.silo.TileStandardSilo;
+import com.builtbroken.icbm.content.launcher.silo.small.TileSmallSilo;
+import com.builtbroken.icbm.content.launcher.silo.standard.TileStandardSilo;
 import com.builtbroken.mc.api.tile.node.ITileNode;
 import com.builtbroken.mc.client.SharedAssets;
 import com.builtbroken.mc.imp.transform.vector.Pos;
