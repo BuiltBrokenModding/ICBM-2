@@ -48,11 +48,33 @@
         "textureID": "icbm:smallSilo"
       },
       {
-        "id": "item.inventory",
+        "id": "item",
         "parent": "base",
-        "parts": "Group_001,Component_1_001",
+        "parts": "Group_001,Component_1_001"
+      },
+      {
+        "id": "item.inventory",
+        "parent": "item",
         "scale": 0.8,
         "offset": -0.5
+      },
+      {
+        "id": "item.equipped",
+        "parent": "base",
+        "offset": {
+          "x": 0.5,
+          "y": 0.5,
+          "z": 0.5
+        }
+      },
+      {
+        "id": "item.first",
+        "parent": "base",
+        "offset": {
+          "x": 0.3,
+          "y": 0.5,
+          "z": 0.9
+        }
       },
       {
         "id": "tile",
