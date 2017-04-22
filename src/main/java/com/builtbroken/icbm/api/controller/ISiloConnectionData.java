@@ -6,7 +6,6 @@ import com.builtbroken.mc.api.ISave;
 import com.builtbroken.mc.api.IWorldPosition;
 import com.builtbroken.mc.api.map.radio.wireless.ConnectionStatus;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
 
 /**
  * Data pointer for information about a silo
@@ -66,7 +65,7 @@ public interface ISiloConnectionData extends IWorldPosition, ISave
      * @param openingTile - tile that opened the GUI
      * @param connector       - tile that provided the connection
      */
-    void openGui(EntityPlayer player, TileEntity openingTile, ISiloConnectionPoint connector);
+    void openGui(EntityPlayer player, Object openingTile, ISiloConnectionPoint connector);
 
     /**
      * Has a Gui for adjusting the silo's settings

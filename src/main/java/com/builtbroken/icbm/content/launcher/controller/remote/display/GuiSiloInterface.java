@@ -2,10 +2,12 @@ package com.builtbroken.icbm.content.launcher.controller.remote.display;
 
 import com.builtbroken.icbm.api.controller.ISiloConnectionData;
 import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCommandSiloConnector;
+import com.builtbroken.icbm.content.launcher.launcher.TileAbstractLauncherPad;
 import com.builtbroken.mc.api.map.radio.wireless.ConnectionStatus;
 import com.builtbroken.mc.client.SharedAssets;
 import com.builtbroken.mc.imp.transform.region.Rectangle;
 import com.builtbroken.mc.imp.transform.vector.Pos;
+import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
 import com.builtbroken.mc.prefab.gui.EnumGuiIconSheet;
 import com.builtbroken.mc.prefab.gui.GuiButton2;
@@ -44,12 +46,17 @@ public class GuiSiloInterface extends GuiContainerBase
 
     boolean refreshClick = true;
 
+    private final String launcherLabel;
+    private final String siloLabel;
+
     public GuiSiloInterface(EntityPlayer player, TileSiloInterfaceClient tileSiloInterface)
     {
         super(new ContainerDummy(player, tileSiloInterface));
         this.player = player;
         this.tileSiloInterface = tileSiloInterface;
         this.baseTexture = SharedAssets.GUI__MC_EMPTY_FILE;
+        launcherLabel = LanguageUtility.getLocalName("gui.icbm:controller.launcher");
+        siloLabel = LanguageUtility.getLocalName("gui.icbm:controller.silo");
     }
 
     @Override
@@ -149,7 +156,8 @@ public class GuiSiloInterface extends GuiContainerBase
                         for (int i = index; i < silos.size() && i < index + SILO_ON_SCREEN; i++)
                         {
                             ISiloConnectionData data = silos.get(i);
-                            GuiButton2 button = new GuiButton2(10 + i, guiLeft + 36, guiTop + 10 + (row * 21), 80, 20, "Silo[" + i + "]");
+                            String siloPrefix = (data.getSilo() instanceof TileAbstractLauncherPad ? launcherLabel : siloLabel);
+                            GuiButton2 button = new GuiButton2(10 + i, guiLeft + 36, guiTop + 10 + (row * 21), 80, 20, siloPrefix + "[" + i + "]");
                             if (data != null)
                             {
                                 if (data.getSiloName() != null && !data.getSiloName().isEmpty())
@@ -159,7 +167,7 @@ public class GuiSiloInterface extends GuiContainerBase
                                     {
                                         siloName = siloName.substring(0, 8);
                                     }
-                                    button.displayString = "Silo[" + siloName + "]";
+                                    button.displayString = siloPrefix + "[" + siloName + "]";
                                 }
                                 connectionStatuses.add(data.getSiloStatus());
                             }
@@ -171,7 +179,7 @@ public class GuiSiloInterface extends GuiContainerBase
                             {
                                 button.disable();
                             }
-                            buttonList.add(new GuiButton2(30 + i, guiLeft + 117, guiTop + 10 + (row * 21), 30, 20, "Fire").setEnabled(connectionStatuses.get(connectionStatuses.size() - 1) == ConnectionStatus.ONLINE));
+                            buttonList.add(new GuiButton2(30 + i, guiLeft + 117, guiTop + 10 + (row * 21), 30, 20, LanguageUtility.getLocalName("gui.icbm:controller.fire")).setEnabled(connectionStatuses.get(connectionStatuses.size() - 1) == ConnectionStatus.ONLINE));
                             buttonList.add(button);
                             row++;
                         }
@@ -222,7 +230,7 @@ public class GuiSiloInterface extends GuiContainerBase
             drawString("No data Synced", 4, 5, Color.black);
             drawString("Click the refresh button -->", 4, 15);
 
-            if(refreshClick)
+            if (refreshClick)
             {
                 drawString("Nothing Happens", 6, 30, Color.black);
                 drawString(" If you click and nothing happens", 6, 40);

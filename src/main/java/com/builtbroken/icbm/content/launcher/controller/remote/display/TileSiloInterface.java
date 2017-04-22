@@ -5,7 +5,7 @@ import com.builtbroken.icbm.api.controller.ISiloConnectionData;
 import com.builtbroken.icbm.api.launcher.ILauncher;
 import com.builtbroken.icbm.content.launcher.controller.local.TileLocalController;
 import com.builtbroken.icbm.content.launcher.controller.remote.central.TileCommandController;
-import com.builtbroken.icbm.content.launcher.controller.remote.connector.SiloConnectionData;
+import com.builtbroken.icbm.content.launcher.controller.SiloConnectionData;
 import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCommandSiloConnector;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
 import com.builtbroken.mc.api.map.radio.wireless.IWirelessNetwork;

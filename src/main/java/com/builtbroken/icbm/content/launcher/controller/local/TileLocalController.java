@@ -1,8 +1,11 @@
 package com.builtbroken.icbm.content.launcher.controller.local;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.controller.ISiloConnectionData;
+import com.builtbroken.icbm.api.controller.ISiloConnectionPoint;
+import com.builtbroken.icbm.api.launcher.ILauncher;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
-import com.builtbroken.icbm.content.launcher.controller.LauncherData;
+import com.builtbroken.icbm.content.launcher.controller.SiloConnectionData;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
 import com.builtbroken.mc.api.tile.ILinkFeedback;
 import com.builtbroken.mc.api.tile.ILinkable;
@@ -12,11 +15,13 @@ import com.builtbroken.mc.api.tile.access.IGuiTile;
 import com.builtbroken.mc.api.tile.access.IRotation;
 import com.builtbroken.mc.api.tile.listeners.IActivationListener;
 import com.builtbroken.mc.api.tile.node.ITileNode;
+import com.builtbroken.mc.api.tile.node.ITileNodeHost;
 import com.builtbroken.mc.codegen.annotations.TileWrapped;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.imp.transform.vector.Pos;
+import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
 import com.builtbroken.mc.prefab.inventory.ExternalInventory;
 import com.builtbroken.mc.prefab.tile.logic.TileMachineNode;
@@ -27,6 +32,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
@@ -38,20 +45,21 @@ import java.util.List;
  * Created by robert on 4/3/2015.
  */
 @TileWrapped(className = "TileWrapperLocalController")
-public class TileLocalController extends TileMachineNode implements ILinkable, IPacketIDReceiver, IGuiTile, IActivationListener, IRotation, IPlayerUsing
+public class TileLocalController extends TileMachineNode implements ILinkable, IPacketIDReceiver, IGuiTile, IActivationListener, IRotation, IPlayerUsing, ISiloConnectionPoint
 {
     public static double MAX_LINK_DISTANCE = 100;
     public static int MAX_LAUNCHER_LINK = 6; //changed to 6 due to current GUI size and no GUI paging
 
+    public static final int GUI_PACKET_ID = 0;
+
     //TODO auto connect to any launcher next to the controller
     //TODO default to rear connection first
-    //TODO add OC support
-    protected List<Pos> launcherLocations = new ArrayList<Pos>();
+    protected final List<Pos> launcherLocations = new ArrayList();
 
     //Only used client side at the moment
-    protected List<LauncherData> launcherData;
+    protected final List<ISiloConnectionData> launcherData = new ArrayList();
 
-    protected List<EntityPlayer> usersWithGuiOpen = new ArrayList();
+    protected final List<EntityPlayer> usersWithGuiOpen = new ArrayList();
 
     private ForgeDirection rotationCache;
 
@@ -96,19 +104,24 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
     {
         if (isServer())
         {
-            if (index >= 0 && index < launcherLocations.size())
+            if (index >= 0 && index < launcherData.size())
             {
-                Pos pos = launcherLocations.get(index);
-                ITileNode tile = pos.getTileNode(world());
-                if (tile instanceof TileAbstractLauncher)
+                ISiloConnectionData data = launcherData.get(index);
+                if (data != null)
                 {
-                    if (((TileAbstractLauncher) tile).fireMissile())
+                    ILauncher launcher = data.getSilo();
+                    if (launcher != null)
                     {
-                        ICBM.INSTANCE.logger().info("TileSiloInterface: " + player + " fired a missile from " + tile);
-                    }
-                    else
-                    {
-                        ICBM.INSTANCE.logger().info("TileSiloInterface: " + player + " attempted to fire a missile from " + tile);
+                        if (!launcher.fireMissile())
+                        {
+                            //TODO send error if missile can not fire
+                            ICBM.INSTANCE.logger().info("TileSiloInterface: " + player + " attempted to fire a missile from " + data);
+                        }
+                        else
+                        {
+                            //TODO confirm missile fired
+                            ICBM.INSTANCE.logger().info("TileSiloInterface: " + player + " fired a missile from " + data);
+                        }
                     }
                 }
             }
@@ -128,7 +141,7 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
     {
         if (isServer())
         {
-            for (int i = 0; i < launcherLocations.size(); i++)
+            for (int i = 0; i < launcherData.size(); i++)
             {
                 fireLauncher(i, player);
             }
@@ -136,6 +149,61 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
         else
         {
             sendPacketToServer(getHost().getPacketForData(2, -1));
+        }
+    }
+
+    public void openSiloGui(int index, EntityPlayer player)
+    {
+        if (isServer())
+        {
+            if (index >= 0 && index < launcherData.size())
+            {
+                ISiloConnectionData data = launcherData.get(index);
+                if (data != null)
+                {
+                    if (data.hasSettingsGui())
+                    {
+                        data.openGui(player, this, this);
+                    }
+                    else
+                    {
+                        player.addChatComponentMessage(new ChatComponentText(LanguageUtility.getLocal("info.voltzengine:tile.error.gui.none")));
+                    }
+                }
+            }
+        }
+        else
+        {
+            sendPacketToServer(getHost().getPacketForData(3, index));
+        }
+    }
+
+
+    public void unlink(int index, EntityPlayer player)
+    {
+        if (isServer())
+        {
+            if (index >= 0 && index < launcherData.size())
+            {
+                ISiloConnectionData data = launcherData.get(index);
+                if (data != null)
+                {
+                    Pos pos = launcherLocations.get(index);
+                    if (pos.xi() == data.xi() && pos.yi() == data.yi() && pos.zi() == data.zi())
+                    {
+                        launcherLocations.remove(index);
+                    }
+                    else
+                    {
+                        //TODO recreate launcher data as index values do not match
+                    }
+                }
+                launcherData.remove(index);
+            }
+        }
+        else
+        {
+            sendPacketToServer(getHost().getPacketForData(4, index));
         }
     }
 
@@ -190,21 +258,6 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
         }
     }
 
-
-    public void onNeighborChanged(Pos pos)
-    {
-        //super.onNeighborChanged(pos);
-        if (!launcherLocations.contains(pos))
-        {
-            ITileNode tile = pos.getTileNode(world());
-            if (tile instanceof TileAbstractLauncher)
-            {
-                launcherLocations.add(pos);
-                ((ILinkFeedback) tile).onLinked(toLocation());
-            }
-        }
-    }
-
     /**
      * Called to remove the launcher from the list
      *
@@ -222,25 +275,6 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
         }
     }
 
-    /**
-     * Grabs a list of all linked launchers
-     *
-     * @return ArrayList<TileAbstractLauncher>
-     */
-    protected List<TileAbstractLauncher> getLaunchers()
-    {
-        List<TileAbstractLauncher> list = new ArrayList();
-        for (Pos pos : launcherLocations)
-        {
-            ITileNode tile = pos.getTileNode(world());
-            if (tile instanceof TileAbstractLauncher)
-            {
-                list.add((TileAbstractLauncher) tile);
-            }
-        }
-        return list;
-    }
-
     @Override
     public boolean read(ByteBuf buf, int id, EntityPlayer player, PacketType type)
     {
@@ -249,17 +283,18 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
             if (isClient())
             {
                 //Basic GUI data
-                if (id == 0)
+                if (id == GUI_PACKET_ID)
                 {
                     NBTTagCompound tag = ByteBufUtils.readTag(buf);
-                    launcherData = new ArrayList();
+                    launcherData.clear();
 
-                    if (tag.hasKey("launcherData"))
+                    if (tag.hasKey("siloData"))
                     {
-                        NBTTagList list = tag.getTagList("launcherData", 10);
+                        NBTTagList list = tag.getTagList("siloData", 10);
                         for (int i = 0; i < list.tagCount(); i++)
                         {
-                            launcherData.add(new LauncherData(list.getCompoundTagAt(i)));
+                            ISiloConnectionData data = new SiloConnectionData(list.getCompoundTagAt(i));
+                            launcherData.add(data);
                         }
                     }
 
@@ -273,12 +308,13 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
             }
             else
             {
-                //Remove launcher, input from GUI
+                //Remove connection
                 if (id == 1)
                 {
                     removeLauncher(new Pos(buf));
                     return true;
                 }
+                //Fire button
                 else if (id == 2)
                 {
                     int index = buf.readInt();
@@ -292,6 +328,18 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
                     }
                     return true;
                 }
+                //Open silo GUI
+                else if (id == 3)
+                {
+                    int index = buf.readInt();
+                    openSiloGui(index, player);
+                }
+                //Unlink silo
+                else if (id == 4)
+                {
+                    int index = buf.readInt();
+                    unlink(index, player);
+                }
             }
             return false;
         }
@@ -301,23 +349,23 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
     public void doUpdateGuiUsers()
     {
         //Only send packets to the GUI if we have data to send
-        if (isServer() && launcherLocations.size() > 0)
+        if (isServer())
         {
             NBTTagCompound nbt = new NBTTagCompound();
             NBTTagList list = new NBTTagList();
 
-            //Construct launcher data structure
-            for (TileAbstractLauncher launcher : getLaunchers())
+            if (getSiloConnectionData().size() > 0)
             {
-                if (launcher != null && !launcher.isInvalid() && launcher.world() == world())
+                //Construct launcher data structure
+                for (ISiloConnectionData data : getSiloConnectionData())
                 {
-                    list.appendTag(new LauncherData(launcher).toNBT());
+                    list.appendTag(data.save(new NBTTagCompound()));
                 }
             }
-            nbt.setTag("launcherData", list);
+            nbt.setTag("siloData", list);
 
             //Create and send packet
-            sendPacketToGuiUsers(getHost().getPacketForData(0, nbt));
+            sendPacketToGuiUsers(getHost().getPacketForData(GUI_PACKET_ID, nbt));
         }
     }
 
@@ -401,5 +449,33 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
     public List<EntityPlayer> getPlayersUsing()
     {
         return usersWithGuiOpen;
+    }
+
+    @Override
+    public List<ISiloConnectionData> getSiloConnectionData()
+    {
+        if (isServer() && (launcherData.isEmpty() || launcherData.size() != launcherLocations.size()))
+        {
+            launcherData.clear();
+            for (Pos pos : launcherLocations)
+            {
+                TileEntity tile = pos.getTileEntity(world());
+                if (tile instanceof ILauncher)
+                {
+                    launcherData.add(new SiloConnectionData((ILauncher) tile));
+                }
+                else if (tile instanceof ITileNodeHost && ((ITileNodeHost) tile).getTileNode() instanceof ILauncher)
+                {
+                    launcherData.add(new SiloConnectionData((ILauncher) ((ITileNodeHost) tile).getTileNode()));
+                }
+            }
+        }
+        return launcherData;
+    }
+
+    @Override
+    public String getConnectorGroupName()
+    {
+        return "na";
     }
 }

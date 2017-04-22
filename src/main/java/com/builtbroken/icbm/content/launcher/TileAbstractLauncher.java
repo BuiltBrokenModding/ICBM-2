@@ -14,6 +14,7 @@ import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.tracking.MissileTrackingData;
 import com.builtbroken.icbm.content.storage.IMissileMagOutput;
 import com.builtbroken.jlib.data.vector.IPos3D;
+import com.builtbroken.mc.api.IWorldPosition;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
 import com.builtbroken.mc.api.tile.ILinkFeedback;
@@ -471,9 +472,18 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
             {
                 if (returnGuiData.containsKey(player) && player.openContainer instanceof ContainerSilo)
                 {
-                    if (returnGuiData.get(player)[0] instanceof TileSiloInterface)
+                    Object tile = returnGuiData.get(player)[0];
+                    if (tile instanceof TileSiloInterface)
                     {
-                        player.openGui(ICBM.INSTANCE, 0, ((TileSiloInterface) returnGuiData.get(player)[0]).world(), ((TileSiloInterface) returnGuiData.get(player)[0]).xi(), ((TileSiloInterface) returnGuiData.get(player)[0]).yi(), ((TileSiloInterface) returnGuiData.get(player)[0]).zi());
+                        player.openGui(ICBM.INSTANCE, 0, ((TileSiloInterface) tile).world(), ((TileSiloInterface) tile).xi(), ((TileSiloInterface) tile).yi(), ((TileSiloInterface) tile).zi());
+                    }
+                    else if(tile instanceof TileLocalController)
+                    {
+                        player.openGui(ICBM.INSTANCE, 1, ((IWorldPosition) tile).world(), ((IWorldPosition) tile).xi(), ((IWorldPosition) tile).yi(), ((IWorldPosition) tile).zi());
+                    }
+                    else if (tile instanceof IGuiTile && tile instanceof IWorldPosition)
+                    {
+                        player.openGui(ICBM.INSTANCE, ((IGuiTile)tile).getDefaultGuiID(player), ((IWorldPosition) tile).world(), ((IWorldPosition) tile).xi(), ((IWorldPosition) tile).yi(), ((IWorldPosition) tile).zi());
                     }
                 }
                 return true;

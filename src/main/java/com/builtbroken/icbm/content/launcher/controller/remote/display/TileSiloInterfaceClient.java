@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.launcher.controller.remote.display;
 
 import com.builtbroken.icbm.api.controller.ISiloConnectionData;
 import com.builtbroken.icbm.client.Assets;
-import com.builtbroken.icbm.content.launcher.controller.remote.connector.SiloConnectionData;
+import com.builtbroken.icbm.content.launcher.controller.SiloConnectionData;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;

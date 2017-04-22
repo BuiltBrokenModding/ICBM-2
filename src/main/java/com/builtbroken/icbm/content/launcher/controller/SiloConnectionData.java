@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.launcher.controller.remote.connector;
+package com.builtbroken.icbm.content.launcher.controller;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.controller.ISiloConnectionData;
@@ -106,7 +106,7 @@ public class SiloConnectionData implements ISiloConnectionData, ISave, IByteBufW
     }
 
     @Override
-    public void openGui(EntityPlayer player, TileEntity openingTile, ISiloConnectionPoint connector)
+    public void openGui(EntityPlayer player, Object openingTile, ISiloConnectionPoint connector)
     {
         if (world() != null && !world().isRemote && getSilo() != null)
         {
