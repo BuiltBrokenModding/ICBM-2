@@ -40,7 +40,7 @@ public class ICBMCreativeTab extends ModCreativeTab
 
         add(list, InventoryUtility.getBlock("icbm:standardsilo"));
 
-        add(list, ICBM.blockSiloController);
+        add(list, InventoryUtility.getBlock("icbm:silocontroller"));
 
         add(list, ICBM.blockMissileWorkstation);
         add(list, ICBM.blockWarheadWorkstation);

@@ -110,7 +110,8 @@ public class GuiLocalController extends GuiContainerBase
             x = guiLeft + 10;
             y = guiTop + 42;
 
-            ITileNode tile = controller.launcherData.get(editMissile).location.getTileNode(controller.world());
+            Pos location = controller.launcherData.get(editMissile).location;
+            ITileNode tile = location.getTileNode(controller.world());
 
             if (tile instanceof TileAbstractLauncher && ((TileAbstractLauncher) tile).target != null)
             {
@@ -137,7 +138,7 @@ public class GuiLocalController extends GuiContainerBase
         {
             reloadData();
         }
-        String name = LanguageUtility.getLocalName(controller.getInventoryName());
+        String name = LanguageUtility.getLocalName(controller.getInventory().getInventoryName());
         if (editMode)
         {
             if(controller != null && controller.launcherData != null && controller.launcherData.size() > editMissile)

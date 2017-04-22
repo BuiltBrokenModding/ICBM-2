@@ -1,59 +1,44 @@
 package com.builtbroken.icbm.content.launcher.controller.local;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.icbm.content.launcher.controller.LauncherData;
-import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
 import com.builtbroken.mc.api.tile.ILinkFeedback;
 import com.builtbroken.mc.api.tile.ILinkable;
 import com.builtbroken.mc.api.tile.IPassCode;
+import com.builtbroken.mc.api.tile.IPlayerUsing;
 import com.builtbroken.mc.api.tile.access.IGuiTile;
+import com.builtbroken.mc.api.tile.access.IRotation;
+import com.builtbroken.mc.api.tile.listeners.IActivationListener;
 import com.builtbroken.mc.api.tile.node.ITileNode;
+import com.builtbroken.mc.codegen.annotations.TileWrapped;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
-import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
-import com.builtbroken.mc.core.registry.implement.IPostInit;
-import com.builtbroken.mc.imp.transform.region.Cube;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.imp.transform.vector.Pos;
-import com.builtbroken.mc.lib.helper.recipe.OreNames;
-import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
-import com.builtbroken.mc.prefab.tile.Tile;
-import com.builtbroken.mc.prefab.tile.TileModuleMachine;
-import com.builtbroken.mc.prefab.tile.module.TileModuleInventory;
-import cpw.mods.fml.client.FMLClientHandler;
+import com.builtbroken.mc.prefab.inventory.ExternalInventory;
+import com.builtbroken.mc.prefab.tile.logic.TileMachineNode;
 import cpw.mods.fml.common.network.ByteBufUtils;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.IIcon;
-import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import org.lwjgl.opengl.GL11;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Used to link several launchers together to be controlled from a single terminal
  * Created by robert on 4/3/2015.
  */
-public class TileLocalController extends TileModuleMachine implements ILinkable, IPacketIDReceiver, IGuiTile, ISimpleItemRenderer, IPostInit
+@TileWrapped(className = "TileWrapperLocalController")
+public class TileLocalController extends TileMachineNode implements ILinkable, IPacketIDReceiver, IGuiTile, IActivationListener, IRotation, IPlayerUsing
 {
     public static double MAX_LINK_DISTANCE = 100;
     public static int MAX_LAUNCHER_LINK = 6; //changed to 6 due to current GUI size and no GUI paging
@@ -66,38 +51,39 @@ public class TileLocalController extends TileModuleMachine implements ILinkable,
     //Only used client side at the moment
     protected List<LauncherData> launcherData;
 
-    public TileLocalController()
-    {
-        super("missileController", Material.iron);
-        this.hardness = 10f;
-        this.resistance = 10f;
-        this.renderNormalBlock = false;
-        this.renderTileEntity = true;
-        this.isOpaque = false;
-    }
+    protected List<EntityPlayer> usersWithGuiOpen = new ArrayList();
+
+    private ForgeDirection rotationCache;
 
     @Override
     protected IInventory createInventory()
     {
-        return new TileModuleInventory(this, 2);
+        return new ExternalInventory(this, 2).setInventoryName("tile.icbm:smallSiloController.container.name");
     }
 
     @Override
-    public Tile newTile()
+    public void update(long ticks)
     {
-        return new TileLocalController();
+        super.update(ticks);
+        if (isServer() && ticks % 3 == 0 && getPlayersUsing().size() > 0)
+        {
+            doUpdateGuiUsers();
+        }
     }
 
     @Override
-    public void onPostInit()
+    public void doCleanupCheck()
     {
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.blockSiloController), "IGI", "CGC", "ICI", 'I', OreNames.INGOT_IRON, 'G', Blocks.chest, 'C', UniversalRecipe.CIRCUIT_T1.get()));
-    }
-
-    @Override
-    public String getInventoryName()
-    {
-        return "tile.icbm:smallSiloController.container.name";
+        super.doCleanupCheck();
+        Iterator<EntityPlayer> it = usersWithGuiOpen.iterator();
+        while (it.hasNext())
+        {
+            EntityPlayer player = it.next();
+            if (!(player.openContainer instanceof ContainerDummy) || ((ContainerDummy) player.openContainer).tile != this)
+            {
+                it.remove();
+            }
+        }
     }
 
     /**
@@ -129,7 +115,7 @@ public class TileLocalController extends TileModuleMachine implements ILinkable,
         }
         else
         {
-            sendPacketToServer(new PacketTile(this, 2, index));
+            sendPacketToServer(getHost().getPacketForData(2, index));
         }
     }
 
@@ -149,7 +135,7 @@ public class TileLocalController extends TileModuleMachine implements ILinkable,
         }
         else
         {
-            sendPacketToServer(new PacketTile(this, 2, -1));
+            sendPacketToServer(getHost().getPacketForData(2, -1));
         }
     }
 
@@ -204,10 +190,10 @@ public class TileLocalController extends TileModuleMachine implements ILinkable,
         }
     }
 
-    @Override
+
     public void onNeighborChanged(Pos pos)
     {
-        super.onNeighborChanged(pos);
+        //super.onNeighborChanged(pos);
         if (!launcherLocations.contains(pos))
         {
             ITileNode tile = pos.getTileNode(world());
@@ -232,7 +218,7 @@ public class TileLocalController extends TileModuleMachine implements ILinkable,
         }
         else
         {
-            sendPacketToServer(new PacketTile(this, 1, pos));
+            sendPacketToServer(getHost().getPacketForData(1, pos));
         }
     }
 
@@ -312,13 +298,11 @@ public class TileLocalController extends TileModuleMachine implements ILinkable,
         return true;
     }
 
-    @Override
     public void doUpdateGuiUsers()
     {
         //Only send packets to the GUI if we have data to send
         if (isServer() && launcherLocations.size() > 0)
         {
-            PacketTile packet;
             NBTTagCompound nbt = new NBTTagCompound();
             NBTTagList list = new NBTTagList();
 
@@ -333,27 +317,34 @@ public class TileLocalController extends TileModuleMachine implements ILinkable,
             nbt.setTag("launcherData", list);
 
             //Create and send packet
-            packet = new PacketTile(this, 0, nbt);
-            sendPacketToGuiUsers(packet);
+            sendPacketToGuiUsers(getHost().getPacketForData(0, nbt));
         }
     }
 
     @Override
     public Object getServerGuiElement(int ID, EntityPlayer player)
     {
-        return new ContainerDummy(player, this);
+        if (ID == 1)
+        {
+            return new ContainerDummy(player, this);
+        }
+        return null;
     }
 
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer player)
     {
-        return new GuiLocalController(this, player);
+        if (ID == 1)
+        {
+            return new GuiLocalController(this, player);
+        }
+        return null;
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbt)
+    public void load(NBTTagCompound nbt)
     {
-        super.readFromNBT(nbt);
+        super.load(nbt);
         if (nbt.hasKey("locations"))
         {
             launcherLocations.clear();
@@ -367,9 +358,9 @@ public class TileLocalController extends TileModuleMachine implements ILinkable,
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbt)
+    public NBTTagCompound save(NBTTagCompound nbt)
     {
-        super.writeToNBT(nbt);
+        super.save(nbt);
         if (launcherLocations != null && launcherLocations.size() > 0)
         {
             NBTTagList list = new NBTTagList();
@@ -379,75 +370,36 @@ public class TileLocalController extends TileModuleMachine implements ILinkable,
             }
             nbt.setTag("locations", list);
         }
+        return nbt;
     }
 
     @Override
-    protected boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
+    public boolean onPlayerActivated(EntityPlayer player, int side, float hitX, float hitY, float hitZ)
     {
         if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IWorldPosItem)
         {
             return false;
         }
-
-        if (isServer())
+        else if (isServer())
         {
-            openGui(player, ICBM.INSTANCE);
+            player.openGui(ICBM.INSTANCE, 1, world(), xi(), yi(), zi());
         }
         return true;
     }
 
     @Override
-    public void renderInventoryItem(IItemRenderer.ItemRenderType type, ItemStack itemStack, Object... data)
+    public ForgeDirection getDirection()
     {
-        GL11.glTranslatef(-0.5f, -0.5f, -0.5f);
-        GL11.glScaled(.8f, .8f, .8f);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.WEAPON_CASE_TEXTURE);
-        Assets.WEAPON_CASE_MODEL.renderAll();
-    }
-
-    @SideOnly(Side.CLIENT)
-    public AxisAlignedBB getRenderBoundingBox()
-    {
-        return new Cube(0, 0, 0, 1, 2, 1).add(x(), y(), z()).toAABB();
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void renderDynamic(Pos pos, float frame, int pass)
-    {
-        //Render launcher
-        GL11.glPushMatrix();
-        GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.5f, pos.zf() + 0.5f);
-        switch (getFacing())
+        if (rotationCache == null)
         {
-            case EAST:
-                break;
-            case WEST:
-                GL11.glRotatef(180f, 0, 1f, 0);
-                break;
-            case SOUTH:
-                GL11.glRotatef(-90f, 0, 1f, 0);
-                break;
-            default:
-                GL11.glRotatef(90f, 0, 1f, 0);
-                break;
+            rotationCache = ForgeDirection.getOrientation(getHost().getHostMeta()).getOpposite();
         }
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.LAUNCHER_CONTROLLER_TEXTURE);
-        Assets.LAUNCHER_CONTROLLER_MODEL.renderOnly("screen");
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.WEAPON_CASE_TEXTURE);
-        Assets.LAUNCHER_CONTROLLER_MODEL.renderAllExcept("screen");
-        GL11.glPopMatrix();
-    }
-
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister)
-    {
-
+        return rotationCache;
     }
 
     @Override
-    public IIcon getIcon()
+    public List<EntityPlayer> getPlayersUsing()
     {
-        return Blocks.gravel.getIcon(0, 0);
+        return usersWithGuiOpen;
     }
 }

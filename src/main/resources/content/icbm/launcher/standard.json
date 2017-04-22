@@ -12,18 +12,18 @@
     "pickBlock": "block@icbmLauncherParts",
     "tileEntity": {
       "id": "standardlauncher",
-      "class": "com.builtbroken.icbm.content.launcher.launcher.standard.TileWrapperStandardLauncher",
-      "renderBounds": {
-        "min": {
-          "x": -1,
-          "y": 0,
-          "z": -1
-        },
-        "max": {
-          "x": 1,
-          "y": 7,
-          "z": 1
-        }
+      "class": "com.builtbroken.icbm.content.launcher.launcher.standard.TileWrapperStandardLauncher"
+    },
+    "renderBounds": {
+      "min": {
+        "x": -1,
+        "y": 0,
+        "z": -1
+      },
+      "max": {
+        "x": 1,
+        "y": 7,
+        "z": 1
       }
     },
     "listeners": [

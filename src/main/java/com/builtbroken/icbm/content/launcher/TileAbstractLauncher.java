@@ -20,6 +20,7 @@ import com.builtbroken.mc.api.tile.ILinkFeedback;
 import com.builtbroken.mc.api.tile.ILinkable;
 import com.builtbroken.mc.api.tile.IPassCode;
 import com.builtbroken.mc.api.tile.access.IGuiTile;
+import com.builtbroken.mc.api.tile.node.ITileNodeHost;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketType;
@@ -115,9 +116,9 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         {
             return "link.error.code.match";
         }
-        else if (tile instanceof TileLocalController)
+        else if (tile instanceof ITileNodeHost && ((ITileNodeHost) tile).getTileNode() instanceof TileLocalController)
         {
-            return ((TileLocalController) tile).link(toLocation(), getCode());
+            return ((TileLocalController) ((ITileNodeHost) tile).getTileNode()).link(toLocation(), getCode());
         }
         else if (tile instanceof IFoFStation)
         {

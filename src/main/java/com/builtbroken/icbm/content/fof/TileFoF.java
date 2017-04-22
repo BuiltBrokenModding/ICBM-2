@@ -455,6 +455,6 @@ public class TileFoF extends TileModuleMachine implements IGuiTile, IMultiTileHo
     @Override
     public void onPostInit()
     {
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.blockFoFStation), "RCR", "PRP", 'C', ICBM.blockSiloController, 'R', UniversalRecipe.CIRCUIT_T2.get(), 'P', UniversalRecipe.PRIMARY_PLATE.get()));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.blockFoFStation), "RCR", "PRP", 'C', InventoryUtility.getBlock("icbm:silocontroller"), 'R', UniversalRecipe.CIRCUIT_T2.get(), 'P', UniversalRecipe.PRIMARY_PLATE.get()));
     }
 }

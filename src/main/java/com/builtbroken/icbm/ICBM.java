@@ -48,7 +48,6 @@ import com.builtbroken.icbm.content.launcher.block.BlockLaunchPad;
 import com.builtbroken.icbm.content.launcher.block.BlockLauncherPart;
 import com.builtbroken.icbm.content.launcher.block.TileLauncherFrame;
 import com.builtbroken.icbm.content.launcher.controller.direct.TileSiloController;
-import com.builtbroken.icbm.content.launcher.controller.local.TileLocalController;
 import com.builtbroken.icbm.content.launcher.controller.remote.antenna.BlockAntennaParts;
 import com.builtbroken.icbm.content.launcher.controller.remote.central.TileCommandController;
 import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCommandSiloConnector;
@@ -150,7 +149,6 @@ public final class ICBM extends AbstractMod
     public static Block blockExplosiveMarker;
     public static Block blockDisplayMissile;
 
-    public static Block blockSiloController;
     public static Block blockMissileWorkstation;
     public static Block blockWarheadWorkstation;
     public static Block blockSMAuto;
@@ -294,9 +292,6 @@ public final class ICBM extends AbstractMod
 
         //Clear launcher creative tab to prevent placement by user by mistake
         NEIProxy.hideItem(blockCrashMissile);
-
-        //Missile workstation is loaded in the proxy
-        blockSiloController = manager.newBlock("SiloController", TileLocalController.class);
 
         // Decor Blocks
         blockDisplayMissile = manager.newBlock(TileMissile.class);
