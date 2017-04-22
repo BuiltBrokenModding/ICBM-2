@@ -12,12 +12,10 @@ import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.mc.api.tile.access.IRotation;
 import com.builtbroken.mc.api.tile.listeners.IActivationListener;
 import com.builtbroken.mc.api.tile.listeners.IWrenchListener;
-import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
 import com.builtbroken.mc.codegen.annotations.MultiBlockWrapped;
 import com.builtbroken.mc.codegen.annotations.TileWrapped;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.packet.PacketType;
-import com.builtbroken.mc.framework.multiblock.MultiBlockHelper;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
@@ -57,29 +55,12 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IRo
     {
         super.firstTick();
         frameUpdateCheckTick = 10 + (int) (30 * Math.random());
-        if (isCrafting || getMissileItem() != null)
-        {
-            buildMissileBlocks = true;
-        }
     }
 
     @Override
     public void update(long ticks)
     {
         super.update(ticks);
-        if (ticks % 20 == 0)
-        {
-            if (buildMissileBlocks)
-            {
-                buildMissileBlocks = false;
-                MultiBlockHelper.buildMultiBlock(world(), (IMultiTileHost) getHost(), true, true);
-            }
-            else if (destroyMissileBlocks)
-            {
-                destroyMissileBlocks = false;
-                MultiBlockHelper.destroyMultiBlockStructure((IMultiTileHost) getHost(), false, true, false);
-            }
-        }
         //Check to ensure the frame is still intact
         if (ticks % frameUpdateCheckTick == 0)
         {
@@ -198,6 +179,8 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IRo
                                 }
                                 player.inventoryContainer.detectAndSendChanges();
                             }
+                            //TODO add translation key
+                            player.addChatComponentMessage(new ChatComponentText("* Missile added *"));
                         }
                         else
                         {
@@ -298,11 +281,10 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IRo
     }
 
     @Override
-    public void onInventoryChanged(int slot, ItemStack prev, ItemStack newStack)
+    public void onInventoryChanged(int slot, ItemStack stackPrev, ItemStack newStack)
     {
         if (slot == 0 && isServer())
         {
-            ItemStack stackPrev = getInventory().getStackInSlot(slot);
             if (isCrafting && recipe != null)
             {
                 //If something sets the missile while we are crafting, eject all items
@@ -399,8 +381,6 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IRo
     protected void onPostMissileFired(final Pos target, EntityMissile entity)
     {
         super.onPostMissileFired(target, entity);
-        //clear missile collision box
-        MultiBlockHelper.destroyMultiBlockStructure((IMultiTileHost) getHost(), false, true, false);
 
         //Set ground on fire for lolz
         if (entity.getMissile() != null && entity.getMissile().getEngine() != null && entity.getMissile().getEngine().generatesFire(entity, entity.getMissile()))
@@ -416,7 +396,6 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IRo
                     {
                         final Location pos = center.add(x, 0, z);
 
-                        //Do not set fire to frame or CPU
                         if (pos.isAirBlock())
                         {
                             if (pos.sub(0, 1, 0).isSideSolid(ForgeDirection.UP))

@@ -27,12 +27,41 @@
       }
     },
     "listeners": [
-      "multiblock",
+      {
+        "id": "multiblock",
+        "layoutKey": "icbm:standardLauncher",
+        "doRotation": true,
+        "buildFirstTick": false
+      },
       "StandardLauncherRenderListener"
     ]
   },
+  "render": {
+    "contentID": "icbm:standardlauncher",
+    "type": "tile",
+    "tileClass": "com.builtbroken.icbm.content.launcher.launcher.standard.TileWrapperStandardLauncher",
+    "states": [
+      {
+        "id": "block",
+        "sides": "icbm:launcher.box",
+        "up": "icbm:launcher.box.top"
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:launcher.box",
+    "domain": "icbm",
+    "name": "launcher.box",
+    "type": "block"
+  },
+  "texture:1": {
+    "key": "icbm:launcher.box.top",
+    "domain": "icbm",
+    "name": "launcher.box.top",
+    "type": "block"
+  },
   "multiblock": {
-    "key": "icbm:standardLauncher-north",
+    "key": "icbm:standardLauncher.north",
     "tiles": [
       {
         "pos": {
@@ -85,7 +114,7 @@
     ]
   },
   "multiblock:1": {
-    "key": "icbm:standardLauncher-south",
+    "key": "icbm:standardLauncher.south",
     "tiles": [
       {
         "pos": {
@@ -138,7 +167,7 @@
     ]
   },
   "multiblock:2": {
-    "key": "icbm:standardLauncher-east",
+    "key": "icbm:standardLauncher.east",
     "tiles": [
       {
         "pos": {
@@ -191,7 +220,7 @@
     ]
   },
   "multiblock:3": {
-    "key": "icbm:standardLauncher-west",
+    "key": "icbm:standardLauncher.west",
     "tiles": [
       {
         "pos": {

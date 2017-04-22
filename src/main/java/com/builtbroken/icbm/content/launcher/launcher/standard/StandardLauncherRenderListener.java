@@ -3,6 +3,8 @@ package com.builtbroken.icbm.content.launcher.launcher.standard;
 import com.builtbroken.icbm.api.missile.ICustomMissileRender;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.mc.api.tile.listeners.IBlockListener;
+import com.builtbroken.mc.api.tile.listeners.ITileEventListener;
+import com.builtbroken.mc.api.tile.listeners.ITileEventListenerBuilder;
 import com.builtbroken.mc.api.tile.listeners.client.ITileRenderListener;
 import com.builtbroken.mc.api.tile.node.ITileNodeHost;
 import com.builtbroken.mc.imp.transform.vector.Pos;
@@ -10,6 +12,7 @@ import com.builtbroken.mc.prefab.tile.listeners.TileListener;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.client.model.obj.GroupObject;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -131,6 +134,14 @@ public class StandardLauncherRenderListener extends TileListener implements IBlo
         }
     }
 
+    @Override
+    public List<String> getListenerKeys()
+    {
+        List<String> list = new ArrayList();
+        list.add("tilerender");
+        return list;
+    }
+
     private static void processModel()
     {
         processedModel = true;
@@ -244,6 +255,21 @@ public class StandardLauncherRenderListener extends TileListener implements IBlo
                 }
                 skinLayers[layer][set] = object;
             }
+        }
+    }
+
+    public static class Builder implements ITileEventListenerBuilder
+    {
+        @Override
+        public ITileEventListener createListener(Block block)
+        {
+            return new StandardLauncherRenderListener();
+        }
+
+        @Override
+        public String getListenerKey()
+        {
+            return "StandardLauncherRenderListener";
         }
     }
 }

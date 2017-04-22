@@ -179,7 +179,7 @@ public class TileMissileContainer extends TileMachineNode<IInventory> implements
                 return missile;
             }
         }
-        return createMissileObject();
+        return missile != null ? missile : createMissileObject();
     }
 
     protected IMissile createMissileObject()

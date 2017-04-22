@@ -22,6 +22,7 @@ import com.builtbroken.icbm.content.launcher.controller.remote.antenna.ItemRende
 import com.builtbroken.icbm.content.launcher.controller.remote.antenna.TESRAntenna;
 import com.builtbroken.icbm.content.launcher.controller.remote.antenna.TileAntennaPart;
 import com.builtbroken.icbm.content.launcher.controller.remote.display.TileSiloInterfaceClient;
+import com.builtbroken.icbm.content.launcher.launcher.standard.StandardLauncherRenderListener;
 import com.builtbroken.icbm.content.launcher.listeners.TileMissileRenderListener;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.RenderMissile;
@@ -67,6 +68,7 @@ public class ClientProxy extends CommonProxy
     {
         super.loadJsonContentHandlers();
         JsonBlockListenerProcessor.addBuilder(new TileMissileRenderListener.Builder());
+        JsonBlockListenerProcessor.addBuilder(new StandardLauncherRenderListener.Builder());
     }
 
     @Override
