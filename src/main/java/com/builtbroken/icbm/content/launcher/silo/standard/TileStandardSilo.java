@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.launcher.silo.standard;
 
+import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
@@ -22,6 +23,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 @MultiBlockWrapped()
 public class TileStandardSilo extends TileAbstractLauncher implements IPlacementListener, IDestroyedListener
 {
+    public TileStandardSilo()
+    {
+        super("silo.standard", ICBM.DOMAIN);
+    }
+
     @Override
     public boolean canAcceptMissile(IMissile missile)
     {

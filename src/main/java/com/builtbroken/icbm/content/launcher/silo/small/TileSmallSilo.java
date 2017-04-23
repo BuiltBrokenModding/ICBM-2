@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.content.launcher.silo.small;
 
+import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
@@ -21,6 +22,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileSmallSilo extends TileAbstractLauncher implements IPlacementListener, IDestroyedListener, IRotation
 {
     private ForgeDirection rotationCache;
+
+    public TileSmallSilo()
+    {
+        super("silo.small", ICBM.DOMAIN);
+    }
 
     @Override
     public boolean canAcceptMissile(IMissile missile)

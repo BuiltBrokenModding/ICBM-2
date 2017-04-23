@@ -7,6 +7,7 @@ import com.builtbroken.icbm.api.launcher.ILauncher;
 import com.builtbroken.icbm.api.launcher.INamedLauncher;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
+import com.builtbroken.icbm.content.launcher.controller.remote.display.TileSiloInterface;
 import com.builtbroken.jlib.data.network.IByteBufReader;
 import com.builtbroken.jlib.data.network.IByteBufWriter;
 import com.builtbroken.mc.api.ISave;
@@ -118,7 +119,7 @@ public class SiloConnectionData implements ISiloConnectionData, ISave, IByteBufW
                 data[1] = connector;
                 launcher.returnGuiData.put(player, data);
             }
-            player.openGui(ICBM.INSTANCE, 1, world, x, y, z);
+            player.openGui(ICBM.INSTANCE, openingTile instanceof TileSiloInterface ? 1 : 2, world, x, y, z);
         }
     }
 

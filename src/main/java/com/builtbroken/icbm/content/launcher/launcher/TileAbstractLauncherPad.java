@@ -8,6 +8,10 @@ import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
  */
 public abstract class TileAbstractLauncherPad extends TileAbstractLauncher
 {
+    public TileAbstractLauncherPad(String id, String mod)
+    {
+        super(id, mod);
+    }
     /* TODO move to JSON
     public TileAbstractLauncherPad(String name)
     {

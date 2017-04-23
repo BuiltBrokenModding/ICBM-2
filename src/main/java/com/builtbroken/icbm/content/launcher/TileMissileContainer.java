@@ -27,6 +27,11 @@ public class TileMissileContainer extends TileMachineNode<IInventory> implements
     /** Cached missile version of the stored missile item. */
     protected IMissile missile;
 
+    public TileMissileContainer(String id, String mod)
+    {
+        super(id, mod);
+    }
+
     @Override
     protected IInventory createInventory()
     {

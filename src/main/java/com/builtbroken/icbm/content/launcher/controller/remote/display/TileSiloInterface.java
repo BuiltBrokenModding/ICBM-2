@@ -130,6 +130,13 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
     }
 
     @Override
+    public boolean openGui(EntityPlayer player, Object currentGui, Object... data)
+    {
+        player.openGui(ICBM.INSTANCE, 0, world(), xi(), yi(), zi());
+        return true;
+    }
+
+    @Override
     protected boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
     {
         if (player.getHeldItem() != null)

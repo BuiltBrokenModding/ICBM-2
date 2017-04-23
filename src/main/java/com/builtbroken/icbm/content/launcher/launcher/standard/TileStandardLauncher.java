@@ -52,6 +52,11 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IRo
     private ForgeDirection dir_cache;
     private int frameUpdateCheckTick = 1;
 
+    public TileStandardLauncher()
+    {
+        super("launcher.standard", ICBM.DOMAIN);
+    }
+
     @Override
     public void firstTick()
     {

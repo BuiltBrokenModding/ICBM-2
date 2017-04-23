@@ -14,7 +14,6 @@ import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.icbm.content.missile.tracking.MissileTrackingData;
 import com.builtbroken.icbm.content.storage.IMissileMagOutput;
 import com.builtbroken.jlib.data.vector.IPos3D;
-import com.builtbroken.mc.api.IWorldPosition;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
 import com.builtbroken.mc.api.tile.ILinkFeedback;
@@ -65,6 +64,11 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     protected List<LauncherReport> launcherReports = new ArrayList();
 
     public HashMap<EntityPlayer, Object[]> returnGuiData = new HashMap();
+
+    public TileAbstractLauncher(String id, String mod)
+    {
+        super(id, mod);
+    }
 
     public void setTarget(Pos target)
     {
@@ -473,17 +477,9 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
                 if (returnGuiData.containsKey(player) && player.openContainer instanceof ContainerSilo)
                 {
                     Object tile = returnGuiData.get(player)[0];
-                    if (tile instanceof TileSiloInterface)
+                    if (tile instanceof IGuiTile)
                     {
-                        player.openGui(ICBM.INSTANCE, 0, ((TileSiloInterface) tile).world(), ((TileSiloInterface) tile).xi(), ((TileSiloInterface) tile).yi(), ((TileSiloInterface) tile).zi());
-                    }
-                    else if(tile instanceof TileLocalController)
-                    {
-                        player.openGui(ICBM.INSTANCE, 1, ((IWorldPosition) tile).world(), ((IWorldPosition) tile).xi(), ((IWorldPosition) tile).yi(), ((IWorldPosition) tile).zi());
-                    }
-                    else if (tile instanceof IGuiTile && tile instanceof IWorldPosition)
-                    {
-                        player.openGui(ICBM.INSTANCE, ((IGuiTile)tile).getDefaultGuiID(player), ((IWorldPosition) tile).world(), ((IWorldPosition) tile).xi(), ((IWorldPosition) tile).yi(), ((IWorldPosition) tile).zi());
+                        ((IGuiTile) tile).openGui(player, player.openContainer, returnGuiData.get(player));
                     }
                 }
                 return true;
@@ -624,7 +620,11 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     {
         if (id == 1)
         {
-            return new ContainerSilo(player, this);
+            return new ContainerSilo(player, this, true);
+        }
+        else if (id == 2)
+        {
+            return new ContainerSilo(player, this, false);
         }
         return null;
     }
@@ -634,7 +634,11 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     {
         if (id == 1)
         {
-            return new GuiSiloSettings(this, player);
+            return new GuiSiloSettings(this, player, true);
+        }
+        else if (id == 2)
+        {
+            return new GuiSiloSettings(this, player, false);
         }
         return null;
     }

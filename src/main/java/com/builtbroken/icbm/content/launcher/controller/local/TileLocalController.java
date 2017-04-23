@@ -51,6 +51,11 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
     public static int MAX_LAUNCHER_LINK = 6; //changed to 6 due to current GUI size and no GUI paging
 
     public static final int GUI_PACKET_ID = 0;
+    public static final int FIRE_SILO_PACKET_ID = 2;
+    public static final int OPEN_SILO_PACKET_ID = 3;
+    public static final int UNLINK_PACKET_ID = 4;
+
+    public static final int MAIN_GUI_ID = 1;
 
     //TODO auto connect to any launcher next to the controller
     //TODO default to rear connection first
@@ -62,6 +67,11 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
     protected final List<EntityPlayer> usersWithGuiOpen = new ArrayList();
 
     private ForgeDirection rotationCache;
+
+    public TileLocalController()
+    {
+        super("controller.local", ICBM.DOMAIN);
+    }
 
     @Override
     protected IInventory createInventory()
@@ -128,7 +138,7 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
         }
         else
         {
-            sendPacketToServer(getHost().getPacketForData(2, index));
+            sendPacketToServer(getHost().getPacketForData(FIRE_SILO_PACKET_ID, index));
         }
     }
 
@@ -148,7 +158,7 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
         }
         else
         {
-            sendPacketToServer(getHost().getPacketForData(2, -1));
+            sendPacketToServer(getHost().getPacketForData(FIRE_SILO_PACKET_ID, -1));
         }
     }
 
@@ -174,7 +184,7 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
         }
         else
         {
-            sendPacketToServer(getHost().getPacketForData(3, index));
+            sendPacketToServer(getHost().getPacketForData(OPEN_SILO_PACKET_ID, index));
         }
     }
 
@@ -203,7 +213,7 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
         }
         else
         {
-            sendPacketToServer(getHost().getPacketForData(4, index));
+            sendPacketToServer(getHost().getPacketForData(UNLINK_PACKET_ID, index));
         }
     }
 
@@ -258,23 +268,6 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
         }
     }
 
-    /**
-     * Called to remove the launcher from the list
-     *
-     * @param pos - location of the launcher
-     */
-    protected void removeLauncher(Pos pos)
-    {
-        if (isServer())
-        {
-            launcherLocations.remove(pos);
-        }
-        else
-        {
-            sendPacketToServer(getHost().getPacketForData(1, pos));
-        }
-    }
-
     @Override
     public boolean read(ByteBuf buf, int id, EntityPlayer player, PacketType type)
     {
@@ -308,14 +301,8 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
             }
             else
             {
-                //Remove connection
-                if (id == 1)
-                {
-                    removeLauncher(new Pos(buf));
-                    return true;
-                }
                 //Fire button
-                else if (id == 2)
+                if (id == FIRE_SILO_PACKET_ID)
                 {
                     int index = buf.readInt();
                     if (index == -1)
@@ -329,13 +316,13 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
                     return true;
                 }
                 //Open silo GUI
-                else if (id == 3)
+                else if (id == OPEN_SILO_PACKET_ID)
                 {
                     int index = buf.readInt();
                     openSiloGui(index, player);
                 }
                 //Unlink silo
-                else if (id == 4)
+                else if (id == UNLINK_PACKET_ID)
                 {
                     int index = buf.readInt();
                     unlink(index, player);
@@ -372,7 +359,7 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
     @Override
     public Object getServerGuiElement(int ID, EntityPlayer player)
     {
-        if (ID == 1)
+        if (ID == MAIN_GUI_ID)
         {
             return new ContainerDummy(player, this);
         }
@@ -382,11 +369,18 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer player)
     {
-        if (ID == 1)
+        if (ID == MAIN_GUI_ID)
         {
             return new GuiLocalController(this, player);
         }
         return null;
+    }
+
+    @Override
+    public boolean openGui(EntityPlayer player, Object currentGui, Object... data)
+    {
+        player.openGui(ICBM.INSTANCE, MAIN_GUI_ID, world(), xi(), yi(), zi());
+        return true;
     }
 
     @Override
@@ -430,7 +424,7 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
         }
         else if (isServer())
         {
-            player.openGui(ICBM.INSTANCE, 1, world(), xi(), yi(), zi());
+            player.openGui(ICBM.INSTANCE, MAIN_GUI_ID, world(), xi(), yi(), zi());
         }
         return true;
     }
