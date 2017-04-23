@@ -102,6 +102,12 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     }
 
     @Override
+    public boolean canBeCollidedWith()
+    {
+        return true;
+    }
+
+    @Override
     public boolean attackEntityFrom(DamageSource source, float damage)
     {
         if (!worldObj.isRemote && !isEntityInvulnerable() && damage > 0)

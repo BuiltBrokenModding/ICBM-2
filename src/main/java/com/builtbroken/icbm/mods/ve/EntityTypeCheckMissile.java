@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.mods.ve;
 
-import com.builtbroken.icbm.api.modules.IMissile;
+import com.builtbroken.icbm.api.missile.IMissileEntity;
 import com.builtbroken.mc.prefab.entity.type.EntityTypeCheck;
 import net.minecraft.entity.Entity;
 
@@ -18,6 +18,6 @@ public class EntityTypeCheckMissile extends EntityTypeCheck
     @Override
     public boolean isEntityApplicable(Entity entity)
     {
-        return entity instanceof IMissile || entity instanceof resonant.api.explosion.IMissile;
+        return entity instanceof IMissileEntity || entity instanceof resonant.api.explosion.IMissile;
     }
 }
