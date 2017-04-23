@@ -62,6 +62,7 @@ import com.builtbroken.icbm.content.storage.small.TileSmallMag;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
 import com.builtbroken.icbm.mods.cc.CCProxyICBM;
 import com.builtbroken.icbm.mods.oc.OCProxyICBM;
+import com.builtbroken.icbm.mods.ve.EntityTypeCheckMissile;
 import com.builtbroken.icbm.server.CommandICBM;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
@@ -71,6 +72,7 @@ import com.builtbroken.mc.lib.mod.Mods;
 import com.builtbroken.mc.lib.recipe.item.sheetmetal.RecipeSheetMetal;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.mods.nei.NEIProxy;
+import com.builtbroken.mc.prefab.entity.type.EntityTypeCheckRegistry;
 import com.builtbroken.mc.prefab.explosive.ExplosiveHandlerGeneric;
 import com.builtbroken.mc.prefab.tile.item.ItemBlockMetadata;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -379,6 +381,7 @@ public final class ICBM extends AbstractMod
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
+        EntityTypeCheckRegistry.register(new EntityTypeCheckMissile());
         //Register Entities
         EntityRegistry.registerGlobalEntityID(EntityMissile.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());
         EntityRegistry.registerModEntity(EntityMissile.class, "ICBMMissile", ENTITY_ID_PREFIX + 3, this, 500, 1, true);
