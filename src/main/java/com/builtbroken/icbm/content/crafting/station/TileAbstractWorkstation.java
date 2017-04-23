@@ -94,9 +94,9 @@ public abstract class TileAbstractWorkstation<I extends IInventory> extends Tile
     }
 
     @Override
-    public boolean onMultiTileActivated(IMultiTile tile, EntityPlayer player, int side, IPos3D hit)
+    public boolean onMultiTileActivated(IMultiTile tile, EntityPlayer player, int side, float xHit, float yHit, float zHit)
     {
-        return onPlayerActivated(player, side, hit instanceof Pos ? (Pos) hit : new Pos(hit));
+        return onPlayerActivated(player, side, new Pos(xHit, yHit, zHit));
     }
 
     @Override
