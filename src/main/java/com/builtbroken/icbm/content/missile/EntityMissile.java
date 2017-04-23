@@ -3,7 +3,7 @@ package com.builtbroken.icbm.content.missile;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.blast.IBlastHandler;
 import com.builtbroken.icbm.api.blast.IExHandlerTileMissile;
-import com.builtbroken.icbm.api.missile.IFoF;
+import com.builtbroken.mc.api.entity.IFoF;
 import com.builtbroken.icbm.api.missile.IMissileEntity;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;

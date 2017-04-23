@@ -27,9 +27,7 @@ public final class Assets
     public static final WavefrontObject STANDARD_MISSILE_MODEL_2 = (WavefrontObject) model("missile/Missile_Standard_Crafting.obj"); //Segmented model for crafting
 
     //Launcher Models
-    public static final IModelCustom PORTABLE_LAUNCHER_MODEL = model("small_launcher.tcn");
     public static final IModelCustom SMALL_SILO_MODEL = model("smallSilo/small-missile-silo.obj");
-    public static final WavefrontObject STANDARD_SILO_MODEL = (WavefrontObject) model("standardSilo/StandardSilo.obj");
 
     //Mag
     public static final WavefrontObject SMALL_MAG_MODEL = (WavefrontObject) model("mag/small.mag.obj");
@@ -38,12 +36,8 @@ public final class Assets
     public static final IModelCustom RPG_MODEL = model("rocketLauncher.tcn");
 
     //Machine Models
-    public static final IModelCustom LAUNCHER_CONTROLLER_MODEL = model("LauncherController.tcn");
-    public static final IModelCustom WEAPON_CASE_MODEL = model("WeaponCase.tcn");
     //public static final WavefrontObject SMALL_MISSILE_STATION_MODEL = (WavefrontObject) model("small-missile-workstation.obj"); TODO update old model
     public static final WavefrontObject SMALL_MISSILE_STATION_MODEL2 = (WavefrontObject) model("workstation.missile.small.obj");
-    public static final WavefrontObject AMS_TOP_MODEL = (WavefrontObject) model("ams/AMS-top.obj");
-    public static final WavefrontObject AMS_BOTTOM_MODEL = (WavefrontObject) model("ams/AMS-bottom.obj");
     public static final WavefrontObject FoF_STATION_MODEL = (WavefrontObject) model("fof/fofStation.obj");
 
     //Block Models
@@ -75,15 +69,7 @@ public final class Assets
 
     public static final ResourceLocation RPG_TEXTURE = texture("rocketLauncher");
 
-    public static final ResourceLocation LAUNCHER_CONTROLLER_TEXTURE = texture("LauncherController");
-
-    public static final ResourceLocation WEAPON_CASE_TEXTURE = texture("WeaponCase");
-
-    public static final ResourceLocation STANDARD_SILO_TEXTURE = texture("reg-silo");
-
     public static final ResourceLocation LAUNCHER_FRAME_TEXTURE = texture("reg-missile-station");
-
-    public static final ResourceLocation AMS_TEXTURE = texture("AMS");
 
     public static final ResourceLocation FoF_STATION_TEXTURE = texture("console-fof");
 

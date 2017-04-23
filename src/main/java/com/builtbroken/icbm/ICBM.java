@@ -158,13 +158,11 @@ public final class ICBM extends AbstractMod
     public static Block blockLauncherParts;
     public static Block blockLaunchPad;
 
-    public static Block blockAMS;
     public static Block blockAntenna;
     public static Block blockCommandCentral;
     public static Block blockCommandSiloConnector;
     public static Block blockCommandSiloDisplay;
 
-    public static Block blockFoFStation;
     public static Block blockCake;
 
     public static Block blockCrashMissile;

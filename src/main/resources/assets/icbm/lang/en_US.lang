@@ -189,11 +189,6 @@ tile.icbm:standardsilo.container.name=Standard Silo Screen
 
 tile.icbm:missileworkstation.name=Missile Station
 
-tile.icbm:ICBMxFoF.name=FoF Station
-tile.icbm:ICBMxFoF.info=Links to silo or AMS , Prevents friendly fire from AMS
-tile.icbm:AMS.name=AMS Turret
-tile.icbm:AMS.info=Shoots down missiles , Uses nuggets for ammo
-
 tile.icbm:decorLaunchPad.name=Launch Pad
 tile.icbm:decorLaunchPad.0.name=North Edge
 tile.icbm:decorLaunchPad.1.name=South Edge

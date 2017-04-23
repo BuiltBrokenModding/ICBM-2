@@ -3,7 +3,6 @@ package com.builtbroken.icbm.content.launcher;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.launcher.INamedLauncher;
 import com.builtbroken.icbm.api.modules.IMissile;
-import com.builtbroken.icbm.content.fof.IFoFStation;
 import com.builtbroken.icbm.content.items.ItemRemoteDetonator;
 import com.builtbroken.icbm.content.launcher.controller.local.TileLocalController;
 import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCommandSiloConnector;
@@ -16,6 +15,7 @@ import com.builtbroken.icbm.content.storage.IMissileMagOutput;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
+import com.builtbroken.mc.api.tile.IFoFProvider;
 import com.builtbroken.mc.api.tile.ILinkFeedback;
 import com.builtbroken.mc.api.tile.ILinkable;
 import com.builtbroken.mc.api.tile.IPassCode;
@@ -52,7 +52,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     public Pos target = new Pos(0, -1, 0);
 
     public Pos fofStationPos;
-    public IFoFStation fofStation;
+    public IFoFProvider fofStation;
 
     /** Security code used to prevent remote linking */
     protected short link_code;
@@ -125,16 +125,16 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         {
             return ((TileLocalController) ((ITileNodeHost) tile).getTileNode()).link(toLocation(), getCode());
         }
-        else if (tile instanceof IFoFStation)
+        else if (tile instanceof IFoFProvider)
         {
-            IFoFStation station = getFoFStation();
+            IFoFProvider station = getFoFStation();
             if (station == tile)
             {
                 return "link.error.tile.already.added";
             }
             else
             {
-                fofStation = (IFoFStation) tile;
+                fofStation = (IFoFProvider) tile;
                 fofStationPos = new Pos(tile);
             }
             return "";
@@ -145,14 +145,14 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         }
     }
 
-    public IFoFStation getFoFStation()
+    public IFoFProvider getFoFStation()
     {
         if ((fofStation == null || fofStation instanceof TileEntity && ((TileEntity) fofStation).isInvalid()) && fofStationPos != null)
         {
             TileEntity tile = fofStationPos.getTileEntity(world());
-            if (tile instanceof IFoFStation)
+            if (tile instanceof IFoFProvider)
             {
-                fofStation = (IFoFStation) tile;
+                fofStation = (IFoFProvider) tile;
             }
             else
             {
