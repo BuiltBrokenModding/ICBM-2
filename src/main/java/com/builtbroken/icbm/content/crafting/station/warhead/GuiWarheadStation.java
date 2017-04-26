@@ -11,8 +11,8 @@ import com.builtbroken.mc.core.References;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.prefab.gui.GuiButton2;
 import com.builtbroken.mc.prefab.gui.GuiContainerBase;
+import com.builtbroken.mc.prefab.gui.buttons.GuiButton9px;
 import com.builtbroken.mc.prefab.gui.buttons.GuiImageButton;
-import com.builtbroken.mc.prefab.gui.buttons.GuiIncrementButton;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
@@ -89,8 +89,8 @@ public class GuiWarheadStation extends GuiContainerBase
         {
             case 0:
                 craftButton = addButton(new GuiButton2(0, guiLeft + 80, guiTop + 23, 50, 20, "Craft"));
-                buttonList.add(new GuiIncrementButton(11, guiLeft + 102, guiTop + 70, false));
-                buttonList.add(new GuiIncrementButton(10, guiLeft + 102, guiTop + 52, true));
+                buttonList.add(GuiButton9px.newMinusButton(11, guiLeft + 102, guiTop + 70));
+                buttonList.add(GuiButton9px.newPlusButton(10, guiLeft + 102, guiTop + 52));
                 craftingWindowButton.disable();
                 break;
             case 1:
