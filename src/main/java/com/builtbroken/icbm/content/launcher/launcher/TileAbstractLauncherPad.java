@@ -1,12 +1,6 @@
 package com.builtbroken.icbm.content.launcher.launcher;
 
-import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.util.IIcon;
 
 /**
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
@@ -14,6 +8,11 @@ import net.minecraft.util.IIcon;
  */
 public abstract class TileAbstractLauncherPad extends TileAbstractLauncher
 {
+    public TileAbstractLauncherPad(String id, String mod)
+    {
+        super(id, mod);
+    }
+    /* TODO move to JSON
     public TileAbstractLauncherPad(String name)
     {
         super(name, Material.iron);
@@ -36,4 +35,5 @@ public abstract class TileAbstractLauncherPad extends TileAbstractLauncher
     {
         //We have no icons to register
     }
+    */
 }

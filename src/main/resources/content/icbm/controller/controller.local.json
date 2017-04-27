@@ -1,0 +1,159 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "block": {
+    "name": "missileController",
+    "id": "silocontroller",
+    "hardness": 10,
+    "resistance": 10,
+    "renderType": -1,
+    "isOpaque": false,
+    "mod": "icbm",
+    "material": "iron",
+    "tileEntity": {
+      "id": "silocontroller",
+      "class": "com.builtbroken.icbm.content.launcher.controller.local.TileWrapperLocalController"
+    },
+    "listeners": [
+      "rotation"
+    ]
+  },
+  "missingMappingEvent": {
+    "oldValue": "icbm:SiloController",
+    "newValue": "icbm:silocontroller"
+  },
+  "render": {
+    "contentID": "icbm:silocontroller",
+    "type": "tile",
+    "tileClass": "com.builtbroken.icbm.content.launcher.controller.local.TileWrapperLocalController",
+    "states": [
+      {
+        "id": "item",
+        "modelID": "icbm:weaponCase",
+        "textureID": "icbm:weaponCase"
+      },
+      {
+        "id": "item.inventory",
+        "parent": "item",
+        "scale": 0.8,
+        "offset": -0.5
+      },
+      {
+        "id": "item.equipped",
+        "parent": "item",
+        "offset": {
+          "x": 0.5,
+          "y": 0.5,
+          "z": 0.5
+        }
+      },
+      {
+        "id": "item.first",
+        "parent": "item",
+        "offset": {
+          "x": 0.3,
+          "y": 0.5,
+          "z": 0.9
+        }
+      },
+      {
+        "id": "item.entity",
+        "parent": "item",
+        "offset": {
+          "x": 0.5,
+          "y": 0.5,
+          "z": 0.5
+        }
+      },
+      {
+        "id": "tile.layer1",
+        "modelID": "icbm:launcherController",
+        "textureID": "icbm:weaponCase",
+        "parts": "screen",
+        "renderOnlyParts": false,
+        "offset": {
+          "y": 0.5
+        }
+      },
+      {
+        "id": "tile",
+        "parent": "tile.layer1",
+        "textureID": "icbm:launcherController",
+        "parts": "screen",
+        "renderOnlyParts": true,
+        "renderParent": true
+      },
+      {
+        "id": "tile.north",
+        "parent": "tile",
+        "rotation": {
+          "yaw": 90
+        }
+      },
+      {
+        "id": "tile.south",
+        "parent": "tile",
+        "rotation": {
+          "yaw": -90
+        }
+      },
+      {
+        "id": "tile.east",
+        "parent": "tile",
+        "rotation": {
+          "yaw": 0
+        }
+      },
+      {
+        "id": "tile.west",
+        "parent": "tile",
+        "rotation": {
+          "yaw": 180
+        }
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:weaponCase",
+    "domain": "icbm",
+    "name": "WeaponCase",
+    "type": "model"
+  },
+  "texture:1": {
+    "key": "icbm:launcherController",
+    "domain": "icbm",
+    "name": "LauncherController",
+    "type": "model"
+  },
+  "model": {
+    "key": "icbm:weaponCase",
+    "domain": "icbm",
+    "name": "WeaponCase.tcn"
+  },
+  "model:1": {
+    "key": "icbm:launcherController",
+    "domain": "icbm",
+    "name": "LauncherController.tcn"
+  },
+  "craftingGridRecipe": {
+    "type": "shaped",
+    "output": "block@icbm:silocontroller",
+    "grid": "IGI,CGC,ICI",
+    "items": {
+      "I": "ore@ingotIron",
+      "G": "block@chest",
+      "C": "ore@circuitBasic"
+    }
+  },
+  "craftingGridRecipe": {
+    "type": "shaped",
+    "output": "block@icbm:silocontroller",
+    "grid": "IGI,CGC,ICI",
+    "items": {
+      "I": "ore@ingotIron",
+      "G": "block@chest",
+      "C": "ore@electronicCircuit"
+    }
+  }
+}

@@ -3,8 +3,6 @@ package com.builtbroken.icbm.content.launcher;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.launcher.INamedLauncher;
 import com.builtbroken.icbm.api.modules.IMissile;
-import com.builtbroken.icbm.content.display.TileMissileContainer;
-import com.builtbroken.icbm.content.fof.IFoFStation;
 import com.builtbroken.icbm.content.items.ItemRemoteDetonator;
 import com.builtbroken.icbm.content.launcher.controller.local.TileLocalController;
 import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCommandSiloConnector;
@@ -17,20 +15,20 @@ import com.builtbroken.icbm.content.storage.IMissileMagOutput;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
-import com.builtbroken.mc.api.tile.access.IGuiTile;
+import com.builtbroken.mc.api.tile.IFoFProvider;
 import com.builtbroken.mc.api.tile.ILinkFeedback;
 import com.builtbroken.mc.api.tile.ILinkable;
 import com.builtbroken.mc.api.tile.IPassCode;
+import com.builtbroken.mc.api.tile.access.IGuiTile;
+import com.builtbroken.mc.api.tile.node.ITileNodeHost;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
-import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
-import com.builtbroken.mc.lib.helper.MathUtility;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.imp.transform.vector.Pos;
+import com.builtbroken.mc.lib.helper.MathUtility;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -54,7 +52,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     public Pos target = new Pos(0, -1, 0);
 
     public Pos fofStationPos;
-    public IFoFStation fofStation;
+    public IFoFProvider fofStation;
 
     /** Security code used to prevent remote linking */
     protected short link_code;
@@ -67,25 +65,25 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
 
     public HashMap<EntityPlayer, Object[]> returnGuiData = new HashMap();
 
-    public TileAbstractLauncher(String name, Material mat)
+    public TileAbstractLauncher(String id, String mod)
     {
-        super(name, mat);
+        super(id, mod);
     }
 
     public void setTarget(Pos target)
     {
         this.target = target;
-        sendPacketToServer(new PacketTile(this, 1, target));
+        sendPacketToServer(getPacketForData(1, target));
     }
 
     @Override
-    public boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
+    public boolean onPlayerActivated(EntityPlayer player, int side, float hitX, float hitY, float hitZ)
     {
         if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IWorldPosItem)
         {
             return false;
         }
-        return super.onPlayerRightClick(player, side, hit);
+        return super.onPlayerActivated(player, side, hitX, hitY, hitZ);
     }
 
     @Override
@@ -123,20 +121,20 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         {
             return "link.error.code.match";
         }
-        else if (tile instanceof TileLocalController)
+        else if (tile instanceof ITileNodeHost && ((ITileNodeHost) tile).getTileNode() instanceof TileLocalController)
         {
-            return ((TileLocalController) tile).link(toLocation(), getCode());
+            return ((TileLocalController) ((ITileNodeHost) tile).getTileNode()).link(toLocation(), getCode());
         }
-        else if (tile instanceof IFoFStation)
+        else if (tile instanceof IFoFProvider)
         {
-            IFoFStation station = getFoFStation();
+            IFoFProvider station = getFoFStation();
             if (station == tile)
             {
                 return "link.error.tile.already.added";
             }
             else
             {
-                fofStation = (IFoFStation) tile;
+                fofStation = (IFoFProvider) tile;
                 fofStationPos = new Pos(tile);
             }
             return "";
@@ -147,14 +145,14 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         }
     }
 
-    public IFoFStation getFoFStation()
+    public IFoFProvider getFoFStation()
     {
         if ((fofStation == null || fofStation instanceof TileEntity && ((TileEntity) fofStation).isInvalid()) && fofStationPos != null)
         {
             TileEntity tile = fofStationPos.getTileEntity(world());
-            if (tile instanceof IFoFStation)
+            if (tile instanceof IFoFProvider)
             {
-                fofStation = (IFoFStation) tile;
+                fofStation = (IFoFProvider) tile;
             }
             else
             {
@@ -169,7 +167,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     {
         if (!target.isAboveBedrock())
         {
-            target = new Pos((TileEntity)this);
+            target = new Pos(this);
         }
         if (link_code == 0)
         {
@@ -178,11 +176,11 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     }
 
     @Override
-    public void update()
+    public void update(long ticks)
     {
         //TODO track location of missiles if enabled
         //TODO track ETA to target of missiles if enabled
-        super.update();
+        super.update(ticks);
         if (isServer())
         {
             //TODO do count down rather than every 1 second
@@ -267,13 +265,13 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
                         }
 
                         //Set location data
-                        Pos start = new Pos((TileEntity)this).add(getMissileLaunchOffset());
+                        Pos start = new Pos(this).add(getMissileLaunchOffset());
                         entity.setPositionAndRotation(start.x(), start.y(), start.z(), 0, 0);
                         entity.motionY = missile.getEngine().getSpeed(missile);
 
                         //Set target data
                         entity.setTarget(target, true);
-                        entity.sourceOfProjectile = new Pos((TileEntity)this);
+                        entity.sourceOfProjectile = new Pos(this);
 
                         //Spawn and start moving
                         world().spawnEntityInWorld(entity);
@@ -282,7 +280,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
                         entity.setIntoMotion();
 
                         //Empty inventory slot
-                        this.setInventorySlotContents(0, null);
+                        getInventory().setInventorySlotContents(0, null);
                         onPostMissileFired(target instanceof Pos ? (Pos) target : new Pos(target), entity);
                     }
                     else
@@ -298,7 +296,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
                     if (missile.getWarhead() != null)
                     {
                         missile.getWarhead().trigger(new TriggerCause.TriggerCauseFire(ForgeDirection.DOWN), world(), xi(), yi(), zi());
-                        setInventorySlotContents(0, null);
+                        getInventory().setInventorySlotContents(0, null);
                     }
                     else
                     {
@@ -348,7 +346,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
      */
     public Pos getMissileLaunchOffset()
     {
-        return new Pos(0.5, 3, 0.5);
+        return new Pos(0, 3, 0);
     }
 
     /**
@@ -450,25 +448,25 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
                             {
                                 if (tileSiloInterface == null || tileSiloInterface.getCommandCenter().getAttachedNetworks().size() <= 0)
                                 {
-                                    Engine.instance.packetHandler.sendToPlayer(new PacketTile(this, 24, "error.data.missing.hz"), (EntityPlayerMP) player);
+                                    Engine.instance.packetHandler.sendToPlayer(getPacketForData(24, "error.data.missing.hz"), (EntityPlayerMP) player);
                                 }
                                 else if (connector.getConnectorGroupName() == null)
                                 {
-                                    Engine.instance.packetHandler.sendToPlayer(new PacketTile(this, 24, "error.data.missing.groupName"), (EntityPlayerMP) player);
+                                    Engine.instance.packetHandler.sendToPlayer(getPacketForData(24, "error.data.missing.groupName"), (EntityPlayerMP) player);
                                 }
                                 else if (getCustomName() == null)
                                 {
-                                    Engine.instance.packetHandler.sendToPlayer(new PacketTile(this, 24, "error.data.missing.siloName"), (EntityPlayerMP) player);
+                                    Engine.instance.packetHandler.sendToPlayer(getPacketForData(24, "error.data.missing.siloName"), (EntityPlayerMP) player);
                                 }
                                 else
                                 {
-                                    Engine.instance.packetHandler.sendToPlayer(new PacketTile(this, 24, "error.data.missing"), (EntityPlayerMP) player);
+                                    Engine.instance.packetHandler.sendToPlayer(getPacketForData(24, "error.data.missing"), (EntityPlayerMP) player);
                                 }
                             }
                         }
                         else if (player instanceof EntityPlayerMP)
                         {
-                            Engine.instance.packetHandler.sendToPlayer(new PacketTile(this, 24, "error.invalid.connection"), (EntityPlayerMP) player);
+                            Engine.instance.packetHandler.sendToPlayer(getPacketForData(24, "error.invalid.connection"), (EntityPlayerMP) player);
                         }
                     }
                 }
@@ -478,9 +476,10 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
             {
                 if (returnGuiData.containsKey(player) && player.openContainer instanceof ContainerSilo)
                 {
-                    if (returnGuiData.get(player)[0] instanceof TileSiloInterface)
+                    Object tile = returnGuiData.get(player)[0];
+                    if (tile instanceof IGuiTile)
                     {
-                        player.openGui(ICBM.INSTANCE, 0, ((TileSiloInterface) returnGuiData.get(player)[0]).world(), ((TileSiloInterface) returnGuiData.get(player)[0]).xi(), ((TileSiloInterface) returnGuiData.get(player)[0]).yi(), ((TileSiloInterface) returnGuiData.get(player)[0]).zi());
+                        ((IGuiTile) tile).openGui(player, player.openContainer, returnGuiData.get(player));
                     }
                 }
                 return true;
@@ -512,7 +511,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         this.customName = name;
         if (isClient())
         {
-            sendPacketToServer(new PacketTile(this, 22, name));
+            sendPacketToServer(getPacketForData(22, name));
         }
         else
         {
@@ -542,9 +541,9 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbt)
+    public NBTTagCompound save(NBTTagCompound nbt)
     {
-        super.readFromNBT(nbt);
+        super.save(nbt);
         if (nbt.hasKey("target"))
         {
             this.target = new Pos(nbt.getCompoundTag("target"));
@@ -579,12 +578,13 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         {
             customName = nbt.getString("customName");
         }
+        return nbt;
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbt)
+    public void load(NBTTagCompound nbt)
     {
-        super.writeToNBT(nbt);
+        super.load(nbt);
         if (target != null)
         {
             nbt.setTag("target", target.toNBT());
@@ -620,7 +620,11 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     {
         if (id == 1)
         {
-            return new ContainerSilo(player, this);
+            return new ContainerSilo(player, this, true);
+        }
+        else if (id == 2)
+        {
+            return new ContainerSilo(player, this, false);
         }
         return null;
     }
@@ -630,7 +634,11 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     {
         if (id == 1)
         {
-            return new GuiSiloSettings(this, player);
+            return new GuiSiloSettings(this, player, true);
+        }
+        else if (id == 2)
+        {
+            return new GuiSiloSettings(this, player, false);
         }
         return null;
     }
@@ -638,12 +646,12 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     public void encodeItem(EntityPlayer player)
     {
         //TODO auth player
-        sendPacketToServer(new PacketTile(this, 23));
+        sendPacketToServer(getPacketForData(23));
     }
 
     public void returnToPrevGui()
     {
-        sendPacketToServer(new PacketTile(this, 25));
+        sendPacketToServer(getPacketForData(25));
     }
 
     @Override

@@ -1,20 +1,22 @@
 package com.builtbroken.icbm.content.launcher.controller.local;
 
-import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
-import com.builtbroken.icbm.content.launcher.controller.LauncherData;
-import com.builtbroken.icbm.content.launcher.silo.TileSmallSilo;
-import com.builtbroken.icbm.content.launcher.silo.TileStandardSilo;
+import com.builtbroken.icbm.api.controller.ISiloConnectionData;
+import com.builtbroken.icbm.content.launcher.launcher.TileAbstractLauncherPad;
+import com.builtbroken.mc.api.map.radio.wireless.ConnectionStatus;
 import com.builtbroken.mc.client.SharedAssets;
+import com.builtbroken.mc.imp.transform.region.Rectangle;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
-import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
+import com.builtbroken.mc.prefab.gui.EnumGuiIconSheet;
+import com.builtbroken.mc.prefab.gui.GuiButton2;
 import com.builtbroken.mc.prefab.gui.GuiContainerBase;
-import net.minecraft.block.Block;
+import com.builtbroken.mc.prefab.gui.buttons.GuiImageButton;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Main GUI for the small missile silo controller
@@ -24,20 +26,18 @@ public class GuiLocalController extends GuiContainerBase
 {
     protected TileLocalController controller;
 
-    GuiButton[] buttons;
+    List<ConnectionStatus> connectionStatuses = new ArrayList();
 
-    protected GuiTextField x_field;
-    protected GuiTextField y_field;
-    protected GuiTextField z_field;
-    protected GuiTextField name_field;
-    protected String errorString = "";
-
-    boolean editMode = false;
-    int editMissile = 0;
     long lastClickTime = 0;
 
     private int ticks = 0;
     private static int updateGuiTicks = 100;
+
+    private final String launcherLabel;
+    private final String siloLabel;
+
+    int buttonRowX = 30;
+    int buttonRowY = 30;
 
 
     public GuiLocalController(TileLocalController launcher, EntityPlayer player)
@@ -45,79 +45,62 @@ public class GuiLocalController extends GuiContainerBase
         super(new ContainerDummy(player, launcher));
         this.controller = launcher;
         this.baseTexture = SharedAssets.GUI__MC_EMPTY_FILE;
+        launcherLabel = LanguageUtility.getLocalName("gui.icbm:controller.launcher");
+        siloLabel = LanguageUtility.getLocalName("gui.icbm:controller.silo");
     }
 
     @Override
     public void initGui()
     {
         super.initGui();
+        buttonList.add(GuiImageButton.newRefreshButton(0, guiLeft + 150, guiTop + 5));
 
-        int x = this.guiLeft + 10;
-        int y = this.guiTop + 20;
-
-        if (!editMode)
+        connectionStatuses.clear();
+        if (controller.launcherData != null)
         {
-            if (controller.launcherData != null)
+            int row = 0;
+            for (int i = 0; i < controller.launcherData.size() && i < TileLocalController.MAX_LAUNCHER_LINK; i++)
             {
-                String launcherName = LanguageUtility.getLocalName("gui.icbm:controller.launcher");
-                String siloName = LanguageUtility.getLocalName("gui.icbm:controller.silo");
-                for (int i = 0; i < controller.launcherData.size(); i++)
+                final int rowHeight = row * 21;
+
+                ISiloConnectionData data = controller.launcherData.get(i);
+                //10 11 12 13 14 15
+                String siloPrefix = (data.getSilo() instanceof TileAbstractLauncherPad ? launcherLabel : siloLabel);
+                GuiButton2 button = new GuiButton2(10 + i, guiLeft + buttonRowX, guiTop + buttonRowY + rowHeight, 80, 20, siloPrefix + "[" + i + "]");
+                if (data != null)
                 {
-                    buttons = new GuiButton[controller.launcherData.size() * 2];
-
-
-                    String buttonName = launcherName;
-                    String name = "" + i;
-                    TileEntity tile = controller.launcherData.get(i).location.getTileEntity(controller.world());
-                    if (tile instanceof TileAbstractLauncher)
+                    if (data.getSiloName() != null && !data.getSiloName().isEmpty())
                     {
-                        if (tile instanceof TileSmallSilo || tile instanceof TileStandardSilo)
+                        String siloName = data.getSiloName();
+                        if (siloName.length() > 8)
                         {
-                            buttonName = siloName;
+                            siloName = siloName.substring(0, 8);
                         }
-                        String n = ((TileAbstractLauncher) tile).getCustomName();
-                        if (n != null && !n.isEmpty() && !n.equals("null")) //Not sure why null value shows up as a string in this case
-                        {
-                            if (n.length() > 12)
-                            {
-                                n = n.substring(0, 11) + "..";
-                            }
-                            name = n;
-                        }
+                        button.displayString = siloPrefix + "[" + siloName + "]";
                     }
-                    buttonName += "[" + name + "]";
-                    //Launcher edit button
-
-                    buttons[i] = new GuiButton(i, x, y, 120, 20, buttonName);
-                    this.buttonList.add(buttons[i]);
-
-                    //Fire launcher button
-                    buttons[i + controller.launcherData.size()] = new GuiButton(i + controller.launcherData.size(), x + 125, y, 30, 20, LanguageUtility.getLocalName("gui.icbm:controller.fire"));
-                    if (controller.launcherData.get(i).missile == null)
-                    {
-                        buttons[i + controller.launcherData.size()].enabled = false;
-                    }
-                    this.buttonList.add(buttons[i + controller.launcherData.size()]);
-                    y += 22;
+                    connectionStatuses.add(data.getSiloStatus());
                 }
+                else
+                {
+                    connectionStatuses.add(ConnectionStatus.NO_CONNECTION);
+                }
+                if (connectionStatuses.get(connectionStatuses.size() - 1) == ConnectionStatus.NO_CONNECTION)
+                {
+                    button.disable();
+                }
+                //16 17 18 19 20 21
+                buttonList.add(new GuiButton2(10 + i + TileLocalController.MAX_LAUNCHER_LINK, guiLeft + buttonRowX + 81, guiTop + buttonRowY + rowHeight, 30, 20, LanguageUtility.getLocalName("gui.icbm:controller.fire")).setEnabled(connectionStatuses.get(connectionStatuses.size() - 1) == ConnectionStatus.ONLINE));
+                buttonList.add(button);
+                //22 23 24 25 26 27
+                buttonList.add(new GuiButton2(10 + i + TileLocalController.MAX_LAUNCHER_LINK * 2, guiLeft + buttonRowX + 81 + 36, guiTop + buttonRowY + rowHeight, 20, 20, "[x]"));
+
+                row++;
             }
-        }
-        else
-        {
-            this.buttonList.add(new GuiButton(0, x + 65, y + 85, 30, 20, LanguageUtility.getLocalName("gui.icbm:controller.back")));
-            this.buttonList.add(new GuiButton(1, x + 100, y + 85, 50, 20, LanguageUtility.getLocalName("gui.icbm:controller.update")));
 
-            x = guiLeft + 10;
-            y = guiTop + 42;
-
-            TileEntity tile = controller.launcherData.get(editMissile).location.getTileEntity(controller.world());
-
-            if (tile instanceof TileAbstractLauncher && ((TileAbstractLauncher) tile).target != null)
+            //Create tool tips for connection icons
+            for (int i = 0; i < connectionStatuses.size(); i++)
             {
-                this.x_field = this.newField(x, y, 40, 20, "" + ((TileAbstractLauncher) tile).target.xi());
-                this.y_field = this.newField(x + 45, y, 40, 20, "" + ((TileAbstractLauncher) tile).target.yi());
-                this.z_field = this.newField(x + 90, y, 40, 20, "" + ((TileAbstractLauncher) tile).target.zi());
-                this.name_field = this.newField(x, y + 38, 90, 20, ((TileAbstractLauncher) tile).getCustomName() != null ? ((TileAbstractLauncher) tile).getCustomName() : "");
+                tooltips.put(new Rectangle(buttonRowX - 26, buttonRowY + (i * 21), 28, 28 + (i * 21)), connectionStatuses.get(i).toString());
             }
         }
     }
@@ -126,6 +109,22 @@ public class GuiLocalController extends GuiContainerBase
     protected void drawGuiContainerBackgroundLayer(float f, int mouseX, int mouseY)
     {
         super.drawGuiContainerBackgroundLayer(f, mouseX, mouseY);
+
+        for (int i = 0; i < connectionStatuses.size(); i++)
+        {
+            switch (connectionStatuses.get(i))
+            {
+                case ONLINE:
+                    EnumGuiIconSheet.STATUS_ON.draw(this, buttonRowX - 24 + guiLeft, buttonRowY + (i * 21) + guiTop);
+                    break;
+                case OFFLINE:
+                    EnumGuiIconSheet.STATUS_OFF.draw(this, buttonRowX - 24 + guiLeft, buttonRowY + (i * 21) + guiTop);
+                    break;
+                case NO_CONNECTION:
+                    EnumGuiIconSheet.STATUS_CONNECTION_LOST.draw(this, buttonRowX - 24 + guiLeft, buttonRowY + (i * 21) + guiTop);
+                    break;
+            }
+        }
     }
 
     @Override
@@ -137,117 +136,53 @@ public class GuiLocalController extends GuiContainerBase
         {
             reloadData();
         }
-        String name = LanguageUtility.getLocalName(controller.getInventoryName());
-        if (editMode)
-        {
-            if(controller != null && controller.launcherData != null && controller.launcherData.size() > editMissile)
-            {
-                LauncherData data = controller.launcherData.get(editMissile);
-                if(data.location != null)
-                {
-                    Block block = data.location.getBlock(controller.world());
-                    if(block != null)
-                    {
-                        String localization = block.getLocalizedName();
-                        if (localization != null && !localization.contains("tile."))
-                        {
-                            name = localization;
-                        }
-                    }
-                }
-            }
-        }
+        String name = LanguageUtility.getLocalName(controller.getInventory().getInventoryName());
         drawStringCentered(name, 85, 10);
 
-
-        if (!editMode && (controller.launcherData == null || controller.launcherData.size() == 0))
+        if (controller.launcherData == null || controller.launcherData.size() == 0)
         {
             drawStringCentered(LanguageUtility.getLocal("gui.icbm:controller.links.none"), 85, 40);
             drawStringCentered(LanguageUtility.getLocal("gui.icbm:controller.links.none.hint"), 85, 50);
-        }
-        else if (editMode)
-        {
-            drawString(LanguageUtility.getLocalName("gui.icbm:controller.target"), 10, 30);
-            drawString(LanguageUtility.getLocalName("gui.icbm:controller.launcherName"), 10, 70);
         }
     }
 
     public void reloadData()
     {
-        if (!editMode)
-        {
-            initGui();
-        }
-        else if (this.x_field != null && this.y_field != null && this.z_field != null && this.x_field.isFocused() && this.y_field.isFocused() && this.z_field.isFocused())
-        {
-            TileEntity tile = controller.launcherData.get(editMissile).location.getTileEntity(controller.world());
-
-            if (tile instanceof TileAbstractLauncher && ((TileAbstractLauncher) tile).target != null)
-            {
-                this.x_field.setText("" + ((TileAbstractLauncher) tile).target.xi());
-                this.y_field.setText("" + ((TileAbstractLauncher) tile).target.yi());
-                this.z_field.setText("" + ((TileAbstractLauncher) tile).target.zi());
-                this.name_field.setText("" + ((TileAbstractLauncher) tile).getCustomName());
-            }
-        }
+        initGui();
     }
-
 
     @Override
     protected void actionPerformed(GuiButton button)
     {
         super.actionPerformed(button);
         //Prevents double click when GUI is reloaded
-        if (Minecraft.getSystemTime() - lastClickTime < 2)
+        if (Minecraft.getSystemTime() - lastClickTime < 50)
         {
             return;
         }
-        this.errorString = "";
-
-        if (!editMode)
+        if(button.id == 0)
         {
-            if (button.id >= 0 && button.id < buttons.length)
+            //TODO refresh connections
+        }
+        else if (button.id >= 10 && button.id < 10 + TileLocalController.MAX_LAUNCHER_LINK * 3)
+        {
+            int id = button.id - 10;
+            //Edit launcher button
+            if (id < TileLocalController.MAX_LAUNCHER_LINK) //less than 6
             {
-                //Edit launcher button
-                if (button.id < controller.launcherData.size())
-                {
-                    editMissile = button.id;
-                    editMode = true;
-                    initGui();
-                }
-                //Fire launcher
-                else
-                {
-                    controller.fireLauncher(button.id - controller.launcherData.size(), Minecraft.getMinecraft().thePlayer);
-                }
+                controller.openSiloGui(id, Minecraft.getMinecraft().thePlayer);
+            }
+            //Fire launcher
+            else if (id < TileLocalController.MAX_LAUNCHER_LINK * 2) //less than 12
+            {
+                controller.fireLauncher(id - TileLocalController.MAX_LAUNCHER_LINK, Minecraft.getMinecraft().thePlayer);
+            }
+            //Unlink
+            else //less than 18
+            {
+                controller.unlink(id - TileLocalController.MAX_LAUNCHER_LINK * 2, Minecraft.getMinecraft().thePlayer);
             }
         }
-        else
-        {
-            if (button.id == 0)
-            {
-                editMissile = -1;
-                editMode = false;
-                initGui();
-            }
-            else if (button.id == 1)
-            {
-                TileEntity tile = controller.launcherData.get(editMissile).location.getTileEntity(controller.world());
-                if (tile instanceof TileAbstractLauncher)
-                {
-                    try
-                    {
-                        ((TileAbstractLauncher) tile).setTarget(new Pos(Integer.parseInt(x_field.getText()), Integer.parseInt(y_field.getText()), Integer.parseInt(z_field.getText())));
-                    }
-                    catch (NumberFormatException e)
-                    {
-                        errorString = "gui.icbm:controller.invalid.input";
-                    }
-                    ((TileAbstractLauncher) tile).setCustomName("" + name_field.getText());
-                }
-            }
-        }
-
         lastClickTime = Minecraft.getSystemTime();
     }
 }

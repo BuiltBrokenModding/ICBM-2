@@ -8,11 +8,12 @@ import com.builtbroken.mc.api.tile.ILinkable;
 import com.builtbroken.mc.api.tile.IPassCode;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
+import com.builtbroken.mc.api.tile.node.ITileNodeHost;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
+import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
-import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.prefab.items.ItemWorldPos;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -131,6 +132,10 @@ public class ItemLinkTool extends ItemWorldPos implements IWorldPosItem, IPassCo
                 {
                     setCode(stack, ((IPassCode) tile).getCode());
                 }
+                else if (tile instanceof ITileNodeHost && ((ITileNodeHost) tile).getTileNode() instanceof IPassCode)
+                {
+                    setCode(stack, ((IPassCode) ((ITileNodeHost) tile).getTileNode()).getCode());
+                }
                 stack.setItemDamage(1);
                 player.inventoryContainer.detectAndSendChanges();
                 return true;
@@ -147,9 +152,10 @@ public class ItemLinkTool extends ItemWorldPos implements IWorldPosItem, IPassCo
                             LanguageUtility.addChatToPlayer(player, "link.error.pos.invalid");
                             return true;
                         }
-                        else if (tile instanceof ILinkable)
+                        else if (tile instanceof ILinkable || tile instanceof ITileNodeHost && ((ITileNodeHost) tile).getTileNode() instanceof ILinkable)
                         {
-                            String result = ((ILinkable) tile).link(storedLocation, getCode(stack));
+                            ILinkable linkable = tile instanceof ILinkable ? (ILinkable) tile : (ILinkable) ((ITileNodeHost) tile).getTileNode();
+                            String result =  linkable.link(storedLocation, getCode(stack));
                             if (result != null && !result.isEmpty())
                             {
                                 if (result.contains("error"))

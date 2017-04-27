@@ -1,8 +1,8 @@
 package com.builtbroken.icbm.client;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.mod.ModCreativeTab;
+import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 
 import java.util.List;
 
@@ -21,11 +21,9 @@ public class ICBMCreativeTab extends ModCreativeTab
     public void displayAllReleventItems(List list)
     {
         //Put most used items at top
-        add(list, ICBM.blockAMS);
-        add(list, ICBM.blockFoFStation);
         add(list, ICBM.blockLauncherFrame);
         add(list, ICBM.blockLauncherParts);
-        add(list, ICBM.blockSmallSilo);
+        add(list, InventoryUtility.getBlock("icbm:smallsilo"));
 
         add(list, ICBM.itemLinkTool);
         add(list, ICBM.itemGPSTool);
@@ -38,20 +36,16 @@ public class ICBMCreativeTab extends ModCreativeTab
         add(list, ICBM.itemRadarGun);
         add(list, ICBM.itemLaserDet);
 
-        if (Engine.runningAsDev)
-        {
-            add(list, ICBM.blockStandardSilo);
-        }
+        add(list, InventoryUtility.getBlock("icbm:standardsilo"));
 
-        add(list, ICBM.blockSiloController);
-        add(list, ICBM.blockSmallPortableLauncher);
+        add(list, InventoryUtility.getBlock("icbm:silocontroller"));
 
         add(list, ICBM.blockMissileWorkstation);
         add(list, ICBM.blockWarheadWorkstation);
         add(list, ICBM.blockSMAuto);
 
         add(list, ICBM.itemMissileCart);
-        add(list, ICBM.blockSmallMissileMag);
+        add(list, InventoryUtility.getBlock("icbm:smallMissileMag"));
 
         add(list, ICBM.itemRocketLauncher);
 

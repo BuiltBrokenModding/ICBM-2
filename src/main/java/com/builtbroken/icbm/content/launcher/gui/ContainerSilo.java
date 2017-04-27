@@ -20,14 +20,21 @@ public class ContainerSilo extends ContainerBase
 
     public BasicInventory basicInventory;
 
-    public ContainerSilo(EntityPlayer player, TileAbstractLauncher launcher)
+    private boolean enableEncoding;
+
+    public ContainerSilo(EntityPlayer player, TileAbstractLauncher launcher, boolean enableEncoding)
     {
         super(player, new BasicInventory(1));
         basicInventory = (BasicInventory) inventory;
         this.player = player;
         this.launcher = launcher;
-        Slot slot = new Slot(inventory, 0, 112, 52);
-        addSlotToContainer(slot);
+        this.enableEncoding = enableEncoding;
+
+        if(enableEncoding)
+        {
+            Slot slot = new Slot(inventory, 0, 112, 52);
+            addSlotToContainer(slot);
+        }
         addPlayerInventory(player);
     }
 

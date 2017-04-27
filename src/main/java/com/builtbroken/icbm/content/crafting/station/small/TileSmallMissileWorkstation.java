@@ -9,7 +9,6 @@ import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.crafting.missile.engine.RocketEngine;
 import com.builtbroken.icbm.content.crafting.missile.guidance.Guidance;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
-import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.api.tile.IRotatable;
@@ -19,8 +18,8 @@ import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.imp.transform.vector.Pos;
-import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.lib.recipe.item.RecipeTool;
+import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.module.TileModuleInventory;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -182,7 +181,7 @@ public class TileSmallMissileWorkstation extends TileSmallMissileStationBase imp
     }
 
     @Override
-    public boolean onMultiTileActivated(IMultiTile tile, EntityPlayer player, int side, IPos3D hit)
+    public boolean onMultiTileActivated(IMultiTile tile, EntityPlayer player, int side, float xHit, float yHit, float zHit)
     {
         if (isServer())
         {
@@ -267,7 +266,7 @@ public class TileSmallMissileWorkstation extends TileSmallMissileStationBase imp
                 }
                 else if (player.getHeldItem() != null)
                 {
-                    return onPlayerRightClick(player, side, new Pos(hit));
+                    return onPlayerRightClick(player, side, new Pos(xHit, yHit, zHit));
                 }
             }
         }

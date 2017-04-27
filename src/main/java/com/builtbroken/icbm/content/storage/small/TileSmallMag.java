@@ -6,26 +6,27 @@ import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.display.TileMissileContainer;
-import com.builtbroken.icbm.content.launcher.silo.ItemBlockSmallSilo;
 import com.builtbroken.icbm.content.storage.IMissileMag;
 import com.builtbroken.icbm.content.storage.IMissileMagOutput;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
+import com.builtbroken.mc.api.tile.node.ITileNode;
+import com.builtbroken.mc.api.tile.node.ITileNodeHost;
 import com.builtbroken.mc.core.content.parts.CraftingParts;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.core.registry.implement.IRecipeContainer;
-import com.builtbroken.mc.lib.helper.recipe.OreNames;
-import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
+import com.builtbroken.mc.framework.multiblock.EnumMultiblock;
+import com.builtbroken.mc.framework.multiblock.MultiBlockHelper;
 import com.builtbroken.mc.imp.transform.region.Cube;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.imp.transform.vector.Pos;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
+import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.module.TileModuleInventory;
-import com.builtbroken.mc.framework.multiblock.EnumMultiblock;
-import com.builtbroken.mc.framework.multiblock.MultiBlockHelper;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -158,13 +159,24 @@ public class TileSmallMag extends TileMissileContainer implements ISimpleItemRen
         doMotion = false;
         if (getMissileItem() != null)
         {
-            if (targetTile == null || targetTile.get() == null || ((TileEntity) targetTile.get()).isInvalid())
+            if (targetTile == null
+                    || targetTile.get() == null
+                    || targetTile.get() instanceof TileEntity && ((TileEntity) targetTile.get()).isInvalid()
+                    || targetTile.get() instanceof ITileNode && !((ITileNode) targetTile.get()).getHost().isHostValid())
             {
                 Location location = toLocation().add(getFacing());
                 TileEntity tile = location.getTileEntity();
                 if (tile instanceof IMissileMagOutput)
                 {
                     targetTile = new WeakReference<IMissileMagOutput>((IMissileMagOutput) tile);
+                }
+                else if (tile instanceof ITileNodeHost)
+                {
+                    ITileNode node = ((ITileNodeHost) tile).getTileNode();
+                    if (node instanceof IMissileMagOutput)
+                    {
+                        targetTile = new WeakReference<IMissileMagOutput>((IMissileMagOutput) node);
+                    }
                 }
             }
             if (targetTile != null)
@@ -357,7 +369,7 @@ public class TileSmallMag extends TileMissileContainer implements ISimpleItemRen
     {
         if (tileMulti instanceof TileEntity)
         {
-            if (tileMapCache.containsKey(new Pos((TileEntity)this).sub(new Pos((TileEntity) tileMulti))))
+            if (tileMapCache.containsKey(new Pos((TileEntity) this).sub(new Pos((TileEntity) tileMulti))))
             {
                 tileMulti.setHost(this);
             }
@@ -369,7 +381,7 @@ public class TileSmallMag extends TileMissileContainer implements ISimpleItemRen
     {
         if (!_destroyingStructure && tileMulti instanceof TileEntity)
         {
-            Pos pos = new Pos((TileEntity) tileMulti).sub(new Pos((TileEntity)this));
+            Pos pos = new Pos((TileEntity) tileMulti).sub(new Pos((TileEntity) this));
 
             if (tileMapCache.containsKey(pos))
             {
@@ -405,9 +417,9 @@ public class TileSmallMag extends TileMissileContainer implements ISimpleItemRen
     }
 
     @Override
-    public boolean onMultiTileActivated(IMultiTile tile, EntityPlayer player, int side, IPos3D hit)
+    public boolean onMultiTileActivated(IMultiTile tile, EntityPlayer player, int side, float xHit, float yHit, float zHit)
     {
-        return this.onPlayerRightClick(player, side, new Pos(hit));
+        return this.onPlayerRightClick(player, side, new Pos(xHit, yHit, zHit));
     }
 
     @Override
@@ -420,7 +432,7 @@ public class TileSmallMag extends TileMissileContainer implements ISimpleItemRen
     public HashMap<IPos3D, String> getLayoutOfMultiBlock()
     {
         HashMap<IPos3D, String> map = new HashMap();
-        Pos center = new Pos((TileEntity)this);
+        Pos center = new Pos((TileEntity) this);
         for (Map.Entry<IPos3D, String> entry : tileMapCache.entrySet())
         {
             map.put(center.add(entry.getKey()), entry.getValue());
@@ -474,6 +486,6 @@ public class TileSmallMag extends TileMissileContainer implements ISimpleItemRen
     @Override
     public void genRecipes(List<IRecipe> recipes)
     {
-        recipes.add(newShapedRecipe(ICBM.blockSmallMissileMag, "ICI", "IMI", "GBG", 'I', Blocks.iron_bars, 'B', OreNames.PLATE_IRON, 'C', UniversalRecipe.CIRCUIT_T1.get(), 'M', CraftingParts.MOTOR.oreName, 'G', OreNames.GEAR_IRON));
+        recipes.add(newShapedRecipe(InventoryUtility.getBlock("icbm:smallMissileMag"), "ICI", "IMI", "GBG", 'I', Blocks.iron_bars, 'B', OreNames.PLATE_IRON, 'C', UniversalRecipe.CIRCUIT_T1.get(), 'M', CraftingParts.MOTOR.oreName, 'G', OreNames.GEAR_IRON));
     }
 }

@@ -1,0 +1,275 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "block": {
+    "name": "standardlauncher",
+    "id": "standardlauncher",
+    "hardness": 10,
+    "resistance": 10,
+    "mod": "icbm",
+    "material": "iron",
+    "pickBlock": "block@icbmLauncherParts",
+    "tileEntity": {
+      "id": "standardlauncher",
+      "class": "com.builtbroken.icbm.content.launcher.launcher.standard.TileWrapperStandardLauncher"
+    },
+    "renderBounds": {
+      "min": {
+        "x": -1,
+        "y": 0,
+        "z": -1
+      },
+      "max": {
+        "x": 1,
+        "y": 7,
+        "z": 1
+      }
+    },
+    "listeners": [
+      {
+        "id": "multiblock",
+        "layoutKey": "icbm:standardLauncher",
+        "doRotation": true,
+        "buildFirstTick": false
+      },
+      "StandardLauncherRenderListener"
+    ]
+  },
+  "render": {
+    "contentID": "icbm:standardlauncher",
+    "type": "tile",
+    "tileClass": "com.builtbroken.icbm.content.launcher.launcher.standard.TileWrapperStandardLauncher",
+    "states": [
+      {
+        "id": "block",
+        "sides": "icbm:launcher.box",
+        "up": "icbm:launcher.box.top"
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:launcher.box",
+    "domain": "icbm",
+    "name": "launcher.box",
+    "type": "block"
+  },
+  "texture:1": {
+    "key": "icbm:launcher.box.top",
+    "domain": "icbm",
+    "name": "launcher.box.top",
+    "type": "block"
+  },
+  "multiblock": {
+    "key": "icbm:standardLauncher.north",
+    "tiles": [
+      {
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": -1
+        },
+        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
+      },
+      {
+        "pos": {
+          "x": 0,
+          "y": 1,
+          "z": -1
+        },
+        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
+      },
+      {
+        "pos": {
+          "x": 0,
+          "y": 2,
+          "z": -1
+        },
+        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
+      },
+      {
+        "pos": {
+          "x": 0,
+          "y": 3,
+          "z": -1
+        },
+        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
+      },
+      {
+        "pos": {
+          "x": 0,
+          "y": 4,
+          "z": -1
+        },
+        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
+      },
+      {
+        "pos": {
+          "x": 0,
+          "y": 5,
+          "z": -1
+        },
+        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
+      }
+    ]
+  },
+  "multiblock:1": {
+    "key": "icbm:standardLauncher.south",
+    "tiles": [
+      {
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        },
+        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
+      },
+      {
+        "pos": {
+          "x": 0,
+          "y": 1,
+          "z": 1
+        },
+        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
+      },
+      {
+        "pos": {
+          "x": 0,
+          "y": 2,
+          "z": 1
+        },
+        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
+      },
+      {
+        "pos": {
+          "x": 0,
+          "y": 3,
+          "z": 1
+        },
+        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
+      },
+      {
+        "pos": {
+          "x": 0,
+          "y": 4,
+          "z": 1
+        },
+        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
+      },
+      {
+        "pos": {
+          "x": 0,
+          "y": 5,
+          "z": 1
+        },
+        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
+      }
+    ]
+  },
+  "multiblock:2": {
+    "key": "icbm:standardLauncher.east",
+    "tiles": [
+      {
+        "pos": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
+      },
+      {
+        "pos": {
+          "x": 1,
+          "y": 1,
+          "z": 0
+        },
+        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
+      },
+      {
+        "pos": {
+          "x": 1,
+          "y": 2,
+          "z": 0
+        },
+        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
+      },
+      {
+        "pos": {
+          "x": 1,
+          "y": 3,
+          "z": 0
+        },
+        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
+      },
+      {
+        "pos": {
+          "x": 1,
+          "y": 4,
+          "z": 0
+        },
+        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
+      },
+      {
+        "pos": {
+          "x": 1,
+          "y": 5,
+          "z": 0
+        },
+        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
+      }
+    ]
+  },
+  "multiblock:3": {
+    "key": "icbm:standardLauncher.west",
+    "tiles": [
+      {
+        "pos": {
+          "x": -1,
+          "y": 0,
+          "z": 0
+        },
+        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
+      },
+      {
+        "pos": {
+          "x": -1,
+          "y": 1,
+          "z": 0
+        },
+        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
+      },
+      {
+        "pos": {
+          "x": -1,
+          "y": 2,
+          "z": 0
+        },
+        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
+      },
+      {
+        "pos": {
+          "x": -1,
+          "y": 3,
+          "z": 0
+        },
+        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
+      },
+      {
+        "pos": {
+          "x": -1,
+          "y": 4,
+          "z": 0
+        },
+        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
+      },
+      {
+        "pos": {
+          "x": -1,
+          "y": 5,
+          "z": 0
+        },
+        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
+      }
+    ]
+  }
+}

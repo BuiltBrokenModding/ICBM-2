@@ -5,11 +5,12 @@ import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
 import com.builtbroken.mc.core.content.tool.ItemSheetMetalTools;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
+import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.helper.WrenchUtility;
 import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
-import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.recipe.item.sheetmetal.RecipeSheetMetal;
+import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -48,7 +49,6 @@ public final class BlockLauncherPart extends Block implements IPostInit
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float xx, float yy, float zz)
     {
-
         int meta = world.getBlockMetadata(x, y, z);
         //Launcher CPU
         if (meta == 0 && WrenchUtility.isHoldingWrench(player) && player.isSneaking() && side != 0 && side != 1)
@@ -74,8 +74,9 @@ public final class BlockLauncherPart extends Block implements IPostInit
                 }
                 if (count == STANDARD_LAUNCHER_HEIGHT) //TODO make 5 a constant
                 {
+                    Block launcherBlock = InventoryUtility.getBlock("icbm:standardlauncher");
                     //create standard launcher
-                    new Pos(x, y, z).setBlock(world, ICBM.blockStandardLauncher, side);
+                    new Pos(x, y, z).setBlock(world, launcherBlock, side); //TODO cache standard launcher block instance
                     //TODO add translation key
                     player.addChatComponentMessage(new ChatComponentText("Standard launcher created"));
                 }

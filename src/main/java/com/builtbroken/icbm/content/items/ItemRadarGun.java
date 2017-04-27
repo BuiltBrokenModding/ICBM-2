@@ -6,15 +6,16 @@ import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
+import com.builtbroken.mc.api.tile.node.ITileNodeHost;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketReceiver;
 import com.builtbroken.mc.core.network.packet.PacketPlayerItem;
 import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
+import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
-import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.prefab.items.ItemWorldPos;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -137,9 +138,9 @@ public class ItemRadarGun extends ItemWorldPos implements IWorldPosItem, IPostIn
                 LanguageUtility.addChatToPlayer(player, "gps.error.pos.invalid");
                 return true;
             }
-            else if (tile instanceof TileAbstractLauncher)
+            else if (tile instanceof ITileNodeHost && ((ITileNodeHost) tile).getTileNode() instanceof TileAbstractLauncher)
             {
-                ((TileAbstractLauncher) tile).setTarget(storedLocation.toPos());
+                ((TileAbstractLauncher) ((ITileNodeHost) tile).getTileNode()).setTarget(storedLocation.toPos());
                 LanguageUtility.addChatToPlayer(player, "gps.data.transferred");
                 return true;
             }

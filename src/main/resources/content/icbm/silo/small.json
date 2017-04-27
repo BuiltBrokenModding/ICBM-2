@@ -1,0 +1,171 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "block": {
+    "name": "smallsilo",
+    "id": "smallsilo",
+    "mod": "icbm",
+    "material": "iron",
+    "renderType": -1,
+    "isOpaque": false,
+    "tileEntity": {
+      "id": "smallsilo",
+      "class": "com.builtbroken.icbm.content.launcher.silo.small.TileWrapperSmallSilo"
+    },
+    "renderBounds": {
+      "min": 0,
+      "max": {
+        "x": 1,
+        "y": 3,
+        "z": 1
+      }
+    },
+    "listeners": [
+      "rotation",
+      {
+        "id": "multiblock",
+        "layoutKey": "icbm:smallSilo"
+      },
+      {
+        "id": "missileRender",
+        "renderOffset": {
+          "x": 0.5,
+          "y": 0.4,
+          "z": 0.5
+        }
+      }
+    ]
+  },
+  "render": {
+    "contentID": "icbm:smallsilo",
+    "type": "tile",
+    "tileClass": "com.builtbroken.icbm.content.launcher.silo.small.TileWrapperSmallSilo",
+    "states": [
+      {
+        "id": "base",
+        "modelID": "icbm:smallSilo",
+        "textureID": "icbm:smallSilo"
+      },
+      {
+        "id": "item",
+        "parent": "base",
+        "parts": "Group_001,Component_1_001"
+      },
+      {
+        "id": "item.inventory",
+        "parent": "item",
+        "scale": 0.8,
+        "offset": -0.5
+      },
+      {
+        "id": "item.equipped",
+        "parent": "base",
+        "offset": {
+          "x": 0.5,
+          "y": 0.5,
+          "z": 0.5
+        }
+      },
+      {
+        "id": "item.first",
+        "parent": "base",
+        "offset": {
+          "x": 0.3,
+          "y": 0.5,
+          "z": 0.9
+        }
+      },
+      {
+        "id": "item.entity",
+        "parent": "base",
+        "offset": {
+          "x": 0.5,
+          "y": 0.5,
+          "z": 0.5
+        }
+      },
+      {
+        "id": "tile",
+        "parent": "base",
+        "offset": {
+          "y": 0.0935
+        }
+      },
+      {
+        "id": "tile.north",
+        "parent": "tile",
+        "rotation": {
+          "yaw": 180
+        }
+      },
+      {
+        "id": "tile.south",
+        "parent": "tile",
+        "rotation": {
+          "yaw": 0
+        }
+      },
+      {
+        "id": "tile.east",
+        "parent": "tile",
+        "rotation": {
+          "yaw": 90
+        }
+      },
+      {
+        "id": "tile.west",
+        "parent": "tile",
+        "rotation": {
+          "yaw": -90
+        }
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:smallSilo",
+    "domain": "icbm",
+    "name": "small-missile-silo",
+    "type": "model"
+  },
+  "model": {
+    "key": "icbm:smallSilo",
+    "domain": "icbm",
+    "name": "smallSilo/small-missile-silo.obj"
+  },
+  "craftingGridRecipe": {
+    "type": "shaped",
+    "output": "block@icbm:smallsilo",
+    "grid": "I I,I I,CBC",
+    "items": {
+      "I": "block@iron_bars",
+      "B": "ore@blockIron",
+      "C": "ore@circuitBasic"
+    }
+  },
+  "craftingGridRecipe:1": {
+    "type": "shaped",
+    "output": "block@icbm:smallsilo",
+    "grid": "I I,I I,CBC",
+    "items": {
+      "I": "block@iron_bars",
+      "B": "ore@blockIron",
+      "C": "ore@electronicCircuit"
+    }
+  },
+  "multiblock": {
+    "key": "icbm:smallSilo",
+    "tiles": [
+      {
+        "pos": {
+          "y": 1
+        }
+      },
+      {
+        "pos": {
+          "y": 2
+        }
+      }
+    ]
+  }
+}

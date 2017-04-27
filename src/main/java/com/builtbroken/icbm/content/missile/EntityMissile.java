@@ -3,7 +3,7 @@ package com.builtbroken.icbm.content.missile;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.blast.IBlastHandler;
 import com.builtbroken.icbm.api.blast.IExHandlerTileMissile;
-import com.builtbroken.icbm.api.missile.IFoF;
+import com.builtbroken.mc.api.entity.IFoF;
 import com.builtbroken.icbm.api.missile.IMissileEntity;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
@@ -16,6 +16,7 @@ import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosive;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
+import com.builtbroken.mc.api.tile.node.ITileNode;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
 import com.builtbroken.mc.imp.transform.vector.Location;
@@ -31,9 +32,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -98,6 +99,12 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
         {
             RadarRegistry.add(this);
         }
+    }
+
+    @Override
+    public boolean canBeCollidedWith()
+    {
+        return true;
     }
 
     @Override
@@ -284,12 +291,12 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     }
 
     @Override
-    public void onImpactTile()
+    public void onImpactTile(MovingObjectPosition hit)
     {
-        super.onImpactTile();
+        super.onImpactTile(hit);
         if (!noReport && sourceOfProjectile != null)
         {
-            TileEntity tile = sourceOfProjectile.getTileEntity(worldObj);
+            ITileNode tile = sourceOfProjectile.getTileNode(worldObj);
             if (tile instanceof TileAbstractLauncher)
             {
                 ((TileAbstractLauncher) tile).onImpactOfMissile(this);
@@ -299,12 +306,12 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
         IExplosiveHandler handler = getExplosive();
         if (handler instanceof IExHandlerTileMissile && ((IExHandlerTileMissile) handler).doesSpawnMissileTile(missile, this))
         {
-            Pos pos = new Pos(xTile, yTile, zTile).add(ForgeDirection.getOrientation(sideTile));
+            Pos pos = new Pos(hit.hitVec).add(ForgeDirection.getOrientation(sideTile));
             TileCrashedMissile.placeFromMissile(this, worldObj, pos.xi(), pos.yi(), pos.zi());
         }
         else
         {
-            onImpact(xTile, yTile, zTile, true, new TriggerCause.TriggerBlockImpact(inBlockID, this, getVelocity())); //TODO check that velocity is correct
+            onImpact(hit.hitVec.xCoord, hit.hitVec.yCoord, hit.hitVec.zCoord, true, new TriggerCause.TriggerBlockImpact(inBlockID, this, getVelocity())); //TODO check that velocity is correct
         }
     }
 
@@ -318,7 +325,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
         super.setDead();
         if (!noReport && sourceOfProjectile != null)
         {
-            TileEntity tile = sourceOfProjectile.getTileEntity(worldObj);
+            ITileNode tile = sourceOfProjectile.getTileNode(worldObj);
             if (tile instanceof TileAbstractLauncher)
             {
                 ((TileAbstractLauncher) tile).onDeathOfMissile(this);

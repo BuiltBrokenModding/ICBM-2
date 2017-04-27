@@ -2,8 +2,8 @@ package com.builtbroken.icbm.content.launcher.gui;
 
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.jlib.data.Colors;
-import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.imp.transform.vector.Pos;
+import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.prefab.gui.EnumGuiIconSheet;
 import com.builtbroken.mc.prefab.gui.GuiButton2;
 import com.builtbroken.mc.prefab.gui.GuiContainerBase;
@@ -36,11 +36,14 @@ public class GuiSiloSettings extends GuiContainerBase
     private TileAbstractLauncher launcher;
     private EntityPlayer player;
 
-    public GuiSiloSettings(TileAbstractLauncher launcher, EntityPlayer player)
+    private boolean enableEncoding;
+
+    public GuiSiloSettings(TileAbstractLauncher launcher, EntityPlayer player, boolean enableEncoding)
     {
-        super(new ContainerSilo(player, launcher));
+        super(new ContainerSilo(player, launcher, enableEncoding));
         this.launcher = launcher;
         this.player = player;
+        this.enableEncoding = enableEncoding;
     }
 
     @Override
@@ -53,7 +56,10 @@ public class GuiSiloSettings extends GuiContainerBase
 
         this.buttonList.add(new GuiLeftRightArrowButton(0, guiLeft + 3, guiTop + 3, true));
         this.buttonList.add(GuiImageButton.newSaveButton(1, x + 125, y));
-        this.buttonList.add(new GuiButton2(2, x + 112, y + 30, 40, 20, "Encode"));
+        if(enableEncoding)
+        {
+            this.buttonList.add(new GuiButton2(2, x + 112, y + 30, 40, 20, "Encode"));
+        }
 
         x = guiLeft + 10;
         y = guiTop + 23;
@@ -89,7 +95,7 @@ public class GuiSiloSettings extends GuiContainerBase
             ticks = 0;
         }
         String name = "Silo";
-        Block block = launcher.getBlockType();
+        Block block = launcher.toLocation().getBlock();
         if (block != null)
         {
             String localization = block.getLocalizedName();

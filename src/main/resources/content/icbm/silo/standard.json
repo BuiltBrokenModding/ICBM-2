@@ -1,0 +1,145 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "block": {
+    "name": "standardsilo",
+    "id": "standardsilo",
+    "mod": "icbm",
+    "material": "iron",
+    "renderType": -1,
+    "isOpaque": false,
+    "tileEntity": {
+      "id": "standardsilo",
+      "class": "com.builtbroken.icbm.content.launcher.silo.standard.TileWrapperStandardSilo"
+    },
+    "renderBounds": {
+      "min": 0,
+      "max": {
+        "x": 1,
+        "y": 7,
+        "x": 1
+      }
+    },
+    "listeners": [
+      "rotation",
+      {
+        "id": "multiblock",
+        "layoutKey": "icbm:standardSilo"
+      },
+      {
+        "id": "missileRender",
+        "renderOffset": {
+          "x": 0.5,
+          "y": 0.25,
+          "z": 0.5
+        }
+      }
+    ]
+  },
+  "render": {
+    "contentID": "icbm:standardsilo",
+    "type": "tile",
+    "tileClass": "com.builtbroken.icbm.content.launcher.silo.standard.TileWrapperStandardSilo",
+    "states": [
+      {
+        "id": "base",
+        "modelID": "icbm:standardSilo",
+        "textureID": "icbm:standardSilo"
+      },
+      {
+        "id": "item.inventory",
+        "modelID": "icbm:smallSilo",
+        "parts": "Group_001,Component_1_001",
+        "scale": 0.8,
+        "offset": -0.5
+      },
+      {
+        "id": "item.equipped",
+        "parent": "base",
+        "offset": {
+          "x": 0.5,
+          "y": 0.5,
+          "z": 0.5
+        }
+      },
+      {
+        "id": "item.first",
+        "parent": "base",
+        "offset": {
+          "x": 0.3,
+          "y": 0.5,
+          "z": 0.9
+        }
+      },
+      {
+        "id": "item.entity",
+        "parent": "base",
+        "offset": {
+          "x": 0.5,
+          "y": 0.5,
+          "z": 0.5
+        }
+      },
+      {
+        "id": "tile",
+        "parent": "base",
+        "offset": {
+          "x": -0.5,
+          "z": 0.5
+        }
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:standardSilo",
+    "domain": "icbm",
+    "name": "reg-silo",
+    "type": "model"
+  },
+  "model": {
+    "key": "icbm:standardSilo",
+    "domain": "icbm",
+    "name": "standardSilo/StandardSilo.obj"
+  },
+  "model:1": {
+    "key": "icbm:smallSilo",
+    "domain": "icbm",
+    "name": "smallSilo/small-missile-silo.obj"
+  },
+  "multiblock": {
+    "key": "icbm:standardSilo",
+    "tiles": [
+      {
+        "pos": {
+          "y": 1
+        }
+      },
+      {
+        "pos": {
+          "y": 2
+        }
+      },
+      {
+        "pos": {
+          "y": 3
+        }
+      },
+      {
+        "pos": {
+          "y": 4
+        }
+      },
+      {
+        "pos": {
+          "y": 5
+        }
+      },
+      {
+        "pos": {
+          "y": 6
+        }
+      }
+    ]
+  }
+}
