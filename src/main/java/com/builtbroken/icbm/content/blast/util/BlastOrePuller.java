@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.blast.util;
 
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.core.content.resources.BlockOre;
+import com.builtbroken.mc.core.content.resources.ore.BlockOre;
 import com.builtbroken.mc.core.content.resources.gems.BlockGemOre;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.imp.transform.vector.Pos;
