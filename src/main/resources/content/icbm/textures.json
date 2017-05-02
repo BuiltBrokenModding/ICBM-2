@@ -1,0 +1,14 @@
+{
+  "texture": {
+    "key": "icbm:launcher.box",
+    "domain": "icbm",
+    "name": "launcher.box",
+    "type": "block"
+  },
+  "texture:1": {
+    "key": "icbm:launcher.box.top",
+    "domain": "icbm",
+    "name": "launcher.box.top",
+    "type": "block"
+  }
+}

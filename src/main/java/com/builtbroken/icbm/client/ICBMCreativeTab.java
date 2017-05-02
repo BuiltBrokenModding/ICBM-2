@@ -22,7 +22,7 @@ public class ICBMCreativeTab extends ModCreativeTab
     {
         //Put most used items at top
         add(list, ICBM.blockLauncherFrame);
-        add(list, ICBM.blockLauncherParts);
+        add(list, InventoryUtility.getBlock("icbm:icbmLauncherParts"));
         add(list, InventoryUtility.getBlock("icbm:smallsilo"));
 
         add(list, ICBM.itemLinkTool);
@@ -53,6 +53,6 @@ public class ICBMCreativeTab extends ModCreativeTab
         add(list, ICBM.itemGuidanceModules);
         add(list, ICBM.itemMissileParts);
         add(list, ICBM.itemTrigger);
-        add(list, ICBM.blockLaunchPad);
+        add(list, InventoryUtility.getBlock("icbm:icbmDecorLaunchPad"));
     }
 }

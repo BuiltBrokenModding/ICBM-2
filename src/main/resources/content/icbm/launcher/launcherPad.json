@@ -1,0 +1,89 @@
+{
+  "block": {
+    "name": "decorLaunchPad",
+    "id": "icbmDecorLaunchPad",
+    "hardness": 20,
+    "resistance": 20,
+    "mod": "icbm",
+    "material": "rock",
+    "subtypes": [
+      {
+        "meta": 0
+      },
+      {
+        "meta": 1
+      },
+      {
+        "meta": 2
+      },
+      {
+        "meta": 3
+      },
+      {
+        "meta": 4
+      },
+      {
+        "meta": 5
+      },
+      {
+        "meta": 6
+      },
+      {
+        "meta": 7
+      },
+      {
+        "meta": 15
+      }
+    ]
+  },
+  "render": {
+    "contentID": "icbm:icbmDecorLaunchPad",
+    "type": "block",
+    "states": [
+      {
+        "id": "block",
+        "textureID": "icbm:pad.center"
+      },
+      {
+        "id": "block.0",
+        "parent": "block",
+        "top": "icbm:pad.top"
+      },
+      {
+        "id": "block.1",
+        "parent": "block",
+        "top": "icbm:pad.bot"
+      },
+      {
+        "id": "block.2",
+        "parent": "block",
+        "top": "icbm:pad.left"
+      },
+      {
+        "id": "block.3",
+        "parent": "block",
+        "top": "icbm:pad.right"
+      },
+      {
+        "id": "block.4",
+        "parent": "block",
+        "top": "icbm:pad.lower.left"
+      },
+      {
+        "id": "block.5",
+        "parent": "block",
+        "top": "icbm:pad.lower.right"
+      },
+      {
+        "id": "block.6",
+        "parent": "block",
+        "top": "icbm:pad.upper.left"
+      },
+      {
+        "id": "block.7",
+        "parent": "block",
+        "top": "icbm:pad.upper.right"
+      }
+    ]
+  }
+}

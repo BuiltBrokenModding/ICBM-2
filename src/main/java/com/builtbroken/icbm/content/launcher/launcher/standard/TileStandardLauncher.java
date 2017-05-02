@@ -6,11 +6,12 @@ import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
-import com.builtbroken.icbm.content.launcher.block.BlockLauncherPart;
+import com.builtbroken.icbm.content.launcher.block.LauncherPartListener;
 import com.builtbroken.icbm.content.launcher.launcher.TileAbstractLauncherPad;
 import com.builtbroken.icbm.content.missile.EntityMissile;
 import com.builtbroken.mc.api.tile.access.IRotation;
 import com.builtbroken.mc.api.tile.listeners.IActivationListener;
+import com.builtbroken.mc.api.tile.listeners.IBlockStackListener;
 import com.builtbroken.mc.api.tile.listeners.IWrenchListener;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
 import com.builtbroken.mc.codegen.annotations.MultiBlockWrapped;
@@ -38,7 +39,7 @@ import net.minecraftforge.common.util.ForgeDirection;
  */
 @TileWrapped(className = "TileWrapperStandardLauncher")
 @MultiBlockWrapped()
-public class TileStandardLauncher extends TileAbstractLauncherPad implements IRotation, IWrenchListener, IActivationListener
+public class TileStandardLauncher extends TileAbstractLauncherPad implements IRotation, IWrenchListener, IActivationListener, IBlockStackListener
 {
     /** Is the silo in crafting mode. */
     protected boolean isCrafting = false;
@@ -55,6 +56,17 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IRo
     public TileStandardLauncher()
     {
         super("launcher.standard", ICBM.DOMAIN);
+    }
+
+    @Override
+    public ItemStack toStack()
+    {
+        Block blockDrop = InventoryUtility.getBlock("icbm:icbmLauncherParts");
+        if (blockDrop != null)
+        {
+            return new ItemStack(blockDrop, 1, 0);
+        }
+        return null;
     }
 
     @Override
@@ -91,7 +103,7 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IRo
             //Check if broken by counting number of frames
             int count = 0;
             Block block = world().getBlock(xi(), yi() + 1, zi());
-            while (count < BlockLauncherPart.STANDARD_LAUNCHER_HEIGHT && block == ICBM.blockLauncherFrame)
+            while (count < LauncherPartListener.STANDARD_LAUNCHER_HEIGHT && block == ICBM.blockLauncherFrame)
             {
                 //Increase count
                 count++;
@@ -99,19 +111,23 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IRo
                 block = world().getBlock(xi(), yi() + count + 1, zi());
             }
             //If we do not have 5 blocks drop the missile and set the block back to CPU
-            if (count != BlockLauncherPart.STANDARD_LAUNCHER_HEIGHT)
+            if (count != LauncherPartListener.STANDARD_LAUNCHER_HEIGHT)
             {
                 dropItems();
-                world().setBlock(xi(), yi(), zi(), ICBM.blockLauncherParts);
+                Block blockDrop = InventoryUtility.getBlock("icbm:icbmLauncherParts");
+                if (blockDrop != null)
+                {
+                    world().setBlock(xi(), yi(), zi(), blockDrop);
+                }
             }
             else
             {
                 //Updates top block meta for older versions of ICBM
-                int meta = world().getBlockMetadata(xi(), yi() + BlockLauncherPart.STANDARD_LAUNCHER_HEIGHT, zi());
+                int meta = world().getBlockMetadata(xi(), yi() + LauncherPartListener.STANDARD_LAUNCHER_HEIGHT, zi());
                 int dMeta = getMetaForDirection(getDirection());
                 if (meta != dMeta)
                 {
-                    world().setBlockMetadataWithNotify(xi(), yi() + BlockLauncherPart.STANDARD_LAUNCHER_HEIGHT, zi(), dMeta, 3);
+                    world().setBlockMetadataWithNotify(xi(), yi() + LauncherPartListener.STANDARD_LAUNCHER_HEIGHT, zi(), dMeta, 3);
                 }
             }
         }

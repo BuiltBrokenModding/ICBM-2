@@ -44,8 +44,7 @@ import com.builtbroken.icbm.content.display.TileMissile;
 import com.builtbroken.icbm.content.fragments.EntityFragment;
 import com.builtbroken.icbm.content.fragments.FragmentEventHandler;
 import com.builtbroken.icbm.content.items.*;
-import com.builtbroken.icbm.content.launcher.block.BlockLaunchPad;
-import com.builtbroken.icbm.content.launcher.block.BlockLauncherPart;
+import com.builtbroken.icbm.content.launcher.block.LauncherPartListener;
 import com.builtbroken.icbm.content.launcher.block.TileLauncherFrame;
 import com.builtbroken.icbm.content.launcher.controller.direct.TileSiloController;
 import com.builtbroken.icbm.content.launcher.controller.remote.antenna.BlockAntennaParts;
@@ -66,6 +65,7 @@ import com.builtbroken.icbm.mods.ve.EntityTypeCheckMissile;
 import com.builtbroken.icbm.server.CommandICBM;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
+import com.builtbroken.mc.lib.json.processors.block.JsonBlockListenerProcessor;
 import com.builtbroken.mc.lib.mod.AbstractMod;
 import com.builtbroken.mc.lib.mod.ModCreativeTab;
 import com.builtbroken.mc.lib.mod.Mods;
@@ -157,8 +157,6 @@ public final class ICBM extends AbstractMod
     public static Block blockDirectSiloController;
 
     public static Block blockLauncherFrame;
-    public static Block blockLauncherParts;
-    public static Block blockLaunchPad;
 
     public static Block blockAntenna;
     public static Block blockCommandCentral;
@@ -222,6 +220,7 @@ public final class ICBM extends AbstractMod
     public void loadJsonContentHandlers()
     {
         super.loadJsonContentHandlers();
+        JsonBlockListenerProcessor.addBuilder(new LauncherPartListener.Builder());
         //TODO load listeners for silos
         //TODO load processors for missiles
     }
@@ -269,7 +268,6 @@ public final class ICBM extends AbstractMod
         blockCrashMissile = manager.newBlock("icbmCrashedMissile", TileCrashedMissile.class);
         //blockMissileDisplay = manager.newBlock(TileMissileDisplay.class);
         blockLauncherFrame = manager.newBlock("icbmLauncherFrame", TileLauncherFrame.class);
-        blockLauncherParts = manager.newBlock("icbmLauncherParts", BlockLauncherPart.class, ItemBlockMetadata.class);
         if (blockDirectSiloController == null)
         {
             blockDirectSiloController = manager.newBlock("icbmDirectSiloConnector", TileSiloController.class);
@@ -277,9 +275,6 @@ public final class ICBM extends AbstractMod
         blockAntenna = manager.newBlock("icbmAntenna", BlockAntennaParts.class, ItemBlockMetadata.class);
         blockCommandCentral = manager.newBlock("icbmCommandCentral", TileCommandController.class);
         blockCommandSiloConnector = manager.newBlock("icbmCommandSiloController", TileCommandSiloConnector.class);
-
-        //Decor Blocks
-        blockLaunchPad = manager.newBlock("icbmDecorLaunchPad", BlockLaunchPad.class, ItemBlockMetadata.class);
 
         //Launchers
         //blockSmallPortableLauncher = manager.newBlock(TileSmallLauncher.class);
