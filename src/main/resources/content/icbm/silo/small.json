@@ -44,22 +44,26 @@
     "states": [
       {
         "id": "base",
+        "renderType": "model",
         "modelID": "icbm:smallSilo",
         "textureID": "icbm:smallSilo"
       },
       {
         "id": "item",
+        "renderType": "model",
         "parent": "base",
         "parts": "Group_001,Component_1_001"
       },
       {
         "id": "item.inventory",
+        "renderType": "model",
         "parent": "item",
         "scale": 0.8,
         "offset": -0.5
       },
       {
         "id": "item.equipped",
+        "renderType": "model",
         "parent": "base",
         "offset": {
           "x": 0.5,
@@ -69,6 +73,7 @@
       },
       {
         "id": "item.first",
+        "renderType": "model",
         "parent": "base",
         "offset": {
           "x": 0.3,
@@ -78,6 +83,7 @@
       },
       {
         "id": "item.entity",
+        "renderType": "model",
         "parent": "base",
         "offset": {
           "x": 0.5,
@@ -87,6 +93,7 @@
       },
       {
         "id": "tile",
+        "renderType": "model",
         "parent": "base",
         "offset": {
           "y": 0.0935
@@ -94,6 +101,7 @@
       },
       {
         "id": "tile.north",
+        "renderType": "model",
         "parent": "tile",
         "rotation": {
           "yaw": 180
@@ -101,6 +109,7 @@
       },
       {
         "id": "tile.south",
+        "renderType": "model",
         "parent": "tile",
         "rotation": {
           "yaw": 0
@@ -108,6 +117,7 @@
       },
       {
         "id": "tile.east",
+        "renderType": "model",
         "parent": "tile",
         "rotation": {
           "yaw": 90
@@ -115,6 +125,7 @@
       },
       {
         "id": "tile.west",
+        "renderType": "model",
         "parent": "tile",
         "rotation": {
           "yaw": -90

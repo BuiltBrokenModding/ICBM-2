@@ -30,17 +30,20 @@
     "states": [
       {
         "id": "item",
+        "renderType": "model",
         "modelID": "icbm:weaponCase",
         "textureID": "icbm:weaponCase"
       },
       {
         "id": "item.inventory",
+        "renderType": "model",
         "parent": "item",
         "scale": 0.8,
         "offset": -0.5
       },
       {
         "id": "item.equipped",
+        "renderType": "model",
         "parent": "item",
         "offset": {
           "x": 0.5,
@@ -50,6 +53,7 @@
       },
       {
         "id": "item.first",
+        "renderType": "model",
         "parent": "item",
         "offset": {
           "x": 0.3,
@@ -59,6 +63,7 @@
       },
       {
         "id": "item.entity",
+        "renderType": "model",
         "parent": "item",
         "offset": {
           "x": 0.5,
@@ -68,6 +73,7 @@
       },
       {
         "id": "tile.layer1",
+        "renderType": "model",
         "modelID": "icbm:launcherController",
         "textureID": "icbm:weaponCase",
         "parts": "screen",
@@ -78,6 +84,7 @@
       },
       {
         "id": "tile",
+        "renderType": "model",
         "parent": "tile.layer1",
         "textureID": "icbm:launcherController",
         "parts": "screen",
@@ -86,6 +93,7 @@
       },
       {
         "id": "tile.north",
+        "renderType": "model",
         "parent": "tile",
         "rotation": {
           "yaw": 90
@@ -93,6 +101,7 @@
       },
       {
         "id": "tile.south",
+        "renderType": "model",
         "parent": "tile",
         "rotation": {
           "yaw": -90
@@ -100,6 +109,7 @@
       },
       {
         "id": "tile.east",
+        "renderType": "model",
         "parent": "tile",
         "rotation": {
           "yaw": 0
@@ -107,6 +117,7 @@
       },
       {
         "id": "tile.west",
+        "renderType": "model",
         "parent": "tile",
         "rotation": {
           "yaw": 180

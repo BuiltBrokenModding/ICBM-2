@@ -43,6 +43,7 @@
     "states": [
       {
         "id": "block",
+        "renderType": "block",
         "sides": "icbm:launcher.box",
         "up": "icbm:launcher.box.top"
       }
