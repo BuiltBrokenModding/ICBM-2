@@ -85,5 +85,59 @@
         "top": "icbm:pad.upper.right"
       }
     ]
+  },
+  "texture": {
+    "key": "icbm:pad.center",
+    "domain": "icbm",
+    "name": "pad.center",
+    "type": "block"
+  },
+  "texture:1": {
+    "key": "icbm:pad.top",
+    "domain": "icbm",
+    "name": "pad.top",
+    "type": "block"
+  },
+  "texture:2": {
+    "key": "icbm:pad.left",
+    "domain": "icbm",
+    "name": "pad.left",
+    "type": "block"
+  },
+  "texture:3": {
+    "key": "icbm:pad.right",
+    "domain": "icbm",
+    "name": "pad.right",
+    "type": "block"
+  },
+  "texture:4": {
+    "key": "icbm:pad.lower.left",
+    "domain": "icbm",
+    "name": "pad.lower.left",
+    "type": "block"
+  },
+  "texture:5": {
+    "key": "icbm:pad.lower.right",
+    "domain": "icbm",
+    "name": "pad.lower.right",
+    "type": "block"
+  },
+  "texture:6": {
+    "key": "icbm:pad.bot",
+    "domain": "icbm",
+    "name": "pad.bot",
+    "type": "block"
+  },
+  "texture:7": {
+    "key": "icbm:pad.upper.left",
+    "domain": "icbm",
+    "name": "pad.upper.left",
+    "type": "block"
+  },
+  "texture:8": {
+    "key": "icbm:pad.upper.right",
+    "domain": "icbm",
+    "name": "pad.upper.right",
+    "type": "block"
   }
 }
