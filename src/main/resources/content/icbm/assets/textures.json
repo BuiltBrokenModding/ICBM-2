@@ -10,5 +10,11 @@
     "domain": "icbm",
     "name": "launcher.box.top",
     "type": "block"
+  },
+  "texture:2": {
+    "key": "icbm:workstation.missile.small",
+    "domain": "icbm",
+    "name": "workstation.missile.small",
+    "type": "model"
   }
 }

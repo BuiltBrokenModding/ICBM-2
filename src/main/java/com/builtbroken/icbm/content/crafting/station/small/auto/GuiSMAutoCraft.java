@@ -4,7 +4,6 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.mc.client.SharedAssets;
 import com.builtbroken.mc.core.References;
-import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.prefab.gui.GuiButton2;
 import com.builtbroken.mc.prefab.gui.GuiContainerBase;
 import com.builtbroken.mc.prefab.gui.buttons.GuiImageButton;
@@ -34,7 +33,7 @@ public class GuiSMAutoCraft extends GuiContainerBase
 
     private static final ResourceLocation guiTexture0 = new ResourceLocation(ICBM.DOMAIN, References.GUI_DIRECTORY + "missile.small.workstation.png");
 
-    private final TileSMAutoCraftClient tile;
+    private final TileSMAutoCraft tile;
 
     private final int id;
 
@@ -54,7 +53,7 @@ public class GuiSMAutoCraft extends GuiContainerBase
     private GuiImageButton engineWindowButton;
     private GuiImageButton autocraftingButton;
 
-    public GuiSMAutoCraft(EntityPlayer player, TileSMAutoCraftClient tile, int id)
+    public GuiSMAutoCraft(EntityPlayer player, TileSMAutoCraft tile, int id)
     {
         super(new ContainerSMAutoCraft(player, tile, id));
         this.tile = tile;
@@ -175,7 +174,7 @@ public class GuiSMAutoCraft extends GuiContainerBase
         }
         else if (buttonId > 0 && buttonId <= 5 && buttonId - 1 != id)
         {
-            tile.sendPacketToServer(new PacketTile(tile, 2, buttonId - 1));
+            tile.sendPacketToServer(tile.getHost().getPacketForData(2, buttonId - 1));
         }
         else if (buttonId == AUTO_CRAFT_TOGGLE_BUTTON_ID)
         {

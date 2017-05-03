@@ -16,42 +16,42 @@ public class ContainerSMAutoCraft extends ContainerBase
 {
     public ContainerSMAutoCraft(EntityPlayer player, TileSMAutoCraft inventory, int id)
     {
-        super(player, inventory);
+        super(player, inventory.getInventory());
 
         if (id == 0)
         {
             //Intput Slot
-            this.addSlotToContainer(new SlotMissile(inventory, TileSMAutoCraft.INPUT_SLOT, 30, 10, MissileCasings.SMALL.ordinal()));
+            this.addSlotToContainer(new SlotMissile(inventory.getInventory(), TileSMAutoCraft.INPUT_SLOT, 30, 10, MissileCasings.SMALL.ordinal()));
 
             //Engine slot
-            this.addSlotToContainer(new SlotEngine(inventory, TileSMAutoCraft.ENGINE_SLOT, 50, 37));
+            this.addSlotToContainer(new SlotEngine(inventory.getInventory(), TileSMAutoCraft.ENGINE_SLOT, 50, 37));
 
             //Warhead slot
-            this.addSlotToContainer(new SlotWarhead(inventory, TileSMAutoCraft.WARHEAD_SLOT, 10, 37));
+            this.addSlotToContainer(new SlotWarhead(inventory.getInventory(), TileSMAutoCraft.WARHEAD_SLOT, 10, 37));
 
             //Guidance slot
-            this.addSlotToContainer(new SlotGuidance(inventory, TileSMAutoCraft.GUIDANCE_SLOT, 30, 37));
+            this.addSlotToContainer(new SlotGuidance(inventory.getInventory(), TileSMAutoCraft.GUIDANCE_SLOT, 30, 37));
 
             //Output slot
-            this.addSlotToContainer(new SlotMissile(inventory, TileSMAutoCraft.OUTPUT_SLOT, 140, 25, MissileCasings.SMALL.ordinal()));
+            this.addSlotToContainer(new SlotMissile(inventory.getInventory(), TileSMAutoCraft.OUTPUT_SLOT, 140, 25, MissileCasings.SMALL.ordinal()));
 
-            //Player inventory
+            //Player inventory.getInventory()
             this.addPlayerInventory(player);
         }
         else if (id == 1)
         {
             //Warhead
-            this.addSlotToContainer(new SlotWarhead(inventory, TileSMAutoCraft.WARHEAD_SLOT, 10, 10));
+            this.addSlotToContainer(new SlotWarhead(inventory.getInventory(), TileSMAutoCraft.WARHEAD_SLOT, 10, 10));
         }
         else if (id == 2)
         {
             //Guidance
-            this.addSlotToContainer(new SlotGuidance(inventory, TileSMAutoCraft.GUIDANCE_SLOT, 10, 10));
+            this.addSlotToContainer(new SlotGuidance(inventory.getInventory(), TileSMAutoCraft.GUIDANCE_SLOT, 10, 10));
         }
         else if (id == 3)
         {
             //Engine
-            this.addSlotToContainer(new SlotEngine(inventory, TileSMAutoCraft.ENGINE_SLOT, 10, 10));
+            this.addSlotToContainer(new SlotEngine(inventory.getInventory(), TileSMAutoCraft.ENGINE_SLOT, 10, 10));
         }
     }
 }

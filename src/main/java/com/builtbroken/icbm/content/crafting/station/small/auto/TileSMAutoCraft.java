@@ -6,34 +6,28 @@ import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.api.modules.IRocketEngine;
 import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
-import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileStationBase;
 import com.builtbroken.mc.api.automation.IAutomatedCrafter;
 import com.builtbroken.mc.api.automation.IAutomation;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.api.tile.access.IGuiTile;
-import com.builtbroken.mc.core.Engine;
-import com.builtbroken.mc.core.content.parts.CraftingParts;
+import com.builtbroken.mc.api.tile.access.IRotation;
+import com.builtbroken.mc.codegen.annotations.ExternalInventoryWrapped;
+import com.builtbroken.mc.codegen.annotations.MultiBlockWrapped;
+import com.builtbroken.mc.codegen.annotations.TileWrapped;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
-import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
-import com.builtbroken.mc.core.registry.implement.IRecipeContainer;
-import com.builtbroken.mc.lib.helper.recipe.OreNames;
-import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
-import com.builtbroken.mc.imp.transform.vector.Pos;
+import com.builtbroken.mc.prefab.inventory.ExternalInventory;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
-import com.builtbroken.mc.prefab.tile.Tile;
+import com.builtbroken.mc.prefab.tile.logic.TileMachineNode;
 import com.builtbroken.mc.prefab.tile.module.TileModuleInventory;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
@@ -45,8 +39,12 @@ import java.util.List;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 1/6/2016.
  */
-public class TileSMAutoCraft extends TileSmallMissileStationBase<IInventory> implements IPacketIDReceiver, IGuiTile, IAutomatedCrafter<IInventory>, IRecipeContainer
+@TileWrapped(className = "TileWrapperSMAutoStation")
+@ExternalInventoryWrapped()
+@MultiBlockWrapped()
+public class TileSMAutoCraft extends TileMachineNode<ExternalInventory> implements IPacketIDReceiver, IGuiTile, IAutomatedCrafter<ExternalInventory>, IRotation
 {
+    public static final int INPUT_SLOT = 0;
     public static final int WARHEAD_SLOT = 1;
     public static final int GUIDANCE_SLOT = 2;
     public static final int ENGINE_SLOT = 3;
@@ -66,32 +64,26 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase<IInventory> imp
     /** Triggers crafting logic. */
     protected boolean checkForCraft = false;
 
+    protected IMissile completedMissile;
+    protected IMissile startedMissile;
+
+    private ForgeDirection rotationCache;
 
     public TileSMAutoCraft()
     {
-        super("missileAutoStation", Material.iron);
-        this.resistance = 10f;
-        this.hardness = 10f;
-        this.renderTileEntity = true;
-        this.renderNormalBlock = false;
+        super("worktable.missile", ICBM.DOMAIN);
     }
 
     @Override
-    protected IInventory createInventory()
+    protected ExternalInventory createInventory()
     {
-        return new TileModuleInventory(this, 5);
+        return new ExternalInventory(this, 5);
     }
 
     @Override
-    public Tile newTile()
+    public void update(long ticks)
     {
-        return new TileSMAutoCraft();
-    }
-
-    @Override
-    public void update()
-    {
-        super.update();
+        super.update(ticks);
         if (isServer() && ticks % 10 == 0)
         {
             if (isAutocrafting && checkForCraft)
@@ -122,18 +114,18 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase<IInventory> imp
                     // but can only be inserted... if this changes the code will break
                     if (prev.getWarhead() == null && result.getWarhead() != null)
                     {
-                        decrStackSize(WARHEAD_SLOT, 1);
+                        getInventory().decrStackSize(WARHEAD_SLOT, 1);
                     }
                     if (prev.getGuidance() == null && result.getGuidance() != null)
                     {
-                        decrStackSize(GUIDANCE_SLOT, 1);
+                        getInventory().decrStackSize(GUIDANCE_SLOT, 1);
                     }
                     if (prev.getEngine() == null && result.getEngine() != null)
                     {
-                        decrStackSize(ENGINE_SLOT, 1);
+                        getInventory().decrStackSize(ENGINE_SLOT, 1);
                     }
-                    setInventorySlotContents(OUTPUT_SLOT, result.toStack());
-                    decrStackSize(INPUT_SLOT, 1);
+                    getInventory().setInventorySlotContents(OUTPUT_SLOT, result.toStack());
+                    getInventory().decrStackSize(INPUT_SLOT, 1);
                 }
             }
         }
@@ -166,7 +158,7 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase<IInventory> imp
                     return false;
                 }
             }
-            return getOutputStack() == null || InventoryUtility.stacksMatch(getOutputStack(), result.toStack()) && InventoryUtility.roomLeftInSlot(this, INPUT_SLOT) > 0;
+            return getOutputStack() == null || InventoryUtility.stacksMatch(getOutputStack(), result.toStack()) && InventoryUtility.roomLeftInSlot(getInventory(), INPUT_SLOT) > 0;
         }
         return false;
     }
@@ -199,7 +191,7 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase<IInventory> imp
             {
                 if (module instanceof IMissile && getInputStack() == null)
                 {
-                    setInventorySlotContents(INPUT_SLOT, module.toStack());
+                    getInventory().setInventorySlotContents(INPUT_SLOT, module.toStack());
                     stack.stackSize--;
                     return stack.stackSize <= 0 ? null : stack;
                 }
@@ -208,7 +200,7 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase<IInventory> imp
             {
                 if (module instanceof IWarhead && getWarheadStack() == null)
                 {
-                    setInventorySlotContents(WARHEAD_SLOT, module.toStack());
+                    getInventory().setInventorySlotContents(WARHEAD_SLOT, module.toStack());
                     stack.stackSize--;
                     return stack.stackSize <= 0 ? null : stack;
                 }
@@ -217,7 +209,7 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase<IInventory> imp
             {
                 if (module instanceof IGuidance && getGuidanceStack() == null)
                 {
-                    setInventorySlotContents(GUIDANCE_SLOT, module.toStack());
+                    getInventory().setInventorySlotContents(GUIDANCE_SLOT, module.toStack());
                     stack.stackSize--;
                     return stack.stackSize <= 0 ? null : stack;
                 }
@@ -226,7 +218,7 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase<IInventory> imp
             {
                 if (module instanceof IRocketEngine && getEngineStack() == null)
                 {
-                    setInventorySlotContents(ENGINE_SLOT, module.toStack());
+                    getInventory().setInventorySlotContents(ENGINE_SLOT, module.toStack());
                     stack.stackSize--;
                     return stack.stackSize <= 0 ? null : stack;
                 }
@@ -377,21 +369,6 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase<IInventory> imp
         return slot == OUTPUT_SLOT;
     }
 
-    @Override
-    protected boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
-    {
-        if (Engine.runningAsDev && player.getHeldItem() != null && player.getHeldItem().getItem() == Items.stick)
-        {
-            player.addChatComponentMessage(new ChatComponentText(isServer() + "  Facing = " + getDirection()));
-        }
-
-        else if (isServer())
-        {
-            openGui(player, ICBM.INSTANCE);
-        }
-        return true;
-    }
-
 
     @Override
     public TileModuleInventory getInventory()
@@ -427,7 +404,6 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase<IInventory> imp
     @Override
     public boolean read(ByteBuf buf, int id, EntityPlayer player, PacketType type)
     {
-        super.doUpdateGuiUsers();
         if (!super.read(buf, id, player, type))
         {
             if (isServer())
@@ -439,7 +415,7 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase<IInventory> imp
                 }
                 else if (id == 2)
                 {
-                    openGui(player, buf.readInt(), ICBM.INSTANCE);
+                    player.openGui(ICBM.INSTANCE, buf.readInt(), world(), xi(), yi(), zi());
                     return true;
                 }
                 //Gui updated some settings
@@ -450,6 +426,23 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase<IInventory> imp
                     requiresGuidance = buf.readBoolean();
                     requiresEngine = buf.readBoolean();
                     _doUpdateGuiUsers();
+                    return true;
+                }
+            }
+            else
+            {
+                if (id == 5)
+                {
+                    isAutocrafting = buf.readBoolean();
+                    requiresWarhead = buf.readBoolean();
+                    requiresGuidance = buf.readBoolean();
+                    requiresEngine = buf.readBoolean();
+                    //Reload GUI
+                    final GuiScreen screen = Minecraft.getMinecraft().currentScreen;
+                    if (screen instanceof GuiSMAutoCraft)
+                    {
+                        screen.initGui();
+                    }
                     return true;
                 }
             }
@@ -467,18 +460,37 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase<IInventory> imp
     }
 
     @Override
-    public void doUpdateGuiUsers()
+    public void readDescPacket(ByteBuf buf)
     {
-        if (ticks % 5 == 0)
+        super.readDescPacket(buf);
+        //Temp load remote inventory for rendering
+        final TileModuleInventory clientRenderInv = new TileModuleInventory(this, getInventory().getSizeInventory());
+        clientRenderInv.load(ByteBufUtils.readTag(buf));
+
+        //Generate output missile renderer
+        ItemStack outputStack = clientRenderInv.getStackInSlot(OUTPUT_SLOT);
+        if (outputStack != null)
         {
-            _doUpdateGuiUsers();
+            IModule module = toModule(outputStack);
+            if (module instanceof IMissile)
+            {
+                completedMissile = (IMissile) module;
+            }
         }
+        else
+        {
+            completedMissile = null;
+        }
+        //Generate input missile renderer with parts attached
+        final TileModuleInventory tempInv = getInventory();
+        inventory_module = clientRenderInv;
+        startedMissile = getCraftedMissile();
+        inventory_module = tempInv;
     }
 
     public void _doUpdateGuiUsers()
     {
-        PacketTile packet = new PacketTile(this, 5, isAutocrafting, requiresWarhead, requiresGuidance, requiresEngine);
-        sendPacketToGuiUsers(packet);
+        sendPacketToGuiUsers(getHost().getPacketForData(5, isAutocrafting, requiresWarhead, requiresGuidance, requiresEngine));
     }
 
     @Override
@@ -490,13 +502,13 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase<IInventory> imp
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer player)
     {
-        return null;
+        return new GuiSMAutoCraft(player, this, ID);
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbt)
+    public void load(NBTTagCompound nbt)
     {
-        super.readFromNBT(nbt);
+        super.load(nbt);
         isAutocrafting = getBoolean(nbt, "isAutocrafting", false);
         requiresWarhead = getBoolean(nbt, "requiresWarhead", true);
         requiresEngine = getBoolean(nbt, "requiresEngine", true);
@@ -510,19 +522,34 @@ public class TileSMAutoCraft extends TileSmallMissileStationBase<IInventory> imp
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbt)
+    public NBTTagCompound save(NBTTagCompound nbt)
     {
-        super.writeToNBT(nbt);
+        super.save(nbt);
         nbt.setBoolean("isAutocrafting", isAutocrafting);
         nbt.setBoolean("requiresWarhead", requiresWarhead);
         nbt.setBoolean("requiresEngine", requiresEngine);
         nbt.setBoolean("requiresGuidance", requiresGuidance);
         nbt.setBoolean("checkForCraft", checkForCraft);
+        return nbt;
+    }
+
+    public void sendCraftingPacket()
+    {
+        sendPacketToServer(getHost().getPacketForData(1));
+    }
+
+    public void sendGUIDataUpdate()
+    {
+        sendPacketToServer(getHost().getPacketForData(3, isAutocrafting, requiresWarhead, requiresGuidance, requiresEngine));  //TODO
     }
 
     @Override
-    public void genRecipes(List<IRecipe> recipes)
+    public ForgeDirection getDirection()
     {
-        recipes.add(newShapedRecipe(ICBM.blockSMAuto, "RRR", "MCM", "PSP", 'S', new ItemStack(ICBM.blockMissileWorkstation), 'P', OreNames.PLATE_IRON, 'M', CraftingParts.DC_MOTOR.oreName, 'R', OreNames.ROD_IRON, 'C', UniversalRecipe.CIRCUIT_T2.get()));
+        if (rotationCache == null)
+        {
+            rotationCache = ForgeDirection.getOrientation(getHost().getHostMeta()).getOpposite();
+        }
+        return rotationCache;
     }
 }

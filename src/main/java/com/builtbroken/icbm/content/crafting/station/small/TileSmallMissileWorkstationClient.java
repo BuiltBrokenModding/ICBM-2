@@ -265,10 +265,18 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
      *
      * @param pos - offset for render
      */
-    public static void renderMissile(Pos pos, IMissile misssile, ForgeDirection connectedBlockSide, ForgeDirection direction)
+    public static void renderMissile(Pos pos, IMissile missmissileile, ForgeDirection connectedBlockSide, ForgeDirection direction)
+    {
+        renderMissile(pos.xf(), pos.yf(), pos.zf(), missmissileile, connectedBlockSide, direction);
+    }
+
+    /**
+     * Handles rendering of the missile
+     */
+    public static void renderMissile(float xx, float yy, float zz, IMissile missile, ForgeDirection connectedBlockSide, ForgeDirection direction)
     {
         ///Center render view to tile center
-        GL11.glTranslatef(pos.xf() + 0.5f, pos.yf() + 0.5f, pos.zf() + 0.5f);
+        GL11.glTranslatef(xx + 0.5f, yy + 0.5f, zz + 0.5f);
         //Slight scale of the lenght to fit on the table
         GL11.glScaled(1, .9, 1);
 
@@ -294,17 +302,17 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_MISSILE_TEXTURE);
         //Group_001 body
         //Component_1_001 - 4 Body Fins
-        if (misssile.getWarhead() != null)
+        if (missile.getWarhead() != null)
         {
             //Group_004 nose of warhead
             //Group_005 warhead
             Assets.SMALL_MISSILE_MODEL.renderOnly("Group_005");
-            if (misssile.getWarhead().getExplosive() != null)
+            if (missile.getWarhead().getExplosive() != null)
             {
                 Assets.SMALL_MISSILE_MODEL.renderOnly("Group_004");
             }
         }
-        if (misssile.getEngine() != null)
+        if (missile.getEngine() != null)
         {
             //Group_002 - Engine thruster
             //Group_003 - Engine case
@@ -320,7 +328,7 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
                 Assets.SMALL_MISSILE_MODEL.renderOnly("Component_2_00" + i);
             }
         }
-        if (misssile.getGuidance() != null)
+        if (missile.getGuidance() != null)
         {
             //TODO add model indication showing no guidance added
         }

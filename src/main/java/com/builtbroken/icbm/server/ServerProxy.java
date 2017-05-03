@@ -3,7 +3,6 @@ package com.builtbroken.icbm.server;
 import com.builtbroken.icbm.CommonProxy;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstation;
-import com.builtbroken.icbm.content.crafting.station.small.auto.TileSMAutoCraft;
 import com.builtbroken.icbm.content.launcher.controller.remote.display.TileSiloInterface;
 
 /**
@@ -20,7 +19,6 @@ public class ServerProxy extends CommonProxy
         super.preInit();
         ICBM.blockMissileWorkstation = ICBM.INSTANCE.getManager().newBlock("SmallMissileWorkStation", TileSmallMissileWorkstation.class);
         ICBM.blockCommandSiloDisplay = ICBM.INSTANCE.getManager().newBlock("icbmCommandSiloDisplay", TileSiloInterface.class);
-        ICBM.blockSMAuto = ICBM.INSTANCE.getManager().newBlock("icbmSMAuto", TileSMAutoCraft.class);
     }
 
     @Override

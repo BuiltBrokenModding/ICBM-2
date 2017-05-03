@@ -37,7 +37,7 @@ import java.util.List;
  * Created by Dark(DarkGuardsman, Robert) on 1/6/2016.
  */
 @TileWrapped(className = "TileWrapperWarheadStation")
-@ExternalInventoryWrapped
+@ExternalInventoryWrapped()
 public class TileWarheadStation extends TileMachineNode<ExternalInventory> implements IPacketIDReceiver, IGuiTile, IAutomatedCrafter<ExternalInventory>, IRotation
 {
     public static final int WARHEAD_SLOT = 0;

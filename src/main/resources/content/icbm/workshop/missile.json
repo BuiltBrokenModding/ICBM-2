@@ -3,30 +3,36 @@
     "name": "icbm"
   },
   "block": {
-    "name": "warheadStation",
-    "id": "icbmWarheadWorkstation",
+    "name": "missileAutoStation",
+    "id": "icbmSMAuto",
     "mod": "icbm",
     "material": "iron",
     "renderType": -1,
     "isOpaque": false,
     "tileEntity": {
-      "id": "icbmWarheadWorkstation",
-      "class": "com.builtbroken.icbm.content.crafting.station.warhead.TileWrapperWarheadStation"
+      "id": "icbmSMAuto",
+      "class": "com.builtbroken.icbm.content.crafting.station.small.auto.TileWrapperSMAutoStation"
     },
     "listeners": [
-      "rotation"
+      "rotation",
+      "TileSMAuto",
+      {
+        "id": "multiblock",
+        "layoutKey": "icbm:icbmSMAuto",
+        "doRotation": true
+      }
     ]
   },
   "render": {
-    "contentID": "icbm:icbmWarheadWorkstation",
+    "contentID": "icbm:icbmSMAuto",
     "type": "tile",
-    "tileClass": "com.builtbroken.icbm.content.crafting.station.warhead.TileWrapperWarheadStation",
+    "tileClass": "com.builtbroken.icbm.content.crafting.station.small.auto.TileWrapperSMAutoStation",
     "states": [
       {
         "id": "base",
         "renderType": "model",
-        "modelID": "voltzengine:toolTable",
-        "textureID": "voltzengine:toolTable"
+        "modelID": "icbm:3x1Cart",
+        "textureID": "icbm:workstation.missile.small"
       },
       {
         "id": "item",
@@ -37,7 +43,7 @@
         "id": "item.inventory",
         "renderType": "model",
         "parent": "item",
-        "scale": 0.9
+        "scale": 0.7
       },
       {
         "id": "item.equipped",
@@ -67,30 +73,10 @@
       {
         "id": "tile",
         "renderType": "model",
-        "parent": "base",
-        "offset": {
-          "x": -0.5,
-          "z": 0.5
-        }
+        "parent": "base"
       },
       {
         "id": "tile.north",
-        "renderType": "model",
-        "parent": "tile",
-        "rotation": {
-          "yaw": 180
-        }
-      },
-      {
-        "id": "tile.south",
-        "renderType": "model",
-        "parent": "tile",
-        "rotation": {
-          "yaw": 0
-        }
-      },
-      {
-        "id": "tile.east",
         "renderType": "model",
         "parent": "tile",
         "rotation": {
@@ -98,25 +84,109 @@
         }
       },
       {
-        "id": "tile.west",
+        "id": "tile.south",
         "renderType": "model",
         "parent": "tile",
         "rotation": {
           "yaw": -90
+        }
+      },
+      {
+        "id": "tile.east",
+        "renderType": "model",
+        "parent": "tile",
+        "rotation": {
+          "yaw": 0
+        }
+      },
+      {
+        "id": "tile.west",
+        "renderType": "model",
+        "parent": "tile",
+        "rotation": {
+          "yaw": 180
         }
       }
     ]
   },
   "craftingGridRecipe": {
     "type": "shaped",
-    "output": "block@icbm:icbmWarheadWorkstation",
+    "output": "block@icbm:missileAutoStation",
     "grid": "PWP,MCM,R R",
     "items": {
-      "W": "block@icbm:warhead",
+      "W": "block@icbm:SmallMissileWorkStation",
       "P": "ore@plateIron",
       "M": "ore@motorDC",
       "R": "ore@rodIron",
       "C": "ore@circuitAdvanced"
     }
+  },
+  "multiblock": {
+    "key": "icbm:icbmSMAuto.north",
+    "tiles": [
+      {
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        },
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": -1
+        }
+      }
+    ]
+  },
+  "multiblock:1": {
+    "key": "icbm:icbmSMAuto.south",
+    "tiles": [
+      {
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        },
+        "pos": {
+          "x": 0,
+          "y": 0,
+          "z": -1
+        }
+      }
+    ]
+  },
+  "multiblock:2": {
+    "key": "icbm:icbmSMAuto.east",
+    "tiles": [
+      {
+        "pos": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "pos": {
+          "x": -1,
+          "y": 0,
+          "z": 0
+        }
+      }
+    ]
+  },
+  "multiblock:3": {
+    "key": "icbm:icbmSMAuto.west",
+    "tiles": [
+      {
+        "pos": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "pos": {
+          "x": -1,
+          "y": 0,
+          "z": 0
+        }
+      }
+    ]
   }
 }

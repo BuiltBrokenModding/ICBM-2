@@ -12,7 +12,7 @@ import com.builtbroken.icbm.content.blast.explosive.BlastPathTester;
 import com.builtbroken.icbm.content.blast.explosive.ExMicroQuake;
 import com.builtbroken.icbm.content.blast.util.ExOrePuller;
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstationClient;
-import com.builtbroken.icbm.content.crafting.station.small.auto.TileSMAutoCraftClient;
+import com.builtbroken.icbm.content.crafting.station.small.auto.TileSMAutoRenderListener;
 import com.builtbroken.icbm.content.fragments.EntityFragment;
 import com.builtbroken.icbm.content.fragments.RenderFragment;
 import com.builtbroken.icbm.content.launcher.controller.remote.antenna.ItemRendererAntennaFrame;
@@ -66,6 +66,7 @@ public class ClientProxy extends CommonProxy
         super.loadJsonContentHandlers();
         JsonBlockListenerProcessor.addBuilder(new TileMissileRenderListener.Builder());
         JsonBlockListenerProcessor.addBuilder(new StandardLauncherRenderListener.Builder());
+        JsonBlockListenerProcessor.addBuilder(new TileSMAutoRenderListener.Builder());
     }
 
     @Override
@@ -74,7 +75,6 @@ public class ClientProxy extends CommonProxy
         super.preInit();
         ICBM.blockMissileWorkstation = ICBM.INSTANCE.getManager().newBlock("SmallMissileWorkStation", TileSmallMissileWorkstationClient.class);
         ICBM.blockCommandSiloDisplay = ICBM.INSTANCE.getManager().newBlock("icbmCommandSiloDisplay", TileSiloInterfaceClient.class);
-        ICBM.blockSMAuto = ICBM.INSTANCE.getManager().newBlock("icbmSMAuto", TileSMAutoCraftClient.class);
 
         //ICBM.blockStandardLauncher.setCreativeTab(null);
         //NEIProxy.hideItem(ICBM.blockStandardLauncher);
