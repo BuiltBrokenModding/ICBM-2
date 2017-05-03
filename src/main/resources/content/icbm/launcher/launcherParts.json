@@ -1,4 +1,7 @@
 {
+  "author": {
+    "name": "icbm"
+  },
   "block": {
     "name": "launcherPart",
     "id": "icbmLauncherParts",
@@ -23,7 +26,7 @@
   },
   "craftingGridRecipe": {
     "type": "sheetmetal",
-    "output": "block@icbm:smallsilo",
+    "output": "block@icbm:icbmLauncherParts",
     "grid": "RPH,GCR,DPR",
     "items": {
       "C": "ore@circuitAdvanced",
@@ -36,7 +39,7 @@
   },
   "craftingGridRecipe:1": {
     "type": "shaped",
-    "output": "block@icbm:smallsilo",
+    "output": "block@icbm:icbmLauncherParts",
     "grid": "RPR,PCP,RPR",
     "items": {
       "C": "ore@circuitAdvanced",

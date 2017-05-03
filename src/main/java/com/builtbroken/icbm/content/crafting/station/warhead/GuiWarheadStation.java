@@ -8,7 +8,6 @@ import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.core.References;
-import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.prefab.gui.GuiButton2;
 import com.builtbroken.mc.prefab.gui.GuiContainerBase;
 import com.builtbroken.mc.prefab.gui.buttons.GuiButton9px;
@@ -32,7 +31,7 @@ public class GuiWarheadStation extends GuiContainerBase
     private static final ResourceLocation guiTexture2 = new ResourceLocation(ICBM.DOMAIN, References.GUI_DIRECTORY + "warhead.workstation.2.png");
     private static final ResourceLocation guiTexture3 = new ResourceLocation(ICBM.DOMAIN, References.GUI_DIRECTORY + "warhead.workstation.3.png");
 
-    private final TileWarheadStationClient tile;
+    private final TileWarheadStation tile;
 
     private final int id;
 
@@ -50,7 +49,7 @@ public class GuiWarheadStation extends GuiContainerBase
     private GuiImageButton triggerWindowButton;
     private GuiImageButton autocraftingButton;
 
-    public GuiWarheadStation(EntityPlayer player, TileWarheadStationClient tile, int id)
+    public GuiWarheadStation(EntityPlayer player, TileWarheadStation tile, int id)
     {
         super(new ContainerWarheadStation(player, tile, id));
         this.tile = tile;
@@ -208,14 +207,17 @@ public class GuiWarheadStation extends GuiContainerBase
     protected void actionPerformed(GuiButton button)
     {
         final int buttonId = button.id;
+        //Crafting button
         if (buttonId == 0)
         {
             tile.sendCraftingPacket();
         }
+        //Menu tabs
         else if (buttonId > 0 && buttonId < 5 && buttonId - 1 != id)
         {
-            tile.sendPacketToServer(new PacketTile(tile, 2, buttonId - 1));
+            tile.switchTab(buttonId - 1);
         }
+        //Explosives increase
         else if (buttonId == 10)
         {
             if (tile.explosiveStackSizeRequired < 64)
@@ -224,6 +226,7 @@ public class GuiWarheadStation extends GuiContainerBase
                 tile.sendGUIDataUpdate();
             }
         }
+        //Explosives decrease
         else if (buttonId == 11)
         {
             if (tile.explosiveStackSizeRequired > 1)

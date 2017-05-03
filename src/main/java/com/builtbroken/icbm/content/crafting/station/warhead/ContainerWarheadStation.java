@@ -14,21 +14,21 @@ public class ContainerWarheadStation extends ContainerBase
 {
     public ContainerWarheadStation(EntityPlayer player, TileWarheadStation inventory, int id)
     {
-        super(player, inventory);
+        super(player, inventory.getInventory());
 
         if (id == 0)
         {
             //Intput Slot
-            this.addSlotToContainer(new SlotWarhead(inventory, 0, 30, 10));
+            this.addSlotToContainer(new SlotWarhead(inventory.getInventory(), 0, 30, 10));
 
             //Explosive slot
-            this.addSlotToContainer(new SlotExplosive(inventory, 1, 50, 37));
+            this.addSlotToContainer(new SlotExplosive(inventory.getInventory(), 1, 50, 37));
 
             //Trigger slot
-            this.addSlotToContainer(new Slot(inventory, 3, 10, 37));
+            this.addSlotToContainer(new Slot(inventory.getInventory(), 3, 10, 37));
 
             //Output slot
-            this.addSlotToContainer(new SlotWarhead(inventory, 2, 140, 25));
+            this.addSlotToContainer(new SlotWarhead(inventory.getInventory(), 2, 140, 25));
 
             //Player inventory
             this.addPlayerInventory(player);
@@ -36,12 +36,12 @@ public class ContainerWarheadStation extends ContainerBase
         else if (id == 1)
         {
             //Explosive slot
-            this.addSlotToContainer(new SlotExplosive(inventory, 1, 10, 10));
+            this.addSlotToContainer(new SlotExplosive(inventory.getInventory(), 1, 10, 10));
         }
         else if (id == 2)
         {
             //Trigger slot
-            this.addSlotToContainer(new Slot(inventory, 3, 10, 10));
+            this.addSlotToContainer(new Slot(inventory.getInventory(), 3, 10, 10));
         }
     }
 }

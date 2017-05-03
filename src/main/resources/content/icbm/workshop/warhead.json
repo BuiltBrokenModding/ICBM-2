@@ -1,0 +1,123 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "block": {
+    "name": "warheadStation",
+    "id": "icbmWarheadWorkstation",
+    "mod": "icbm",
+    "material": "iron",
+    "renderType": -1,
+    "isOpaque": false,
+    "tileEntity": {
+      "id": "icbmWarheadWorkstation",
+      "class": "com.builtbroken.icbm.content.crafting.station.warhead.TileWrapperWarheadStation"
+    },
+    "listeners": [
+      "rotation"
+    ]
+  },
+  "render": {
+    "contentID": "icbm:icbmWarheadWorkstation",
+    "type": "tile",
+    "tileClass": "com.builtbroken.icbm.content.crafting.station.warhead.TileWrapperWarheadStation",
+    "states": [
+      {
+        "id": "base",
+        "renderType": "model",
+        "modelID": "voltzengine:toolTable",
+        "textureID": "voltzengine:toolTable"
+      },
+      {
+        "id": "item",
+        "renderType": "model",
+        "parent": "base"
+      },
+      {
+        "id": "item.inventory",
+        "renderType": "model",
+        "parent": "item",
+        "scale": 0.8,
+        "offset": -0.5
+      },
+      {
+        "id": "item.equipped",
+        "renderType": "model",
+        "parent": "base",
+        "offset": {
+          "x": 0.5,
+          "y": 0.5,
+          "z": 0.5
+        }
+      },
+      {
+        "id": "item.first",
+        "renderType": "model",
+        "parent": "base",
+        "offset": {
+          "x": 0.3,
+          "y": 0.5,
+          "z": 0.9
+        }
+      },
+      {
+        "id": "item.entity",
+        "renderType": "model",
+        "parent": "base"
+      },
+      {
+        "id": "tile",
+        "renderType": "model",
+        "parent": "base",
+        "offset": {
+          "x": 0.5,
+          "z": 0.5
+        }
+      },
+      {
+        "id": "tile.north",
+        "renderType": "model",
+        "parent": "tile",
+        "rotation": {
+          "yaw": 180
+        }
+      },
+      {
+        "id": "tile.south",
+        "renderType": "model",
+        "parent": "tile",
+        "rotation": {
+          "yaw": 0
+        }
+      },
+      {
+        "id": "tile.east",
+        "renderType": "model",
+        "parent": "tile",
+        "rotation": {
+          "yaw": 90
+        }
+      },
+      {
+        "id": "tile.west",
+        "renderType": "model",
+        "parent": "tile",
+        "rotation": {
+          "yaw": -90
+        }
+      }
+    ]
+  },
+  "craftingGridRecipe": {
+    "type": "shaped",
+    "output": "block@icbm:icbmWarheadWorkstation",
+    "grid": "PWP,MCM,R R",
+    "items": {
+      "W": "block@icbm:warhead",
+      "P": "ore@plateIron",
+      "M": "ore@motorDC",
+      "R": "ore@rodIron",
+      "C": "ore@circuitAdvanced"
+    }
+  }
+}

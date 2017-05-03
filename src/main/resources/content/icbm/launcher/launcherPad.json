@@ -1,4 +1,7 @@
 {
+  "author": {
+    "name": "icbm"
+  },
   "block": {
     "name": "decorLaunchPad",
     "id": "icbmDecorLaunchPad",

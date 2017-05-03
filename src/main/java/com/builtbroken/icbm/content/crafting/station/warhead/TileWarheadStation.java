@@ -10,25 +10,20 @@ import com.builtbroken.mc.api.automation.IAutomation;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.api.tile.access.IGuiTile;
-import com.builtbroken.mc.core.content.parts.CraftingParts;
+import com.builtbroken.mc.api.tile.access.IRotation;
+import com.builtbroken.mc.codegen.annotations.ExternalInventoryWrapped;
+import com.builtbroken.mc.codegen.annotations.TileWrapped;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
-import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.network.packet.PacketType;
-import com.builtbroken.mc.core.registry.implement.IRecipeContainer;
-import com.builtbroken.mc.lib.helper.recipe.OreNames;
-import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
-import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
+import com.builtbroken.mc.prefab.inventory.ExternalInventory;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
-import com.builtbroken.mc.prefab.tile.Tile;
-import com.builtbroken.mc.prefab.tile.TileModuleMachine;
-import com.builtbroken.mc.prefab.tile.module.TileModuleInventory;
+import com.builtbroken.mc.prefab.tile.logic.TileMachineNode;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -41,7 +36,9 @@ import java.util.List;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 1/6/2016.
  */
-public class TileWarheadStation extends TileModuleMachine<IInventory> implements IPacketIDReceiver, IGuiTile, IAutomatedCrafter<IInventory>, IRecipeContainer
+@TileWrapped(className = "TileWrapperWarheadStation")
+@ExternalInventoryWrapped
+public class TileWarheadStation extends TileMachineNode<ExternalInventory> implements IPacketIDReceiver, IGuiTile, IAutomatedCrafter<ExternalInventory>, IRotation
 {
     public static final int WARHEAD_SLOT = 0;
     public static final int EXPLOSIVE_SLOT = 1;
@@ -49,10 +46,6 @@ public class TileWarheadStation extends TileModuleMachine<IInventory> implements
     public static final int TRIGGER_SLOT = 3;
     public static final int[] INPUT_SLOTS = new int[]{WARHEAD_SLOT, EXPLOSIVE_SLOT, TRIGGER_SLOT};
     public static final int[] OUTPUT_SLOTS = new int[]{OUTPUT_SLOT};
-
-    //TODO add pushing to next station (Saves on inserters)
-    //TODO add animation for moving missile to next station
-    //TODO to sync animation add a handler that chains all station into an AssemblyLine object
 
     /** Is the machine setup to autocraft */
     protected boolean isAutocrafting = false;
@@ -65,32 +58,24 @@ public class TileWarheadStation extends TileModuleMachine<IInventory> implements
     /** Number of explosives to craft */
     protected int explosiveStackSizeRequired = 1;
 
+    private ForgeDirection rotationCache;
+
 
     public TileWarheadStation()
     {
-        super("warheadStation", Material.iron);
-        this.resistance = 10f;
-        this.hardness = 10f;
-        this.renderTileEntity = true;
-        this.renderNormalBlock = false;
+        super("worktable.warhead", ICBM.DOMAIN);
     }
 
     @Override
-    protected IInventory createInventory()
+    protected ExternalInventory createInventory()
     {
-        return new TileModuleInventory(this, 4);
+        return new ExternalInventory(this, 4);
     }
 
     @Override
-    public Tile newTile()
+    public void update(long ticks)
     {
-        return new TileWarheadStation();
-    }
-
-    @Override
-    public void update()
-    {
-        super.update();
+        super.update(ticks);
         if (isServer() && ticks % 10 == 0)
         {
             if (checkForCraft)
@@ -168,7 +153,7 @@ public class TileWarheadStation extends TileModuleMachine<IInventory> implements
                         getInventory().setInventorySlotContents(WARHEAD_SLOT, warheadStack);
                     }
                     //Update trigger slot inventory
-                    setInventorySlotContents(TRIGGER_SLOT, triggerStack);
+                    getInventory().setInventorySlotContents(TRIGGER_SLOT, triggerStack);
 
                     //Increase output
                     if (getOutputStack() == null)
@@ -216,7 +201,7 @@ public class TileWarheadStation extends TileModuleMachine<IInventory> implements
                     }
                 }
                 //Check if we have space
-                return getOutputStack() == null || InventoryUtility.stacksMatch(getCraftResult(), result.toStack()) && InventoryUtility.roomLeftInSlot(this, OUTPUT_SLOT) > 0;
+                return getOutputStack() == null || InventoryUtility.stacksMatch(getCraftResult(), result.toStack()) && InventoryUtility.roomLeftInSlot(getInventory(), OUTPUT_SLOT) > 0;
             }
         }
         return false;
@@ -248,7 +233,7 @@ public class TileWarheadStation extends TileModuleMachine<IInventory> implements
                     {
                         ItemStack insert = stack.copy();
                         insert.stackSize = 1;
-                        setInventorySlotContents(WARHEAD_SLOT, insert);
+                        getInventory().setInventorySlotContents(WARHEAD_SLOT, insert);
                         stack.stackSize -= 1;
                         checkForCraft = true;
                         return stack;
@@ -260,7 +245,7 @@ public class TileWarheadStation extends TileModuleMachine<IInventory> implements
                     {
                         ItemStack insert = stack.copy();
                         insert.stackSize = 1;
-                        setInventorySlotContents(TRIGGER_SLOT, insert);
+                        getInventory().setInventorySlotContents(TRIGGER_SLOT, insert);
                         stack.stackSize -= 1;
                         checkForCraft = true;
                         return stack;
@@ -273,7 +258,7 @@ public class TileWarheadStation extends TileModuleMachine<IInventory> implements
                 {
                     ItemStack insert = stack.copy();
                     insert.stackSize = 1;
-                    setInventorySlotContents(EXPLOSIVE_SLOT, insert);
+                    getInventory().setInventorySlotContents(EXPLOSIVE_SLOT, insert);
                     stack.stackSize -= 1;
                     checkForCraft = true;
                     return stack;
@@ -297,7 +282,7 @@ public class TileWarheadStation extends TileModuleMachine<IInventory> implements
                     {
                         ItemStack insert = stack.copy();
                         insert.stackSize = 1;
-                        setInventorySlotContents(WARHEAD_SLOT, insert);
+                        getInventory().setInventorySlotContents(WARHEAD_SLOT, insert);
                         stack.stackSize -= 1;
                         checkForCraft = true;
                         return stack.stackSize <= 0 ? null : stack;
@@ -309,7 +294,7 @@ public class TileWarheadStation extends TileModuleMachine<IInventory> implements
                     {
                         ItemStack insert = stack.copy();
                         insert.stackSize = 1;
-                        setInventorySlotContents(TRIGGER_SLOT, insert);
+                        getInventory().setInventorySlotContents(TRIGGER_SLOT, insert);
                         stack.stackSize -= 1;
                         checkForCraft = true;
                         return stack.stackSize <= 0 ? null : stack;
@@ -322,7 +307,7 @@ public class TileWarheadStation extends TileModuleMachine<IInventory> implements
                 {
                     ItemStack insert = stack.copy();
                     insert.stackSize = 1;
-                    setInventorySlotContents(EXPLOSIVE_SLOT, insert);
+                    getInventory().setInventorySlotContents(EXPLOSIVE_SLOT, insert);
                     stack.stackSize -= 1;
                     checkForCraft = true;
                     return stack.stackSize <= 0 ? null : stack;
@@ -336,12 +321,12 @@ public class TileWarheadStation extends TileModuleMachine<IInventory> implements
                         return stack;
                     }
                     //Figure out out insert limit from space left, require items, and stack size of insert item
-                    int insert = Math.min(explosiveStackSizeRequired, InventoryUtility.roomLeftInSlot(this, EXPLOSIVE_SLOT));
+                    int insert = Math.min(explosiveStackSizeRequired, InventoryUtility.roomLeftInSlot(getInventory(), EXPLOSIVE_SLOT));
                     insert = Math.min(stack.stackSize, insert);
                     //Increase explosive stack
                     explosiveStack.stackSize += insert;
                     //Update inventory
-                    setInventorySlotContents(EXPLOSIVE_SLOT, explosiveStack);
+                    getInventory().setInventorySlotContents(EXPLOSIVE_SLOT, explosiveStack);
                     //Decrease insert stack
                     stack.stackSize -= insert;
                     //Return
@@ -479,16 +464,6 @@ public class TileWarheadStation extends TileModuleMachine<IInventory> implements
         return slot == OUTPUT_SLOT;
     }
 
-    @Override
-    protected boolean onPlayerRightClick(EntityPlayer player, int side, Pos hit)
-    {
-        if (isServer())
-        {
-            openGui(player, ICBM.INSTANCE);
-        }
-        return true;
-    }
-
     protected ItemStack getWarheadStack()
     {
         return getInventory().getStackInSlot(WARHEAD_SLOT);
@@ -512,19 +487,21 @@ public class TileWarheadStation extends TileModuleMachine<IInventory> implements
     @Override
     public boolean read(ByteBuf buf, int id, EntityPlayer player, PacketType type)
     {
-        super.doUpdateGuiUsers();
         if (!super.read(buf, id, player, type))
         {
             if (isServer())
             {
+                //Auto craft call
                 if (id == 1)
                 {
                     doCrafting();
                     return true;
                 }
+                //Tab switch call
                 else if (id == 2)
                 {
-                    openGui(player, buf.readInt(), ICBM.INSTANCE);
+                    int guiID = buf.readInt();
+                    player.openGui(ICBM.INSTANCE, guiID, world(), xi(), yi(), zi());
                     return true;
                 }
                 //Gui updated some settings
@@ -535,6 +512,24 @@ public class TileWarheadStation extends TileModuleMachine<IInventory> implements
                     requireExplosive = buf.readBoolean();
                     requireTrigger = buf.readBoolean();
                     _doUpdateGuiUsers();
+                    return true;
+                }
+            }
+            else
+            {
+                //GUI packet
+                if (id == 5)
+                {
+                    isAutocrafting = buf.readBoolean();
+                    explosiveStackSizeRequired = buf.readInt();
+                    requireExplosive = buf.readBoolean();
+                    requireTrigger = buf.readBoolean();
+                    //Reload GUI
+                    final GuiScreen screen = Minecraft.getMinecraft().currentScreen;
+                    if (screen instanceof GuiWarheadStation)
+                    {
+                        screen.initGui();
+                    }
                     return true;
                 }
             }
@@ -550,9 +545,30 @@ public class TileWarheadStation extends TileModuleMachine<IInventory> implements
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbt)
+    public void readDescPacket(ByteBuf buf)
     {
-        super.readFromNBT(nbt);
+        super.readDescPacket(buf);
+    }
+
+    public void sendCraftingPacket()
+    {
+        sendPacketToServer(getHost().getPacketForData(1));
+    }
+
+    public void sendGUIDataUpdate()
+    {
+        sendPacketToServer(getHost().getPacketForData(3, isAutocrafting, explosiveStackSizeRequired, requireExplosive, requireTrigger));
+    }
+
+    public void switchTab(int tab)
+    {
+        sendPacketToServer(getHost().getPacketForData(2, tab));
+    }
+
+    @Override
+    public void load(NBTTagCompound nbt)
+    {
+        super.load(nbt);
         isAutocrafting = getBoolean(nbt, "isAutocrafting", false);
         requireExplosive = getBoolean(nbt, "requireExplosive", true);
         requireTrigger = getBoolean(nbt, "requireTrigger", false);
@@ -565,33 +581,25 @@ public class TileWarheadStation extends TileModuleMachine<IInventory> implements
 
     private boolean getBoolean(NBTTagCompound nbt, String key, boolean b)
     {
-        return nbt.hasKey(key) ? nbt.getBoolean("isAutocrafting") : b;
+        return nbt.hasKey(key) ? nbt.getBoolean(key) : b;
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbt)
+    public NBTTagCompound save(NBTTagCompound nbt)
     {
-        super.writeToNBT(nbt);
+        super.save(nbt);
         nbt.setBoolean("isAutocrafting", isAutocrafting);
         nbt.setBoolean("requireExplosive", requireExplosive);
         nbt.setBoolean("requireTrigger", requireTrigger);
         nbt.setBoolean("checkForCraft", checkForCraft);
         nbt.setInteger("explosiveStackSizeRequired", explosiveStackSizeRequired);
-    }
 
-    @Override
-    public void doUpdateGuiUsers()
-    {
-        if (ticks % 5 == 0)
-        {
-            _doUpdateGuiUsers();
-        }
+        return nbt;
     }
 
     public void _doUpdateGuiUsers()
     {
-        PacketTile packet = new PacketTile(this, 5, isAutocrafting, explosiveStackSizeRequired, requireExplosive, requireTrigger);
-        sendPacketToGuiUsers(packet);
+        sendPacketToGuiUsers(getHost().getPacketForData(5, isAutocrafting, explosiveStackSizeRequired, requireExplosive, requireTrigger));
     }
 
     @Override
@@ -603,13 +611,16 @@ public class TileWarheadStation extends TileModuleMachine<IInventory> implements
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer player)
     {
-        return null;
+        return new GuiWarheadStation(player, this, ID);
     }
 
     @Override
-    public void genRecipes(List<IRecipe> recipes)
+    public ForgeDirection getDirection()
     {
-        recipes.add(newShapedRecipe(ICBM.blockWarheadWorkstation, "PWP", "MCM", "R R", 'W', ICBM.blockWarhead, 'P', OreNames.PLATE_IRON, 'M', CraftingParts.DC_MOTOR.oreName, 'R', OreNames.ROD_IRON, 'C', UniversalRecipe.CIRCUIT_T2.get()));
-
+        if (rotationCache == null)
+        {
+            rotationCache = ForgeDirection.getOrientation(getHost().getHostMeta()).getOpposite();
+        }
+        return rotationCache;
     }
 }
