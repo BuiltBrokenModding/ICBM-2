@@ -20,7 +20,6 @@ import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.prefab.inventory.ExternalInventory;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.logic.TileMachineNode;
-import com.builtbroken.mc.prefab.tile.module.TileModuleInventory;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -369,13 +368,6 @@ public class TileSMAutoCraft extends TileMachineNode<ExternalInventory> implemen
         return slot == OUTPUT_SLOT;
     }
 
-
-    @Override
-    public TileModuleInventory getInventory()
-    {
-        return (TileModuleInventory) super.getInventory();
-    }
-
     protected ItemStack getWarheadStack()
     {
         return getInventory().getStackInSlot(WARHEAD_SLOT);
@@ -464,7 +456,7 @@ public class TileSMAutoCraft extends TileMachineNode<ExternalInventory> implemen
     {
         super.readDescPacket(buf);
         //Temp load remote inventory for rendering
-        final TileModuleInventory clientRenderInv = new TileModuleInventory(this, getInventory().getSizeInventory());
+        final ExternalInventory clientRenderInv = new ExternalInventory(this, getInventory().getSizeInventory());
         clientRenderInv.load(ByteBufUtils.readTag(buf));
 
         //Generate output missile renderer
@@ -482,7 +474,7 @@ public class TileSMAutoCraft extends TileMachineNode<ExternalInventory> implemen
             completedMissile = null;
         }
         //Generate input missile renderer with parts attached
-        final TileModuleInventory tempInv = getInventory();
+        final ExternalInventory tempInv = getInventory();
         inventory_module = clientRenderInv;
         startedMissile = getCraftedMissile();
         inventory_module = tempInv;

@@ -80,12 +80,12 @@ public class TileWrapperSMAutoStation extends TileEntityWrapper implements IMult
                 {
                     if (listener instanceof IMultiTileHost)
                     {
+                        if(listener instanceof IBlockListener)
+                        {
+                            ((IBlockListener) listener).inject(world(), xi(), yi(), zi());
+                        }
                         if (((IMultiTileHost) listener).onMultiTileBroken(tileMulti, source, harvest))
                         {
-                            if(listener instanceof IBlockListener)
-                            {
-                                ((IBlockListener) listener).inject(world(), xi(), yi(), zi());
-                            }
                             b = true;
                         }
                     }
@@ -138,12 +138,12 @@ public class TileWrapperSMAutoStation extends TileEntityWrapper implements IMult
                 {
                     if (listener instanceof IMultiTileHost)
                     {
+                        if(listener instanceof IBlockListener)
+                        {
+                            ((IBlockListener) listener).inject(world(), xi(), yi(), zi());
+                        }
                         if (((IMultiTileHost) listener).onMultiTileActivated(tile, player, side, xHit, yHit, zHit))
                         {
-                            if(listener instanceof IBlockListener)
-                            {
-                                ((IBlockListener) listener).inject(world(), xi(), yi(), zi());
-                            }
                             b = true;
                         }
                     }
