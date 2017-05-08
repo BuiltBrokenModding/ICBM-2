@@ -139,11 +139,7 @@
     "name": "small-missile-silo",
     "type": "model"
   },
-  "model": {
-    "key": "icbm:smallSilo",
-    "domain": "icbm",
-    "name": "smallSilo/small-missile-silo.obj"
-  },
+
   "craftingGridRecipe": {
     "type": "shaped",
     "output": "block@icbm:smallsilo",

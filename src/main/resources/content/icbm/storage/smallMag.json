@@ -1,3 +1,244 @@
 {
-
+  "author": {
+    "name": "icbm"
+  },
+  "block": {
+    "name": "smallMissileMag",
+    "id": "smallMissileMag",
+    "mod": "icbm",
+    "material": "iron",
+    "renderType": 0,
+    "isOpaque": false,
+    "tileEntity": {
+      "id": "smallMissileMag",
+      "class": "com.builtbroken.icbm.content.storage.small.TileEntityWrappedSmallMag"
+    },
+    "renderBounds": {
+      "min": 0,
+      "max": {
+        "x": 1,
+        "y": 3,
+        "z": 1
+      }
+    },
+    "blockBounds": {
+      "min": 0,
+      "max": {
+        "x": 1,
+        "y": 0.2,
+        "z": 1
+      }
+    },
+    "listeners": [
+      "rotation",
+      "wrenchRotation",
+      {
+        "id": "multiblock",
+        "layoutKey": "icbm:smallMissileMag"
+      },
+      {
+        "id": "missileRender",
+        "renderOffset": {
+          "x": 0.5,
+          "y": 0.4,
+          "z": 0.5
+        }
+      }
+    ]
+  },
+  "render": {
+    "contentID": "icbm:smallMissileMag",
+    "type": "tile",
+    "tileClass": "com.builtbroken.icbm.content.storage.small.TileEntityWrappedSmallMag",
+    "states": [
+      {
+        "id": "item",
+        "renderType": "model",
+        "modelID": "icbm:smallSilo",
+        "textureID": "icbm:smallMissileMag",
+        "parts": "Group_001,Component_1_001"
+      },
+      {
+        "id": "item.inventory",
+        "renderType": "model",
+        "parent": "item",
+        "scale": 0.8,
+        "offset": -0.5
+      },
+      {
+        "id": "item.equipped",
+        "renderType": "model",
+        "parent": "item",
+        "offset": {
+          "x": 0.5,
+          "y": 0.5,
+          "z": 0.5
+        }
+      },
+      {
+        "id": "item.first",
+        "renderType": "model",
+        "parent": "item",
+        "offset": {
+          "x": 0.3,
+          "y": 0.5,
+          "z": 0.9
+        }
+      },
+      {
+        "id": "item.entity",
+        "renderType": "model",
+        "parent": "item",
+        "offset": {
+          "x": 0.5,
+          "y": 0.5,
+          "z": 0.5
+        }
+      },
+      {
+        "id": "block",
+        "renderType": "block",
+        "sides": "icbm:PowerRailBody"
+      },
+      {
+        "id": "block.north",
+        "renderType": "block",
+        "top": "icbm:PowerRailArrowUp"
+      },
+      {
+        "id": "block.south",
+        "renderType": "block",
+        "top": "icbm:PowerRailArrowDown"
+      },
+      {
+        "id": "block.east",
+        "renderType": "block",
+        "top": "icbm:PowerRailArrowRight"
+      },
+      {
+        "id": "block.west",
+        "renderType": "block",
+        "top": "icbm:PowerRailArrowLeft"
+      },
+      {
+        "id": "tile",
+        "renderType": "model",
+        "modelID": "icbm:smallMissileMag",
+        "textureID": "icbm:smallMissileMag",
+        "offset": {
+          "y": 0
+        }
+      },
+      {
+        "id": "tile.north",
+        "renderType": "model",
+        "parent": "tile",
+        "rotation": {
+          "yaw": 180
+        }
+      },
+      {
+        "id": "tile.south",
+        "renderType": "model",
+        "parent": "tile",
+        "rotation": {
+          "yaw": 0
+        }
+      },
+      {
+        "id": "tile.east",
+        "renderType": "model",
+        "parent": "tile",
+        "rotation": {
+          "yaw": 90
+        }
+      },
+      {
+        "id": "tile.west",
+        "renderType": "model",
+        "parent": "tile",
+        "rotation": {
+          "yaw": -90
+        }
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:smallMissileMag",
+    "domain": "icbm",
+    "name": "grey",
+    "type": "model"
+  },
+  "texture:1": {
+    "key": "icbm:PowerRailBody",
+    "domain": "icbm",
+    "name": "PowerRailBody",
+    "type": "block"
+  },
+  "texture:2": {
+    "key": "icbm:PowerRailArrowUp",
+    "domain": "icbm",
+    "name": "PowerRailArrowUp",
+    "type": "block"
+  },
+  "texture:3": {
+    "key": "icbm:PowerRailArrowDown",
+    "domain": "icbm",
+    "name": "PowerRailArrowDown",
+    "type": "block"
+  },
+  "texture:4": {
+    "key": "icbm:PowerRailArrowLeft",
+    "domain": "icbm",
+    "name": "PowerRailArrowLeft",
+    "type": "block"
+  },
+  "texture:5": {
+    "key": "icbm:PowerRailArrowRight",
+    "domain": "icbm",
+    "name": "PowerRailArrowRight",
+    "type": "block"
+  },
+  "model": {
+    "key": "icbm:smallMissileMag",
+    "domain": "icbm",
+    "name": "mag/small.mag.obj"
+  },
+  "craftingGridRecipe": {
+    "type": "shaped",
+    "output": "block@icbm:smallsilo",
+    "grid": "I I,I I,CBC",
+    "items": {
+      "I": "block@iron_bars",
+      "B": "ore@blockIron",
+      "C": "ore@circuitBasic"
+    }
+  },
+  "craftingGridRecipe:1": {
+    "type": "shaped",
+    "output": "block@icbm:smallMissileMag",
+    "grid": "ICI,IMI,GBG",
+    "items": {
+      "I": "block@iron_bars",
+      "B": "ore@plateIron",
+      "C": "ore@electronicCircuit",
+      "M": "motor",
+      "G": "gearIron"
+    }
+  },
+  "multiblock": {
+    "key": "icbm:smallMissileMag",
+    "tiles": [
+      {
+        "pos": {
+          "y": 1
+        }
+      },
+      {
+        "pos": {
+          "y": 2
+        }
+      }
+    ]
+  }
 }

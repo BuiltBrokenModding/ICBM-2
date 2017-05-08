@@ -108,11 +108,6 @@
     "domain": "icbm",
     "name": "standardSilo/StandardSilo.obj"
   },
-  "model:1": {
-    "key": "icbm:smallSilo",
-    "domain": "icbm",
-    "name": "smallSilo/small-missile-silo.obj"
-  },
   "multiblock": {
     "key": "icbm:standardSilo",
     "tiles": [

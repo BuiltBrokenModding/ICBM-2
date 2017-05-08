@@ -29,9 +29,6 @@ public final class Assets
     //Launcher Models
     public static final IModelCustom SMALL_SILO_MODEL = model("smallSilo/small-missile-silo.obj");
 
-    //Mag
-    public static final WavefrontObject SMALL_MAG_MODEL = (WavefrontObject) model("mag/small.mag.obj");
-
     //Weapon Models
     public static final IModelCustom RPG_MODEL = model("rocketLauncher.tcn");
 

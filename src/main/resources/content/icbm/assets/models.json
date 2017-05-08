@@ -3,5 +3,10 @@
     "key": "icbm:3x1Cart",
     "domain": "icbm",
     "name": "carts/ThreeByOneMissileCart.obj"
+  },
+  "model:1": {
+    "key": "icbm:smallSilo",
+    "domain": "icbm",
+    "name": "smallSilo/small-missile-silo.obj"
   }
 }

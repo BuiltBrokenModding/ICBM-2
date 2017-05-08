@@ -57,7 +57,6 @@ import com.builtbroken.icbm.content.missile.tracking.MissileTracker;
 import com.builtbroken.icbm.content.rail.EntityMissileCart;
 import com.builtbroken.icbm.content.rail.ItemMissileCart;
 import com.builtbroken.icbm.content.rocketlauncher.ItemRocketLauncher;
-import com.builtbroken.icbm.content.storage.small.TileSmallMag;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
 import com.builtbroken.icbm.mods.cc.CCProxyICBM;
 import com.builtbroken.icbm.mods.oc.OCProxyICBM;
@@ -294,8 +293,6 @@ public final class ICBM extends AbstractMod
         {
             blockExplosiveMarker = manager.newBlock(BlockExplosiveMarker.class, ItemBlockMetadata.class);
         }
-        manager.newBlock("smallMissileMag", TileSmallMag.class);
-
 
         // ITEMS
         itemMissileCart = manager.newItem("icbmMissileCart", ItemMissileCart.class);
