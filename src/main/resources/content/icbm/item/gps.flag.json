@@ -1,0 +1,45 @@
+{
+  "item": {
+    "id": "gpsFlag",
+    "name": "gpsFlag",
+    "mod": "icbm",
+    "hasSubTypes": true,
+    "maxStackSize": 1
+  },
+  "render": {
+    "contentID": "icbm:gpsFlag",
+    "type": "item",
+    "states": [
+      {
+        "id": "item",
+        "renderType": "item",
+        "textureID": "icbm:gpsflag.unlinked"
+      },
+      {
+        "id": "item.1",
+        "renderType": "item",
+        "textureID": "icbm:gpsflag.linked"
+      }
+    ]
+  },
+  "craftingGridRecipe": {
+    "type": "shaped",
+    "output": "block@icbm:TileMissile",
+    "grid": " I ,BCB,ICI",
+    "items": {
+      "I": "ore@ingotIron",
+      "B": "block@wooden_button",
+      "C": "ore@circuitBasic"
+    }
+  },
+  "craftingGridRecipe:1": {
+    "type": "shaped",
+    "output": "block@icbm:TileMissile",
+    "grid": " I ,BCB,ICI",
+    "items": {
+      "I": "ore@ingotIron",
+      "B": "block@wooden_button",
+      "C": "ore@electronicCircuit"
+    }
+  }
+}

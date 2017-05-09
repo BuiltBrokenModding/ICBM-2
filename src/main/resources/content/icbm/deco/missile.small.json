@@ -34,6 +34,14 @@
         "id": "multiblock",
         "layoutKey": "icbm:TileMissile"
       }
+    ],
+    "subtypes": [
+      {
+        "meta": 0
+      },
+      {
+        "meta": 1
+      }
     ]
   },
   "render": {
@@ -103,6 +111,17 @@
           "y": 1.2,
           "z": 0
         }
+      },
+      {
+        "id": "tile.0",
+        "parent": "tile",
+        "renderType": "model"
+      },
+      {
+        "id": "tile.1",
+        "parent": "tile",
+        "renderType": "model",
+        "textureID": "icbm:smallMissile.a"
       }
     ]
   },
@@ -111,6 +130,12 @@
     "domain": "minecraft",
     "name": "planks_oak",
     "type": "block"
+  },
+  "texture:1": {
+    "key": "icbm:smallMissile.a",
+    "domain": "icbm",
+    "name": "missile_skins/small/a",
+    "type": "model"
   },
   "craftingGridRecipe": {
     "type": "shaped",

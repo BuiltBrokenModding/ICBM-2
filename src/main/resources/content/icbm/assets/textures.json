@@ -16,5 +16,11 @@
     "domain": "icbm",
     "name": "workstation.missile.small",
     "type": "model"
+  },
+  "texture:3": {
+    "key": "icbm:smallMissile",
+    "domain": "icbm",
+    "name": "Missile_Small",
+    "type": "model"
   }
 }

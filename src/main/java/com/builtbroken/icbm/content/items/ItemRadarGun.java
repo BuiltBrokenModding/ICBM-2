@@ -16,6 +16,7 @@ import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
+import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.items.ItemWorldPos;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -52,7 +53,7 @@ public class ItemRadarGun extends ItemWorldPos implements IWorldPosItem, IPostIn
     @Override
     public void onPostInit()
     {
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this), "RGR", "WCB", "WIB", 'I', ICBM.itemGPSTool, 'B', OreNames.ROD_IRON, 'C', UniversalRecipe.CIRCUIT_T2.get(), 'G', Items.glass_bottle, 'W', OreNames.WIRE_GOLD, 'R', OreNames.ROD_COPPER));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this), "RGR", "WCB", "WIB", 'I', InventoryUtility.getItem("icbm:gpsFlag"), 'B', OreNames.ROD_IRON, 'C', UniversalRecipe.CIRCUIT_T2.get(), 'G', Items.glass_bottle, 'W', OreNames.WIRE_GOLD, 'R', OreNames.ROD_COPPER));
     }
 
     @SideOnly(Side.CLIENT)
