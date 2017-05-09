@@ -206,16 +206,6 @@
   },
   "craftingGridRecipe": {
     "type": "shaped",
-    "output": "block@icbm:smallsilo",
-    "grid": "I I,I I,CBC",
-    "items": {
-      "I": "block@iron_bars",
-      "B": "ore@blockIron",
-      "C": "ore@circuitBasic"
-    }
-  },
-  "craftingGridRecipe:1": {
-    "type": "shaped",
     "output": "block@icbm:smallMissileMag",
     "grid": "ICI,IMI,GBG",
     "items": {

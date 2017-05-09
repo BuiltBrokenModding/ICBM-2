@@ -54,5 +54,6 @@ public class ICBMCreativeTab extends ModCreativeTab
         add(list, ICBM.itemMissileParts);
         add(list, ICBM.itemTrigger);
         add(list, InventoryUtility.getBlock("icbm:icbmDecorLaunchPad"));
+        add(list, InventoryUtility.getBlock("icbm:TileMissile"));
     }
 }

@@ -6,7 +6,7 @@ import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
 import com.builtbroken.icbm.content.launcher.TileMissileContainer;
 import com.builtbroken.icbm.content.storage.IMissileMag;
 import com.builtbroken.icbm.content.storage.IMissileMagOutput;
-import com.builtbroken.mc.api.tile.access.IRotation;
+import com.builtbroken.mc.api.tile.IRotatable;
 import com.builtbroken.mc.api.tile.listeners.IDestroyedListener;
 import com.builtbroken.mc.api.tile.node.ITileNode;
 import com.builtbroken.mc.api.tile.node.ITileNodeHost;
@@ -36,7 +36,7 @@ import java.util.List;
 @TileWrapped(className = "TileEntityWrappedSmallMag")
 @ExternalInventoryWrapped()
 @MultiBlockWrapped()
-public class TileSmallMag extends TileMissileContainer implements IMissileMag, IDestroyedListener, IRotation
+public class TileSmallMag extends TileMissileContainer implements IMissileMag, IDestroyedListener, IRotatable
 {
     protected static final ForgeDirection[] rotations = new ForgeDirection[]{ForgeDirection.NORTH, ForgeDirection.EAST, ForgeDirection.SOUTH, ForgeDirection.WEST};
 
@@ -217,5 +217,16 @@ public class TileSmallMag extends TileMissileContainer implements IMissileMag, I
             dirCache = ForgeDirection.getOrientation(world().getBlockMetadata(xi(), yi(), zi()));
         }
         return dirCache;
+    }
+
+    @Override
+    public void setDirection(ForgeDirection direction)
+    {
+        int meta = direction.ordinal();
+        if (meta >= 2 && meta <= 5) //Restrict to side only rotations
+        {
+            dirCache = null;
+            world().setBlockMetadataWithNotify(xi(), yi(), zi(), meta, 3);
+        }
     }
 }

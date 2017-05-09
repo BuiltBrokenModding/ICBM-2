@@ -40,7 +40,6 @@ import com.builtbroken.icbm.content.crafting.parts.ItemExplosiveParts;
 import com.builtbroken.icbm.content.crafting.parts.ItemMissileParts;
 import com.builtbroken.icbm.content.crafting.parts.MissileCraftingParts;
 import com.builtbroken.icbm.content.debug.BlockExplosiveMarker;
-import com.builtbroken.icbm.content.display.TileMissile;
 import com.builtbroken.icbm.content.fragments.EntityFragment;
 import com.builtbroken.icbm.content.fragments.FragmentEventHandler;
 import com.builtbroken.icbm.content.items.*;
@@ -148,7 +147,6 @@ public final class ICBM extends AbstractMod
     // Blocks
     public static Block blockWarhead;
     public static Block blockExplosiveMarker;
-    public static Block blockDisplayMissile;
 
     public static Block blockMissileWorkstation;
     public static Block blockDirectSiloController;
@@ -284,9 +282,6 @@ public final class ICBM extends AbstractMod
 
         //Clear launcher creative tab to prevent placement by user by mistake
         NEIProxy.hideItem(blockCrashMissile);
-
-        // Decor Blocks
-        blockDisplayMissile = manager.newBlock(TileMissile.class);
 
         // Debug Only blocks
         if (Engine.runningAsDev)

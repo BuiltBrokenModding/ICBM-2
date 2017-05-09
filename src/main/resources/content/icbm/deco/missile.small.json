@@ -1,0 +1,141 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "block": {
+    "name": "TileMissile",
+    "id": "TileMissile",
+    "mod": "icbm",
+    "material": "wood",
+    "renderType": 0,
+    "isOpaque": false,
+    "tileEntity": {
+      "id": "TileMissile",
+      "class": "com.builtbroken.icbm.content.display.TileEntityWrapperMissile"
+    },
+    "renderBounds": {
+      "min": 0,
+      "max": {
+        "x": 1,
+        "y": 3,
+        "z": 1
+      }
+    },
+    "blockBounds": {
+      "min": 0,
+      "max": {
+        "x": 1,
+        "y": 0.2,
+        "z": 1
+      }
+    },
+    "listeners": [
+      {
+        "id": "multiblock",
+        "layoutKey": "icbm:TileMissile"
+      }
+    ]
+  },
+  "render": {
+    "contentID": "icbm:TileMissile",
+    "type": "tile",
+    "tileClass": "com.builtbroken.icbm.content.display.TileEntityWrapperMissile",
+    "states": [
+      {
+        "id": "item",
+        "renderType": "model",
+        "modelID": "icbm:smallMissile",
+        "textureID": "icbm:smallMissile"
+      },
+      {
+        "id": "item.inventory",
+        "renderType": "model",
+        "parent": "item",
+        "scale": 0.8,
+        "offset": {
+          "x": -0.5,
+          "y": -0.4,
+          "z": -0.5
+        }
+      },
+      {
+        "id": "item.equipped",
+        "renderType": "model",
+        "parent": "item",
+        "offset": {
+          "x": 0.5,
+          "y": 0.5,
+          "z": 0.5
+        }
+      },
+      {
+        "id": "item.first",
+        "renderType": "model",
+        "parent": "item",
+        "offset": {
+          "x": 0.3,
+          "y": 0.5,
+          "z": 0.9
+        }
+      },
+      {
+        "id": "item.entity",
+        "renderType": "model",
+        "parent": "item",
+        "offset": {
+          "x": 0,
+          "y": 0.5,
+          "z": 0
+        }
+      },
+      {
+        "id": "block",
+        "renderType": "block",
+        "textureID": "minecraft:planks_oak"
+      },
+      {
+        "id": "tile",
+        "renderType": "model",
+        "modelID": "icbm:smallMissile",
+        "textureID": "icbm:smallMissile",
+        "offset": {
+          "x": 0,
+          "y": 1.2,
+          "z": 0
+        }
+      }
+    ]
+  },
+  "texture": {
+    "key": "minecraft:planks_oak",
+    "domain": "minecraft",
+    "name": "planks_oak",
+    "type": "block"
+  },
+  "craftingGridRecipe": {
+    "type": "shaped",
+    "output": "block@icbm:TileMissile",
+    "grid": "glg,sls,ppp",
+    "items": {
+      "p": "ore@plankWood",
+      "l": "ore@logWood",
+      "g": "item@dye#2",
+      "s": "item@dye#7"
+    }
+  },
+  "multiblock": {
+    "key": "icbm:TileMissile",
+    "tiles": [
+      {
+        "pos": {
+          "y": 1
+        }
+      },
+      {
+        "pos": {
+          "y": 2
+        }
+      }
+    ]
+  }
+}

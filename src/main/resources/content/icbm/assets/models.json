@@ -8,5 +8,10 @@
     "key": "icbm:smallSilo",
     "domain": "icbm",
     "name": "smallSilo/small-missile-silo.obj"
+  },
+  "model:2": {
+    "key": "icbm:smallMissile",
+    "domain": "icbm",
+    "name": "missile/Missile_Small_scale.obj"
   }
 }
