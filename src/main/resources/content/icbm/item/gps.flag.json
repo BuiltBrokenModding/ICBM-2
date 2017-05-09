@@ -6,7 +6,7 @@
     "maxStackSize": 1
   },
   "render": {
-    "contentID": "icbm:gpsFlag",
+    "contentID": "item.icbm:gpsFlag",
     "type": "item",
     "states": [
       {
@@ -15,11 +15,43 @@
         "textureID": "icbm:gpsflag.unlinked"
       },
       {
-        "id": "item.1",
+        "id": "item.inventory",
+        "renderType": "item",
+        "parent": "item"
+      },
+      {
+        "id": "item.inventory.1",
         "renderType": "item",
         "textureID": "icbm:gpsflag.linked"
+      },
+      {
+        "id": "item.equipped",
+        "renderType": "item",
+        "parent": "item"
+      },
+      {
+        "id": "item.first",
+        "renderType": "item",
+        "parent": "item"
+      },
+      {
+        "id": "item.entity",
+        "renderType": "item",
+        "parent": "item"
       }
     ]
+  },
+  "texture": {
+    "key": "icbm:gpsflag.unlinked",
+    "domain": "icbm",
+    "name": "linker.unlinked",
+    "type": "item"
+  },
+  "texture:1": {
+    "key": "icbm:gpsflag.linked",
+    "domain": "icbm",
+    "name": "linker.linked",
+    "type": "item"
   },
   "craftingGridRecipe": {
     "type": "shaped",
