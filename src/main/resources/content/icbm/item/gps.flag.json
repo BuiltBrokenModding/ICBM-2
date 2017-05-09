@@ -1,8 +1,7 @@
 {
   "item": {
-    "id": "gpsFlag",
+    "itemClass": "com.builtbroken.icbm.content.items.ItemWrapperGPSFlag",
     "name": "gpsFlag",
-    "mod": "icbm",
     "hasSubTypes": true,
     "maxStackSize": 1
   },

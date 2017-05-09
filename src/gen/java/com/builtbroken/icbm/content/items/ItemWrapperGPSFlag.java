@@ -19,18 +19,4 @@ public class ItemWrapperGPSFlag extends ItemBase
 		super(new ItemGPSFlag());
 	}
 
-	//Fields from Empty
-	public static final String TEST_FIELD = "DATA";
-	;
-	//============================
-	//==Methods:Empty
-	//============================
-
-
-    @Override
-    public String getClassDisplayName()
-    {
-        return "TileEntityWrapper(Empty)";
-    }
-    
 }
