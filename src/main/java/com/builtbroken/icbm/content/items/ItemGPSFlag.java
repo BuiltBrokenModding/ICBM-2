@@ -20,7 +20,7 @@ import net.minecraft.world.World;
  * Basic item that can stored the location it right clicks
  * Created by Dark on 6/2/2015.
  */
-@ItemWrapped(className = "ItemWrapperGPSFlag")
+@ItemWrapped(className = "ItemWrapperGPSFlag", wrappers = "IWorldPos;EnergyUE")
 public class ItemGPSFlag extends ItemNode implements IItemActivationListener
 {
     public ItemGPSFlag()
