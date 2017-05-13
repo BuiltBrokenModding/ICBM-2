@@ -14,6 +14,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.List;
@@ -59,9 +60,9 @@ public class BlastExoThermic extends BlastSimplePath<BlastExoThermic>
     }
 
     @Override
-    public boolean shouldPathTo(Location last, Location next)
+    public boolean shouldPathTo(Location last, Location next, EnumFacing dir)
     {
-        if (super.shouldPathTo(last, next))
+        if (super.shouldPathTo(last, next, dir))
         {
             if (last.isAirBlock() && next.isAirBlock())
             {

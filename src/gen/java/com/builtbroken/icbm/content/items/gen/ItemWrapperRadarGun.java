@@ -1,25 +1,27 @@
 //=======================================================
 //DISCLAIMER: THIS IS A GENERATED CLASS FILE
 //THUS IS PROVIDED 'AS-IS' WITH NO WARRANTY
-//FUNCTIONALITY CAN NOT BE GUARANTIED IN ANY WAY
-//USE AT YOUR OWN RISK
+//FUNCTIONALITY CAN NOT BE GUARANTIED IN ANY WAY 
+//USE AT YOUR OWN RISK 
 //-------------------------------------------------------
 //Built on: Rober
 //=======================================================
-package com.builtbroken.icbm.content.items;
+package com.builtbroken.icbm.content.items.gen;
 
+import com.builtbroken.icbm.content.items.ItemRadarGun;
 import com.builtbroken.mc.api.IWorldPosition;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
 import com.builtbroken.mc.framework.item.ItemBase;
+import com.builtbroken.mc.framework.item.logic.ItemNode;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ItemWrapperGPSFlag extends ItemBase implements IWorldPosItem
+public class ItemWrapperRadarGun extends ItemBase implements IWorldPosItem
 {
-	public ItemWrapperGPSFlag()
+	public ItemWrapperRadarGun()
 	{
-		super(new ItemGPSFlag());
+		super(new ItemRadarGun());
 	}
 
 	//============================
@@ -56,5 +58,5 @@ public class ItemWrapperGPSFlag extends ItemBase implements IWorldPosItem
         }
         return false;
     }
-
+    
 }

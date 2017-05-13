@@ -11,6 +11,7 @@ import com.builtbroken.mc.prefab.explosive.blast.BlastSimplePath;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.List;
@@ -43,9 +44,9 @@ public class BlastFlashFire extends BlastSimplePath<BlastFlashFire>
     }
 
     @Override
-    public boolean shouldPathTo(Location last, Location next)
+    public boolean shouldPathTo(Location last, Location next, EnumFacing dir)
     {
-        if (super.shouldPathTo(last, next))
+        if (super.shouldPathTo(last, next, dir))
         {
             if (last.isReplaceable() && next.isReplaceable())
                 return last.sub(next).toForgeDirection() != ForgeDirection.UP;

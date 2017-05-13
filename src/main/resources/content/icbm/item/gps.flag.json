@@ -1,6 +1,6 @@
 {
   "item": {
-    "itemClass": "com.builtbroken.icbm.content.items.ItemWrapperGPSFlag",
+    "itemClass": "com.builtbroken.icbm.content.items.gen.ItemWrapperGPSFlag",
     "name": "gpsFlag",
     "hasSubTypes": true,
     "maxStackSize": 1
@@ -55,7 +55,7 @@
   },
   "craftingGridRecipe": {
     "type": "shaped",
-    "output": "block@icbm:TileMissile",
+    "output": "item@icbm:gpsFlag",
     "grid": " I ,BCB,ICI",
     "items": {
       "I": "ore@ingotIron",
@@ -65,7 +65,7 @@
   },
   "craftingGridRecipe:1": {
     "type": "shaped",
-    "output": "block@icbm:TileMissile",
+    "output": "item@icbm:gpsFlag",
     "grid": " I ,BCB,ICI",
     "items": {
       "I": "ore@ingotIron",

@@ -3,90 +3,35 @@ package com.builtbroken.icbm.content.items;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.launcher.ILauncher;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
+import com.builtbroken.mc.api.items.listeners.IItemActivationListener;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
 import com.builtbroken.mc.api.tile.node.ITileNodeHost;
+import com.builtbroken.mc.codegen.annotations.ItemWrapped;
 import com.builtbroken.mc.core.Engine;
-import com.builtbroken.mc.core.network.IPacketReceiver;
 import com.builtbroken.mc.core.network.packet.PacketPlayerItem;
-import com.builtbroken.mc.core.network.packet.PacketType;
-import com.builtbroken.mc.core.registry.implement.IPostInit;
+import com.builtbroken.mc.framework.item.logic.ItemNode;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
-import com.builtbroken.mc.lib.helper.recipe.OreNames;
-import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
-import com.builtbroken.mc.prefab.inventory.InventoryUtility;
-import com.builtbroken.mc.prefab.items.ItemWorldPos;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-
-import java.util.List;
 
 /**
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 6/13/2016.
  */
-public class ItemRadarGun extends ItemWorldPos implements IWorldPosItem, IPostInit, IPacketReceiver
+@ItemWrapped(className = ".gen.ItemWrapperRadarGun", wrappers = "IWorldPos;EnergyUE")
+public class ItemRadarGun extends ItemNode implements IItemActivationListener
 {
-    IIcon linked_icon;
-
     public ItemRadarGun()
     {
-        this.setMaxStackSize(1);
-        this.setHasSubtypes(true);
-        this.setUnlocalizedName(ICBM.PREFIX + "radarGun");
-    }
-
-    @Override
-    public void onPostInit()
-    {
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this), "RGR", "WCB", "WIB", 'I', InventoryUtility.getItem("icbm:gpsFlag"), 'B', OreNames.ROD_IRON, 'C', UniversalRecipe.CIRCUIT_T2.get(), 'G', Items.glass_bottle, 'W', OreNames.WIRE_GOLD, 'R', OreNames.ROD_COPPER));
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void addInformation(ItemStack stack, EntityPlayer player, List lines, boolean b)
-    {
-        String localization = LanguageUtility.getLocal(getUnlocalizedName() + ".info");
-        if (localization != null && !localization.isEmpty())
-        {
-            String[] split = localization.split(",");
-            for (String line : split)
-            {
-                lines.add(line.trim());
-            }
-        }
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void registerIcons(IIconRegister reg)
-    {
-        this.itemIcon = reg.registerIcon(ICBM.PREFIX + "radargun.unlinked");
-        this.linked_icon = reg.registerIcon(ICBM.PREFIX + "radargun.linked");
-    }
-
-    @Override
-    public IIcon getIconFromDamage(int meta)
-    {
-        if (meta == 1)
-        {
-            return this.linked_icon;
-        }
-        return this.itemIcon;
+        super(ICBM.DOMAIN, "radarGun");
     }
 
     @Override
@@ -133,7 +78,7 @@ public class ItemRadarGun extends ItemWorldPos implements IWorldPosItem, IPostIn
         }
         else
         {
-            Location storedLocation = getLocation(stack);
+            Location storedLocation = ((IWorldPosItem) item).getLocation(stack);
             if (storedLocation == null || !storedLocation.isAboveBedrock())
             {
                 LanguageUtility.addChatToPlayer(player, "gps.error.pos.invalid");
@@ -150,13 +95,9 @@ public class ItemRadarGun extends ItemWorldPos implements IWorldPosItem, IPostIn
     }
 
     @Override
-    public void read(ByteBuf buf, EntityPlayer player, PacketType packet)
+    public void readPacketData(ByteBuf buf, EntityPlayer player, ItemStack stack)
     {
-        ItemStack stack = player.inventory.getCurrentItem();
-        if (stack != null && stack.getItem() == this)
-        {
-            setLocation(stack, new Location(player.worldObj, buf.readInt(), buf.readInt(), buf.readInt()));
-            player.addChatComponentMessage(new ChatComponentText("GPS data set"));
-        }
+        ((IWorldPosItem) item).setLocation(stack, new Location(player.worldObj, buf.readInt(), buf.readInt(), buf.readInt()));
+        player.addChatComponentMessage(new ChatComponentText("GPS data set"));
     }
 }

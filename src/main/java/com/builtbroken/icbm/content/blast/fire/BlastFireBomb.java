@@ -7,6 +7,7 @@ import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.prefab.explosive.blast.BlastSimplePath;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.util.ForgeDirection;
 
 /**
@@ -40,9 +41,9 @@ public class BlastFireBomb extends BlastSimplePath<BlastFireBomb>
     }
 
     @Override
-    public boolean shouldPathTo(Location last, Location next)
+    public boolean shouldPathTo(Location last, Location next, EnumFacing dir)
     {
-        if (super.shouldPathTo(last, next))
+        if (super.shouldPathTo(last, next, dir))
         {
             if (last.isAirBlock() && next.isAirBlock())
                 return last.sub(next).toForgeDirection() != ForgeDirection.UP;

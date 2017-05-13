@@ -1,3 +1,82 @@
 {
-
+  "item": {
+    "itemClass": "com.builtbroken.icbm.content.items.gen.ItemWrapperRadarGun",
+    "name": "radarGun",
+    "hasSubTypes": true,
+    "maxStackSize": 1
+  },
+  "render": {
+    "contentID": "item.icbm:radarGun",
+    "type": "item",
+    "states": [
+      {
+        "id": "item",
+        "renderType": "item",
+        "textureID": "icbm:radargun.unlinked"
+      },
+      {
+        "id": "item.inventory",
+        "renderType": "item",
+        "parent": "item"
+      },
+      {
+        "id": "item.inventory.1",
+        "renderType": "item",
+        "textureID": "icbm:radargun.linked"
+      },
+      {
+        "id": "item.equipped",
+        "renderType": "item",
+        "parent": "item"
+      },
+      {
+        "id": "item.first",
+        "renderType": "item",
+        "parent": "item"
+      },
+      {
+        "id": "item.entity",
+        "renderType": "item",
+        "parent": "item"
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:radargun.unlinked",
+    "domain": "icbm",
+    "name": "radargun.unlinked",
+    "type": "item"
+  },
+  "texture:1": {
+    "key": "icbm:radargun.linked",
+    "domain": "icbm",
+    "name": "radargun.linked",
+    "type": "item"
+  },
+  "craftingGridRecipe": {
+    "type": "shaped",
+    "output": "item@icbm:radarGun",
+    "grid": "RGR,WCB,WIB",
+    "items": {
+      "I": "item@icbm:gpsFlag",
+      "B": "ore@rodIron",
+      "C": "ore@circuitAdvanced",
+      "G": "item@minecraft:glass_bottle",
+      "W": "ore@wireGold",
+      "R": "ore@rodCopper"
+    }
+  },
+  "craftingGridRecipe:1": {
+    "type": "shaped",
+    "output": "item@icbm:radarGun",
+    "grid": "RGR,WCB,WIB",
+    "items": {
+      "I": "item@icbm:gpsFlag",
+      "B": "ore@rodIron",
+      "C": "ore@advancedCircuit",
+      "G": "item@minecraft:glass_bottle",
+      "W": "ore@wireGold",
+      "R": "ore@rodCopper"
+    }
+  }
 }

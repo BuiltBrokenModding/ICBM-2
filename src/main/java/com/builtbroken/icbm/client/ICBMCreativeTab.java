@@ -33,7 +33,7 @@ public class ICBMCreativeTab extends ModCreativeTab
         add(list, ICBM.blockCommandSiloConnector);
         add(list, ICBM.blockCommandSiloDisplay);
         add(list, ICBM.itemRemoteDetonator);
-        add(list, ICBM.itemRadarGun);
+        add(list, InventoryUtility.getItem("icbm:radarGun"));
         add(list, ICBM.itemLaserDet);
 
         add(list, InventoryUtility.getBlock("icbm:standardsilo"));
