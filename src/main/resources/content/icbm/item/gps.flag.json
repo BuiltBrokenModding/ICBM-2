@@ -6,7 +6,7 @@
     "maxStackSize": 1
   },
   "render": {
-    "contentID": "item.icbm:gpsFlag",
+    "contentID": "icbm:gpsFlag",
     "type": "item",
     "states": [
       {

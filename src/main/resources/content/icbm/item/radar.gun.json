@@ -6,7 +6,7 @@
     "maxStackSize": 1
   },
   "render": {
-    "contentID": "item.icbm:radarGun",
+    "contentID": "icbm:radarGun",
     "type": "item",
     "states": [
       {
