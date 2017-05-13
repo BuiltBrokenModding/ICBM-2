@@ -44,13 +44,13 @@
   "texture": {
     "key": "icbm:gpsflag.unlinked",
     "domain": "icbm",
-    "name": "linker.unlinked",
+    "name": "gpsflag.unlinked",
     "type": "item"
   },
   "texture:1": {
     "key": "icbm:gpsflag.linked",
     "domain": "icbm",
-    "name": "linker.linked",
+    "name": "gpsflag.linked",
     "type": "item"
   },
   "craftingGridRecipe": {
