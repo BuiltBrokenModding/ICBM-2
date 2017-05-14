@@ -2,6 +2,7 @@ package com.builtbroken.icbm.content.items;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.jlib.lang.TextColor;
+import com.builtbroken.mc.api.items.listeners.IItemActivationListener;
 import com.builtbroken.mc.api.items.tools.IPassCodeItem;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
 import com.builtbroken.mc.api.tile.ILinkable;
@@ -9,78 +10,27 @@ import com.builtbroken.mc.api.tile.IPassCode;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
 import com.builtbroken.mc.api.tile.node.ITileNodeHost;
-import com.builtbroken.mc.core.registry.implement.IPostInit;
+import com.builtbroken.mc.codegen.annotations.ItemWrapped;
+import com.builtbroken.mc.framework.item.logic.ItemNode;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
-import com.builtbroken.mc.lib.helper.recipe.OreNames;
-import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
-import com.builtbroken.mc.prefab.items.ItemWorldPos;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-
-import java.util.List;
 
 /**
+ * Used to link to tiles together
  * Created by robert on 4/15/2015.
  */
-public class ItemLinkTool extends ItemWorldPos implements IWorldPosItem, IPassCodeItem, IPostInit
+@ItemWrapped(className = ".gen.ItemWrapperLinkTool", wrappers = "IWorldPos;EnergyUE")
+public class ItemLinkTool extends ItemNode implements IPassCodeItem, IItemActivationListener
 {
-    IIcon linked_icon;
-
     public ItemLinkTool()
     {
-        this.setMaxStackSize(1);
-        this.setHasSubtypes(true);
-    }
-
-    @Override
-    public void onPostInit()
-    {
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.itemLinkTool), " I ", "BCB", "ICI", 'I', OreNames.INGOT_IRON, 'B', Blocks.wooden_button, 'C', UniversalRecipe.CIRCUIT_T2.get()));
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void addInformation(ItemStack stack, EntityPlayer player, List lines, boolean b)
-    {
-        String localization = LanguageUtility.getLocal(getUnlocalizedName() + ".info");
-        if (localization != null && !localization.isEmpty())
-        {
-            String[] split = localization.split(",");
-            for (String line : split)
-            {
-                lines.add(line.trim());
-            }
-        }
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void registerIcons(IIconRegister reg)
-    {
-        this.itemIcon = reg.registerIcon(ICBM.PREFIX + "linker.unlinked");
-        this.linked_icon = reg.registerIcon(ICBM.PREFIX + "linker.linked");
-    }
-
-    @Override
-    public IIcon getIconFromDamage(int meta)
-    {
-        if (meta == 1)
-        {
-            return this.linked_icon;
-        }
-        return this.itemIcon;
+        super(ICBM.DOMAIN, "siloLinker");
     }
 
     @Override
@@ -99,7 +49,7 @@ public class ItemLinkTool extends ItemWorldPos implements IWorldPosItem, IPassCo
     @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hit_x, float hit_y, float hit_z)
     {
-        if (player != null && stack != null && stack.getItem() == this)
+        if (player != null && stack != null && stack.getItem() instanceof IWorldPosItem)
         {
             if (world.isRemote)
             {
@@ -120,13 +70,13 @@ public class ItemLinkTool extends ItemWorldPos implements IWorldPosItem, IPassCo
 
             if (player.isSneaking())
             {
-                Location storedLocation = getLocation(stack);
+                Location storedLocation = ((IWorldPosItem) stack.getItem()).getLocation(stack);
                 if (storedLocation != null && storedLocation.equals(location))
                 {
                     LanguageUtility.addChatToPlayer(player, "link.error.data.stored");
                     return true;
                 }
-                setLocation(stack, location);
+                ((IWorldPosItem) stack.getItem()).setLocation(stack, location);
                 LanguageUtility.addChatToPlayer(player, "link.pos.set");
                 if (tile instanceof IPassCode)
                 {
@@ -142,7 +92,7 @@ public class ItemLinkTool extends ItemWorldPos implements IWorldPosItem, IPassCo
             }
             else
             {
-                Location storedLocation = getLocation(stack);
+                Location storedLocation = ((IWorldPosItem) stack.getItem()).getLocation(stack);
                 if (storedLocation != null)
                 {
                     if (!storedLocation.equals(location))
@@ -155,7 +105,7 @@ public class ItemLinkTool extends ItemWorldPos implements IWorldPosItem, IPassCo
                         else if (tile instanceof ILinkable || tile instanceof ITileNodeHost && ((ITileNodeHost) tile).getTileNode() instanceof ILinkable)
                         {
                             ILinkable linkable = tile instanceof ILinkable ? (ILinkable) tile : (ILinkable) ((ITileNodeHost) tile).getTileNode();
-                            String result =  linkable.link(storedLocation, getCode(stack));
+                            String result = linkable.link(storedLocation, getCode(stack));
                             if (result != null && !result.isEmpty())
                             {
                                 if (result.contains("error"))
@@ -203,7 +153,7 @@ public class ItemLinkTool extends ItemWorldPos implements IWorldPosItem, IPassCo
     @Override
     public short getCode(ItemStack stack)
     {
-        if (stack != null && stack.getItem() == this && stack.hasTagCompound() && stack.getTagCompound().hasKey("passShort"))
+        if (stack != null && stack.getItem() instanceof IWorldPosItem && stack.hasTagCompound() && stack.getTagCompound().hasKey("passShort"))
         {
             return stack.getTagCompound().getShort("passShort");
         }
@@ -213,7 +163,7 @@ public class ItemLinkTool extends ItemWorldPos implements IWorldPosItem, IPassCo
     @Override
     public void setCode(ItemStack stack, short code)
     {
-        if (stack != null && stack.getItem() == this)
+        if (stack != null && stack.getItem() instanceof IWorldPosItem)
         {
             if (stack.getTagCompound() == null)
             {

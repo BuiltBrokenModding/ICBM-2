@@ -1,3 +1,66 @@
 {
-
+  "item": {
+    "itemClass": "com.builtbroken.icbm.content.items.gen.ItemWrapperLinkTool",
+    "name": "siloLinker",
+    "hasSubTypes": true,
+    "maxStackSize": 1
+  },
+  "render": {
+    "contentID": "icbm:siloLinker",
+    "type": "item",
+    "states": [
+      {
+        "id": "item",
+        "renderType": "item",
+        "textureID": "icbm:siloLinker.unlinked"
+      },
+      {
+        "id": "item.inventory",
+        "renderType": "item",
+        "parent": "item"
+      },
+      {
+        "id": "item.inventory.1",
+        "renderType": "item",
+        "textureID": "icbm:siloLinker.linked"
+      },
+      {
+        "id": "item.equipped",
+        "renderType": "item",
+        "parent": "item"
+      },
+      {
+        "id": "item.first",
+        "renderType": "item",
+        "parent": "item"
+      },
+      {
+        "id": "item.entity",
+        "renderType": "item",
+        "parent": "item"
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:siloLinker.unlinked",
+    "domain": "icbm",
+    "name": "linker.unlinked",
+    "type": "item"
+  },
+  "texture:1": {
+    "key": "icbm:siloLinker.linked",
+    "domain": "icbm",
+    "name": "linker.linked",
+    "type": "item"
+  },
+  "craftingGridRecipe": {
+    "type": "shaped",
+    "output": "item@icbm:siloLinker",
+    "grid": " I ,BCB,ICI",
+    "items": {
+      "I": "ore@ingotIron",
+      "B": "block@wooden_button",
+      "C": "ore@circuitAdvanced"
+    }
+  }
 }

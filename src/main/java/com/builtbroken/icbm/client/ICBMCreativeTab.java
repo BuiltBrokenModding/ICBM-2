@@ -25,7 +25,7 @@ public class ICBMCreativeTab extends ModCreativeTab
         add(list, InventoryUtility.getBlock("icbm:icbmLauncherParts"));
         add(list, InventoryUtility.getBlock("icbm:smallsilo"));
 
-        add(list, ICBM.itemLinkTool);
+        add(list, InventoryUtility.getItem("icbm:siloLinker"));
         add(list, InventoryUtility.getItem("icbm:gpsFlag"));
 
         add(list, ICBM.blockAntenna);

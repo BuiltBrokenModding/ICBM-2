@@ -8,7 +8,7 @@
 //=======================================================
 package com.builtbroken.icbm.content.items.gen;
 
-import com.builtbroken.icbm.content.items.ItemGPSFlag;
+import com.builtbroken.icbm.content.items.ItemLinkTool;
 import com.builtbroken.mc.api.IWorldPosition;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
 import com.builtbroken.mc.framework.item.ItemBase;
@@ -17,11 +17,11 @@ import com.builtbroken.mc.imp.transform.vector.Location;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ItemWrapperGPSFlag extends ItemBase implements IWorldPosItem
+public class ItemWrapperLinkTool extends ItemBase implements IWorldPosItem
 {
-	public ItemWrapperGPSFlag()
+	public ItemWrapperLinkTool()
 	{
-		super(new ItemGPSFlag());
+		super(new ItemLinkTool());
 	}
 
 	//============================

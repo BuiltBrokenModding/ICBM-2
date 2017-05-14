@@ -165,7 +165,6 @@ public final class ICBM extends AbstractMod
     // Items
     public static Item itemMissile;
     public static Item itemRocketLauncher;
-    public static Item itemLinkTool;
     public static Item itemLaserDet;
     public static ItemEngineModules itemEngineModules;
     public static ItemGuidanceModules itemGuidanceModules;
@@ -293,7 +292,6 @@ public final class ICBM extends AbstractMod
         itemRocketLauncher = manager.newItem("rocketLauncher", ItemRocketLauncher.class);
         itemEngineModules = manager.newItem("engineModules", ItemEngineModules.class);
         itemGuidanceModules = manager.newItem("guidanceModules", ItemGuidanceModules.class);
-        itemLinkTool = manager.newItem("siloLinker", ItemLinkTool.class);
         itemLaserDet = manager.newItem("laserDet", ItemLaserDetonator.class);
         itemMissileParts = manager.newItem("missileParts", ItemMissileParts.class);
         itemExplosive = manager.newItem("explosiveUnit", ItemExplosive.class);
