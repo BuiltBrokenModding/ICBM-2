@@ -35,7 +35,7 @@ public class MissileTrackingData
         missile.writeToNBTOptional(this.m_save);
         target = missile.target_pos;
         this.missile = missile.getMissile();
-        respawnTicks = getRespawnTicks(new Pos(missile), new Pos(missile.target_pos), missile.getMissile().getEngine() != null ? missile.getMissile().getEngine().getSpeed(missile.getMissile()) : 1);
+        respawnTicks = getRespawnTicks(new Pos((IPos3D) missile), new Pos(missile.target_pos), missile.getMissile().getEngine() != null ? missile.getMissile().getEngine().getSpeed(missile.getMissile()) : 1);
     }
 
     public static long getRespawnTicks(Pos start, Pos end, float speed)

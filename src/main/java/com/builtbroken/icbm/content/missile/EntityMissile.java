@@ -3,7 +3,6 @@ package com.builtbroken.icbm.content.missile;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.blast.IBlastHandler;
 import com.builtbroken.icbm.api.blast.IExHandlerTileMissile;
-import com.builtbroken.mc.api.entity.IFoF;
 import com.builtbroken.icbm.api.missile.IMissileEntity;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
@@ -13,13 +12,14 @@ import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.icbm.content.missile.tile.TileCrashedMissile;
 import com.builtbroken.icbm.content.missile.tracking.MissileTracker;
 import com.builtbroken.jlib.data.vector.IPos3D;
+import com.builtbroken.mc.api.data.EnumProjectileTypes;
+import com.builtbroken.mc.api.entity.IFoF;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosive;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.tile.node.ITileNode;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
-import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.WorldChangeHelper;
 import com.builtbroken.mc.lib.world.radar.RadarRegistry;
@@ -33,7 +33,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -59,6 +58,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     public EntityMissile(World w)
     {
         super(w);
+        this.hasHealth = true;
         this.setSize(.5F, .5F);
         this.inAirKillTime = 144000 /* 2 hours */;
     }
@@ -66,14 +66,31 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     public EntityMissile(EntityLivingBase entity)
     {
         super(entity.worldObj, entity, 1);
+        this.hasHealth = true;
         this.setSize(.5F, .5F);
         this.inAirKillTime = 144000 /* 2 hours */;
     }
 
     @Override
-    protected void entityInit()
+    public float getMaxHealth()
     {
-        this.dataWatcher.addObject(6, Float.valueOf(1.0F));
+        if (missile != null)
+        {
+            switch (missile.getMissileSize())
+            {
+                case 0:
+                    return 2;
+                case 1:
+                    return 10;
+                case 2:
+                    return 30;
+                case 4:
+                    return 100;
+                case 5:
+                    return 1000;
+            }
+        }
+        return 2;
     }
 
     @Override
@@ -108,39 +125,11 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     }
 
     @Override
-    public boolean attackEntityFrom(DamageSource source, float damage)
+    protected void onDestroyedBy(DamageSource source, float damage)
     {
-        if (!worldObj.isRemote && !isEntityInvulnerable() && damage > 0)
-        {
-            setHealth(Math.max(0, getHealth() - damage));
-            if (getHealth() <= 0)
-            {
-                destroyMissile(this, DamageSource.generic, 0.1f, true, true, true);
-                setDead();
-            }
-            return true;
-        }
-        return false;
-    }
-
-    public void heal(float hp)
-    {
-        float f1 = this.getHealth();
-
-        if (f1 > 0.0F)
-        {
-            this.setHealth(f1 + hp);
-        }
-    }
-
-    public final float getHealth()
-    {
-        return this.dataWatcher.getWatchableObjectFloat(6);
-    }
-
-    public void setHealth(float hp)
-    {
-        this.dataWatcher.updateObject(6, Float.valueOf(MathHelper.clamp_float(hp, 0.0F, missile != null ? missile.getMaxHitPoints() : 10)));
+        //TODO change scale of explosion based on damage type
+        destroyMissile(this, DamageSource.generic, 0.1f, true, true, true);
+        this.setDead();
     }
 
 
@@ -311,7 +300,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
         }
         else
         {
-            onImpact(hit.hitVec.xCoord, hit.hitVec.yCoord, hit.hitVec.zCoord, true, new TriggerCause.TriggerBlockImpact(inBlockID, this, getVelocity())); //TODO check that velocity is correct
+            onImpact(hit.hitVec.xCoord, hit.hitVec.yCoord, hit.hitVec.zCoord, true, new TriggerCause.TriggerBlockImpact(inBlockID, this, getSpeed())); //TODO check that velocity is correct
         }
     }
 
@@ -403,7 +392,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
                 }
                 else
                 {
-                    InventoryUtility.dropItemStack(new Location(this), missile.toStack());
+                    InventoryUtility.dropItemStack(this, missile.toStack());
                 }
             }
             else if (doDrops)
@@ -535,10 +524,6 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
         {
             fofTag = nbt.getString("fofTag");
         }
-        if (nbt.hasKey("health"))
-        {
-            this.setHealth(nbt.getFloat("health"));
-        }
     }
 
     @Override
@@ -553,10 +538,6 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
         if (fofTag != null && !fofTag.isEmpty())
         {
             nbt.setString("fofTag", fofTag);
-        }
-        if (getHealth() > 0)
-        {
-            nbt.setFloat("health", getHealth());
         }
     }
 
@@ -584,5 +565,11 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     public String toString()
     {
         return String.format("Missile[ %d@dim %.2fx %.2fy %.2fz ]@", worldObj.provider.dimensionId, posX, posY, posZ) + hashCode();
+    }
+
+    @Override
+    public EnumProjectileTypes getProjectileType()
+    {
+        return EnumProjectileTypes.ROCKET;
     }
 }

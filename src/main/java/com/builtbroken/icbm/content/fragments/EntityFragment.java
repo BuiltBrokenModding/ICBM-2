@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.fragments;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.mc.api.data.EnumProjectileTypes;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.lib.helper.MathUtility;
 import com.builtbroken.mc.imp.transform.region.Cube;
@@ -110,7 +111,7 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
             //TODO replace cloth with damaged cloth
             if (inBlockID.blockMaterial == Material.glass || inBlockID.blockMaterial == Material.cloth || inBlockID.blockMaterial == Material.leaves)
             {
-                if (getVelocity() > GLASS_BREAK_VELOCITY)
+                if (getSpeed() > GLASS_BREAK_VELOCITY)
                 {
                     worldObj.setBlockToAir(xTile, yTile, zTile);
                     this.motionX -= motionX * (inBlockID.blockHardness / 100);
@@ -320,5 +321,11 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
     public String toString()
     {
         return "EntityFragment[ dim@" + (worldObj != null && worldObj.provider != null ? worldObj.provider.dimensionId : "null") + " " + posX + "x " + posY + "y " + posZ + "z | " + fragmentType + "]@" + hashCode();
+    }
+
+    @Override
+    public EnumProjectileTypes getProjectileType()
+    {
+        return EnumProjectileTypes.FRAGMENT;
     }
 }

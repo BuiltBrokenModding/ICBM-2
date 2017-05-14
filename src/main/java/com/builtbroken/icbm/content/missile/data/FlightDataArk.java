@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.missile.data;
 
 import com.builtbroken.icbm.content.missile.EntityMissile;
+import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.imp.transform.rotation.EulerAngle;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 
@@ -34,7 +35,7 @@ public class FlightDataArk extends FlightDataDirect
         {
             down = true;
             //Start to ark down
-            EulerAngle angle = new Pos(missile).toEulerAngle(missile.target_pos);
+            EulerAngle angle = new Pos((IPos3D) missile).toEulerAngle(missile.target_pos);
             missile.rotationYaw = (float)angle.yaw();
             missile.rotationPitch = (float)angle.pitch();
             calculateMotionForRotationAndPower(1);

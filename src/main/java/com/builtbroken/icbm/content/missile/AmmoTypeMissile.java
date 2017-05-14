@@ -2,6 +2,7 @@ package com.builtbroken.icbm.content.missile;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
+import com.builtbroken.mc.api.data.EnumProjectileTypes;
 import com.builtbroken.mc.api.data.weapon.IAmmoType;
 
 /**
@@ -39,6 +40,12 @@ public class AmmoTypeMissile implements IAmmoType
     public String getUnlocalizedName()
     {
         return ICBM.PREFIX + getAmmoCategory() + "." + getAmmoType();
+    }
+
+    @Override
+    public EnumProjectileTypes getProjectileType()
+    {
+        return EnumProjectileTypes.ROCKET;
     }
 
     @Override
