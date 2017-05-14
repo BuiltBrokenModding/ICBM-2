@@ -24,6 +24,7 @@ import com.builtbroken.mc.api.tile.node.ITileNodeHost;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketType;
+import com.builtbroken.mc.framework.item.ItemBase;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.helper.MathUtility;
@@ -432,7 +433,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
             if (id == 23)
             {
                 ItemStack stack = ((ContainerSilo) player.openContainer).basicInventory.getStackInSlot(0);
-                if (stack != null && stack.getItem() instanceof ItemRemoteDetonator)
+                if (stack != null && stack.getItem() instanceof ItemBase && ((ItemBase) stack.getItem()).node instanceof ItemRemoteDetonator)
                 {
                     if (returnGuiData.containsKey(player) && player.openContainer instanceof ContainerSilo)
                     {
@@ -442,7 +443,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
                             TileSiloInterface tileSiloInterface = (TileSiloInterface) returnGuiData.get(player)[0];
                             if (tileSiloInterface.getCommandCenter() != null && tileSiloInterface.getCommandCenter().getAttachedNetworks().size() > 0 && connector.getConnectorGroupName() != null && getCustomName() != null)
                             {
-                                ((ItemRemoteDetonator) stack.getItem()).encode(stack, tileSiloInterface.getCommandCenter().getAttachedNetworks().get(0).getHz(), link_code, connector.getConnectorGroupName(), getCustomName());
+                                ((ItemRemoteDetonator) ((ItemBase) stack.getItem()).node).encode(stack, tileSiloInterface.getCommandCenter().getAttachedNetworks().get(0).getHz(), link_code, connector.getConnectorGroupName(), getCustomName());
                             }
                             else if (player instanceof EntityPlayerMP)
                             {

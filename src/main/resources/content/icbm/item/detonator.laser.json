@@ -1,3 +1,60 @@
 {
-
+  "item": {
+    "itemClass": "com.builtbroken.icbm.content.items.gen.ItemWrapperLaserDet",
+    "name": "laserDetonator",
+    "hasSubTypes": true,
+    "maxStackSize": 1
+  },
+  "render": {
+    "contentID": "icbm:laserDet",
+    "type": "item",
+    "states": [
+      {
+        "id": "item",
+        "renderType": "item",
+        "textureID": "icbm:laserDetonator"
+      },
+      {
+        "id": "item.inventory",
+        "renderType": "item",
+        "parent": "item"
+      },
+      {
+        "id": "item.equipped",
+        "renderType": "item",
+        "parent": "item"
+      },
+      {
+        "id": "item.first",
+        "renderType": "item",
+        "parent": "item"
+      },
+      {
+        "id": "item.entity",
+        "renderType": "item",
+        "parent": "item"
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:laserDetonator",
+    "domain": "icbm",
+    "name": "laserDesignator",
+    "type": "item"
+  },
+  "craftingGridRecipe": {
+    "type": "shaped",
+    "output": "item@icbm:laserDet",
+    "grid": "GLP,BDW,ECE",
+    "items": {
+      "G": "item@glass_bottle",
+      "B": "item@blaze_rod",
+      "L": "block@redstone_lamp",
+      "P": "ore@plateSteel",
+      "W": "ore@wireCopper",
+      "E": "item@repeater",
+      "C": "ore@circuitAdvanced",
+      "D": "item@icbm:icbmRemoteDet"
+    }
+  }
 }

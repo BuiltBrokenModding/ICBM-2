@@ -1,3 +1,57 @@
-{
-
+{"item": {
+  "itemClass": "com.builtbroken.icbm.content.items.gen.ItemWrapperRemoteDet",
+  "name": "remoteDetonator",
+  "hasSubTypes": true,
+  "maxStackSize": 1
+},
+  "render": {
+    "contentID": "icbm:icbmRemoteDet",
+    "type": "item",
+    "states": [
+      {
+        "id": "item",
+        "renderType": "item",
+        "textureID": "icbm:remoteDetonator"
+      },
+      {
+        "id": "item.inventory",
+        "renderType": "item",
+        "parent": "item"
+      },
+      {
+        "id": "item.equipped",
+        "renderType": "item",
+        "parent": "item"
+      },
+      {
+        "id": "item.first",
+        "renderType": "item",
+        "parent": "item"
+      },
+      {
+        "id": "item.entity",
+        "renderType": "item",
+        "parent": "item"
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:remoteDetonator",
+    "domain": "icbm",
+    "name": "remoteDetonator",
+    "type": "item"
+  },
+  "craftingGridRecipe": {
+    "type": "shaped",
+    "output": "item@icbm:icbmRemoteDet",
+    "grid": "RNP,RCW,CTT",
+    "items": {
+      "R": "ore@rodIron",
+      "N": "ore@nuggetIron",
+      "C": "ore@circuitBasic",
+      "T": "ore@dustRedstone",
+      "P": "ore@plateIron",
+      "W": "ore@wireCopper"
+    }
+  }
 }

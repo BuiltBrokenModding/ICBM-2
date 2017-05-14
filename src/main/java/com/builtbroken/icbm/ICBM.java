@@ -72,6 +72,7 @@ import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.mods.nei.NEIProxy;
 import com.builtbroken.mc.prefab.entity.type.EntityTypeCheckRegistry;
 import com.builtbroken.mc.prefab.explosive.ExplosiveHandlerGeneric;
+import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.item.ItemBlockMetadata;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
@@ -165,7 +166,6 @@ public final class ICBM extends AbstractMod
     // Items
     public static Item itemMissile;
     public static Item itemRocketLauncher;
-    public static Item itemLaserDet;
     public static ItemEngineModules itemEngineModules;
     public static ItemGuidanceModules itemGuidanceModules;
     public static Item itemMissileParts;
@@ -174,9 +174,6 @@ public final class ICBM extends AbstractMod
     public static Item itemTrigger;
 
     public static Item itemMissileCart;
-
-    public static ItemRemoteDetonator itemRemoteDetonator;
-
 
     public final ModCreativeTab CREATIVE_TAB;
 
@@ -292,11 +289,9 @@ public final class ICBM extends AbstractMod
         itemRocketLauncher = manager.newItem("rocketLauncher", ItemRocketLauncher.class);
         itemEngineModules = manager.newItem("engineModules", ItemEngineModules.class);
         itemGuidanceModules = manager.newItem("guidanceModules", ItemGuidanceModules.class);
-        itemLaserDet = manager.newItem("laserDet", ItemLaserDetonator.class);
         itemMissileParts = manager.newItem("missileParts", ItemMissileParts.class);
         itemExplosive = manager.newItem("explosiveUnit", ItemExplosive.class);
         itemExplosivePart = manager.newItem("explosiveUnitParts", ItemExplosiveParts.class);
-        itemRemoteDetonator = manager.newItem("icbmRemoteDet", ItemRemoteDetonator.class);
         itemTrigger = manager.newItem("icbmTriggers", ItemTriggerModules.class);
         NEIProxy.hideItem(ItemExplosive.ExplosiveItems.NBT.newItem());
 
@@ -308,7 +303,7 @@ public final class ICBM extends AbstractMod
         Triggers.register();
 
         //Set tab item last so to avoid NPE
-        CREATIVE_TAB.itemStack = new ItemStack(itemRemoteDetonator);
+        CREATIVE_TAB.itemStack = new ItemStack(InventoryUtility.getItem("icbm:icbmRemoteDet"));
         warheadsTab.itemStack = new ItemStack(blockWarhead);
         explosiveTab.itemStack = ItemExplosiveParts.ExplosiveParts.GUNPOWDER_CHARGE.newItem();
         getProxy().registerExplosives();

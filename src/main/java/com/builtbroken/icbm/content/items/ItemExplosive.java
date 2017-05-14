@@ -48,6 +48,13 @@ import java.util.List;
  */
 public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, IPostInit, IRegistryInit
 {
+    //TODO for converting to JSON
+    //  Move biome and fragment to own item, USE NBT TO move old items to new items to prevent item loss
+    //  Add loader for sub types to Item Processor
+    //  Add loader for explosive item data
+    //  Add explosive item registry JSON processor
+
+
     public ItemExplosive()
     {
         this.setMaxStackSize(10);
