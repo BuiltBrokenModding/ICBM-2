@@ -21,6 +21,7 @@ import com.builtbroken.icbm.content.blast.fragment.ExFragment;
 import com.builtbroken.icbm.content.blast.gravity.ExGravity;
 import com.builtbroken.icbm.content.blast.item.BlockFakeCake;
 import com.builtbroken.icbm.content.blast.item.ExCake;
+import com.builtbroken.icbm.content.blast.nuke.ExNuke;
 import com.builtbroken.icbm.content.blast.power.ExEmp;
 import com.builtbroken.icbm.content.blast.power.ExMicrowave;
 import com.builtbroken.icbm.content.blast.temp.ExEndoThermic;
@@ -341,6 +342,7 @@ public final class ICBM extends AbstractMod
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Emp", new ExEmp());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Gravity", new ExGravity());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Microwave", new ExMicrowave());
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Nuke", new ExNuke());
             if (Engine.runningAsDev)
             {
                 ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SimplePathTest1", new ExplosiveHandlerGeneric("SimplePathTest1", BlastPathTester.class, 1));
