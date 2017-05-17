@@ -38,8 +38,14 @@ public abstract class ExplosiveHandlerICBM<B extends Blast> extends AbstractExpl
             blast.setCause(triggerCause);
             blast.setYield(size * multi);
             blast.setAdditionBlastData(tag);
+            addData(blast);
         }
         return blast;
+    }
+
+    protected void addData(B blast)
+    {
+
     }
 
     @Override

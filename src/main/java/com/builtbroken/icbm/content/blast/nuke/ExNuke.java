@@ -4,6 +4,8 @@ import com.builtbroken.icbm.api.missile.IMissileEntity;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.content.blast.ExplosiveHandlerICBM;
+import com.builtbroken.mc.api.event.TriggerCause;
+import net.minecraft.nbt.NBTTagCompound;
 
 /**
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
@@ -22,9 +24,15 @@ public class ExNuke extends ExplosiveHandlerICBM<BlastNuke>
     @Override
     protected BlastNuke newBlast()
     {
-        BlastNuke nuke = new BlastNuke(this);
-        //nuke.explosivesToTriggerAfter.add(ExplosiveRegistry.get("Microwave"));
-        return nuke;
+        return new BlastNuke(this);
+    }
+
+    @Override
+    protected void addData(BlastNuke blast)
+    {
+        super.addData(blast);
+        blast.addPostTriggerExplosive("ExoThermic", blast.size * 4, new TriggerCause.TriggerCauseExplosion(blast.wrapperExplosion), new NBTTagCompound());
+        blast.addPostTriggerExplosive("Emp", blast.size * 10, new TriggerCause.TriggerCauseExplosion(blast.wrapperExplosion), new NBTTagCompound());
     }
 
     @Override

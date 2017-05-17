@@ -498,7 +498,10 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     public void setMissile(IMissile missile)
     {
         this.missile = missile;
-        this.inAirKillTime = MissileCasings.get(missile.getMissileSize()).maxFlightTimeInTicks;
+        if (missile != null)
+        {
+            this.inAirKillTime = MissileCasings.get(missile.getMissileSize()).maxFlightTimeInTicks;
+        }
     }
 
     @Override

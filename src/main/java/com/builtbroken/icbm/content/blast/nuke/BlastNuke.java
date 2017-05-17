@@ -63,6 +63,7 @@ public class BlastNuke extends BlastSimplePath<BlastNuke>
     @Override
     public void doEffectOther(boolean beforeBlocksPlaced)
     {
+        super.doEffectOther(beforeBlocksPlaced);
         if (!beforeBlocksPlaced)
         {
             //TODO wright own version of getEntitiesWithinAABB that takes a filter and cuboid(or Vector3 to Vector3)
