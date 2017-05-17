@@ -35,7 +35,7 @@ public class BlastNuke extends BlastSimplePath<BlastNuke>
         {
             return null;
         }
-        return new BlockEdit(world, location).set(Blocks.air, 0, false, true);
+        return new BlockEdit(world, location).set(Blocks.air, 0, false, true).setNotificationLevel(2);
     }
 
     @Override

@@ -52,7 +52,7 @@ public class BlastMicrowave extends BlastSimplePath<BlastMicrowave>
             //TODO damage low grade wires
             if (block == Blocks.water || block == Blocks.flowing_water)
             {
-                return new BlockEdit(world, location).set(Blocks.air);
+                return new BlockEdit(world, location).set(Blocks.air).setNotificationLevel(2);
             }
             else if (block == Blocks.cactus)
             {

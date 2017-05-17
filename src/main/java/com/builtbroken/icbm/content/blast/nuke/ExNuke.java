@@ -22,7 +22,9 @@ public class ExNuke extends ExplosiveHandlerICBM<BlastNuke>
     @Override
     protected BlastNuke newBlast()
     {
-        return new BlastNuke(this);
+        BlastNuke nuke = new BlastNuke(this);
+        //nuke.explosivesToTriggerAfter.add(ExplosiveRegistry.get("Microwave"));
+        return nuke;
     }
 
     @Override
