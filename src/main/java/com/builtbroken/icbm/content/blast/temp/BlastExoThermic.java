@@ -3,6 +3,7 @@ package com.builtbroken.icbm.content.blast.temp;
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.core.Engine;
+import com.builtbroken.mc.imp.transform.vector.BlockPos;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.lib.world.edit.PlacementData;
@@ -31,9 +32,9 @@ public class BlastExoThermic extends BlastSimplePath<BlastExoThermic>
     }
 
     @Override
-    public BlockEdit changeBlock(Location location)
+    public BlockEdit changeBlock(BlockPos location)
     {
-        Block block = location.getBlock();
+        Block block = location.getBlock(world);
         if (block != null)
         {
             //TODO change temp to be based on init energy and heating data of the block
@@ -41,16 +42,16 @@ public class BlastExoThermic extends BlastSimplePath<BlastExoThermic>
             PlacementData data = HeatedBlockRegistry.getResultWarmUp(block, getTempForDistance(location.distance(x, y, z)));
             if (data != null && data.block() != null)
             {
-                BlockEdit edit = new BlockEdit(location);
+                BlockEdit edit = new BlockEdit(world, location);
                 edit.set(data.block(), data.meta() == -1 ? 0 : data.meta(), false, true);
                 return edit;
             }
-            else if (location.isAirBlock())
+            else if (location.isAirBlock(world))
             {
-                Location loc = location.add(0, -1, 0);
+                Location loc = new Location(world, location).add(0, -1, 0);
                 if (!loc.isAirBlock() && loc.isSideSolid(ForgeDirection.UP))
                 {
-                    BlockEdit edit = new BlockEdit(location);
+                    BlockEdit edit = new BlockEdit(world, location);
                     edit.set(Blocks.fire, 0, false, true);
                     return edit;
                 }
@@ -60,13 +61,13 @@ public class BlastExoThermic extends BlastSimplePath<BlastExoThermic>
     }
 
     @Override
-    public boolean shouldPathTo(Location last, Location next, EnumFacing dir)
+    public boolean shouldPathTo(BlockPos last, BlockPos next, EnumFacing dir)
     {
         if (super.shouldPathTo(last, next, dir))
         {
-            if (last.isAirBlock() && next.isAirBlock())
+            if (last.isAirBlock(world) && next.isAirBlock(world))
             {
-                return last.sub(next).toForgeDirection() != ForgeDirection.UP;
+                return dir != EnumFacing.UP;
             }
             //TODO check if the block has thermal properties
             //TODO if yes then check if it allows heat transfer

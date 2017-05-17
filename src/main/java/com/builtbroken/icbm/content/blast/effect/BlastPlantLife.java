@@ -3,7 +3,7 @@ package com.builtbroken.icbm.content.blast.effect;
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.core.Engine;
-import com.builtbroken.mc.imp.transform.vector.Location;
+import com.builtbroken.mc.imp.transform.vector.BlockPos;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.prefab.explosive.blast.BlastSimplePath;
@@ -24,22 +24,22 @@ public class BlastPlantLife extends BlastSimplePath<BlastPlantLife>
     }
 
     @Override
-    public BlockEdit changeBlock(Location location)
+    public BlockEdit changeBlock(BlockPos location)
     {
-        Block block = location.getBlock();
-        if (!location.isAirBlock() && location.getHardness() >= 0)
+        Block block = location.getBlock(world);
+        if (!location.isAirBlock(world) && location.getHardness(world) >= 0)
         {
             if (block == Blocks.dirt)
             {
-                if(location.add(0, 1, 0).isAirBlock())
+                if(location.add(0, 1, 0).isAirBlock(world))
                 {
-                    return new BlockEdit(location).set(Blocks.grass, 0, false, true);
+                    return new BlockEdit(world, location).set(Blocks.grass, 0, false, true);
                 }
-                return new BlockEdit(location).set(Blocks.dirt, 0, false, true);
+                return new BlockEdit(world, location).set(Blocks.dirt, 0, false, true);
             }
-            else if (block == Blocks.cobblestone && location.world.rand.nextBoolean())
+            else if (block == Blocks.cobblestone && world.rand.nextBoolean())
             {
-                return new BlockEdit(location).set(Blocks.mossy_cobblestone, 0, false, true);
+                return new BlockEdit(world, location).set(Blocks.mossy_cobblestone, 0, false, true);
             }
         }
         return null;

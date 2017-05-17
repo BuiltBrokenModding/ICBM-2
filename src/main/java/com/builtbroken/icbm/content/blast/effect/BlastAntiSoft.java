@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.blast.effect;
 
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.imp.transform.vector.Location;
+import com.builtbroken.mc.imp.transform.vector.BlockPos;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.prefab.explosive.blast.BlastSimplePath;
 import net.minecraft.block.Block;
@@ -22,17 +22,17 @@ public class BlastAntiSoft extends BlastSimplePath<BlastAntiSoft>
     }
 
     @Override
-    public BlockEdit changeBlock(Location location)
+    public BlockEdit changeBlock(BlockPos location)
     {
         //TODO add blacklist
         //TODO add registry
-        if (location.getTileEntity() == null)
+        if (location.getTileEntity(world) == null)
         {
-            Block block = location.getBlock();
+            Block block = location.getBlock(world);
             Material material = block.getMaterial();
             if (material == Material.carpet || material == Material.cloth || material == Material.wood || material == Material.leaves)
             {
-                return new BlockEdit(location).set(Blocks.air, 0, true, true);
+                return new BlockEdit(world, location).set(Blocks.air, 0, true, true);
             }
         }
         return null;

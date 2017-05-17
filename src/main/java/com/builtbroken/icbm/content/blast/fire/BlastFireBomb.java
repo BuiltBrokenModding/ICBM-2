@@ -3,6 +3,7 @@ package com.builtbroken.icbm.content.blast.fire;
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.core.Engine;
+import com.builtbroken.mc.imp.transform.vector.BlockPos;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.prefab.explosive.blast.BlastSimplePath;
@@ -24,15 +25,15 @@ public class BlastFireBomb extends BlastSimplePath<BlastFireBomb>
     }
 
     @Override
-    public BlockEdit changeBlock(Location location)
+    public BlockEdit changeBlock(BlockPos location)
     {
         //TODO spawn random fire particle that can set fire to blocks up to 20 away
-        if (location.isAirBlock())
+        if (location.isAirBlock(world))
         {
-            Location loc = location.add(0, -1, 0);
+            Location loc = new Location(world, location).sub(0, 1, 0);
             if (!loc.isAirBlock() && loc.isSideSolid(ForgeDirection.UP))
             {
-                BlockEdit edit = new BlockEdit(location);
+                BlockEdit edit = new BlockEdit(world, location);
                 edit.set(Blocks.fire, 0, false, true);
                 return edit;
             }
@@ -41,12 +42,14 @@ public class BlastFireBomb extends BlastSimplePath<BlastFireBomb>
     }
 
     @Override
-    public boolean shouldPathTo(Location last, Location next, EnumFacing dir)
+    public boolean shouldPathTo(BlockPos last, BlockPos next, EnumFacing dir)
     {
         if (super.shouldPathTo(last, next, dir))
         {
-            if (last.isAirBlock() && next.isAirBlock())
-                return last.sub(next).toForgeDirection() != ForgeDirection.UP;
+            if (last.isAirBlock(world) && next.isAirBlock(world))
+            {
+                return dir != EnumFacing.DOWN.UP;
+            }
             return true;
         }
         return false;

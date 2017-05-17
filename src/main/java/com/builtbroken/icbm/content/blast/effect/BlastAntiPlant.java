@@ -4,7 +4,7 @@ import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.imp.transform.region.Cube;
-import com.builtbroken.mc.imp.transform.vector.Location;
+import com.builtbroken.mc.imp.transform.vector.BlockPos;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.prefab.explosive.blast.BlastSimplePath;
@@ -33,28 +33,28 @@ public class BlastAntiPlant extends BlastSimplePath<BlastAntiPlant>
     }
 
     @Override
-    public BlockEdit changeBlock(Location location)
+    public BlockEdit changeBlock(BlockPos location)
     {
-        Block block = location.getBlock();
+        Block block = location.getBlock(world);
         //int meta = location.getBlockMetadata();
         Material material = block.getMaterial();
-        if (!location.isAirBlock() && location.getHardness() >= 0)
+        if (!location.isAirBlock(world) && location.getHardness(world) >= 0)
         {
             if (block == Blocks.grass)
             {
-                return new BlockEdit(location).set(Blocks.dirt, 1, false, true);
+                return new BlockEdit(world, location).set(Blocks.dirt, 1, false, true);
             }
             else if (block == Blocks.dirt)
             {
-                return new BlockEdit(location).set(Blocks.dirt, 1, false, true);
+                return new BlockEdit(world, location).set(Blocks.dirt, 1, false, true);
             }
             else if (block == Blocks.tallgrass)
             {
-                return new BlockEdit(location).set(Blocks.air, 0, false, true);
+                return new BlockEdit(world, location).set(Blocks.air, 0, false, true);
             }
             else if (block == Blocks.mossy_cobblestone)
             {
-                return new BlockEdit(location).set(Blocks.cobblestone, 0, false, true);
+                return new BlockEdit(world, location).set(Blocks.cobblestone, 0, false, true);
             }
             else if (material == Material.leaves
                     || material == Material.plants
@@ -62,15 +62,15 @@ public class BlastAntiPlant extends BlastSimplePath<BlastAntiPlant>
                     || material == Material.cactus
                     || material == Material.gourd)
             {
-                return new BlockEdit(location).set(Blocks.air, 0, false, true);
+                return new BlockEdit(world, location).set(Blocks.air, 0, false, true);
             }
             else if (block instanceof BlockHugeMushroom || block instanceof BlockMycelium || block instanceof BlockHay || block instanceof BlockLog)
             {
-                return new BlockEdit(location).set(Blocks.dirt, 1, false, true);
+                return new BlockEdit(world, location).set(Blocks.dirt, 1, false, true);
             }
             else if (block instanceof IPlantable || block instanceof IGrowable)
             {
-                return new BlockEdit(location).set(Blocks.air, 1, false, true);
+                return new BlockEdit(world, location).set(Blocks.air, 1, false, true);
             }
         }
         return null;

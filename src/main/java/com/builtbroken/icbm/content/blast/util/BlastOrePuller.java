@@ -4,6 +4,7 @@ import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.core.content.resources.ore.BlockOre;
 import com.builtbroken.mc.core.content.resources.gems.BlockGemOre;
+import com.builtbroken.mc.imp.transform.vector.BlockPos;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
@@ -85,10 +86,10 @@ public class BlastOrePuller extends BlastSimplePath<BlastOrePuller>
     }
 
     @Override
-    public IWorldEdit changeBlock(Location location)
+    public IWorldEdit changeBlock(BlockPos location)
     {
-        Block block = location.getBlock();
-        if (!location.canSeeSky())
+        Block block = location.getBlock(world);
+        if (!location.canSeeSky(world))
         {
             if (blackList.contains(block))
             {
@@ -96,11 +97,11 @@ public class BlastOrePuller extends BlastSimplePath<BlastOrePuller>
             }
             else if (block instanceof BlockOre || block instanceof net.minecraft.block.BlockOre || block instanceof BlockGemOre || whiteList.contains(block))
             {
-                return new BlockEdit(location).setAir();
+                return new BlockEdit(world, location).setAir();
             }
             else if (block.getUnlocalizedName().contains("ore"))
             {
-                List<ItemStack> stacks = block.getDrops(location.world, location.xi(), location.yi(), location.zi(), 0, 0);
+                List<ItemStack> stacks = block.getDrops(world, location.xi(), location.yi(), location.zi(), 0, 0);
                 if (stacks != null)
                 {
                     for (ItemStack stack : stacks)
@@ -110,7 +111,7 @@ public class BlastOrePuller extends BlastSimplePath<BlastOrePuller>
                         {
                             //Add to white list to increase speed
                             whiteList.add(block);
-                            return new BlockEdit(location).setAir();
+                            return new BlockEdit(world, location).setAir();
                         }
                     }
                 }

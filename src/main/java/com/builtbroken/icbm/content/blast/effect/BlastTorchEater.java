@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.blast.effect;
 
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.imp.transform.vector.Location;
+import com.builtbroken.mc.imp.transform.vector.BlockPos;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.prefab.explosive.blast.BlastSimplePath;
 import net.minecraft.block.Block;
@@ -22,13 +22,13 @@ public class BlastTorchEater extends BlastSimplePath<BlastTorchEater>
     }
 
     @Override
-    public BlockEdit changeBlock(Location location)
+    public BlockEdit changeBlock(BlockPos location)
     {
         //TODO maybe make path only air blocks for balance
-        Block block = location.getBlock();
+        Block block = location.getBlock(world);
         if (block == Blocks.torch)
         {
-            return new BlockEdit(location).set(Blocks.air, 0, true, true);
+            return new BlockEdit(world, location).set(Blocks.air, 0, true, true);
         }
         return null;
     }

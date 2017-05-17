@@ -5,7 +5,7 @@ import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.packet.callback.PacketBlast;
-import com.builtbroken.mc.imp.transform.vector.Location;
+import com.builtbroken.mc.imp.transform.vector.BlockPos;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.prefab.entity.selector.EntityDistanceSelector;
@@ -33,17 +33,17 @@ public class BlastAntimatter extends BlastSimplePath<BlastAntimatter>
     //TODO add delay secondary blast trigger that uses energy released to destroy more blocks
 
     @Override
-    public BlockEdit changeBlock(Location location)
+    public BlockEdit changeBlock(BlockPos location)
     {
-        if (location.getBlock() == Blocks.air)
+        if (location.getBlock(world) == Blocks.air)
             return null;
-        return new BlockEdit(location).set(Blocks.air, 0, false, true);
+        return new BlockEdit(world, location).set(Blocks.air, 0, false, true);
     }
 
     @Override
-    public boolean shouldPath(Location location)
+    public boolean shouldPath(BlockPos location)
     {
-        if (!ICBM.ANTIMATTER_BREAK_UNBREAKABLE && location.getHardness() < 0)
+        if (!ICBM.ANTIMATTER_BREAK_UNBREAKABLE && location.getHardness(world) < 0)
             return false;
         return super.shouldPath(location);
     }

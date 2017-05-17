@@ -3,6 +3,7 @@ package com.builtbroken.icbm.content.blast.fire;
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.core.Engine;
+import com.builtbroken.mc.imp.transform.vector.BlockPos;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.prefab.entity.damage.DamageSources;
@@ -28,14 +29,14 @@ public class BlastFlashFire extends BlastSimplePath<BlastFlashFire>
     }
 
     @Override
-    public BlockEdit changeBlock(Location location)
+    public BlockEdit changeBlock(BlockPos location)
     {
-        if (location.isReplaceable())
+        if (location.isReplaceable(world))
         {
-            Location loc = location.add(0, -1, 0);
+            Location loc = new Location(world, location).add(0, -1, 0);
             if (!loc.isAirBlock() && loc.isSideSolid(ForgeDirection.UP))
             {
-                BlockEdit edit = new BlockEdit(location);
+                BlockEdit edit = new BlockEdit(world, location);
                 edit.set(Blocks.fire, 0, false, true);
                 return edit;
             }
@@ -44,12 +45,12 @@ public class BlastFlashFire extends BlastSimplePath<BlastFlashFire>
     }
 
     @Override
-    public boolean shouldPathTo(Location last, Location next, EnumFacing dir)
+    public boolean shouldPathTo(BlockPos last, BlockPos next, EnumFacing dir)
     {
         if (super.shouldPathTo(last, next, dir))
         {
-            if (last.isReplaceable() && next.isReplaceable())
-                return last.sub(next).toForgeDirection() != ForgeDirection.UP;
+            if (last.isReplaceable(world) && next.isReplaceable(world))
+                return dir != EnumFacing.UP;
             return true;
         }
         return false;

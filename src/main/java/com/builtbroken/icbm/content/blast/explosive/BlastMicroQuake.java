@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.blast.explosive;
 
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.imp.transform.vector.Location;
+import com.builtbroken.mc.imp.transform.vector.BlockPos;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.prefab.explosive.blast.BlastSimplePath;
 import net.minecraft.block.Block;
@@ -25,9 +25,9 @@ public class BlastMicroQuake extends BlastSimplePath<BlastMicroQuake>
     }
 
     @Override
-    public BlockEdit changeBlock(Location location)
+    public BlockEdit changeBlock(BlockPos location)
     {
-        Block block = location.getBlock();
+        Block block = location.getBlock(world);
         //TODO add gravel and sand version of ores
         //TODO add compatibility for other mods
         //TODO add registry for mods to add blocks to this explosive
@@ -40,24 +40,24 @@ public class BlastMicroQuake extends BlastSimplePath<BlastMicroQuake>
         //TODO increase delay of placement
         //TODO teleport around sand and gravel (in other words throw)
 
-        if (location.world.rand.nextBoolean())
+        if (world.rand.nextBoolean())
         {
             if (block == Blocks.stone)
             {
-                return new BlockEdit(location, Blocks.cobblestone);
+                return new BlockEdit(world, location).set(Blocks.cobblestone);
             }
             else if (block == Blocks.stonebrick)
             {
                 //TODO set to cracked bricks
-                return new BlockEdit(location, Blocks.cobblestone);
+                return new BlockEdit(world, location).set(Blocks.cobblestone);
             }
             else if (block == Blocks.cobblestone)
             {
-                return new BlockEdit(location, Blocks.gravel);
+                return new BlockEdit(world, location).set(Blocks.gravel);
             }
             else if (block == Blocks.gravel)
             {
-                return new BlockEdit(location, Blocks.sand);
+                return new BlockEdit(world, location).set(Blocks.sand);
             }
         }
         return null;
@@ -71,8 +71,8 @@ public class BlastMicroQuake extends BlastSimplePath<BlastMicroQuake>
     }
 
     @Override
-    public boolean shouldPath(Location location)
+    public boolean shouldPath(BlockPos location)
     {
-        return !location.isAirBlock() && super.shouldPath(location);
+        return !location.isAirBlock(world) && super.shouldPath(location);
     }
 }

@@ -5,6 +5,7 @@ import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.packet.callback.PacketBlast;
+import com.builtbroken.mc.imp.transform.vector.BlockPos;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
@@ -39,9 +40,9 @@ public class BlastMicrowave extends BlastSimplePath<BlastMicrowave>
     }
 
     @Override
-    public IWorldEdit changeBlock(Location location)
+    public IWorldEdit changeBlock(BlockPos location)
     {
-        Block block = location.getBlock();
+        Block block = location.getBlock(world);
         if (block.blockHardness > -1)
         {
             //TODO cause steam damage
@@ -51,28 +52,28 @@ public class BlastMicrowave extends BlastSimplePath<BlastMicrowave>
             //TODO damage low grade wires
             if (block == Blocks.water || block == Blocks.flowing_water)
             {
-                return new BlockEdit(location, Blocks.air, 0);
+                return new BlockEdit(world, location).set(Blocks.air);
             }
             else if (block == Blocks.cactus)
             {
-                return new BlockEdit(location, Blocks.fire, 0);
+                return new BlockEdit(world, location).set(Blocks.fire);
             }
             else if (block.blockMaterial == Material.wood)
             {
                 if (world.rand.nextFloat() < 0.05)
                 {
-                    return new BlockEdit(location, Blocks.fire, 0);
+                    return new BlockEdit(world, location).set(Blocks.fire);
                 }
             }
             else if (block.blockMaterial == Material.plants || block.blockMaterial == Material.leaves)
             {
                 if (world.rand.nextFloat() < 0.25 && block == Blocks.sapling)
                 {
-                    return new BlockEdit(location, Blocks.deadbush, 0);
+                    return new BlockEdit(world, location).set(Blocks.deadbush);
                 }
                 else if (world.rand.nextFloat() < 0.10)
                 {
-                    return new BlockEdit(location, Blocks.fire, 0);
+                    return new BlockEdit(world, location).set(Blocks.fire);
                 }
             }
             else if (block.blockMaterial == Material.anvil || block.blockMaterial == Material.iron)

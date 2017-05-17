@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.blast.nuke;
 
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.imp.transform.vector.Location;
+import com.builtbroken.mc.imp.transform.vector.BlockPos;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.prefab.entity.selector.EntityDistanceSelector;
@@ -29,25 +29,25 @@ public class BlastNuke extends BlastSimplePath<BlastNuke>
     }
 
     @Override
-    public BlockEdit changeBlock(Location location)
+    public BlockEdit changeBlock(BlockPos location)
     {
-        if (location.getBlock() == Blocks.air)
+        if (location.isAirBlock(world))
         {
             return null;
         }
-        return new BlockEdit(location).set(Blocks.air, 0, false, true);
+        return new BlockEdit(world, location).set(Blocks.air, 0, false, true);
     }
 
     @Override
-    public boolean shouldPath(Location location)
+    public boolean shouldPath(BlockPos location)
     {
         if (super.shouldPath(location))
         {
-            if (location.getHardness() < 0)
+            if (location.getHardness(world) < 0)
             {
                 return false;
             }
-            double distance = center.distance(location);
+            double distance = blockCenter.distance(location);
             double check = percentAntimatterRange * size;
             if (distance > check)
             {

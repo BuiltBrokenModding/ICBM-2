@@ -3,6 +3,7 @@ package com.builtbroken.icbm.content.blast.power;
 import com.builtbroken.mc.api.IWorldPosition;
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
+import com.builtbroken.mc.imp.transform.vector.BlockPos;
 import com.builtbroken.mc.lib.energy.UniversalEnergySystem;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
@@ -28,19 +29,19 @@ public class BlastEMP extends BlastSimplePath<BlastEMP>
     }
 
     @Override
-    public IWorldEdit changeBlock(Location location)
+    public IWorldEdit changeBlock(BlockPos location)
     {
         //TODO path threw wires
         //TODO disable machines
         //TODO break settings on machines
         //TODO destroy some machines
-        TileEntity tile = location.getTileEntity();
-        float distance = (float) location.distance(center);
+        TileEntity tile = location.getTileEntity(world);
+        float distance = (float) location.distance(blockCenter);
         if (tile != null)
         {
             if (UniversalEnergySystem.isHandler(tile, null))
             {
-                return new EmpDrainEdit(location, (distance < size * .80 ? 1f : distance / (float) size));
+                return new EmpDrainEdit(new Location(world, location), (distance < size * .80 ? 1f : distance / (float) size));
             }
         }
         return null;

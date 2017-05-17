@@ -5,6 +5,7 @@ import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.packet.PacketSpawnStream;
+import com.builtbroken.mc.imp.transform.vector.BlockPos;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.prefab.explosive.blast.BlastSimplePath;
@@ -75,7 +76,7 @@ public class BlastEnderBlocks extends BlastSimplePath<BlastEnderBlocks>
      */
     protected Location getRandomLocation()
     {
-        return new Location(world, getRandomRange() + center.x(), Math.max(10, Math.min(getRandomRange() + center.y(), 255)), getRandomRange() + center.z());
+        return new Location(world, getRandomRange() + blockCenter.x(), Math.max(10, Math.min(getRandomRange() + blockCenter.y(), 255)), getRandomRange() + blockCenter.z());
     }
 
     /**
@@ -111,29 +112,29 @@ public class BlastEnderBlocks extends BlastSimplePath<BlastEnderBlocks>
 
 
     @Override
-    public BlockEdit changeBlock(Location location)
+    public BlockEdit changeBlock(BlockPos location)
     {
-        if (location.getTileEntity() == null && !location.isAirBlock())
+        if (location.getTileEntity(world) == null && !location.isAirBlock(world))
         {
-            return new BlockEdit(location).set(Blocks.air, 0, false, true);
+            return new BlockEdit(world, location).set(Blocks.air, 0, false, true);
         }
         return null;
     }
 
     @Override
-    public boolean shouldPath(Location location)
+    public boolean shouldPath(BlockPos location)
     {
         if (super.shouldPath(location))
         {
-            if (location.getHardness() < 0)
+            if (location.getHardness(world) < 0)
             {
                 return false;
             }
-            else if (location.getTileEntity() != null)
+            else if (location.getTileEntity(world) != null)
             {
                 return false;
             }
-            else if (location.isAirBlock())
+            else if (location.isAirBlock(world))
             {
                 return false;
             }
@@ -142,7 +143,7 @@ public class BlastEnderBlocks extends BlastSimplePath<BlastEnderBlocks>
             //TODO tap into existing mod's blacklists
             //TODO fire teleportation event
             //TODO break or don't teleport crops
-            Block block = location.getBlock();
+            Block block = location.getBlock(world);
             if (block == Blocks.portal)
             {
                 return false;
