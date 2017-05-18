@@ -75,10 +75,6 @@ public class BlastNuke extends BlastSimplePath<BlastNuke>
             {
                 damageEntities(list, new DamageSource("antimatter").setExplosion().setDamageBypassesArmor(), 10);
             }
-
-            //TODO trigger EMP
-            //TODO trigger HEAT wave
-            //TODO trigger blast wave
         }
     }
 
