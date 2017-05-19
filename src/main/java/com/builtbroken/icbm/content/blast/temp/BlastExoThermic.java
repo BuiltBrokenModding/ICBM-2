@@ -26,6 +26,8 @@ import java.util.List;
  */
 public class BlastExoThermic extends BlastSimplePath<BlastExoThermic>
 {
+    public int energyPerBlock = 500;
+
     public BlastExoThermic(IExplosiveHandler handler)
     {
         super(handler);
@@ -80,6 +82,11 @@ public class BlastExoThermic extends BlastSimplePath<BlastExoThermic>
     private int getTempForDistance(double distance)
     {
         return 20000 - (int) ((20000 / size) * distance);
+    }
+
+    private int getEnergyCost(BlockPos location)
+    {
+        return -1;
     }
 
     @Override

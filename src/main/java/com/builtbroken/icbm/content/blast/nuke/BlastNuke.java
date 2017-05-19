@@ -1,6 +1,10 @@
 package com.builtbroken.icbm.content.blast.nuke;
 
 import com.builtbroken.mc.api.edit.IWorldEdit;
+import com.builtbroken.mc.api.event.blast.BlastEventBlockEdit;
+import com.builtbroken.mc.api.event.blast.BlastEventBlockReplaced;
+import com.builtbroken.mc.api.event.blast.BlastEventDestroyBlock;
+import com.builtbroken.mc.api.explosive.IBlastEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.imp.transform.vector.BlockPos;
 import com.builtbroken.mc.imp.transform.vector.Pos;
@@ -11,6 +15,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
+import net.minecraftforge.common.MinecraftForge;
 
 import java.util.List;
 
@@ -100,5 +105,24 @@ public class BlastNuke extends BlastSimplePath<BlastNuke>
     public void doEndDisplay()
     {
         //Engine.instance.packetHandler.sendToAllAround(new PacketBlast(this, PacketBlast.BlastPacketType.POST_BLAST_DISPLAY), this, 400);
+    }
+
+    @Override
+    protected void postPlace(final IWorldEdit vec)
+    {
+        MinecraftForge.EVENT_BUS.post(new BlastEventDestroyBlock.Post(this, BlastEventDestroyBlock.DestructionType.FORCE, world, vec.getBlock(), vec.getBlockMetadata(), (int) vec.x(), (int) vec.y(), (int) vec.z()));
+    }
+
+    @Override
+    protected boolean prePlace(final IWorldEdit vec)
+    {
+        BlastEventBlockEdit event = new BlastEventDestroyBlock.Pre(this, BlastEventDestroyBlock.DestructionType.FORCE, world, vec.getBlock(), vec.getBlockMetadata(), (int) vec.x(), (int) vec.y(), (int) vec.z());
+
+        boolean result = MinecraftForge.EVENT_BUS.post(event);
+        if (vec instanceof IBlastEdit && event instanceof BlastEventBlockReplaced.Pre)
+        {
+            vec.set(((BlastEventBlockReplaced.Pre) event).newBlock, ((BlastEventBlockReplaced.Pre) event).newMeta);
+        }
+        return !result;
     }
 }

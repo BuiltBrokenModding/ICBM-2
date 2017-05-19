@@ -31,9 +31,10 @@ public class ExNuke extends ExplosiveHandlerICBM<BlastNuke>
     protected void addData(BlastNuke blast)
     {
         super.addData(blast);
-        blast.addPostTriggerExplosive("ExoThermic", blast.size * 4, new TriggerCause.TriggerCauseExplosion(blast.wrapperExplosion), new NBTTagCompound());
-        blast.addPostTriggerExplosive("Emp", blast.size * 10, new TriggerCause.TriggerCauseExplosion(blast.wrapperExplosion), new NBTTagCompound());
-        blast.addPostTriggerExplosive("Flash", blast.size * 20, new TriggerCause.TriggerCauseExplosion(blast.wrapperExplosion), new NBTTagCompound());
+        blast.addPostTriggerExplosive("ExoThermic", blast.size * 1.3, new TriggerCause.TriggerCauseExplosion(blast.wrapperExplosion), new NBTTagCompound());
+        blast.addPostTriggerExplosive("Emp", blast.size * 5, new TriggerCause.TriggerCauseExplosion(blast.wrapperExplosion), new NBTTagCompound());
+        blast.addPostTriggerExplosive("Flash", blast.size * 4, new TriggerCause.TriggerCauseExplosion(blast.wrapperExplosion), new NBTTagCompound());
+        blast.addPostTriggerExplosive("Radiation", blast.size * 4, new TriggerCause.TriggerCauseExplosion(blast.wrapperExplosion), new NBTTagCompound());
     }
 
     @Override
