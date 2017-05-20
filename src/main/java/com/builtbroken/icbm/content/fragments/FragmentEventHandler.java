@@ -27,7 +27,7 @@ public final class FragmentEventHandler
                 if (event.blast.getYield() < 10 || event.world.rand.nextFloat() > Math.max(0.9, 0.3 + (event.blast.getYield() / 100))) //TODO improve calculation to scale better with volume
                 {
                     final Pos center = new Pos(event.x + 0.5, event.y + 0.5, event.z + 0.5);
-                    BlastFragments.spawnFragments(event.world, center, 3, FragmentType.BLOCK, event.block);
+                    BlastFragments.spawnFragments(event.world, center, 3, FragmentType.BLOCK, event.block); //TODO correct angle to increase likely hood of airborne fragments
                 }
             }
             else

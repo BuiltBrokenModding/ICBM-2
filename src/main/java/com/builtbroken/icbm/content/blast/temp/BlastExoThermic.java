@@ -7,7 +7,7 @@ import com.builtbroken.mc.imp.transform.vector.BlockPos;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.lib.world.edit.PlacementData;
-import com.builtbroken.mc.lib.world.heat.HeatedBlockRegistry;
+import com.builtbroken.mc.lib.data.heat.HeatedBlockRegistry;
 import com.builtbroken.mc.prefab.entity.damage.DamageSources;
 import com.builtbroken.mc.prefab.entity.selector.EntitySelectors;
 import com.builtbroken.mc.prefab.explosive.blast.BlastSimplePath;
