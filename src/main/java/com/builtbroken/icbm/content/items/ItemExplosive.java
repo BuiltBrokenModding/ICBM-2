@@ -533,7 +533,10 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         GRAVITY("Gravity", 5),
         MICROWAVE("Microwave", 5),
         ENTITY_SPAWN("EntitySpawn", 1),
-        NUKE("Nuke", 1);
+        NUKE("Nuke", 1),
+        FLASH("Flash", 1),
+        RADIATION("Radiation", 1),
+        MIDAS_ORE("MidasOre", 10);
 
         //TODO implement tool tips to hint at usage
 
