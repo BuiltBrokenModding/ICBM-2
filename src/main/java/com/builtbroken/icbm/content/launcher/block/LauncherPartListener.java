@@ -88,6 +88,7 @@ public class LauncherPartListener extends TileListener implements IWrenchListene
     {
         List<String> list = new ArrayList();
         list.add("activation");
+        list.add("wrench");
         return list;
     }
 
