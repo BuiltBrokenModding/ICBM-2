@@ -4,9 +4,9 @@ import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.imp.transform.vector.BlockPos;
 import com.builtbroken.mc.imp.transform.vector.Location;
+import com.builtbroken.mc.lib.data.heat.HeatedBlockRegistry;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.lib.world.edit.PlacementData;
-import com.builtbroken.mc.lib.data.heat.HeatedBlockRegistry;
 import com.builtbroken.mc.prefab.entity.damage.DamageSources;
 import com.builtbroken.mc.prefab.entity.selector.EntitySelectors;
 import com.builtbroken.mc.prefab.explosive.blast.BlastSimplePath;
@@ -41,6 +41,14 @@ public class BlastEndoThermic extends BlastSimplePath<BlastEndoThermic>
         {
             BlockEdit edit = new BlockEdit(world, location);
             edit.set(data.block(), data.meta() == -1 ? 0 : data.meta(), false, true);
+            return edit;
+        }
+        else if (block == Blocks.water)
+        {
+            BlockEdit edit = new BlockEdit(world, location);
+            edit.set(Blocks.ice, 0, false, true);
+            edit.setNotificationLevel(2);
+            //TODO turn flowing water into ice slabs matching meta value
             return edit;
         }
         else if (block == Blocks.snow)
