@@ -5,7 +5,6 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.missile.IMissileEntity;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.client.ec.*;
-import com.builtbroken.icbm.content.blast.entity.ExplosiveHandlerSpawn;
 import com.builtbroken.icbm.content.blast.entity.slime.EntitySlimeRain;
 import com.builtbroken.icbm.content.blast.entity.slime.RenderSlimeRain;
 import com.builtbroken.icbm.content.blast.explosive.BlastPathTester;
@@ -258,7 +257,7 @@ public class ClientProxy extends CommonProxy
     @Override
     public void registerExplosives()
     {
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "EntitySpawn", new ExplosiveHandlerSpawn());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "EntitySpawn", new ECSpawn());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "ExoThermic", new ECExo());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "EndoThermic", new ECEndo());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Fragment", new ECFragment());
@@ -275,7 +274,7 @@ public class ClientProxy extends CommonProxy
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "MicroQuake", new ExMicroQuake());//TODO Add texture
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Cake", new ECCake());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "BiomeChange", new ECBiomeChange());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "OrePuller", new ExOrePuller());
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "OrePuller", new ExOrePuller()); //TODO add texture
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SlimeRain", new ECSlimeRain());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Emp", new ECEmp());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Gravity", new ECGravity());

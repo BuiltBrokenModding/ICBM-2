@@ -1,15 +1,16 @@
 package com.builtbroken.icbm.content.warhead;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.api.warhead.IWarheadHandler;
 import com.builtbroken.icbm.api.warhead.IWarheadItem;
-import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
 import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
 import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.explosives.IExplosiveItem;
 import com.builtbroken.mc.client.ExplosiveRegistryClient;
+import com.builtbroken.mc.core.References;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveItemUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
@@ -35,6 +36,9 @@ import java.util.List;
 
 public class ItemBlockWarhead extends ItemBlock implements IWarheadItem
 {
+    @SideOnly(Side.CLIENT)
+    IIcon emptyIcon;
+
     public ItemBlockWarhead(Block block)
     {
         super(block);
@@ -49,6 +53,7 @@ public class ItemBlockWarhead extends ItemBlock implements IWarheadItem
         {
             casing.icon = reg.registerIcon(ICBM.PREFIX + "warhead." + casing.name().replace("EXPLOSIVE_", "").toLowerCase());
         }
+        emptyIcon = reg.registerIcon(References.PREFIX + "blank");
     }
 
     @Override
@@ -73,18 +78,34 @@ public class ItemBlockWarhead extends ItemBlock implements IWarheadItem
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(ItemStack stack, int pass)
     {
-        if (pass == 1)
+        if (pass > 0)
         {
-            return ExplosiveRegistryClient.getCornerIconFor(stack);
+            IIcon icon = ExplosiveRegistryClient.getCornerIconFor(stack, pass - 1);
+            if (icon == null)
+            {
+                return emptyIcon;
+            }
+            return icon;
         }
         return getIconFromDamage(stack.getItemDamage());
     }
 
     @Override
     @SideOnly(Side.CLIENT)
+    public int getColorFromItemStack(ItemStack stack, int pass)
+    {
+        if (pass > 0)
+        {
+            return ExplosiveRegistryClient.getColorForCornerIcon(stack, pass - 1);
+        }
+        return 16777215;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
     public int getRenderPasses(int metadata)
     {
-        return 2;
+        return ExplosiveRegistryClient.renderPassesForItem;
     }
 
     @Override
@@ -244,9 +265,9 @@ public class ItemBlockWarhead extends ItemBlock implements IWarheadItem
             insert.stackSize = 1;
             IWarhead warhead = MissileModuleBuilder.INSTANCE.buildWarhead(insert);
 
-            if(warhead == null)
+            if (warhead == null)
             {
-                warhead = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.fromMeta(insert.getItemDamage()), (ItemStack)null);
+                warhead = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.fromMeta(insert.getItemDamage()), (ItemStack) null);
             }
 
             warhead.save(insert);

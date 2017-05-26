@@ -15,9 +15,9 @@ import java.util.List;
 /**
  * Created by robert on 12/25/2014.
  */
-public class ExplosiveHandlerSpawn extends ExplosiveHandlerICBM<BlastSpawn>
+public class ExSpawn extends ExplosiveHandlerICBM<BlastSpawn>
 {
-    public ExplosiveHandlerSpawn()
+    public ExSpawn()
     {
         super("EntitySpawn", 1);
     }

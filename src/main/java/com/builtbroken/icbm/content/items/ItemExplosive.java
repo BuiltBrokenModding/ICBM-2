@@ -3,7 +3,7 @@ package com.builtbroken.icbm.content.items;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.client.ec.ECBiomeChange;
 import com.builtbroken.icbm.content.blast.biome.ExBiomeChange;
-import com.builtbroken.icbm.content.blast.entity.ExplosiveHandlerSpawn;
+import com.builtbroken.icbm.content.blast.entity.ExSpawn;
 import com.builtbroken.icbm.content.blast.fragment.*;
 import com.builtbroken.icbm.content.crafting.parts.ItemExplosiveParts;
 import com.builtbroken.jlib.data.Colors;
@@ -110,7 +110,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
 
         if (stack.getItemDamage() == ExplosiveItems.ENTITY_SPAWN.ordinal())
         {
-            int id = ExplosiveHandlerSpawn.getEntityID(stack);
+            int id = ExSpawn.getEntityID(stack);
             if (id != -1)
             {
                 list.add("Entity: " + EntityList.getStringFromID(id));
@@ -450,7 +450,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         {
             EntityList.EntityEggInfo entityegginfo = (EntityList.EntityEggInfo) iterator.next();
             ItemStack stack = ExplosiveItems.ENTITY_SPAWN.newItem();
-            ExplosiveHandlerSpawn.setEntityID(stack, entityegginfo.spawnedID);
+            ExSpawn.setEntityID(stack, entityegginfo.spawnedID);
             ExplosiveRegistry.registerExplosiveItem(stack);
         }
     }
@@ -498,9 +498,15 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
                 while (iterator.hasNext())
                 {
                     EntityList.EntityEggInfo entityegginfo = (EntityList.EntityEggInfo) iterator.next();
-                    ItemStack stack = new ItemStack(item, 1, ExplosiveItems.ENTITY_SPAWN.ordinal());
-                    ExplosiveHandlerSpawn.setEntityID(stack, entityegginfo.spawnedID);
-                    list.add(stack);
+                    if (entityegginfo != null)
+                    {
+                        ItemStack stack = new ItemStack(item, 1, ExplosiveItems.ENTITY_SPAWN.ordinal());
+                        ExSpawn.setEntityID(stack, entityegginfo.spawnedID);
+                        if (EntityList.getStringFromID(ExSpawn.getEntityID(stack)) != null)
+                        {
+                            list.add(stack);
+                        }
+                    }
                 }
             }
             else

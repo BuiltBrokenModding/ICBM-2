@@ -9,7 +9,7 @@ import com.builtbroken.icbm.content.blast.effect.ExAntiPlant;
 import com.builtbroken.icbm.content.blast.effect.ExEnderBlocks;
 import com.builtbroken.icbm.content.blast.effect.ExPlantLife;
 import com.builtbroken.icbm.content.blast.effect.ExTorchEater;
-import com.builtbroken.icbm.content.blast.entity.ExplosiveHandlerSpawn;
+import com.builtbroken.icbm.content.blast.entity.ExSpawn;
 import com.builtbroken.icbm.content.blast.entity.slime.EntitySlimeRain;
 import com.builtbroken.icbm.content.blast.entity.slime.ExSlimeRain;
 import com.builtbroken.icbm.content.blast.explosive.BlastPathTester;
@@ -323,7 +323,7 @@ public final class ICBM extends AbstractMod
         {
             registerExplosives = true;
             //Create Explosives
-            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "EntitySpawn", new ExplosiveHandlerSpawn());
+            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "EntitySpawn", new ExSpawn());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "ExoThermic", new ExExoThermic());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "EndoThermic", new ExEndoThermic());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Fragment", new ExFragment());

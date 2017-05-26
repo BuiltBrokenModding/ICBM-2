@@ -28,9 +28,9 @@ import com.builtbroken.mc.core.References;
 import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
+import com.builtbroken.mc.lib.recipe.item.sheetmetal.RecipeSheetMetal;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.items.ItemStackWrapper;
-import com.builtbroken.mc.lib.recipe.item.sheetmetal.RecipeSheetMetal;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -65,6 +65,9 @@ public class ItemMissile extends Item implements IExplosiveItem, IItemAmmo.IItem
 
     @SideOnly(Side.CLIENT)
     IIcon standardMissile;
+
+    @SideOnly(Side.CLIENT)
+    IIcon emptyIcon;
 
     public ItemMissile()
     {
@@ -317,6 +320,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IItemAmmo.IItem
         microMissile = reg.registerIcon(ICBM.PREFIX + "micro.missile");
         smallMissile = reg.registerIcon(ICBM.PREFIX + "small.missile");
         standardMissile = reg.registerIcon(ICBM.PREFIX + "standard.missile");
+        emptyIcon = reg.registerIcon(References.PREFIX + "blank");
     }
 
     @Override
@@ -342,18 +346,34 @@ public class ItemMissile extends Item implements IExplosiveItem, IItemAmmo.IItem
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(ItemStack stack, int pass)
     {
-        if (pass == 1)
+        if (pass > 0)
         {
-            return ExplosiveRegistryClient.getCornerIconFor(stack);
+            IIcon icon = ExplosiveRegistryClient.getCornerIconFor(stack, pass - 1);
+            if (icon == null)
+            {
+                return emptyIcon;
+            }
+            return icon;
         }
         return getIconFromDamage(stack.getItemDamage());
     }
 
     @Override
     @SideOnly(Side.CLIENT)
+    public int getColorFromItemStack(ItemStack stack, int pass)
+    {
+        if (pass > 0)
+        {
+            return ExplosiveRegistryClient.getColorForCornerIcon(stack, pass -1);
+        }
+        return 16777215;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
     public int getRenderPasses(int metadata)
     {
-        return 2;
+        return ExplosiveRegistryClient.renderPassesForItem;
     }
 
     @Override
