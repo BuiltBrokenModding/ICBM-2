@@ -48,7 +48,7 @@ public class BlastExoThermic extends BlastSimplePath<BlastExoThermic>
                 edit.set(data.block(), data.meta() == -1 ? 0 : data.meta(), false, true);
                 return edit;
             }
-            else if (location.isAirBlock(world))
+            else if (location.isReplaceable(world))
             {
                 Location loc = new Location(world, location).add(0, -1, 0);
                 if (!loc.isAirBlock() && loc.isSideSolid(ForgeDirection.UP))
