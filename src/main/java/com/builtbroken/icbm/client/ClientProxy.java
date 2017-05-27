@@ -10,7 +10,6 @@ import com.builtbroken.icbm.content.blast.entity.slime.RenderSlimeRain;
 import com.builtbroken.icbm.content.blast.explosive.BlastPathTester;
 import com.builtbroken.icbm.content.blast.explosive.ExMicroQuake;
 import com.builtbroken.icbm.content.blast.potion.ExFlash;
-import com.builtbroken.icbm.content.blast.potion.ExRadiation;
 import com.builtbroken.icbm.content.blast.troll.BlastMidasOre;
 import com.builtbroken.icbm.content.blast.util.ExOrePuller;
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstationClient;
@@ -281,7 +280,7 @@ public class ClientProxy extends CommonProxy
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Microwave", new ECMicrowave());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Nuke", new ECNuke());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Flash", new ExFlash()); //TODO Add texture
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Radiation", new ExRadiation()); //TODO Add texture
+        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Radiation", new ECRadiation());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "MidasOre", new BlastMidasOre.ExMidasOre()); //TODO Add Texture
         if (Engine.runningAsDev)
         {

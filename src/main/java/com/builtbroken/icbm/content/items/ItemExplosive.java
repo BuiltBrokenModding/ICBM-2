@@ -462,6 +462,8 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         //For example arrow bundle for fragment
 
         ExplosiveRegistryClient.registerIcon(ExplosiveItems.ORE_PULLER.newItem(), ICBM.PREFIX + "ex.icon.ore");
+        ExplosiveRegistryClient.registerIcon(ExplosiveItems.MIDAS_ORE.newItem(), ICBM.PREFIX + "ex.icon.ore.midas");
+        ExplosiveRegistryClient.registerIcon(ExplosiveItems.FLASH.newItem(), ICBM.PREFIX + "ex.icon.flash");
     }
 
     @Override
