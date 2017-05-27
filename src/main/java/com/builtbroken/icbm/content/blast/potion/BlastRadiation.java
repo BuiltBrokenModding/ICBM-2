@@ -47,7 +47,7 @@ public class BlastRadiation extends Blast<BlastRadiation>
                     {
                         Pos head = pos.add(0, entity.getEyeHeight(), 0);
                         MovingObjectPosition hit = head.rayTrace(world, center);
-                        if (hit.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK)
+                        if (hit != null && hit.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK)
                         {
                             if (distance < size * 0.1)
                             {

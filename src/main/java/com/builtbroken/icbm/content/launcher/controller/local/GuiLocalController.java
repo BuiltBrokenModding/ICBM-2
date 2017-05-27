@@ -86,10 +86,10 @@ public class GuiLocalController extends GuiContainerBase
                 }
                 if (connectionStatuses.get(connectionStatuses.size() - 1) == ConnectionStatus.NO_CONNECTION)
                 {
-                    button.disable();
+                    //button.disable(); //TODO fix connection status
                 }
                 //16 17 18 19 20 21
-                buttonList.add(new GuiButton2(10 + i + TileLocalController.MAX_LAUNCHER_LINK, guiLeft + buttonRowX + 81, guiTop + buttonRowY + rowHeight, 30, 20, LanguageUtility.getLocalName("gui.icbm:controller.fire")).setEnabled(connectionStatuses.get(connectionStatuses.size() - 1) == ConnectionStatus.ONLINE));
+                buttonList.add(new GuiButton2(10 + i + TileLocalController.MAX_LAUNCHER_LINK, guiLeft + buttonRowX + 81, guiTop + buttonRowY + rowHeight, 30, 20, LanguageUtility.getLocalName("gui.icbm:controller.fire"))); //.setEnabled(connectionStatuses.get(connectionStatuses.size() - 1) == ConnectionStatus.ONLINE)
                 buttonList.add(button);
                 //22 23 24 25 26 27
                 buttonList.add(new GuiButton2(10 + i + TileLocalController.MAX_LAUNCHER_LINK * 2, guiLeft + buttonRowX + 81 + 36, guiTop + buttonRowY + rowHeight, 20, 20, "[x]"));
