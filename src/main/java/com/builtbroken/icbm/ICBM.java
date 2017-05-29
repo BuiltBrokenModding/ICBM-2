@@ -364,19 +364,20 @@ public final class ICBM extends AbstractMod
     public void init(FMLInitializationEvent event)
     {
         EntityTypeCheckRegistry.register(new EntityTypeCheckMissile());
+
         //Register Entities
-        EntityRegistry.registerGlobalEntityID(EntityMissile.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());
-        EntityRegistry.registerModEntity(EntityMissile.class, "ICBMMissile", ENTITY_ID_PREFIX + 3, this, 500, 1, true);
+        EntityRegistry.registerModEntity(EntityMissile.class, "ICBMMissile", getConfig().getInt("missile", "entityIDs", ENTITY_ID_PREFIX + 3, 0, 1000, "Internal mod entity ID to use"), this, 500, 1, true);
+        EntityRegistry.registerModEntity(EntityFragment.class, "ICBMFragment", getConfig().getInt("fragments", "entityIDs", ENTITY_ID_PREFIX + 5, 0, 1000, "Internal mod entity ID to use"), this, 500, 1, true);
+        EntityRegistry.registerModEntity(EntityMissileCart.class, "ICBMMissileCart", getConfig().getInt("missile_cart", "entityIDs", ENTITY_ID_PREFIX + 5, 0, 1000, "Internal mod entity ID to use"), this, 500, 1, true);
+        EntityRegistry.registerModEntity(EntitySlimeRain.class, "ICBMSlime", getConfig().getInt("slime", "entityIDs", ENTITY_ID_PREFIX + 6, 0, 1000, "Internal mod entity ID to use"), this, 500, 1, true);
 
-        EntityRegistry.registerGlobalEntityID(EntityFragment.class, "ICBMFragment", EntityRegistry.findGlobalUniqueEntityId());
-        EntityRegistry.registerModEntity(EntityFragment.class, "ICBMFragment", ENTITY_ID_PREFIX + 4, this, 500, 1, true);
-
-        EntityRegistry.registerGlobalEntityID(EntityMissileCart.class, "ICBMMissileCart", EntityRegistry.findGlobalUniqueEntityId());
-        EntityRegistry.registerModEntity(EntityMissileCart.class, "ICBMMissileCart", ENTITY_ID_PREFIX + 5, this, 500, 1, true);
-
-        EntityRegistry.registerGlobalEntityID(EntitySlimeRain.class, "ICBMSlime", EntityRegistry.findGlobalUniqueEntityId());
-        EntityRegistry.registerModEntity(EntitySlimeRain.class, "ICBMSlime", ENTITY_ID_PREFIX + 6, this, 500, 1, true);
-
+        if (getConfig().getBoolean("registerEntitiesGlobally", "legacy", false, "Only enable this if there are issues loading older worlds containing entities from this mod."))
+        {
+            EntityRegistry.registerGlobalEntityID(EntityMissile.class, "ICBMMissile", EntityRegistry.findGlobalUniqueEntityId());
+            EntityRegistry.registerGlobalEntityID(EntityFragment.class, "ICBMFragment", EntityRegistry.findGlobalUniqueEntityId());
+            EntityRegistry.registerGlobalEntityID(EntityMissileCart.class, "ICBMMissileCart", EntityRegistry.findGlobalUniqueEntityId());
+            EntityRegistry.registerGlobalEntityID(EntitySlimeRain.class, "ICBMSlime", EntityRegistry.findGlobalUniqueEntityId());
+        }
         super.init(event);
     }
 
