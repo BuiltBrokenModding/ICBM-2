@@ -49,7 +49,6 @@ If you or someone you know is not listed but should be just message us with the 
 validate the claim and add the missing name(s) to the list. 
 
 * Adaptivity        - Russian Translations
-* Archelf           - Assets
 * Archadia          - Code, Assets
 * Azanor            - Consultation
 * Calclavia         - Original Author 
