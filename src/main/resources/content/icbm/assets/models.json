@@ -13,5 +13,10 @@
     "key": "icbm:smallMissile",
     "domain": "icbm",
     "name": "missile/Missile_Small_scale.obj"
+  },
+  "model:3": {
+    "key": "icbm:mediumMissile",
+    "domain": "icbm",
+    "name": "missile/Missile_Medium.obj"
   }
 }

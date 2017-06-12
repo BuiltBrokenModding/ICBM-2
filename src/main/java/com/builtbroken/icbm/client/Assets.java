@@ -21,6 +21,8 @@ public final class Assets
     public static final WavefrontObject MICRO_MISSILE_MODEL = (WavefrontObject) model("missile/micro.obj");
     public static final WavefrontObject SMALL_MISSILE_MODEL = (WavefrontObject) model("missile/Missile_Small_scale.obj");
     public static final WavefrontObject STANDARD_MISSILE_MODEL = (WavefrontObject) model("missile/Missile_Standard.obj");
+    public static final WavefrontObject MEDIUM_MISSILE_MODEL = (WavefrontObject) model("missile/Missile_Medium.obj");
+
     public static final IModelCustom CLASSIC_MISSILE_MODEL = model("missile/missile_conventional.tcn");
 
     //Crafting missile models
@@ -63,6 +65,7 @@ public final class Assets
     public static final ResourceLocation CLASSIC_MISSILE_TEXTURE = texture("missile_condensed");
     public static final ResourceLocation STANDARD_MISSILE_TEXTURE = texture("missile_standard/missile_standard");
     public static final ResourceLocation STANDARD_MISSILE_FINS_TEXTURE = texture("missile_standard/missile_standard_fins");
+    public static final ResourceLocation MEDIUM_MISSILE_TEXTURE = texture("missile_skins/medium/unpainted");
 
     public static final ResourceLocation RPG_TEXTURE = texture("rocketLauncher");
 

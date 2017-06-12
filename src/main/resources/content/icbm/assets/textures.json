@@ -22,5 +22,11 @@
     "domain": "icbm",
     "name": "Missile_Small",
     "type": "model"
+  },
+  "texture:4": {
+    "key": "icbm:mediumMissile",
+    "domain": "icbm",
+    "name": "missile_skins/medium/unpainted",
+    "type": "model"
   }
 }

@@ -41,6 +41,9 @@
       },
       {
         "meta": 1
+      },
+      {
+        "meta": 2
       }
     ]
   },
@@ -122,6 +125,17 @@
         "parent": "tile",
         "renderType": "model",
         "textureID": "icbm:smallMissile.a"
+      },
+      {
+        "id": "tile.2",
+        "modelID": "icbm:mediumMissile",
+        "textureID": "icbm:mediumMissile",
+        "renderType": "model",
+        "offset": {
+          "x": 0,
+          "y": 6.6,
+          "z": 0
+        }
       }
     ]
   },
