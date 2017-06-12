@@ -74,13 +74,11 @@ public class MissileMedium extends Missile implements ICustomMissileRender
     @Override
     public boolean renderMissileInWorld(float yaw, float pitch, float f)
     {
-        GL11.glDisable(GL11.GL_CULL_FACE);
         GL11.glRotatef(yaw, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(pitch, 0.0F, 0.0F, 1.0F);
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.MEDIUM_MISSILE_TEXTURE);
         GL11.glScalef(1, 1, 1);
         Assets.MEDIUM_MISSILE_MODEL.renderAll();
-        GL11.glEnable(GL11.GL_CULL_FACE);
         return true;
     }
 
