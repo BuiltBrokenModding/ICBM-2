@@ -36,7 +36,9 @@ public class BlastAntimatter extends BlastSimplePath<BlastAntimatter>
     public BlockEdit changeBlock(BlockPos location)
     {
         if (location.getBlock(world) == Blocks.air)
+        {
             return null;
+        }
         return new BlockEdit(world, location).set(Blocks.air, 0, false, true);
     }
 
@@ -44,8 +46,11 @@ public class BlastAntimatter extends BlastSimplePath<BlastAntimatter>
     public boolean shouldPath(BlockPos location)
     {
         if (!ICBM.ANTIMATTER_BREAK_UNBREAKABLE && location.getHardness(world) < 0)
+        {
             return false;
-        return super.shouldPath(location);
+        }
+        double distance = blockCenter.distance(location.xi() + 0.5, location.yi() + 0.5, location.zi() + 0.5);
+        return distance <= size - 1 ||  distance <= size && world().rand.nextFloat() > 0.7;
     }
 
     @Override

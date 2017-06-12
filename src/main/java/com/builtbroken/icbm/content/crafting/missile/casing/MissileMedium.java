@@ -15,7 +15,7 @@ public class MissileMedium extends Missile
     @Override
     public double getHeight()
     {
-        return 5; //TODO check
+        return 12; //TODO check
     }
 
     @Override

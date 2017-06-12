@@ -322,7 +322,7 @@ public final class ICBM extends AbstractMod
         if (!registerExplosives)
         {
             registerExplosives = true;
-            //Create Explosives
+            //Create Explosives TODO move to JSON
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "EntitySpawn", new ExSpawn());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "ExoThermic", new ExExoThermic());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "EndoThermic", new ExEndoThermic());
@@ -415,7 +415,12 @@ public final class ICBM extends AbstractMod
         //Sheet metal crafting recipes
         if (Engine.itemSheetMetal != null && Engine.itemSheetMetalTools != null)
         {
-            GameRegistry.addRecipe(new RecipeSheetMetal(MissileCraftingParts.SMALL_MISSILE_CASE.stack(), "CRC", " H ", 'C', ItemSheetMetal.SheetMetal.CYLINDER.stack(), 'R', ItemSheetMetal.SheetMetal.RIVETS.stack(), 'H', Engine.itemSheetMetalTools.getHammer()));
+            GameRegistry.addRecipe(new RecipeSheetMetal(MissileCraftingParts.SMALL_MISSILE_CASE.stack(),
+                    "CRC",
+                    " H ",
+                    'C', ItemSheetMetal.SheetMetal.CYLINDER.stack(),
+                    'R', ItemSheetMetal.SheetMetal.RIVETS.stack(),
+                    'H', Engine.itemSheetMetalTools.getHammer()));
         }
         else
         {
