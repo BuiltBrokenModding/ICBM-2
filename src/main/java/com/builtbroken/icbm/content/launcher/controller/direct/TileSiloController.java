@@ -2,7 +2,6 @@ package com.builtbroken.icbm.content.launcher.controller.direct;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
-import com.builtbroken.icbm.content.prefab.ItemBlockICBM;
 import com.builtbroken.mc.api.tile.access.IGuiTile;
 import com.builtbroken.mc.api.tile.node.ITileNode;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
@@ -11,6 +10,7 @@ import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
+import com.builtbroken.mc.prefab.items.ItemBlockAbstract;
 import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.TileMachine;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -51,7 +51,7 @@ public class TileSiloController extends TileMachine implements IPostInit, IPacke
     public TileSiloController()
     {
         super("siloController", Material.iron);
-        this.itemBlock = ItemBlockICBM.class;
+        this.itemBlock = ItemBlockAbstract.class;
         this.canEmmitRedstone = true;
         this.resistance = 5f;
         this.hardness = 10f;
