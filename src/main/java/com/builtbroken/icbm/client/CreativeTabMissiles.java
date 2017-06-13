@@ -1,8 +1,9 @@
 package com.builtbroken.icbm.client;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.missile.parts.casing.MissileSize;
 import com.builtbroken.icbm.content.missile.item.ItemMissile;
+import com.builtbroken.icbm.content.missile.data.missile.Missile;
+import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.mc.lib.mod.ModCreativeTab;
 import net.minecraft.item.ItemStack;
 
@@ -36,7 +37,7 @@ public class CreativeTabMissiles extends ModCreativeTab
         {
             if (missile == null)
             {
-                missile = casing.newModuleStack();
+                missile = new Missile(casing.defaultMissileCasing).toStack();
             }
             return missile;
         }

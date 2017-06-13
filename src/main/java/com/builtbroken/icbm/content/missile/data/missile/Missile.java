@@ -1,11 +1,13 @@
-package com.builtbroken.icbm.content.missile.parts;
+package com.builtbroken.icbm.content.missile.data.missile;
 
+import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IGuidance;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.api.modules.IRocketEngine;
 import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.content.missile.data.casing.MissileCasingData;
-import com.builtbroken.icbm.content.missile.parts.casing.MissileSize;
+import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
 import com.builtbroken.icbm.content.missile.parts.engine.RocketEngine;
 import com.builtbroken.icbm.content.missile.parts.guidance.Guidance;
 import com.builtbroken.icbm.content.missile.parts.warhead.Warhead;
@@ -22,18 +24,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Crafting object for the missile
- * Contains all the peaces that make up the
- * missile and allow it to function
+ * Instance of a missile
  *
  * @author Darkguardsman
  */
 public class Missile implements IMissile, IHasMass
 {
-    /** Size of the missile */
-    public final MissileCasingData data;
-    public ItemStack item;
+    /** Data describing how the missile looks and functions */
+    public MissileCasingData data;
 
+    /** Skin currently in use for the missile */
     public String textureSkinID = "icbm:default";
 
     private IWarhead warhead;
@@ -43,6 +43,26 @@ public class Missile implements IMissile, IHasMass
     public Missile(MissileCasingData data)
     {
         this.data = data;
+    }
+
+    public Missile(ItemStack stack) throws IllegalArgumentException
+    {
+        if (stack.getItem() instanceof IMissileItem)
+        {
+            MissileSize size = MissileSize.fromMeta(stack.getItemDamage());
+            if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("missileDataID"))
+            {
+                this.data = size.getMissileData(stack.getTagCompound().getString("missileDataID"));
+            }
+            else
+            {
+                this.data = size.defaultMissileCasing;
+            }
+        }
+        else
+        {
+            throw new IllegalArgumentException("Invalid stack input for missile creation, stack = " + stack);
+        }
     }
 
     @Override
@@ -100,16 +120,6 @@ public class Missile implements IMissile, IHasMass
             IModule module = getModule(nbt, "guidance");
             setGuidance(module instanceof IGuidance ? (IGuidance) module : null);
         }
-    }
-
-    private IModule getModule(NBTTagCompound nbt, String id)
-    {
-        ItemStack stack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag(id));
-        if (stack != null && stack.getItem() instanceof IModuleItem)
-        {
-            return ((IModuleItem) stack.getItem()).getModule(stack);
-        }
-        return null;
     }
 
     @Override
@@ -210,8 +220,9 @@ public class Missile implements IMissile, IHasMass
     @Override
     public ItemStack toStack()
     {
-        save(item);
-        return item.copy();
+        ItemStack stack = new ItemStack(ICBM.itemMissile, 1, data.getMissileBodySize());
+        save(stack);
+        return stack;
     }
 
     @Override
@@ -259,10 +270,33 @@ public class Missile implements IMissile, IHasMass
         Missile missile = new Missile(size.defaultMissileCasing);
         missile.setWarhead(MissileModuleBuilder.INSTANCE.buildWarhead(size.warhead_casing));
         List<ItemStackWrapper> items = ExplosiveRegistry.getItems(handler);
-        if(items.size() > 0)
+        if (items.size() > 0)
         {
             missile.getWarhead().setExplosiveStack(items.get(0).itemStack);
         }
         return missile;
+    }
+
+    public static IWarhead loadWarheadFromMissileStack(ItemStack itemStack)
+    {
+        if (itemStack != null && itemStack.getTagCompound() != null)
+        {
+            NBTTagCompound nbt = itemStack.getTagCompound();
+            if (nbt.hasKey("warhead"))
+            {
+                return (IWarhead) getModule(nbt, "warhead");
+            }
+        }
+        return null;
+    }
+
+    private static IModule getModule(NBTTagCompound nbt, String id)
+    {
+        ItemStack stack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag(id));
+        if (stack != null && stack.getItem() instanceof IModuleItem)
+        {
+            return ((IModuleItem) stack.getItem()).getModule(stack);
+        }
+        return null;
     }
 }

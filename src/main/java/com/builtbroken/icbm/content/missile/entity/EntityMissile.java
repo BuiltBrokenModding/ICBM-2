@@ -6,10 +6,9 @@ import com.builtbroken.icbm.api.blast.IExHandlerTileMissile;
 import com.builtbroken.icbm.api.missile.IMissileEntity;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
-import com.builtbroken.icbm.content.missile.data.TriggerCauseMissileDestroyed;
-import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
-import com.builtbroken.icbm.content.missile.parts.casing.MissileSize;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
+import com.builtbroken.icbm.content.missile.data.TriggerCauseMissileDestroyed;
+import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.icbm.content.missile.tile.TileCrashedMissile;
 import com.builtbroken.icbm.content.missile.tracking.MissileTracker;
 import com.builtbroken.jlib.data.vector.IPos3D;
@@ -512,16 +511,9 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
         if (nbt.hasKey("missileStack"))
         {
             ItemStack stack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("missileStack"));
-            if (stack != null)
+            if (stack != null && stack.getItem() instanceof IMissileItem)
             {
-                if (stack.getItem() instanceof IMissileItem)
-                {
-                    setMissile(((IMissileItem) stack.getItem()).toMissile(stack));
-                }
-                else
-                {
-                    setMissile(MissileModuleBuilder.INSTANCE.buildMissile(stack));
-                }
+                setMissile(((IMissileItem) stack.getItem()).toMissile(stack));
             }
         }
         if (nbt.hasKey("fofTag"))

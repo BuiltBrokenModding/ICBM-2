@@ -1,8 +1,8 @@
 package com.builtbroken.icbm.server;
 
 import com.builtbroken.icbm.content.missile.entity.EntityMissile;
-import com.builtbroken.icbm.content.missile.parts.Missile;
-import com.builtbroken.icbm.content.missile.parts.casing.MissileSize;
+import com.builtbroken.icbm.content.missile.data.missile.Missile;
+import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.icbm.content.missile.tracking.MissileTracker;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;

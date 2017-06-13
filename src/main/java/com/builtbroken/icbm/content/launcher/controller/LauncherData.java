@@ -29,7 +29,7 @@ public class LauncherData
     {
         location = new Pos(tag);
         ItemStack stack = ItemStack.loadItemStackFromNBT(tag);
-        if (stack != null && stack.getItem() instanceof IMissileItem))
+        if (stack != null && stack.getItem() instanceof IMissileItem)
         {
             missile = ((IMissileItem) stack.getItem()).toMissile(stack);
         }

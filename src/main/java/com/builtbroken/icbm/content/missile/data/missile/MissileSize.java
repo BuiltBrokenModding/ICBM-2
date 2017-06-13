@@ -1,10 +1,9 @@
-package com.builtbroken.icbm.content.missile.parts.casing;
+package com.builtbroken.icbm.content.missile.data.missile;
 
 import com.builtbroken.icbm.content.missile.data.casing.MissileCasingData;
 import com.builtbroken.icbm.content.missile.parts.warhead.WarheadCasings;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 /**
  * Enum of missile sizes
@@ -23,7 +22,7 @@ public enum MissileSize
     public final WarheadCasings warhead_casing;
     public final int maxFlightTimeInTicks;
 
-    public final List<MissileCasingData> casingDataList = new ArrayList();
+    public final HashMap<String, MissileCasingData> casingDataMap = new HashMap();
     public MissileCasingData defaultMissileCasing;
 
     MissileSize(WarheadCasings warhead, int maxFlightTicks)
@@ -57,5 +56,14 @@ public enum MissileSize
     public static MissileSize get(int missileSize)
     {
         return fromMeta(missileSize);
+    }
+
+    public MissileCasingData getMissileData(String missileDataID)
+    {
+        if (casingDataMap.containsKey(missileDataID))
+        {
+            return casingDataMap.get(missileDataID);
+        }
+        return defaultMissileCasing;
     }
 }

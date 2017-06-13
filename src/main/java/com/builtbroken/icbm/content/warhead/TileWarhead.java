@@ -4,7 +4,7 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
-import com.builtbroken.icbm.content.missile.parts.casing.MissileSize;
+import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.icbm.content.missile.parts.warhead.Warhead;
 import com.builtbroken.icbm.content.missile.parts.warhead.WarheadCasings;
 import com.builtbroken.icbm.content.missile.parts.warhead.WarheadStandard;

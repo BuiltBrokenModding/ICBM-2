@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.api.modules;
 
-import com.builtbroken.icbm.content.missile.parts.casing.MissileSize;
+import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleContainer;
 

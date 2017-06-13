@@ -3,7 +3,6 @@ package com.builtbroken.icbm.content.missile.parts.casing;
 import com.builtbroken.icbm.api.missile.ICustomMissileRender;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.missile.client.RenderMissile;
-import com.builtbroken.icbm.content.missile.parts.Missile;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -17,18 +16,13 @@ import org.lwjgl.opengl.GL11;
  * Standard Missile Casing
  * Created by robert on 12/29/2014.
  */
-public final class MissileStandard extends Missile implements ICustomMissileRender
+public final class MissileStandard implements ICustomMissileRender
 {
     private static final float inventoryScale = 0.45f;
     private static final float worldScale = 1f;
 
     private static GroupObject BODY;
     private static GroupObject FINS;
-
-    public MissileStandard(ItemStack stack)
-    {
-        super(stack, MissileSize.STANDARD);
-    }
 
     @Override
     @SideOnly(Side.CLIENT)
@@ -111,13 +105,11 @@ public final class MissileStandard extends Missile implements ICustomMissileRend
         return ((float)getHeight() / 2f) - 0.375f;
     }
 
-    @Override
     public double getHeight()
     {
         return 4.6;
     }
 
-    @Override
     public double getWidth()
     {
         return 0.6;

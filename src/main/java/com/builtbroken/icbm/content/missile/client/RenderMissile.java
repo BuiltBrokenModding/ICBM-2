@@ -4,7 +4,7 @@ import com.builtbroken.icbm.api.missile.ICustomMissileRender;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.missile.entity.EntityMissile;
-import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
+import com.builtbroken.icbm.content.missile.data.missile.Missile;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -75,7 +75,7 @@ public class RenderMissile extends Render implements IItemRenderer
     {
         if (this.shouldUseRenderHelper(type, item, null))
         {
-            IMissile missile = MissileModuleBuilder.INSTANCE.buildMissile(item);
+            IMissile missile = new Missile(item);
 
             float yaw = 0;
             float pitch = -90;

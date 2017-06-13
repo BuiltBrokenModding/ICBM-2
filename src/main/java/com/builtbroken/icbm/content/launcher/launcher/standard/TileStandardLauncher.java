@@ -4,11 +4,11 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
-import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
-import com.builtbroken.icbm.content.missile.parts.casing.MissileSize;
 import com.builtbroken.icbm.content.launcher.block.LauncherPartListener;
 import com.builtbroken.icbm.content.launcher.launcher.TileAbstractLauncherPad;
 import com.builtbroken.icbm.content.missile.entity.EntityMissile;
+import com.builtbroken.icbm.content.missile.data.missile.Missile;
+import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.mc.api.tile.access.IRotation;
 import com.builtbroken.mc.api.tile.listeners.IActivationListener;
 import com.builtbroken.mc.api.tile.listeners.IBlockStackListener;
@@ -397,7 +397,7 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IRo
             }
             else
             {
-                missile = MissileModuleBuilder.INSTANCE.buildMissile(missileStack);
+                missile = new Missile(missileStack);
             }
         }
         else if (type == 1)

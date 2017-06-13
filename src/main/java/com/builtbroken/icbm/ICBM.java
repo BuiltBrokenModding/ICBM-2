@@ -47,7 +47,7 @@ import com.builtbroken.icbm.content.launcher.controller.remote.central.TileComma
 import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCommandSiloConnector;
 import com.builtbroken.icbm.content.missile.entity.EntityMissile;
 import com.builtbroken.icbm.content.missile.item.ItemMissile;
-import com.builtbroken.icbm.content.missile.parts.casing.MissileSize;
+import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.icbm.content.missile.parts.engine.Engines;
 import com.builtbroken.icbm.content.missile.parts.engine.ItemEngineModules;
 import com.builtbroken.icbm.content.missile.parts.guidance.GuidanceModules;

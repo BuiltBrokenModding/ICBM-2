@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.content.rail;
 
-import com.builtbroken.icbm.content.missile.parts.casing.MissileSize;
+import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.icbm.content.missile.item.InventoryFilterMissile;
 import com.builtbroken.mc.api.IInventoryFilter;
 

@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.missile.data.ammo;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.missile.parts.casing.MissileSize;
+import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.mc.api.data.EnumProjectileTypes;
 import com.builtbroken.mc.api.data.weapon.IAmmoType;
 

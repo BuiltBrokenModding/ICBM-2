@@ -4,8 +4,8 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
-import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
-import com.builtbroken.icbm.content.missile.parts.casing.MissileSize;
+import com.builtbroken.icbm.content.missile.data.missile.Missile;
+import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.icbm.content.missile.parts.engine.RocketEngine;
 import com.builtbroken.icbm.content.missile.parts.guidance.Guidance;
 import com.builtbroken.icbm.content.missile.parts.warhead.Warhead;
@@ -329,7 +329,7 @@ public class TileSmallMissileWorkstation extends TileSmallMissileStationBase imp
     {
         if (getMissileItem() != null)
         {
-            this.missile = MissileModuleBuilder.INSTANCE.buildMissile(getMissileItem());
+            this.missile = new Missile(getMissileItem());
         }
         else
         {

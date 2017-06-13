@@ -3,7 +3,6 @@ package com.builtbroken.icbm.content.missile.parts.casing;
 import com.builtbroken.icbm.api.missile.ICustomMissileRender;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.missile.client.RenderMissile;
-import com.builtbroken.icbm.content.missile.parts.Missile;
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
@@ -14,12 +13,8 @@ import org.lwjgl.opengl.GL11;
  * RPG sized missile
  * Created by robert on 12/29/2014.
  */
-public class MissileMicro extends Missile implements ICustomMissileRender
+public class MissileMicro implements ICustomMissileRender
 {
-    public MissileMicro(ItemStack stack)
-    {
-        super(stack, MissileSize.MICRO);
-    }
 
     @Override
     public boolean renderMissileItem(IItemRenderer.ItemRenderType type, ItemStack stack, Object... data)
@@ -82,13 +77,13 @@ public class MissileMicro extends Missile implements ICustomMissileRender
         return true;
     }
 
-    @Override
+
     public double getHeight()
     {
         return 0.8;
     }
 
-    @Override
+
     public double getWidth()
     {
         return 0.2;

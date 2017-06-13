@@ -4,13 +4,15 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
+import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.api.warhead.IWarheadHandler;
 import com.builtbroken.icbm.content.items.parts.MissileCraftingParts;
 import com.builtbroken.icbm.content.missile.data.ammo.AmmoDataMissile;
+import com.builtbroken.icbm.content.missile.data.casing.MissileCasingData;
 import com.builtbroken.icbm.content.missile.entity.EntityMissile;
-import com.builtbroken.icbm.content.missile.parts.Missile;
+import com.builtbroken.icbm.content.missile.data.missile.Missile;
 import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
-import com.builtbroken.icbm.content.missile.parts.casing.MissileSize;
+import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.icbm.content.missile.parts.engine.RocketEngine;
 import com.builtbroken.icbm.content.missile.parts.guidance.Guidance;
 import com.builtbroken.icbm.content.missile.parts.warhead.Warhead;
@@ -41,8 +43,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -91,7 +91,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IItemAmmo.IItem
         }
         else
         {
-            GameRegistry.addShapedRecipe(MissileModuleBuilder.INSTANCE.buildMissile(MissileSize.SMALL, new ItemStack(Blocks.tnt)).toStack(), "ITI", "IAI", "IFI", 'A', Items.arrow, 'I', Items.iron_ingot, 'T', Blocks.tnt, 'F', Blocks.furnace);
+            //GameRegistry.addShapedRecipe(MissileModuleBuilder.INSTANCE.buildMissile(MissileSize.SMALL, new ItemStack(Blocks.tnt)).toStack(), "ITI", "IAI", "IFI", 'A', Items.arrow, 'I', Items.iron_ingot, 'T', Blocks.tnt, 'F', Blocks.furnace);
         }
     }
 
@@ -125,22 +125,22 @@ public class ItemMissile extends Item implements IExplosiveItem, IItemAmmo.IItem
     @Override
     public IExplosiveHandler getExplosive(ItemStack itemStack)
     {
-        IMissile missile = MissileModuleBuilder.INSTANCE.buildMissile(itemStack);
-        return missile.getWarhead() != null ? missile.getWarhead().getExplosive() : null;
+        IWarhead warhead = Missile.loadWarheadFromMissileStack(itemStack);
+        return warhead != null ? warhead.getExplosive() : null;
     }
 
     @Override
     public NBTTagCompound getAdditionalExplosiveData(ItemStack itemStack)
     {
-        IMissile missile = MissileModuleBuilder.INSTANCE.buildMissile(itemStack);
-        return missile.getWarhead() != null ? missile.getWarhead().getAdditionalExplosiveData() : null;
+        IWarhead warhead = Missile.loadWarheadFromMissileStack(itemStack);
+        return warhead != null ? warhead.getAdditionalExplosiveData() : null;
     }
 
     @Override
     public double getExplosiveSize(ItemStack itemStack)
     {
-        IMissile missile = MissileModuleBuilder.INSTANCE.buildMissile(itemStack);
-        return missile.getWarhead() != null ? missile.getWarhead().getExplosiveSize() : 0;
+        IWarhead warhead = Missile.loadWarheadFromMissileStack(itemStack);
+        return warhead != null ? warhead.getExplosiveSize() : 0;
     }
 
     @Override
@@ -161,20 +161,31 @@ public class ItemMissile extends Item implements IExplosiveItem, IItemAmmo.IItem
      */
     public static void getSubItems(MissileSize size, List list)
     {
-        if (size.enabled)
+        if (!size.casingDataMap.isEmpty())
         {
-            list.add(size.newModuleStack());
+            //Add empty casings to GUI
+            for (MissileCasingData data : size.casingDataMap.values())
+            {
+                list.add(new Missile(data).toStack());
+            }
+            //Loop all explosives
             for (IExplosiveHandler ex : ExplosiveRegistry.getExplosives())
             {
                 List<ItemStackWrapper> items = ExplosiveRegistry.getItems(ex);
                 if (items != null)
                 {
+                    //Loop all explosives for handler
                     for (ItemStackWrapper wrapper : items)
                     {
+                        //Create warhead
                         Warhead warhead = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.values()[size.ordinal()], wrapper.itemStack);
                         warhead.explosive.stackSize = warhead.getMaxExplosives();
-                        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(size, (ItemStack) null);
+
+                        //Create missile
+                        Missile missile = new Missile(size.defaultMissileCasing);
                         missile.setWarhead(warhead);
+
+                        //Add to list
                         list.add(missile.toStack());
                     }
                 }
@@ -439,7 +450,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IItemAmmo.IItem
     @Override
     public boolean setWarhead(ItemStack m_stack, ItemStack stack, boolean simulate)
     {
-        IMissile missile = MissileModuleBuilder.INSTANCE.buildMissile(m_stack);
+        IMissile missile = new Missile(m_stack);
         if (missile != null)
         {
             if (missile.getWarhead() == null && stack != null && stack.getItem() instanceof IModuleItem)
@@ -479,7 +490,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IItemAmmo.IItem
     @Override
     public boolean setGuidance(ItemStack m_stack, ItemStack stack, boolean simulate)
     {
-        IMissile missile = MissileModuleBuilder.INSTANCE.buildMissile(m_stack);
+        IMissile missile = new Missile(m_stack);
         if (missile != null)
         {
             if (missile.getGuidance() == null && stack != null && stack.getItem() instanceof IModuleItem)
@@ -533,13 +544,6 @@ public class ItemMissile extends Item implements IExplosiveItem, IItemAmmo.IItem
     @Override
     public IMissile toMissile(ItemStack stack)
     {
-        IMissile missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
-        if (missile == null)
-        {
-            //TODO if NBT is not null see if we can validate some parts of it
-            missile = MissileModuleBuilder.INSTANCE.buildMissile(MissileSize.fromMeta(stack.getItemDamage()), (ItemStack) null);
-            stack.setTagCompound(missile.save(new NBTTagCompound())); //Save new valid data
-        }
-        return missile;
+        return new Missile(stack);
     }
 }
