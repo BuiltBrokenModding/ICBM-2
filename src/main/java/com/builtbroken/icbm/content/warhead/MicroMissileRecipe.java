@@ -1,15 +1,16 @@
 package com.builtbroken.icbm.content.warhead;
 
+import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
-import com.builtbroken.icbm.content.missile.parts.casing.MissileCasings;
+import com.builtbroken.icbm.content.missile.parts.casing.MissileSize;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
-import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.lib.recipe.item.RecipeShapelessOre;
+import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 
@@ -19,9 +20,9 @@ import net.minecraft.item.ItemStack;
  */
 public class MicroMissileRecipe extends RecipeShapelessOre
 {
-    public MicroMissileRecipe(ItemStack stack, Object... recipe)
+    public MicroMissileRecipe(Object... recipe)
     {
-        super(MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.MICRO, stack).toStack(), recipe);
+        super(new ItemStack(ICBM.itemMissile, 1, MissileSize.MICRO.ordinal()), recipe);
     }
 
     @Override
@@ -80,7 +81,7 @@ public class MicroMissileRecipe extends RecipeShapelessOre
         if (missileStack != null && warheadStack != null)
         {
             //Generate objects from stack
-            IMissile missile = missileStack.getItem() instanceof IMissileItem ? ((IMissileItem) missileStack.getItem()).toMissile(missileStack) : MissileModuleBuilder.INSTANCE.buildMissile(missileStack);
+            IMissile missile = missileStack.getItem() instanceof IMissileItem ? ((IMissileItem) missileStack.getItem()).toMissile(missileStack) : null;
             IWarhead warhead = MissileModuleBuilder.INSTANCE.buildWarhead(warheadStack);
             //Validate
             if (missile != null && warhead != null && missile.getWarhead() == null)

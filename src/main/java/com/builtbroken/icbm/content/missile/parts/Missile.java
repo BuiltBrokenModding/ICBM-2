@@ -1,18 +1,20 @@
-package com.builtbroken.icbm.content.missile.parts.casing;
+package com.builtbroken.icbm.content.missile.parts;
 
 import com.builtbroken.icbm.api.modules.IGuidance;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.api.modules.IRocketEngine;
 import com.builtbroken.icbm.api.modules.IWarhead;
-import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
+import com.builtbroken.icbm.content.missile.data.casing.MissileCasingData;
+import com.builtbroken.icbm.content.missile.parts.casing.MissileSize;
 import com.builtbroken.icbm.content.missile.parts.engine.RocketEngine;
 import com.builtbroken.icbm.content.missile.parts.guidance.Guidance;
 import com.builtbroken.icbm.content.missile.parts.warhead.Warhead;
+import com.builtbroken.mc.api.IHasMass;
+import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
-import com.builtbroken.mc.lib.helper.LanguageUtility;
-import com.builtbroken.mc.lib.json.imp.IJsonGenObject;
-import com.builtbroken.mc.prefab.module.AbstractModule;
+import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
+import com.builtbroken.mc.prefab.items.ItemStackWrapper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -26,10 +28,11 @@ import java.util.List;
  *
  * @author Darkguardsman
  */
-public class Missile extends AbstractModule implements IMissile, IJsonGenObject
+public class Missile implements IMissile, IHasMass
 {
     /** Size of the missile */
-    public final MissileCasings casing;
+    public final MissileCasingData data;
+    public ItemStack item;
 
     public String textureSkinID = "icbm:default";
 
@@ -37,11 +40,9 @@ public class Missile extends AbstractModule implements IMissile, IJsonGenObject
     private IGuidance guidance;
     private IRocketEngine engine;
 
-    public Missile(ItemStack stack, MissileCasings casing)
+    public Missile(MissileCasingData data)
     {
-        super(stack, "missile");
-        this.casing = casing;
-        load(stack);
+        this.data = data;
     }
 
     @Override
@@ -51,9 +52,15 @@ public class Missile extends AbstractModule implements IMissile, IJsonGenObject
     }
 
     @Override
+    public void save(ItemStack stack)
+    {
+        save(stack.getTagCompound());
+    }
+
+    @Override
     public double getMass()
     {
-        return casing.mass;
+        return data.getMass();
     }
 
     @Override
@@ -190,20 +197,27 @@ public class Missile extends AbstractModule implements IMissile, IJsonGenObject
     @Override
     public int getMissileSize()
     {
-        return casing.ordinal();
+        return data.getMissileBodySize();
     }
 
     @Override
     public String toString()
     {
         //TODO maybe cache being in missile enum to save a little cpu time?
-        return LanguageUtility.capitalizeFirst(casing.name().toLowerCase()) + "Missile[" + getWarhead() + ", " + getGuidance() + ", " + getEngine() + "]";
+        return data.getContentID() + " Missile[" + getWarhead() + ", " + getGuidance() + ", " + getEngine() + "]";
+    }
+
+    @Override
+    public ItemStack toStack()
+    {
+        save(item);
+        return item.copy();
     }
 
     @Override
     public String getUnlocalizedName()
     {
-        return "module.icbm:" + getName();
+        return data.getContentID();
     }
 
     /**
@@ -213,7 +227,7 @@ public class Missile extends AbstractModule implements IMissile, IJsonGenObject
      */
     public float getMaxHitPoints()
     {
-        return casing.getMaxHitPoints();
+        return 10; //TODO implement
     }
 
     /**
@@ -224,7 +238,7 @@ public class Missile extends AbstractModule implements IMissile, IJsonGenObject
      */
     public double getHeight()
     {
-        return 3;
+        return 3; //TODO implement
     }
 
 
@@ -236,24 +250,19 @@ public class Missile extends AbstractModule implements IMissile, IJsonGenObject
      */
     public double getWidth()
     {
-        return 0.5;
+        return 0.5; //TODO implement
     }
 
-    @Override
-    public String getLoader()
-    {
-        return null;
-    }
 
-    @Override
-    public String getMod()
+    public static Missile createMissile(MissileSize size, IExplosiveHandler handler)
     {
-        return null;
-    }
-
-    @Override
-    public String getContentID()
-    {
-        return "missile." + getName();
+        Missile missile = new Missile(size.defaultMissileCasing);
+        missile.setWarhead(MissileModuleBuilder.INSTANCE.buildWarhead(size.warhead_casing));
+        List<ItemStackWrapper> items = ExplosiveRegistry.getItems(handler);
+        if(items.size() > 0)
+        {
+            missile.getWarhead().setExplosiveStack(items.get(0).itemStack);
+        }
+        return missile;
     }
 }

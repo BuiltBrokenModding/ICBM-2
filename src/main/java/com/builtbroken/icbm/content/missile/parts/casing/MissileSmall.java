@@ -15,14 +15,9 @@ import org.lwjgl.opengl.GL11;
  * Missile object that represents the small missile size
  * Created by robert on 12/29/2014.
  */
-public class MissileSmall extends Missile implements ICustomMissileRender
+public class MissileSmall implements ICustomMissileRender
 {
     private static final float scale = .0015f;
-
-    public MissileSmall(ItemStack stack)
-    {
-        super(stack, MissileCasings.SMALL);
-    }
 
     @Override
     @SideOnly(Side.CLIENT)
@@ -87,13 +82,12 @@ public class MissileSmall extends Missile implements ICustomMissileRender
         return ((float)getHeight() / 2f);
     }
 
-    @Override
+
     public double getHeight()
     {
         return 2;
     }
 
-    @Override
     public double getWidth()
     {
         return 0.5;

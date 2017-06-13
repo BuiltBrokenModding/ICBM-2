@@ -5,7 +5,7 @@ import com.builtbroken.icbm.api.crafting.IModularMissileItem;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
-import com.builtbroken.icbm.content.missile.parts.casing.MissileCasings;
+import com.builtbroken.icbm.content.missile.parts.casing.MissileSize;
 import com.builtbroken.icbm.content.launcher.block.LauncherPartListener;
 import com.builtbroken.icbm.content.launcher.launcher.TileAbstractLauncherPad;
 import com.builtbroken.icbm.content.missile.entity.EntityMissile;
@@ -493,7 +493,7 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IRo
     @Override
     public boolean canAcceptMissile(IMissile missile)
     {
-        return super.canAcceptMissile(missile) && missile.getMissileSize() == MissileCasings.STANDARD.ordinal();
+        return super.canAcceptMissile(missile) && missile.getMissileSize() == MissileSize.STANDARD.ordinal();
     }
 
 

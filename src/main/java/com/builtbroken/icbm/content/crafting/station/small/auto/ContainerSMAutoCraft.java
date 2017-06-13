@@ -4,7 +4,7 @@ import com.builtbroken.icbm.client.gui.SlotEngine;
 import com.builtbroken.icbm.client.gui.SlotGuidance;
 import com.builtbroken.icbm.client.gui.SlotMissile;
 import com.builtbroken.icbm.client.gui.SlotWarhead;
-import com.builtbroken.icbm.content.missile.parts.casing.MissileCasings;
+import com.builtbroken.icbm.content.missile.parts.casing.MissileSize;
 import com.builtbroken.mc.prefab.gui.ContainerBase;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -21,7 +21,7 @@ public class ContainerSMAutoCraft extends ContainerBase
         if (id == 0)
         {
             //Intput Slot
-            this.addSlotToContainer(new SlotMissile(inventory.getInventory(), TileSMAutoCraft.INPUT_SLOT, 30, 10, MissileCasings.SMALL.ordinal()));
+            this.addSlotToContainer(new SlotMissile(inventory.getInventory(), TileSMAutoCraft.INPUT_SLOT, 30, 10, MissileSize.SMALL.ordinal()));
 
             //Engine slot
             this.addSlotToContainer(new SlotEngine(inventory.getInventory(), TileSMAutoCraft.ENGINE_SLOT, 50, 37));
@@ -33,7 +33,7 @@ public class ContainerSMAutoCraft extends ContainerBase
             this.addSlotToContainer(new SlotGuidance(inventory.getInventory(), TileSMAutoCraft.GUIDANCE_SLOT, 30, 37));
 
             //Output slot
-            this.addSlotToContainer(new SlotMissile(inventory.getInventory(), TileSMAutoCraft.OUTPUT_SLOT, 140, 25, MissileCasings.SMALL.ordinal()));
+            this.addSlotToContainer(new SlotMissile(inventory.getInventory(), TileSMAutoCraft.OUTPUT_SLOT, 140, 25, MissileSize.SMALL.ordinal()));
 
             //Player inventory.getInventory()
             this.addPlayerInventory(player);

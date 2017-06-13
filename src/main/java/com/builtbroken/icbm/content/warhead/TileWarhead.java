@@ -4,7 +4,7 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
-import com.builtbroken.icbm.content.missile.parts.casing.MissileCasings;
+import com.builtbroken.icbm.content.missile.parts.casing.MissileSize;
 import com.builtbroken.icbm.content.missile.parts.warhead.Warhead;
 import com.builtbroken.icbm.content.missile.parts.warhead.WarheadCasings;
 import com.builtbroken.icbm.content.missile.parts.warhead.WarheadStandard;
@@ -177,7 +177,7 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
 
                     WarheadRecipe microWarheadRecipe = new WarheadRecipe(micro_warhead, stack);
                     recipes.add(microWarheadRecipe);
-                    recipes.add(new MicroMissileRecipe(wrapper.itemStack, MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.MICRO, (ItemStack) null).toStack(), microWarheadRecipe.getRecipeOutput()));
+                    recipes.add(new MicroMissileRecipe(wrapper.itemStack, new ItemStack(ICBM.itemMissile, 1, MissileSize.MICRO.ordinal()), microWarheadRecipe.getRecipeOutput()));
 
                     //TODO remove when warhead crafting table is added
                     for (WarheadCasings casing : new WarheadCasings[]{WarheadCasings.EXPLOSIVE_SMALL, WarheadCasings.EXPLOSIVE_STANDARD})

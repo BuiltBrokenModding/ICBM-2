@@ -8,7 +8,7 @@ import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.missile.data.TriggerCauseMissileDestroyed;
 import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
-import com.builtbroken.icbm.content.missile.parts.casing.MissileCasings;
+import com.builtbroken.icbm.content.missile.parts.casing.MissileSize;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.icbm.content.missile.tile.TileCrashedMissile;
 import com.builtbroken.icbm.content.missile.tracking.MissileTracker;
@@ -501,7 +501,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
         this.missile = missile;
         if (missile != null)
         {
-            this.inAirKillTime = MissileCasings.get(missile.getMissileSize()).maxFlightTimeInTicks;
+            this.inAirKillTime = MissileSize.get(missile.getMissileSize()).maxFlightTimeInTicks;
         }
     }
 

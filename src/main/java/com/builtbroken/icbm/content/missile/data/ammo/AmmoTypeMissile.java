@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.missile.data.ammo;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.missile.parts.casing.MissileCasings;
+import com.builtbroken.icbm.content.missile.parts.casing.MissileSize;
 import com.builtbroken.mc.api.data.EnumProjectileTypes;
 import com.builtbroken.mc.api.data.weapon.IAmmoType;
 
@@ -11,15 +11,15 @@ import com.builtbroken.mc.api.data.weapon.IAmmoType;
 //TODO re-implement as this is a temp class
 public class AmmoTypeMissile implements IAmmoType
 {
-    public static final AmmoTypeMissile MICRO = new AmmoTypeMissile(MissileCasings.MICRO);
-    public static final AmmoTypeMissile SMALL = new AmmoTypeMissile(MissileCasings.SMALL);
-    public static final AmmoTypeMissile STANDARD = new AmmoTypeMissile(MissileCasings.STANDARD);
-    public static final AmmoTypeMissile MEDIUM = new AmmoTypeMissile(MissileCasings.MEDIUM);
-    public static final AmmoTypeMissile LARGE = new AmmoTypeMissile(MissileCasings.LARGE);
+    public static final AmmoTypeMissile MICRO = new AmmoTypeMissile(MissileSize.MICRO);
+    public static final AmmoTypeMissile SMALL = new AmmoTypeMissile(MissileSize.SMALL);
+    public static final AmmoTypeMissile STANDARD = new AmmoTypeMissile(MissileSize.STANDARD);
+    public static final AmmoTypeMissile MEDIUM = new AmmoTypeMissile(MissileSize.MEDIUM);
+    public static final AmmoTypeMissile LARGE = new AmmoTypeMissile(MissileSize.LARGE);
 
-    public MissileCasings size;
+    public MissileSize size;
 
-    private AmmoTypeMissile(MissileCasings size)
+    private AmmoTypeMissile(MissileSize size)
     {
         this.size = size;
     }

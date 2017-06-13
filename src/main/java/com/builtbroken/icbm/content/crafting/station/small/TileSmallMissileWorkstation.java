@@ -5,7 +5,7 @@ import com.builtbroken.icbm.api.crafting.IModularMissileItem;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
-import com.builtbroken.icbm.content.missile.parts.casing.MissileCasings;
+import com.builtbroken.icbm.content.missile.parts.casing.MissileSize;
 import com.builtbroken.icbm.content.missile.parts.engine.RocketEngine;
 import com.builtbroken.icbm.content.missile.parts.guidance.Guidance;
 import com.builtbroken.icbm.content.missile.parts.warhead.Warhead;
@@ -291,7 +291,7 @@ public class TileSmallMissileWorkstation extends TileSmallMissileStationBase imp
             if (stack.getItem() instanceof IModularMissileItem && slot == INPUT_SLOT)
             {
                 IMissile missile = ((IModularMissileItem) stack.getItem()).toMissile(stack);
-                return missile.getMissileSize() == MissileCasings.SMALL.ordinal();
+                return missile.getMissileSize() == MissileSize.SMALL.ordinal();
             }
         }
         return false;

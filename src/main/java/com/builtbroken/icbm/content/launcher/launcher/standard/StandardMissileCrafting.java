@@ -4,8 +4,8 @@ import com.builtbroken.icbm.api.modules.IGuidance;
 import com.builtbroken.icbm.api.modules.IRocketEngine;
 import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
-import com.builtbroken.icbm.content.missile.parts.casing.Missile;
-import com.builtbroken.icbm.content.missile.parts.casing.MissileCasings;
+import com.builtbroken.icbm.content.missile.parts.Missile;
+import com.builtbroken.icbm.content.missile.parts.casing.MissileSize;
 import com.builtbroken.mc.api.ISave;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
@@ -419,7 +419,7 @@ public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufR
      */
     public Missile getMissile()
     {
-        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.STANDARD, null, null, null);
+        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(MissileSize.STANDARD, null, null, null);
         if (warhead != null)
         {
             missile.setWarhead(MissileModuleBuilder.INSTANCE.buildWarhead(warhead));

@@ -32,21 +32,13 @@ import com.builtbroken.icbm.content.blast.troll.BlastMidasOre;
 import com.builtbroken.icbm.content.blast.util.ExOrePuller;
 import com.builtbroken.icbm.content.blast.util.ExRegen;
 import com.builtbroken.icbm.content.blast.util.ExRegenLocal;
-import com.builtbroken.icbm.content.missile.parts.casing.MissileCasings;
-import com.builtbroken.icbm.content.missile.parts.engine.Engines;
-import com.builtbroken.icbm.content.missile.parts.engine.ItemEngineModules;
-import com.builtbroken.icbm.content.missile.parts.guidance.GuidanceModules;
-import com.builtbroken.icbm.content.missile.parts.guidance.ItemGuidanceModules;
-import com.builtbroken.icbm.content.missile.parts.trigger.ItemTriggerModules;
-import com.builtbroken.icbm.content.missile.parts.trigger.Triggers;
-import com.builtbroken.icbm.content.missile.parts.warhead.WarheadCasings;
-import com.builtbroken.icbm.content.items.parts.ItemExplosiveParts;
-import com.builtbroken.icbm.content.items.parts.ItemMissileParts;
-import com.builtbroken.icbm.content.items.parts.MissileCraftingParts;
 import com.builtbroken.icbm.content.debug.BlockExplosiveMarker;
 import com.builtbroken.icbm.content.fragments.EntityFragment;
 import com.builtbroken.icbm.content.fragments.FragmentEventHandler;
 import com.builtbroken.icbm.content.items.ItemExplosive;
+import com.builtbroken.icbm.content.items.parts.ItemExplosiveParts;
+import com.builtbroken.icbm.content.items.parts.ItemMissileParts;
+import com.builtbroken.icbm.content.items.parts.MissileCraftingParts;
 import com.builtbroken.icbm.content.launcher.block.LauncherPartListener;
 import com.builtbroken.icbm.content.launcher.block.TileLauncherFrame;
 import com.builtbroken.icbm.content.launcher.controller.direct.TileSiloController;
@@ -55,6 +47,14 @@ import com.builtbroken.icbm.content.launcher.controller.remote.central.TileComma
 import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCommandSiloConnector;
 import com.builtbroken.icbm.content.missile.entity.EntityMissile;
 import com.builtbroken.icbm.content.missile.item.ItemMissile;
+import com.builtbroken.icbm.content.missile.parts.casing.MissileSize;
+import com.builtbroken.icbm.content.missile.parts.engine.Engines;
+import com.builtbroken.icbm.content.missile.parts.engine.ItemEngineModules;
+import com.builtbroken.icbm.content.missile.parts.guidance.GuidanceModules;
+import com.builtbroken.icbm.content.missile.parts.guidance.ItemGuidanceModules;
+import com.builtbroken.icbm.content.missile.parts.trigger.ItemTriggerModules;
+import com.builtbroken.icbm.content.missile.parts.trigger.Triggers;
+import com.builtbroken.icbm.content.missile.parts.warhead.WarheadCasings;
 import com.builtbroken.icbm.content.missile.tile.TileCrashedMissile;
 import com.builtbroken.icbm.content.missile.tracking.MissileTracker;
 import com.builtbroken.icbm.content.rail.EntityMissileCart;
@@ -197,9 +197,9 @@ public final class ICBM extends AbstractMod
 
         explosiveTab = new CreativeTabExplosives();
         missileTabs = new CreativeTabMissiles[]{
-                new CreativeTabMissiles(MissileCasings.MICRO),
-                new CreativeTabMissiles(MissileCasings.SMALL),
-                new CreativeTabMissiles(MissileCasings.STANDARD)
+                new CreativeTabMissiles(MissileSize.MICRO),
+                new CreativeTabMissiles(MissileSize.SMALL),
+                new CreativeTabMissiles(MissileSize.STANDARD)
         };
         warheadsTab = new CreativeTabWarheads();
 
@@ -288,7 +288,11 @@ public final class ICBM extends AbstractMod
         }
 
         // ITEMS
-        itemMissileCart = manager.newItem("icbmMissileCart", ItemMissileCart.class);
+
+        if (Loader.isModLoaded("assemblyline"))
+        {
+            itemMissileCart = manager.newItem("icbmMissileCart", ItemMissileCart.class);
+        }
         itemMissile = manager.newItem("missile", ItemMissile.class);
         itemRocketLauncher = manager.newItem("rocketLauncher", ItemRocketLauncher.class);
         itemEngineModules = manager.newItem("engineModules", ItemEngineModules.class);
@@ -300,7 +304,6 @@ public final class ICBM extends AbstractMod
         NEIProxy.hideItem(ItemExplosive.ExplosiveItems.NBT.newItem());
 
         // Register modules, need to do this or they will not build from ItemStacks
-        MissileCasings.register();
         WarheadCasings.register();
         Engines.register();
         GuidanceModules.register();

@@ -1,15 +1,10 @@
 package com.builtbroken.icbm.content.missile.parts;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.api.warhead.ITrigger;
-import com.builtbroken.icbm.content.missile.parts.casing.Missile;
-import com.builtbroken.icbm.content.missile.parts.casing.MissileCasings;
-import com.builtbroken.icbm.content.missile.parts.engine.Engines;
 import com.builtbroken.icbm.content.missile.parts.engine.RocketEngine;
 import com.builtbroken.icbm.content.missile.parts.guidance.Guidance;
-import com.builtbroken.icbm.content.missile.parts.guidance.GuidanceModules;
 import com.builtbroken.icbm.content.missile.parts.trigger.Trigger;
 import com.builtbroken.icbm.content.missile.parts.trigger.Triggers;
 import com.builtbroken.icbm.content.missile.parts.warhead.Warhead;
@@ -75,16 +70,6 @@ public class MissileModuleBuilder<M extends MissileModule> extends ModuleBuilder
         return false;
     }
 
-    public IMissile buildMissile(ItemStack stack)
-    {
-        IModule module = super.build(stack);
-        if (module instanceof IMissile)
-        {
-            return (Missile) module;
-        }
-        return null;
-    }
-
     public IWarhead buildWarhead(ItemStack stack)
     {
         IModule module = super.build(stack);
@@ -123,25 +108,6 @@ public class MissileModuleBuilder<M extends MissileModule> extends ModuleBuilder
             return (Trigger) module;
         }
         return null;
-    }
-
-    @Deprecated
-    public Missile buildMissile(MissileCasings missileSize, IExplosiveHandler ex)
-    {
-        return this.buildMissile(missileSize, getExplosiveItem(ex));
-    }
-
-    /**
-     * Builds a missile with the explosive item. Will create all modules required to function. This
-     * includes the warhead for the explosive to be inserted into.
-     *
-     * @param missileSize - casing
-     * @param ex          - explosive item, is not validated.
-     * @return new Missile
-     */
-    public Missile buildMissile(MissileCasings missileSize, ItemStack ex)
-    {
-        return this.buildMissile(missileSize, ex, Engines.CREATIVE_ENGINE.newModule(), GuidanceModules.CHIP_THREE.newModule());
     }
 
     /**
@@ -250,62 +216,12 @@ public class MissileModuleBuilder<M extends MissileModule> extends ModuleBuilder
         return null;
     }
 
-
-
     public ITrigger buildTrigger(Triggers trigger)
     {
         //TODO replace reflection
         try
         {
             return trigger.clazz.getConstructor(ItemStack.class).newInstance(new ItemStack(ICBM.itemTrigger, 1, trigger.ordinal()));
-        }
-        catch (InstantiationException e)
-        {
-            e.printStackTrace();
-        }
-        catch (IllegalAccessException e)
-        {
-            e.printStackTrace();
-        }
-        catch (NoSuchMethodException e)
-        {
-            e.printStackTrace();
-        }
-        catch (InvocationTargetException e)
-        {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * Builds a missile with the provided parts
-     *
-     * @param missileSize - casing
-     * @param explosive   - item to use as the explosive
-     * @param engine      - movement system
-     * @param guidance    - guidance system
-     * @return new Missile
-     */
-    public Missile buildMissile(MissileCasings missileSize, ItemStack explosive, RocketEngine engine, Guidance guidance)
-    {
-        //TODO replace reflection
-        try
-        {
-            Missile missile = missileSize.missile_clazz.getConstructor(ItemStack.class).newInstance(missileSize.newModuleStack());
-
-            //Engine
-            missile.setEngine(engine);
-
-            //Guidance
-            missile.setGuidance(guidance);
-
-            //Warhead
-            if (explosive != null)
-            {
-                missile.setWarhead(buildWarhead(missileSize.warhead_casing, explosive));
-            }
-            return missile;
         }
         catch (InstantiationException e)
         {

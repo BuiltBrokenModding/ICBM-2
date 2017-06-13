@@ -1,9 +1,8 @@
 package com.builtbroken.icbm.server;
 
-import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
-import com.builtbroken.icbm.content.missile.parts.casing.Missile;
-import com.builtbroken.icbm.content.missile.parts.casing.MissileCasings;
 import com.builtbroken.icbm.content.missile.entity.EntityMissile;
+import com.builtbroken.icbm.content.missile.parts.Missile;
+import com.builtbroken.icbm.content.missile.parts.casing.MissileSize;
 import com.builtbroken.icbm.content.missile.tracking.MissileTracker;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
@@ -171,7 +170,7 @@ public class CommandICBM extends CommandBase
                     try
                     {
                         Location loc = new Location(entityPlayer.worldObj, Integer.parseInt(args[1]), 0, Integer.parseInt(args[2]));
-                        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.SMALL, ExplosiveRegistry.get("TNT"));
+                        Missile missile = Missile.createMissile(MissileSize.SMALL, ExplosiveRegistry.get("TNT"));
                         MissileTracker.spawnMissileOverTarget(missile, loc, entityPlayer);
                         ((EntityPlayer) sender).addChatComponentMessage(new ChatComponentText("Firing missile at " + loc.toString()));
 

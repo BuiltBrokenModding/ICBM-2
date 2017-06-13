@@ -8,15 +8,14 @@ import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.missile.ITileMissile;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.client.Assets;
-import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
 import com.builtbroken.icbm.content.missile.entity.EntityMissile;
 import com.builtbroken.mc.api.edit.IWorldChangeAction;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
-import com.builtbroken.mc.lib.render.RenderUtility;
 import com.builtbroken.mc.imp.transform.region.Cube;
 import com.builtbroken.mc.imp.transform.vector.Pos;
+import com.builtbroken.mc.lib.render.RenderUtility;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.Tile;
@@ -428,7 +427,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
         if (nbt.hasKey("missile"))
         {
             ItemStack stack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("missile"));
-            missile = stack.getItem() instanceof IMissileItem ? ((IMissileItem) stack.getItem()).toMissile(stack) : MissileModuleBuilder.INSTANCE.buildMissile(stack);
+            missile = stack.getItem() instanceof IMissileItem ? ((IMissileItem) stack.getItem()).toMissile(stack) : null;
         }
         yaw = nbt.getFloat("yaw");
         pitch = nbt.getFloat("pitch");

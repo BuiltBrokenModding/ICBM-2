@@ -3,6 +3,7 @@ package com.builtbroken.icbm.content.missile.parts.casing;
 import com.builtbroken.icbm.api.missile.ICustomMissileRender;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.missile.client.RenderMissile;
+import com.builtbroken.icbm.content.missile.parts.Missile;
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
@@ -17,7 +18,7 @@ public class MissileMicro extends Missile implements ICustomMissileRender
 {
     public MissileMicro(ItemStack stack)
     {
-        super(stack, MissileCasings.MICRO);
+        super(stack, MissileSize.MICRO);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.content.missile.parts.warhead;
 
-import com.builtbroken.icbm.content.missile.parts.casing.MissileCasings;
+import com.builtbroken.icbm.content.missile.parts.casing.MissileSize;
 import net.minecraft.item.ItemStack;
 
 /**
@@ -22,7 +22,7 @@ public class WarheadMicro extends Warhead
     @Override
     public int getMissileSize()
     {
-        return MissileCasings.MICRO.ordinal();
+        return MissileSize.MICRO.ordinal();
     }
 
     @Override

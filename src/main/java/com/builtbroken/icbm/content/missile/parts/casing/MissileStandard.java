@@ -3,6 +3,7 @@ package com.builtbroken.icbm.content.missile.parts.casing;
 import com.builtbroken.icbm.api.missile.ICustomMissileRender;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.missile.client.RenderMissile;
+import com.builtbroken.icbm.content.missile.parts.Missile;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -26,7 +27,7 @@ public final class MissileStandard extends Missile implements ICustomMissileRend
 
     public MissileStandard(ItemStack stack)
     {
-        super(stack, MissileCasings.STANDARD);
+        super(stack, MissileSize.STANDARD);
     }
 
     @Override

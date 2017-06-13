@@ -5,16 +5,16 @@ import com.builtbroken.icbm.api.crafting.IModularMissileItem;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.api.warhead.IWarheadHandler;
+import com.builtbroken.icbm.content.items.parts.MissileCraftingParts;
 import com.builtbroken.icbm.content.missile.data.ammo.AmmoDataMissile;
 import com.builtbroken.icbm.content.missile.entity.EntityMissile;
+import com.builtbroken.icbm.content.missile.parts.Missile;
 import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
-import com.builtbroken.icbm.content.missile.parts.casing.Missile;
-import com.builtbroken.icbm.content.missile.parts.casing.MissileCasings;
+import com.builtbroken.icbm.content.missile.parts.casing.MissileSize;
 import com.builtbroken.icbm.content.missile.parts.engine.RocketEngine;
 import com.builtbroken.icbm.content.missile.parts.guidance.Guidance;
 import com.builtbroken.icbm.content.missile.parts.warhead.Warhead;
 import com.builtbroken.icbm.content.missile.parts.warhead.WarheadCasings;
-import com.builtbroken.icbm.content.items.parts.MissileCraftingParts;
 import com.builtbroken.jlib.data.Colors;
 import com.builtbroken.mc.api.data.weapon.IAmmoData;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
@@ -82,8 +82,8 @@ public class ItemMissile extends Item implements IExplosiveItem, IItemAmmo.IItem
     @Override
     public void onPostInit()
     {
-        ItemStack micro_missile_empty = MissileCasings.MICRO.newModuleStack();
-        ItemStack small_missile_empty = MissileCasings.SMALL.newModuleStack();
+        ItemStack micro_missile_empty = new ItemStack(ICBM.itemMissile, 1, MissileSize.MICRO.ordinal());
+        ItemStack small_missile_empty = new ItemStack(ICBM.itemMissile, 1, MissileSize.SMALL.ordinal());
         if (Engine.itemSheetMetal != null && Engine.itemSheetMetalTools != null)
         {
             GameRegistry.addRecipe(new RecipeSheetMetal(micro_missile_empty, " rf", "rcf", " rf", 'c', ItemSheetMetal.SheetMetal.SMALL_CYLINDER.stack(), 'f', ItemSheetMetal.SheetMetal.FIN_MICRO.stack(), 'r', "rodIron"));
@@ -91,7 +91,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IItemAmmo.IItem
         }
         else
         {
-            GameRegistry.addShapedRecipe(MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.SMALL, new ItemStack(Blocks.tnt)).toStack(), "ITI", "IAI", "IFI", 'A', Items.arrow, 'I', Items.iron_ingot, 'T', Blocks.tnt, 'F', Blocks.furnace);
+            GameRegistry.addShapedRecipe(MissileModuleBuilder.INSTANCE.buildMissile(MissileSize.SMALL, new ItemStack(Blocks.tnt)).toStack(), "ITI", "IAI", "IFI", 'A', Items.arrow, 'I', Items.iron_ingot, 'T', Blocks.tnt, 'F', Blocks.furnace);
         }
     }
 
@@ -110,9 +110,9 @@ public class ItemMissile extends Item implements IExplosiveItem, IItemAmmo.IItem
     @Override
     public String getUnlocalizedName(ItemStack item)
     {
-        if (item.getItemDamage() < MissileCasings.values().length)
+        if (item.getItemDamage() < MissileSize.values().length)
         {
-            MissileCasings size = MissileCasings.values()[item.getItemDamage()];
+            MissileSize size = MissileSize.values()[item.getItemDamage()];
             if (getExplosive(item) == null)
             {
                 return getUnlocalizedName() + "." + size.toString().toLowerCase() + ".empty";
@@ -146,7 +146,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IItemAmmo.IItem
     @Override
     public void getSubItems(Item item, CreativeTabs tab, List list)
     {
-        for (MissileCasings size : MissileCasings.values())
+        for (MissileSize size : MissileSize.values())
         {
             getSubItems(size, list);
         }
@@ -159,7 +159,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IItemAmmo.IItem
      * @param size
      * @param list
      */
-    public static void getSubItems(MissileCasings size, List list)
+    public static void getSubItems(MissileSize size, List list)
     {
         if (size.enabled)
         {
@@ -366,7 +366,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IItemAmmo.IItem
     {
         if (pass > 0)
         {
-            return ExplosiveRegistryClient.getColorForCornerIcon(stack, pass -1);
+            return ExplosiveRegistryClient.getColorForCornerIcon(stack, pass - 1);
         }
         return 16777215;
     }
@@ -537,7 +537,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IItemAmmo.IItem
         if (missile == null)
         {
             //TODO if NBT is not null see if we can validate some parts of it
-            missile = MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.fromMeta(stack.getItemDamage()), (ItemStack) null);
+            missile = MissileModuleBuilder.INSTANCE.buildMissile(MissileSize.fromMeta(stack.getItemDamage()), (ItemStack) null);
             stack.setTagCompound(missile.save(new NBTTagCompound())); //Save new valid data
         }
         return missile;
