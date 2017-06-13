@@ -48,6 +48,7 @@ import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCom
 import com.builtbroken.icbm.content.missile.entity.EntityMissile;
 import com.builtbroken.icbm.content.missile.item.ItemMissile;
 import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
+import com.builtbroken.icbm.content.missile.json.MissileJsonProcessor;
 import com.builtbroken.icbm.content.missile.parts.engine.Engines;
 import com.builtbroken.icbm.content.missile.parts.engine.ItemEngineModules;
 import com.builtbroken.icbm.content.missile.parts.guidance.GuidanceModules;
@@ -67,6 +68,7 @@ import com.builtbroken.icbm.mods.ve.EntityTypeCheckMissile;
 import com.builtbroken.icbm.server.CommandICBM;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
+import com.builtbroken.mc.lib.json.JsonContentLoader;
 import com.builtbroken.mc.lib.json.processors.block.JsonBlockListenerProcessor;
 import com.builtbroken.mc.lib.mod.AbstractMod;
 import com.builtbroken.mc.lib.mod.ModCreativeTab;
@@ -213,9 +215,12 @@ public final class ICBM extends AbstractMod
     public void loadJsonContentHandlers()
     {
         super.loadJsonContentHandlers();
+
+        //JSON processors
+        JsonContentLoader.INSTANCE.add(new MissileJsonProcessor());
+
+        //Listeners
         JsonBlockListenerProcessor.addBuilder(new LauncherPartListener.Builder());
-        //TODO load listeners for silos
-        //TODO load processors for missiles
     }
 
     @EventHandler

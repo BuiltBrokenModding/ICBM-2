@@ -1,0 +1,82 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "missile": {
+    "id": "icbm:micro",
+    "bodySizeClassification": "micro",
+    "bodyWidth": 0.2,
+    "bodyHeight": 0.8,
+    "bodyCenterOffset": {
+      "x": 0,
+      "y": 0.4,
+      "z": 0
+    }
+  },
+  "render": {
+    "contentID": "icbm:micro",
+    "type": "item",
+    "states": [
+      {
+        "id": "base",
+        "renderType": "model",
+        "modelID": "icbm:micro",
+        "textureID": "icbm:micro"
+      },
+      {
+        "id": "item",
+        "renderType": "model",
+        "parent": "base"
+      },
+      {
+        "id": "item.inventory",
+        "renderType": "model",
+        "parent": "base"
+      },
+      {
+        "id": "item.equipped",
+        "renderType": "model",
+        "parent": "base",
+        "offset": {
+          "x": 0.1,
+          "y": -0.3,
+          "z": 0.2
+        },
+        "scale": 2
+      },
+      {
+        "id": "item.first",
+        "renderType": "model",
+        "parent": "base",
+        "offset": {
+          "x": -2,
+          "y": -1,
+          "z": 0
+        },
+        "rotation": {
+          "yaw": 180
+        }
+      },
+      {
+        "id": "item.entity",
+        "renderType": "model",
+        "parent": "base",
+        "offset": {
+          "x": -0.5,
+          "y": 0.5,
+          "z": 0
+        }
+      },
+      {
+        "id": "missile.entity",
+        "renderType": "model",
+        "parent": "base",
+        "offset": {
+          "x": 0.5,
+          "y": 1,
+          "z": 0.5
+        }
+      }
+    ]
+  }
+}
