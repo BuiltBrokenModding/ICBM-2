@@ -3,7 +3,7 @@ package com.builtbroken.icbm.content.rail;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
-import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
+import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.api.rails.ITransportCartHasItem;

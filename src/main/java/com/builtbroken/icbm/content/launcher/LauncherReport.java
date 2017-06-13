@@ -2,8 +2,8 @@ package com.builtbroken.icbm.content.launcher;
 
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
-import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
-import com.builtbroken.icbm.content.missile.EntityMissile;
+import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
+import com.builtbroken.icbm.content.missile.entity.EntityMissile;
 import com.builtbroken.mc.api.ISave;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

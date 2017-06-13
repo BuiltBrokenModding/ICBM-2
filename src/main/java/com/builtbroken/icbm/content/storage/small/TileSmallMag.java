@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.storage.small;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.modules.IMissile;
-import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
+import com.builtbroken.icbm.content.missile.parts.casing.MissileCasings;
 import com.builtbroken.icbm.content.launcher.TileMissileContainer;
 import com.builtbroken.icbm.content.storage.IMissileMag;
 import com.builtbroken.icbm.content.storage.IMissileMagOutput;

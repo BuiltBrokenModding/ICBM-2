@@ -5,7 +5,7 @@ import com.builtbroken.icbm.client.ec.ECBiomeChange;
 import com.builtbroken.icbm.content.blast.biome.ExBiomeChange;
 import com.builtbroken.icbm.content.blast.entity.ExSpawn;
 import com.builtbroken.icbm.content.blast.fragment.*;
-import com.builtbroken.icbm.content.crafting.parts.ItemExplosiveParts;
+import com.builtbroken.icbm.content.items.parts.ItemExplosiveParts;
 import com.builtbroken.jlib.data.Colors;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.explosives.IExplosiveItem;

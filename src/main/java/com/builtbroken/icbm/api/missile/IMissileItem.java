@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.api.missile;
 
 import com.builtbroken.icbm.api.modules.IMissile;
+import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 
@@ -31,7 +32,7 @@ public interface IMissileItem
 
     /**
      * Quick access way to convert stack to the missile.
-     * Does a call to {@link com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder}
+     * Does a call to {@link MissileModuleBuilder}
      * but also does some NPE checks and data inits for corrupted objects. Fixing
      * issues with mods like Project E which like to remove all NBT when
      * generating ItemStacks.

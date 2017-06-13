@@ -1,8 +1,8 @@
 package com.builtbroken.icbm.content.missile.tracking;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.crafting.missile.casing.Missile;
-import com.builtbroken.icbm.content.missile.EntityMissile;
+import com.builtbroken.icbm.content.missile.parts.casing.Missile;
+import com.builtbroken.icbm.content.missile.entity.EntityMissile;
 import com.builtbroken.mc.api.IVirtualObject;
 import com.builtbroken.mc.core.handler.SaveManager;
 import com.builtbroken.mc.lib.helper.NBTUtility;

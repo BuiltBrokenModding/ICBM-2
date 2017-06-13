@@ -12,7 +12,7 @@ import com.builtbroken.mc.api.modules.IModuleContainer;
 public interface IMissile extends IModuleContainer, IModule
 {
     /**
-     * Size of the missile @see {@link com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings}
+     * Size of the missile @see {@link com.builtbroken.icbm.content.missile.parts.casing.MissileCasings}
      *
      * @return size of the missile
      */

@@ -9,7 +9,7 @@ import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCom
 import com.builtbroken.icbm.content.launcher.controller.remote.display.TileSiloInterface;
 import com.builtbroken.icbm.content.launcher.gui.ContainerSilo;
 import com.builtbroken.icbm.content.launcher.gui.GuiSiloSettings;
-import com.builtbroken.icbm.content.missile.EntityMissile;
+import com.builtbroken.icbm.content.missile.entity.EntityMissile;
 import com.builtbroken.icbm.content.missile.tracking.MissileTrackingData;
 import com.builtbroken.icbm.content.storage.IMissileMagOutput;
 import com.builtbroken.jlib.data.vector.IPos3D;

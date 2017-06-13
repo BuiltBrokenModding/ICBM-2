@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.rail;
 
-import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
-import com.builtbroken.icbm.content.missile.InventoryFilterMissile;
+import com.builtbroken.icbm.content.missile.parts.casing.MissileCasings;
+import com.builtbroken.icbm.content.missile.item.InventoryFilterMissile;
 import com.builtbroken.mc.api.IInventoryFilter;
 
 /**

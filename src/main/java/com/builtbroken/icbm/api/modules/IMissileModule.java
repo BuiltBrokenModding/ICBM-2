@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.api.modules;
 
-import com.builtbroken.icbm.content.missile.EntityMissile;
+import com.builtbroken.icbm.content.missile.entity.EntityMissile;
 import com.builtbroken.mc.api.modules.IModuleEntityDriven;
 
 /**
@@ -25,7 +25,7 @@ public interface IMissileModule extends IModuleEntityDriven<EntityMissile> //TOD
      * Though this will have an effect on
      * the performance of the rocket.
      *
-     * @return int value matching enum {@link com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings}
+     * @return int value matching enum {@link com.builtbroken.icbm.content.missile.parts.casing.MissileCasings}
      */
     int getMissileSize();
 

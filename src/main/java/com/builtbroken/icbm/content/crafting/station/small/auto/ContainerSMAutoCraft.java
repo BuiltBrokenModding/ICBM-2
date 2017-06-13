@@ -4,7 +4,7 @@ import com.builtbroken.icbm.client.gui.SlotEngine;
 import com.builtbroken.icbm.client.gui.SlotGuidance;
 import com.builtbroken.icbm.client.gui.SlotMissile;
 import com.builtbroken.icbm.client.gui.SlotWarhead;
-import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
+import com.builtbroken.icbm.content.missile.parts.casing.MissileCasings;
 import com.builtbroken.mc.prefab.gui.ContainerBase;
 import net.minecraft.entity.player.EntityPlayer;
 

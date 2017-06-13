@@ -5,7 +5,7 @@ import com.builtbroken.icbm.api.modules.IGuidance;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.api.modules.IRocketEngine;
 import com.builtbroken.icbm.api.modules.IWarhead;
-import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
+import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
 import com.builtbroken.mc.api.automation.IAutomatedCrafter;
 import com.builtbroken.mc.api.automation.IAutomation;
 import com.builtbroken.mc.api.modules.IModule;

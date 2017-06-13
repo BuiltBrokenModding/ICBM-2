@@ -3,7 +3,7 @@ package com.builtbroken.test.icbm.content.crafting.station;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstation;
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstationClient;
-import com.builtbroken.icbm.content.missile.ItemMissile;
+import com.builtbroken.icbm.content.missile.item.ItemMissile;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.content.tool.ItemScrewdriver;
 import com.builtbroken.mc.core.network.packet.PacketTile;

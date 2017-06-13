@@ -1,8 +1,8 @@
 package com.builtbroken.icbm.client;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.crafting.missile.casing.MissileCasings;
-import com.builtbroken.icbm.content.missile.ItemMissile;
+import com.builtbroken.icbm.content.missile.parts.casing.MissileCasings;
+import com.builtbroken.icbm.content.missile.item.ItemMissile;
 import com.builtbroken.mc.lib.mod.ModCreativeTab;
 import net.minecraft.item.ItemStack;
 

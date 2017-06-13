@@ -1,6 +1,6 @@
 package com.builtbroken.test.icbm.content.engine;
 
-import com.builtbroken.icbm.content.crafting.missile.engine.solid.RocketEngineCoalPowered;
+import com.builtbroken.icbm.content.missile.parts.engine.solid.RocketEngineCoalPowered;
 import com.builtbroken.mc.prefab.items.ItemStackWrapper;
 import com.builtbroken.mc.testing.junit.AbstractTest;
 import com.builtbroken.mc.testing.junit.VoltzTestRunner;

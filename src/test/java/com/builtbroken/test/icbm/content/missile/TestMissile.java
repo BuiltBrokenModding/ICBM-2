@@ -1,6 +1,6 @@
 package com.builtbroken.test.icbm.content.missile;
 
-import com.builtbroken.icbm.content.missile.EntityMissile;
+import com.builtbroken.icbm.content.missile.entity.EntityMissile;
 import com.builtbroken.mc.testing.junit.AbstractTest;
 import com.builtbroken.mc.testing.junit.VoltzTestRunner;
 import com.builtbroken.mc.testing.junit.world.FakeWorld;

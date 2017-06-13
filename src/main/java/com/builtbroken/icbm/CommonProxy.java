@@ -1,6 +1,6 @@
 package com.builtbroken.icbm;
 
-import com.builtbroken.icbm.content.missile.EntityMissile;
+import com.builtbroken.icbm.content.missile.entity.EntityMissile;
 import com.builtbroken.mc.lib.mod.AbstractProxy;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 import net.minecraft.entity.Entity;

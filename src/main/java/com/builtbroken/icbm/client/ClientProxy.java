@@ -22,8 +22,8 @@ import com.builtbroken.icbm.content.launcher.controller.remote.antenna.TileAnten
 import com.builtbroken.icbm.content.launcher.controller.remote.display.TileSiloInterfaceClient;
 import com.builtbroken.icbm.content.launcher.launcher.standard.StandardLauncherRenderListener;
 import com.builtbroken.icbm.content.launcher.listeners.TileMissileRenderListener;
-import com.builtbroken.icbm.content.missile.EntityMissile;
-import com.builtbroken.icbm.content.missile.RenderMissile;
+import com.builtbroken.icbm.content.missile.entity.EntityMissile;
+import com.builtbroken.icbm.content.missile.client.RenderMissile;
 import com.builtbroken.icbm.content.rail.EntityMissileCart;
 import com.builtbroken.icbm.content.rail.RenderMissileCart;
 import com.builtbroken.icbm.content.rocketlauncher.RenderRocketLauncher;

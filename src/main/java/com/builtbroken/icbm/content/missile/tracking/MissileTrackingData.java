@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.missile.tracking;
 
 import com.builtbroken.icbm.api.modules.IMissile;
-import com.builtbroken.icbm.content.missile.EntityMissile;
+import com.builtbroken.icbm.content.missile.entity.EntityMissile;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.lib.helper.NBTUtility;
 import com.builtbroken.mc.imp.transform.vector.Point;

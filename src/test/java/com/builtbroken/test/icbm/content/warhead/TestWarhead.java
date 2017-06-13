@@ -1,9 +1,9 @@
 package com.builtbroken.test.icbm.content.warhead;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.crafting.missile.MissileModuleBuilder;
-import com.builtbroken.icbm.content.crafting.missile.warhead.Warhead;
-import com.builtbroken.icbm.content.crafting.missile.warhead.WarheadCasings;
+import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
+import com.builtbroken.icbm.content.missile.parts.warhead.Warhead;
+import com.builtbroken.icbm.content.missile.parts.warhead.WarheadCasings;
 import com.builtbroken.icbm.content.items.ItemExplosive;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
