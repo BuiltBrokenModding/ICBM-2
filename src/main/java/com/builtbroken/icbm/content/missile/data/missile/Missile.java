@@ -11,7 +11,6 @@ import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
 import com.builtbroken.icbm.content.missile.parts.engine.RocketEngine;
 import com.builtbroken.icbm.content.missile.parts.guidance.Guidance;
 import com.builtbroken.icbm.content.missile.parts.warhead.Warhead;
-import com.builtbroken.mc.api.IHasMass;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
@@ -28,7 +27,7 @@ import java.util.List;
  *
  * @author Darkguardsman
  */
-public class Missile implements IMissile, IHasMass
+public class Missile implements IMissile
 {
     /** Data describing how the missile looks and functions */
     public MissileCasingData data;
@@ -49,6 +48,7 @@ public class Missile implements IMissile, IHasMass
     {
         if (stack.getItem() instanceof IMissileItem)
         {
+            //Find data
             MissileSize size = MissileSize.fromMeta(stack.getItemDamage());
             if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("missileDataID"))
             {
@@ -57,6 +57,12 @@ public class Missile implements IMissile, IHasMass
             else
             {
                 this.data = size.defaultMissileCasing;
+            }
+
+            //Load save
+            if (stack.getTagCompound() != null)
+            {
+                load(stack.getTagCompound());
             }
         }
         else
@@ -75,12 +81,6 @@ public class Missile implements IMissile, IHasMass
     public void save(ItemStack stack)
     {
         save(stack.getTagCompound());
-    }
-
-    @Override
-    public double getMass()
-    {
-        return data.getMass();
     }
 
     @Override
@@ -265,6 +265,14 @@ public class Missile implements IMissile, IHasMass
     }
 
 
+    /**
+     * Called to create a new missile instance based on the size and explosive.
+     * Only use this if you do not care on the exact details of the missile.
+     *
+     * @param size    - size to use
+     * @param handler - explosive to use
+     * @return default missile casing with a random explosive item of type
+     */
     public static Missile createMissile(MissileSize size, IExplosiveHandler handler)
     {
         Missile missile = new Missile(size.defaultMissileCasing);
@@ -277,6 +285,12 @@ public class Missile implements IMissile, IHasMass
         return missile;
     }
 
+    /**
+     * Bypasses the need to load the entire missile to access just the warhead data.
+     *
+     * @param itemStack - missile stack
+     * @return warhead data
+     */
     public static IWarhead loadWarheadFromMissileStack(ItemStack itemStack)
     {
         if (itemStack != null && itemStack.getTagCompound() != null)
@@ -290,6 +304,7 @@ public class Missile implements IMissile, IHasMass
         return null;
     }
 
+    //Use to load module with less duplicate code
     private static IModule getModule(NBTTagCompound nbt, String id)
     {
         ItemStack stack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag(id));
