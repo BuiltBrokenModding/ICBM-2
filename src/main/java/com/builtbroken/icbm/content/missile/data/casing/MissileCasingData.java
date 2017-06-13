@@ -1,9 +1,12 @@
 package com.builtbroken.icbm.content.missile.data.casing;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.mc.api.IModObject;
+import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.json.imp.IJsonGenObject;
 import com.builtbroken.mc.lib.json.imp.IJsonProcessor;
+import com.builtbroken.mc.lib.json.loading.JsonProcessorData;
 import com.builtbroken.mc.lib.json.processors.JsonGenData;
 
 /**
@@ -13,6 +16,12 @@ import com.builtbroken.mc.lib.json.processors.JsonGenData;
 public class MissileCasingData extends JsonGenData implements IJsonGenObject, IModObject
 {
     public final String ID;
+
+    private int width;
+    private int height;
+    private int mass;
+    private int size = -1;
+    private Pos centerOffset = Pos.zero;
 
     public MissileCasingData(IJsonProcessor processor, String ID)
     {
@@ -36,7 +45,7 @@ public class MissileCasingData extends JsonGenData implements IJsonGenObject, IM
     @Override
     public String toString()
     {
-        return "MissileCasingData[]";
+        return "MissileCasingData[" + getContentID() + "]";
     }
 
     @Override
@@ -57,13 +66,78 @@ public class MissileCasingData extends JsonGenData implements IJsonGenObject, IM
         return ICBM.DOMAIN;
     }
 
-    public int getMissileBodySize()
+    public int getWidth()
     {
-        return 0;
+        return width;
     }
 
-    public double getMass()
+    @JsonProcessorData(value = "bodyWidth", type = "int")
+    public void setWidth(int width)
     {
-        return 0;
+        this.width = width;
+    }
+
+    public int getHeight()
+    {
+        return height;
+    }
+
+    @JsonProcessorData(value = "bodyHeight", type = "int")
+    public void setHeight(int height)
+    {
+        this.height = height;
+    }
+
+    public int getMass()
+    {
+        return mass;
+    }
+
+    @JsonProcessorData(value = "bodyMass", type = "int")
+    public void setMass(int mass)
+    {
+        this.mass = mass;
+    }
+
+    public int getMissileBodySize()
+    {
+        return size;
+    }
+
+    @JsonProcessorData(value = "bodySizeClassification")
+    public void setMissileBodySize(String size)
+    {
+        for (MissileSize missileSize : MissileSize.values())
+        {
+            if (missileSize.name().equalsIgnoreCase(size))
+            {
+                setMissileBodySize(missileSize.ordinal());
+            }
+        }
+        if (this.size == -1)
+        {
+            throw new IllegalArgumentException("Failed to read in missile size for value '" + size + "'");
+        }
+    }
+
+    @JsonProcessorData(value = "bodySizeNumber", type = "int") //Same as string version
+    public void setMissileBodySize(int size)
+    {
+        this.size = size;
+        if (size < 0 || size >= MissileSize.values().length)
+        {
+            throw new IllegalArgumentException("Size '" + size + "' is outside the range of valid sizes.");
+        }
+    }
+
+    public Pos getCenterOffset()
+    {
+        return centerOffset;
+    }
+
+    @JsonProcessorData(value = "bodyCenterOffset", type = "pos")
+    public void setCenterOffset(Pos centerOffset)
+    {
+        this.centerOffset = centerOffset;
     }
 }

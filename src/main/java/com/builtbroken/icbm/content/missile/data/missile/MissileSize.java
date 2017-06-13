@@ -19,12 +19,20 @@ public enum MissileSize
     MEDIUM(WarheadCasings.EXPLOSIVE_MEDIUM, 360000), //16m
     LARGE(WarheadCasings.EXPLOSIVE_LARGE, 1440000); //32m
 
+    /** Size of warhead that can fit into the missile */
     public final WarheadCasings warhead_casing;
+    /** How long the missile can stay in air before being collected as trash */
     public final int maxFlightTimeInTicks;
 
+    /** Map of casing data for the missile size */
     public final HashMap<String, MissileCasingData> casingDataMap = new HashMap();
+    /** Default missile casing size */
     public MissileCasingData defaultMissileCasing;
 
+    /**
+     * @param warhead        - warhead size to use
+     * @param maxFlightTicks - time in air before delted
+     */
     MissileSize(WarheadCasings warhead, int maxFlightTicks)
     {
         this.warhead_casing = warhead;
@@ -58,6 +66,12 @@ public enum MissileSize
         return fromMeta(missileSize);
     }
 
+    /**
+     * Tries to find the missile data for the ID
+     *
+     * @param missileDataID - ID of the missile, should be lower cased
+     * @return missile data or default missile data to prevent NPE
+     */
     public MissileCasingData getMissileData(String missileDataID)
     {
         if (casingDataMap.containsKey(missileDataID))
