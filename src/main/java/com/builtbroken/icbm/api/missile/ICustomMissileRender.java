@@ -9,7 +9,11 @@ import net.minecraftforge.client.IItemRenderer;
  * provide custom rendering.
  * <p>
  * Created by robert on 12/12/2014.
+ *
+ * @deprecated - replaced by the JSON render system, if this doesn't work for you create a custom model object
+ * for the JSON system that will allow higher control of rendering.
  */
+@Deprecated
 public interface ICustomMissileRender
 {
     /**

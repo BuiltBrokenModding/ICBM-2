@@ -9,10 +9,10 @@ import com.builtbroken.icbm.api.warhead.IWarheadHandler;
 import com.builtbroken.icbm.content.items.parts.MissileCraftingParts;
 import com.builtbroken.icbm.content.missile.data.ammo.AmmoDataMissile;
 import com.builtbroken.icbm.content.missile.data.casing.MissileCasingData;
-import com.builtbroken.icbm.content.missile.entity.EntityMissile;
 import com.builtbroken.icbm.content.missile.data.missile.Missile;
-import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
 import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
+import com.builtbroken.icbm.content.missile.entity.EntityMissile;
+import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
 import com.builtbroken.icbm.content.missile.parts.engine.RocketEngine;
 import com.builtbroken.icbm.content.missile.parts.guidance.Guidance;
 import com.builtbroken.icbm.content.missile.parts.warhead.Warhead;
@@ -31,6 +31,7 @@ import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.References;
 import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
+import com.builtbroken.mc.framework.item.ItemBase;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.recipe.item.sheetmetal.RecipeSheetMetal;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
@@ -38,7 +39,6 @@ import com.builtbroken.mc.prefab.items.ItemStackWrapper;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -46,7 +46,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -57,23 +56,11 @@ import java.util.List;
  *
  * @author Darkguardsman
  */
-public class ItemMissile extends Item implements IExplosiveItem, IItemAmmo.IItemAmmoFireHandler, IMissileItem, IPostInit, IModularMissileItem, IExplosiveContainerItem
+public class ItemMissile extends ItemBase implements IExplosiveItem, IItemAmmo.IItemAmmoFireHandler, IMissileItem, IPostInit, IModularMissileItem, IExplosiveContainerItem
 {
-    @SideOnly(Side.CLIENT)
-    IIcon microMissile;
-
-    @SideOnly(Side.CLIENT)
-    IIcon smallMissile;
-
-    @SideOnly(Side.CLIENT)
-    IIcon standardMissile;
-
-    @SideOnly(Side.CLIENT)
-    IIcon emptyIcon;
-
     public ItemMissile()
     {
-        this.setUnlocalizedName("missile");
+        super("missile", ICBM.DOMAIN, "missile");
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
         this.setMaxStackSize(1);
@@ -82,6 +69,7 @@ public class ItemMissile extends Item implements IExplosiveItem, IItemAmmo.IItem
     @Override
     public void onPostInit()
     {
+        //TODO move to JSON
         ItemStack micro_missile_empty = new ItemStack(ICBM.itemMissile, 1, MissileSize.MICRO.ordinal());
         ItemStack small_missile_empty = new ItemStack(ICBM.itemMissile, 1, MissileSize.SMALL.ordinal());
         if (Engine.itemSheetMetal != null && Engine.itemSheetMetalTools != null)
@@ -328,58 +316,13 @@ public class ItemMissile extends Item implements IExplosiveItem, IItemAmmo.IItem
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister reg)
-    {
-        microMissile = reg.registerIcon(ICBM.PREFIX + "micro.missile");
-        smallMissile = reg.registerIcon(ICBM.PREFIX + "small.missile");
-        standardMissile = reg.registerIcon(ICBM.PREFIX + "standard.missile");
-        emptyIcon = reg.registerIcon(References.PREFIX + "blank");
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIconFromDamage(int meta)
-    {
-        if (meta == 0)
-        {
-            return microMissile;
-        }
-        else if (meta == 1)
-        {
-            return smallMissile;
-        }
-        else if (meta == 2)
-        {
-            return standardMissile;
-        }
-        return microMissile;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIcon(ItemStack stack, int pass)
-    {
-        if (pass > 0)
-        {
-            IIcon icon = ExplosiveRegistryClient.getCornerIconFor(stack, pass - 1);
-            if (icon == null)
-            {
-                return emptyIcon;
-            }
-            return icon;
-        }
-        return getIconFromDamage(stack.getItemDamage());
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
     public int getColorFromItemStack(ItemStack stack, int pass)
     {
         if (pass > 0)
         {
             return ExplosiveRegistryClient.getColorForCornerIcon(stack, pass - 1);
         }
-        return 16777215;
+        return super.getColorFromItemStack(stack, pass);
     }
 
     @Override

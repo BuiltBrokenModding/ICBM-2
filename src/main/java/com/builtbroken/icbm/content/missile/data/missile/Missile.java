@@ -80,7 +80,16 @@ public class Missile implements IMissile
     @Override
     public void save(ItemStack stack)
     {
-        save(stack.getTagCompound());
+        NBTTagCompound nbt = stack.getTagCompound() != null ? stack.getTagCompound() : new NBTTagCompound();
+        save(nbt);
+        if (nbt.hasNoTags())
+        {
+            stack.setTagCompound(null);
+        }
+        else
+        {
+            stack.setTagCompound(nbt);
+        }
     }
 
     @Override
@@ -105,39 +114,44 @@ public class Missile implements IMissile
     @Override
     public void load(NBTTagCompound nbt)
     {
-        if (nbt.hasKey("warhead"))
+        if (nbt != null)
         {
-            IModule module = getModule(nbt, "warhead");
-            setWarhead(module instanceof IWarhead ? (IWarhead) module : null);
-        }
-        if (nbt.hasKey("engine"))
-        {
-            IModule module = getModule(nbt, "engine");
-            setEngine(module instanceof IRocketEngine ? (IRocketEngine) module : null);
-        }
-        if (nbt.hasKey("guidance"))
-        {
-            IModule module = getModule(nbt, "guidance");
-            setGuidance(module instanceof IGuidance ? (IGuidance) module : null);
+            if (nbt.hasKey("warhead"))
+            {
+                IModule module = getModule(nbt, "warhead");
+                setWarhead(module instanceof IWarhead ? (IWarhead) module : null);
+            }
+            if (nbt.hasKey("engine"))
+            {
+                IModule module = getModule(nbt, "engine");
+                setEngine(module instanceof IRocketEngine ? (IRocketEngine) module : null);
+            }
+            if (nbt.hasKey("guidance"))
+            {
+                IModule module = getModule(nbt, "guidance");
+                setGuidance(module instanceof IGuidance ? (IGuidance) module : null);
+            }
         }
     }
 
     @Override
     public NBTTagCompound save(NBTTagCompound nbt)
     {
-        if (getWarhead() != null)
+        if (nbt != null)
         {
-            nbt.setTag("warhead", getWarhead().toStack().writeToNBT(new NBTTagCompound()));
+            if (getWarhead() != null)
+            {
+                nbt.setTag("warhead", getWarhead().toStack().writeToNBT(new NBTTagCompound()));
+            }
+            if (getEngine() != null)
+            {
+                nbt.setTag("engine", getEngine().toStack().writeToNBT(new NBTTagCompound()));
+            }
+            if (getGuidance() != null)
+            {
+                nbt.setTag("guidance", getGuidance().toStack().writeToNBT(new NBTTagCompound()));
+            }
         }
-        if (getEngine() != null)
-        {
-            nbt.setTag("engine", getEngine().toStack().writeToNBT(new NBTTagCompound()));
-        }
-        if (getGuidance() != null)
-        {
-            nbt.setTag("guidance", getGuidance().toStack().writeToNBT(new NBTTagCompound()));
-        }
-
         return nbt;
     }
 
