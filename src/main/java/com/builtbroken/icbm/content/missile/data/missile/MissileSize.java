@@ -26,6 +26,7 @@ public enum MissileSize
 
     /** Map of casing data for the missile size */
     public final HashMap<String, MissileCasingData> casingDataMap = new HashMap();
+
     /** Default missile casing size */
     public MissileCasingData defaultMissileCasing;
 
@@ -77,6 +78,10 @@ public enum MissileSize
         if (casingDataMap.containsKey(missileDataID))
         {
             return casingDataMap.get(missileDataID);
+        }
+        if (defaultMissileCasing == null)
+        {
+            defaultMissileCasing = casingDataMap.get("icbm:" + name().toLowerCase());
         }
         return defaultMissileCasing;
     }

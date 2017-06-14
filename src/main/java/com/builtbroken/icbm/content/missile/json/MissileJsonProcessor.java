@@ -28,7 +28,7 @@ public class MissileJsonProcessor extends JsonProcessor<MissileCasingData>
         debugPrinter.start("MissileProcessor", "Processing entry", Engine.runningAsDev);
 
         final JsonObject sentryJsonObject = element.getAsJsonObject();
-        ensureValuesExist(sentryJsonObject, "id", "");
+        ensureValuesExist(sentryJsonObject, "id");
 
         String id = sentryJsonObject.getAsJsonPrimitive("id").getAsString();
 

@@ -33,7 +33,7 @@ public class Missile implements IMissile
     public MissileCasingData data;
 
     /** Skin currently in use for the missile */
-    public String textureSkinID = "icbm:default";
+    public String textureSkinID = "icbm.default";
 
     private IWarhead warhead;
     private IGuidance guidance;
@@ -220,7 +220,7 @@ public class Missile implements IMissile
     @Override
     public ItemStack toStack()
     {
-        ItemStack stack = new ItemStack(ICBM.itemMissile, 1, data.getMissileBodySize());
+        ItemStack stack = new ItemStack(ICBM.itemMissile, 1, data != null ? data.getMissileBodySize() : 0);
         save(stack);
         return stack;
     }
@@ -238,7 +238,7 @@ public class Missile implements IMissile
      */
     public float getMaxHitPoints()
     {
-        return 10; //TODO implement
+        return data != null ? data.getHealth() : 10; //TODO implement
     }
 
     /**
@@ -249,7 +249,7 @@ public class Missile implements IMissile
      */
     public double getHeight()
     {
-        return 3; //TODO implement
+        return data != null ? data.getHeight() : 3; //TODO implement
     }
 
 
@@ -261,7 +261,7 @@ public class Missile implements IMissile
      */
     public double getWidth()
     {
-        return 0.5; //TODO implement
+        return data != null ? data.getWidth() : 0.5; //TODO implement
     }
 
 

@@ -9,6 +9,9 @@ import com.builtbroken.mc.lib.json.imp.IJsonProcessor;
 import com.builtbroken.mc.lib.json.loading.JsonProcessorData;
 import com.builtbroken.mc.lib.json.processors.JsonGenData;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 6/13/2017.
@@ -22,6 +25,10 @@ public class MissileCasingData extends JsonGenData implements IJsonGenObject, IM
     private int mass;
     private int size = -1;
     private Pos centerOffset = Pos.zero;
+    private float health;
+
+    /** List of textures that are valid for this casing */
+    public final List<String> textureNames = new ArrayList();
 
     public MissileCasingData(IJsonProcessor processor, String ID)
     {
@@ -33,7 +40,14 @@ public class MissileCasingData extends JsonGenData implements IJsonGenObject, IM
     @Override
     public void register()
     {
-        //MissileModuleBuilder.INSTANCE.register(ICBM.DOMAIN, "missile_" + size.name().toLowerCase(), size.missile_clazz);
+        if (size >= 0 && size < MissileSize.values().length)
+        {
+            if (MissileSize.values()[size].casingDataMap.containsKey(ID))
+            {
+                throw new IllegalArgumentException("Duplicate ID found for " + ID);
+            }
+            MissileSize.values()[size].casingDataMap.put(ID, this);
+        }
     }
 
     @Override
@@ -139,5 +153,16 @@ public class MissileCasingData extends JsonGenData implements IJsonGenObject, IM
     public void setCenterOffset(Pos centerOffset)
     {
         this.centerOffset = centerOffset;
+    }
+
+    public float getHealth()
+    {
+        return health;
+    }
+
+    @JsonProcessorData(value = "bodyHealth", type = "float")
+    public void setHealth(float health)
+    {
+        this.health = health;
     }
 }

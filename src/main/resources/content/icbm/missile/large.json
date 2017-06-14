@@ -1,0 +1,16 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "missile": {
+    "id": "icbm:large",
+    "bodySizeClassification": "large",
+    "bodyWidth": 2.5,
+    "bodyHeight": 32,
+    "bodyCenterOffset": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  }
+}

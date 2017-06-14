@@ -24,11 +24,6 @@
         "textureID": "icbm:micro"
       },
       {
-        "id": "item",
-        "renderType": "model",
-        "parent": "base"
-      },
-      {
         "id": "item.inventory",
         "renderType": "model",
         "parent": "base"
