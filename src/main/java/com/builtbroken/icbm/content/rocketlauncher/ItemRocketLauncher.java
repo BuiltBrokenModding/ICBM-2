@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.rocketlauncher;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.mc.api.data.weapon.IAmmoType;
 import com.builtbroken.mc.api.items.weapons.IItemAmmo;
 import com.builtbroken.mc.api.items.weapons.IItemReloadableWeapon;
@@ -47,7 +48,7 @@ public class ItemRocketLauncher extends Item implements IItemReloadableWeapon, I
     @Override
     public void onPostInit()
     {
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.itemRocketLauncher), "III", " FC", "III", 'I', OreNames.INGOT_IRON, 'F', OreNames.FLINT, 'C', UniversalRecipe.CIRCUIT_T1.get()));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM_API.itemRocketLauncher), "III", " FC", "III", 'I', OreNames.INGOT_IRON, 'F', OreNames.FLINT, 'C', UniversalRecipe.CIRCUIT_T1.get()));
     }
 
     @Override
@@ -127,7 +128,7 @@ public class ItemRocketLauncher extends Item implements IItemReloadableWeapon, I
 
         if (currentItem != null && (event.player != Minecraft.getMinecraft().renderViewEntity || Minecraft.getMinecraft().gameSettings.thirdPersonView != 0))
         {
-            if (currentItem.getItem() == ICBM.itemRocketLauncher)
+            if (currentItem.getItem() == ICBM_API.itemRocketLauncher)
             {
                 if (event.player.getItemInUseCount() <= 0)
                 {

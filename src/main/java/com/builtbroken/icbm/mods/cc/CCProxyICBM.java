@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.mods.cc;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.mc.lib.mod.Mods;
 import com.builtbroken.mc.lib.mod.loadable.AbstractLoadable;
 
@@ -18,7 +19,7 @@ public class CCProxyICBM extends AbstractLoadable
         //OC has priority until the two can be combined
         if (!Mods.OC.isLoaded())
         {
-            ICBM.blockDirectSiloController = ICBM.INSTANCE.getManager().newBlock("icbmDirectSiloConnector", TileSiloControllerCC.class);
+            ICBM_API.blockDirectSiloController = ICBM.INSTANCE.getManager().newBlock("icbmDirectSiloConnector", TileSiloControllerCC.class);
         }
     }
 }

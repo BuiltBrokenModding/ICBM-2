@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.launcher.launcher.standard;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
@@ -103,7 +104,7 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IRo
             //Check if broken by counting number of frames
             int count = 0;
             Block block = world().getBlock(xi(), yi() + 1, zi());
-            while (count < LauncherPartListener.STANDARD_LAUNCHER_HEIGHT && block == ICBM.blockLauncherFrame)
+            while (count < LauncherPartListener.STANDARD_LAUNCHER_HEIGHT && block == ICBM_API.blockLauncherFrame)
             {
                 //Increase count
                 count++;

@@ -1,6 +1,7 @@
 package com.builtbroken.test.icbm.content.warhead;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
 import com.builtbroken.icbm.content.missile.parts.warhead.Warhead;
 import com.builtbroken.icbm.content.missile.parts.warhead.WarheadCasings;
@@ -32,7 +33,7 @@ public class TestWarhead extends AbstractTileTest<TileWarhead>
         super("TileTestWarhead", TileWarhead.class);
         ICBM.registerExplosives();
         WarheadCasings.register();
-        ICBM.blockWarhead = this.block;
+        ICBM_API.blockWarhead = this.block;
     }
 
     @Override
@@ -45,7 +46,7 @@ public class TestWarhead extends AbstractTileTest<TileWarhead>
             TestExplosiveItem.item = new ItemExplosive();
             GameRegistry.registerItem(TestExplosiveItem.item, "testExplosiveItemII");
         }
-        ICBM.itemExplosive = TestExplosiveItem.item;
+        ICBM_API.itemExplosive = TestExplosiveItem.item;
         for (ItemExplosive.ExplosiveItems exItem : ItemExplosive.ExplosiveItems.values())
         {
             ExplosiveRegistry.unregisterExplosiveItem(exItem.newItem());
@@ -66,8 +67,8 @@ public class TestWarhead extends AbstractTileTest<TileWarhead>
         {
             ExplosiveRegistry.unregisterExplosiveItem(exItem.newItem());
         }
-        ICBM.blockWarhead = null;
-        ICBM.itemExplosive = null;
+        ICBM_API.blockWarhead = null;
+        ICBM_API.itemExplosive = null;
     }
 
     @Test

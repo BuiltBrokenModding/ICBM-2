@@ -2,6 +2,7 @@ package com.builtbroken.icbm.client;
 
 import com.builtbroken.icbm.CommonProxy;
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.api.missile.IMissileEntity;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.client.ec.*;
@@ -74,8 +75,8 @@ public class ClientProxy extends CommonProxy
     public void preInit()
     {
         super.preInit();
-        ICBM.blockMissileWorkstation = ICBM.INSTANCE.getManager().newBlock("SmallMissileWorkStation", TileSmallMissileWorkstationClient.class);
-        ICBM.blockCommandSiloDisplay = ICBM.INSTANCE.getManager().newBlock("icbmCommandSiloDisplay", TileSiloInterfaceClient.class);
+        ICBM_API.blockMissileWorkstation = ICBM.INSTANCE.getManager().newBlock("SmallMissileWorkStation", TileSmallMissileWorkstationClient.class);
+        ICBM_API.blockCommandSiloDisplay = ICBM.INSTANCE.getManager().newBlock("icbmCommandSiloDisplay", TileSiloInterfaceClient.class);
 
         //ICBM.blockStandardLauncher.setCreativeTab(null);
         //NEIProxy.hideItem(ICBM.blockStandardLauncher);
@@ -87,8 +88,8 @@ public class ClientProxy extends CommonProxy
         super.init();
         SharedAssets.loadResources();
         ClientRegistry.bindTileEntitySpecialRenderer(TileAntennaPart.class, new TESRAntenna());
-        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ICBM.blockAntenna), new ItemRendererAntennaFrame());
-        MinecraftForgeClient.registerItemRenderer(ICBM.itemRocketLauncher, new RenderRocketLauncher());
+        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ICBM_API.blockAntenna), new ItemRendererAntennaFrame());
+        MinecraftForgeClient.registerItemRenderer(ICBM_API.itemRocketLauncher, new RenderRocketLauncher());
 
         //MinecraftForgeClient.registerItemRenderer(ICBM.itemMissile, RenderMissile.INSTANCE);
         RenderingRegistry.registerEntityRenderingHandler(EntityMissile.class, RenderMissile.INSTANCE);

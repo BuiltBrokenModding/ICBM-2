@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.content.blast.effect;
 
-import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.core.Engine;
@@ -45,7 +45,7 @@ public class BlastEnderBlocks extends BlastSimplePath<BlastEnderBlocks>
             IWorldEdit edit = it.next();
             if (Engine.runningAsDev && edit instanceof BlockEdit)
             {
-                ((BlockEdit) edit).newBlock = ICBM.blockExplosiveMarker;
+                ((BlockEdit) edit).newBlock = ICBM_API.blockExplosiveMarker;
             }
             //TODO prevent loading chunks
             //TODO add gravity to blocks

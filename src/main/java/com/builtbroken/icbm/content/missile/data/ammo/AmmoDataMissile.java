@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.missile.data.ammo;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.mc.api.data.weapon.IAmmoData;
 import com.builtbroken.mc.api.data.weapon.IAmmoType;
 import net.minecraft.item.ItemStack;
@@ -34,7 +35,7 @@ public class AmmoDataMissile implements IAmmoData
     public ItemStack toStack()
     {
         //TODO find a way to sync explosive data with this
-        return new ItemStack(ICBM.itemMissile, 1, ammoType.size.ordinal());
+        return new ItemStack(ICBM_API.itemMissile, 1, ammoType.size.ordinal());
     }
 
     @Override

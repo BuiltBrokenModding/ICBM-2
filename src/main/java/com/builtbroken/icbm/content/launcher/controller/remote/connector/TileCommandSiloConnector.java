@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.launcher.controller.remote.connector;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.api.controller.ISiloConnectionData;
 import com.builtbroken.icbm.api.controller.ISiloConnectionPoint;
 import com.builtbroken.icbm.api.launcher.ILauncher;
@@ -402,6 +403,6 @@ public class TileCommandSiloConnector extends TileModuleMachine implements ILink
     @Override
     public void genRecipes(List<IRecipe> recipes)
     {
-        recipes.add(newShapedRecipe(ICBM.blockCommandSiloConnector, "WCW", "RCR", "PCP", 'C', UniversalRecipe.CIRCUIT_T2.get(), 'W', OreNames.WIRE_IRON, 'P', OreNames.PLATE_IRON, 'R', Items.repeater));
+        recipes.add(newShapedRecipe(ICBM_API.blockCommandSiloConnector, "WCW", "RCR", "PCP", 'C', UniversalRecipe.CIRCUIT_T2.get(), 'W', OreNames.WIRE_IRON, 'P', OreNames.PLATE_IRON, 'R', Items.repeater));
     }
 }

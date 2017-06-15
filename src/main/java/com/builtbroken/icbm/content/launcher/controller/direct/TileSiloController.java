@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.launcher.controller.direct;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.mc.api.tile.access.IGuiTile;
 import com.builtbroken.mc.api.tile.node.ITileNode;
@@ -150,7 +151,7 @@ public class TileSiloController extends TileMachine implements IPostInit, IPacke
     @Override
     public void onPostInit()
     {
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.blockDirectSiloController), "ITI", "ZCZ", "RER", 'C', UniversalRecipe.CIRCUIT_T2.get(), 'I', OreNames.INGOT_IRON, 'R', OreNames.REDSTONE, 'T', Blocks.redstone_torch, 'Z', UniversalRecipe.WIRE.get(), 'E', Items.ender_eye));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM_API.blockDirectSiloController), "ITI", "ZCZ", "RER", 'C', UniversalRecipe.CIRCUIT_T2.get(), 'I', OreNames.INGOT_IRON, 'R', OreNames.REDSTONE, 'T', Blocks.redstone_torch, 'Z', UniversalRecipe.WIRE.get(), 'E', Items.ender_eye));
     }
 
     @Override

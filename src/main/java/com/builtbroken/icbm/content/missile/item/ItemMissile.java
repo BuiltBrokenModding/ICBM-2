@@ -70,8 +70,8 @@ public class ItemMissile extends ItemBase implements IExplosiveItem, IItemAmmo.I
     public void onPostInit()
     {
         //TODO move to JSON
-        ItemStack micro_missile_empty = new ItemStack(ICBM.itemMissile, 1, MissileSize.MICRO.ordinal());
-        ItemStack small_missile_empty = new ItemStack(ICBM.itemMissile, 1, MissileSize.SMALL.ordinal());
+        ItemStack micro_missile_empty = new ItemStack(this, 1, MissileSize.MICRO.ordinal());
+        ItemStack small_missile_empty = new ItemStack(this, 1, MissileSize.SMALL.ordinal());
         if (Engine.itemSheetMetal != null && Engine.itemSheetMetalTools != null)
         {
             GameRegistry.addRecipe(new RecipeSheetMetal(micro_missile_empty, " rf", "rcf", " rf", 'c', ItemSheetMetal.SheetMetal.SMALL_CYLINDER.stack(), 'f', ItemSheetMetal.SheetMetal.FIN_MICRO.stack(), 'r', "rodIron"));
@@ -81,6 +81,17 @@ public class ItemMissile extends ItemBase implements IExplosiveItem, IItemAmmo.I
         {
             //GameRegistry.addShapedRecipe(MissileModuleBuilder.INSTANCE.buildMissile(MissileSize.SMALL, new ItemStack(Blocks.tnt)).toStack(), "ITI", "IAI", "IFI", 'A', Items.arrow, 'I', Items.iron_ingot, 'T', Blocks.tnt, 'F', Blocks.furnace);
         }
+    }
+
+    @Override
+    public String getRenderContentID(ItemStack stack)
+    {
+        MissileCasingData data = Missile.getMissileCasingData(stack);
+        if (data != null)
+        {
+            return data.getContentID();
+        }
+        return super.getRenderContentID(stack);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.launcher.controller.remote.central;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.api.controller.ISiloConnectionData;
 import com.builtbroken.icbm.api.controller.ISiloConnectionPoint;
 import com.builtbroken.icbm.content.launcher.controller.local.TileLocalController;
@@ -548,6 +549,6 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
     @Override
     public void genRecipes(List<IRecipe> recipes)
     {
-        recipes.add(newShapedRecipe(ICBM.blockCommandCentral, "WWW", "GPR", "CVC", 'W', OreNames.WIRE_GOLD, 'G', Blocks.glass, 'P', OreNames.PLATE_IRON, 'C', UniversalRecipe.CIRCUIT_T1.get(), 'V', UniversalRecipe.CIRCUIT_T3.get(), 'R', OreNames.DIAMOND));
+        recipes.add(newShapedRecipe(ICBM_API.blockCommandCentral, "WWW", "GPR", "CVC", 'W', OreNames.WIRE_GOLD, 'G', Blocks.glass, 'P', OreNames.PLATE_IRON, 'C', UniversalRecipe.CIRCUIT_T1.get(), 'V', UniversalRecipe.CIRCUIT_T3.get(), 'R', OreNames.DIAMOND));
     }
 }

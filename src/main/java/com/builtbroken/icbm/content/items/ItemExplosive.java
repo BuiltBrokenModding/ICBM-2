@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.items;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.client.ec.ECBiomeChange;
 import com.builtbroken.icbm.content.blast.biome.ExBiomeChange;
 import com.builtbroken.icbm.content.blast.entity.ExSpawn;
@@ -596,7 +597,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
          */
         public ItemStack newItem()
         {
-            return new ItemStack(ICBM.itemExplosive, 1, ordinal());
+            return new ItemStack(ICBM_API.itemExplosive, 1, ordinal());
         }
 
         public static ItemStack get(IExplosiveHandler handler)

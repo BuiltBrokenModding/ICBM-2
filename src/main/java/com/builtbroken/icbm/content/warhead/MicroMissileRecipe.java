@@ -1,12 +1,12 @@
 package com.builtbroken.icbm.content.warhead;
 
-import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.api.modules.IWarhead;
-import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
 import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
+import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.lib.recipe.item.RecipeShapelessOre;
@@ -22,7 +22,7 @@ public class MicroMissileRecipe extends RecipeShapelessOre
 {
     public MicroMissileRecipe(Object... recipe)
     {
-        super(new ItemStack(ICBM.itemMissile, 1, MissileSize.MICRO.ordinal()), recipe);
+        super(new ItemStack(ICBM_API.itemMissile, 1, MissileSize.MICRO.ordinal()), recipe);
     }
 
     @Override

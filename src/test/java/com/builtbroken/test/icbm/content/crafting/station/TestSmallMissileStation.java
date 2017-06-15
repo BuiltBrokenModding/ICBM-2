@@ -1,6 +1,7 @@
 package com.builtbroken.test.icbm.content.crafting.station;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstation;
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstationClient;
 import com.builtbroken.icbm.content.missile.item.ItemMissile;
@@ -49,10 +50,10 @@ public class TestSmallMissileStation extends AbstractTileTest<TileSmallMissileWo
             EnumMultiblock.register();
         }
 
-        if (ICBM.itemMissile == null)
+        if (ICBM_API.itemMissile == null)
         {
-            ICBM.itemMissile = new ItemMissile();
-            GameRegistry.registerItem(ICBM.itemMissile, "missile");
+            ICBM_API.itemMissile = new ItemMissile();
+            GameRegistry.registerItem(ICBM_API.itemMissile, "missile");
         }
     }
 
@@ -497,7 +498,7 @@ public class TestSmallMissileStation extends AbstractTileTest<TileSmallMissileWo
     @Test
     public void testPacketCode()
     {
-        for (ItemStack item : new ItemStack[]{null, new ItemStack(ICBM.itemMissile)})
+        for (ItemStack item : new ItemStack[]{null, new ItemStack(ICBM_API.itemMissile)})
         {
             TileSmallMissileWorkstation sender = new TileSmallMissileWorkstation();
             sender.setWorldObj(world);

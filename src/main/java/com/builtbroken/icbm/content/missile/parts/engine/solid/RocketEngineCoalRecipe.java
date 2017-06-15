@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.missile.parts.engine.solid;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
 import com.builtbroken.icbm.content.missile.parts.engine.Engines;
 import com.builtbroken.icbm.content.missile.parts.engine.RocketEngine;
@@ -38,7 +39,7 @@ public class RocketEngineCoalRecipe extends ShapelessOreRecipe
                 {
                     fuelStack.stackSize += 1;
                 }
-                else if (stack.getItem() == ICBM.itemEngineModules && stack.getItemDamage() == Engines.COAL_ENGINE.ordinal())
+                else if (stack.getItem() == ICBM_API.itemEngineModules && stack.getItemDamage() == Engines.COAL_ENGINE.ordinal())
                 {
                     if (engine != null)
                     {

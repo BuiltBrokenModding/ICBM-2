@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.mods.oc;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.mc.lib.mod.loadable.AbstractLoadable;
 
 /** Proxy used to load content for Open computers
@@ -12,6 +13,6 @@ public class OCProxyICBM extends AbstractLoadable
     @Override
     public void preInit()
     {
-        ICBM.blockDirectSiloController = ICBM.INSTANCE.getManager().newBlock("icbmDirectSiloConnector", TileSiloControllerOC.class);
+        ICBM_API.blockDirectSiloController = ICBM.INSTANCE.getManager().newBlock("icbmDirectSiloConnector", TileSiloControllerOC.class);
     }
 }

@@ -1,6 +1,7 @@
 package com.builtbroken.test.icbm.content.crafting;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.content.items.ItemExplosive;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.items.ItemStackWrapper;
@@ -28,14 +29,14 @@ public class TestExplosiveItem extends AbstractTest
             item = new ItemExplosive();
             GameRegistry.registerItem(item, "testExplosiveItemII");
         }
-        ICBM.itemExplosive = item;
+        ICBM_API.itemExplosive = item;
         ICBM.registerExplosives();
     }
 
     @Override
     public void tearDownForEntireClass()
     {
-        ICBM.itemExplosive = null;
+        ICBM_API.itemExplosive = null;
     }
 
     @Test

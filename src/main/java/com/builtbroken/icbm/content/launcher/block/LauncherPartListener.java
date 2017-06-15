@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.content.launcher.block;
 
-import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.mc.api.tile.listeners.IBlockListener;
 import com.builtbroken.mc.api.tile.listeners.ITileEventListener;
 import com.builtbroken.mc.api.tile.listeners.ITileEventListenerBuilder;
@@ -38,7 +38,7 @@ public class LauncherPartListener extends TileListener implements IWrenchListene
                     //Detects all launcher frame blocks above it(up to max)
                     int count = 0;
                     Block block = getBlock(xi(), yi() + 1, zi());
-                    while (count < STANDARD_LAUNCHER_HEIGHT && block == ICBM.blockLauncherFrame) //TODO make 5 a constant
+                    while (count < STANDARD_LAUNCHER_HEIGHT && block == ICBM_API.blockLauncherFrame) //TODO make 5 a constant
                     {
                         //Increase count
                         count++;

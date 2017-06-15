@@ -1,15 +1,15 @@
 package com.builtbroken.icbm.content.launcher.block;
 
-import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
 import com.builtbroken.mc.core.content.tool.ItemSheetMetalTools;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
+import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
-import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.recipe.item.sheetmetal.RecipeSheetMetal;
 import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.TileMachine;
@@ -53,11 +53,11 @@ public class TileLauncherFrame extends TileMachine implements ISimpleItemRendere
     {
         if (Engine.itemSheetMetal != null && Engine.itemSheetMetalTools != null)
         {
-            GameRegistry.addRecipe(new RecipeSheetMetal(new ItemStack(ICBM.blockLauncherFrame, 1, 0), "RHR", "RCR", "RDR", 'C', UniversalRecipe.WIRE.get(), 'R', OreNames.ROD_IRON, 'P', ItemSheetMetal.SheetMetal.FULL.stack(), 'H', ItemSheetMetalTools.getHammer(), 'D', ItemSheetMetalTools.getShears()));
+            GameRegistry.addRecipe(new RecipeSheetMetal(new ItemStack(ICBM_API.blockLauncherFrame, 1, 0), "RHR", "RCR", "RDR", 'C', UniversalRecipe.WIRE.get(), 'R', OreNames.ROD_IRON, 'P', ItemSheetMetal.SheetMetal.FULL.stack(), 'H', ItemSheetMetalTools.getHammer(), 'D', ItemSheetMetalTools.getShears()));
         }
         else
         {
-            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.blockLauncherFrame, 1, 0), "RPR", "PRP", "RPR", 'R', UniversalRecipe.PRIMARY_METAL.get(), 'P', UniversalRecipe.PRIMARY_PLATE.get()));
+            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM_API.blockLauncherFrame, 1, 0), "RPR", "PRP", "RPR", 'R', UniversalRecipe.PRIMARY_METAL.get(), 'P', UniversalRecipe.PRIMARY_PLATE.get()));
         }
     }
 

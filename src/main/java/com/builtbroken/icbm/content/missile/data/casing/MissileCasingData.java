@@ -53,7 +53,7 @@ public class MissileCasingData extends JsonGenData implements IJsonGenObject, IM
     @Override
     public String getContentID()
     {
-        return uniqueContentID();
+        return contentType() + "." + uniqueContentID();
     }
 
     @Override

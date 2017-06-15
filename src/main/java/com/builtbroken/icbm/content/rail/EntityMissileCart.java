@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.content.rail;
 
-import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.mc.api.IInventoryFilter;
@@ -147,7 +147,7 @@ public class EntityMissileCart extends EntityAbstractCart implements IPacketIDRe
 
     public ItemStack toStack()
     {
-        return new ItemStack(ICBM.itemMissileCart, 1, getType().ordinal());
+        return new ItemStack(ICBM_API.itemMissileCart, 1, getType().ordinal());
     }
 
     @Override

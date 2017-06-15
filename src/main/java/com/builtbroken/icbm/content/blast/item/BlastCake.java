@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.blast.item;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.imp.transform.vector.Pos;
@@ -33,11 +34,11 @@ public class BlastCake extends Blast<BlastCake>
         Pos pos = new Pos(x, y, z);
         if (pos.isAirBlock(world))
         {
-            list.add(new BlockEdit(world, x, y, z).set(ICBM.APRIL_FIRST ? ICBM.blockCake : Blocks.cake));
+            list.add(new BlockEdit(world, x, y, z).set(ICBM.APRIL_FIRST ? ICBM_API.blockCake : Blocks.cake));
         }
         else if (pos.add(0, 1, 0).isAirBlock(world))
         {
-            list.add(new BlockEdit(world, x, y + 1, z).set(ICBM.APRIL_FIRST ? ICBM.blockCake : Blocks.cake));
+            list.add(new BlockEdit(world, x, y + 1, z).set(ICBM.APRIL_FIRST ? ICBM_API.blockCake : Blocks.cake));
         }
     }
 

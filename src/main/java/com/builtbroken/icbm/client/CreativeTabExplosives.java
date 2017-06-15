@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.client;
 
-import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.mc.lib.mod.ModCreativeTab;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public class CreativeTabExplosives extends ModCreativeTab
     @Override
     public void displayAllReleventItems(List list)
     {
-        add(list, ICBM.itemExplosivePart);
-        add(list, ICBM.itemExplosive);
+        add(list, ICBM_API.itemExplosivePart);
+        add(list, ICBM_API.itemExplosive);
     }
 }

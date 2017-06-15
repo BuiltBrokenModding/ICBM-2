@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.missile.parts.trigger;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.mc.prefab.module.ModuleBuilder;
 import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
 import com.builtbroken.icbm.content.missile.parts.trigger.impact.ImpactTriggerElectrical;
@@ -71,7 +72,7 @@ public enum Triggers
 
     public ItemStack newModuleStack()
     {
-        ItemStack stack = new ItemStack(ICBM.itemTrigger, 1, ordinal());
+        ItemStack stack = new ItemStack(ICBM_API.itemTrigger, 1, ordinal());
         stack.setTagCompound(new NBTTagCompound());
         stack.getTagCompound().setString(ModuleBuilder.SAVE_ID, "icbm." + moduleName);
         return stack;

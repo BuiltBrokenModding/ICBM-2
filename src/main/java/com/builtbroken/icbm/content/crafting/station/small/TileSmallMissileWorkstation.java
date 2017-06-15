@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.content.crafting.station.small;
 
-import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
@@ -61,7 +61,7 @@ public class TileSmallMissileWorkstation extends TileSmallMissileStationBase imp
     public void onPostInit()
     {
         //TODO make recipe more complex, involving crafting each armature
-        GameRegistry.addRecipe(new RecipeTool(new ItemStack(ICBM.blockMissileWorkstation), "RRR", "HCD", "PPP", 'R', "rodIron", 'P', "plateIron", 'H', Engine.itemSimpleCraftingTools.getHammer(), 'D', Engine.itemSimpleCraftingTools.getDrill(), 'C', "circuitBasic"));
+        GameRegistry.addRecipe(new RecipeTool(new ItemStack(ICBM_API.blockMissileWorkstation), "RRR", "HCD", "PPP", 'R', "rodIron", 'P', "plateIron", 'H', Engine.itemSimpleCraftingTools.getHammer(), 'D', Engine.itemSimpleCraftingTools.getDrill(), 'C', "circuitBasic"));
     }
 
     @Override

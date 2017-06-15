@@ -3,7 +3,7 @@
     "name": "icbm"
   },
   "missile": {
-    "id": "icbm:micro",
+    "id": "icbm:microMissile",
     "bodySizeClassification": "micro",
     "bodyWidth": 0.2,
     "bodyHeight": 0.8,
@@ -14,19 +14,19 @@
     }
   },
   "render": {
-    "contentID": "icbm:micro",
+    "contentID": "missile.icbm:microMissile",
     "type": "item",
     "states": [
       {
         "id": "base",
         "renderType": "model",
-        "modelID": "icbm:micro",
-        "textureID": "icbm:micro"
+        "modelID": "icbm:microMissile",
+        "textureID": "icbm:microMissile"
       },
       {
         "id": "item.inventory",
-        "renderType": "model",
-        "parent": "base"
+        "renderType": "item",
+        "textureID": "icbm:microMissileIcon"
       },
       {
         "id": "item.equipped",
@@ -73,5 +73,11 @@
         }
       }
     ]
+  },
+  "texture:1": {
+    "key": "icbm:microMissileIcon",
+    "domain": "icbm",
+    "name": "micro.missile",
+    "type": "item"
   }
 }

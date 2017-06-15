@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.missile.parts.guidance;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.mc.prefab.module.ModuleBuilder;
 import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
 import com.builtbroken.icbm.content.missile.parts.guidance.chips.GuidanceChipOne;
@@ -56,7 +57,7 @@ public enum GuidanceModules
 
     public ItemStack newModuleStack()
     {
-        ItemStack stack = new ItemStack(ICBM.itemGuidanceModules, 1, ordinal());
+        ItemStack stack = new ItemStack(ICBM_API.itemGuidanceModules, 1, ordinal());
         stack.setTagCompound(new NBTTagCompound());
         stack.getTagCompound().setString(ModuleBuilder.SAVE_ID, "icbm." + name);
         return stack;

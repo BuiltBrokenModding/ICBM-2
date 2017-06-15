@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.content.missile.data.missile;
 
-import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IGuidance;
 import com.builtbroken.icbm.api.modules.IMissile;
@@ -29,6 +29,8 @@ import java.util.List;
  */
 public class Missile implements IMissile
 {
+    private static final String NBT_MISSILE_CASING = "missileCasingID";
+
     /** Data describing how the missile looks and functions */
     public MissileCasingData data;
 
@@ -49,15 +51,7 @@ public class Missile implements IMissile
         if (stack.getItem() instanceof IMissileItem)
         {
             //Find data
-            MissileSize size = MissileSize.fromMeta(stack.getItemDamage());
-            if (stack.getTagCompound() != null && stack.getTagCompound().hasKey("missileDataID"))
-            {
-                this.data = size.getMissileData(stack.getTagCompound().getString("missileDataID"));
-            }
-            else
-            {
-                this.data = size.defaultMissileCasing;
-            }
+            data = getMissileCasingData(stack);
 
             //Load save
             if (stack.getTagCompound() != null)
@@ -234,7 +228,7 @@ public class Missile implements IMissile
     @Override
     public ItemStack toStack()
     {
-        ItemStack stack = new ItemStack(ICBM.itemMissile, 1, data != null ? data.getMissileBodySize() : 0);
+        ItemStack stack = new ItemStack(ICBM_API.itemMissile, 1, data != null ? data.getMissileBodySize() : 0);
         save(stack);
         return stack;
     }
@@ -316,6 +310,19 @@ public class Missile implements IMissile
             }
         }
         return null;
+    }
+
+    public static MissileCasingData getMissileCasingData(ItemStack stack)
+    {
+        MissileSize size = MissileSize.fromMeta(stack.getItemDamage());
+        if (stack.getTagCompound() != null && stack.getTagCompound().hasKey(NBT_MISSILE_CASING))
+        {
+            return size.getMissileData(stack.getTagCompound().getString(NBT_MISSILE_CASING));
+        }
+        else
+        {
+            return size.defaultMissileCasing;
+        }
     }
 
     //Use to load module with less duplicate code

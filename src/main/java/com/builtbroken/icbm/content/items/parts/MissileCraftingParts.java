@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.content.items.parts;
 
-import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
@@ -31,6 +31,6 @@ public enum MissileCraftingParts
 
     public ItemStack stack(int size)
     {
-        return new ItemStack(ICBM.itemMissileParts, size, ordinal());
+        return new ItemStack(ICBM_API.itemMissileParts, size, ordinal());
     }
 }

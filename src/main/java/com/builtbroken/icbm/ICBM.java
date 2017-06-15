@@ -1,5 +1,6 @@
 package com.builtbroken.icbm;
 
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.client.CreativeTabExplosives;
 import com.builtbroken.icbm.client.CreativeTabMissiles;
 import com.builtbroken.icbm.client.CreativeTabWarheads;
@@ -45,9 +46,8 @@ import com.builtbroken.icbm.content.launcher.controller.direct.TileSiloControlle
 import com.builtbroken.icbm.content.launcher.controller.remote.antenna.BlockAntennaParts;
 import com.builtbroken.icbm.content.launcher.controller.remote.central.TileCommandController;
 import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCommandSiloConnector;
-import com.builtbroken.icbm.content.missile.entity.EntityMissile;
-import com.builtbroken.icbm.content.missile.item.ItemMissile;
 import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
+import com.builtbroken.icbm.content.missile.entity.EntityMissile;
 import com.builtbroken.icbm.content.missile.json.MissileJsonProcessor;
 import com.builtbroken.icbm.content.missile.parts.engine.Engines;
 import com.builtbroken.icbm.content.missile.parts.engine.ItemEngineModules;
@@ -95,7 +95,6 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
-import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.init.Blocks;
@@ -151,35 +150,6 @@ public final class ICBM extends AbstractMod
 
     public static int ENTITY_ID_PREFIX = 50;
 
-    // Blocks
-    public static Block blockWarhead;
-    public static Block blockExplosiveMarker;
-
-    public static Block blockMissileWorkstation;
-    public static Block blockDirectSiloController;
-
-    public static Block blockLauncherFrame;
-
-    public static Block blockAntenna;
-    public static Block blockCommandCentral;
-    public static Block blockCommandSiloConnector;
-    public static Block blockCommandSiloDisplay;
-
-    public static Block blockCake;
-
-    public static Block blockCrashMissile;
-
-    // Items
-    public static Item itemMissile;
-    public static Item itemRocketLauncher;
-    public static ItemEngineModules itemEngineModules;
-    public static ItemGuidanceModules itemGuidanceModules;
-    public static Item itemMissileParts;
-    public static Item itemExplosive;
-    public static Item itemExplosivePart;
-    public static Item itemTrigger;
-
-    public static Item itemMissileCart;
 
     public final ModCreativeTab CREATIVE_TAB;
 
@@ -262,17 +232,17 @@ public final class ICBM extends AbstractMod
         loader.preInit();
 
         // Functional Blocks
-        blockWarhead = manager.newBlock(TileWarhead.class);
-        blockCrashMissile = manager.newBlock("icbmCrashedMissile", TileCrashedMissile.class);
+        ICBM_API.blockWarhead = manager.newBlock(TileWarhead.class);
+        ICBM_API.blockCrashMissile = manager.newBlock("icbmCrashedMissile", TileCrashedMissile.class);
         //blockMissileDisplay = manager.newBlock(TileMissileDisplay.class);
-        blockLauncherFrame = manager.newBlock("icbmLauncherFrame", TileLauncherFrame.class);
-        if (blockDirectSiloController == null)
+        ICBM_API.blockLauncherFrame = manager.newBlock("icbmLauncherFrame", TileLauncherFrame.class);
+        if (ICBM_API.blockDirectSiloController == null)
         {
-            blockDirectSiloController = manager.newBlock("icbmDirectSiloConnector", TileSiloController.class);
+            ICBM_API.blockDirectSiloController = manager.newBlock("icbmDirectSiloConnector", TileSiloController.class);
         }
-        blockAntenna = manager.newBlock("icbmAntenna", BlockAntennaParts.class, ItemBlockMetadata.class);
-        blockCommandCentral = manager.newBlock("icbmCommandCentral", TileCommandController.class);
-        blockCommandSiloConnector = manager.newBlock("icbmCommandSiloController", TileCommandSiloConnector.class);
+        ICBM_API.blockAntenna = manager.newBlock("icbmAntenna", BlockAntennaParts.class, ItemBlockMetadata.class);
+        ICBM_API.blockCommandCentral = manager.newBlock("icbmCommandCentral", TileCommandController.class);
+        ICBM_API.blockCommandSiloConnector = manager.newBlock("icbmCommandSiloController", TileCommandSiloConnector.class);
 
         //Launchers
         //blockSmallPortableLauncher = manager.newBlock(TileSmallLauncher.class);
@@ -280,32 +250,32 @@ public final class ICBM extends AbstractMod
         //blockStandardSilo = manager.newBlock(TileStandardSilo.class);
 
         //Troll blocks
-        blockCake = manager.newBlock("ICBMxFakeCake", BlockFakeCake.class);
+        ICBM_API.blockCake = manager.newBlock("ICBMxFakeCake", BlockFakeCake.class);
 
 
         //Clear launcher creative tab to prevent placement by user by mistake
-        NEIProxy.hideItem(blockCrashMissile);
+        NEIProxy.hideItem(ICBM_API.blockCrashMissile);
 
         // Debug Only blocks
         if (Engine.runningAsDev)
         {
-            blockExplosiveMarker = manager.newBlock(BlockExplosiveMarker.class, ItemBlockMetadata.class);
+            ICBM_API.blockExplosiveMarker = manager.newBlock(BlockExplosiveMarker.class, ItemBlockMetadata.class);
         }
 
         // ITEMS
 
         if (Loader.isModLoaded("assemblyline"))
         {
-            itemMissileCart = manager.newItem("icbmMissileCart", ItemMissileCart.class);
+            ICBM_API.itemMissileCart = manager.newItem("icbmMissileCart", ItemMissileCart.class);
         }
-        itemMissile = manager.newItem("missile", ItemMissile.class);
-        itemRocketLauncher = manager.newItem("rocketLauncher", ItemRocketLauncher.class);
-        itemEngineModules = manager.newItem("engineModules", ItemEngineModules.class);
-        itemGuidanceModules = manager.newItem("guidanceModules", ItemGuidanceModules.class);
-        itemMissileParts = manager.newItem("missileParts", ItemMissileParts.class);
-        itemExplosive = manager.newItem("explosiveUnit", ItemExplosive.class);
-        itemExplosivePart = manager.newItem("explosiveUnitParts", ItemExplosiveParts.class);
-        itemTrigger = manager.newItem("icbmTriggers", ItemTriggerModules.class);
+        //itemMissile = manager.newItem("missile", ItemMissile.class);
+        ICBM_API.itemRocketLauncher = manager.newItem("rocketLauncher", ItemRocketLauncher.class);
+        ICBM_API.itemEngineModules = manager.newItem("engineModules", ItemEngineModules.class);
+        ICBM_API.itemGuidanceModules = manager.newItem("guidanceModules", ItemGuidanceModules.class);
+        ICBM_API.itemMissileParts = manager.newItem("missileParts", ItemMissileParts.class);
+        ICBM_API.itemExplosive = manager.newItem("explosiveUnit", ItemExplosive.class);
+        ICBM_API.itemExplosivePart = manager.newItem("explosiveUnitParts", ItemExplosiveParts.class);
+        ICBM_API.itemTrigger = manager.newItem("icbmTriggers", ItemTriggerModules.class);
         NEIProxy.hideItem(ItemExplosive.ExplosiveItems.NBT.newItem());
 
         // Register modules, need to do this or they will not build from ItemStacks
@@ -316,7 +286,7 @@ public final class ICBM extends AbstractMod
 
         //Set tab item last so to avoid NPE
         CREATIVE_TAB.itemStack = new ItemStack(InventoryUtility.getItem("icbm:icbmRemoteDet"));
-        warheadsTab.itemStack = new ItemStack(blockWarhead);
+        warheadsTab.itemStack = new ItemStack(ICBM_API.blockWarhead);
         explosiveTab.itemStack = ItemExplosiveParts.ExplosiveParts.GUNPOWDER_CHARGE.newItem();
         getProxy().registerExplosives();
     }
@@ -386,7 +356,14 @@ public final class ICBM extends AbstractMod
             EntityRegistry.registerGlobalEntityID(EntityMissileCart.class, "ICBMMissileCart", EntityRegistry.findGlobalUniqueEntityId());
             EntityRegistry.registerGlobalEntityID(EntitySlimeRain.class, "ICBMSlime", EntityRegistry.findGlobalUniqueEntityId());
         }
+        initAPI();
         super.init(event);
+    }
+
+    protected void initAPI()
+    {
+        //Load blocks & items
+        ICBM_API.itemMissile = (Item) Item.itemRegistry.getObject("icbm:missile");
     }
 
     @EventHandler

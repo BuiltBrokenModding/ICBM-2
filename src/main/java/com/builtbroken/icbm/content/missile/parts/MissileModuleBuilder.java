@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.content.missile.parts;
 
-import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.api.warhead.ITrigger;
 import com.builtbroken.icbm.content.missile.parts.engine.RocketEngine;
@@ -124,7 +124,7 @@ public class MissileModuleBuilder<M extends MissileModule> extends ModuleBuilder
         //TODO replace reflection
         try
         {
-            Warhead warhead = size.warhead_clazz.getConstructor(ItemStack.class).newInstance(new ItemStack(ICBM.blockWarhead, 1, size.ordinal()));
+            Warhead warhead = size.warhead_clazz.getConstructor(ItemStack.class).newInstance(new ItemStack(ICBM_API.blockWarhead, 1, size.ordinal()));
 
             //Set explosive item, instead of just explosive
             ItemStack explosive = getExplosiveItem(ex);
@@ -195,7 +195,7 @@ public class MissileModuleBuilder<M extends MissileModule> extends ModuleBuilder
         //TODO replace reflection
         try
         {
-            return size.warhead_clazz.getConstructor(ItemStack.class).newInstance(new ItemStack(ICBM.blockWarhead, 1, size.ordinal()));
+            return size.warhead_clazz.getConstructor(ItemStack.class).newInstance(new ItemStack(ICBM_API.blockWarhead, 1, size.ordinal()));
         }
         catch (InstantiationException e)
         {
@@ -221,7 +221,7 @@ public class MissileModuleBuilder<M extends MissileModule> extends ModuleBuilder
         //TODO replace reflection
         try
         {
-            return trigger.clazz.getConstructor(ItemStack.class).newInstance(new ItemStack(ICBM.itemTrigger, 1, trigger.ordinal()));
+            return trigger.clazz.getConstructor(ItemStack.class).newInstance(new ItemStack(ICBM_API.itemTrigger, 1, trigger.ordinal()));
         }
         catch (InstantiationException e)
         {

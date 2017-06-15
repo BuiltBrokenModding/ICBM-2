@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.missile.tile;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.api.blast.IBlastTileMissile;
 import com.builtbroken.icbm.api.blast.IExHandlerTileMissile;
 import com.builtbroken.icbm.api.missile.ICustomMissileRender;
@@ -62,7 +63,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
         blocksToMimic.add(Blocks.tallgrass);
         blocksToMimic.add(Blocks.snow_layer);
         blocksToMimic.add(Blocks.cake);
-        blocksToMimic.add(ICBM.blockCake);
+        blocksToMimic.add(ICBM_API.blockCake);
         blocksToMimic.add(Blocks.fire);
         blocksToMimic.add(Blocks.ice);
         blocksToMimic.add(Blocks.glass);
@@ -160,7 +161,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
                 return;
             }
         }
-        if (world.setBlock(x, y, z, ICBM.blockCrashMissile))
+        if (world.setBlock(x, y, z, ICBM_API.blockCrashMissile))
         {
             ICBM.INSTANCE.logger().info(String.format("Placed missile %d@dim %dx %dy %dz", world.provider.dimensionId, x, y, z));
             TileEntity tile = world.getTileEntity(x, y, z);
