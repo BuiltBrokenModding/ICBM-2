@@ -95,6 +95,25 @@ public class ItemMissile extends ItemBase implements IExplosiveItem, IItemAmmo.I
     }
 
     @Override
+    public List<String> getRenderContentIDs()
+    {
+        List<String> list = new ArrayList();
+        list.add(getRenderContentID(0));
+        for (MissileSize size : MissileSize.values())
+        {
+            for (MissileCasingData data : size.casingDataMap.values())
+            {
+                String id = data.getContentID();
+                if (id != null && !iconString.isEmpty())
+                {
+                    list.add(id);
+                }
+            }
+        }
+        return list;
+    }
+
+    @Override
     public int getMetadata(int damage)
     {
         return damage;
@@ -181,7 +200,7 @@ public class ItemMissile extends ItemBase implements IExplosiveItem, IItemAmmo.I
                         warhead.explosive.stackSize = warhead.getMaxExplosives();
 
                         //Create missile
-                        Missile missile = new Missile(size.defaultMissileCasing);
+                        Missile missile = new Missile(size.getDefaultMissileCasing());
                         missile.setWarhead(warhead);
 
                         //Add to list

@@ -283,7 +283,7 @@ public class Missile implements IMissile
      */
     public static Missile createMissile(MissileSize size, IExplosiveHandler handler)
     {
-        Missile missile = new Missile(size.defaultMissileCasing);
+        Missile missile = new Missile(size.getDefaultMissileCasing());
         missile.setWarhead(MissileModuleBuilder.INSTANCE.buildWarhead(size.warhead_casing));
         List<ItemStackWrapper> items = ExplosiveRegistry.getItems(handler);
         if (items.size() > 0)
@@ -321,7 +321,7 @@ public class Missile implements IMissile
         }
         else
         {
-            return size.defaultMissileCasing;
+            return size.getDefaultMissileCasing();
         }
     }
 

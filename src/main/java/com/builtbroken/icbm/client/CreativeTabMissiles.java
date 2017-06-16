@@ -37,7 +37,7 @@ public class CreativeTabMissiles extends ModCreativeTab
         {
             if (missile == null)
             {
-                missile = new Missile(casing.defaultMissileCasing).toStack();
+                missile = new Missile(casing.getDefaultMissileCasing()).toStack();
             }
             return missile;
         }

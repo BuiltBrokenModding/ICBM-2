@@ -419,7 +419,7 @@ public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufR
      */
     public Missile getMissile()
     {
-        Missile missile = new Missile(MissileSize.STANDARD.defaultMissileCasing); //TODO change to reference extract casing data
+        Missile missile = new Missile(MissileSize.STANDARD.getDefaultMissileCasing()); //TODO change to reference extract casing data
         if (warhead != null)
         {
             missile.setWarhead(MissileModuleBuilder.INSTANCE.buildWarhead(warhead));

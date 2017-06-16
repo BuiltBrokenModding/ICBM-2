@@ -28,7 +28,7 @@ public enum MissileSize
     public final HashMap<String, MissileCasingData> casingDataMap = new HashMap();
 
     /** Default missile casing size */
-    public MissileCasingData defaultMissileCasing;
+    private MissileCasingData defaultMissileCasing;
 
     /**
      * @param warhead        - warhead size to use
@@ -79,9 +79,14 @@ public enum MissileSize
         {
             return casingDataMap.get(missileDataID);
         }
+        return getDefaultMissileCasing();
+    }
+
+    public MissileCasingData getDefaultMissileCasing()
+    {
         if (defaultMissileCasing == null)
         {
-            defaultMissileCasing = casingDataMap.get("icbm:" + name().toLowerCase());
+            defaultMissileCasing = casingDataMap.get("icbm:" + name().toLowerCase() + "Missile");
         }
         return defaultMissileCasing;
     }
