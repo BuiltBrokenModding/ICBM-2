@@ -3,8 +3,9 @@
     "name": "icbm"
   },
   "missile": {
-    "id": "icbm:small",
+    "id": "icbm:smallMissile",
     "bodySizeClassification": "small",
+    "default": true,
     "bodyWidth": 0.5,
     "bodyHeight": 2,
     "bodyCenterOffset": {

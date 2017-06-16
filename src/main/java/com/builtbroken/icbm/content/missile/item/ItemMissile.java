@@ -13,8 +13,10 @@ import com.builtbroken.icbm.content.missile.data.missile.Missile;
 import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.icbm.content.missile.entity.EntityMissile;
 import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
+import com.builtbroken.icbm.content.missile.parts.engine.Engines;
 import com.builtbroken.icbm.content.missile.parts.engine.RocketEngine;
 import com.builtbroken.icbm.content.missile.parts.guidance.Guidance;
+import com.builtbroken.icbm.content.missile.parts.guidance.GuidanceModules;
 import com.builtbroken.icbm.content.missile.parts.warhead.Warhead;
 import com.builtbroken.icbm.content.missile.parts.warhead.WarheadCasings;
 import com.builtbroken.jlib.data.Colors;
@@ -39,6 +41,7 @@ import com.builtbroken.mc.prefab.items.ItemStackWrapper;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -46,6 +49,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -58,6 +62,9 @@ import java.util.List;
  */
 public class ItemMissile extends ItemBase implements IExplosiveItem, IItemAmmo.IItemAmmoFireHandler, IMissileItem, IPostInit, IModularMissileItem, IExplosiveContainerItem
 {
+    @SideOnly(Side.CLIENT)
+    IIcon emptyIcon;
+
     public ItemMissile()
     {
         super("missile", ICBM.DOMAIN, "missile");
@@ -111,6 +118,30 @@ public class ItemMissile extends ItemBase implements IExplosiveItem, IItemAmmo.I
             }
         }
         return list;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister reg)
+    {
+        super.registerIcons(reg);
+        emptyIcon = reg.registerIcon(References.PREFIX + "blank");
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IIcon getIcon(ItemStack stack, int pass)
+    {
+        if (pass > 0)
+        {
+            IIcon icon = ExplosiveRegistryClient.getCornerIconFor(stack, pass - 1);
+            if (icon == null)
+            {
+                return emptyIcon;
+            }
+            return icon;
+        }
+        return super.getIcon(stack, pass);
     }
 
     @Override
@@ -201,7 +232,19 @@ public class ItemMissile extends ItemBase implements IExplosiveItem, IItemAmmo.I
 
                         //Create missile
                         Missile missile = new Missile(size.getDefaultMissileCasing());
+
+                        if (missile.data == null)
+                        {
+                            System.out.println();
+                        }
+                        //Set warhead
                         missile.setWarhead(warhead);
+
+                        //Set engine
+                        missile.setEngine(Engines.CREATIVE_ENGINE.newModule());
+
+                        //Set guidance
+                        missile.setGuidance(GuidanceModules.CHIP_THREE.newModule());
 
                         //Add to list
                         list.add(missile.toStack());

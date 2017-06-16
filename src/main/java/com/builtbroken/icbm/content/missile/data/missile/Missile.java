@@ -8,8 +8,10 @@ import com.builtbroken.icbm.api.modules.IRocketEngine;
 import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.content.missile.data.casing.MissileCasingData;
 import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
+import com.builtbroken.icbm.content.missile.parts.engine.Engines;
 import com.builtbroken.icbm.content.missile.parts.engine.RocketEngine;
 import com.builtbroken.icbm.content.missile.parts.guidance.Guidance;
+import com.builtbroken.icbm.content.missile.parts.guidance.GuidanceModules;
 import com.builtbroken.icbm.content.missile.parts.warhead.Warhead;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.modules.IModule;
@@ -283,8 +285,19 @@ public class Missile implements IMissile
      */
     public static Missile createMissile(MissileSize size, IExplosiveHandler handler)
     {
+        //Create the missile
         Missile missile = new Missile(size.getDefaultMissileCasing());
+
+        //Set warhead
         missile.setWarhead(MissileModuleBuilder.INSTANCE.buildWarhead(size.warhead_casing));
+
+        //Set engine
+        missile.setEngine(Engines.CREATIVE_ENGINE.newModule());
+
+        //Set guidance
+        missile.setGuidance(GuidanceModules.CHIP_THREE.newModule());
+
+        //Find an explosive item
         List<ItemStackWrapper> items = ExplosiveRegistry.getItems(handler);
         if (items.size() > 0)
         {
