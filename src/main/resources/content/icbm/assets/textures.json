@@ -34,5 +34,17 @@
     "domain": "icbm",
     "name": "missile_skins/micro/default",
     "type": "model"
+  },
+  "texture:6": {
+    "key": "icbm:standardMissile",
+    "domain": "icbm",
+    "name": "missile_skins/standard/default",
+    "type": "model"
+  },
+  "texture:7": {
+    "key": "icbm:standardMissile.fins",
+    "domain": "icbm",
+    "name": "missile_skins/standard/default.fins",
+    "type": "model"
   }
 }
