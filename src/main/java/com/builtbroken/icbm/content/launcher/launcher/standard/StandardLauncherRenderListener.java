@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.launcher.launcher.standard;
 
-import com.builtbroken.icbm.api.missile.ICustomMissileRender;
 import com.builtbroken.icbm.client.Assets;
+import com.builtbroken.icbm.content.missile.client.RenderMissile;
 import com.builtbroken.mc.api.tile.listeners.IBlockListener;
 import com.builtbroken.mc.api.tile.listeners.ITileEventListener;
 import com.builtbroken.mc.api.tile.listeners.ITileEventListenerBuilder;
@@ -47,13 +47,9 @@ public class StandardLauncherRenderListener extends TileListener implements IBlo
                 //Render launcher
                 GL11.glPushMatrix();
                 Pos pos = center.add(launcher.getDirection()).add(0.5, 0, 0.5);
-                GL11.glTranslatef(pos.xf(), pos.yf(), pos.zf());
+                GL11.glTranslatef(pos.xf(), pos.yf() + ((float)launcher.getMissile().getHeight() / 2f), pos.zf());
                 GL11.glRotatef(45f, 0, 1, 0);
-                if (launcher.getMissile() instanceof ICustomMissileRender)
-                {
-                    GL11.glTranslatef(0, ((ICustomMissileRender) launcher.getMissile()).getRenderHeightOffset(), 0);
-                    ((ICustomMissileRender) launcher.getMissile()).renderMissileInWorld(0, 0, 0);
-                }
+                RenderMissile.renderMissile(launcher.getMissile(), 0, 90, null);
                 GL11.glPopMatrix();
             }
             else if (launcher.recipe != null)
