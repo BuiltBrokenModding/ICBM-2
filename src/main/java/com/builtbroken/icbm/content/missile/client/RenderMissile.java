@@ -33,8 +33,13 @@ public class RenderMissile extends Render
         EntityMissile entityMissile = (EntityMissile) entity;
         IMissile missile = entityMissile.getMissile();
 
+        double height = ((EntityMissile) entity).boundingBox.maxY - ((EntityMissile) entity).boundingBox.minY;
+
         GL11.glPushMatrix();
-        GL11.glTranslated(x - 0.5, y - 0.5, z - 0.5);
+        GL11.glTranslated(x, y + (height / 2f), z);
+
+        float pitch = RenderMissile.interpolateRotation(entity.prevRotationPitch, entity.rotationPitch, f1);
+        float yaw = interpolateRotation(entity.prevRotationYaw, entity.rotationYaw, f1);
 
         boolean rendered = false;
 
@@ -45,17 +50,17 @@ public class RenderMissile extends Render
         }
 
         //JSON render handling
-        if(!rendered && missile instanceof IJsonGenObject)
+        if (!rendered && missile instanceof IJsonGenObject)
         {
             RenderData data = ClientDataHandler.INSTANCE.getRenderData(((IJsonGenObject) missile).getContentID());
-            if(data != null)
+            if (data != null)
             {
-                for(String stateID : new String[] {"missile", "entity"})
+                for (String stateID : new String[]{"missile", "entity"})
                 {
                     IRenderState state = data.getState(stateID);
-                    if(state instanceof IModelState)
+                    if (state instanceof IModelState)
                     {
-                        rendered = ((IModelState) state).render(false, entity.rotationYaw, -entity.rotationPitch, 0);
+                        rendered = ((IModelState) state).render(false, yaw, pitch, 0);
                     }
                 }
             }
@@ -64,11 +69,8 @@ public class RenderMissile extends Render
         //Backup render
         if (!rendered)
         {
-            //TODO fix
-            float yaw = interpolateRotation(-entity.prevRotationYaw + 90, -entity.rotationYaw + 90, f1);
-
-            GL11.glRotatef(yaw, 0.0F, 1.0F, 0.0F);
-            GL11.glRotatef(interpolateRotation(entity.prevRotationPitch, entity.rotationPitch, f1) - 90, 0.0F, 0.0F, 1.0F);
+            GL11.glRotatef(yaw + 90, 0.0F, 1.0F, 0.0F);
+            GL11.glRotatef(pitch - 90, 0.0F, 0.0F, 1.0F);
             GL11.glScalef(.5f, .5f, .5f);
             FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.CLASSIC_MISSILE_TEXTURE);
             if (missile == null || missile.getWarhead() != null)

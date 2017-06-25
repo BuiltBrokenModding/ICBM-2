@@ -75,13 +75,21 @@
         }
       },
       {
-        "id": "missile.entity",
+        "id": "entity",
         "renderType": "model",
         "parent": "base",
+        "rotationOrder": [
+          "yaw",
+          "pitch"
+        ],
+        "rotation": {
+          "yaw": -180,
+          "pitch": -90
+        },
         "offset": {
-          "x": 0.5,
-          "y": 1,
-          "z": 0.5
+          "x": 0,
+          "y": 0,
+          "z": 0
         }
       }
     ]

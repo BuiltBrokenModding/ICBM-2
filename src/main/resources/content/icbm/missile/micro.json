@@ -64,13 +64,16 @@
         }
       },
       {
-        "id": "missile.entity",
+        "id": "entity",
         "renderType": "model",
         "parent": "base",
-        "offset": {
-          "x": 0.5,
-          "y": 1,
-          "z": 0.5
+        "rotationOrder": [
+          "yaw",
+          "pitch"
+        ],
+        "rotation": {
+          "yaw": -180,
+          "pitch": -90
         }
       }
     ]

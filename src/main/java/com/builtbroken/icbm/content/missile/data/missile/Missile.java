@@ -16,6 +16,7 @@ import com.builtbroken.icbm.content.missile.parts.warhead.Warhead;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
+import com.builtbroken.mc.lib.json.imp.IJsonGenObject;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.items.ItemStackWrapper;
 import net.minecraft.item.ItemStack;
@@ -26,10 +27,13 @@ import java.util.List;
 
 /**
  * Instance of a missile
+ * <p>
+ * Includes a wrapper of {@link IJsonGenObject} in order for render code
+ * to access {@link MissileCasingData} for JSON rendering.
  *
  * @author Darkguardsman
  */
-public class Missile implements IMissile
+public class Missile implements IMissile, IJsonGenObject
 {
     private static final String NBT_MISSILE_CASING = "missileCasingID";
 
@@ -347,5 +351,23 @@ public class Missile implements IMissile
             return ((IModuleItem) stack.getItem()).getModule(stack);
         }
         return null;
+    }
+
+    @Override
+    public String getLoader()
+    {
+        return data.getLoader();
+    }
+
+    @Override
+    public String getMod()
+    {
+        return data.getMod();
+    }
+
+    @Override
+    public String getContentID()
+    {
+        return data.getContentID();
     }
 }
