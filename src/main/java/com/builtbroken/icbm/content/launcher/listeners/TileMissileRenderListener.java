@@ -42,11 +42,21 @@ public class TileMissileRenderListener extends TileListener implements IBlockLis
         {
             //Render missile
             IMissile missile = ((TileMissileContainer) node).getMissile();
-            GL11.glPushMatrix();
-            double h = missile.getHeight() / 2;
-            GL11.glTranslated(xx + offset.x(), yy + offset.y() + h, zz + offset.z());
-            RenderMissile.renderMissile(missile, 0, 90, null);
-            GL11.glPopMatrix();
+            if(missile != null)
+            {
+                GL11.glPushMatrix();
+                try
+                {
+                    double h = missile.getHeight() / 2;
+                    GL11.glTranslated(xx + offset.x(), yy + offset.y() + h, zz + offset.z());
+                    RenderMissile.renderMissile(missile, 0, 90, null);
+                }
+                catch (Exception e)
+                {
+                    throw new RuntimeException(e);
+                }
+                GL11.glPopMatrix();
+            }
         }
     }
 

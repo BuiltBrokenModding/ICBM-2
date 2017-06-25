@@ -22,7 +22,7 @@
         "renderType": "model",
         "modelID": "icbm:standardMissile",
         "textureID": "icbm:standardMissile",
-        "parts": "except:Fins_SmallSilo.006",
+        "parts": "Fins_SmallSilo.006",
         "renderOnlyParts": false
       },
       {
@@ -30,7 +30,7 @@
         "renderType": "model",
         "parent": "body",
         "textureID": "icbm:standardMissile.fins",
-        "parts": "except:Fins_SmallSilo.006",
+        "parts": "Fins_SmallSilo.006",
         "renderOnlyParts": true,
         "renderParent": true
       },
