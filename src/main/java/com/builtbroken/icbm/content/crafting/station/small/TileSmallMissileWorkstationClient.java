@@ -2,11 +2,17 @@ package com.builtbroken.icbm.content.crafting.station.small;
 
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.client.Assets;
+import com.builtbroken.icbm.content.missile.client.RenderMissile;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
 import com.builtbroken.mc.client.SharedAssets;
+import com.builtbroken.mc.client.json.ClientDataHandler;
+import com.builtbroken.mc.client.json.imp.IModelState;
+import com.builtbroken.mc.client.json.imp.IRenderState;
+import com.builtbroken.mc.client.json.render.RenderData;
 import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.imp.transform.region.Cube;
 import com.builtbroken.mc.imp.transform.vector.Pos;
+import com.builtbroken.mc.lib.json.imp.IJsonGenObject;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.client.FMLClientHandler;
@@ -23,6 +29,9 @@ import net.minecraft.util.IIcon;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Client side implementation of the small missile workstation, designed to reduce code in a single class. As well this may
@@ -298,42 +307,44 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
         }
         //Moves the missile slightly over to sit on its rack
         GL11.glTranslatef(0, -0.4f, 0);
-        //Bind texture
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.SMALL_MISSILE_TEXTURE);
-        //Group_001 body
-        //Component_1_001 - 4 Body Fins
-        if (missile.getWarhead() != null)
+        if (missile instanceof IJsonGenObject)
         {
-            //Group_004 nose of warhead
-            //Group_005 warhead
-            Assets.SMALL_MISSILE_MODEL.renderOnly("Group_005");
-            if (missile.getWarhead().getExplosive() != null)
+            RenderData data = ClientDataHandler.INSTANCE.getRenderData(((IJsonGenObject) missile).getContentID());
+            if (data != null)
             {
-                Assets.SMALL_MISSILE_MODEL.renderOnly("Group_004");
+                List<String> parts = new ArrayList();
+                parts.add("missile.body");
+                if (missile.getWarhead() != null)
+                {
+                    parts.add("missile.warhead");
+                    if (missile.getWarhead().getExplosive() != null)
+                    {
+                        parts.add("missile.warhead.ex");
+                    }
+                }
+                if (missile.getGuidance() != null)
+                {
+                    parts.add("missile.guidance");
+                }
+                if (missile.getEngine() != null)
+                {
+                    parts.add("missile.engine");
+                }
+                for (String stateID : parts)
+                {
+                    IRenderState state = data.getState(stateID);
+                    if (state instanceof IModelState)
+                    {
+                        ((IModelState) state).render(false, 0, 0, 0);
+                        //TODO implement part based rendering so each module has a chance to render custom
+                    }
+                }
             }
         }
-        if (missile.getEngine() != null)
+        else
         {
-            //Group_002 - Engine thruster
-            //Group_003 - Engine case
-            //Component_3_001 - 8 Engine lower segments
-            //Component_2_001 - 4 Engine fins
-            Assets.SMALL_MISSILE_MODEL.renderOnly("Group_002", "Group_003");
-            for (int i = 1; i < 9; i++)
-            {
-                Assets.SMALL_MISSILE_MODEL.renderOnly("Component_3_00" + i);
-            }
-            for (int i = 1; i < 5; i++)
-            {
-                Assets.SMALL_MISSILE_MODEL.renderOnly("Component_2_00" + i);
-            }
+            RenderMissile.renderMissile(missile, 0, 0, null);
         }
-        if (missile.getGuidance() != null)
-        {
-            //TODO add model indication showing no guidance added
-        }
-        //Render body and fins
-        Assets.SMALL_MISSILE_MODEL.renderOnly("Group_001", "Component_1_001", "Component_1_002", "Component_1_003", "Component_1_004");
     }
 
     public static void handleMissileRotationUD(ForgeDirection direction)

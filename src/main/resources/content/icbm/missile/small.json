@@ -81,6 +81,59 @@
           "y": 0,
           "z": 0
         }
+      },
+      {
+        "id": "missile.body",
+        "renderType": "model",
+        "parent": "base",
+        "parts": [
+          "Group_001",
+          "Component_1_001",
+          "Component_1_002",
+          "Component_1_003",
+          "Component_1_004"
+        ]
+      },
+      {
+        "id": "missile.warhead",
+        "renderType": "model",
+        "parent": "base",
+        "parts": [
+          "Group_005"
+        ]
+      },
+      {
+        "id": "missile.warhead.ex",
+        "renderType": "model",
+        "parent": "base",
+        "parts": [
+          "Group_004"
+        ]
+      },
+      {
+        "id": "missile.engine",
+        "renderType": "model",
+        "parent": "base",
+        "parts": [
+          "Group_002",
+          "Group_003",
+          {
+            "for": {
+              "start": 1,
+              "end": 8,
+              "_comment": "8 lower engine segments",
+              "part": "Component_3_00%number%"
+            }
+          },
+          {
+            "for": {
+              "start": 1,
+              "end": 4,
+              "_comment": "4 engine fins",
+              "part": "Component_2_00%number%"
+            }
+          }
+        ]
       }
     ]
   },
