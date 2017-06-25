@@ -65,7 +65,7 @@ public class RenderMissile extends Render
             RenderData data = ClientDataHandler.INSTANCE.getRenderData(((IJsonGenObject) missile).getContentID());
             if (data != null)
             {
-                for (String stateID : keys)
+                for (String stateID : (keys != null ? keys : RENDER_KEYS))
                 {
                     IRenderState state = data.getState(stateID);
                     if (state instanceof IModelState)
