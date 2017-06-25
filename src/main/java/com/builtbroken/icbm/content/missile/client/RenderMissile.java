@@ -71,6 +71,7 @@ public class RenderMissile extends Render
                     if (state instanceof IModelState)
                     {
                         rendered = ((IModelState) state).render(false, yaw, pitch, 0);
+                        break;
                     }
                 }
             }
