@@ -4,11 +4,10 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.api.blast.IBlastTileMissile;
 import com.builtbroken.icbm.api.blast.IExHandlerTileMissile;
-import com.builtbroken.icbm.api.missile.ICustomMissileRender;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.missile.ITileMissile;
 import com.builtbroken.icbm.api.modules.IMissile;
-import com.builtbroken.icbm.client.Assets;
+import com.builtbroken.icbm.content.missile.client.RenderMissile;
 import com.builtbroken.icbm.content.missile.entity.EntityMissile;
 import com.builtbroken.mc.api.edit.IWorldChangeAction;
 import com.builtbroken.mc.api.event.TriggerCause;
@@ -21,7 +20,6 @@ import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.TileEnt;
-import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -57,6 +55,8 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
     public static int DECAY_TICKS = 20 * 60 * 60; //1 hour
     /** List of blocks to mimic as part of the model */
     public static List<Block> blocksToMimic = new ArrayList();
+
+    public static String[] renderKeys = new String[]{"missile.crashed", "missile", "entity"};
 
     static
     {
@@ -520,42 +520,16 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
             {
                 GL11.glTranslated(posOffset.x(), posOffset.y(), posOffset.z());
             }
-            if (!(missile instanceof ICustomMissileRender) || !((ICustomMissileRender) missile).renderMissileInWorld(yaw - 90, pitch - 90, frame))
-            {
-                renderDefaultMissile();
-            }
-        }
-        else
-        {
-            GL11.glTranslated(pos.x() + 0.5, pos.y() + .4, pos.z() + 0.5);
-            if (posOffset != null)
-            {
-                GL11.glTranslated(posOffset.x(), posOffset.y(), posOffset.z());
-            }
-            renderDefaultMissile();
+            RenderMissile.renderMissile(missile, yaw, pitch, renderKeys);
         }
         GL11.glPopMatrix();
         if (block != null)
         {
             GL11.glPushMatrix();
             GL11.glTranslated(pos.x() + 0.5, pos.y() + 0.5, pos.z() + 0.5);
-            RenderUtility.renderInventoryBlock(RenderUtility.renderBlocks, block, meta);
+            RenderUtility.renderInventoryBlock(RenderUtility.getBlockRenderer(), block, meta);
             GL11.glPopMatrix();
         }
-    }
-
-    private final void renderDefaultMissile()
-    {
-        GL11.glTranslated(0.5, 2, 0.5);
-        GL11.glRotatef(yaw, 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(pitch - 90, 0.0F, 0.0F, 1.0F);
-        GL11.glScalef(.5f, .5f, .5f);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(Assets.CLASSIC_MISSILE_TEXTURE);
-        if (missile == null || missile.getWarhead() != null)
-        {
-            Assets.CLASSIC_MISSILE_MODEL.renderOnly("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
-        }
-        Assets.CLASSIC_MISSILE_MODEL.renderAllExcept("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
     }
 
     @Override

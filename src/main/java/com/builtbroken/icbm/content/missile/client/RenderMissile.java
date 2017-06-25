@@ -1,6 +1,5 @@
 package com.builtbroken.icbm.content.missile.client;
 
-import com.builtbroken.icbm.api.missile.ICustomMissileRender;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.missile.entity.EntityMissile;
@@ -21,6 +20,7 @@ import org.lwjgl.opengl.GL11;
 public class RenderMissile extends Render
 {
     public static final RenderMissile INSTANCE = new RenderMissile(0.5F);
+    public static final String[] RENDER_KEYS = new String[]{"missile", "entity"};
 
     private RenderMissile(float f)
     {
@@ -41,21 +41,31 @@ public class RenderMissile extends Render
         float pitch = RenderMissile.interpolateRotation(entity.prevRotationPitch, entity.rotationPitch, f1);
         float yaw = interpolateRotation(entity.prevRotationYaw, entity.rotationYaw, f1);
 
+        renderMissile(missile, yaw, pitch, RENDER_KEYS);
+
+        GL11.glPopMatrix();
+    }
+
+    /**
+     * Called to render a missile
+     * <p>
+     * Does not translate or wrap in push & pop matrix calls
+     *
+     * @param missile
+     * @param yaw
+     * @param pitch
+     * @param keys
+     */
+    public static void renderMissile(IMissile missile, float yaw, float pitch, String[] keys)
+    {
         boolean rendered = false;
-
-        //TODO remove this in a few updates
-        if (missile instanceof ICustomMissileRender)
-        {
-            rendered = ((ICustomMissileRender) missile).renderMissileEntity(entity, f, f1);
-        }
-
         //JSON render handling
         if (!rendered && missile instanceof IJsonGenObject)
         {
             RenderData data = ClientDataHandler.INSTANCE.getRenderData(((IJsonGenObject) missile).getContentID());
             if (data != null)
             {
-                for (String stateID : new String[]{"missile", "entity"})
+                for (String stateID : keys)
                 {
                     IRenderState state = data.getState(stateID);
                     if (state instanceof IModelState)
@@ -65,7 +75,6 @@ public class RenderMissile extends Render
                 }
             }
         }
-
         //Backup render
         if (!rendered)
         {
@@ -79,7 +88,6 @@ public class RenderMissile extends Render
             }
             Assets.CLASSIC_MISSILE_MODEL.renderAllExcept("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
         }
-        GL11.glPopMatrix();
     }
 
     @Override
