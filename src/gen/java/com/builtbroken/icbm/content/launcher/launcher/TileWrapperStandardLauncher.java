@@ -6,9 +6,9 @@
 //-------------------------------------------------------
 //Built on: Rober
 //=======================================================
-package com.builtbroken.icbm.content.launcher.launcher.standard;
+package com.builtbroken.icbm.content.launcher.launcher;
 
-import com.builtbroken.icbm.content.launcher.launcher.standard.TileStandardLauncher;
+import com.builtbroken.icbm.content.launcher.launcher.TileStandardLauncher;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.tile.listeners.IBlockListener;
 import com.builtbroken.mc.api.tile.listeners.ITileEventListener;

@@ -12,7 +12,7 @@
     "pickBlock": "block@icbmLauncherParts",
     "tileEntity": {
       "id": "standardlauncher",
-      "class": "com.builtbroken.icbm.content.launcher.launcher.standard.TileWrapperStandardLauncher"
+      "class": "com.builtbroken.icbm.content.launcher.launcher.TileWrapperStandardLauncher"
     },
     "renderBounds": {
       "min": {
@@ -29,7 +29,29 @@
     "listeners": [
       {
         "id": "multiblock",
+        "contentUseID": "launcher.micro",
+        "layoutKey": "icbm:microLauncher",
+        "doRotation": true,
+        "buildFirstTick": false
+      },
+      {
+        "id": "multiblock",
+        "contentUseID": "launcher.small",
+        "layoutKey": "icbm:smallLauncher",
+        "doRotation": true,
+        "buildFirstTick": false
+      },
+      {
+        "id": "multiblock",
+        "contentUseID": "launcher.standard",
         "layoutKey": "icbm:standardLauncher",
+        "doRotation": true,
+        "buildFirstTick": false
+      },
+      {
+        "id": "multiblock",
+        "contentUseID": "launcher.medium",
+        "layoutKey": "icbm:mediumLauncher",
         "doRotation": true,
         "buildFirstTick": false
       },
@@ -39,7 +61,7 @@
   "render": {
     "contentID": "icbm:standardlauncher",
     "type": "tile",
-    "tileClass": "com.builtbroken.icbm.content.launcher.launcher.standard.TileWrapperStandardLauncher",
+    "tileClass": "com.builtbroken.icbm.content.launcher.launcher.TileWrapperStandardLauncher",
     "states": [
       {
         "id": "block",

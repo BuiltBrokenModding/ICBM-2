@@ -22,6 +22,7 @@ public final class ICBM_API
 
     //Blocks: Launchers
     public static Block blockLauncherFrame;
+    public static Block blockStandardLauncher;
 
     //Blocks: Command System
     public static Block blockAntenna;

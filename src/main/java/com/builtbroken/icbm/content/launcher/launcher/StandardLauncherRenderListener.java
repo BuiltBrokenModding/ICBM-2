@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.launcher.launcher.standard;
+package com.builtbroken.icbm.content.launcher.launcher;
 
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.missile.client.RenderMissile;

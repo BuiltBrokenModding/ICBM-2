@@ -1,15 +1,14 @@
-package com.builtbroken.icbm.content.launcher.launcher.standard;
+package com.builtbroken.icbm.content.launcher.launcher;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
+import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.icbm.content.launcher.block.LauncherPartListener;
-import com.builtbroken.icbm.content.launcher.launcher.TileAbstractLauncherPad;
-import com.builtbroken.icbm.content.missile.entity.EntityMissile;
 import com.builtbroken.icbm.content.missile.data.missile.Missile;
 import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
+import com.builtbroken.icbm.content.missile.entity.EntityMissile;
 import com.builtbroken.mc.api.tile.access.IRotation;
 import com.builtbroken.mc.api.tile.listeners.IActivationListener;
 import com.builtbroken.mc.api.tile.listeners.IBlockStackListener;
@@ -40,7 +39,7 @@ import net.minecraftforge.common.util.ForgeDirection;
  */
 @TileWrapped(className = "TileWrapperStandardLauncher")
 @MultiBlockWrapped()
-public class TileStandardLauncher extends TileAbstractLauncherPad implements IRotation, IWrenchListener, IActivationListener, IBlockStackListener
+public class TileStandardLauncher extends TileAbstractLauncher implements IRotation, IWrenchListener, IActivationListener, IBlockStackListener
 {
     /** Is the silo in crafting mode. */
     protected boolean isCrafting = false;
@@ -53,6 +52,8 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IRo
 
     private ForgeDirection dir_cache;
     private int frameUpdateCheckTick = 1;
+
+    public MissileSize missileSize = MissileSize.STANDARD;
 
     public TileStandardLauncher()
     {
@@ -68,6 +69,12 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IRo
             return new ItemStack(blockDrop, 1, 0);
         }
         return null;
+    }
+
+    @Override
+    public String uniqueContentID()
+    {
+        return "launcher." + missileSize.name().toLowerCase();
     }
 
     @Override
@@ -102,17 +109,10 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IRo
         if (ticks % frameUpdateCheckTick == 0)
         {
             //Check if broken by counting number of frames
-            int count = 0;
-            Block block = world().getBlock(xi(), yi() + 1, zi());
-            while (count < LauncherPartListener.STANDARD_LAUNCHER_HEIGHT && block == ICBM_API.blockLauncherFrame)
-            {
-                //Increase count
-                count++;
-                //Get next block above last
-                block = world().getBlock(xi(), yi() + count + 1, zi());
-            }
+            int count = LauncherPartListener.getFrameCount(world(), new Pos(this).add(0, 1, 0));
+            MissileSize size = LauncherPartListener.getLauncherSize(count);
             //If we do not have 5 blocks drop the missile and set the block back to CPU
-            if (count != LauncherPartListener.STANDARD_LAUNCHER_HEIGHT)
+            if (size != missileSize)
             {
                 dropItems();
                 Block blockDrop = InventoryUtility.getBlock("icbm:icbmLauncherParts");
@@ -124,11 +124,11 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IRo
             else
             {
                 //Updates top block meta for older versions of ICBM
-                int meta = world().getBlockMetadata(xi(), yi() + LauncherPartListener.STANDARD_LAUNCHER_HEIGHT, zi());
+                int meta = world().getBlockMetadata(xi(), yi() + count, zi());
                 int dMeta = getMetaForDirection(getDirection());
                 if (meta != dMeta)
                 {
-                    world().setBlockMetadataWithNotify(xi(), yi() + LauncherPartListener.STANDARD_LAUNCHER_HEIGHT, zi(), dMeta, 3);
+                    world().setBlockMetadataWithNotify(xi(), yi() + count, zi(), dMeta, 3);
                 }
             }
         }
@@ -237,7 +237,8 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IRo
                 }
                 return true;
             }
-            if (StandardMissileCrafting.isPartOfRecipe(player.getHeldItem()))
+            //Recipe handler for standard missile
+            if (missileSize == MissileSize.STANDARD && StandardMissileCrafting.isPartOfRecipe(player.getHeldItem()))
             {
                 //TODO implement recipe insertion or selection system
                 if (recipe == null)
@@ -318,7 +319,18 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IRo
     @Override
     public Pos getMissileLaunchOffset()
     {
-        return new Pos(getDirection()).add(0, 7, 0);
+        switch (missileSize)
+        {
+            case MICRO:
+                return new Pos(getDirection()).add(0, 3, 0);
+            case SMALL:
+                return new Pos(getDirection()).add(0, 5, 0);
+            case STANDARD:
+                return new Pos(getDirection()).add(0, 7, 0);
+            case MEDIUM:
+                return new Pos(getDirection()).add(0, 19, 0);
+        }
+        return new Pos(getDirection()).add(0, 20, 0);
     }
 
     @Override
@@ -494,7 +506,7 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IRo
     @Override
     public boolean canAcceptMissile(IMissile missile)
     {
-        return super.canAcceptMissile(missile) && missile.getMissileSize() == MissileSize.STANDARD.ordinal();
+        return super.canAcceptMissile(missile) && missile.getMissileSize() == missileSize.ordinal();
     }
 
 
@@ -513,6 +525,10 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IRo
             recipe = new StandardMissileCrafting();
             recipe.load(nbt.getCompoundTag("missileRecipe"));
         }
+        if (nbt.hasKey("missileSize"))
+        {
+            missileSize = MissileSize.get(nbt.getInteger("missileSize"));
+        }
     }
 
     @Override
@@ -525,6 +541,7 @@ public class TileStandardLauncher extends TileAbstractLauncherPad implements IRo
             recipe.save(nbt);
             nbt.setTag("missileRecipe", tag);
         }
+        nbt.setInteger("missileSize", missileSize.ordinal());
         return nbt;
     }
 

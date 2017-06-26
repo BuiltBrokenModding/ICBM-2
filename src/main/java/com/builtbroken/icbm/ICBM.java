@@ -249,6 +249,7 @@ public final class ICBM extends AbstractMod
         //blockSmallPortableLauncher = manager.newBlock(TileSmallLauncher.class);
         //blockSmallSilo = manager.newBlock(TileSmallSilo.class);
         //blockStandardSilo = manager.newBlock(TileStandardSilo.class);
+        ICBM_API.blockStandardLauncher = InventoryUtility.getBlock("icbm:standardlauncher");
 
         //Troll blocks
         ICBM_API.blockCake = manager.newBlock("ICBMxFakeCake", BlockFakeCake.class);

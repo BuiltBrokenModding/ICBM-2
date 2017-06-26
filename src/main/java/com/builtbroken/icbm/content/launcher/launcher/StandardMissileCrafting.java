@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.content.launcher.launcher.standard;
+package com.builtbroken.icbm.content.launcher.launcher;
 
 import com.builtbroken.icbm.api.modules.IGuidance;
 import com.builtbroken.icbm.api.modules.IRocketEngine;
