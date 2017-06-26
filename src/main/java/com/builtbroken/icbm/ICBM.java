@@ -171,7 +171,8 @@ public final class ICBM extends AbstractMod
         missileTabs = new CreativeTabMissiles[]{
                 new CreativeTabMissiles(MissileSize.MICRO),
                 new CreativeTabMissiles(MissileSize.SMALL),
-                new CreativeTabMissiles(MissileSize.STANDARD)
+                new CreativeTabMissiles(MissileSize.STANDARD),
+                new CreativeTabMissiles(MissileSize.MEDIUM)
         };
         warheadsTab = new CreativeTabWarheads();
 

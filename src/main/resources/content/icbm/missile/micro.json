@@ -5,6 +5,7 @@
   "missile": {
     "id": "icbm:microMissile",
     "bodySizeClassification": "micro",
+    "default": true,
     "bodyWidth": 0.2,
     "bodyHeight": 0.8,
     "bodyCenterOffset": {

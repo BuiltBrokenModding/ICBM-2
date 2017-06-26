@@ -97,6 +97,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
     public void onUpdate()
     {
         super.onUpdate();
+        setVelocity(0, 0, 0);
         if (missile != null)
         {
             if (missile.getEngine() != null)

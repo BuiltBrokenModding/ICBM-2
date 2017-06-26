@@ -3,8 +3,9 @@
     "name": "icbm"
   },
   "missile": {
-    "id": "icbm:medium",
+    "id": "icbm:mediumMissile",
     "bodySizeClassification": "medium",
+    "default": true,
     "bodyWidth": 1.2,
     "bodyHeight": 16,
     "bodyCenterOffset": {
@@ -12,5 +13,77 @@
       "y": 6.6,
       "z": 0
     }
+  },
+  "render": {
+    "contentID": "missile.icbm:mediumMissile",
+    "type": "item",
+    "states": [
+      {
+        "id": "base",
+        "renderType": "model",
+        "modelID": "icbm:mediumMissile",
+        "textureID": "icbm:mediumMissile"
+      },
+      {
+        "id": "item.inventory",
+        "renderType": "item",
+        "textureID": "icbm:mediumMissileIcon"
+      },
+      {
+        "id": "item.equipped",
+        "renderType": "model",
+        "parent": "base",
+        "offset": {
+          "x": 4,
+          "y": 2,
+          "z": 4
+        },
+        "scale": 0.2
+      },
+      {
+        "id": "item.first",
+        "renderType": "model",
+        "parent": "base",
+        "offset": {
+          "x": -4,
+          "y": 2,
+          "z": -4
+        },
+        "rotation": {
+          "yaw": 180
+        },
+        "scale": 0.2
+      },
+      {
+        "id": "item.entity",
+        "renderType": "model",
+        "parent": "base",
+        "offset": {
+          "x": 0,
+          "y": 5,
+          "z": 0
+        },
+        "scale": 0.2
+      },
+      {
+        "id": "entity",
+        "renderType": "model",
+        "parent": "base",
+        "rotationOrder": [
+          "yaw",
+          "pitch"
+        ],
+        "rotation": {
+          "yaw": -180,
+          "pitch": -90
+        }
+      }
+    ]
+  },
+  "texture:1": {
+    "key": "icbm:mediumMissileIcon",
+    "domain": "icbm",
+    "name": "micro.missile",
+    "type": "item"
   }
 }
