@@ -1,36 +1,35 @@
 //=======================================================
 //DISCLAIMER: THIS IS A GENERATED CLASS FILE
 //THUS IS PROVIDED 'AS-IS' WITH NO WARRANTY
-//FUNCTIONALITY CAN NOT BE GUARANTIED IN ANY WAY 
-//USE AT YOUR OWN RISK 
+//FUNCTIONALITY CAN NOT BE GUARANTIED IN ANY WAY
+//USE AT YOUR OWN RISK
 //-------------------------------------------------------
 //Built on: Rober
 //=======================================================
 package com.builtbroken.icbm.content.launcher.launcher;
 
-import com.builtbroken.icbm.content.launcher.launcher.TileStandardLauncher;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.tile.listeners.IBlockListener;
 import com.builtbroken.mc.api.tile.listeners.ITileEventListener;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
-import com.builtbroken.mc.api.tile.node.ITileNode;
 import com.builtbroken.mc.framework.block.BlockBase;
 import com.builtbroken.mc.framework.logic.wrapper.TileEntityWrapper;
 import net.minecraft.entity.player.EntityPlayer;
+
 import java.util.HashMap;
 import java.util.List;
 
 public class TileWrapperStandardLauncher extends TileEntityWrapper implements IMultiTileHost
 {
-	public TileWrapperStandardLauncher()
-	{
-		super(new TileStandardLauncher());
-	}
+    public TileWrapperStandardLauncher()
+    {
+        super(new TileStandardLauncher());
+    }
 
-	//============================
-	//==Methods:MultiBlockWrapped
-	//============================
+    //============================
+    //==Methods:MultiBlockWrapped
+    //============================
 
 
     @Override
@@ -48,11 +47,14 @@ public class TileWrapperStandardLauncher extends TileEntityWrapper implements IM
                 {
                     if (listener instanceof IMultiTileHost)
                     {
-                        if(listener instanceof IBlockListener)
+                        if (listener instanceof IBlockListener)
                         {
                             ((IBlockListener) listener).inject(world(), xi(), yi(), zi());
                         }
-                        ((IMultiTileHost) listener).onMultiTileAdded(tileMulti);
+                        if (listener.isValidForTile())
+                        {
+                            ((IMultiTileHost) listener).onMultiTileAdded(tileMulti);
+                        }
                     }
                 }
             }
@@ -75,13 +77,16 @@ public class TileWrapperStandardLauncher extends TileEntityWrapper implements IM
                 {
                     if (listener instanceof IMultiTileHost)
                     {
-                        if(listener instanceof IBlockListener)
+                        if (listener instanceof IBlockListener)
                         {
                             ((IBlockListener) listener).inject(world(), xi(), yi(), zi());
                         }
-                        if (((IMultiTileHost) listener).onMultiTileBroken(tileMulti, source, harvest))
+                        if (listener.isValidForTile())
                         {
-                            b = true;
+                            if (((IMultiTileHost) listener).onMultiTileBroken(tileMulti, source, harvest))
+                            {
+                                b = true;
+                            }
                         }
                     }
                 }
@@ -98,7 +103,7 @@ public class TileWrapperStandardLauncher extends TileEntityWrapper implements IM
         {
             ((IMultiTileHost) getTileNode()).onTileInvalidate(tileMulti);
         }
-        for (List<ITileEventListener> list : new List[]{getListeners("multiblock"), ((BlockBase) getBlockType()).listeners.get("multiblock")})
+        for (List<ITileEventListener> list : new List[]{getListeners("multiblock"), (getBlockType() instanceof BlockBase ? ((BlockBase) getBlockType()).listeners.get("multiblock") : null)})
         {
             if (list != null && !list.isEmpty())
             {
@@ -106,11 +111,14 @@ public class TileWrapperStandardLauncher extends TileEntityWrapper implements IM
                 {
                     if (listener instanceof IMultiTileHost)
                     {
-                        if(listener instanceof IBlockListener)
+                        if (listener instanceof IBlockListener)
                         {
                             ((IBlockListener) listener).inject(world(), xi(), yi(), zi());
                         }
-                        ((IMultiTileHost) listener).onTileInvalidate(tileMulti);
+                        if (listener.isValidForTile())
+                        {
+                            ((IMultiTileHost) listener).onTileInvalidate(tileMulti);
+                        }
                     }
                 }
             }
@@ -133,13 +141,16 @@ public class TileWrapperStandardLauncher extends TileEntityWrapper implements IM
                 {
                     if (listener instanceof IMultiTileHost)
                     {
-                        if(listener instanceof IBlockListener)
+                        if (listener instanceof IBlockListener)
                         {
                             ((IBlockListener) listener).inject(world(), xi(), yi(), zi());
                         }
-                        if (((IMultiTileHost) listener).onMultiTileActivated(tile, player, side, xHit, yHit, zHit))
+                        if (listener.isValidForTile())
                         {
-                            b = true;
+                            if (((IMultiTileHost) listener).onMultiTileActivated(tile, player, side, xHit, yHit, zHit))
+                            {
+                                b = true;
+                            }
                         }
                     }
                 }
@@ -163,11 +174,14 @@ public class TileWrapperStandardLauncher extends TileEntityWrapper implements IM
                 {
                     if (listener instanceof IMultiTileHost)
                     {
-                        if(listener instanceof IBlockListener)
+                        if (listener instanceof IBlockListener)
                         {
                             ((IBlockListener) listener).inject(world(), xi(), yi(), zi());
                         }
-                        ((IMultiTileHost) listener).onMultiTileClicked(tile, player);
+                        if (listener.isValidForTile())
+                        {
+                            ((IMultiTileHost) listener).onMultiTileClicked(tile, player);
+                        }
                     }
                 }
             }
@@ -193,7 +207,7 @@ public class TileWrapperStandardLauncher extends TileEntityWrapper implements IM
                 {
                     if (listener instanceof IMultiTileHost)
                     {
-                        if(listener instanceof IBlockListener)
+                        if (listener instanceof IBlockListener)
                         {
                             ((IBlockListener) listener).inject(world(), xi(), yi(), zi());
                         }
@@ -208,5 +222,5 @@ public class TileWrapperStandardLauncher extends TileEntityWrapper implements IM
         }
         return null;
     }
-    
+
 }

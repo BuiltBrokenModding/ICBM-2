@@ -47,16 +47,7 @@ public class LauncherPartListener extends TileListener implements IWrenchListene
                     //Detects all launcher frame blocks above it(up to max)
                     int frameCount = getFrameCount(world(), frameStart);
 
-                    //Check if area is clear for missile
-                    if (!isPathClear(world(), frameStart, frameCount, side))
-                    {
-                        //TODO add translation key
-                        player.addChatComponentMessage(new ChatComponentText("To prevent issues clear the blocks from the side of the tower that the missile will occupy. micro, small, and standard need 1x1 block space. Medium needs 3x3 block space to be placed."));
-                        return true;
-                    }
-
                     MissileSize missileCount = getLauncherSize(frameCount);
-
                     //Error if size not found
                     if (missileCount == null)
                     {
@@ -67,6 +58,14 @@ public class LauncherPartListener extends TileListener implements IWrenchListene
                     //Place block and set size
                     else
                     {
+                        //Check if area is clear for missile
+                        if (!isPathClear(world(), frameStart.add(ForgeDirection.getOrientation(side)), frameCount, side))
+                        {
+                            //TODO add translation key
+                            player.addChatComponentMessage(new ChatComponentText("To prevent issues clear the blocks from the side of the tower that the missile will occupy. micro, small, and standard need 1x1 block space. Medium needs 3x3 block space to be placed."));
+                            return true;
+                        }
+
                         Block launcherBlock = ICBM_API.blockStandardLauncher;
                         //create standard launcher
                         if (new Pos(this).setBlock(world(), launcherBlock, side))
@@ -133,7 +132,7 @@ public class LauncherPartListener extends TileListener implements IWrenchListene
     {
         for (int i = 0; i < height; i++)
         {
-            if (height == MEDIUM_LAUNCHER_HEIGHT)
+            if (height != MEDIUM_LAUNCHER_HEIGHT)
             {
                 if (!new Pos(start.xi(), start.yi() + i, start.zi()).add(ForgeDirection.getOrientation(side)).isAirBlock(world))
                 {
@@ -142,9 +141,10 @@ public class LauncherPartListener extends TileListener implements IWrenchListene
             }
             else
             {
-                for (int x = 0; x < 3; x++)
+                start = start.add(ForgeDirection.getOrientation(side));
+                for (int x = -1; x < 2; x++)
                 {
-                    for (int z = 0; z < 3; z++)
+                    for (int z = -1; z < 2; z++)
                     {
                         if (!new Pos(start.xi() + x, start.yi() + i, start.zi() + z).add(ForgeDirection.getOrientation(side)).isAirBlock(world))
                         {
