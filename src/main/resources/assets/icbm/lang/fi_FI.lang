@@ -1,0 +1,345 @@
+## Master language file
+itemGroup.ICBM=ICBM
+itemGroup.icbm.missiles=ICBM Ohjukset
+itemGroup.icbm.missiles.micro=ICBM Raketit
+itemGroup.icbm.missiles.small=ICBM Pienet ohjukset
+itemGroup.icbm.missiles.standard=ICBM Ohjukset
+itemGroup.icbm.missiles.medium=ICBM Keskikokoiset ohjukset
+itemGroup.icbm.missiles.large=ICBM Suuret ohjukset
+itemGroup.icbm.warheads=ICBM Taistelukärjet
+itemGroup.icbm.explosives=ICBM Räjähteet
+
+## Missile
+item.icbm:missile.name=Ohjus
+item.icbm:missile.empty.name=Ohjuksen kuori
+
+item.icbm:missile.micro.name=Raketti
+item.icbm:missile.micro.empty.name=Raketin kuori
+
+item.icbm:missile.small.name=Pieni ohjus
+item.icbm:missile.small.empty.name=Pienen ohjuksen kuori
+
+item.icbm:missile.standard.name=Ohjus
+item.icbm:missile.standard.empty.Ohjuksen kuori
+
+item.icbm:missile.medium.name=Suuri ohjus
+item.icbm:missile.medium.empty.name=Suuren ohjuksen kuori
+
+item.icbm:missile.large.name=ICBM
+item.icbm:missile.large.empty.name=ICBM:n kuori
+
+
+## Items
+item.icbm:siloLinker.name=Datasiru
+item.icbm:siloLinker.info=Käytetään koneiden yhdistämiseen , Shift+Oikea klikkaus aloittaaksesi , Oikea klikkaus lopettaaksesi
+item.icbm:gpsFlag.name=GPS Datasiru
+item.icbm:gpsFlag.info=Shift+Oikea klikkaus tallentaaksesi , Oikea klikkaus siirtääksesi tiedon koneeseen , Shift+Oikea klikkaus ilmaan tyhjentääksesi
+
+item.icbm:rocketLauncher.name=Sinko
+info.icbm:rocketLauncher.tooltip=Ampuu raketteja
+
+item.icbm:remoteDetonator.name=Kaukoräjäytin
+item.icbm:laserDetonator.name=Laserräjäytin
+item.icbm:radarGun.name=Tutka-ase
+item.icbm:radarGun.info=Shift+Oikea klikkaus tyhjentääksesi , Oikea klikkaus siirtääksesi tiedon koneeseen , Oikea klikkaus ilmaan kerätäksesi tietoa, 200 m maksimietäisyys
+
+item.icbm:missileRailCart.name=Ohjuskuljetusvaunu
+
+## Parts
+item.icbm:missileParts.name=Ohjusksen osa
+item.icbm:missileParts.smallMissileCasing.name=Pienen ohjuksen kuori
+
+## Explosive Crafting Parts
+item.icbm:explosivePart.name=Räjähtävä osa
+item.icbm:explosivePart.arrowTube.name=Nuoliputki
+item.icbm:explosivePart.arrowBundle.name=Nuolipaketti
+item.icbm:explosivePart.explosiveItem.gunpowder.name=Ruutiräjähde
+item.icbm:explosivePart.explosiveItem.magic.name=Taikaräjähde
+item.icbm:explosivePart.powderStick.name=Jauhetikku
+
+##      INFO
+item.icbm:explosivePart.info=Käytetään räjähteiden valmistukseen
+
+## Explosive Items
+item.icbm:explosiveItem.name=Räjähdeosa
+item.icbm:explosiveItem.Fragment.name=Sirpaleräjähde
+item.icbm:explosiveItem.ExoThermic.name=Exoterminen räjähde
+item.icbm:explosiveItem.EndoThermic.name=Endoterminen räjähde
+item.icbm:explosiveItem.FireBomb.name=Tulensytytysräjähde
+item.icbm:explosiveItem.FlashFire.name=Tulenlevitysräjähde
+item.icbm:explosiveItem.TorchEater.name=Soihtuja syövä räjähde
+item.icbm:explosiveItem.EnderBlocks.name=Äärikuutioräjähde
+item.icbm:explosiveItem.Antimatter.name=Antimateriaräjähde
+item.icbm:explosiveItem.AntiPlant.name=Kasvientapporäjähde
+item.icbm:explosiveItem.PlantLife.name=Kasvienkasvatusräjähde
+item.icbm:explosiveItem.Regen.name=Regeneraatioräjähde
+item.icbm:explosiveItem.RegenLocal.name=Rajoitettu regeneraatioräjähde
+item.icbm:explosiveItem.BiomeChange.name=Biominvaihtoräjähde
+item.icbm:explosiveItem.Cake.name=Kakkupaketti
+item.icbm:explosiveItem.OrePuller.name=Malminnostoräjähde
+item.icbm:explosiveItem.Emp.name=EMP-räjähde
+item.icbm:explosiveItem.SlimeRain.name=Kuningatarhyytelöräjähde
+item.icbm:explosiveItem.Gravity.name=Antipainovoimaräjähde
+item.icbm:explosiveItem.Microwave.name=Mikroaaltogeneraattori
+item.icbm:explosiveItem.EntitySpawn.name=Olionmunakapseli
+
+item.icbm:explosiveItem.fragment.arrow.name=Nuolipakkausräjähde
+item.icbm:explosiveItem.fragment.cobblestone.name=Mukulakivisirpaleräjähde
+item.icbm:explosiveItem.fragment.wood.name=Puusirpaleräjähde
+item.icbm:explosiveItem.fragment.blaze.name=Roihusirpaleräjähde
+
+## Explosive Items --- Tooltips
+item.icbm:explosiveItem.info=Laita räjähtävään laitteeseen käyttääksesi
+item.icbm:explosiveItem.WIP.info=!!!KESKENERÄINEN!!!
+item.icbm:explosiveItem.warning.WIP.info=!!!Käytä omalla vastuulla!!!
+item.icbm:explosiveItem.warning.breaksBlocks.info=!!Rikkoo kuutioita!!
+
+item.icbm:explosiveItem.ExoThermic.info=Vapauttaa lämpöenergiaa, Sulattaa kiven laavaksi
+item.icbm:explosiveItem.EndoThermic.info=Käytää lämpöenergiaa, Muuttaa kosteuden lumeksi, Muuttaa veden jääksi
+item.icbm:explosiveItem.FireBomb.info=Sytyttää yhden kuution tuleen
+item.icbm:explosiveItem.FlashFire.info=Levitäää tulta suurelle alueelle
+item.icbm:explosiveItem.TorchEater.info=Käyttää taikaa poistaakseen soihtuja
+item.icbm:explosiveItem.EnderBlocks.info=Siirtää kuutiota ääreläisten avulla
+item.icbm:explosiveItem.Antimatter.info=Muuntaa kuutiot puhtaaksi energiaksi,Ei välitä kovuudesta,Tuhoaa kaiken keskellä,Aiheuttaa toisen räjähdyksen
+item.icbm:explosiveItem.AntiPlant.info=Käyttää taikuutta tappamaan kasvit
+item.icbm:explosiveItem.PlantLife.info=Parantaa maaperää ja kasvattaa kasveja
+item.icbm:explosiveItem.Regen.info=Luo uudelleen kokonaisi chunkkeja
+item.icbm:explosiveItem.RegenLocal.info=Luo uudelleen blokkeja aluella,--Hyvin rajoitettu regeneroituminen,--Ei regeneroi malmeja,--Ei regeneroi kasveja,--Ei regeneroi rakennuksia
+item.icbm:explosiveItem.Cake.info=Kakku laatikossa
+item.icbm:explosiveItem.OrePuller.info=Käyttää ääreläisiä siirtämään malmia
+item.icbm:explosiveItem.Emp.info=Luo EMP-pulssin
+item.icbm:explosiveItem.SlimeRain.info=Kutsuu limakuutiot
+item.icbm:explosiveItem.Gravity.info=Kääntää painovoiman pienellä alueella
+item.icbm:explosiveItem.Microwave.info=Muuttaa veden höyryksi,Sytyttää olennot,Välitön viakutus,Voi aiheuttaa lagia suuremmilla alueilla
+item.icbm:explosiveItem.EntitySpawn.info=Luo olentoja maailmaan
+
+## Explosive Items --- Tooltips -- Biome Change
+item.icbm:explosiveItem.BiomeChange.info=Vaihtaa biomityyppiä
+item.icbm:explosiveItem.BiomeChange.id.info=Biomin ID:
+item.icbm:explosiveItem.BiomeChange.name.info=Biomin nimi:
+
+## Explosive Items --- Tooltips -- Fragments
+item.icbm:explosiveItem.fragment.arrow.info=Luo %1 nuolta per räjähde
+item.icbm:explosiveItem.fragment.blaze.info=Luo %1 tulipalloa per räjähde
+item.icbm:explosiveItem.fragment.info=Luo kuutiosirpaleita
+item.icbm:explosiveItem.fragment.damage.info=Vahinko = %1
+item.icbm:explosiveItem.fragment.frags.info=Sirpaleet = %1
+item.icbm:explosiveItem.fragment.damage.equation.info=f(Vahinko) = Kuution kovuus * Nopeus
+item.icbm:explosiveItem.fragment.velocity.equation.info= f(Nopeus) = %1 + Satunnainen(0.0 to 1.0)
+item.icbm:explosiveItem.fragment.frags.equation.info=f(Sirpaleet) = (Räjähdemäärä * %1)^2
+
+## Explosive Items --- Tooltips -- Extra
+item.icbm:explosiveItem.explosive.name.info=Räjähde: %1
+item.icbm:explosiveItem.explosive.size.info=Koko: %1
+
+## Tiles
+tile.icbm:TileMissile.0.name=Puinen rakettinäyttö
+tile.icbm:TileMissile.1.name=Pieni puinen rakettinäyttö
+
+tile.icbm:warheadStation.name=taistelukärkiasema
+tile.icbm:missileDisplay.name=Ohjusnäyttö
+
+tile.icbm:smallMissileMag.name=Pienien ohjusten lipas
+tile.icbm:smallMissileMag.info=Säilöö pieniä ohjuksi ja mahdollistaa automaattilaukaisun
+
+tile.icbm:icbmMissileRail.name=Ohjuskuljetusraide
+
+tile.icbm:cartPowerRail.rotation.name=Ohjuskuljetunkääntöraide
+tile.icbm:cartPowerRail.powered.name=Ohjuskuljetuskiihdytinraide
+tile.icbm:cartPowerRail.orientation.name=Ohjuskuljetussuuntausraide
+tile.icbm:cartPowerRail.stop.name=Ohjuskuljetuspysäytysraide
+tile.icbm:cartPowerRail.loader.name=Ohjuskuljetuslastinlatausraide
+tile.icbm:cartPowerRail.unloader.name=Ohjuskuljetuslastinpurkuraide
+tile.icbm:cartPowerRail.extender.name=Ohjuskuljetuspidennysraide
+tile.icbm:cartPowerRail.splitter.name=Ohjuskuljetusjakoraide
+
+tile.icbm:antennaParts.name=Antennin osa
+tile.icbm:antennaParts.0.name=Antennin osa
+tile.icbm:antennaParts.1.name=Antennitanko
+tile.icbm:antennaParts.2.name=Antenniohjain
+tile.icbm:antennaParts.3.name=Antenniristeys
+tile.icbm:antennaParts.4.name=Antennipykälä
+tile.icbm:antennaParts.5.name=Antennipiikki
+tile.icbm:antennaParts.6.name=Antenninpuomi
+tile.icbm:antennaParts.7.name=Antenninpuomi
+tile.icbm:antennaParts.8.name=Antennin osa
+
+tile.icbm:smallLauncher.name=Kannettava ohjuslaukaisin
+tile.icbm:portableLauncher.container.name=Kannettava ohjuslaukaisin
+tile.icbm:portableLauncher.container.invalidtarget=Virheellinen kohdesijainti
+tile.icbm:portableLauncher.container.invaliddistance=Kohdesijainnin pitää olla välitä 20-200
+
+tile.icbm:missileController.name=Laukaisuohjain
+
+tile.icbm:standardlauncher.name=Standardilaukaisin
+
+tile.icbm:smallsilo.name=Pieni siilo
+tile.icbm:smallsilo.info=3 kuutiota korkea , käyttää pieniä ohjuksia
+tile.icbm:smallSilo.container.name=Pienen siilon näyttö
+
+tile.icbm:siloController.name=Siilonohjaustietokone
+tile.icbm:siloController.info=Ohjaa siiloa suoraan , Laitetaan suoraan siilon viereen, Käyttää punakiveä laukaisemaan ohjukset, Tukee OpenComputers -modia 
+tile.icbm:siloController.container.name=Siilonohjaustietokone
+tile.icbm:siloController.msg.redstone.enabled=Punakivituki käytössä
+tile.icbm:siloController.msg.redstone.disabled=Punakivituki pois käytöstä
+
+tile.icbm:standardsilo.name=Standardisiilo
+tile.icbm:standardsilo.info=7 kuutiota korkea , Käyttää standardikokoisi ohjuksia
+tile.icbm:standardsilo.container.name=Standardisiilon näyttö
+
+tile.icbm:missileworkstation.name=Ohjusasema
+
+tile.icbm:decorLaunchPad.name=Laukaisualusta
+tile.icbm:decorLaunchPad.0.name=Pohjoisreuna
+tile.icbm:decorLaunchPad.1.name=Eteläreuna
+tile.icbm:decorLaunchPad.2.name=Länsireuna
+tile.icbm:decorLaunchPad.3.name=Itäreuna
+tile.icbm:decorLaunchPad.4.name=Lounaisreuna
+tile.icbm:decorLaunchPad.5.name=Kaakkoisreuna
+tile.icbm:decorLaunchPad.6.name=Luoteisreuna
+tile.icbm:decorLaunchPad.7.name=Koillisreuna
+tile.icbm:decorLaunchPad.8.name=Keskikohta
+
+tile.icbm:launcherPart.name=Laukaisimen osa
+tile.icbm:launcherPart.0.name=Laukaisutietokone
+
+tile.icbm:launcherFrame.name=Laucaisimen kehikko
+
+tile.icbm:commandController.name=Siilonohjausohjain
+tile.icbm:commandSiloDisplay.name=Iilonohjausnäyttö
+tile.icbm:siloWirelessDataPoint.name=Siilonohjausliitin
+
+tile.icbm:warheadStation.name=Taistelukärkiasema
+tile.icbm:missileStation.name=Ohjuskasauspöytä
+tile.icbm:missileAutoStation.name=Ohjusasema
+tile.icbm:missileWorkstation.name=Ohjustyöasema
+
+## Explosives
+explosive.error.null_ex.name=Tyhjä
+explosive.icbm:tnt.name=TNT
+explosive.icbm:snowmen.name=Lunta saa tuiskuttaa!
+explosive.icbm:EndoThermic.name=Endoterminen
+explosive.icbm:ExoThermic.name=Exoterminen
+explosive.icbm:Fragment.name=Siraple
+explosive.icbm:Antimatter.name=Antimateria
+explosive.icbm:FireBomb.name=Tulipommi
+explosive.icbm:FlashFire.name=Leimahduspalo
+explosive.icbm:TorchEater.name=Soihdunsyöjä
+explosive.icbm:EnderBlocks.name=Äärikuutio
+explosive.icbm:AntiPlant.name=Kasvientappo
+explosive.icbm:PlantLife.name=Kasvienkasvatus
+explosive.icbm:ThaumTaint.name=Saastunut lima
+explosive.icbm:ThaumTaintBottle.name=Pullotettu saaste
+explosive.icbm:ThaumNode.name=Solmujakelija
+explosive.icbm:ThaumJar.name=Solmuansoittaja
+explosive.icbm:MicroQuake.name=Mikromaanjäristys
+explosive.icbm:Regen.name=Regeneraatio
+explosive.icbm:RegenLocal.name=Rajoitettu regeneraatio
+explosive.icbm:cake.name=Kakku
+explosive.icbm:biomeChange.name=Biomimuutos
+explosive.icbm:OrePuller.name=Malminnosto
+explosive.icbm:Emp.name=Yleis-EMP
+explosive.icbm:SlimeRain.name=Limasade
+explosive.icbm:Gravity.name=Antipainovoima
+explosive.icbm:Microwave.name=Mikroaalto
+explosive.icbm:EntitySpawn.name=Olionluoja
+
+## Damage
+damage.fragment.cobblestone=%s kivittyi kuoliaaksi mukulakivisirpaleiden vuoksi
+damage.fragment.wood=%s kuoli suureen määrään tikkuja
+
+## Dev only Explosives, Optional to translate
+explosive.icbm:SimplePathTest1.name=Path Test
+explosive.icbm:SimplePathTest2.name=Path Test
+explosive.icbm:SimplePathTest3.name=Path Test
+explosive.icbm:SimplePathTest10.name=Path Test
+explosive.icbm:SimplePathTest20.name=Path Test
+
+
+## Warhead
+tile.icbm:warhead.name=Taistelukärki
+tile.icbm:warhead.micro.name=Mikrotaistelukärki
+tile.icbm:warhead.small.name=Pieni taistelukärki
+tile.icbm:warhead.standard.name=Taistelukärki
+
+## Info
+info.icbm:engine.name=Moottori
+info.icbm:warhead.name=Taistelukärki
+info.icbm:guidance.name=Ohjaus
+info.icbm:trigger.name=Laukaisin
+info.icbm:missileStation.placement.blocked.name=Sijoitus estetty
+
+## Controller GUI
+tile.icbm:smallSiloController.container.name=Laukaisin
+gui.icbm:controller.launcherName.name=Mukautettava nimi
+gui.icbm:controller.target.name=Kohdesijainti
+
+## Controller GUI error messages
+gui.icbm:controller.links.none=Ei siiloja yhdistetty
+gui.icbm:controller.links.none.hint=Kokeile käyttää datasirua
+gui.icbm:controller.invalid.input.name=Virheellinen syöttö
+
+## Controller GUI buttons
+gui.icbm:controller.silo.name=Siilo
+gui.icbm:controller.launcher.name=LLaukaisin
+gui.icbm:controller.fire.name=Laukaise
+gui.icbm:controller.update.name=Päivitä
+gui.icbm:controller.back.name=Takaisin
+
+container.TileController.name=Laukaisimen ohjain
+gui.icbm:workstation.assemble.name=Kasaa
+gui.icbm:workstation.assemble.width=50
+
+gui.icbm:workstation.disassemble.name=Pura
+gui.icbm:workstation.disassemble.width=70
+
+gui.icbm:workstation.mode.name=Tila
+gui.icbm:workstation.mode.width=30
+
+## Triggers
+trigger.icbm:impact.name=Isku
+trigger.icbm:gps.name=Sijainti
+trigger.icbm:time.name=Ajastin
+
+## Engine Modules
+module.icbm:engine.creative.name=Antipainovoimamoottori
+module.icbm:engine.coal.name=Polttomoottori
+module.icbm:engine.oil.name=Öljypolttomoottori
+module.icbm:engine.fuel.name=Perusrakettimoottori
+module.icbm:engine.gunpowder.name=Nopea työnnin
+
+## Guidance Modules
+module.icbm:guidance.gears.wood.name=Puinen ohjauskello
+module.icbm:guidance.gears.stone.name=Kivinen ohjauskello
+module.icbm:guidance.gears.iron.name=Rautainen ohjauskello
+module.icbm:guidance.gears.diamond.name=Timanttinen ohjauskello
+module.icbm:guidance.chip.1.name=Aloittelijan ohjaussiru
+module.icbm:guidance.chip.2.name=Ohjaussiru
+module.icbm:guidance.chip.3.name=Parannettu ohjaussiru
+
+## Trigger Modules
+module.icbm:trigger.impact.mechanical.name=Mekaaninen Iskusensori
+module.icbm:trigger.impact.electrical.name=Elektroninen Iskusensori
+module.icbm:trigger.impact.redstone.name=Punakivi-iskusensori
+
+## FoF station GUI
+gui.fof.message.default=Käytä laatukkoa asettamaan id
+gui.fof.message.confirm=Action Completed
+gui.fof.message.wip=error:Keskeneräinen
+gui.fof.message.missing.perm=error:Pääsy kielletty
+gui.fof.message.removed.ids=Poistettiin %s merkintä
+
+## Thaumcraft Support
+tc.research_category.ICBM=Thaumiumhulluus
+thaumcraft.research.TaintWarhead.name=Saastetaistelukärki
+thaumcraft.research.TaintWarhead.page.1=Leikkiessäsi saastella, huomaat että pienillä muutoksilla voit säilyttää sitä taistelukärjessä.
+thaumcraft.research.TaintWarhead.text=Aidon huvin alkuperä
+thaumcraft.research.BottledTaintWarhead.name=Saastepullotaistelukärki
+thaumcraft.research.BottledTaintWarhead.page.1=Saasteen levitys on vaikeaa, ja aivan liian hidasta limalla. Uudella saasteen pullottamismetodilla homma hoituu nopeammin. On silti riksialtista heitellä pulloja yksiksesi; Sen sijaan on järkevämpää asettaa muutama pullo taistelukärkeen.
+thaumcraft.research.BottledTaintWarhead.text=Hupi vain paranee
+thaumcraft.research.JarWarhead.name=Soluja vangitseva taistelukärki
+thaumcraft.research.JarWarhead.page.1=Voi olla vaikeaa vangita solmuja, eriteyisesti kun ne kokoajan syvät lasia. Tämän vuoksi purkki kiinnitettiin ohjuksen nokkaan.
+thaumcraft.research.JarWarhead.text=Minulla on purkki maata
+thaumcraft.research.JarWarhead.name=Solmujakelijataistelukärki
+thaumcraft.research.JarWarhead.page.1=Ohjukset ovat hyödyllisiä pitkän matkan tehtävissä. Tämän vuoksi keksit vapauttaa solmuja ohjuksilla.
+thaumcraft.research.JarWarhead.text=Nälkäisiä solmuja
