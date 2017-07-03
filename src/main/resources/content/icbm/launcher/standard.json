@@ -76,7 +76,7 @@
       }
     ]
   },
-  "multiblock": {
+  "multiblock:0": {
     "key": "icbm:microLauncher",
     "tiles": [
       {
@@ -92,7 +92,7 @@
       }
     ]
   },
-  "multiblock": {
+  "multiblock:1": {
     "key": "icbm:smallLauncher",
     "tiles": [
       {
@@ -108,7 +108,7 @@
       }
     ]
   },
-  "multiblock": {
+  "multiblock:2": {
     "key": "icbm:standardLauncher",
     "tiles": [
       {
@@ -124,7 +124,7 @@
       }
     ]
   },
-  "multiblock": {
+  "multiblock:3": {
     "key": "icbm:mediumLauncher",
     "tiles": [
       {

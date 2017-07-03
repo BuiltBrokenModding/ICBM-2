@@ -47,7 +47,11 @@ public class StandardLauncherRenderListener extends TileListener implements IBlo
                 //Render launcher
                 GL11.glPushMatrix();
                 Pos pos = center.add(launcher.getDirection()).add(0.5, 0, 0.5);
-                GL11.glTranslatef(pos.xf(), pos.yf() + ((float)launcher.getMissile().getHeight() / 2f), pos.zf());
+                if(launcher.getMissile().getCenterOffset() != null)
+                {
+                    pos = pos.add(launcher.getMissile().getCenterOffset());
+                }
+                GL11.glTranslatef(pos.xf(), pos.yf(), pos.zf());
                 GL11.glRotatef(45f, 0, 1, 0);
                 RenderMissile.renderMissile(launcher.getMissile(), 0, 90, null);
                 GL11.glPopMatrix();

@@ -92,43 +92,46 @@ public class TileStandardLauncher extends TileAbstractLauncher implements IRotat
     public void update(long ticks)
     {
         super.update(ticks);
-        if (ticks == 1 || ticks % 20 == 0)
+        if(isServer())
         {
-            if (buildMissileBlocks)
+            if (ticks == 1 || ticks % 20 == 0)
             {
-                buildMissileBlocks = false;
-                MultiBlockHelper.buildMultiBlock(world(), (IMultiTileHost) getHost(), true, true);
-            }
-            else if (destroyMissileBlocks)
-            {
-                destroyMissileBlocks = false;
-                MultiBlockHelper.destroyMultiBlockStructure((IMultiTileHost) getHost(), false, true, false);
-            }
-        }
-        //Check to ensure the frame is still intact
-        if (ticks % frameUpdateCheckTick == 0)
-        {
-            //Check if broken by counting number of frames
-            int count = LauncherPartListener.getFrameCount(world(), new Pos(this).add(0, 1, 0));
-            MissileSize size = LauncherPartListener.getLauncherSize(count);
-            //If we do not have 5 blocks drop the missile and set the block back to CPU
-            if (size != missileSize)
-            {
-                dropItems();
-                Block blockDrop = InventoryUtility.getBlock("icbm:icbmLauncherParts");
-                if (blockDrop != null)
+                if (buildMissileBlocks)
                 {
-                    world().setBlock(xi(), yi(), zi(), blockDrop);
+                    buildMissileBlocks = false;
+                    MultiBlockHelper.buildMultiBlock(world(), (IMultiTileHost) getHost(), true, true);
+                }
+                else if (destroyMissileBlocks)
+                {
+                    destroyMissileBlocks = false;
+                    MultiBlockHelper.destroyMultiBlockStructure((IMultiTileHost) getHost(), false, true, false);
                 }
             }
-            else
+            //Check to ensure the frame is still intact
+            if (ticks % frameUpdateCheckTick == 0)
             {
-                //Updates top block meta for older versions of ICBM
-                int meta = world().getBlockMetadata(xi(), yi() + count, zi());
-                int dMeta = getMetaForDirection(getDirection());
-                if (meta != dMeta)
+                //Check if broken by counting number of frames
+                int count = LauncherPartListener.getFrameCount(world(), new Pos(this).add(0, 1, 0));
+                MissileSize size = LauncherPartListener.getLauncherSize(count);
+                //If we do not have 5 blocks drop the missile and set the block back to CPU
+                if (size != missileSize)
                 {
-                    world().setBlockMetadataWithNotify(xi(), yi() + count, zi(), dMeta, 3);
+                    dropItems();
+                    Block blockDrop = InventoryUtility.getBlock("icbm:icbmLauncherParts");
+                    if (blockDrop != null)
+                    {
+                        world().setBlock(xi(), yi(), zi(), blockDrop);
+                    }
+                }
+                else
+                {
+                    //Updates top block meta for older versions of ICBM
+                    int meta = world().getBlockMetadata(xi(), yi() + count, zi());
+                    int dMeta = getMetaForDirection(getDirection());
+                    if (meta != dMeta)
+                    {
+                        world().setBlockMetadataWithNotify(xi(), yi() + count, zi(), dMeta, 3);
+                    }
                 }
             }
         }

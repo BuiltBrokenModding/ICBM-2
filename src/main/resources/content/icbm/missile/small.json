@@ -10,7 +10,7 @@
     "bodyHeight": 2,
     "bodyCenterOffset": {
       "x": 0,
-      "y": 1,
+      "y": 1.125,
       "z": 0
     }
   },

@@ -79,33 +79,36 @@ public class TileEntityWrappedSmallMag extends TileEntityWrapper implements IMul
     @Override
     public boolean onMultiTileBroken(IMultiTile tileMulti, Object source, boolean harvest)
     {
-        if (getTileNode() instanceof IMultiTileHost)
+        if (isServer())
         {
-            return ((IMultiTileHost) getTileNode()).onMultiTileBroken(tileMulti, source, harvest);
-        }
-        for (List<ITileEventListener> list : _getMultiTileListeners())
-        {
-            if (list != null && !list.isEmpty())
+            if (getTileNode() instanceof IMultiTileHost)
             {
-                boolean b = false;
-                for (ITileEventListener listener : list)
+                return ((IMultiTileHost) getTileNode()).onMultiTileBroken(tileMulti, source, harvest);
+            }
+            for (List<ITileEventListener> list : _getMultiTileListeners())
+            {
+                if (list != null && !list.isEmpty())
                 {
-                    if (listener instanceof IMultiTileHost)
+                    boolean b = false;
+                    for (ITileEventListener listener : list)
                     {
-                        if (listener instanceof IBlockListener)
+                        if (listener instanceof IMultiTileHost)
                         {
-                            ((IBlockListener) listener).inject(world(), xi(), yi(), zi());
-                        }
-                        if (listener.isValidForTile())
-                        {
-                            if (((IMultiTileHost) listener).onMultiTileBroken(tileMulti, source, harvest))
+                            if (listener instanceof IBlockListener)
                             {
-                                b = true;
+                                ((IBlockListener) listener).inject(world(), xi(), yi(), zi());
+                            }
+                            if (listener.isValidForTile())
+                            {
+                                if (((IMultiTileHost) listener).onMultiTileBroken(tileMulti, source, harvest))
+                                {
+                                    b = true;
+                                }
                             }
                         }
                     }
+                    return b;
                 }
-                return b;
             }
         }
         return false;
@@ -114,25 +117,28 @@ public class TileEntityWrappedSmallMag extends TileEntityWrapper implements IMul
     @Override
     public void onTileInvalidate(IMultiTile tileMulti)
     {
-        if (getTileNode() instanceof IMultiTileHost)
+        if (isServer())
         {
-            ((IMultiTileHost) getTileNode()).onTileInvalidate(tileMulti);
-        }
-        for (List<ITileEventListener> list : _getMultiTileListeners())
-        {
-            if (list != null && !list.isEmpty())
+            if (getTileNode() instanceof IMultiTileHost)
             {
-                for (ITileEventListener listener : list)
+                ((IMultiTileHost) getTileNode()).onTileInvalidate(tileMulti);
+            }
+            for (List<ITileEventListener> list : _getMultiTileListeners())
+            {
+                if (list != null && !list.isEmpty())
                 {
-                    if (listener instanceof IMultiTileHost)
+                    for (ITileEventListener listener : list)
                     {
-                        if (listener instanceof IBlockListener)
+                        if (listener instanceof IMultiTileHost)
                         {
-                            ((IBlockListener) listener).inject(world(), xi(), yi(), zi());
-                        }
-                        if (listener.isValidForTile())
-                        {
-                            ((IMultiTileHost) listener).onTileInvalidate(tileMulti);
+                            if (listener instanceof IBlockListener)
+                            {
+                                ((IBlockListener) listener).inject(world(), xi(), yi(), zi());
+                            }
+                            if (listener.isValidForTile())
+                            {
+                                ((IMultiTileHost) listener).onTileInvalidate(tileMulti);
+                            }
                         }
                     }
                 }

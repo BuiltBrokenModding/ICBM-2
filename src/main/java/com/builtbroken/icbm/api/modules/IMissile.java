@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.api.modules;
 
 import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
+import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleContainer;
 
@@ -69,5 +70,18 @@ public interface IMissile extends IModuleContainer, IModule
     default double getWidth()
     {
         return 1;
+    }
+
+    /**
+     * Offset needed to translate the missile from the
+     * center so that the bottom will be on the ground.
+     * <p>
+     * Used by render code in launchers and silos
+     *
+     * @return pos, or null for zero
+     */
+    default IPos3D getCenterOffset()
+    {
+        return null;
     }
 }

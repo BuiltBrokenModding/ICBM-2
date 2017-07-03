@@ -16,6 +16,7 @@ import com.builtbroken.icbm.content.missile.parts.warhead.Warhead;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
+import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.json.imp.IJsonGenObject;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.items.ItemStackWrapper;
@@ -245,39 +246,29 @@ public class Missile implements IMissile, IJsonGenObject
         return data.getContentID();
     }
 
-    /**
-     * Max number of hit points the missile has
-     *
-     * @return
-     */
+    @Override
     public float getMaxHitPoints()
     {
         return data != null ? data.getHealth() : 10; //TODO implement
     }
 
-    /**
-     * How tall is the missile, mainly used
-     * for collsion box code and rendering
-     *
-     * @return height in meters
-     */
+    @Override
     public double getHeight()
     {
         return data != null ? data.getHeight() : 3; //TODO implement
     }
 
-
-    /**
-     * How wide is the missile, mainly used
-     * for collsion box code and rendering
-     *
-     * @return height in meters
-     */
+    @Override
     public double getWidth()
     {
         return data != null ? data.getWidth() : 0.5; //TODO implement
     }
 
+    @Override
+    public Pos getCenterOffset()
+    {
+        return data.getCenterOffset();
+    }
 
     /**
      * Called to create a new missile instance based on the size and explosive.
