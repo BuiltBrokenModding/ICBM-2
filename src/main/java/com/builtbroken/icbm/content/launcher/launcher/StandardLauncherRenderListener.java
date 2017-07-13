@@ -2,6 +2,7 @@ package com.builtbroken.icbm.content.launcher.launcher;
 
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.missile.client.RenderMissile;
+import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.mc.api.tile.listeners.IBlockListener;
 import com.builtbroken.mc.api.tile.listeners.ITileEventListener;
 import com.builtbroken.mc.api.tile.listeners.ITileEventListenerBuilder;
@@ -38,24 +39,49 @@ public class StandardLauncherRenderListener extends TileListener implements IBlo
     @SideOnly(Side.CLIENT)
     public void renderDynamic(TileEntity tile, double xx, double yy, double zz, float f)
     {
-        Pos center = new Pos(xx, yy, zz);
+        //Convert render position to pos for easy math
+        final Pos center = new Pos(xx, yy, zz);
+
+        //Only render if valid type
         if (tile instanceof ITileNodeHost && ((ITileNodeHost) tile).getTileNode() instanceof TileStandardLauncher)
         {
+            //Get type
             TileStandardLauncher launcher = (TileStandardLauncher) ((ITileNodeHost) tile).getTileNode();
+
+            //Render missile
             if (launcher.getMissile() != null)
             {
                 //Render launcher
                 GL11.glPushMatrix();
-                Pos pos = center.add(launcher.getDirection()).add(0.5, 0, 0.5);
+
+                //Calculate render position
+                Pos pos = center.add(0.5, 0, 0.5).add(launcher.getDirection());
+
+                //Offset 1 more if medium
+                if(launcher.missileSize == MissileSize.MEDIUM)
+                {
+                    pos = pos.add(launcher.getDirection());
+                }
+
+                //Offset render position based on missile type
                 if(launcher.getMissile().getCenterOffset() != null)
                 {
                     pos = pos.add(launcher.getMissile().getCenterOffset());
                 }
+
+                //Apply position
                 GL11.glTranslatef(pos.xf(), pos.yf(), pos.zf());
+
+                //Slight rotation to make missiles look nicer
                 GL11.glRotatef(45f, 0, 1, 0);
+
+                //Trigger render
                 RenderMissile.renderMissile(launcher.getMissile(), 0, 90, null);
+
+                //Reset
                 GL11.glPopMatrix();
             }
+            //Render recipe
             else if (launcher.recipe != null)
             {
                 if (!processedModel)

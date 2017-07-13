@@ -331,7 +331,7 @@ public class TileStandardLauncher extends TileAbstractLauncher implements IRotat
             case STANDARD:
                 return new Pos(getDirection()).add(0, 7, 0);
             case MEDIUM:
-                return new Pos(getDirection()).add(0, 19, 0);
+                return new Pos(getDirection()).multiply(2).add(0, 19, 0);
         }
         return new Pos(getDirection()).add(0, 20, 0);
     }
@@ -377,6 +377,10 @@ public class TileStandardLauncher extends TileAbstractLauncher implements IRotat
     @Override
     public void writeDescPacket(ByteBuf buf)
     {
+        //Size
+        buf.writeByte(missileSize.ordinal());
+
+        //missile data
         if (getMissileItem() != null)
         {
             buf.writeByte(0);
@@ -403,6 +407,10 @@ public class TileStandardLauncher extends TileAbstractLauncher implements IRotat
     @Override
     public void readDescPacket(ByteBuf buf)
     {
+        //Size
+        missileSize = MissileSize.get(buf.readByte());
+
+        //Missile data
         byte type = buf.readByte();
         if (type == 0)
         {
