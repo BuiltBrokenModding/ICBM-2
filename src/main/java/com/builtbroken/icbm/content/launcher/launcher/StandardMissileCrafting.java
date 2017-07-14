@@ -1,19 +1,19 @@
-package com.builtbroken.icbm.content.launcher.launcher.standard;
+package com.builtbroken.icbm.content.launcher.launcher;
 
 import com.builtbroken.icbm.api.modules.IGuidance;
 import com.builtbroken.icbm.api.modules.IRocketEngine;
 import com.builtbroken.icbm.api.modules.IWarhead;
+import com.builtbroken.icbm.content.missile.data.missile.Missile;
 import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
-import com.builtbroken.icbm.content.missile.parts.casing.Missile;
-import com.builtbroken.icbm.content.missile.parts.casing.MissileCasings;
+import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
+import com.builtbroken.jlib.data.network.IByteBufReader;
+import com.builtbroken.jlib.data.network.IByteBufWriter;
 import com.builtbroken.mc.api.ISave;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.core.Engine;
-import com.builtbroken.jlib.data.network.IByteBufReader;
-import com.builtbroken.jlib.data.network.IByteBufWriter;
-import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import com.builtbroken.mc.imp.transform.vector.Location;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
@@ -419,7 +419,7 @@ public class StandardMissileCrafting implements ISave, IByteBufWriter, IByteBufR
      */
     public Missile getMissile()
     {
-        Missile missile = MissileModuleBuilder.INSTANCE.buildMissile(MissileCasings.STANDARD, null, null, null);
+        Missile missile = new Missile(MissileSize.STANDARD.getDefaultMissileCasing()); //TODO change to reference extract casing data
         if (warhead != null)
         {
             missile.setWarhead(MissileModuleBuilder.INSTANCE.buildWarhead(warhead));

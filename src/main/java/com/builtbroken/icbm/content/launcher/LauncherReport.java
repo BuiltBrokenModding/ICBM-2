@@ -2,7 +2,6 @@ package com.builtbroken.icbm.content.launcher;
 
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
-import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
 import com.builtbroken.icbm.content.missile.entity.EntityMissile;
 import com.builtbroken.mc.api.ISave;
 import net.minecraft.item.ItemStack;
@@ -46,16 +45,9 @@ public class LauncherReport implements ISave
         if (nbt.hasKey("missile"))
         {
             ItemStack missileStack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("missile"));
-            if(missileStack != null)
+            if (missileStack != null && missileStack.getItem() instanceof IMissileItem)
             {
-                if (missileStack.getItem() instanceof IMissileItem)
-                {
-                    missile = ((IMissileItem) missileStack.getItem()).toMissile(missileStack);
-                }
-                else
-                {
-                    missile = MissileModuleBuilder.INSTANCE.buildMissile(missileStack);
-                }
+                missile = ((IMissileItem) missileStack.getItem()).toMissile(missileStack);
             }
         }
         if (nbt.hasKey("start"))

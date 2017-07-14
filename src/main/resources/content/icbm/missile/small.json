@@ -1,0 +1,146 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "missile": {
+    "id": "icbm:smallMissile",
+    "bodySizeClassification": "small",
+    "default": true,
+    "bodyWidth": 0.5,
+    "bodyHeight": 2,
+    "bodyCenterOffset": {
+      "x": 0,
+      "y": 1.125,
+      "z": 0
+    }
+  },
+  "render": {
+    "contentID": "missile.icbm:smallMissile",
+    "type": "item",
+    "states": [
+      {
+        "id": "base",
+        "renderType": "model",
+        "modelID": "icbm:smallMissile",
+        "textureID": "icbm:smallMissile"
+      },
+      {
+        "id": "item.inventory",
+        "renderType": "item",
+        "textureID": "icbm:smallMissileIcon"
+      },
+      {
+        "id": "item.equipped",
+        "renderType": "model",
+        "parent": "base",
+        "offset": {
+          "x": 0.4,
+          "y": 0.4,
+          "z": 0.4
+        },
+        "scale": 2
+      },
+      {
+        "id": "item.first",
+        "renderType": "model",
+        "parent": "base",
+        "offset": {
+          "x": -0.2,
+          "y": 0.3,
+          "z": -0.4
+        },
+        "rotation": {
+          "yaw": 180
+        },
+        "scale": 2
+      },
+      {
+        "id": "item.entity",
+        "renderType": "model",
+        "parent": "base",
+        "offset": {
+          "x": 0,
+          "y": 0.2,
+          "z": 0
+        }
+      },
+      {
+        "id": "entity",
+        "renderType": "model",
+        "parent": "base",
+        "rotationOrder": [
+          "yaw",
+          "pitch"
+        ],
+        "rotation": {
+          "yaw": -180,
+          "pitch": -90
+        },
+        "offset": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "id": "missile.body",
+        "renderType": "model",
+        "parent": "base",
+        "parts": [
+          "Group_001",
+          "Component_1_001",
+          "Component_1_002",
+          "Component_1_003",
+          "Component_1_004"
+        ]
+      },
+      {
+        "id": "missile.warhead",
+        "renderType": "model",
+        "parent": "base",
+        "parts": [
+          "Group_005"
+        ]
+      },
+      {
+        "id": "missile.warhead.ex",
+        "renderType": "model",
+        "parent": "base",
+        "parts": [
+          "Group_004"
+        ]
+      },
+      {
+        "id": "missile.engine",
+        "renderType": "model",
+        "parent": "base",
+        "parts": [
+          "Group_002",
+          "Group_003",
+          {
+            "for": {
+              "start": 1,
+              "end": 8,
+              "_comment": "8 lower engine segments",
+              "part": "Component_3_00%number%"
+            }
+          },
+          {
+            "for": {
+              "start": 1,
+              "end": 4,
+              "_comment": "4 engine fins",
+              "part": "Component_2_00%number%"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "texture:1": {
+    "key": "icbm:smallMissileIcon",
+    "domain": "icbm",
+    "name": "small.missile",
+    "type": "item"
+  }
+}

@@ -42,6 +42,7 @@ public class ItemMissileCart extends Item implements IRecipeContainer
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean p_77624_4_)
     {
         list.add("Size: " + MissileCartTypes.values()[stack.getItemDamage()]);
+        list.add("Works with AssemblyLine mod rails only");
     }
 
     @Override

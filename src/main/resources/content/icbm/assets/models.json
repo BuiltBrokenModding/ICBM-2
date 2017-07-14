@@ -18,5 +18,15 @@
     "key": "icbm:mediumMissile",
     "domain": "icbm",
     "name": "missile/Missile_Medium.obj"
+  },
+  "model:4": {
+    "key": "icbm:microMissile",
+    "domain": "icbm",
+    "name": "missile/micro.obj"
+  },
+  "model:5": {
+    "key": "icbm:standardMissile",
+    "domain": "icbm",
+    "name": "missile/Missile_Standard.obj"
   }
 }

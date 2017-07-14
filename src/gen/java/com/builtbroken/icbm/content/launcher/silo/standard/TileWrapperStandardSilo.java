@@ -15,7 +15,6 @@ import com.builtbroken.mc.api.tile.listeners.ITileEventListener;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
 import com.builtbroken.mc.api.tile.node.ITileNode;
-import com.builtbroken.mc.framework.block.BlockBase;
 import com.builtbroken.mc.framework.logic.wrapper.TileEntityWrapper;
 import net.minecraft.entity.player.EntityPlayer;
 import java.util.HashMap;
@@ -33,6 +32,7 @@ public class TileWrapperStandardSilo extends TileEntityWrapper implements IMulti
 	//============================
 
 
+
     @Override
     public void onMultiTileAdded(IMultiTile tileMulti)
     {
@@ -40,7 +40,7 @@ public class TileWrapperStandardSilo extends TileEntityWrapper implements IMulti
         {
             ((IMultiTileHost) getTileNode()).onMultiTileAdded(tileMulti);
         }
-        for (List<ITileEventListener> list : new List[]{getListeners("multiblock"), ((BlockBase) getBlockType()).listeners.get("multiblock")})
+        for (List<ITileEventListener> list : getMultiTileListeners("multiblock"))
         {
             if (list != null && !list.isEmpty())
             {
@@ -48,11 +48,14 @@ public class TileWrapperStandardSilo extends TileEntityWrapper implements IMulti
                 {
                     if (listener instanceof IMultiTileHost)
                     {
-                        if(listener instanceof IBlockListener)
+                        if (listener instanceof IBlockListener)
                         {
                             ((IBlockListener) listener).inject(world(), xi(), yi(), zi());
                         }
-                        ((IMultiTileHost) listener).onMultiTileAdded(tileMulti);
+                        if (listener.isValidForTile())
+                        {
+                            ((IMultiTileHost) listener).onMultiTileAdded(tileMulti);
+                        }
                     }
                 }
             }
@@ -62,30 +65,36 @@ public class TileWrapperStandardSilo extends TileEntityWrapper implements IMulti
     @Override
     public boolean onMultiTileBroken(IMultiTile tileMulti, Object source, boolean harvest)
     {
-        if (getTileNode() instanceof IMultiTileHost)
+        if (isServer())
         {
-            return ((IMultiTileHost) getTileNode()).onMultiTileBroken(tileMulti, source, harvest);
-        }
-        for (List<ITileEventListener> list : new List[]{getListeners("multiblock"), ((BlockBase) getBlockType()).listeners.get("multiblock")})
-        {
-            if (list != null && !list.isEmpty())
+            if (getTileNode() instanceof IMultiTileHost)
             {
-                boolean b = false;
-                for (ITileEventListener listener : list)
+                return ((IMultiTileHost) getTileNode()).onMultiTileBroken(tileMulti, source, harvest);
+            }
+            for (List<ITileEventListener> list : getMultiTileListeners("multiblock"))
+            {
+                if (list != null && !list.isEmpty())
                 {
-                    if (listener instanceof IMultiTileHost)
+                    boolean b = false;
+                    for (ITileEventListener listener : list)
                     {
-                        if(listener instanceof IBlockListener)
+                        if (listener instanceof IMultiTileHost)
                         {
-                            ((IBlockListener) listener).inject(world(), xi(), yi(), zi());
-                        }
-                        if (((IMultiTileHost) listener).onMultiTileBroken(tileMulti, source, harvest))
-                        {
-                            b = true;
+                            if (listener instanceof IBlockListener)
+                            {
+                                ((IBlockListener) listener).inject(world(), xi(), yi(), zi());
+                            }
+                            if (listener.isValidForTile())
+                            {
+                                if (((IMultiTileHost) listener).onMultiTileBroken(tileMulti, source, harvest))
+                                {
+                                    b = true;
+                                }
+                            }
                         }
                     }
+                    return b;
                 }
-                return b;
             }
         }
         return false;
@@ -94,23 +103,29 @@ public class TileWrapperStandardSilo extends TileEntityWrapper implements IMulti
     @Override
     public void onTileInvalidate(IMultiTile tileMulti)
     {
-        if (getTileNode() instanceof IMultiTileHost)
+        if (isServer())
         {
-            ((IMultiTileHost) getTileNode()).onTileInvalidate(tileMulti);
-        }
-        for (List<ITileEventListener> list : new List[]{getListeners("multiblock"), ((BlockBase) getBlockType()).listeners.get("multiblock")})
-        {
-            if (list != null && !list.isEmpty())
+            if (getTileNode() instanceof IMultiTileHost)
             {
-                for (ITileEventListener listener : list)
+                ((IMultiTileHost) getTileNode()).onTileInvalidate(tileMulti);
+            }
+            for (List<ITileEventListener> list : getMultiTileListeners("multiblock"))
+            {
+                if (list != null && !list.isEmpty())
                 {
-                    if (listener instanceof IMultiTileHost)
+                    for (ITileEventListener listener : list)
                     {
-                        if(listener instanceof IBlockListener)
+                        if (listener instanceof IMultiTileHost)
                         {
-                            ((IBlockListener) listener).inject(world(), xi(), yi(), zi());
+                            if (listener instanceof IBlockListener)
+                            {
+                                ((IBlockListener) listener).inject(world(), xi(), yi(), zi());
+                            }
+                            if (listener.isValidForTile())
+                            {
+                                ((IMultiTileHost) listener).onTileInvalidate(tileMulti);
+                            }
                         }
-                        ((IMultiTileHost) listener).onTileInvalidate(tileMulti);
                     }
                 }
             }
@@ -125,7 +140,7 @@ public class TileWrapperStandardSilo extends TileEntityWrapper implements IMulti
         {
             b = ((IMultiTileHost) getTileNode()).onMultiTileActivated(tile, player, side, xHit, yHit, zHit);
         }
-        for (List<ITileEventListener> list : new List[]{getListeners("multiblock"), ((BlockBase) getBlockType()).listeners.get("multiblock")})
+        for (List<ITileEventListener> list : getMultiTileListeners("multiblock"))
         {
             if (list != null && !list.isEmpty())
             {
@@ -133,13 +148,16 @@ public class TileWrapperStandardSilo extends TileEntityWrapper implements IMulti
                 {
                     if (listener instanceof IMultiTileHost)
                     {
-                        if(listener instanceof IBlockListener)
+                        if (listener instanceof IBlockListener)
                         {
                             ((IBlockListener) listener).inject(world(), xi(), yi(), zi());
                         }
-                        if (((IMultiTileHost) listener).onMultiTileActivated(tile, player, side, xHit, yHit, zHit))
+                        if (listener.isValidForTile())
                         {
-                            b = true;
+                            if (((IMultiTileHost) listener).onMultiTileActivated(tile, player, side, xHit, yHit, zHit))
+                            {
+                                b = true;
+                            }
                         }
                     }
                 }
@@ -155,7 +173,7 @@ public class TileWrapperStandardSilo extends TileEntityWrapper implements IMulti
         {
             ((IMultiTileHost) getTileNode()).onMultiTileClicked(tile, player);
         }
-        for (List<ITileEventListener> list : new List[]{getListeners("multiblock"), ((BlockBase) getBlockType()).listeners.get("multiblock")})
+        for (List<ITileEventListener> list : getMultiTileListeners("multiblock"))
         {
             if (list != null && !list.isEmpty())
             {
@@ -163,11 +181,14 @@ public class TileWrapperStandardSilo extends TileEntityWrapper implements IMulti
                 {
                     if (listener instanceof IMultiTileHost)
                     {
-                        if(listener instanceof IBlockListener)
+                        if (listener instanceof IBlockListener)
                         {
                             ((IBlockListener) listener).inject(world(), xi(), yi(), zi());
                         }
-                        ((IMultiTileHost) listener).onMultiTileClicked(tile, player);
+                        if (listener.isValidForTile())
+                        {
+                            ((IMultiTileHost) listener).onMultiTileClicked(tile, player);
+                        }
                     }
                 }
             }
@@ -185,7 +206,7 @@ public class TileWrapperStandardSilo extends TileEntityWrapper implements IMulti
                 return map;
             }
         }
-        for (List<ITileEventListener> list : new List[]{getListeners("multiblock"), ((BlockBase) getBlockType()).listeners.get("multiblock")})
+        for (List<ITileEventListener> list : getMultiTileListeners("multiblock"))
         {
             if (list != null && !list.isEmpty())
             {
@@ -193,14 +214,17 @@ public class TileWrapperStandardSilo extends TileEntityWrapper implements IMulti
                 {
                     if (listener instanceof IMultiTileHost)
                     {
-                        if(listener instanceof IBlockListener)
+                        if (listener instanceof IBlockListener)
                         {
                             ((IBlockListener) listener).inject(world(), xi(), yi(), zi());
                         }
-                        HashMap<IPos3D, String> map = ((IMultiTileHost) listener).getLayoutOfMultiBlock();
-                        if (map != null && !map.isEmpty())
+                        if (listener.isValidForTile())
                         {
-                            return map;
+                            HashMap<IPos3D, String> map = ((IMultiTileHost) listener).getLayoutOfMultiBlock();
+                            if (map != null && !map.isEmpty())
+                            {
+                                return map;
+                            }
                         }
                     }
                 }

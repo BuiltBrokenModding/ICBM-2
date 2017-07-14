@@ -1,9 +1,9 @@
 package com.builtbroken.icbm.content.rail;
 
-import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
-import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
+import com.builtbroken.mc.api.IInventoryFilter;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.api.rails.ITransportCartHasItem;
@@ -11,7 +11,6 @@ import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.lib.helper.WrenchUtility;
 import com.builtbroken.mc.prefab.entity.cart.EntityAbstractCart;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
-import com.builtbroken.mc.api.IInventoryFilter;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import io.netty.buffer.ByteBuf;
@@ -96,7 +95,7 @@ public class EntityMissileCart extends EntityAbstractCart implements IPacketIDRe
             }
             else
             {
-                missile = MissileModuleBuilder.INSTANCE.buildMissile(heldItem);
+                missile = null;
             }
 
             if (missile != null)
@@ -148,7 +147,7 @@ public class EntityMissileCart extends EntityAbstractCart implements IPacketIDRe
 
     public ItemStack toStack()
     {
-        return new ItemStack(ICBM.itemMissileCart, 1, getType().ordinal());
+        return new ItemStack(ICBM_API.itemMissileCart, 1, getType().ordinal());
     }
 
     @Override
@@ -226,7 +225,7 @@ public class EntityMissileCart extends EntityAbstractCart implements IPacketIDRe
             }
             else
             {
-                missile = MissileModuleBuilder.INSTANCE.buildMissile(cargo);
+                missile = null;
             }
             setCargoMissile(missile);
         }

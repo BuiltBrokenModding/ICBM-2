@@ -3,9 +3,9 @@ package com.builtbroken.icbm.content.fragments;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.mc.api.data.EnumProjectileTypes;
 import com.builtbroken.mc.core.Engine;
-import com.builtbroken.mc.lib.helper.MathUtility;
 import com.builtbroken.mc.imp.transform.region.Cube;
 import com.builtbroken.mc.imp.transform.vector.Pos;
+import com.builtbroken.mc.lib.helper.MathUtility;
 import com.builtbroken.mc.prefab.entity.EntityProjectile;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import io.netty.buffer.ByteBuf;
@@ -148,7 +148,7 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
         if (!inGround && isOnFire() && worldObj.rand.nextBoolean())
         {
             final Pos firePos = new Pos(movingobjectposition).add(ForgeDirection.getOrientation(movingobjectposition.sideHit));
-            if (firePos.isReplaceable(worldObj) &&  !(inBlockID == Blocks.water || inBlockID == Blocks.flowing_water || inBlockID instanceof IFluidBlock || inBlockID instanceof BlockLiquid))
+            if (firePos.isReplaceable(worldObj) && !(inBlockID == Blocks.water || inBlockID == Blocks.flowing_water || inBlockID instanceof IFluidBlock || inBlockID instanceof BlockLiquid))
             {
                 firePos.setBlock(worldObj, Blocks.fire);
                 worldObj.markBlockForUpdate(firePos.xi(), firePos.yi(), firePos.zi());
@@ -192,6 +192,11 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
         //TODO implement blood on impact
         if (!(entityHit instanceof EntityFragment))
         {
+            if (fragmentType == null)
+            {
+                return;
+            }
+
             float damage = 1;
             if (fragmentType == FragmentType.BLOCK && fragmentMaterial != null)
             {

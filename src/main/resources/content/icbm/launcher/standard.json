@@ -12,26 +12,105 @@
     "pickBlock": "block@icbmLauncherParts",
     "tileEntity": {
       "id": "standardlauncher",
-      "class": "com.builtbroken.icbm.content.launcher.launcher.standard.TileWrapperStandardLauncher"
-    },
-    "renderBounds": {
-      "min": {
-        "x": -1,
-        "y": 0,
-        "z": -1
-      },
-      "max": {
-        "x": 1,
-        "y": 7,
-        "z": 1
-      }
+      "class": "com.builtbroken.icbm.content.launcher.launcher.TileWrapperStandardLauncher"
     },
     "listeners": [
       {
         "id": "multiblock",
+        "contentUseID": "launcher.micro",
+        "layoutKey": "icbm:microLauncher",
+        "doRotation": true,
+        "buildFirstTick": false,
+        "directionOffset": true
+      },
+      {
+        "id": "renderBounds",
+        "contentUseID": "launcher.micro",
+        "box": {
+          "min": {
+            "x": -1,
+            "y": 0,
+            "z": -1
+          },
+          "max": {
+            "x": 1,
+            "y": 3,
+            "z": 1
+          }
+        }
+      },
+      {
+        "id": "multiblock",
+        "contentUseID": "launcher.small",
+        "layoutKey": "icbm:smallLauncher",
+        "doRotation": true,
+        "buildFirstTick": false,
+        "directionOffset": true
+      },
+      {
+        "id": "renderBounds",
+        "contentUseID": "launcher.small",
+        "box": {
+          "min": {
+            "x": -1,
+            "y": 0,
+            "z": -1
+          },
+          "max": {
+            "x": 1,
+            "y": 4,
+            "z": 1
+          }
+        }
+      },
+      {
+        "id": "multiblock",
+        "contentUseID": "launcher.standard",
         "layoutKey": "icbm:standardLauncher",
         "doRotation": true,
-        "buildFirstTick": false
+        "buildFirstTick": false,
+        "directionOffset": true
+      },
+      {
+        "id": "renderBounds",
+        "contentUseID": "launcher.standard",
+        "box": {
+          "min": {
+            "x": -1,
+            "y": 0,
+            "z": -1
+          },
+          "max": {
+            "x": 1,
+            "y": 7,
+            "z": 1
+          }
+        }
+      },
+      {
+        "id": "multiblock",
+        "contentUseID": "launcher.medium",
+        "layoutKey": "icbm:mediumLauncher",
+        "doRotation": true,
+        "buildFirstTick": false,
+        "directionOffset": true,
+        "directionMultiplier": 2
+      },
+      {
+        "id": "renderBounds",
+        "contentUseID": "launcher.medium",
+        "box": {
+          "min": {
+            "x": -3,
+            "y": 0,
+            "z": -3
+          },
+          "max": {
+            "x": 3,
+            "y": 30,
+            "z": 3
+          }
+        }
       },
       "StandardLauncherRenderListener"
     ]
@@ -39,7 +118,7 @@
   "render": {
     "contentID": "icbm:standardlauncher",
     "type": "tile",
-    "tileClass": "com.builtbroken.icbm.content.launcher.launcher.standard.TileWrapperStandardLauncher",
+    "tileClass": "com.builtbroken.icbm.content.launcher.launcher.TileWrapperStandardLauncher",
     "states": [
       {
         "id": "block",
@@ -49,215 +128,80 @@
       }
     ]
   },
-  "multiblock": {
-    "key": "icbm:standardLauncher.north",
+  "multiblock:0": {
+    "key": "icbm:microLauncher",
     "tiles": [
       {
-        "pos": {
-          "x": 0,
-          "y": 0,
-          "z": -1
-        },
-        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
-      },
-      {
-        "pos": {
-          "x": 0,
-          "y": 1,
-          "z": -1
-        },
-        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
-      },
-      {
-        "pos": {
-          "x": 0,
-          "y": 2,
-          "z": -1
-        },
-        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
-      },
-      {
-        "pos": {
-          "x": 0,
-          "y": 3,
-          "z": -1
-        },
-        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
-      },
-      {
-        "pos": {
-          "x": 0,
-          "y": 4,
-          "z": -1
-        },
-        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
-      },
-      {
-        "pos": {
-          "x": 0,
-          "y": 5,
-          "z": -1
-        },
-        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
+        "for": {
+          "start": 0,
+          "end": 1,
+          "multiblock": {
+            "pos": {
+              "y": "%number%"
+            }
+          }
+        }
       }
     ]
   },
   "multiblock:1": {
-    "key": "icbm:standardLauncher.south",
+    "key": "icbm:smallLauncher",
     "tiles": [
       {
-        "pos": {
-          "x": 0,
-          "y": 0,
-          "z": 1
-        },
-        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
-      },
-      {
-        "pos": {
-          "x": 0,
-          "y": 1,
-          "z": 1
-        },
-        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
-      },
-      {
-        "pos": {
-          "x": 0,
-          "y": 2,
-          "z": 1
-        },
-        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
-      },
-      {
-        "pos": {
-          "x": 0,
-          "y": 3,
-          "z": 1
-        },
-        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
-      },
-      {
-        "pos": {
-          "x": 0,
-          "y": 4,
-          "z": 1
-        },
-        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
-      },
-      {
-        "pos": {
-          "x": 0,
-          "y": 5,
-          "z": 1
-        },
-        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
+        "for": {
+          "start": 0,
+          "end": 2,
+          "multiblock": {
+            "pos": {
+              "y": "%number%"
+            }
+          }
+        }
       }
     ]
   },
   "multiblock:2": {
-    "key": "icbm:standardLauncher.east",
+    "key": "icbm:standardLauncher",
     "tiles": [
       {
-        "pos": {
-          "x": 1,
-          "y": 0,
-          "z": 0
-        },
-        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
-      },
-      {
-        "pos": {
-          "x": 1,
-          "y": 1,
-          "z": 0
-        },
-        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
-      },
-      {
-        "pos": {
-          "x": 1,
-          "y": 2,
-          "z": 0
-        },
-        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
-      },
-      {
-        "pos": {
-          "x": 1,
-          "y": 3,
-          "z": 0
-        },
-        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
-      },
-      {
-        "pos": {
-          "x": 1,
-          "y": 4,
-          "z": 0
-        },
-        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
-      },
-      {
-        "pos": {
-          "x": 1,
-          "y": 5,
-          "z": 0
-        },
-        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
+        "for": {
+          "start": 0,
+          "end": 5,
+          "multiblock": {
+            "pos": {
+              "y": "%number%"
+            }
+          }
+        }
       }
     ]
   },
   "multiblock:3": {
-    "key": "icbm:standardLauncher.west",
+    "key": "icbm:mediumLauncher",
     "tiles": [
       {
-        "pos": {
-          "x": -1,
-          "y": 0,
-          "z": 0
-        },
-        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
-      },
-      {
-        "pos": {
-          "x": -1,
-          "y": 1,
-          "z": 0
-        },
-        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
-      },
-      {
-        "pos": {
-          "x": -1,
-          "y": 2,
-          "z": 0
-        },
-        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
-      },
-      {
-        "pos": {
-          "x": -1,
-          "y": 3,
-          "z": 0
-        },
-        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
-      },
-      {
-        "pos": {
-          "x": -1,
-          "y": 4,
-          "z": 0
-        },
-        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
-      },
-      {
-        "pos": {
-          "x": -1,
-          "y": 5,
-          "z": 0
-        },
-        "data": "bounds={0.3,0,0.3,0.7,1,0.7}"
+        "for": {
+          "start": 0,
+          "end": 18,
+          "id": "y",
+          "for": {
+            "start": -1,
+            "end": 1,
+            "id": "x",
+            "for": {
+              "start": -1,
+              "end": 1,
+              "id": "z",
+              "multiblock": {
+                "pos": {
+                  "x": "%x%",
+                  "y": "%y%",
+                  "z": "%z%"
+                }
+              }
+            }
+          }
+        }
       }
     ]
   }

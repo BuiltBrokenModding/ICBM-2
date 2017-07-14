@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.items.parts;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import com.builtbroken.mc.prefab.items.ItemAbstract;
@@ -120,7 +121,7 @@ public class ItemExplosiveParts extends ItemAbstract implements IPostInit
 
         public ItemStack newItem()
         {
-            return new ItemStack(ICBM.itemExplosivePart, 1, ordinal());
+            return new ItemStack(ICBM_API.itemExplosivePart, 1, ordinal());
         }
 
     }

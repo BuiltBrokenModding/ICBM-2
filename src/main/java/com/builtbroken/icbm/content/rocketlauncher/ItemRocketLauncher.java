@@ -1,9 +1,11 @@
 package com.builtbroken.icbm.content.rocketlauncher;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.mc.api.data.weapon.IAmmoType;
 import com.builtbroken.mc.api.items.weapons.IItemAmmo;
 import com.builtbroken.mc.api.items.weapons.IItemReloadableWeapon;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.helper.recipe.OreNames;
@@ -47,7 +49,7 @@ public class ItemRocketLauncher extends Item implements IItemReloadableWeapon, I
     @Override
     public void onPostInit()
     {
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM.itemRocketLauncher), "III", " FC", "III", 'I', OreNames.INGOT_IRON, 'F', OreNames.FLINT, 'C', UniversalRecipe.CIRCUIT_T1.get()));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ICBM_API.itemRocketLauncher), "III", " FC", "III", 'I', OreNames.INGOT_IRON, 'F', OreNames.FLINT, 'C', UniversalRecipe.CIRCUIT_T1.get()));
     }
 
     @Override
@@ -85,7 +87,7 @@ public class ItemRocketLauncher extends Item implements IItemReloadableWeapon, I
                         if (ammo.isAmmo(inventoryStack))
                         {
                             IAmmoType type = ammo.getAmmoData(inventoryStack).getAmmoType();
-                            if ("missile".equalsIgnoreCase(type.getAmmoCategory()) && ("micro".equalsIgnoreCase(type.getAmmoType()) || "small".equalsIgnoreCase(type.getAmmoType())))
+                            if ("missile".equalsIgnoreCase(type.getAmmoCategory()) && ("micro".equalsIgnoreCase(type.getAmmoType()) || "small".equalsIgnoreCase(type.getAmmoType()) || Engine.runningAsDev))
                             {
                                 ammo.fireAmmo(this, itemStack, inventoryStack, player);
 
@@ -127,7 +129,7 @@ public class ItemRocketLauncher extends Item implements IItemReloadableWeapon, I
 
         if (currentItem != null && (event.player != Minecraft.getMinecraft().renderViewEntity || Minecraft.getMinecraft().gameSettings.thirdPersonView != 0))
         {
-            if (currentItem.getItem() == ICBM.itemRocketLauncher)
+            if (currentItem.getItem() == ICBM_API.itemRocketLauncher)
             {
                 if (event.player.getItemInUseCount() <= 0)
                 {

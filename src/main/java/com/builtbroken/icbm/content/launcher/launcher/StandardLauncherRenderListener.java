@@ -1,7 +1,8 @@
-package com.builtbroken.icbm.content.launcher.launcher.standard;
+package com.builtbroken.icbm.content.launcher.launcher;
 
-import com.builtbroken.icbm.api.missile.ICustomMissileRender;
 import com.builtbroken.icbm.client.Assets;
+import com.builtbroken.icbm.content.missile.client.RenderMissile;
+import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.mc.api.tile.listeners.IBlockListener;
 import com.builtbroken.mc.api.tile.listeners.ITileEventListener;
 import com.builtbroken.mc.api.tile.listeners.ITileEventListenerBuilder;
@@ -15,7 +16,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.client.model.obj.GroupObject;
-import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -38,24 +38,49 @@ public class StandardLauncherRenderListener extends TileListener implements IBlo
     @SideOnly(Side.CLIENT)
     public void renderDynamic(TileEntity tile, double xx, double yy, double zz, float f)
     {
-        Pos center = new Pos(xx, yy, zz);
+        //Convert render position to pos for easy math
+        final Pos center = new Pos(xx, yy, zz);
+
+        //Only render if valid type
         if (tile instanceof ITileNodeHost && ((ITileNodeHost) tile).getTileNode() instanceof TileStandardLauncher)
         {
+            //Get type
             TileStandardLauncher launcher = (TileStandardLauncher) ((ITileNodeHost) tile).getTileNode();
+
+            //Render missile
             if (launcher.getMissile() != null)
             {
                 //Render launcher
                 GL11.glPushMatrix();
-                Pos pos = center.add(launcher.getDirection()).add(0.5, 0, 0.5);
-                GL11.glTranslatef(pos.xf(), pos.yf(), pos.zf());
-                GL11.glRotatef(45f, 0, 1, 0);
-                if (launcher.getMissile() instanceof ICustomMissileRender)
+
+                //Calculate render position
+                Pos pos = center.add(0.5, 0, 0.5).add(launcher.getDirection());
+
+                //Offset 1 more if medium
+                if(launcher.missileSize == MissileSize.MEDIUM)
                 {
-                    GL11.glTranslatef(0, ((ICustomMissileRender) launcher.getMissile()).getRenderHeightOffset(), 0);
-                    ((ICustomMissileRender) launcher.getMissile()).renderMissileInWorld(0, 0, 0);
+                    pos = pos.add(launcher.getDirection());
                 }
+
+                //Offset render position based on missile type
+                if(launcher.getMissile().getCenterOffset() != null)
+                {
+                    pos = pos.add(launcher.getMissile().getCenterOffset());
+                }
+
+                //Apply position
+                GL11.glTranslatef(pos.xf(), pos.yf(), pos.zf());
+
+                //Slight rotation to make missiles look nicer
+                GL11.glRotatef(45f, 0, 1, 0);
+
+                //Trigger render
+                RenderMissile.renderMissile(launcher.getMissile(), 0, 90, null);
+
+                //Reset
                 GL11.glPopMatrix();
             }
+            //Render recipe
             else if (launcher.recipe != null)
             {
                 if (!processedModel)
@@ -68,7 +93,7 @@ public class StandardLauncherRenderListener extends TileListener implements IBlo
                 Pos pos = center;
 
                 final float yf = 2.2f;
-                switch (ForgeDirection.getOrientation(launcher.getHost().getHostMeta()))
+                switch (launcher.getDirection())
                 {
                     case NORTH:
                         pos = pos.add(-0.65, yf, 0.95);
@@ -144,6 +169,8 @@ public class StandardLauncherRenderListener extends TileListener implements IBlo
 
     private static void processModel()
     {
+        //TODO convert to JSON
+        //TODO in order to convert to JSON this will require a bit of for looping and layered rendering. Layered in such a way that only 1 render pass is done but all the sub parts are included
         processedModel = true;
         for (GroupObject object : Assets.STANDARD_MISSILE_MODEL_2.groupObjects)
         {

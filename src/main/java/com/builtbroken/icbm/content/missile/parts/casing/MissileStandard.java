@@ -16,18 +16,13 @@ import org.lwjgl.opengl.GL11;
  * Standard Missile Casing
  * Created by robert on 12/29/2014.
  */
-public final class MissileStandard extends Missile implements ICustomMissileRender
+public final class MissileStandard implements ICustomMissileRender
 {
     private static final float inventoryScale = 0.45f;
     private static final float worldScale = 1f;
 
     private static GroupObject BODY;
     private static GroupObject FINS;
-
-    public MissileStandard(ItemStack stack)
-    {
-        super(stack, MissileCasings.STANDARD);
-    }
 
     @Override
     @SideOnly(Side.CLIENT)
@@ -110,13 +105,11 @@ public final class MissileStandard extends Missile implements ICustomMissileRend
         return ((float)getHeight() / 2f) - 0.375f;
     }
 
-    @Override
     public double getHeight()
     {
         return 4.6;
     }
 
-    @Override
     public double getWidth()
     {
         return 0.6;

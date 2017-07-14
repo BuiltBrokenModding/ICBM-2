@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.client;
 
-import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.mc.lib.mod.ModCreativeTab;
 
 import java.util.List;
@@ -19,6 +19,6 @@ public class CreativeTabWarheads extends ModCreativeTab
     @Override
     public void displayAllReleventItems(List list)
     {
-        add(list, ICBM.blockWarhead);
+        add(list, ICBM_API.blockWarhead);
     }
 }

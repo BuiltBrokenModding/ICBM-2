@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.launcher.controller.remote.display;
 
 import com.builtbroken.icbm.api.controller.ISiloConnectionData;
 import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCommandSiloConnector;
-import com.builtbroken.icbm.content.launcher.launcher.TileAbstractLauncherPad;
+import com.builtbroken.icbm.content.launcher.launcher.TileStandardLauncher;
 import com.builtbroken.mc.api.map.radio.wireless.ConnectionStatus;
 import com.builtbroken.mc.client.SharedAssets;
 import com.builtbroken.mc.imp.transform.region.Rectangle;
@@ -156,7 +156,7 @@ public class GuiSiloInterface extends GuiContainerBase
                         for (int i = index; i < silos.size() && i < index + SILO_ON_SCREEN; i++)
                         {
                             ISiloConnectionData data = silos.get(i);
-                            String siloPrefix = (data.getSilo() instanceof TileAbstractLauncherPad ? launcherLabel : siloLabel);
+                            String siloPrefix = (data.getSilo() instanceof TileStandardLauncher ? launcherLabel : siloLabel);
                             GuiButton2 button = new GuiButton2(10 + i, guiLeft + 36, guiTop + 10 + (row * 21), 80, 20, siloPrefix + "[" + i + "]");
                             if (data != null)
                             {

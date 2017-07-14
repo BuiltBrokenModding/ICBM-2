@@ -1,11 +1,11 @@
 package com.builtbroken.icbm.content.crafting.station.small;
 
-import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
-import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
-import com.builtbroken.icbm.content.missile.parts.casing.MissileCasings;
+import com.builtbroken.icbm.content.missile.data.missile.Missile;
+import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.icbm.content.missile.parts.engine.RocketEngine;
 import com.builtbroken.icbm.content.missile.parts.guidance.Guidance;
 import com.builtbroken.icbm.content.missile.parts.warhead.Warhead;
@@ -61,7 +61,7 @@ public class TileSmallMissileWorkstation extends TileSmallMissileStationBase imp
     public void onPostInit()
     {
         //TODO make recipe more complex, involving crafting each armature
-        GameRegistry.addRecipe(new RecipeTool(new ItemStack(ICBM.blockMissileWorkstation), "RRR", "HCD", "PPP", 'R', "rodIron", 'P', "plateIron", 'H', Engine.itemSimpleCraftingTools.getHammer(), 'D', Engine.itemSimpleCraftingTools.getDrill(), 'C', "circuitBasic"));
+        GameRegistry.addRecipe(new RecipeTool(new ItemStack(ICBM_API.blockMissileWorkstation), "RRR", "HCD", "PPP", 'R', "rodIron", 'P', "plateIron", 'H', Engine.itemSimpleCraftingTools.getHammer(), 'D', Engine.itemSimpleCraftingTools.getDrill(), 'C', "circuitBasic"));
     }
 
     @Override
@@ -291,7 +291,7 @@ public class TileSmallMissileWorkstation extends TileSmallMissileStationBase imp
             if (stack.getItem() instanceof IModularMissileItem && slot == INPUT_SLOT)
             {
                 IMissile missile = ((IModularMissileItem) stack.getItem()).toMissile(stack);
-                return missile.getMissileSize() == MissileCasings.SMALL.ordinal();
+                return missile.getMissileSize() == MissileSize.SMALL.ordinal();
             }
         }
         return false;
@@ -329,7 +329,7 @@ public class TileSmallMissileWorkstation extends TileSmallMissileStationBase imp
     {
         if (getMissileItem() != null)
         {
-            this.missile = MissileModuleBuilder.INSTANCE.buildMissile(getMissileItem());
+            this.missile = new Missile(getMissileItem());
         }
         else
         {

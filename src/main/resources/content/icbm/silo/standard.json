@@ -31,7 +31,7 @@
         "id": "missileRender",
         "renderOffset": {
           "x": 0.5,
-          "y": 0.25,
+          "y": 0.7,
           "z": 0.5
         }
       }

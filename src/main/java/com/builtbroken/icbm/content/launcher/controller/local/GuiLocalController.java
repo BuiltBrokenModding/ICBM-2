@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.launcher.controller.local;
 
 import com.builtbroken.icbm.api.controller.ISiloConnectionData;
-import com.builtbroken.icbm.content.launcher.launcher.TileAbstractLauncherPad;
+import com.builtbroken.icbm.content.launcher.launcher.TileStandardLauncher;
 import com.builtbroken.mc.api.map.radio.wireless.ConnectionStatus;
 import com.builtbroken.mc.client.SharedAssets;
 import com.builtbroken.mc.imp.transform.region.Rectangle;
@@ -65,7 +65,7 @@ public class GuiLocalController extends GuiContainerBase
 
                 ISiloConnectionData data = controller.launcherData.get(i);
                 //10 11 12 13 14 15
-                String siloPrefix = (data.getSilo() instanceof TileAbstractLauncherPad ? launcherLabel : siloLabel);
+                String siloPrefix = (data.getSilo() instanceof TileStandardLauncher ? launcherLabel : siloLabel);
                 GuiButton2 button = new GuiButton2(10 + i, guiLeft + buttonRowX, guiTop + buttonRowY + rowHeight, 80, 20, siloPrefix + "[" + i + "]");
                 if (data != null)
                 {

@@ -2,8 +2,9 @@ package com.builtbroken.icbm.content.launcher.silo.standard;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.modules.IMissile;
-import com.builtbroken.icbm.content.missile.parts.casing.MissileCasings;
+import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
+import com.builtbroken.mc.api.data.ActionResponse;
 import com.builtbroken.mc.api.tile.listeners.IDestroyedListener;
 import com.builtbroken.mc.api.tile.listeners.IPlacementListener;
 import com.builtbroken.mc.codegen.annotations.MultiBlockWrapped;
@@ -31,7 +32,7 @@ public class TileStandardSilo extends TileAbstractLauncher implements IPlacement
     @Override
     public boolean canAcceptMissile(IMissile missile)
     {
-        return super.canAcceptMissile(missile) && missile.getMissileSize() == MissileCasings.STANDARD.ordinal();
+        return super.canAcceptMissile(missile) && missile.getMissileSize() == MissileSize.STANDARD.ordinal();
     }
 
     @Override
@@ -46,9 +47,9 @@ public class TileStandardSilo extends TileAbstractLauncher implements IPlacement
     //}
 
     @Override
-    public boolean canPlaceOnSide(int side)
+    public ActionResponse canPlaceOnSide(int side)
     {
-        return side == ForgeDirection.UP.ordinal();
+        return side == ForgeDirection.UP.ordinal() ? ActionResponse.DO : ActionResponse.CANCEL;
     }
 
     @Override

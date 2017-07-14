@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.launcher;
 
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
-import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
+import com.builtbroken.icbm.content.missile.data.missile.Missile;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.api.rails.IRailInventoryTile;
@@ -247,7 +247,7 @@ public class TileMissileContainer extends TileMachineNode<IInventory> implements
             }
             else
             {
-                missile = MissileModuleBuilder.INSTANCE.buildMissile(slotStack);
+                missile = new Missile(slotStack);
             }
             return missile != null && canAcceptMissile(missile);
         }

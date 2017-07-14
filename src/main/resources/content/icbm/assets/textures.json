@@ -20,13 +20,31 @@
   "texture:3": {
     "key": "icbm:smallMissile",
     "domain": "icbm",
-    "name": "Missile_Small",
+    "name": "missile_skins/small/default",
     "type": "model"
   },
   "texture:4": {
     "key": "icbm:mediumMissile",
     "domain": "icbm",
-    "name": "missile_skins/medium/unpainted",
+    "name": "missile_skins/medium/default",
+    "type": "model"
+  },
+  "texture:5": {
+    "key": "icbm:microMissile",
+    "domain": "icbm",
+    "name": "missile_skins/micro/default",
+    "type": "model"
+  },
+  "texture:6": {
+    "key": "icbm:standardMissile",
+    "domain": "icbm",
+    "name": "missile_skins/standard/default",
+    "type": "model"
+  },
+  "texture:7": {
+    "key": "icbm:standardMissile.fins",
+    "domain": "icbm",
+    "name": "missile_skins/standard/default.fins",
     "type": "model"
   }
 }

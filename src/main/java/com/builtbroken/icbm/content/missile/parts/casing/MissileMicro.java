@@ -13,12 +13,8 @@ import org.lwjgl.opengl.GL11;
  * RPG sized missile
  * Created by robert on 12/29/2014.
  */
-public class MissileMicro extends Missile implements ICustomMissileRender
+public class MissileMicro implements ICustomMissileRender
 {
-    public MissileMicro(ItemStack stack)
-    {
-        super(stack, MissileCasings.MICRO);
-    }
 
     @Override
     public boolean renderMissileItem(IItemRenderer.ItemRenderType type, ItemStack stack, Object... data)
@@ -81,13 +77,13 @@ public class MissileMicro extends Missile implements ICustomMissileRender
         return true;
     }
 
-    @Override
+
     public double getHeight()
     {
         return 0.8;
     }
 
-    @Override
+
     public double getWidth()
     {
         return 0.2;

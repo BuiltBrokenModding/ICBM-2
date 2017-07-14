@@ -2,7 +2,6 @@ package com.builtbroken.icbm.content.launcher.controller;
 
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
-import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 import net.minecraft.item.ItemStack;
@@ -30,16 +29,9 @@ public class LauncherData
     {
         location = new Pos(tag);
         ItemStack stack = ItemStack.loadItemStackFromNBT(tag);
-        if(stack != null)
+        if (stack != null && stack.getItem() instanceof IMissileItem)
         {
-            if (stack.getItem() instanceof IMissileItem)
-            {
-                missile = ((IMissileItem) stack.getItem()).toMissile(stack);
-            }
-            else
-            {
-                missile = MissileModuleBuilder.INSTANCE.buildMissile(stack);
-            }
+            missile = ((IMissileItem) stack.getItem()).toMissile(stack);
         }
     }
 
@@ -49,9 +41,13 @@ public class LauncherData
         //TODO maybe save inside sub tags
         NBTTagCompound nbt = new NBTTagCompound();
         if (location != null)
+        {
             location.writeNBT(nbt);
+        }
         if (missile != null)
+        {
             missile.toStack().writeToNBT(nbt);
+        }
         return nbt;
     }
 

@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.content.missile.parts.engine.solid;
 
-import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.content.missile.parts.engine.Engines;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
@@ -29,7 +29,7 @@ public class RocketEngineGunpowderRecipe extends ShapelessOreRecipe
                 {
                     gunpowderCount += 1;
                 }
-                else if (stack.getItem() == ICBM.itemEngineModules && stack.getItemDamage() == Engines.GUNPOWDER_ENGINE.ordinal())
+                else if (stack.getItem() == ICBM_API.itemEngineModules && stack.getItemDamage() == Engines.GUNPOWDER_ENGINE.ordinal())
                 {
                     if (engine != null)
                     {

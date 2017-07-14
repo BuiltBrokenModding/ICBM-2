@@ -1,0 +1,88 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "missile": {
+    "id": "icbm:microMissile",
+    "bodySizeClassification": "micro",
+    "default": true,
+    "bodyWidth": 0.2,
+    "bodyHeight": 0.8,
+    "bodyCenterOffset": {
+      "x": 0,
+      "y": 0.4,
+      "z": 0
+    }
+  },
+  "render": {
+    "contentID": "missile.icbm:microMissile",
+    "type": "item",
+    "states": [
+      {
+        "id": "base",
+        "renderType": "model",
+        "modelID": "icbm:microMissile",
+        "textureID": "icbm:microMissile"
+      },
+      {
+        "id": "item.inventory",
+        "renderType": "item",
+        "textureID": "icbm:microMissileIcon"
+      },
+      {
+        "id": "item.equipped",
+        "renderType": "model",
+        "parent": "base",
+        "offset": {
+          "x": 0.4,
+          "y": 0.4,
+          "z": 0.4
+        },
+        "scale": 2
+      },
+      {
+        "id": "item.first",
+        "renderType": "model",
+        "parent": "base",
+        "offset": {
+          "x": -0.2,
+          "y": 0.3,
+          "z": -0.4
+        },
+        "rotation": {
+          "yaw": 180
+        },
+        "scale": 2
+      },
+      {
+        "id": "item.entity",
+        "renderType": "model",
+        "parent": "base",
+        "offset": {
+          "x": 0,
+          "y": 0.2,
+          "z": 0
+        }
+      },
+      {
+        "id": "entity",
+        "renderType": "model",
+        "parent": "base",
+        "rotationOrder": [
+          "yaw",
+          "pitch"
+        ],
+        "rotation": {
+          "yaw": -180,
+          "pitch": -90
+        }
+      }
+    ]
+  },
+  "texture:1": {
+    "key": "icbm:microMissileIcon",
+    "domain": "icbm",
+    "name": "micro.missile",
+    "type": "item"
+  }
+}

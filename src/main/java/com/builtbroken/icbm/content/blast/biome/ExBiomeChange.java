@@ -1,6 +1,6 @@
 package com.builtbroken.icbm.content.blast.biome;
 
-import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.api.missile.IMissileEntity;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.api.modules.IWarhead;
@@ -37,11 +37,11 @@ public class ExBiomeChange extends ExplosiveHandlerICBM<BlastBiome>
     {
         super.addInfoToItem(player, stack, lines);
         int id = getBiomeID(stack);
-        String translation = LanguageUtility.getLocal(ICBM.itemExplosive.getUnlocalizedName(stack) + ".id.info");
+        String translation = LanguageUtility.getLocal(ICBM_API.itemExplosive.getUnlocalizedName(stack) + ".id.info");
         translation = translation.replace("%1", "" + id);
         lines.add(translation);
 
-        translation = LanguageUtility.getLocal(ICBM.itemExplosive.getUnlocalizedName(stack) + ".name.info");
+        translation = LanguageUtility.getLocal(ICBM_API.itemExplosive.getUnlocalizedName(stack) + ".name.info");
         translation = translation.replace("%1", "" + (BiomeGenBase.getBiome(id) == null ? Colors.RED.code + "Error" : BiomeGenBase.getBiome(id).biomeName));
         lines.add(translation);
     }

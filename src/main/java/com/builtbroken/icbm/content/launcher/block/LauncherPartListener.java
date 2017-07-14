@@ -1,16 +1,21 @@
 package com.builtbroken.icbm.content.launcher.block;
 
-import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
+import com.builtbroken.icbm.content.launcher.launcher.TileStandardLauncher;
+import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.mc.api.tile.listeners.IBlockListener;
 import com.builtbroken.mc.api.tile.listeners.ITileEventListener;
 import com.builtbroken.mc.api.tile.listeners.ITileEventListenerBuilder;
 import com.builtbroken.mc.api.tile.listeners.IWrenchListener;
+import com.builtbroken.mc.api.tile.node.ITileNodeHost;
 import com.builtbroken.mc.imp.transform.vector.Pos;
-import com.builtbroken.mc.prefab.inventory.InventoryUtility;
+import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.prefab.tile.listeners.TileListener;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
@@ -22,7 +27,10 @@ import java.util.List;
  */
 public class LauncherPartListener extends TileListener implements IWrenchListener, IBlockListener
 {
+    public static final int MICRO_LAUNCHER_HEIGHT = 1;
+    public static final int SMALL_LAUNCHER_HEIGHT = 2;
     public static final int STANDARD_LAUNCHER_HEIGHT = 5;
+    public static final int MEDIUM_LAUNCHER_HEIGHT = 17;
 
     @Override
     public boolean onPlayerRightClickWrench(EntityPlayer player, int side, float hitX, float hitY, float hitZ)
@@ -35,52 +43,118 @@ public class LauncherPartListener extends TileListener implements IWrenchListene
             {
                 if (isServer())
                 {
+                    final Pos frameStart = new Pos(xi(), yi() + 1, zi());
                     //Detects all launcher frame blocks above it(up to max)
-                    int count = 0;
-                    Block block = getBlock(xi(), yi() + 1, zi());
-                    while (count < STANDARD_LAUNCHER_HEIGHT && block == ICBM.blockLauncherFrame) //TODO make 5 a constant
+                    int frameCount = getFrameCount(world(), frameStart);
+
+                    MissileSize missileCount = getLauncherSize(frameCount);
+                    //Error if size not found
+                    if (missileCount == null)
                     {
-                        //Increase count
-                        count++;
-                        //Get next block above last
-                        block = getBlock(xi(), yi() + count, zi());
-                        //Detects for clear path near launcher
-                        Pos pos = new Pos(xi(), yi() + count, zi()).add(ForgeDirection.getOrientation(side));
-                        if (!pos.isAirBlock(world()))
+                        //TODO add translation key
+                        player.addChatComponentMessage(new ChatComponentText("Detected " + frameCount + " blocks, micro requires 1, small 2, standard 5, medium 17"));
+                        return true;
+                    }
+                    //Place block and set size
+                    else
+                    {
+                        //Check if area is clear for missile
+                        if (!isPathClear(world(), frameStart.add(ForgeDirection.getOrientation(side)), frameCount, side))
                         {
-                            player.addChatComponentMessage(new ChatComponentText("To prevent issues clear the blocks from the side of the tower that the missile will occupy."));
+                            //TODO add translation key
+                            player.addChatComponentMessage(new ChatComponentText("To prevent issues clear the blocks from the side of the tower that the missile will occupy. micro, small, and standard need 1x1 block space. Medium needs 3x3 block space to be placed."));
                             return true;
                         }
-                    }
-                    if (count == STANDARD_LAUNCHER_HEIGHT) //TODO make 5 a constant
-                    {
-                        Block launcherBlock = InventoryUtility.getBlock("icbm:standardlauncher"); //TODO cache standard launcher block instance
+
+                        Block launcherBlock = ICBM_API.blockStandardLauncher;
                         //create standard launcher
                         if (new Pos(this).setBlock(world(), launcherBlock, side))
                         {
                             //TODO add translation key
-                            player.addChatComponentMessage(new ChatComponentText("Standard launcher created"));
+                            player.addChatComponentMessage(new ChatComponentText(LanguageUtility.capitalizeFirst(missileCount.name().toLowerCase()) + " launcher created"));
+
+                            TileEntity tile = getTileEntity();
+                            if (tile instanceof ITileNodeHost && ((ITileNodeHost) tile).getTileNode() instanceof TileStandardLauncher)
+                            {
+                                ((TileStandardLauncher) ((ITileNodeHost) tile).getTileNode()).missileSize = missileCount;
+                            }
                         }
                         else
                         {
                             player.addChatComponentMessage(new ChatComponentText("Unexpected error changing CPU block to standard launcher block."));
                         }
                     }
-                    else if (count > STANDARD_LAUNCHER_HEIGHT) //TODO make 5 a constant
-                    {
-                        //TODO add translation key
-                        player.addChatComponentMessage(new ChatComponentText("Detected " + (count - STANDARD_LAUNCHER_HEIGHT) + " extra tower blocks. You need only 5 for standard launcher setup."));
-                    }
-                    else if (count < STANDARD_LAUNCHER_HEIGHT) //TODO make 5 a constant
-                    {
-                        //TODO add translation key
-                        player.addChatComponentMessage(new ChatComponentText("Detected " + (STANDARD_LAUNCHER_HEIGHT - count) + " missing tower blocks. You need 5 for standard launcher setup."));
-                    }
                 }
                 return true;
             }
         }
         return false;
+    }
+
+    public static MissileSize getLauncherSize(int frameCount)
+    {
+        //Detect size
+        if (frameCount == MEDIUM_LAUNCHER_HEIGHT)
+        {
+            return MissileSize.MEDIUM;
+        }
+        else if (frameCount == STANDARD_LAUNCHER_HEIGHT)
+        {
+            return MissileSize.STANDARD;
+        }
+        else if (frameCount == SMALL_LAUNCHER_HEIGHT)
+        {
+            return MissileSize.SMALL;
+        }
+        else if (frameCount == MICRO_LAUNCHER_HEIGHT)
+        {
+            return MissileSize.MICRO;
+        }
+        return null;
+    }
+
+    public static int getFrameCount(World world, Pos start)
+    {
+        int count = 0;
+        Block block = world.getBlock(start.xi(), start.yi(), start.zi());
+        while (count < 255 && block == ICBM_API.blockLauncherFrame)
+        {
+            //Increase count
+            count++;
+            //Get next block above last
+            block = world.getBlock(start.xi(), start.yi() + count, start.zi());
+
+        }
+        return count;
+    }
+
+    public static boolean isPathClear(World world, Pos start, int height, int side)
+    {
+        for (int i = 0; i < height; i++)
+        {
+            if (height != MEDIUM_LAUNCHER_HEIGHT)
+            {
+                if (!new Pos(start.xi(), start.yi() + i, start.zi()).add(ForgeDirection.getOrientation(side)).isAirBlock(world))
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                start = start.add(ForgeDirection.getOrientation(side));
+                for (int x = -1; x < 2; x++)
+                {
+                    for (int z = -1; z < 2; z++)
+                    {
+                        if (!new Pos(start.xi() + x, start.yi() + i, start.zi() + z).add(ForgeDirection.getOrientation(side)).isAirBlock(world))
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     @Override

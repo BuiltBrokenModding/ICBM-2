@@ -1,0 +1,103 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "missile": {
+    "id": "icbm:standardMissile",
+    "bodySizeClassification": "standard",
+    "bodyWidth": 0.6,
+    "bodyHeight": 4.6,
+    "bodyCenterOffset": {
+      "x": 0,
+      "y": 1.925,
+      "z": 0
+    }
+  },
+  "render": {
+    "contentID": "missile.icbm:standardMissile",
+    "type": "item",
+    "states": [
+      {
+        "id": "body",
+        "renderType": "model",
+        "modelID": "icbm:standardMissile",
+        "textureID": "icbm:standardMissile",
+        "parts": "Fins_SmallSilo.006",
+        "renderOnlyParts": false
+      },
+      {
+        "id": "base",
+        "renderType": "model",
+        "parent": "body",
+        "textureID": "icbm:standardMissile.fins",
+        "parts": "Fins_SmallSilo.006",
+        "renderOnlyParts": true,
+        "renderParent": true
+      },
+      {
+        "id": "item.inventory",
+        "renderType": "item",
+        "textureID": "icbm:standardMissileIcon"
+      },
+      {
+        "id": "item.equipped",
+        "renderType": "model",
+        "parent": "base",
+        "offset": {
+          "x": 0.4,
+          "y": 0.4,
+          "z": 0.4
+        },
+        "scale": 2
+      },
+      {
+        "id": "item.first",
+        "renderType": "model",
+        "parent": "base",
+        "offset": {
+          "x": -0.2,
+          "y": 0.3,
+          "z": -0.4
+        },
+        "rotation": {
+          "yaw": 180
+        },
+        "scale": 2
+      },
+      {
+        "id": "item.entity",
+        "renderType": "model",
+        "parent": "base",
+        "offset": {
+          "x": 0,
+          "y": 0.2,
+          "z": 0
+        }
+      },
+      {
+        "id": "entity",
+        "renderType": "model",
+        "parent": "base",
+        "rotationOrder": [
+          "yaw",
+          "pitch"
+        ],
+        "rotation": {
+          "yaw": -180,
+          "pitch": -90
+        },
+        "offset": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+      }
+    ]
+  },
+  "texture:1": {
+    "key": "icbm:standardMissileIcon",
+    "domain": "icbm",
+    "name": "standard.missile",
+    "type": "item"
+  }
+}

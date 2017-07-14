@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.launcher.controller.remote.display;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.api.controller.ISiloConnectionData;
 import com.builtbroken.icbm.api.launcher.ILauncher;
 import com.builtbroken.icbm.content.launcher.controller.local.TileLocalController;
@@ -424,6 +425,6 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
     @Override
     public void genRecipes(List<IRecipe> recipes)
     {
-        recipes.add(newShapedRecipe(ICBM.blockCommandSiloDisplay, "GPG", "CNC", "WSW", 'G', Blocks.glass_pane, 'P', OreNames.PLATE_IRON, 'C', UniversalRecipe.CIRCUIT_T2.get(), 'N', OreNames.NUGGET_GOLD, 'S', OreNames.SCREW_IRON, 'W', OreNames.WIRE_COPPER));
+        recipes.add(newShapedRecipe(ICBM_API.blockCommandSiloDisplay, "GPG", "CNC", "WSW", 'G', Blocks.glass_pane, 'P', OreNames.PLATE_IRON, 'C', UniversalRecipe.CIRCUIT_T2.get(), 'N', OreNames.NUGGET_GOLD, 'S', OreNames.SCREW_IRON, 'W', OreNames.WIRE_COPPER));
     }
 }
