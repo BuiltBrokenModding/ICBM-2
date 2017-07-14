@@ -14,18 +14,6 @@
       "id": "standardlauncher",
       "class": "com.builtbroken.icbm.content.launcher.launcher.TileWrapperStandardLauncher"
     },
-    "renderBounds": {
-      "min": {
-        "x": -1,
-        "y": 0,
-        "z": -1
-      },
-      "max": {
-        "x": 1,
-        "y": 7,
-        "z": 1
-      }
-    },
     "listeners": [
       {
         "id": "multiblock",
@@ -36,12 +24,44 @@
         "directionOffset": true
       },
       {
+        "id": "renderBounds",
+        "contentUseID": "launcher.micro",
+        "box": {
+          "min": {
+            "x": -1,
+            "y": 0,
+            "z": -1
+          },
+          "max": {
+            "x": 1,
+            "y": 3,
+            "z": 1
+          }
+        }
+      },
+      {
         "id": "multiblock",
         "contentUseID": "launcher.small",
         "layoutKey": "icbm:smallLauncher",
         "doRotation": true,
         "buildFirstTick": false,
         "directionOffset": true
+      },
+      {
+        "id": "renderBounds",
+        "contentUseID": "launcher.small",
+        "box": {
+          "min": {
+            "x": -1,
+            "y": 0,
+            "z": -1
+          },
+          "max": {
+            "x": 1,
+            "y": 4,
+            "z": 1
+          }
+        }
       },
       {
         "id": "multiblock",
@@ -52,6 +72,22 @@
         "directionOffset": true
       },
       {
+        "id": "renderBounds",
+        "contentUseID": "launcher.standard",
+        "box": {
+          "min": {
+            "x": -1,
+            "y": 0,
+            "z": -1
+          },
+          "max": {
+            "x": 1,
+            "y": 7,
+            "z": 1
+          }
+        }
+      },
+      {
         "id": "multiblock",
         "contentUseID": "launcher.medium",
         "layoutKey": "icbm:mediumLauncher",
@@ -59,6 +95,22 @@
         "buildFirstTick": false,
         "directionOffset": true,
         "directionMultiplier": 2
+      },
+      {
+        "id": "renderBounds",
+        "contentUseID": "launcher.medium",
+        "box": {
+          "min": {
+            "x": -3,
+            "y": 0,
+            "z": -3
+          },
+          "max": {
+            "x": 3,
+            "y": 30,
+            "z": 3
+          }
+        }
       },
       "StandardLauncherRenderListener"
     ]
@@ -132,12 +184,10 @@
           "start": 0,
           "end": 18,
           "id": "y",
-
           "for": {
             "start": -1,
             "end": 1,
             "id": "x",
-
             "for": {
               "start": -1,
               "end": 1,
