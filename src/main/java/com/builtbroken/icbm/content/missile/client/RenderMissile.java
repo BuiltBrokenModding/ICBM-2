@@ -58,27 +58,10 @@ public class RenderMissile extends Render
      */
     public static void renderMissile(IMissile missile, float yaw, float pitch, String[] keys)
     {
-        boolean rendered = false;
-        //JSON render handling
-        if (!rendered && missile instanceof IJsonGenObject)
-        {
-            RenderData data = ClientDataHandler.INSTANCE.getRenderData(((IJsonGenObject) missile).getContentID());
-            if (data != null)
-            {
-                for (String stateID : (keys != null ? keys : RENDER_KEYS))
-                {
-                    IRenderState state = data.getState(stateID);
-                    if (state instanceof IModelState)
-                    {
-                        rendered = ((IModelState) state).render(false, yaw, pitch, 0);
-                        break;
-                    }
-                }
-            }
-        }
         //Backup render
-        if (!rendered)
+        if (!renderStatesFor(missile, yaw, pitch, keys != null ? keys : RENDER_KEYS))
         {
+            //TODO replace backup with rect to remove the need for the classic model
             GL11.glRotatef(yaw + 90, 0.0F, 1.0F, 0.0F);
             GL11.glRotatef(pitch - 90, 0.0F, 0.0F, 1.0F);
             GL11.glScalef(.5f, .5f, .5f);
@@ -89,6 +72,27 @@ public class RenderMissile extends Render
             }
             Assets.CLASSIC_MISSILE_MODEL.renderAllExcept("WARHEAD 1", "WARHEAD 2", "WARHEAD 3", "WARHEAD 4");
         }
+    }
+
+    //TODO move to reusable class
+    protected static boolean renderStatesFor(Object object, float yaw, float pitch, String... keys)
+    {
+        if (object instanceof IJsonGenObject && keys != null)
+        {
+            RenderData data = ClientDataHandler.INSTANCE.getRenderData(((IJsonGenObject) object).getContentID());
+            if (data != null)
+            {
+                for (String stateID : keys)
+                {
+                    IRenderState state = data.getState(stateID);
+                    if (state instanceof IModelState && ((IModelState) state).render(false, yaw, pitch, 0))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     @Override

@@ -16,7 +16,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.client.model.obj.GroupObject;
-import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -94,7 +93,7 @@ public class StandardLauncherRenderListener extends TileListener implements IBlo
                 Pos pos = center;
 
                 final float yf = 2.2f;
-                switch (ForgeDirection.getOrientation(launcher.getHost().getHostMeta()))
+                switch (launcher.getDirection())
                 {
                     case NORTH:
                         pos = pos.add(-0.65, yf, 0.95);
@@ -170,6 +169,8 @@ public class StandardLauncherRenderListener extends TileListener implements IBlo
 
     private static void processModel()
     {
+        //TODO convert to JSON
+        //TODO in order to convert to JSON this will require a bit of for looping and layered rendering. Layered in such a way that only 1 render pass is done but all the sub parts are included
         processedModel = true;
         for (GroupObject object : Assets.STANDARD_MISSILE_MODEL_2.groupObjects)
         {
