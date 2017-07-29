@@ -37,16 +37,6 @@ public class CommonProxy extends AbstractProxy
 
     }
 
-    public void doRocketFire(Entity entity, Pos vel)
-    {
-
-    }
-
-    public void doRocketSmoke(Entity entity, Pos vel)
-    {
-
-    }
-
     public void playRocketAudio(Entity entity)
     {
 

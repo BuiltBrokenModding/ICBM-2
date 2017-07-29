@@ -84,5 +84,10 @@
     "domain": "icbm",
     "name": "micro.missile",
     "type": "item"
+  },
+  "effect:1":
+  {
+    "key":"missile.icbm:microMissile.engine.trail",
+    "effectID":"rocketTrail"
   }
 }

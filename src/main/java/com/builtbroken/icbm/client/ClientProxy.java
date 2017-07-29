@@ -23,16 +23,22 @@ import com.builtbroken.icbm.content.launcher.controller.remote.antenna.TileAnten
 import com.builtbroken.icbm.content.launcher.controller.remote.display.TileSiloInterfaceClient;
 import com.builtbroken.icbm.content.launcher.launcher.StandardLauncherRenderListener;
 import com.builtbroken.icbm.content.launcher.listeners.TileMissileRenderListener;
-import com.builtbroken.icbm.content.missile.entity.EntityMissile;
 import com.builtbroken.icbm.content.missile.client.RenderMissile;
+import com.builtbroken.icbm.content.missile.entity.EntityMissile;
 import com.builtbroken.icbm.content.rail.EntityMissileCart;
 import com.builtbroken.icbm.content.rail.RenderMissileCart;
 import com.builtbroken.icbm.content.rocketlauncher.RenderRocketLauncher;
 import com.builtbroken.mc.client.SharedAssets;
+import com.builtbroken.mc.client.json.ClientDataHandler;
+import com.builtbroken.mc.client.json.imp.IEffectData;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.imp.transform.vector.Pos;
+import com.builtbroken.mc.lib.json.imp.IJsonGenObject;
 import com.builtbroken.mc.lib.json.processors.block.JsonBlockListenerProcessor;
-import com.builtbroken.mc.lib.render.fx.*;
+import com.builtbroken.mc.lib.render.fx.FXElectricBolt;
+import com.builtbroken.mc.lib.render.fx.FXElectricBoltSpawner;
+import com.builtbroken.mc.lib.render.fx.FXEnderPortalPartical;
+import com.builtbroken.mc.lib.render.fx.FXSmoke;
 import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.explosive.ExplosiveHandlerGeneric;
 import cpw.mods.fml.client.FMLClientHandler;
@@ -49,6 +55,7 @@ import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
@@ -162,55 +169,38 @@ public class ClientProxy extends CommonProxy
             Pos vel = new Pos((entity.worldObj.rand.nextFloat() - 0.5f) / 8f, (entity.worldObj.rand.nextFloat() - 0.5f) / 8f, (entity.worldObj.rand.nextFloat() - 0.5f) / 8f);
             vel = vel.multiply(motion);
 
-            doRocketFire(entity, vel);
-            doRocketSmoke(entity, vel);
-        }
-    }
-
-    @Override
-    public void doRocketFire(Entity entity, Pos vel)
-    {
-        EntityFX fx = new FxRocketFire(entity.worldObj, entity.posX, entity.posY, entity.posZ, vel.x(), vel.y(), vel.z());
-
-        //Gen and add smoke effect
-        if (entity instanceof EntityMissile)
-        {
-            IMissile missile = ((EntityMissile) entity).getMissile();
-            if (missile.getEngine() != null)
-            {
-                Color color = missile.getEngine().getEngineFireColor(entity instanceof IMissileEntity ? (IMissileEntity) entity : null, missile);
-                if (color != null)
-                {
-                    fx = new FxRocketFire(entity.worldObj, color, entity.posX, entity.posY, entity.posZ, vel.x(), vel.y(), vel.z());
-                }
-            }
-        }
-
-        //Gen and add fire effect
-        Minecraft.getMinecraft().effectRenderer.addEffect(fx);
-    }
-
-    @Override
-    public void doRocketSmoke(Entity entity, Pos vel)
-    {
-        //Only render massive smoke on fancy and with good particle settings
-        if (Minecraft.getMinecraft().gameSettings.fancyGraphics && Minecraft.getMinecraft().gameSettings.particleSetting != 1)
-        {
-            EntityFX fx = new FxRocketSmokeTrail(entity.worldObj, entity.posX, entity.posY, entity.posZ, vel.x(), vel.y(), vel.z(), 200);
-            //Gen and add smoke effect
             if (entity instanceof EntityMissile)
             {
                 IMissile missile = ((EntityMissile) entity).getMissile();
                 if (missile.getEngine() != null)
                 {
-                    Color color = missile.getEngine().getEngineSmokeColor(entity instanceof IMissileEntity ? (IMissileEntity) entity : null, missile);
-                    if (color != null)
+                    Color fireColor = missile.getEngine().getEngineFireColor(entity instanceof IMissileEntity ? (IMissileEntity) entity : null, missile);
+                    Color smokeColor = missile.getEngine().getEngineSmokeColor(entity instanceof IMissileEntity ? (IMissileEntity) entity : null, missile);
+
+                    NBTTagCompound nbt = new NBTTagCompound();
+
+                    NBTTagCompound tag = new NBTTagCompound();
+                    tag.setInteger("color", fireColor.getRGB());
+                    nbt.setTag("fireColor", tag);
+
+                    tag = new NBTTagCompound();
+                    tag.setInteger("color", smokeColor.getRGB());
+                    nbt.setTag("smokeColor", tag);
+
+                    if(missile instanceof IJsonGenObject)
                     {
-                        fx = new FxRocketSmokeTrail(entity.worldObj, color, entity.posX, entity.posY, entity.posZ, vel.x(), vel.y(), vel.z(), 200);
+                        String contentID = ((IJsonGenObject) missile).getContentID(); //TODO change to use engine content ID
+                        IEffectData data = ClientDataHandler.INSTANCE.getEffect(contentID + ".engine.trail");
+                        if (data != null)
+                        {
+                            data.trigger(
+                                    ((EntityMissile) entity).world(), ((EntityMissile) entity).x(), ((EntityMissile) entity).y(), ((EntityMissile) entity).z(), //TODO move spawn point to rear of missile
+                                    vel.x(), vel.y(), vel.z(),
+                                    false, nbt);
+                        }
                     }
                 }
             }
-            Minecraft.getMinecraft().effectRenderer.addEffect(fx);
         }
     }
 
