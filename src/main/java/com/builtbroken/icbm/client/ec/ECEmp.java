@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.client.ec;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.content.blast.power.ExEmp;
+import com.builtbroken.mc.framework.blast.emp.ExEmp;
 import com.builtbroken.mc.api.explosive.ITexturedExplosiveHandler;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;

@@ -266,7 +266,7 @@ public class ClientProxy extends CommonProxy
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "BiomeChange", new ECBiomeChange());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "OrePuller", new ExOrePuller()); //TODO add texture
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SlimeRain", new ECSlimeRain());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Emp", new ECEmp());
+        //ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Emp", new ECEmp());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Gravity", new ECGravity());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Microwave", new ECMicrowave());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Nuke", new ECNuke());

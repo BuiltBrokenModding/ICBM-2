@@ -25,7 +25,6 @@ import com.builtbroken.icbm.content.blast.item.ExCake;
 import com.builtbroken.icbm.content.blast.nuke.ExNuke;
 import com.builtbroken.icbm.content.blast.potion.ExFlash;
 import com.builtbroken.icbm.content.blast.potion.ExRadiation;
-import com.builtbroken.icbm.content.blast.power.ExEmp;
 import com.builtbroken.icbm.content.blast.power.ExMicrowave;
 import com.builtbroken.icbm.content.blast.temp.ExEndoThermic;
 import com.builtbroken.icbm.content.blast.temp.ExExoThermic;
@@ -322,7 +321,7 @@ public final class ICBM extends AbstractMod
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "BiomeChange", new ExBiomeChange());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "OrePuller", new ExOrePuller());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "SlimeRain", new ExSlimeRain());
-            ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Emp", new ExEmp());
+            //ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Emp", new ExEmp());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Gravity", new ExGravity());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Microwave", new ExMicrowave());
             ExplosiveRegistry.registerOrGetExplosive(DOMAIN, "Nuke", new ExNuke());
