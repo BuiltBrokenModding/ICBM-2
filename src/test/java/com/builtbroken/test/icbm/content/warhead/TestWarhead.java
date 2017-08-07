@@ -50,7 +50,7 @@ public class TestWarhead extends AbstractTileTest<TileWarhead>
         for (ItemExplosive.ExplosiveItems exItem : ItemExplosive.ExplosiveItems.values())
         {
             ExplosiveRegistry.unregisterExplosiveItem(exItem.newItem());
-            if (exItem.ex_name != null)
+            if (exItem.ex_name != null && exItem != ItemExplosive.ExplosiveItems.EMP)
             {
                 assertTrue(ExplosiveRegistry.registerExplosiveItem(exItem.newItem()));
                 List<ItemStackWrapper> list = ExplosiveRegistry.getItems(exItem.getExplosive());
@@ -89,7 +89,7 @@ public class TestWarhead extends AbstractTileTest<TileWarhead>
             //Test warhead creation with explosive items
             for (ItemExplosive.ExplosiveItems exItem : ItemExplosive.ExplosiveItems.values())
             {
-                if (exItem.ex_name != null)
+                if (exItem.ex_name != null && exItem != ItemExplosive.ExplosiveItems.EMP)
                 {
                     assertTrue(exItem.ex_name, exItem.getExplosive() != null);
                     warhead = MissileModuleBuilder.INSTANCE.buildWarhead(casing, exItem.newItem());

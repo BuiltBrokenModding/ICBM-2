@@ -44,7 +44,7 @@ public class TestExplosiveItem extends AbstractTest
     {
         for (ItemExplosive.ExplosiveItems item : ItemExplosive.ExplosiveItems.values())
         {
-            if (item.ex_name != null)
+            if (item.ex_name != null && item != ItemExplosive.ExplosiveItems.EMP)
             {
                 ItemStack stack = item.newItem();
                 assertTrue(stack != null);
@@ -58,17 +58,17 @@ public class TestExplosiveItem extends AbstractTest
     {
         for (ItemExplosive.ExplosiveItems item : ItemExplosive.ExplosiveItems.values())
         {
-            if (item.ex_name != null)
+            if (item.ex_name != null && item != ItemExplosive.ExplosiveItems.EMP)
             {
                 ItemStack stack = item.newItem();
 
                 ExplosiveRegistry.unregisterExplosiveItem(stack);
 
-                assertTrue(item.getExplosive() != null);
+                assertNotNull(item.getExplosive());
                 ExplosiveRegistry.registerExplosiveItem(item.newItem());
 
 
-                assertTrue(ExplosiveRegistry.get(stack) != null);
+                assertNotNull(ExplosiveRegistry.get(stack));
                 assertTrue(ExplosiveRegistry.getItems(item.getExplosive()).contains(new ItemStackWrapper(stack)));
 
                 ExplosiveRegistry.unregisterExplosiveItem(stack);
