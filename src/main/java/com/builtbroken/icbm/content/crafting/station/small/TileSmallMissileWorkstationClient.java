@@ -12,7 +12,7 @@ import com.builtbroken.mc.client.json.render.RenderData;
 import com.builtbroken.mc.core.network.packet.PacketType;
 import com.builtbroken.mc.imp.transform.region.Cube;
 import com.builtbroken.mc.imp.transform.vector.Pos;
-import com.builtbroken.mc.lib.json.imp.IJsonGenObject;
+import com.builtbroken.mc.framework.json.imp.IJsonGenObject;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.client.FMLClientHandler;

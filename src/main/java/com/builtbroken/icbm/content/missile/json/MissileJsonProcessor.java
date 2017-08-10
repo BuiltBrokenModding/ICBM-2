@@ -3,7 +3,7 @@ package com.builtbroken.icbm.content.missile.json;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.content.missile.data.casing.MissileCasingData;
 import com.builtbroken.mc.core.Engine;
-import com.builtbroken.mc.lib.json.processors.JsonProcessor;
+import com.builtbroken.mc.framework.json.processors.JsonProcessor;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 

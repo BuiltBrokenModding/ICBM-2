@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "explosive": {
+    "id": "PlantLife",
+    "name": "PlantLife",
+    "mod": "icbm",
+    "handler": "com.builtbroken.icbm.content.blast.effect.ExPlantLife",
+    "powerMultiplier": 3
+  },
+  "render": {
+    "contentID": "icbm:plantlife",
+    "type": "ex",
+    "states": [
+      {
+        "id": "ex.corner",
+        "renderType": "item",
+        "textureID": "icbm:ex.icon.plantlife"
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:ex.icon.plantlife",
+    "domain": "icbm",
+    "name": "ex.icon.plantlife",
+    "type": "item"
+  }
+}

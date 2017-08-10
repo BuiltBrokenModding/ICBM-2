@@ -1,19 +1,21 @@
 package com.builtbroken.icbm.content.blast.effect;
 
+import com.builtbroken.icbm.api.blast.IBlastHandler;
 import com.builtbroken.icbm.api.missile.IMissileEntity;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.api.modules.IWarhead;
-import com.builtbroken.icbm.content.blast.ExplosiveHandlerICBM;
+import com.builtbroken.mc.framework.explosive.handler.ExplosiveData;
+import com.builtbroken.mc.framework.explosive.handler.ExplosiveHandler;
 
 /**
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 1/30/2016.
  */
-public class ExTorchEater extends ExplosiveHandlerICBM<BlastTorchEater>
+public class ExTorchEater extends ExplosiveHandler<BlastTorchEater> implements IBlastHandler
 {
-    public ExTorchEater()
+    public ExTorchEater(ExplosiveData data)
     {
-        super("TorchEater", 3);
+        super(data);
     }
 
     @Override

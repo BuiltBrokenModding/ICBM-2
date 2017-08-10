@@ -1,0 +1,53 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "explosive": {
+    "id": "EntitySpawn",
+    "name": "EntitySpawn",
+    "mod": "icbm",
+    "handler": "com.builtbroken.icbm.content.blast.entity.ExSpawn",
+    "powerMultiplier": 1
+  },
+  "render": {
+    "contentID": "icbm:entityspawn",
+    "type": "ex",
+    "states": [
+      {
+        "id": "ex.corner.0",
+        "renderType": "item",
+        "textureID": "icbm:ex.entity.spawn.0"
+      },
+      {
+        "id": "ex.corner.1",
+        "renderType": "item",
+        "textureID": "icbm:ex.entity.spawn.1",
+        "color": "data@entityPrimary"
+      },
+      {
+        "id": "ex.corner.2",
+        "renderType": "item",
+        "textureID": "icbm:ex.entity.spawn.2",
+        "color": "data@entitySecondary"
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:ex.entity.spawn.0",
+    "domain": "icbm",
+    "name": "ex.icon.egg.0",
+    "type": "item"
+  },
+  "texture:1": {
+    "key": "icbm:ex.entity.spawn.1",
+    "domain": "icbm",
+    "name": "ex.icon.egg.1",
+    "type": "item"
+  },
+  "texture:2": {
+    "key": "icbm:ex.entity.spawn.2",
+    "domain": "icbm",
+    "name": "ex.icon.egg.2",
+    "type": "item"
+  }
+}

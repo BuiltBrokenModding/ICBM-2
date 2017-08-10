@@ -2,8 +2,8 @@ package com.builtbroken.icbm.mods.cc;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.ICBM_API;
-import com.builtbroken.mc.lib.mod.Mods;
-import com.builtbroken.mc.lib.mod.loadable.AbstractLoadable;
+import com.builtbroken.mc.framework.mod.Mods;
+import com.builtbroken.mc.framework.mod.loadable.AbstractLoadable;
 
 /**
  * Proxy used to laod content for computer craft

@@ -4,7 +4,7 @@ import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.content.missile.data.missile.Missile;
 import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.icbm.content.missile.item.ItemMissile;
-import com.builtbroken.mc.lib.mod.ModCreativeTab;
+import com.builtbroken.mc.framework.mod.ModCreativeTab;
 import net.minecraft.item.ItemStack;
 
 import java.util.List;

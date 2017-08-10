@@ -5,7 +5,7 @@ import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.imp.transform.sorting.Vector3DistanceComparator;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
-import com.builtbroken.mc.prefab.explosive.blast.Blast;
+import com.builtbroken.mc.framework.explosive.blast.Blast;
 import net.minecraft.block.Block;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;

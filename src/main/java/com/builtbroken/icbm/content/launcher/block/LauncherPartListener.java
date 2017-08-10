@@ -10,7 +10,7 @@ import com.builtbroken.mc.api.tile.listeners.IWrenchListener;
 import com.builtbroken.mc.api.tile.node.ITileNodeHost;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
-import com.builtbroken.mc.prefab.tile.listeners.TileListener;
+import com.builtbroken.mc.framework.block.listeners.TileListener;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;

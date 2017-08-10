@@ -4,7 +4,7 @@ import com.builtbroken.icbm.content.missile.parts.warhead.Warhead;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
-import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
+import com.builtbroken.mc.framework.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;

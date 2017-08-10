@@ -11,8 +11,8 @@ import com.builtbroken.icbm.content.missile.parts.warhead.Warhead;
 import com.builtbroken.icbm.content.missile.parts.warhead.WarheadCasings;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.modules.IModule;
-import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
-import com.builtbroken.mc.prefab.items.ItemStackWrapper;
+import com.builtbroken.mc.framework.explosive.ExplosiveRegistry;
+import com.builtbroken.mc.lib.data.item.ItemStackWrapper;
 import com.builtbroken.mc.prefab.module.ModuleBuilder;
 import net.minecraft.item.ItemStack;
 

@@ -9,7 +9,7 @@ import com.builtbroken.mc.api.tile.listeners.ITileEventListenerBuilder;
 import com.builtbroken.mc.api.tile.listeners.client.ITileRenderListener;
 import com.builtbroken.mc.api.tile.node.ITileNodeHost;
 import com.builtbroken.mc.imp.transform.vector.Pos;
-import com.builtbroken.mc.prefab.tile.listeners.TileListener;
+import com.builtbroken.mc.framework.block.listeners.TileListener;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

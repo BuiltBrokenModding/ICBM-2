@@ -5,7 +5,7 @@ import com.builtbroken.icbm.content.missile.data.missile.Missile;
 import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.icbm.content.missile.tracking.MissileTracker;
 import com.builtbroken.mc.imp.transform.vector.Location;
-import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
+import com.builtbroken.mc.framework.explosive.ExplosiveRegistry;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;

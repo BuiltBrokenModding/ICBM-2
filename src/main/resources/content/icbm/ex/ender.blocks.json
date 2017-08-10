@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "explosive": {
+    "id": "EnderBlocks",
+    "name": "EnderBlocks",
+    "mod": "icbm",
+    "handler": "com.builtbroken.icbm.content.blast.effect.ExEnderBlocks",
+    "powerMultiplier": 1
+  },
+  "render": {
+    "contentID": "icbm:enderblocks",
+    "type": "ex",
+    "states": [
+      {
+        "id": "ex.corner",
+        "renderType": "item",
+        "textureID": "icbm:ex.icon.enderblocks"
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:ex.icon.enderblocks",
+    "domain": "icbm",
+    "name": "ex.icon.enderblocks",
+    "type": "item"
+  }
+}

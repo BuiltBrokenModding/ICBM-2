@@ -9,7 +9,7 @@ import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
-import com.builtbroken.mc.lib.recipe.item.RecipeShapelessOre;
+import com.builtbroken.mc.framework.recipe.item.RecipeShapelessOre;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;

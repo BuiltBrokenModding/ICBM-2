@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "explosive": {
+    "id": "FireBomb",
+    "name": "FireBomb",
+    "mod": "icbm",
+    "handler": "com.builtbroken.icbm.content.blast.fire.ExFireBomb",
+    "powerMultiplier": 1
+  },
+  "render": {
+    "contentID": "icbm:firebomb",
+    "type": "ex",
+    "states": [
+      {
+        "id": "ex.corner",
+        "renderType": "item",
+        "textureID": "icbm:ex.icon.firebomb"
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:ex.icon.firebomb",
+    "domain": "icbm",
+    "name": "ex.icon.firebomb",
+    "type": "item"
+  }
+}

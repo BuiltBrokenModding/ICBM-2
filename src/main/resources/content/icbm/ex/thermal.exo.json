@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "explosive": {
+    "id": "ExoThermic",
+    "name": "ExoThermic",
+    "mod": "icbm",
+    "handler": "com.builtbroken.icbm.content.blast.temp.ExExoThermic",
+    "powerMultiplier": 2
+  },
+  "render": {
+    "contentID": "icbm:exothermic",
+    "type": "ex",
+    "states": [
+      {
+        "id": "ex.corner",
+        "renderType": "item",
+        "textureID": "icbm:ex.icon.endothermic"
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:ex.icon.endothermic",
+    "domain": "icbm",
+    "name": "ex.icon.endothermic",
+    "type": "item"
+  }
+}

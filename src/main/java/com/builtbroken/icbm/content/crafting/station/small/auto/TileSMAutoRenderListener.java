@@ -7,7 +7,7 @@ import com.builtbroken.mc.api.tile.listeners.ITileEventListenerBuilder;
 import com.builtbroken.mc.api.tile.listeners.client.ITileRenderListener;
 import com.builtbroken.mc.api.tile.node.ITileNode;
 import com.builtbroken.mc.api.tile.node.ITileNodeHost;
-import com.builtbroken.mc.prefab.tile.listeners.TileListener;
+import com.builtbroken.mc.framework.block.listeners.TileListener;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
