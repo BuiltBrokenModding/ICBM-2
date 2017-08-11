@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "explosive": {
+    "id": "SlimeRain",
+    "name": "SlimeRain",
+    "mod": "icbm",
+    "handler": "com.builtbroken.icbm.content.blast.entity.slime.ExSlimeRain",
+    "powerMultiplier": 2
+  },
+  "render": {
+    "contentID": "icbm:slimerain",
+    "type": "ex",
+    "states": [
+      {
+        "id": "ex.corner",
+        "renderType": "item",
+        "textureID": "icbm:ex.icon.slimerain"
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:ex.icon.slimerain",
+    "domain": "icbm",
+    "name": "ex.icon.slime.rain",
+    "type": "item"
+  }
+}

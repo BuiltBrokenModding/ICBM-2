@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "explosive": {
+    "id": "RegenLocal",
+    "name": "RegenLocal",
+    "mod": "icbm",
+    "handler": "com.builtbroken.icbm.content.blast.util.ExRegenLocal",
+    "powerMultiplier": 8
+  },
+  "render": {
+    "contentID": "icbm:regenlocal",
+    "type": "ex",
+    "states": [
+      {
+        "id": "ex.corner",
+        "renderType": "item",
+        "textureID": "icbm:ex.icon.regen.local"
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:ex.icon.regen.local",
+    "domain": "icbm",
+    "name": "ex.icon.regen.local",
+    "type": "item"
+  }
+}

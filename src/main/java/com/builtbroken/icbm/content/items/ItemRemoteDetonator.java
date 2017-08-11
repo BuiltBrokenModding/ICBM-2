@@ -6,7 +6,7 @@ import com.builtbroken.mc.api.items.listeners.IItemActivationListener;
 import com.builtbroken.mc.codegen.annotations.ItemWrapped;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.framework.item.logic.ItemNode;
-import com.builtbroken.mc.lib.world.radio.RadioRegistry;
+import com.builtbroken.mc.lib.world.map.radio.RadioRegistry;
 import com.builtbroken.mc.prefab.hz.FakeRadioSender;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

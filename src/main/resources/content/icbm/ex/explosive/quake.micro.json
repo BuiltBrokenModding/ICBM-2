@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "explosive": {
+    "id": "MicroQuake",
+    "name": "MicroQuake",
+    "mod": "icbm",
+    "handler": "com.builtbroken.icbm.content.blast.explosive.ExMicroQuake",
+    "powerMultiplier": 3
+  },
+  "render": {
+    "contentID": "icbm:microquake",
+    "type": "ex",
+    "states": [
+      {
+        "id": "ex.corner",
+        "renderType": "item",
+        "textureID": "icbm:microquake"
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:microquake",
+    "domain": "icbm",
+    "name": "ex.icon.microquake",
+    "type": "item"
+  }
+}

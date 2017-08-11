@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "explosive": {
+    "id": "TorchEater",
+    "name": "TorchEater",
+    "mod": "icbm",
+    "handler": "com.builtbroken.icbm.content.blast.effect.ExTorchEater",
+    "powerMultiplier": 3
+  },
+  "render": {
+    "contentID": "icbm:torcheater",
+    "type": "ex",
+    "states": [
+      {
+        "id": "ex.corner",
+        "renderType": "item",
+        "textureID": "icbm:ex.icon.torcheater"
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:ex.icon.torcheater",
+    "domain": "icbm",
+    "name": "ex.icon.torcheater",
+    "type": "item"
+  }
+}

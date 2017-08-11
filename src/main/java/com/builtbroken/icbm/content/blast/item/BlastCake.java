@@ -6,7 +6,7 @@ import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
-import com.builtbroken.mc.prefab.explosive.blast.Blast;
+import com.builtbroken.mc.framework.explosive.blast.Blast;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -31,12 +31,12 @@ public class BlastCake extends Blast<BlastCake>
     @Override
     public void getEffectedBlocks(final List<IWorldEdit> list)
     {
-        Pos pos = new Pos(x, y, z);
-        if (pos.isAirBlock(world))
+        Pos pos = new Pos(x, y, z); //TODO make place more than 1
+        if (pos.isReplaceable(world))
         {
             list.add(new BlockEdit(world, x, y, z).set(ICBM.APRIL_FIRST ? ICBM_API.blockCake : Blocks.cake));
         }
-        else if (pos.add(0, 1, 0).isAirBlock(world))
+        else if (pos.add(0, 1, 0).isReplaceable(world))
         {
             list.add(new BlockEdit(world, x, y + 1, z).set(ICBM.APRIL_FIRST ? ICBM_API.blockCake : Blocks.cake));
         }

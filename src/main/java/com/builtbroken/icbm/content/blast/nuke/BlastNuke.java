@@ -25,7 +25,6 @@ import java.util.List;
  */
 public class BlastNuke extends BlastSimplePath<BlastNuke>
 {
-    public static float defaultSize = 10f;
     public static float percentAntimatterRange = .2f;
 
     public BlastNuke(IExplosiveHandler handler)
@@ -56,8 +55,8 @@ public class BlastNuke extends BlastSimplePath<BlastNuke>
             double check = percentAntimatterRange * size;
             if (distance > check)
             {
-                double scale = size / defaultSize;
-                double energy = 100 * defaultSize * scale;
+                double scale = size / explosiveHandler.getYieldModifier();
+                double energy = 100 * explosiveHandler.getYieldModifier() * scale;
                 return energy >= location.getResistance(explosionBlameEntity, x(), y(), z());
             }
             return true;

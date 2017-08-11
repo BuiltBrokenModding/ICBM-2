@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "explosive": {
+    "id": "cake",
+    "name": "cake",
+    "mod": "icbm",
+    "handler": "com.builtbroken.icbm.content.blast.item.ExCake",
+    "powerMultiplier": 1
+  },
+  "render": {
+    "contentID": "icbm:cake",
+    "type": "ex",
+    "states": [
+      {
+        "id": "ex.corner",
+        "renderType": "item",
+        "textureID": "icbm:ex.icon.cake"
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:ex.icon.cake",
+    "domain": "icbm",
+    "name": "ex.icon.cake",
+    "type": "item"
+  }
+}

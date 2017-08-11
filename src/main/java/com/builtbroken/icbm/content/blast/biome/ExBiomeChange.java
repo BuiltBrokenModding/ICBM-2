@@ -57,7 +57,7 @@ public class ExBiomeChange extends ExplosiveHandlerICBM<BlastBiome>
             {
                 blast.setLocation(world, x, y, z);
                 blast.setCause(triggerCause);
-                blast.setYield(size * multi);
+                blast.setYield(size * getYieldModifier());
                 blast.setAdditionBlastData(tag);
             }
             return blast;

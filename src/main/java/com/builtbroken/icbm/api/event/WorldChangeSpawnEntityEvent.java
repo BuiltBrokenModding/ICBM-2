@@ -10,7 +10,7 @@ import net.minecraftforge.event.entity.living.LivingSpawnEvent;
  * Even triggered when spawning an entity from a missile explosion action
  * Created by robert on 12/25/2014.
  */
-public class WorldChangeSpawnEntityEvent extends LivingSpawnEvent.SpecialSpawn
+public class WorldChangeSpawnEntityEvent extends LivingSpawnEvent.SpecialSpawn //TODO move to core
 {
     IWorldChangeAction blast;
 

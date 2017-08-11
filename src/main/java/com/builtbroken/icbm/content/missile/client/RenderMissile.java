@@ -7,7 +7,7 @@ import com.builtbroken.mc.client.json.ClientDataHandler;
 import com.builtbroken.mc.client.json.imp.IModelState;
 import com.builtbroken.mc.client.json.imp.IRenderState;
 import com.builtbroken.mc.client.json.render.RenderData;
-import com.builtbroken.mc.lib.json.imp.IJsonGenObject;
+import com.builtbroken.mc.framework.json.imp.IJsonGenObject;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

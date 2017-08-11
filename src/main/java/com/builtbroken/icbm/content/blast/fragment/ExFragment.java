@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.blast.fragment;
 
 import com.builtbroken.icbm.content.blast.ExplosiveHandlerICBM;
 import com.builtbroken.mc.api.items.explosives.IExplosiveItem;
-import com.builtbroken.mc.prefab.explosive.blast.Blast;
+import com.builtbroken.mc.framework.explosive.blast.Blast;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 

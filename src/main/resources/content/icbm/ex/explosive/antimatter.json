@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "explosive": {
+    "id": "Antimatter",
+    "name": "Antimatter",
+    "mod": "icbm",
+    "handler": "com.builtbroken.icbm.content.blast.explosive.ExAntimatter",
+    "powerMultiplier": 1
+  },
+  "render": {
+    "contentID": "icbm:antimatter",
+    "type": "ex",
+    "states": [
+      {
+        "id": "ex.corner",
+        "renderType": "item",
+        "textureID": "icbm:ex.icon.antimatter"
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:ex.icon.antimatter",
+    "domain": "icbm",
+    "name": "ex.icon.antimatter",
+    "type": "item"
+  }
+}

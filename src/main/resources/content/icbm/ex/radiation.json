@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "explosive": {
+    "id": "Radiation",
+    "name": "Radiation",
+    "mod": "icbm",
+    "handler": "com.builtbroken.icbm.content.blast.potion.ExRadiation",
+    "powerMultiplier": 1
+  },
+  "render": {
+    "contentID": "icbm:radiation",
+    "type": "ex",
+    "states": [
+      {
+        "id": "ex.corner",
+        "renderType": "item",
+        "textureID": "icbm:ex.icon.radiation"
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:ex.icon.radiation",
+    "domain": "icbm",
+    "name": "ex.icon.radiation",
+    "type": "item"
+  }
+}

@@ -5,14 +5,11 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.api.missile.IMissileEntity;
 import com.builtbroken.icbm.api.modules.IMissile;
-import com.builtbroken.icbm.client.ec.*;
+import com.builtbroken.icbm.client.ec.ECBiomeChange;
+import com.builtbroken.icbm.client.ec.ECFragment;
 import com.builtbroken.icbm.content.blast.entity.slime.EntitySlimeRain;
 import com.builtbroken.icbm.content.blast.entity.slime.RenderSlimeRain;
 import com.builtbroken.icbm.content.blast.explosive.BlastPathTester;
-import com.builtbroken.icbm.content.blast.explosive.ExMicroQuake;
-import com.builtbroken.icbm.content.blast.potion.ExFlash;
-import com.builtbroken.icbm.content.blast.troll.BlastMidasOre;
-import com.builtbroken.icbm.content.blast.util.ExOrePuller;
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstationClient;
 import com.builtbroken.icbm.content.crafting.station.small.auto.TileSMAutoRenderListener;
 import com.builtbroken.icbm.content.fragments.EntityFragment;
@@ -32,14 +29,14 @@ import com.builtbroken.mc.client.SharedAssets;
 import com.builtbroken.mc.client.json.ClientDataHandler;
 import com.builtbroken.mc.client.json.imp.IEffectData;
 import com.builtbroken.mc.core.Engine;
+import com.builtbroken.mc.framework.explosive.ExplosiveRegistry;
+import com.builtbroken.mc.framework.json.imp.IJsonGenObject;
+import com.builtbroken.mc.framework.json.processors.block.JsonBlockListenerProcessor;
 import com.builtbroken.mc.imp.transform.vector.Pos;
-import com.builtbroken.mc.lib.json.imp.IJsonGenObject;
-import com.builtbroken.mc.lib.json.processors.block.JsonBlockListenerProcessor;
 import com.builtbroken.mc.lib.render.fx.FXElectricBolt;
 import com.builtbroken.mc.lib.render.fx.FXElectricBoltSpawner;
 import com.builtbroken.mc.lib.render.fx.FXEnderPortalPartical;
 import com.builtbroken.mc.lib.render.fx.FXSmoke;
-import com.builtbroken.mc.lib.world.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.explosive.ExplosiveHandlerGeneric;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -247,32 +244,32 @@ public class ClientProxy extends CommonProxy
     @Override
     public void registerExplosives()
     {
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "EntitySpawn", new ECSpawn());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "ExoThermic", new ECExo());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "EndoThermic", new ECEndo());
+        //ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "EntitySpawn", new ECSpawn());
+        //ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "ExoThermic", new ECExo());
+        //ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "EndoThermic", new ECEndo());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Fragment", new ECFragment());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "ArrowFragment", ExplosiveRegistry.get("Fragment"));
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Antimatter", new ECAntimatter());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "FireBomb", new ECFireBomb());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "FlashFire", new ECFlashFire());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "EnderBlocks", new ECEnderBlocks());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "TorchEater", new ECTorchEater());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "PlantLife", new ECPlantLife());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "AntiPlant", new ECAntiPlant());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Regen", new ECRegen());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "RegenLocal", new ECRegenLocal());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "MicroQuake", new ExMicroQuake());//TODO Add texture
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Cake", new ECCake());
         ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "BiomeChange", new ECBiomeChange());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "OrePuller", new ExOrePuller()); //TODO add texture
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SlimeRain", new ECSlimeRain());
+        //ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Antimatter", new ECAntimatter());
+        //ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "FireBomb", new ECFireBomb());
+        //ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "FlashFire", new ECFlashFire());
+        //ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "EnderBlocks", new ECEnderBlocks());
+        //ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "TorchEater", new ECTorchEater());
+        //ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "PlantLife", new ECPlantLife());
+        //ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "AntiPlant", new ECAntiPlant());
+        //ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Regen", new ECRegen());
+        //ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "RegenLocal", new ECRegenLocal());
+        //ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "MicroQuake", new ExMicroQuake());//TODO Add texture
+        //ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Cake", new ECCake());
+        //ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "OrePuller", new ExOrePuller()); //TODO add texture
+        //ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SlimeRain", new ECSlimeRain());
         //ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Emp", new ECEmp());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Gravity", new ECGravity());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Microwave", new ECMicrowave());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Nuke", new ECNuke());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Flash", new ExFlash()); //TODO Add texture
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Radiation", new ECRadiation());
-        ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "MidasOre", new BlastMidasOre.ExMidasOre()); //TODO Add Texture
+        //ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Gravity", new ECGravity());
+        //ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Microwave", new ECMicrowave());
+        //ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Nuke", new ECNuke());
+        //ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Flash", new ExFlash()); //TODO Add texture
+        //ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "Radiation", new ECRadiation());
+        //ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "MidasOre", new BlastMidasOre.ExMidasOre()); //TODO Add Texture
         if (Engine.runningAsDev)
         {
             ExplosiveRegistry.registerOrGetExplosive(ICBM.DOMAIN, "SimplePathTest1", new ExplosiveHandlerGeneric("SimplePathTest1", BlastPathTester.class, 1));

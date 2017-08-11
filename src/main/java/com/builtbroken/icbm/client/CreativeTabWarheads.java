@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.client;
 
 import com.builtbroken.icbm.api.ICBM_API;
-import com.builtbroken.mc.lib.mod.ModCreativeTab;
+import com.builtbroken.mc.framework.mod.ModCreativeTab;
 
 import java.util.List;
 

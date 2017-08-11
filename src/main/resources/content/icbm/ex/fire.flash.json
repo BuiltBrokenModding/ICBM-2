@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "explosive": {
+    "id": "FlashFire",
+    "name": "FlashFire",
+    "mod": "icbm",
+    "handler": "com.builtbroken.icbm.content.blast.fire.ExFlashFire",
+    "powerMultiplier": 2
+  },
+  "render": {
+    "contentID": "icbm:flashfire",
+    "type": "ex",
+    "states": [
+      {
+        "id": "ex.corner",
+        "renderType": "item",
+        "textureID": "icbm:ex.icon.flashfire"
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:ex.icon.flashfire",
+    "domain": "icbm",
+    "name": "ex.icon.flashfire",
+    "type": "item"
+  }
+}

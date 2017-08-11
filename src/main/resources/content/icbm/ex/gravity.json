@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "explosive": {
+    "id": "Gravity",
+    "name": "Gravity",
+    "mod": "icbm",
+    "handler": "com.builtbroken.icbm.content.blast.gravity.ExGravity",
+    "powerMultiplier": 2
+  },
+  "render": {
+    "contentID": "icbm:gravity",
+    "type": "ex",
+    "states": [
+      {
+        "id": "ex.corner",
+        "renderType": "item",
+        "textureID": "icbm:ex.icon.gravity"
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:ex.icon.gravity",
+    "domain": "icbm",
+    "name": "ex.icon.gravity.hover",
+    "type": "item"
+  }
+}

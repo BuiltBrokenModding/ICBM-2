@@ -6,7 +6,7 @@ import com.builtbroken.mc.codegen.annotations.ItemWrapped;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.packet.PacketPlayerItem;
 import com.builtbroken.mc.imp.transform.vector.Pos;
-import com.builtbroken.mc.lib.world.radio.RadioRegistry;
+import com.builtbroken.mc.lib.world.map.radio.RadioRegistry;
 import com.builtbroken.mc.prefab.hz.FakeRadioSender;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;

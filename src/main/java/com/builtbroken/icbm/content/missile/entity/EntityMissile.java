@@ -22,7 +22,7 @@ import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.WorldChangeHelper;
-import com.builtbroken.mc.lib.world.radar.RadarRegistry;
+import com.builtbroken.mc.lib.world.map.radar.RadarRegistry;
 import com.builtbroken.mc.prefab.entity.EntityProjectile;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import cpw.mods.fml.common.network.ByteBufUtils;

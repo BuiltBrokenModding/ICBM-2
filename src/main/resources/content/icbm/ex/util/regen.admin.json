@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "explosive": {
+    "id": "Regen",
+    "name": "Regen",
+    "mod": "icbm",
+    "handler": "com.builtbroken.icbm.content.blast.util.ExRegen",
+    "powerMultiplier": 8
+  },
+  "render": {
+    "contentID": "icbm:regen",
+    "type": "ex",
+    "states": [
+      {
+        "id": "ex.corner",
+        "renderType": "item",
+        "textureID": "icbm:ex.icon.regen"
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:ex.icon.regen",
+    "domain": "icbm",
+    "name": "ex.icon.regen.admin",
+    "type": "item"
+  }
+}

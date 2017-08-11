@@ -1,6 +1,5 @@
 package com.builtbroken.icbm.content.blast.troll;
 
-import com.builtbroken.icbm.content.blast.ExplosiveHandlerICBM;
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.core.content.resources.gems.BlockGemOre;
@@ -65,19 +64,5 @@ public class BlastMidasOre extends BlastSimplePath<BlastMidasOre>
             blackList.add(block);
         }
         return null;
-    }
-
-    public static class ExMidasOre extends ExplosiveHandlerICBM<BlastMidasOre>
-    {
-        public ExMidasOre()
-        {
-            super("MidasOre", 1);
-        }
-
-        @Override
-        protected BlastMidasOre newBlast()
-        {
-            return new BlastMidasOre(this);
-        }
     }
 }

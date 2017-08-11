@@ -3,7 +3,7 @@ package com.builtbroken.icbm.client.ec;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.client.blast.BlastFragmentsClient;
 import com.builtbroken.icbm.content.blast.fragment.*;
-import com.builtbroken.mc.prefab.explosive.blast.Blast;
+import com.builtbroken.mc.framework.explosive.blast.Blast;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -16,6 +16,7 @@ import java.util.Map;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 3/2/2016.
  */
+@Deprecated //TODO replace with JSON as ICONS are not used in 1.8+
 public class ECFragment extends ExFragment implements IFragmentExplosiveHandler
 {
     IIcon corner_icon;

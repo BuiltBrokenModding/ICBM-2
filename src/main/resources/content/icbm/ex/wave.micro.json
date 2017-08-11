@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "explosive": {
+    "id": "Microwave",
+    "name": "Microwave",
+    "mod": "icbm",
+    "handler": "com.builtbroken.icbm.content.blast.power.ExMicrowave",
+    "powerMultiplier": 3
+  },
+  "render": {
+    "contentID": "icbm:microwave",
+    "type": "ex",
+    "states": [
+      {
+        "id": "ex.corner",
+        "renderType": "item",
+        "textureID": "icbm:ex.icon.microwave"
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:ex.icon.microwave",
+    "domain": "icbm",
+    "name": "ex.icon.wave.micro",
+    "type": "item"
+  }
+}

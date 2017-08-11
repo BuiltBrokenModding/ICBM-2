@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "explosive": {
+    "id": "Nuke",
+    "name": "Nuke",
+    "mod": "icbm",
+    "handler": "com.builtbroken.icbm.content.blast.nuke.ExNuke",
+    "powerMultiplier": 10
+  },
+  "render": {
+    "contentID": "icbm:nuke",
+    "type": "ex",
+    "states": [
+      {
+        "id": "ex.corner",
+        "renderType": "item",
+        "textureID": "icbm:ex.icon.nuke"
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:ex.icon.nuke",
+    "domain": "icbm",
+    "name": "ex.icon.nuke",
+    "type": "item"
+  }
+}

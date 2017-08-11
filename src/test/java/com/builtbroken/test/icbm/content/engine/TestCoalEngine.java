@@ -1,7 +1,7 @@
 package com.builtbroken.test.icbm.content.engine;
 
 import com.builtbroken.icbm.content.missile.parts.engine.solid.RocketEngineCoalPowered;
-import com.builtbroken.mc.prefab.items.ItemStackWrapper;
+import com.builtbroken.mc.lib.data.item.ItemStackWrapper;
 import com.builtbroken.mc.testing.junit.AbstractTest;
 import com.builtbroken.mc.testing.junit.VoltzTestRunner;
 import net.minecraft.init.Items;

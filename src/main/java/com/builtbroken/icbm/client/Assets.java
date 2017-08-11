@@ -15,6 +15,7 @@ import net.minecraftforge.client.model.obj.WavefrontObject;
  * Created by Dark (DarkGuardsman, Robert) on 3/1/2015.
  */
 @SideOnly(Side.CLIENT)
+@Deprecated
 public final class Assets
 {
     //Missile models
