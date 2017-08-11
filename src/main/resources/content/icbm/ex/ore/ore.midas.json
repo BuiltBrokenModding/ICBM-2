@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "explosive": {
+    "id": "MidasOre",
+    "name": "MidasOre",
+    "mod": "icbm",
+    "handler": "com.builtbroken.icbm.content.blast.troll.ExMidasOre",
+    "powerMultiplier": 1
+  },
+  "render": {
+    "contentID": "icbm:midasore",
+    "type": "ex",
+    "states": [
+      {
+        "id": "ex.corner",
+        "renderType": "item",
+        "textureID": "icbm:ex.icon.midasore"
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:ex.icon.midasore",
+    "domain": "icbm",
+    "name": "ex.icon.ore.midas",
+    "type": "item"
+  }
+}

@@ -1,24 +1,26 @@
 package com.builtbroken.icbm.content.blast.nuke;
 
+import com.builtbroken.icbm.api.blast.IBlastHandler;
 import com.builtbroken.icbm.api.missile.IMissileEntity;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.api.modules.IWarhead;
-import com.builtbroken.icbm.content.blast.ExplosiveHandlerICBM;
 import com.builtbroken.mc.api.event.TriggerCause;
+import com.builtbroken.mc.framework.explosive.handler.ExplosiveData;
+import com.builtbroken.mc.framework.explosive.handler.ExplosiveHandler;
 import net.minecraft.nbt.NBTTagCompound;
 
 /**
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 1/30/2016.
  */
-public class ExNuke extends ExplosiveHandlerICBM<BlastNuke>
+public class ExNuke extends ExplosiveHandler<BlastNuke> implements IBlastHandler
 {
     /**
      * Creates an explosive using a blast class, and name
      */
-    public ExNuke()
+    public ExNuke(ExplosiveData data)
     {
-        super("Nuke", (int) BlastNuke.defaultSize);
+        super(data);
     }
 
     @Override

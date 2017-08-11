@@ -1,19 +1,27 @@
 package com.builtbroken.icbm.content.blast.power;
 
+import com.builtbroken.icbm.api.blast.IBlastHandler;
 import com.builtbroken.icbm.api.missile.IMissileEntity;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.api.modules.IWarhead;
-import com.builtbroken.icbm.content.blast.ExplosiveHandlerICBM;
+import com.builtbroken.mc.framework.explosive.handler.ExplosiveData;
+import com.builtbroken.mc.framework.explosive.handler.ExplosiveHandler;
 
 /**
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 12/20/2016.
  */
-public class ExMicrowave extends ExplosiveHandlerICBM<BlastMicrowave>
+public class ExMicrowave extends ExplosiveHandler<BlastMicrowave> implements IBlastHandler
 {
-    public ExMicrowave()
+    public ExMicrowave(ExplosiveData data)
     {
-        super("Microwave", 5);
+        super(data);
+    }
+
+    @Override
+    protected BlastMicrowave newBlast()
+    {
+        return new BlastMicrowave(this);
     }
 
     @Override

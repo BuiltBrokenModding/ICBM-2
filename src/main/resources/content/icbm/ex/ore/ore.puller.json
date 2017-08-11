@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "explosive": {
+    "id": "OrePuller",
+    "name": "OrePuller",
+    "mod": "icbm",
+    "handler": "com.builtbroken.icbm.content.blast.util.ExOrePuller",
+    "powerMultiplier": 1
+  },
+  "render": {
+    "contentID": "icbm:orepuller",
+    "type": "ex",
+    "states": [
+      {
+        "id": "ex.corner",
+        "renderType": "item",
+        "textureID": "icbm:ex.icon.orepuller"
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:ex.icon.orepuller",
+    "domain": "icbm",
+    "name": "ex.icon.ore",
+    "type": "item"
+  }
+}

@@ -3,27 +3,27 @@
     "name": "icbm"
   },
   "explosive": {
-    "id": "AntiPlant",
-    "name": "AntiPlant",
+    "id": "Microwave",
+    "name": "Microwave",
     "mod": "icbm",
-    "handler": "com.builtbroken.icbm.content.blast.effect.ExAntiPlant",
+    "handler": "com.builtbroken.icbm.content.blast.power.ExMicrowave",
     "powerMultiplier": 3
   },
   "render": {
-    "contentID": "icbm:antiplant",
+    "contentID": "icbm:microwave",
     "type": "ex",
     "states": [
       {
         "id": "ex.corner",
         "renderType": "item",
-        "textureID": "icbm:ex.icon.antiplant"
+        "textureID": "icbm:ex.icon.microwave"
       }
     ]
   },
   "texture": {
-    "key": "icbm:ex.icon.antiplant",
+    "key": "icbm:ex.icon.microwave",
     "domain": "icbm",
-    "name": "ex.icon.antiplantr",
+    "name": "ex.icon.wave.micro",
     "type": "item"
   }
 }

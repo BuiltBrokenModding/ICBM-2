@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "explosive": {
+    "id": "AntiPlant",
+    "name": "AntiPlant",
+    "mod": "icbm",
+    "handler": "com.builtbroken.icbm.content.blast.effect.ExAntiPlant",
+    "powerMultiplier": 3
+  },
+  "render": {
+    "contentID": "icbm:antiplant",
+    "type": "ex",
+    "states": [
+      {
+        "id": "ex.corner",
+        "renderType": "item",
+        "textureID": "icbm:ex.icon.antiplant"
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:ex.icon.antiplant",
+    "domain": "icbm",
+    "name": "ex.icon.antiplant",
+    "type": "item"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "explosive": {
+    "id": "Flash",
+    "name": "Flash",
+    "mod": "icbm",
+    "handler": "com.builtbroken.icbm.content.blast.potion.ExFlash",
+    "powerMultiplier": 1
+  },
+  "render": {
+    "contentID": "icbm:flash",
+    "type": "ex",
+    "states": [
+      {
+        "id": "ex.corner",
+        "renderType": "item",
+        "textureID": "icbm:ex.icon.flash"
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:ex.icon.flash",
+    "domain": "icbm",
+    "name": "ex.icon.flash",
+    "type": "item"
+  }
+}
