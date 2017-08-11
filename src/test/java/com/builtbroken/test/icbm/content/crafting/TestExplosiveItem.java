@@ -3,6 +3,7 @@ package com.builtbroken.test.icbm.content.crafting;
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.content.items.ItemExplosive;
+import com.builtbroken.mc.core.content.blast.tnt.ExplosiveHandlerTNT;
 import com.builtbroken.mc.framework.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.lib.data.item.ItemStackWrapper;
 import com.builtbroken.mc.testing.junit.AbstractTest;
@@ -62,16 +63,22 @@ public class TestExplosiveItem extends AbstractTest
             {
                 ItemStack stack = item.newItem();
 
+                //Cleanup
                 ExplosiveRegistry.unregisterExplosiveItem(stack);
 
-                assertNotNull(item.getExplosive());
+                //Test explosive handler
+                ExplosiveRegistry.registerExplosive("mod", item.ex_name, new ExplosiveHandlerTNT());
+                assertNotNull(item.ex_name, item.getExplosive());
+
+
                 ExplosiveRegistry.registerExplosiveItem(item.newItem());
 
 
-                assertNotNull(ExplosiveRegistry.get(stack));
-                assertTrue(ExplosiveRegistry.getItems(item.getExplosive()).contains(new ItemStackWrapper(stack)));
+                assertNotNull(item.ex_name, ExplosiveRegistry.get(stack));
+                assertTrue(item.ex_name, ExplosiveRegistry.getItems(item.getExplosive()).contains(new ItemStackWrapper(stack)));
 
                 ExplosiveRegistry.unregisterExplosiveItem(stack);
+                ExplosiveRegistry.unregisterExplosive(item.ex_name);
             }
         }
     }

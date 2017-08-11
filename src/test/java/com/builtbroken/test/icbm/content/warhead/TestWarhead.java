@@ -2,11 +2,12 @@ package com.builtbroken.test.icbm.content.warhead;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.ICBM_API;
+import com.builtbroken.icbm.content.items.ItemExplosive;
 import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
 import com.builtbroken.icbm.content.missile.parts.warhead.Warhead;
 import com.builtbroken.icbm.content.missile.parts.warhead.WarheadCasings;
-import com.builtbroken.icbm.content.items.ItemExplosive;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
+import com.builtbroken.mc.core.content.blast.tnt.ExplosiveHandlerTNT;
 import com.builtbroken.mc.framework.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.lib.data.item.ItemStackWrapper;
 import com.builtbroken.mc.testing.junit.VoltzTestRunner;
@@ -52,6 +53,7 @@ public class TestWarhead extends AbstractTileTest<TileWarhead>
             ExplosiveRegistry.unregisterExplosiveItem(exItem.newItem());
             if (exItem.ex_name != null && exItem != ItemExplosive.ExplosiveItems.EMP)
             {
+                ExplosiveRegistry.registerExplosive("mod", exItem.ex_name, new ExplosiveHandlerTNT());
                 assertTrue(ExplosiveRegistry.registerExplosiveItem(exItem.newItem()));
                 List<ItemStackWrapper> list = ExplosiveRegistry.getItems(exItem.getExplosive());
                 assertTrue(list.contains(new ItemStackWrapper(exItem.newItem())));
@@ -66,6 +68,7 @@ public class TestWarhead extends AbstractTileTest<TileWarhead>
         for (ItemExplosive.ExplosiveItems exItem : ItemExplosive.ExplosiveItems.values())
         {
             ExplosiveRegistry.unregisterExplosiveItem(exItem.newItem());
+            ExplosiveRegistry.unregisterExplosive(exItem.ex_name);
         }
         ICBM_API.blockWarhead = null;
         ICBM_API.itemExplosive = null;
@@ -76,7 +79,7 @@ public class TestWarhead extends AbstractTileTest<TileWarhead>
     {
         for (WarheadCasings casing : WarheadCasings.values())
         {
-            Warhead warhead = MissileModuleBuilder.INSTANCE.buildWarhead(casing, (ItemStack)null);
+            Warhead warhead = MissileModuleBuilder.INSTANCE.buildWarhead(casing, (ItemStack) null);
 
             //Test default casing creation & init values
             assertNotNull(warhead);

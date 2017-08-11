@@ -25,6 +25,7 @@ import com.builtbroken.icbm.content.launcher.controller.remote.central.TileComma
 import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCommandSiloConnector;
 import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.icbm.content.missile.entity.EntityMissile;
+import com.builtbroken.icbm.content.missile.entity.EntityTypeCheckMissile;
 import com.builtbroken.icbm.content.missile.json.MissileJsonProcessor;
 import com.builtbroken.icbm.content.missile.parts.engine.Engines;
 import com.builtbroken.icbm.content.missile.parts.engine.ItemEngineModules;
@@ -39,9 +40,6 @@ import com.builtbroken.icbm.content.rail.EntityMissileCart;
 import com.builtbroken.icbm.content.rail.ItemMissileCart;
 import com.builtbroken.icbm.content.rocketlauncher.ItemRocketLauncher;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
-import com.builtbroken.icbm.mods.cc.CCProxyICBM;
-import com.builtbroken.icbm.mods.oc.OCProxyICBM;
-import com.builtbroken.icbm.mods.ve.EntityTypeCheckMissile;
 import com.builtbroken.icbm.server.CommandICBM;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
@@ -50,9 +48,7 @@ import com.builtbroken.mc.framework.json.JsonContentLoader;
 import com.builtbroken.mc.framework.json.processors.block.JsonBlockListenerProcessor;
 import com.builtbroken.mc.framework.mod.AbstractMod;
 import com.builtbroken.mc.framework.mod.ModCreativeTab;
-import com.builtbroken.mc.framework.mod.Mods;
 import com.builtbroken.mc.framework.recipe.item.sheetmetal.RecipeSheetMetal;
-import com.builtbroken.mc.mods.nei.NEIProxy;
 import com.builtbroken.mc.prefab.entity.type.EntityTypeCheckRegistry;
 import com.builtbroken.mc.prefab.explosive.ExplosiveHandlerGeneric;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
@@ -190,13 +186,13 @@ public final class ICBM extends AbstractMod
         Engine.requestCircuits();
         Engine.requestCraftingParts();
 
-        loader.applyModule(OCProxyICBM.class, Mods.OC.isLoaded());
-        loader.applyModule(CCProxyICBM.class, Mods.CC.isLoaded());
+        //loader.applyModule(OCProxyICBM.class, Mods.OC.isLoaded());
+        //loader.applyModule(CCProxyICBM.class, Mods.CC.isLoaded());
         //Loads thaumcraft support
-        if (Loader.isModLoaded("Thaumcraft") && !getConfig().getBoolean("DisableThaumSupport", "ModSupport", false, "Allows disabling thaumcraft support, if issues arise or game play balance is required."))
-        {
-            //loader.applyModule(ThaumBlastLoader.class);
-        }
+        //if (Loader.isModLoaded("Thaumcraft") && !getConfig().getBoolean("DisableThaumSupport", "ModSupport", false, "Allows disabling thaumcraft support, if issues arise or game play balance is required."))
+        //{
+        //loader.applyModule(ThaumBlastLoader.class);
+        //}
 
         // Configs TODO load up using config system, and separate file
         ANTIMATTER_BREAK_UNBREAKABLE = getConfig().getBoolean("Antimatter_Destroy_Unbreakable", Configuration.CATEGORY_GENERAL, true, "Allows antimatter to break blocks that are unbreakable, bedrock for example.");
@@ -231,10 +227,6 @@ public final class ICBM extends AbstractMod
         //Troll blocks
         ICBM_API.blockCake = manager.newBlock("ICBMxFakeCake", BlockFakeCake.class);
 
-
-        //Clear launcher creative tab to prevent placement by user by mistake
-        NEIProxy.hideItem(ICBM_API.blockCrashMissile);
-
         // Debug Only blocks
         if (Engine.runningAsDev)
         {
@@ -255,7 +247,7 @@ public final class ICBM extends AbstractMod
         ICBM_API.itemExplosive = manager.newItem("explosiveUnit", ItemExplosive.class);
         ICBM_API.itemExplosivePart = manager.newItem("explosiveUnitParts", ItemExplosiveParts.class);
         ICBM_API.itemTrigger = manager.newItem("icbmTriggers", ItemTriggerModules.class);
-        NEIProxy.hideItem(ItemExplosive.ExplosiveItems.NBT.newItem());
+        //NEIProxy.hideItem(ItemExplosive.ExplosiveItems.NBT.newItem());
 
         // Register modules, need to do this or they will not build from ItemStacks
         WarheadCasings.register();

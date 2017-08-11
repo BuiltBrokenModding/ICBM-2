@@ -1,4 +1,4 @@
-package com.builtbroken.icbm.mods.ve;
+package com.builtbroken.icbm.content.missile.entity;
 
 import com.builtbroken.icbm.api.missile.IMissileEntity;
 import com.builtbroken.mc.prefab.entity.type.EntityTypeCheck;

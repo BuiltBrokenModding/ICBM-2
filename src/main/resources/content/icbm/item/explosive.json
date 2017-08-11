@@ -1,3 +1,6 @@
 {
-
+  "hideItem": {
+    "item": "item@icbm:explosiveUnit",
+    "damage": 0
+  }
 }
