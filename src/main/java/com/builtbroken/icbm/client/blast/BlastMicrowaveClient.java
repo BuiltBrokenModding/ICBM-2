@@ -3,7 +3,7 @@ package com.builtbroken.icbm.client.blast;
 import com.builtbroken.icbm.content.blast.power.BlastMicrowave;
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.core.Engine;
+import com.builtbroken.mc.core.CommonProxy;
 import net.minecraft.client.Minecraft;
 
 /**
@@ -38,7 +38,7 @@ public class BlastMicrowaveClient extends BlastMicrowave
         //Spawn particles TODO get steam particles for better effect
         for (int i = 0; i < count; i++)
         {
-            Engine.proxy.spawnParticle("smoke", world, blocks.x() + rn(), blocks.y() + rn(), blocks.z() + rn(), rv(), rv(), rv());
+            CommonProxy.proxy.spawnParticle("smoke", world, blocks.x() + rn(), blocks.y() + rn(), blocks.z() + rn(), rv(), rv(), rv());
         }
     }
 

@@ -147,7 +147,7 @@ public class BlastMicrowave extends BlastSimplePath<BlastMicrowave>
     @Override
     public void doStartDisplay()
     {
-        Engine.instance.packetHandler.sendToAllAround(new PacketBlast(this, PacketBlast.BlastPacketType.PRE_BLAST_DISPLAY), this, 400);
+        Engine.packetHandler.sendToAllAround(new PacketBlast(this, PacketBlast.BlastPacketType.PRE_BLAST_DISPLAY), this, 400);
     }
 
     @Override
@@ -162,7 +162,7 @@ public class BlastMicrowave extends BlastSimplePath<BlastMicrowave>
         if (edit instanceof BlockEdit)
         {
             //Send packet to spawn effects client side
-            Engine.instance.packetHandler.sendToAllAround(new PacketBlast(this, (BlockEdit) edit), edit, 20);
+            Engine.packetHandler.sendToAllAround(new PacketBlast(this, (BlockEdit) edit), edit, 20);
             //Activate audio, sent to client by MC
             world.playSoundEffect(edit.z() + 0.5, edit.y() + 0.5, edit.z() + 0.5F, "random.fizz", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
         }

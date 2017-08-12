@@ -280,7 +280,7 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
                     writeConnectorSet(controller, packet.data());
                 }
             }
-            Engine.instance.packetHandler.sendToPlayer(packet, (EntityPlayerMP) player);
+            Engine.packetHandler.sendToPlayer(packet, (EntityPlayerMP) player);
         }
     }
 

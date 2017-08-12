@@ -2,10 +2,10 @@ package com.builtbroken.icbm.client.blast;
 
 import com.builtbroken.icbm.content.blast.explosive.BlastAntimatter;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.core.Engine;
-import com.builtbroken.mc.lib.render.fx.FXSmoke;
+import com.builtbroken.mc.core.CommonProxy;
 import com.builtbroken.mc.imp.transform.rotation.EulerAngle;
 import com.builtbroken.mc.imp.transform.vector.Pos;
+import com.builtbroken.mc.lib.render.fx.FXSmoke;
 import net.minecraft.client.Minecraft;
 
 import java.awt.*;
@@ -36,7 +36,7 @@ public class BlastAntimatterClient extends BlastAntimatter
                 {
                     EulerAngle rotation = new EulerAngle(yaw * degreePerAngle, pitch * degreePerAngle);
                     Pos velocity = rotation.toPos().multiply(((float) shells / (float) shells) * 1);
-                    Engine.proxy.spawnParticle("smoke", world, center.x(), center.y(), center.z(), velocity.x(), velocity.y(), velocity.z());
+                    CommonProxy.proxy.spawnParticle("smoke", world, center.x(), center.y(), center.z(), velocity.x(), velocity.y(), velocity.z());
                 }
             }
         }

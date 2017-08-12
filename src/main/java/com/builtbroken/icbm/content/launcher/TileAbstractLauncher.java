@@ -449,25 +449,25 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
                             {
                                 if (tileSiloInterface == null || tileSiloInterface.getCommandCenter().getAttachedNetworks().size() <= 0)
                                 {
-                                    Engine.instance.packetHandler.sendToPlayer(getPacketForData(24, "error.data.missing.hz"), (EntityPlayerMP) player);
+                                    Engine.packetHandler.sendToPlayer(getPacketForData(24, "error.data.missing.hz"), (EntityPlayerMP) player);
                                 }
                                 else if (connector.getConnectorGroupName() == null)
                                 {
-                                    Engine.instance.packetHandler.sendToPlayer(getPacketForData(24, "error.data.missing.groupName"), (EntityPlayerMP) player);
+                                    Engine.packetHandler.sendToPlayer(getPacketForData(24, "error.data.missing.groupName"), (EntityPlayerMP) player);
                                 }
                                 else if (getCustomName() == null)
                                 {
-                                    Engine.instance.packetHandler.sendToPlayer(getPacketForData(24, "error.data.missing.siloName"), (EntityPlayerMP) player);
+                                    Engine.packetHandler.sendToPlayer(getPacketForData(24, "error.data.missing.siloName"), (EntityPlayerMP) player);
                                 }
                                 else
                                 {
-                                    Engine.instance.packetHandler.sendToPlayer(getPacketForData(24, "error.data.missing"), (EntityPlayerMP) player);
+                                    Engine.packetHandler.sendToPlayer(getPacketForData(24, "error.data.missing"), (EntityPlayerMP) player);
                                 }
                             }
                         }
                         else if (player instanceof EntityPlayerMP)
                         {
-                            Engine.instance.packetHandler.sendToPlayer(getPacketForData(24, "error.invalid.connection"), (EntityPlayerMP) player);
+                            Engine.packetHandler.sendToPlayer(getPacketForData(24, "error.invalid.connection"), (EntityPlayerMP) player);
                         }
                     }
                 }

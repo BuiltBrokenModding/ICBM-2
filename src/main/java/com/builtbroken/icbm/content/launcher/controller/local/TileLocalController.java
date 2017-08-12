@@ -13,7 +13,7 @@ import com.builtbroken.mc.api.tile.IPassCode;
 import com.builtbroken.mc.api.tile.IPlayerUsing;
 import com.builtbroken.mc.api.tile.access.IGuiTile;
 import com.builtbroken.mc.api.tile.access.IRotation;
-import com.builtbroken.mc.api.tile.listeners.IActivationListener;
+import com.builtbroken.mc.framework.block.imp.IActivationListener;
 import com.builtbroken.mc.api.tile.node.ITileNode;
 import com.builtbroken.mc.api.tile.node.ITileNodeHost;
 import com.builtbroken.mc.codegen.annotations.TileWrapped;

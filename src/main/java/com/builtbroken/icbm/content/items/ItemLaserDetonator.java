@@ -39,7 +39,7 @@ public class ItemLaserDetonator extends ItemRemoteDetonator
             TileEntity tileEntity = world.getTileEntity(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
             if (!(tileEntity instanceof ILauncher))
             {
-                Engine.instance.packetHandler.sendToServer(new PacketPlayerItem(player, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
+                Engine.packetHandler.sendToServer(new PacketPlayerItem(player, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
             }
         }
         return stack;

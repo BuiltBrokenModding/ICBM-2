@@ -47,7 +47,7 @@ public class BlastBiome extends Blast<BlastBiome>
             for (Chunk chunk : cube.getChunks(world))
             {
                 PacketBiomeData packet = new PacketBiomeData(chunk);
-                Engine.instance.packetHandler.sendToAllAround(packet, new NetworkRegistry.TargetPoint(world.provider.dimensionId, x, y, z, Math.max(range, 100)));
+                Engine.packetHandler.sendToAllAround(packet, new NetworkRegistry.TargetPoint(world.provider.dimensionId, x, y, z, Math.max(range, 100)));
             }
         }
     }

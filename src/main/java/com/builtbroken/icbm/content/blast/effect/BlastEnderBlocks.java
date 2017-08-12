@@ -178,7 +178,7 @@ public class BlastEnderBlocks extends BlastSimplePath<BlastEnderBlocks>
     {
         if (!world.isRemote)
         {
-            Engine.instance.packetHandler.sendToAllAround(new PacketSpawnStream(world.provider.dimensionId, x, y, z, blocks.x(), blocks.y(), blocks.z(), 0), new NetworkRegistry.TargetPoint(world.provider.dimensionId, blocks.x(), blocks.y(), blocks.z(), 90));
+            Engine.packetHandler.sendToAllAround(new PacketSpawnStream(world.provider.dimensionId, x, y, z, blocks.x(), blocks.y(), blocks.z(), 0), new NetworkRegistry.TargetPoint(world.provider.dimensionId, blocks.x(), blocks.y(), blocks.z(), 90));
         }
     }
 

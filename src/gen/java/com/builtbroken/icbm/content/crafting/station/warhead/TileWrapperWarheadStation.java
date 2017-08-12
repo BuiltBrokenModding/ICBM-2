@@ -9,10 +9,10 @@
 package com.builtbroken.icbm.content.crafting.station.warhead;
 
 import com.builtbroken.icbm.content.crafting.station.warhead.TileWarheadStation;
-import com.builtbroken.mc.api.tile.provider.IInventoryProvider;
 import com.builtbroken.mc.api.tile.node.ITileNode;
+import com.builtbroken.mc.api.tile.provider.IInventoryProvider;
 import com.builtbroken.mc.codegen.annotations.ExternalInventoryWrapped;
-import com.builtbroken.mc.framework.logic.wrapper.TileEntityWrapper;
+import com.builtbroken.mc.seven.framework.logic.TileEntityWrapper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;

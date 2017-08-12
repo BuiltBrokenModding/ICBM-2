@@ -1,19 +1,19 @@
 package com.builtbroken.test.icbm.content.crafting.station;
 
-import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstation;
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstationClient;
 import com.builtbroken.icbm.content.missile.item.ItemMissile;
+import com.builtbroken.mc.abstraction.imp.EngineLoader;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.content.tool.ItemScrewdriver;
 import com.builtbroken.mc.core.network.packet.PacketTile;
-import com.builtbroken.mc.imp.transform.vector.Location;
-import com.builtbroken.mc.imp.transform.vector.Pos;
-import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.framework.multiblock.BlockMultiblock;
 import com.builtbroken.mc.framework.multiblock.EnumMultiblock;
 import com.builtbroken.mc.framework.multiblock.ItemBlockMulti;
+import com.builtbroken.mc.imp.transform.vector.Location;
+import com.builtbroken.mc.imp.transform.vector.Pos;
+import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.testing.junit.ModRegistry;
 import com.builtbroken.mc.testing.junit.VoltzTestRunner;
 import com.builtbroken.mc.testing.junit.world.FakeWorld;
@@ -21,6 +21,7 @@ import com.builtbroken.mc.testing.tile.AbstractTileTest;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,9 +39,16 @@ public class TestSmallMissileStation extends AbstractTileTest<TileSmallMissileWo
     {
         super("testSmallMissileStation", TileSmallMissileWorkstation.class);
         //Init engine to prevent NPE when code is called
-        if (Engine.instance == null)
+        if (Engine.loaderInstance == null)
         {
-            Engine.instance = new Engine();
+            Engine.loaderInstance = new EngineLoader()
+            {
+                @Override
+                public Configuration getConfig()
+                {
+                    return null;
+                }
+            };
         }
         //Load multi block for the test
         if (Engine.multiBlock == null)

@@ -11,7 +11,7 @@ import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
 import com.builtbroken.mc.api.tile.node.ITileNodeHost;
 import com.builtbroken.mc.codegen.annotations.ItemWrapped;
-import com.builtbroken.mc.framework.item.logic.ItemNode;
+import com.builtbroken.mc.framework.item.ItemNode;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import net.minecraft.entity.player.EntityPlayer;

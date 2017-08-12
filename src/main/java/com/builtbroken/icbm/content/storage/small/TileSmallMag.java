@@ -7,7 +7,7 @@ import com.builtbroken.icbm.content.launcher.TileMissileContainer;
 import com.builtbroken.icbm.content.storage.IMissileMag;
 import com.builtbroken.icbm.content.storage.IMissileMagOutput;
 import com.builtbroken.mc.api.tile.IRotatable;
-import com.builtbroken.mc.api.tile.listeners.IDestroyedListener;
+import com.builtbroken.mc.framework.block.imp.IDestroyedListener;
 import com.builtbroken.mc.api.tile.node.ITileNode;
 import com.builtbroken.mc.api.tile.node.ITileNodeHost;
 import com.builtbroken.mc.codegen.annotations.ExternalInventoryWrapped;
