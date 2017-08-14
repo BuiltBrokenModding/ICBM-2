@@ -221,7 +221,7 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
     public String link(Location loc, short code)
     {
         //Validate location data
-        if (loc.world != world())
+        if (loc.world != oldWorld())
         {
             return "link.error.world.match";
         }
@@ -237,7 +237,7 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
         }
 
         //Compare tile pass code
-        ITileNode tile = pos.getTileNode(world());
+        ITileNode tile = pos.getTileNode(oldWorld());
         if (!(tile instanceof TileAbstractLauncher))
         {
             return "link.error.tile.invalid";
@@ -379,7 +379,7 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
     @Override
     public boolean openGui(EntityPlayer player, Object currentGui, Object... data)
     {
-        player.openGui(ICBM.INSTANCE, MAIN_GUI_ID, world(), xi(), yi(), zi());
+        player.openGui(ICBM.INSTANCE, MAIN_GUI_ID, oldWorld(), xi(), yi(), zi());
         return true;
     }
 
@@ -424,7 +424,7 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
         }
         else if (isServer())
         {
-            player.openGui(ICBM.INSTANCE, MAIN_GUI_ID, world(), xi(), yi(), zi());
+            player.openGui(ICBM.INSTANCE, MAIN_GUI_ID, oldWorld(), xi(), yi(), zi());
         }
         return true;
     }
@@ -453,7 +453,7 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
             launcherData.clear();
             for (Pos pos : launcherLocations)
             {
-                TileEntity tile = pos.getTileEntity(world());
+                TileEntity tile = pos.getTileEntity(oldWorld());
                 if (tile instanceof ILauncher)
                 {
                     launcherData.add(new SiloConnectionData((ILauncher) tile));

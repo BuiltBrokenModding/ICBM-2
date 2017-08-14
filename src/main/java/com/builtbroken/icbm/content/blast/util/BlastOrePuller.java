@@ -64,7 +64,7 @@ public class BlastOrePuller extends BlastSimplePath<BlastOrePuller>
                 if (!usedSurfacePos.contains(pos))
                 {
                     //Ensure the slot can be replaced safely
-                    if (pos.isReplaceable(world))
+                    if (pos.isReplaceable(oldWorld))
                     {
                         usedSurfacePos.add(pos);
                         break;
@@ -79,7 +79,7 @@ public class BlastOrePuller extends BlastSimplePath<BlastOrePuller>
                 continue;
             }
             //Add placement call TODO make new block edit class called BlockMove to ensure the original location is also still valid and to reverse if the final location is not valid
-            newList.add(new BlockEditMove(edit, new Location(edit.world(), edit.x(), y, edit.z())).setAir());
+            newList.add(new BlockEditMove(edit, new Location(edit.oldWorld(), edit.x(), y, edit.z())).setAir());
             it.remove(); //Always remove as we now uses the move edit
         }
         list.addAll(newList);
@@ -88,8 +88,8 @@ public class BlastOrePuller extends BlastSimplePath<BlastOrePuller>
     @Override
     public IWorldEdit changeBlock(BlockPos location)
     {
-        Block block = location.getBlock(world);
-        if (!location.canSeeSky(world))
+        Block block = location.getBlock(oldWorld);
+        if (!location.canSeeSky(oldWorld))
         {
             if (blackList.contains(block))
             {
@@ -97,11 +97,11 @@ public class BlastOrePuller extends BlastSimplePath<BlastOrePuller>
             }
             else if (block instanceof BlockOre || block instanceof net.minecraft.block.BlockOre || block instanceof BlockGemOre || whiteList.contains(block))
             {
-                return new BlockEdit(world, location).setAir();
+                return new BlockEdit(oldWorld, location).setAir();
             }
             else if (block.getUnlocalizedName().contains("ore"))
             {
-                List<ItemStack> stacks = block.getDrops(world, location.xi(), location.yi(), location.zi(), 0, 0);
+                List<ItemStack> stacks = block.getDrops(oldWorld, location.xi(), location.yi(), location.zi(), 0, 0);
                 if (stacks != null)
                 {
                     for (ItemStack stack : stacks)
@@ -111,7 +111,7 @@ public class BlastOrePuller extends BlastSimplePath<BlastOrePuller>
                         {
                             //Add to white list to increase speed
                             whiteList.add(block);
-                            return new BlockEdit(world, location).setAir();
+                            return new BlockEdit(oldWorld, location).setAir();
                         }
                     }
                 }

@@ -407,7 +407,7 @@ public class TileSMAutoCraft extends TileMachineNode<ExternalInventory> implemen
                 }
                 else if (id == 2)
                 {
-                    player.openGui(ICBM.INSTANCE, buf.readInt(), world(), xi(), yi(), zi());
+                    player.openGui(ICBM.INSTANCE, buf.readInt(), oldWorld(), xi(), yi(), zi());
                     return true;
                 }
                 //Gui updated some settings

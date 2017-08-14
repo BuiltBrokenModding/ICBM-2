@@ -26,13 +26,13 @@ public class BlastAntiSoft extends BlastSimplePath<BlastAntiSoft>
     {
         //TODO add blacklist
         //TODO add registry
-        if (location.getTileEntity(world) == null)
+        if (location.getTileEntity(oldWorld) == null)
         {
-            Block block = location.getBlock(world);
+            Block block = location.getBlock(oldWorld);
             Material material = block.getMaterial();
             if (material == Material.carpet || material == Material.cloth || material == Material.wood || material == Material.leaves)
             {
-                return new BlockEdit(world, location).set(Blocks.air, 0, true, true);
+                return new BlockEdit(oldWorld, location).set(Blocks.air, 0, true, true);
             }
         }
         return null;

@@ -55,7 +55,7 @@ public abstract class TileSmallMissileStationBase<I extends IInventory> extends 
     public void firstTick()
     {
         super.firstTick();
-        this.connectedBlockSide = ForgeDirection.getOrientation(world().getBlockMetadata(xi(), yi(), zi()));
+        this.connectedBlockSide = ForgeDirection.getOrientation(oldWorld().getBlockMetadata(xi(), yi(), zi()));
         //Force rotation update if it is invalid or blocked
         if (!isRotationValid() || isRotationBlocked(facing))
         {
@@ -63,9 +63,9 @@ public abstract class TileSmallMissileStationBase<I extends IInventory> extends 
         }
         else
         {
-            MultiBlockHelper.buildMultiBlock(world(), this, true, true);
+            MultiBlockHelper.buildMultiBlock(oldWorld(), this, true, true);
         }
-        world().markBlockForUpdate(xi(), yi(), zi());
+        oldWorld().markBlockForUpdate(xi(), yi(), zi());
     }
 
     @Override
@@ -190,7 +190,7 @@ public abstract class TileSmallMissileStationBase<I extends IInventory> extends 
                     return facing;
                 }
             }
-            InventoryUtility.dropBlockAsItem(world(), xi(), yi(), zi(), true);
+            InventoryUtility.dropBlockAsItem(oldWorld(), xi(), yi(), zi(), true);
         }
         return facing;
     }
@@ -219,8 +219,8 @@ public abstract class TileSmallMissileStationBase<I extends IInventory> extends 
                     breakDownStructure(false, false);
                     //Change rotation after breaking down the structure and before making the new structure
                     facing = newDir;
-                    MultiBlockHelper.buildMultiBlock(world(), this, true, true);
-                    MultiBlockHelper.updateStructure(world(), this, true);
+                    MultiBlockHelper.buildMultiBlock(oldWorld(), this, true, true);
+                    MultiBlockHelper.updateStructure(oldWorld(), this, true);
                     rotating = false;
                 }
                 else

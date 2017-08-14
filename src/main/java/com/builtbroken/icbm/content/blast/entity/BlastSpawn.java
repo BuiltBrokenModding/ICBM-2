@@ -38,17 +38,17 @@ public abstract class BlastSpawn extends Blast
     {
         if (!beforeBlocksPlaced)
         {
-            Random rand = world.rand;
+            Random rand = oldWorld.rand;
             for (int i = 0; i < numberOfEntities(); i++)
             {
-                Entity ent = getNewEntity(world, rand, i);
+                Entity ent = getNewEntity(oldWorld, rand, i);
                 if (ent != null)
                 {
                     Location location = new Location(this);
                     boolean spawn = true;
                     if (ent instanceof EntityLiving)
                     {
-                        LivingSpawnEvent.CheckSpawn event = new LivingSpawnEvent.CheckSpawn((EntityLiving) ent, location.world(), location.xf(), location.yf(), location.zf());
+                        LivingSpawnEvent.CheckSpawn event = new LivingSpawnEvent.CheckSpawn((EntityLiving) ent, location.oldWorld(), location.xf(), location.yf(), location.zf());
                         spawn = event.hasResult() && event.getResult() != Event.Result.DENY;
                         ent = event.entity;
                     }
@@ -90,7 +90,7 @@ public abstract class BlastSpawn extends Blast
      */
     protected void spawn(Entity entity)
     {
-        world.spawnEntityInWorld(entity);
+        oldWorld.spawnEntityInWorld(entity);
         if (entity instanceof EntityLiving)
             ((EntityLiving) entity).playLivingSound();
     }

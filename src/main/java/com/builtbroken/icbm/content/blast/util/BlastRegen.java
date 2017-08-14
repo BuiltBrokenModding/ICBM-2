@@ -34,7 +34,7 @@ public class BlastRegen extends Blast<BlastRegen>
         int chunk_x = ((int) x >> 4);
         int chunk_z = ((int) z >> 4);
 
-        IChunkProvider provider = world.getChunkProvider();
+        IChunkProvider provider = oldWorld.getChunkProvider();
 
         if (provider instanceof ChunkProviderServer)
         {
@@ -57,7 +57,7 @@ public class BlastRegen extends Blast<BlastRegen>
                                 {
                                     Block block = newChunk.getBlock(i, j, k);
                                     int meta = newChunk.getBlockMetadata(i, j, k);
-                                    BlockEdit edit = new BlockEdit(world, x, j, z).set(block, meta, false, true);
+                                    BlockEdit edit = new BlockEdit(oldWorld, x, j, z).set(block, meta, false, true);
                                     if (edit.hasChanged())
                                     {
                                         list.add(edit);
@@ -76,9 +76,9 @@ public class BlastRegen extends Blast<BlastRegen>
     @Override
     public void doEffectOther(boolean beforeBlocksPlaced)
     {
-        if (!world.isRemote && !beforeBlocksPlaced)
+        if (!oldWorld.isRemote && !beforeBlocksPlaced)
         {
-            IChunkProvider provider = world.getChunkProvider();
+            IChunkProvider provider = oldWorld.getChunkProvider();
 
             if (provider instanceof ChunkProviderServer)
             {
@@ -90,7 +90,7 @@ public class BlastRegen extends Blast<BlastRegen>
                 {
                     for (int cz = chunk_z - chunks; cz <= chunk_z + chunks; cz++)
                     {
-                        Chunk chunk = world.getChunkFromChunkCoords(cx, cz);
+                        Chunk chunk = oldWorld.getChunkFromChunkCoords(cx, cz);
                         chunk.isTerrainPopulated = false;
                         chunk.isModified = true;
                         provider.populate(provider, cx, cz);

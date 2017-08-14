@@ -252,7 +252,7 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
 
                 setMeta(ForgeDirection.getOrientation(change).ordinal());
 
-                world().notifyBlockChange(xi(), yi(), zi(), this.getBlockType());
+                oldWorld().notifyBlockChange(xi(), yi(), zi(), this.getBlockType());
                 return true;
             }
         }
@@ -263,7 +263,7 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
     public void onPlaced(EntityLivingBase entityLiving, ItemStack itemStack)
     {
         super.onPlaced(entityLiving, itemStack);
-        if (!world().isRemote && ExplosiveItemUtility.getExplosive(itemStack) != null)
+        if (!oldWorld().isRemote && ExplosiveItemUtility.getExplosive(itemStack) != null)
         {
             //Set explosive id
             setWarhead(MissileModuleBuilder.INSTANCE.buildWarhead(itemStack));
@@ -281,9 +281,9 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
 
                 Block b = position.getBlock();
 
-                if (world().getIndirectPowerLevelTo(xi(), yi(), zi(), i) > powerMax)
+                if (oldWorld().getIndirectPowerLevelTo(xi(), yi(), zi(), i) > powerMax)
                 {
-                    powerMax = world().getIndirectPowerLevelTo(xi(), yi(), zi(), i);
+                    powerMax = oldWorld().getIndirectPowerLevelTo(xi(), yi(), zi(), i);
                     power_side = i;
                 }
 
@@ -305,7 +305,7 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
     public void onWorldJoin()
     {
         super.onWorldJoin();
-        world().markBlockForUpdate(xi(), yi(), zi());
+        oldWorld().markBlockForUpdate(xi(), yi(), zi());
     }
 
     @Override
@@ -322,9 +322,9 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
 
             Block b = position.getBlock();
 
-            if (world().getIndirectPowerLevelTo(xi(), yi(), zi(), i) > powerMax)
+            if (oldWorld().getIndirectPowerLevelTo(xi(), yi(), zi(), i) > powerMax)
             {
-                powerMax = world().getIndirectPowerLevelTo(xi(), yi(), zi(), i);
+                powerMax = oldWorld().getIndirectPowerLevelTo(xi(), yi(), zi(), i);
                 power_side = i;
             }
 
@@ -350,9 +350,9 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         if (!exploding)
         {
             exploding = true;
-            if (getWarhead().trigger(triggerCause, world(), x(), y(), z()) == WorldChangeHelper.ChangeResult.COMPLETED)
+            if (getWarhead().trigger(triggerCause, oldWorld(), x(), y(), z()) == WorldChangeHelper.ChangeResult.COMPLETED)
             {
-                world().setBlockToAir(xi(), yi(), zi());
+                oldWorld().setBlockToAir(xi(), yi(), zi());
             }
             else
             {

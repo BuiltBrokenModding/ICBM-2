@@ -191,7 +191,7 @@ public class ClientProxy extends CommonProxy
                         if (data != null)
                         {
                             data.trigger(
-                                    ((EntityMissile) entity).world(), ((EntityMissile) entity).x(), ((EntityMissile) entity).y(), ((EntityMissile) entity).z(), //TODO move spawn point to rear of missile
+                                    ((EntityMissile) entity).oldWorld(), ((EntityMissile) entity).x(), ((EntityMissile) entity).y(), ((EntityMissile) entity).z(), //TODO move spawn point to rear of missile
                                     vel.x(), vel.y(), vel.z(),
                                     false, nbt);
                         }

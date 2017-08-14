@@ -37,7 +37,7 @@ public class BlastFlash extends Blast<BlastFlash>
         if (beforeBlocksPlaced)
         {
             final Pos center = toPos();
-            List<Entity> entityList = world.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(x - size, 0, z - size, x + size, 255, z + size));
+            List<Entity> entityList = oldWorld.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(x - size, 0, z - size, x + size, 255, z + size));
             for (Entity entity : entityList)
             {
                 if (entity instanceof EntityLivingBase)
@@ -51,7 +51,7 @@ public class BlastFlash extends Blast<BlastFlash>
                         if (distance < size)
                         {
                             Pos head = pos.add(0, entity.getEyeHeight(), 0);
-                            MovingObjectPosition hit = head.rayTrace(world, center);
+                            MovingObjectPosition hit = head.rayTrace(oldWorld, center);
                             if (hit.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK)
                             {
                                 ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.blindness.getId(), 200, 2));

@@ -33,19 +33,19 @@ public class BlastEndoThermic extends BlastSimplePath<BlastEndoThermic>
     @Override
     public BlockEdit changeBlock(BlockPos location)
     {
-        Block block = location.getBlock(world);
+        Block block = location.getBlock(oldWorld);
         //TODO change temp to be based on init energy and heating data of the block
         //TODO change to dump heat into the heat map
         PlacementData data = HeatedBlockRegistry.getResultCoolDown(block, getTempForDistance(location.distance(x, y, z)));
         if (data != null && data.block() != null)
         {
-            BlockEdit edit = new BlockEdit(world, location);
+            BlockEdit edit = new BlockEdit(oldWorld, location);
             edit.set(data.block(), data.meta() == -1 ? 0 : data.meta(), false, true);
             return edit;
         }
         else if (block == Blocks.water)
         {
-            BlockEdit edit = new BlockEdit(world, location);
+            BlockEdit edit = new BlockEdit(oldWorld, location);
             edit.set(Blocks.ice, 0, false, true);
             edit.setNotificationLevel(2);
             //TODO turn flowing water into ice slabs matching meta value
@@ -53,17 +53,17 @@ public class BlastEndoThermic extends BlastSimplePath<BlastEndoThermic>
         }
         else if (block == Blocks.snow)
         {
-            BlockEdit edit = new BlockEdit(world, location);
-            edit.set(Blocks.snow_layer, Math.min(location.getBlockMetadata(world) + world.rand.nextInt(3), 15), false, true);
+            BlockEdit edit = new BlockEdit(oldWorld, location);
+            edit.set(Blocks.snow_layer, Math.min(location.getBlockMetadata(oldWorld) + oldWorld.rand.nextInt(3), 15), false, true);
             return edit;
         }
-        else if (location.isReplaceable(world))
+        else if (location.isReplaceable(oldWorld))
         {
-            Location loc = new Location(world, location).add(0, -1, 0);
-            if (!loc.isAirBlock() && loc.isSideSolid(ForgeDirection.UP) && Blocks.snow.canPlaceBlockAt(world, location.xi(), location.yi(), location.zi()))
+            Location loc = new Location(oldWorld, location).add(0, -1, 0);
+            if (!loc.isAirBlock() && loc.isSideSolid(ForgeDirection.UP) && Blocks.snow.canPlaceBlockAt(oldWorld, location.xi(), location.yi(), location.zi()))
             {
-                BlockEdit edit = new BlockEdit(world, location);
-                edit.set(Blocks.snow_layer, world.rand.nextInt(3), false, true);
+                BlockEdit edit = new BlockEdit(oldWorld, location);
+                edit.set(Blocks.snow_layer, oldWorld.rand.nextInt(3), false, true);
                 return edit;
             }
         }
@@ -75,7 +75,7 @@ public class BlastEndoThermic extends BlastSimplePath<BlastEndoThermic>
     {
         if (super.shouldPathTo(last, next, dir))
         {
-            if (last.isAirBlock(world) && next.isAirBlock(world))
+            if (last.isAirBlock(oldWorld) && next.isAirBlock(oldWorld))
             {
                 return EnumFacing.UP != dir;
             }

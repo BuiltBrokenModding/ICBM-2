@@ -32,13 +32,13 @@ public class BlastCake extends Blast<BlastCake>
     public void getEffectedBlocks(final List<IWorldEdit> list)
     {
         Pos pos = new Pos(x, y, z); //TODO make place more than 1
-        if (pos.isReplaceable(world))
+        if (pos.isReplaceable(oldWorld))
         {
-            list.add(new BlockEdit(world, x, y, z).set(ICBM.APRIL_FIRST ? ICBM_API.blockCake : Blocks.cake));
+            list.add(new BlockEdit(oldWorld, x, y, z).set(ICBM.APRIL_FIRST ? ICBM_API.blockCake : Blocks.cake));
         }
-        else if (pos.add(0, 1, 0).isReplaceable(world))
+        else if (pos.add(0, 1, 0).isReplaceable(oldWorld))
         {
-            list.add(new BlockEdit(world, x, y + 1, z).set(ICBM.APRIL_FIRST ? ICBM_API.blockCake : Blocks.cake));
+            list.add(new BlockEdit(oldWorld, x, y + 1, z).set(ICBM.APRIL_FIRST ? ICBM_API.blockCake : Blocks.cake));
         }
     }
 
@@ -54,7 +54,7 @@ public class BlastCake extends Blast<BlastCake>
         if (!beforeBlocksPlaced && ICBM.APRIL_FIRST)
         {
             AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(x - 100, y - 100, z - 100, z + 100, y + 100, z + 100);
-            List<Entity> entities = world.getEntitiesWithinAABB(EntityPlayer.class, bb);
+            List<Entity> entities = oldWorld.getEntitiesWithinAABB(EntityPlayer.class, bb);
             for (Entity entity : entities)
             {
                 if (entity instanceof EntityPlayer)

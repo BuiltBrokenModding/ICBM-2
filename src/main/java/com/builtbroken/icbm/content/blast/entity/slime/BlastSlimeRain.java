@@ -38,10 +38,10 @@ public class BlastSlimeRain extends Blast<BlastSlimeRain> implements IBlastTileM
         if (ticks++ % 5 == 0)
         {
             //TODO add spawn limit to prevent lag
-            if (!world.isRemote)
+            if (!oldWorld.isRemote)
             {
-                EulerAngle angle = new EulerAngle(world.rand.nextFloat() * 360, 0 + 90 * world.rand.nextFloat());
-                Location pos = new Location(world, angle.toPos().multiply(10).add(x, y + 70, z));
+                EulerAngle angle = new EulerAngle(oldWorld.rand.nextFloat() * 360, 0 + 90 * oldWorld.rand.nextFloat());
+                Location pos = new Location(oldWorld, angle.toPos().multiply(10).add(x, y + 70, z));
                 if (pos.isChunkLoaded())
                 {
                     Chunk chunk = pos.getChunk();
@@ -56,10 +56,10 @@ public class BlastSlimeRain extends Blast<BlastSlimeRain> implements IBlastTileM
                     if (count < 30)
                     {
                         //TODO pick random location
-                        EntitySlimeRain entity = new EntitySlimeRain(world);
+                        EntitySlimeRain entity = new EntitySlimeRain(oldWorld);
                         entity.setSlimeSize(1);
                         entity.setPosition(pos.x(), pos.y(), pos.z());
-                        world.spawnEntityInWorld(entity);
+                        oldWorld.spawnEntityInWorld(entity);
                     }
                     else
                     {

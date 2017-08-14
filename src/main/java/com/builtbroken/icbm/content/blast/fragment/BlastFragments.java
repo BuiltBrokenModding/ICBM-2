@@ -34,7 +34,7 @@ public class BlastFragments extends BlastBasic<BlastFragments>
         if (!beforeBlocksPlaced)
         {
             final Pos center = new Pos(x, y, z);
-            spawnFragments(world, center, (int) size, blastType.fragmentType, blastType.blockMaterial);
+            spawnFragments(oldWorld, center, (int) size, blastType.fragmentType, blastType.blockMaterial);
         }
     }
 

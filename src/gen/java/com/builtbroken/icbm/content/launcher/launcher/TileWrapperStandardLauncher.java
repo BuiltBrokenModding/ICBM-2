@@ -1,18 +1,16 @@
 //=======================================================
 //DISCLAIMER: THIS IS A GENERATED CLASS FILE
 //THUS IS PROVIDED 'AS-IS' WITH NO WARRANTY
-//FUNCTIONALITY CAN NOT BE GUARANTIED IN ANY WAY 
-//USE AT YOUR OWN RISK 
+//FUNCTIONALITY CAN NOT BE GUARANTIED IN ANY WAY
+//USE AT YOUR OWN RISK
 //-------------------------------------------------------
 //Built on: Rober
 //=======================================================
 package com.builtbroken.icbm.content.launcher.launcher;
 
-import com.builtbroken.icbm.content.launcher.launcher.TileStandardLauncher;
 import com.builtbroken.jlib.data.vector.IPos3D;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
-import com.builtbroken.mc.api.tile.node.ITileNode;
 import com.builtbroken.mc.framework.block.imp.IBlockListener;
 import com.builtbroken.mc.framework.block.imp.ITileEventListener;
 import com.builtbroken.mc.seven.framework.logic.TileEntityWrapper;
@@ -50,7 +48,7 @@ public class TileWrapperStandardLauncher extends TileEntityWrapper implements IM
                     {
                         if (listener instanceof IBlockListener)
                         {
-                            ((IBlockListener) listener).inject(world(), xi(), yi(), zi());
+                            ((IBlockListener) listener).inject(oldWorld(), xi(), yi(), zi());
                         }
                         if (listener.isValidForTile())
                         {
@@ -82,7 +80,7 @@ public class TileWrapperStandardLauncher extends TileEntityWrapper implements IM
                         {
                             if (listener instanceof IBlockListener)
                             {
-                                ((IBlockListener) listener).inject(world(), xi(), yi(), zi());
+                                ((IBlockListener) listener).inject(oldWorld(), xi(), yi(), zi());
                             }
                             if (listener.isValidForTile())
                             {
@@ -119,7 +117,7 @@ public class TileWrapperStandardLauncher extends TileEntityWrapper implements IM
                         {
                             if (listener instanceof IBlockListener)
                             {
-                                ((IBlockListener) listener).inject(world(), xi(), yi(), zi());
+                                ((IBlockListener) listener).inject(oldWorld(), xi(), yi(), zi());
                             }
                             if (listener.isValidForTile())
                             {
@@ -150,7 +148,7 @@ public class TileWrapperStandardLauncher extends TileEntityWrapper implements IM
                     {
                         if (listener instanceof IBlockListener)
                         {
-                            ((IBlockListener) listener).inject(world(), xi(), yi(), zi());
+                            ((IBlockListener) listener).inject(oldWorld(), xi(), yi(), zi());
                         }
                         if (listener.isValidForTile())
                         {
@@ -183,7 +181,7 @@ public class TileWrapperStandardLauncher extends TileEntityWrapper implements IM
                     {
                         if (listener instanceof IBlockListener)
                         {
-                            ((IBlockListener) listener).inject(world(), xi(), yi(), zi());
+                            ((IBlockListener) listener).inject(oldWorld(), xi(), yi(), zi());
                         }
                         if (listener.isValidForTile())
                         {
@@ -216,7 +214,7 @@ public class TileWrapperStandardLauncher extends TileEntityWrapper implements IM
                     {
                         if (listener instanceof IBlockListener)
                         {
-                            ((IBlockListener) listener).inject(world(), xi(), yi(), zi());
+                            ((IBlockListener) listener).inject(oldWorld(), xi(), yi(), zi());
                         }
                         if (listener.isValidForTile())
                         {
@@ -232,5 +230,5 @@ public class TileWrapperStandardLauncher extends TileEntityWrapper implements IM
         }
         return null;
     }
-    
+
 }

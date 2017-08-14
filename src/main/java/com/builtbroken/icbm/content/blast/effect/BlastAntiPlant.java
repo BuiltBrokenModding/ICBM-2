@@ -2,7 +2,6 @@ package com.builtbroken.icbm.content.blast.effect;
 
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.imp.transform.region.Cube;
 import com.builtbroken.mc.imp.transform.vector.BlockPos;
 import com.builtbroken.mc.imp.transform.vector.Pos;
@@ -35,26 +34,26 @@ public class BlastAntiPlant extends BlastSimplePath<BlastAntiPlant>
     @Override
     public BlockEdit changeBlock(BlockPos location)
     {
-        Block block = location.getBlock(world);
+        Block block = location.getBlock(oldWorld);
         //int meta = location.getBlockMetadata();
         Material material = block.getMaterial();
-        if (!location.isAirBlock(world) && location.getHardness(world) >= 0)
+        if (!location.isAirBlock(oldWorld) && location.getHardness(oldWorld) >= 0)
         {
             if (block == Blocks.grass)
             {
-                return new BlockEdit(world, location).set(Blocks.dirt, 1, false, true);
+                return new BlockEdit(oldWorld, location).set(Blocks.dirt, 1, false, true);
             }
             else if (block == Blocks.dirt)
             {
-                return new BlockEdit(world, location).set(Blocks.dirt, 1, false, true);
+                return new BlockEdit(oldWorld, location).set(Blocks.dirt, 1, false, true);
             }
             else if (block == Blocks.tallgrass)
             {
-                return new BlockEdit(world, location).set(Blocks.air, 0, false, true);
+                return new BlockEdit(oldWorld, location).set(Blocks.air, 0, false, true);
             }
             else if (block == Blocks.mossy_cobblestone)
             {
-                return new BlockEdit(world, location).set(Blocks.cobblestone, 0, false, true);
+                return new BlockEdit(oldWorld, location).set(Blocks.cobblestone, 0, false, true);
             }
             else if (material == Material.leaves
                     || material == Material.plants
@@ -62,15 +61,15 @@ public class BlastAntiPlant extends BlastSimplePath<BlastAntiPlant>
                     || material == Material.cactus
                     || material == Material.gourd)
             {
-                return new BlockEdit(world, location).set(Blocks.air, 0, false, true);
+                return new BlockEdit(oldWorld, location).set(Blocks.air, 0, false, true);
             }
             else if (block instanceof BlockHugeMushroom || block instanceof BlockMycelium || block instanceof BlockHay || block instanceof BlockLog)
             {
-                return new BlockEdit(world, location).set(Blocks.dirt, 1, false, true);
+                return new BlockEdit(oldWorld, location).set(Blocks.dirt, 1, false, true);
             }
             else if (block instanceof IPlantable || block instanceof IGrowable)
             {
-                return new BlockEdit(world, location).set(Blocks.air, 1, false, true);
+                return new BlockEdit(oldWorld, location).set(Blocks.air, 1, false, true);
             }
         }
         return null;
@@ -83,7 +82,7 @@ public class BlastAntiPlant extends BlastSimplePath<BlastAntiPlant>
         {
             Pos center = new Pos(x, y, z);
             //TODO add more plant based mob entries
-            List<Entity> ents = world.getEntitiesWithinAABB(EntityCreeper.class, new Cube(-size, -size - 1, -size, size, size, size).add(x, y, z).cropToWorld().toAABB());
+            List<Entity> ents = oldWorld.getEntitiesWithinAABB(EntityCreeper.class, new Cube(-size, -size - 1, -size, size, size, size).add(x, y, z).cropToWorld().toAABB());
             for (Entity entity : ents)
             {
                 if (center.distance(entity) <= size)
@@ -91,14 +90,14 @@ public class BlastAntiPlant extends BlastSimplePath<BlastAntiPlant>
                     entity.setDead();
                 }
             }
-            List<Entity> players = world.getEntitiesWithinAABB(EntityPlayerMP.class, new Cube(-size, -size - 1, -size, size, size, size).add(x, y, z).cropToWorld().toAABB());
+            List<Entity> players = oldWorld.getEntitiesWithinAABB(EntityPlayerMP.class, new Cube(-size, -size - 1, -size, size, size, size).add(x, y, z).cropToWorld().toAABB());
             //Botania devs are made of plants, lol inside joke
-            for(Entity entity : players)
+            for (Entity entity : players)
             {
-                if(entity instanceof EntityPlayerMP)
+                if (entity instanceof EntityPlayerMP)
                 {
-                    String username = ((EntityPlayerMP)entity).getGameProfile().getName();
-                    if(username.equalsIgnoreCase("williewillus") || username.equalsIgnoreCase("Vazkii"))
+                    String username = ((EntityPlayerMP) entity).getGameProfile().getName();
+                    if (username.equalsIgnoreCase("williewillus") || username.equalsIgnoreCase("Vazkii"))
                     {
                         entity.attackEntityFrom(DamageSource.magic, 15);
                     }
@@ -110,17 +109,17 @@ public class BlastAntiPlant extends BlastSimplePath<BlastAntiPlant>
     @Override
     public void displayEffectForEdit(IWorldEdit blocks)
     {
-        if (!world.isRemote)
+        if (!oldWorld.isRemote)
         {
             //Generate random position near block
-            double posX = (double) ((float) blocks.x() + world.rand.nextFloat());
-            double posY = (double) ((float) blocks.y() + world.rand.nextFloat());
-            double posZ = (double) ((float) blocks.z() + world.rand.nextFloat());
+            double posX = (double) ((float) blocks.x() + oldWorld.rand.nextFloat());
+            double posY = (double) ((float) blocks.y() + oldWorld.rand.nextFloat());
+            double posZ = (double) ((float) blocks.z() + oldWorld.rand.nextFloat());
 
             Pos pos = randomMotion(posX, posY, posZ);
             //Spawn particles
-            Engine.minecraft.spawnParticle("explode", world, (posX + x * 1.0D) / 2.0D, (posY + y * 1.0D) / 2.0D, (posZ + z * 1.0D) / 2.0D, pos.x(), pos.y(), pos.z());
-            Engine.minecraft.spawnParticle("smoke", world, posX, posY, posZ, pos.x(), pos.y(), pos.z());
+            world.spawnParticle("explode", (posX + x * 1.0D) / 2.0D, (posY + y * 1.0D) / 2.0D, (posZ + z * 1.0D) / 2.0D, pos.x(), pos.y(), pos.z());
+            world.spawnParticle("smoke", posX, posY, posZ, pos.x(), pos.y(), pos.z());
         }
     }
 

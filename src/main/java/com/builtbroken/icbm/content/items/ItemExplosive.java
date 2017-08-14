@@ -11,7 +11,7 @@ import com.builtbroken.jlib.data.Colors;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.explosives.IExplosiveItem;
 import com.builtbroken.mc.client.ExplosiveRegistryClient;
-import com.builtbroken.mc.core.CommonProxy;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.core.registry.implement.IRegistryInit;
 import com.builtbroken.mc.framework.explosive.ExplosiveItemUtility;
@@ -150,7 +150,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
                 translation = translation.replace("%1", "" + count);
                 list.add(translation);
 
-                if (CommonProxy.proxy.isShiftHeld())
+                if (Engine.isShiftHeld())
                 {
                     list.add(LanguageUtility.getLocal(getUnlocalizedName() + ".fragment.damage.equation.info"));
 
@@ -172,7 +172,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         }
         else
         {
-            if (CommonProxy.proxy.isShiftHeld())
+            if (Engine.isShiftHeld())
             {
                 //Custom info for biome change
                 if (stack.getItemDamage() == ExplosiveItems.BIOME_CHANGE.ordinal())

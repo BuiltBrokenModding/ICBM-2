@@ -206,7 +206,7 @@ public class TileSmallMag extends TileMissileContainer implements IMissileMag, I
     public void readDescPacket(ByteBuf buf)
     {
         super.readDescPacket(buf);
-        world().markBlockRangeForRenderUpdate(xi(), yi(), zi(), xi(), yi(), zi());
+        oldWorld().markBlockRangeForRenderUpdate(xi(), yi(), zi(), xi(), yi(), zi());
     }
 
     @Override
@@ -214,7 +214,7 @@ public class TileSmallMag extends TileMissileContainer implements IMissileMag, I
     {
         if (dirCache == null)
         {
-            dirCache = ForgeDirection.getOrientation(world().getBlockMetadata(xi(), yi(), zi()));
+            dirCache = ForgeDirection.getOrientation(oldWorld().getBlockMetadata(xi(), yi(), zi()));
         }
         return dirCache;
     }
@@ -226,7 +226,7 @@ public class TileSmallMag extends TileMissileContainer implements IMissileMag, I
         if (meta >= 2 && meta <= 5) //Restrict to side only rotations
         {
             dirCache = null;
-            world().setBlockMetadataWithNotify(xi(), yi(), zi(), meta, 3);
+            oldWorld().setBlockMetadataWithNotify(xi(), yi(), zi(), meta, 3);
         }
     }
 }

@@ -16,7 +16,7 @@ public class WorldChangeSpawnEntityEvent extends LivingSpawnEvent.SpecialSpawn /
 
     public WorldChangeSpawnEntityEvent(EntityLiving entity, IWorldChangeAction blast, Location vec)
     {
-        this(entity, blast, vec.world(), vec.x(), vec.y(), vec.z());
+        this(entity, blast, vec.oldWorld(), vec.x(), vec.y(), vec.z());
     }
 
     public WorldChangeSpawnEntityEvent(EntityLiving entity, IWorldChangeAction blast, World world, double x, double y, double z)

@@ -2,7 +2,6 @@ package com.builtbroken.icbm.content.blast.fire;
 
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.imp.transform.vector.BlockPos;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
@@ -31,12 +30,12 @@ public class BlastFlashFire extends BlastSimplePath<BlastFlashFire>
     @Override
     public BlockEdit changeBlock(BlockPos location)
     {
-        if (location.isReplaceable(world))
+        if (location.isReplaceable(oldWorld))
         {
-            Location loc = new Location(world, location).add(0, -1, 0);
+            Location loc = new Location(oldWorld, location).add(0, -1, 0);
             if (!loc.isAirBlock() && loc.isSideSolid(ForgeDirection.UP))
             {
-                BlockEdit edit = new BlockEdit(world, location);
+                BlockEdit edit = new BlockEdit(oldWorld, location);
                 edit.set(Blocks.fire, 0, false, true);
                 return edit;
             }
@@ -49,7 +48,7 @@ public class BlastFlashFire extends BlastSimplePath<BlastFlashFire>
     {
         if (super.shouldPathTo(last, next, dir))
         {
-            if (last.isReplaceable(world) && next.isReplaceable(world))
+            if (last.isReplaceable(oldWorld) && next.isReplaceable(oldWorld))
                 return dir != EnumFacing.UP;
             return true;
         }
@@ -96,18 +95,18 @@ public class BlastFlashFire extends BlastSimplePath<BlastFlashFire>
     @Override
     public void displayEffectForEdit(IWorldEdit blocks)
     {
-        if (!world.isRemote)
+        if (!oldWorld.isRemote)
         {
-            Engine.minecraft.spawnParticle("lava", world, blocks.x(), blocks.y(), blocks.z(), 0.0D, 0.0D, 0.0D);
+            world.spawnParticle("lava", blocks.x(), blocks.y(), blocks.z(), 0.0D, 0.0D, 0.0D);
         }
     }
 
     @Override
     public void playAudioForEdit(IWorldEdit blocks)
     {
-        if (!world.isRemote)
+        if (!oldWorld.isRemote)
         {
-            world.playSoundEffect(blocks.x(), blocks.y(), blocks.z(), "liquid.lavapop", 0.2F + world.rand.nextFloat() * 0.2F, 0.9F + world.rand.nextFloat() * 0.15F);
+            oldWorld.playSoundEffect(blocks.x(), blocks.y(), blocks.z(), "liquid.lavapop", 0.2F + oldWorld.rand.nextFloat() * 0.2F, 0.9F + oldWorld.rand.nextFloat() * 0.15F);
         }
     }
 }

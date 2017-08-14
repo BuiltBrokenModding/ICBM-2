@@ -501,7 +501,7 @@ public class TileWarheadStation extends TileMachineNode<ExternalInventory> imple
                 else if (id == 2)
                 {
                     int guiID = buf.readInt();
-                    player.openGui(ICBM.INSTANCE, guiID, world(), xi(), yi(), zi());
+                    player.openGui(ICBM.INSTANCE, guiID, oldWorld(), xi(), yi(), zi());
                     return true;
                 }
                 //Gui updated some settings

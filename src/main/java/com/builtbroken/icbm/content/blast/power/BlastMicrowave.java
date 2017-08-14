@@ -42,7 +42,7 @@ public class BlastMicrowave extends BlastSimplePath<BlastMicrowave>
     @Override
     public IWorldEdit changeBlock(BlockPos location)
     {
-        Block block = location.getBlock(world);
+        Block block = location.getBlock(oldWorld);
         if (block.blockHardness > -1)
         {
             //TODO cause steam damage
@@ -52,28 +52,28 @@ public class BlastMicrowave extends BlastSimplePath<BlastMicrowave>
             //TODO damage low grade wires
             if (block == Blocks.water || block == Blocks.flowing_water)
             {
-                return new BlockEdit(world, location).set(Blocks.air).setNotificationLevel(2);
+                return new BlockEdit(oldWorld, location).set(Blocks.air).setNotificationLevel(2);
             }
             else if (block == Blocks.cactus)
             {
-                return new BlockEdit(world, location).set(Blocks.fire);
+                return new BlockEdit(oldWorld, location).set(Blocks.fire);
             }
             else if (block.blockMaterial == Material.wood)
             {
-                if (world.rand.nextFloat() < 0.05)
+                if (oldWorld.rand.nextFloat() < 0.05)
                 {
-                    return new BlockEdit(world, location).set(Blocks.fire);
+                    return new BlockEdit(oldWorld, location).set(Blocks.fire);
                 }
             }
             else if (block.blockMaterial == Material.plants || block.blockMaterial == Material.leaves)
             {
-                if (world.rand.nextFloat() < 0.25 && block == Blocks.sapling)
+                if (oldWorld.rand.nextFloat() < 0.25 && block == Blocks.sapling)
                 {
-                    return new BlockEdit(world, location).set(Blocks.deadbush);
+                    return new BlockEdit(oldWorld, location).set(Blocks.deadbush);
                 }
-                else if (world.rand.nextFloat() < 0.10)
+                else if (oldWorld.rand.nextFloat() < 0.10)
                 {
-                    return new BlockEdit(world, location).set(Blocks.fire);
+                    return new BlockEdit(oldWorld, location).set(Blocks.fire);
                 }
             }
             else if (block.blockMaterial == Material.anvil || block.blockMaterial == Material.iron)
@@ -89,7 +89,7 @@ public class BlastMicrowave extends BlastSimplePath<BlastMicrowave>
     {
 
         AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(x - size, y - size, z - size, z + size, y + size, z + size);
-        List<EntityLivingBase> list = world.getEntitiesWithinAABB(EntityLivingBase.class, bounds);
+        List<EntityLivingBase> list = oldWorld.getEntitiesWithinAABB(EntityLivingBase.class, bounds);
 
         for (EntityLivingBase entity : list)
         {
@@ -105,7 +105,7 @@ public class BlastMicrowave extends BlastSimplePath<BlastMicrowave>
                     //+ 25% per armor worn that is metal
                     damage += damage * armorCount * 0.25;
                 }
-                world.playSoundEffect(x, y, z, "icbm:icbm.fry", 0.2F + world.rand.nextFloat() * 0.2F, 0.9F + world.rand.nextFloat() * 0.15F);
+                oldWorld.playSoundEffect(x, y, z, "icbm:icbm.fry", 0.2F + oldWorld.rand.nextFloat() * 0.2F, 0.9F + oldWorld.rand.nextFloat() * 0.15F);
                 entity.attackEntityFrom(new DamageMicrowave(cause instanceof TriggerCause.TriggerCauseEntity ? ((TriggerCause.TriggerCauseEntity) cause).source : this, new Location(entity)), damage);
             }
             //Set fire to entry
@@ -119,10 +119,10 @@ public class BlastMicrowave extends BlastSimplePath<BlastMicrowave>
                 float damage = (float) (6 - 5 * (distanceToCenter / size));
                 for (EntityLivingBase entity : list)
                 {
-                    if (pos.distance(entity) < 4 && world.rand.nextBoolean())
+                    if (pos.distance(entity) < 4 && oldWorld.rand.nextBoolean())
                     {
-                        world.playSoundEffect(pos.x(), pos.y(), pos.z(), "icbm:icbm.emp", 0.2F + world.rand.nextFloat() * 0.2F, 0.9F + world.rand.nextFloat() * 0.15F);
-                        entity.attackEntityFrom(new DamageElectrical(cause instanceof TriggerCause.TriggerCauseEntity ? ((TriggerCause.TriggerCauseEntity) cause).source : this, new Location(world, pos)), damage);
+                        oldWorld.playSoundEffect(pos.x(), pos.y(), pos.z(), "icbm:icbm.emp", 0.2F + oldWorld.rand.nextFloat() * 0.2F, 0.9F + oldWorld.rand.nextFloat() * 0.15F);
+                        entity.attackEntityFrom(new DamageElectrical(cause instanceof TriggerCause.TriggerCauseEntity ? ((TriggerCause.TriggerCauseEntity) cause).source : this, new Location(oldWorld, pos)), damage);
                     }
                 }
             }
@@ -138,9 +138,9 @@ public class BlastMicrowave extends BlastSimplePath<BlastMicrowave>
     @Override
     public void doStartAudio()
     {
-        if (!world.isRemote)
+        if (!oldWorld.isRemote)
         {
-            world.playSoundEffect(x, y, z, "icbm:icbm.buzz", 0.2F + world.rand.nextFloat() * 0.2F, 0.9F + world.rand.nextFloat() * 0.15F);
+            oldWorld.playSoundEffect(x, y, z, "icbm:icbm.buzz", 0.2F + oldWorld.rand.nextFloat() * 0.2F, 0.9F + oldWorld.rand.nextFloat() * 0.15F);
         }
     }
 
@@ -164,7 +164,7 @@ public class BlastMicrowave extends BlastSimplePath<BlastMicrowave>
             //Send packet to spawn effects client side
             Engine.packetHandler.sendToAllAround(new PacketBlast(this, (BlockEdit) edit), edit, 20);
             //Activate audio, sent to client by MC
-            world.playSoundEffect(edit.z() + 0.5, edit.y() + 0.5, edit.z() + 0.5F, "random.fizz", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
+            oldWorld.playSoundEffect(edit.z() + 0.5, edit.y() + 0.5, edit.z() + 0.5F, "random.fizz", 0.5F, 2.6F + (oldWorld.rand.nextFloat() - oldWorld.rand.nextFloat()) * 0.8F);
         }
     }
 

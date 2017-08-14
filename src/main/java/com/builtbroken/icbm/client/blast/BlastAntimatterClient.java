@@ -2,7 +2,6 @@ package com.builtbroken.icbm.client.blast;
 
 import com.builtbroken.icbm.content.blast.explosive.BlastAntimatter;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.imp.transform.rotation.EulerAngle;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.render.fx.FXSmoke;
@@ -36,7 +35,7 @@ public class BlastAntimatterClient extends BlastAntimatter
                 {
                     EulerAngle rotation = new EulerAngle(yaw * degreePerAngle, pitch * degreePerAngle);
                     Pos velocity = rotation.toPos().multiply(((float) shells / (float) shells) * 1);
-                    Engine.minecraft.spawnParticle("smoke", world, center.x(), center.y(), center.z(), velocity.x(), velocity.y(), velocity.z());
+                    world.spawnParticle("smoke", center.x(), center.y(), center.z(), velocity.x(), velocity.y(), velocity.z());
                 }
             }
         }
@@ -65,7 +64,7 @@ public class BlastAntimatterClient extends BlastAntimatter
                         EulerAngle rotation = new EulerAngle(yaw * degreePerAngle, pitch * degreePerAngle);
                         Pos velocity = rotation.toPos().multiply(((float) shells / (float) shells) * 0.8);
 
-                        FXSmoke entity = new FXSmoke(world, center.add(velocity.multiply(1 + (shell / 4))), velocity, Color.RED.darker(), 1, 10, true);
+                        FXSmoke entity = new FXSmoke(oldWorld, center.add(velocity.multiply(1 + (shell / 4))), velocity, Color.RED.darker(), 1, 10, true);
                         entity.noClip = true;
                         Minecraft.getMinecraft().effectRenderer.addEffect(entity);
                     }

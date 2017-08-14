@@ -34,7 +34,7 @@ public class BlastMidasOre extends BlastSimplePath<BlastMidasOre>
     @Override
     public IWorldEdit changeBlock(BlockPos location)
     {
-        Block block = location.getBlock(world);
+        Block block = location.getBlock(oldWorld);
 
         if (blackList.contains(block))
         {
@@ -42,11 +42,11 @@ public class BlastMidasOre extends BlastSimplePath<BlastMidasOre>
         }
         else if (block instanceof BlockOre || block instanceof net.minecraft.block.BlockOre || block instanceof BlockGemOre || whiteList.contains(block))
         {
-            return new BlockEdit(world, location).set(Blocks.gold_ore);
+            return new BlockEdit(oldWorld, location).set(Blocks.gold_ore);
         }
         else if (block.getUnlocalizedName().contains("ore"))
         {
-            List<ItemStack> stacks = block.getDrops(world, location.xi(), location.yi(), location.zi(), 0, 0);
+            List<ItemStack> stacks = block.getDrops(oldWorld, location.xi(), location.yi(), location.zi(), 0, 0);
             if (stacks != null)
             {
                 for (ItemStack stack : stacks)
@@ -56,7 +56,7 @@ public class BlastMidasOre extends BlastSimplePath<BlastMidasOre>
                     {
                         //Add to white list to increase speed
                         whiteList.add(block);
-                        return new BlockEdit(world, location).set(Blocks.gold_ore);
+                        return new BlockEdit(oldWorld, location).set(Blocks.gold_ore);
                     }
                 }
             }

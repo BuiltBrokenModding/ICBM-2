@@ -99,7 +99,7 @@ public class TileStandardLauncher extends TileAbstractLauncher implements IRotat
                 if (buildMissileBlocks)
                 {
                     buildMissileBlocks = false;
-                    MultiBlockHelper.buildMultiBlock(world(), (IMultiTileHost) getHost(), true, true);
+                    MultiBlockHelper.buildMultiBlock(oldWorld(), (IMultiTileHost) getHost(), true, true);
                 }
                 else if (destroyMissileBlocks)
                 {
@@ -111,7 +111,7 @@ public class TileStandardLauncher extends TileAbstractLauncher implements IRotat
             if (ticks % frameUpdateCheckTick == 0)
             {
                 //Check if broken by counting number of frames
-                int count = LauncherPartListener.getFrameCount(world(), new Pos(this).add(0, 1, 0));
+                int count = LauncherPartListener.getFrameCount(oldWorld(), new Pos(this).add(0, 1, 0));
                 MissileSize size = LauncherPartListener.getLauncherSize(count);
                 //If we do not have 5 blocks drop the missile and set the block back to CPU
                 if (size != missileSize)
@@ -120,17 +120,17 @@ public class TileStandardLauncher extends TileAbstractLauncher implements IRotat
                     Block blockDrop = InventoryUtility.getBlock("icbm:icbmLauncherParts");
                     if (blockDrop != null)
                     {
-                        world().setBlock(xi(), yi(), zi(), blockDrop);
+                        oldWorld().setBlock(xi(), yi(), zi(), blockDrop);
                     }
                 }
                 else
                 {
                     //Updates top block meta for older versions of ICBM
-                    int meta = world().getBlockMetadata(xi(), yi() + count, zi());
+                    int meta = oldWorld().getBlockMetadata(xi(), yi() + count, zi());
                     int dMeta = getMetaForDirection(getDirection());
                     if (meta != dMeta)
                     {
-                        world().setBlockMetadataWithNotify(xi(), yi() + count, zi(), dMeta, 3);
+                        oldWorld().setBlockMetadataWithNotify(xi(), yi() + count, zi(), dMeta, 3);
                     }
                 }
             }
@@ -456,7 +456,7 @@ public class TileStandardLauncher extends TileAbstractLauncher implements IRotat
             {
                 for (int z = -1; z < 2; z++)
                 {
-                    if (world().rand.nextFloat() < 0.3f)
+                    if (oldWorld().rand.nextFloat() < 0.3f)
                     {
                         final Location pos = center.add(x, 0, z);
 

@@ -143,10 +143,10 @@ public abstract class TileAbstractWorkstation<I extends IInventory> extends Tile
         for (IPos3D p : getLayoutOfMultiBlock(newRotation).keySet())
         {
             Pos pos = this.toPos().add(p);
-            Block block = world().getBlock((int) pos.x(), (int) pos.y(), (int) pos.z());
-            if (!block.isAir(world(), (int) pos.x(), (int) pos.y(), (int) pos.z()))
+            Block block = oldWorld().getBlock((int) pos.x(), (int) pos.y(), (int) pos.z());
+            if (!block.isAir(oldWorld(), (int) pos.x(), (int) pos.y(), (int) pos.z()))
             {
-                TileEntity tile = pos.getTileEntity(world());
+                TileEntity tile = pos.getTileEntity(oldWorld());
                 if (tile instanceof IMultiTile && (((IMultiTile) tile).getHost() == this || ((IMultiTile) tile).getHost() == null))
                 {
                     continue;

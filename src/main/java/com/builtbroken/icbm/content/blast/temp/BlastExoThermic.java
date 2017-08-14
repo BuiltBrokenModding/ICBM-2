@@ -2,7 +2,6 @@ package com.builtbroken.icbm.content.blast.temp;
 
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.imp.transform.vector.BlockPos;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.lib.data.heat.HeatedBlockRegistry;
@@ -36,7 +35,7 @@ public class BlastExoThermic extends BlastSimplePath<BlastExoThermic>
     @Override
     public BlockEdit changeBlock(BlockPos location)
     {
-        Block block = location.getBlock(world);
+        Block block = location.getBlock(oldWorld);
         if (block != null)
         {
             //TODO change temp to be based on init energy and heating data of the block
@@ -44,16 +43,16 @@ public class BlastExoThermic extends BlastSimplePath<BlastExoThermic>
             PlacementData data = HeatedBlockRegistry.getResultWarmUp(block, getTempForDistance(location.distance(x, y, z)));
             if (data != null && data.block() != null)
             {
-                BlockEdit edit = new BlockEdit(world, location);
+                BlockEdit edit = new BlockEdit(oldWorld, location);
                 edit.set(data.block(), data.meta() == -1 ? 0 : data.meta(), false, true);
                 return edit;
             }
-            else if (location.isReplaceable(world))
+            else if (location.isReplaceable(oldWorld))
             {
-                Location loc = new Location(world, location).add(0, -1, 0);
+                Location loc = new Location(oldWorld, location).add(0, -1, 0);
                 if (!loc.isAirBlock() && loc.isSideSolid(ForgeDirection.UP))
                 {
-                    BlockEdit edit = new BlockEdit(world, location);
+                    BlockEdit edit = new BlockEdit(oldWorld, location);
                     edit.set(Blocks.fire, 0, false, true);
                     return edit;
                 }
@@ -67,7 +66,7 @@ public class BlastExoThermic extends BlastSimplePath<BlastExoThermic>
     {
         if (super.shouldPathTo(last, next, dir))
         {
-            if (last.isAirBlock(world) && next.isAirBlock(world))
+            if (last.isAirBlock(oldWorld) && next.isAirBlock(oldWorld))
             {
                 return dir != EnumFacing.UP;
             }
@@ -124,18 +123,18 @@ public class BlastExoThermic extends BlastSimplePath<BlastExoThermic>
     @Override
     public void displayEffectForEdit(IWorldEdit blocks)
     {
-        if (!world.isRemote)
+        if (!oldWorld.isRemote)
         {
-            Engine.minecraft.spawnParticle("lava", world, blocks.x(), blocks.y(), blocks.z(), 0.0D, 0.0D, 0.0D);
+            world.spawnParticle("lava", blocks.x(), blocks.y(), blocks.z(), 0.0D, 0.0D, 0.0D);
         }
     }
 
     @Override
     public void playAudioForEdit(IWorldEdit blocks)
     {
-        if (!world.isRemote)
+        if (!oldWorld.isRemote)
         {
-            world.playSoundEffect(blocks.x(), blocks.y(), blocks.z(), "liquid.lavapop", 0.2F + world.rand.nextFloat() * 0.2F, 0.9F + world.rand.nextFloat() * 0.15F);
+            oldWorld.playSoundEffect(blocks.x(), blocks.y(), blocks.z(), "liquid.lavapop", 0.2F + oldWorld.rand.nextFloat() * 0.2F, 0.9F + oldWorld.rand.nextFloat() * 0.15F);
         }
     }
 }

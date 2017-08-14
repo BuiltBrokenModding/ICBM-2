@@ -189,7 +189,7 @@ public class TileAntennaPart extends TileEntityBase implements IWorldPosition
     }
 
     @Override
-    public World world()
+    public World oldWorld()
     {
         return worldObj;
     }

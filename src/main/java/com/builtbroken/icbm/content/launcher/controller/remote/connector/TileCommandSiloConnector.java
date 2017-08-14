@@ -137,7 +137,7 @@ public class TileCommandSiloConnector extends TileModuleMachine implements ILink
     public String link(Location loc, short code)
     {
         //Validate location data
-        if (loc.world != world())
+        if (loc.world != oldWorld())
         {
             return "link.error.world.match";
         }

@@ -27,7 +27,7 @@ public class BlastPathTester extends BlastSimplePath<BlastPathTester>
     @Override
     public BlockEdit changeBlock(BlockPos location)
     {
-        return new BlockEdit(world, location).set(Blocks.air, 0, false, true);
+        return new BlockEdit(oldWorld, location).set(Blocks.air, 0, false, true);
     }
 
     @Override
