@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.blast.fire;
 
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.core.CommonProxy;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.imp.transform.vector.BlockPos;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
@@ -98,7 +98,7 @@ public class BlastFlashFire extends BlastSimplePath<BlastFlashFire>
     {
         if (!world.isRemote)
         {
-            CommonProxy.proxy.spawnParticle("lava", world, blocks.x(), blocks.y(), blocks.z(), 0.0D, 0.0D, 0.0D);
+            Engine.minecraft.spawnParticle("lava", world, blocks.x(), blocks.y(), blocks.z(), 0.0D, 0.0D, 0.0D);
         }
     }
 

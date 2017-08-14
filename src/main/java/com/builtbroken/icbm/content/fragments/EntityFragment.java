@@ -2,7 +2,7 @@ package com.builtbroken.icbm.content.fragments;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.mc.api.data.EnumProjectileTypes;
-import com.builtbroken.mc.core.CommonProxy;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.imp.transform.region.Cube;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.helper.MathUtility;
@@ -76,16 +76,16 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
                 Pos vel;
 
                 vel = orginalVel.addRandom(worldObj.rand, .1);
-                CommonProxy.proxy.spawnParticle("fire", worldObj, posX, posY, posZ, vel.xf(), vel.yf(), vel.zf());
+                Engine.minecraft.spawnParticle("fire", worldObj, posX, posY, posZ, vel.xf(), vel.yf(), vel.zf());
 
                 vel = orginalVel.addRandom(worldObj.rand, .1);
-                CommonProxy.proxy.spawnParticle("fire", worldObj, posX, posY, posZ, vel.xf(), vel.yf(), vel.zf());
+                Engine.minecraft.spawnParticle("fire", worldObj, posX, posY, posZ, vel.xf(), vel.yf(), vel.zf());
 
                 vel = orginalVel.addRandom(worldObj.rand, .1);
-                CommonProxy.proxy.spawnParticle("smoke", worldObj, posX, posY, posZ, vel.xf(), vel.yf(), vel.zf());
+                Engine.minecraft.spawnParticle("smoke", worldObj, posX, posY, posZ, vel.xf(), vel.yf(), vel.zf());
 
                 vel = orginalVel.addRandom(worldObj.rand, .1);
-                CommonProxy.proxy.spawnParticle("smoke", worldObj, posX, posY, posZ, vel.xf(), vel.yf(), vel.zf());
+                Engine.minecraft.spawnParticle("smoke", worldObj, posX, posY, posZ, vel.xf(), vel.yf(), vel.zf());
             }
         }
     }

@@ -4,7 +4,7 @@ import com.builtbroken.icbm.content.blast.fragment.BlastFragments;
 import com.builtbroken.icbm.content.blast.fragment.FragBlastType;
 import com.builtbroken.jlib.helpers.MathHelper;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.core.CommonProxy;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.imp.transform.rotation.EulerAngle;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 
@@ -24,11 +24,11 @@ public class BlastFragmentsClient extends BlastFragments
     {
         if (this.size >= 2.0F)
         {
-            CommonProxy.proxy.spawnParticle("hugeexplosion", world, x, y, z, 1.0D, 0.0D, 0.0D);
+            Engine.minecraft.spawnParticle("hugeexplosion", world, x, y, z, 1.0D, 0.0D, 0.0D);
         }
         else
         {
-            CommonProxy.proxy.spawnParticle("largeexplode", world, x, y, z, 1.0D, 0.0D, 0.0D);
+            Engine.minecraft.spawnParticle("largeexplode", world, x, y, z, 1.0D, 0.0D, 0.0D);
         }
 
     }
@@ -50,11 +50,11 @@ public class BlastFragmentsClient extends BlastFragments
                     Pos velocity = rotation.toPos().multiply(((float) shells / (float) shells) * 1);
                     if (MathHelper.rand.nextBoolean())
                     {
-                        CommonProxy.proxy.spawnParticle("flame", world, center.x(), center.y(), center.z(), velocity.x(), velocity.y(), velocity.z());
+                        Engine.minecraft.spawnParticle("flame", world, center.x(), center.y(), center.z(), velocity.x(), velocity.y(), velocity.z());
                     }
                     else
                     {
-                        CommonProxy.proxy.spawnParticle("smoke", world, center.x(), center.y(), center.z(), velocity.x(), velocity.y(), velocity.z());
+                        Engine.minecraft.spawnParticle("smoke", world, center.x(), center.y(), center.z(), velocity.x(), velocity.y(), velocity.z());
                     }
                 }
             }

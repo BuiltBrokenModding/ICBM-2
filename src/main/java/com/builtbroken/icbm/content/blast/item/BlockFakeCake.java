@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.blast.item;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.mc.core.CommonProxy;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 import net.minecraft.block.BlockCake;
 import net.minecraft.entity.player.EntityPlayer;
@@ -49,8 +49,8 @@ public class BlockFakeCake extends BlockCake
 
                 Pos pos = new Pos().addRandom(world.rand, 0.2);
 
-                CommonProxy.proxy.spawnParticle("explode", world, (posX + x * 1.0D) / 2.0D, (posY + y * 1.0D) / 2.0D, (posZ + z * 1.0D) / 2.0D, pos.x(), pos.y(), pos.z());
-                CommonProxy.proxy.spawnParticle("smoke", world, posX, posY, posZ, pos.x(), pos.y(), pos.z());
+                Engine.minecraft.spawnParticle("explode", world, (posX + x * 1.0D) / 2.0D, (posY + y * 1.0D) / 2.0D, (posZ + z * 1.0D) / 2.0D, pos.x(), pos.y(), pos.z());
+                Engine.minecraft.spawnParticle("smoke", world, posX, posY, posZ, pos.x(), pos.y(), pos.z());
                 world.playSoundEffect(x + 0.5, y + 0.2, z + 0.5, "icbm:icbm.tada", 0.4f, 1.0F);
                 player.addChatComponentMessage(new ChatComponentText("The cake is a lie..."));
             }
