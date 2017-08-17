@@ -11,7 +11,7 @@ import com.builtbroken.mc.api.tile.node.ITileNodeHost;
 import com.builtbroken.mc.codegen.annotations.ItemWrapped;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.packet.PacketPlayerItem;
-import com.builtbroken.mc.framework.item.logic.ItemNode;
+import com.builtbroken.mc.framework.item.ItemNode;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import io.netty.buffer.ByteBuf;
@@ -43,7 +43,7 @@ public class ItemRadarGun extends ItemNode implements IItemActivationListener
             TileEntity tileEntity = world.getTileEntity(objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ);
             if (!(tileEntity instanceof ILauncher))
             {
-                Engine.instance.packetHandler.sendToServer(new PacketPlayerItem(player, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
+                Engine.packetHandler.sendToServer(new PacketPlayerItem(player, objectMouseOver.blockX, objectMouseOver.blockY, objectMouseOver.blockZ));
             }
         }
         return stack;

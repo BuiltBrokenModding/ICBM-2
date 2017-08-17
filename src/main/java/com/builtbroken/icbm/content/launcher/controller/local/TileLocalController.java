@@ -13,7 +13,7 @@ import com.builtbroken.mc.api.tile.IPassCode;
 import com.builtbroken.mc.api.tile.IPlayerUsing;
 import com.builtbroken.mc.api.tile.access.IGuiTile;
 import com.builtbroken.mc.api.tile.access.IRotation;
-import com.builtbroken.mc.api.tile.listeners.IActivationListener;
+import com.builtbroken.mc.framework.block.imp.IActivationListener;
 import com.builtbroken.mc.api.tile.node.ITileNode;
 import com.builtbroken.mc.api.tile.node.ITileNodeHost;
 import com.builtbroken.mc.codegen.annotations.TileWrapped;
@@ -221,7 +221,7 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
     public String link(Location loc, short code)
     {
         //Validate location data
-        if (loc.world != world())
+        if (loc.world != world().unwrap())
         {
             return "link.error.world.match";
         }
@@ -237,7 +237,7 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
         }
 
         //Compare tile pass code
-        ITileNode tile = pos.getTileNode(world());
+        ITileNode tile = pos.getTileNode(world().unwrap());
         if (!(tile instanceof TileAbstractLauncher))
         {
             return "link.error.tile.invalid";
@@ -379,7 +379,7 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
     @Override
     public boolean openGui(EntityPlayer player, Object currentGui, Object... data)
     {
-        player.openGui(ICBM.INSTANCE, MAIN_GUI_ID, world(), xi(), yi(), zi());
+        player.openGui(ICBM.INSTANCE, MAIN_GUI_ID, world().unwrap(), xi(), yi(), zi());
         return true;
     }
 
@@ -424,7 +424,7 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
         }
         else if (isServer())
         {
-            player.openGui(ICBM.INSTANCE, MAIN_GUI_ID, world(), xi(), yi(), zi());
+            player.openGui(ICBM.INSTANCE, MAIN_GUI_ID, world().unwrap(), xi(), yi(), zi());
         }
         return true;
     }
@@ -453,7 +453,7 @@ public class TileLocalController extends TileMachineNode implements ILinkable, I
             launcherData.clear();
             for (Pos pos : launcherLocations)
             {
-                TileEntity tile = pos.getTileEntity(world());
+                TileEntity tile = pos.getTileEntity(world().unwrap());
                 if (tile instanceof ILauncher)
                 {
                     launcherData.add(new SiloConnectionData((ILauncher) tile));

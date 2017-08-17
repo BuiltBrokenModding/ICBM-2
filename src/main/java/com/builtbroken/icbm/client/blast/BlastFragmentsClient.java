@@ -4,7 +4,6 @@ import com.builtbroken.icbm.content.blast.fragment.BlastFragments;
 import com.builtbroken.icbm.content.blast.fragment.FragBlastType;
 import com.builtbroken.jlib.helpers.MathHelper;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.imp.transform.rotation.EulerAngle;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 
@@ -24,11 +23,11 @@ public class BlastFragmentsClient extends BlastFragments
     {
         if (this.size >= 2.0F)
         {
-            Engine.proxy.spawnParticle("hugeexplosion", world, x, y, z, 1.0D, 0.0D, 0.0D);
+            world.spawnParticle("hugeexplosion", x, y, z, 1.0D, 0.0D, 0.0D);
         }
         else
         {
-            Engine.proxy.spawnParticle("largeexplode", world, x, y, z, 1.0D, 0.0D, 0.0D);
+            world.spawnParticle("largeexplode", x, y, z, 1.0D, 0.0D, 0.0D);
         }
 
     }
@@ -50,11 +49,11 @@ public class BlastFragmentsClient extends BlastFragments
                     Pos velocity = rotation.toPos().multiply(((float) shells / (float) shells) * 1);
                     if (MathHelper.rand.nextBoolean())
                     {
-                        Engine.proxy.spawnParticle("flame", world, center.x(), center.y(), center.z(), velocity.x(), velocity.y(), velocity.z());
+                        world.spawnParticle("flame", center.x(), center.y(), center.z(), velocity.x(), velocity.y(), velocity.z());
                     }
                     else
                     {
-                        Engine.proxy.spawnParticle("smoke", world, center.x(), center.y(), center.z(), velocity.x(), velocity.y(), velocity.z());
+                        world.spawnParticle("smoke", center.x(), center.y(), center.z(), velocity.x(), velocity.y(), velocity.z());
                     }
                 }
             }

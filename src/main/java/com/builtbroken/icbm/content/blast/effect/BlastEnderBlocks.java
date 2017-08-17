@@ -66,7 +66,7 @@ public class BlastEnderBlocks extends BlastSimplePath<BlastEnderBlocks>
      */
     protected int getRandomRange()
     {
-        return world.rand.nextInt((int) (size * 20)) - world.rand.nextInt((int) (size * 20));
+        return oldWorld.rand.nextInt((int) (size * 20)) - oldWorld.rand.nextInt((int) (size * 20));
     }
 
     /**
@@ -76,7 +76,7 @@ public class BlastEnderBlocks extends BlastSimplePath<BlastEnderBlocks>
      */
     protected Location getRandomLocation()
     {
-        return new Location(world, getRandomRange() + blockCenter.x(), Math.max(10, Math.min(getRandomRange() + blockCenter.y(), 255)), getRandomRange() + blockCenter.z());
+        return new Location(oldWorld, getRandomRange() + blockCenter.x(), Math.max(10, Math.min(getRandomRange() + blockCenter.y(), 255)), getRandomRange() + blockCenter.z());
     }
 
     /**
@@ -100,7 +100,7 @@ public class BlastEnderBlocks extends BlastSimplePath<BlastEnderBlocks>
             int y = location.yi();
             for (; y < 255; y++)
             {
-                if (world.getBlock(location.xi(), y, location.zi()).isAir(world, location.xi(), y, location.zi()))
+                if (oldWorld.getBlock(location.xi(), y, location.zi()).isAir(oldWorld, location.xi(), y, location.zi()))
                 {
                     break;
                 }
@@ -114,9 +114,9 @@ public class BlastEnderBlocks extends BlastSimplePath<BlastEnderBlocks>
     @Override
     public BlockEdit changeBlock(BlockPos location)
     {
-        if (location.getTileEntity(world) == null && !location.isAirBlock(world))
+        if (location.getTileEntity(oldWorld) == null && !location.isAirBlock(oldWorld))
         {
-            return new BlockEdit(world, location).set(Blocks.air, 0, false, true);
+            return new BlockEdit(oldWorld, location).set(Blocks.air, 0, false, true);
         }
         return null;
     }
@@ -126,15 +126,15 @@ public class BlastEnderBlocks extends BlastSimplePath<BlastEnderBlocks>
     {
         if (super.shouldPath(location))
         {
-            if (location.getHardness(world) < 0)
+            if (location.getHardness(oldWorld) < 0)
             {
                 return false;
             }
-            else if (location.getTileEntity(world) != null)
+            else if (location.getTileEntity(oldWorld) != null)
             {
                 return false;
             }
-            else if (location.isAirBlock(world))
+            else if (location.isAirBlock(oldWorld))
             {
                 return false;
             }
@@ -143,7 +143,7 @@ public class BlastEnderBlocks extends BlastSimplePath<BlastEnderBlocks>
             //TODO tap into existing mod's blacklists
             //TODO fire teleportation event
             //TODO break or don't teleport crops
-            Block block = location.getBlock(world);
+            Block block = location.getBlock(oldWorld);
             if (block == Blocks.portal)
             {
                 return false;
@@ -176,18 +176,18 @@ public class BlastEnderBlocks extends BlastSimplePath<BlastEnderBlocks>
     @Override
     public void displayEffectForEdit(IWorldEdit blocks)
     {
-        if (!world.isRemote)
+        if (!oldWorld.isRemote)
         {
-            Engine.instance.packetHandler.sendToAllAround(new PacketSpawnStream(world.provider.dimensionId, x, y, z, blocks.x(), blocks.y(), blocks.z(), 0), new NetworkRegistry.TargetPoint(world.provider.dimensionId, blocks.x(), blocks.y(), blocks.z(), 90));
+            Engine.packetHandler.sendToAllAround(new PacketSpawnStream(oldWorld.provider.dimensionId, x, y, z, blocks.x(), blocks.y(), blocks.z()), new NetworkRegistry.TargetPoint(oldWorld.provider.dimensionId, blocks.x(), blocks.y(), blocks.z(), 90));
         }
     }
 
     @Override
     public void playAudioForEdit(IWorldEdit blocks)
     {
-        if (!world.isRemote)
+        if (!oldWorld.isRemote)
         {
-            world.playSoundEffect(blocks.x(), blocks.y(), blocks.z(), "mob.endermen.portal", 2.0F, 1.0F);
+            oldWorld.playSoundEffect(blocks.x(), blocks.y(), blocks.z(), "mob.endermen.portal", 2.0F, 1.0F);
         }
     }
 }

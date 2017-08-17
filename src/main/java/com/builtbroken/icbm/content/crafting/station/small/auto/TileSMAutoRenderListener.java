@@ -1,13 +1,13 @@
 package com.builtbroken.icbm.content.crafting.station.small.auto;
 
 import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstationClient;
-import com.builtbroken.mc.api.tile.listeners.IBlockListener;
-import com.builtbroken.mc.api.tile.listeners.ITileEventListener;
-import com.builtbroken.mc.api.tile.listeners.ITileEventListenerBuilder;
-import com.builtbroken.mc.api.tile.listeners.client.ITileRenderListener;
+import com.builtbroken.mc.framework.block.imp.IBlockListener;
+import com.builtbroken.mc.framework.block.imp.ITileEventListener;
+import com.builtbroken.mc.framework.block.imp.ITileEventListenerBuilder;
+import com.builtbroken.mc.seven.framework.block.listeners.client.ITileRenderListener;
 import com.builtbroken.mc.api.tile.node.ITileNode;
 import com.builtbroken.mc.api.tile.node.ITileNodeHost;
-import com.builtbroken.mc.framework.block.listeners.TileListener;
+import com.builtbroken.mc.seven.framework.block.listeners.TileListener;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;

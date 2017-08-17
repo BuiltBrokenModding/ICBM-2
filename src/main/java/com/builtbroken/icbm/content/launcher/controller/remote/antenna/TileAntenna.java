@@ -53,7 +53,7 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IWirelessN
     {
         super.updateEntity();
         //Sanity check to ensure structure is still good, roughly 2 mins with a slight random
-        if (!world().isRemote)
+        if (!oldWorld().isRemote)
         {
             //TODO add a debug line render to each tower connected
             //Sine we have no way to be sure of connection, update radio map every second
@@ -348,7 +348,7 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IWirelessN
         {
             doInitScan();
         }
-        RadioRegistry.popMessage(world(), this, hz, header, data);
+        RadioRegistry.popMessage(oldWorld(), this, hz, header, data);
     }
 
     @Override
@@ -430,7 +430,7 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IWirelessN
     public void setTowerStatus(RadioTowerStatus towerStatus)
     {
         this.towerStatus = towerStatus;
-        if (!world().isRemote)
+        if (!oldWorld().isRemote)
         {
             if (towerStatus != RadioTowerStatus.ONLINE && wirelessNetwork != null)
             {
@@ -456,7 +456,7 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IWirelessN
     public void setGenerateNetwork(boolean generateNetwork)
     {
         this.generateNetwork = generateNetwork;
-        if (!world().isRemote)
+        if (!oldWorld().isRemote)
         {
             if (!generateNetwork && wirelessNetwork != null)
             {
@@ -500,6 +500,6 @@ public class TileAntenna extends TileAntennaPart implements IGuiTile, IWirelessN
     @Override
     public String toString()
     {
-        return "TileAntenna[" + world().provider.dimensionId + "d, " + xCoord + "x, " + yCoord + "y, " + zCoord + "z]@" + hashCode();
+        return "TileAntenna[" + oldWorld().provider.dimensionId + "d, " + xCoord + "x, " + yCoord + "y, " + zCoord + "z]@" + hashCode();
     }
 }

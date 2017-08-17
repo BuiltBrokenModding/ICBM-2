@@ -2,7 +2,6 @@ package com.builtbroken.icbm.content.blast.fire;
 
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.imp.transform.vector.BlockPos;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
@@ -28,12 +27,12 @@ public class BlastFireBomb extends BlastSimplePath<BlastFireBomb>
     public BlockEdit changeBlock(BlockPos location)
     {
         //TODO spawn random fire particle that can set fire to blocks up to 20 away
-        if (location.isAirBlock(world))
+        if (location.isAirBlock(oldWorld))
         {
-            Location loc = new Location(world, location).sub(0, 1, 0);
+            Location loc = new Location(oldWorld, location).sub(0, 1, 0);
             if (!loc.isAirBlock() && loc.isSideSolid(ForgeDirection.UP))
             {
-                BlockEdit edit = new BlockEdit(world, location);
+                BlockEdit edit = new BlockEdit(oldWorld, location);
                 edit.set(Blocks.fire, 0, false, true);
                 return edit;
             }
@@ -46,7 +45,7 @@ public class BlastFireBomb extends BlastSimplePath<BlastFireBomb>
     {
         if (super.shouldPathTo(last, next, dir))
         {
-            if (last.isAirBlock(world) && next.isAirBlock(world))
+            if (last.isAirBlock(oldWorld) && next.isAirBlock(oldWorld))
             {
                 return dir != EnumFacing.DOWN.UP;
             }
@@ -70,18 +69,18 @@ public class BlastFireBomb extends BlastSimplePath<BlastFireBomb>
     @Override
     public void displayEffectForEdit(IWorldEdit blocks)
     {
-        if (!world.isRemote)
+        if (!oldWorld.isRemote)
         {
-            Engine.proxy.spawnParticle("lava", world, blocks.x(), blocks.y(), blocks.z(), 0.0D, 0.0D, 0.0D);
+            world.spawnParticle("lava", blocks.x(), blocks.y(), blocks.z(), 0.0D, 0.0D, 0.0D);
         }
     }
 
     @Override
     public void playAudioForEdit(IWorldEdit blocks)
     {
-        if (!world.isRemote)
+        if (!oldWorld.isRemote)
         {
-            world.playSoundEffect(blocks.x(), blocks.y(), blocks.z(), "liquid.lavapop", 0.2F + world.rand.nextFloat() * 0.2F, 0.9F + world.rand.nextFloat() * 0.15F);
+            oldWorld.playSoundEffect(blocks.x(), blocks.y(), blocks.z(), "liquid.lavapop", 0.2F + oldWorld.rand.nextFloat() * 0.2F, 0.9F + oldWorld.rand.nextFloat() * 0.15F);
         }
     }
 }

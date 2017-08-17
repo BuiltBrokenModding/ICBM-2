@@ -13,10 +13,10 @@ import com.builtbroken.mc.api.edit.IWorldChangeAction;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
+import com.builtbroken.mc.framework.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.imp.transform.region.Cube;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.render.RenderUtility;
-import com.builtbroken.mc.framework.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.TileEnt;
@@ -219,7 +219,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
 
                     if (doBlast || handler instanceof IExHandlerTileMissile && ((IExHandlerTileMissile) handler).doesSpawnMissileTile(missile, null))
                     {
-                        IWorldChangeAction action = handler.createBlastForTrigger(world(), xi() + 0.5, yi() + 0.5, zi() + 0.5, cause, missile.getWarhead().getExplosiveSize(), missile.getWarhead().getAdditionalExplosiveData());
+                        IWorldChangeAction action = handler.createBlastForTrigger(oldWorld(), xi() + 0.5, yi() + 0.5, zi() + 0.5, cause, missile.getWarhead().getExplosiveSize(), missile.getWarhead().getAdditionalExplosiveData());
                         if (action != null)
                         {
                             if (action instanceof IBlastTileMissile)
@@ -228,7 +228,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
                             }
                             else
                             {
-                                missile.getWarhead().trigger(cause, world(), xi() + 0.5, yi() + 0.5, zi() + 0.5);
+                                missile.getWarhead().trigger(cause, oldWorld(), xi() + 0.5, yi() + 0.5, zi() + 0.5);
                             }
                         }
                     }
@@ -250,7 +250,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
                 ticksAlive++;
                 if (ticksAlive > DECAY_TICKS)
                 {
-                    world().setBlockToAir(xi(), yi(), zi());
+                    oldWorld().setBlockToAir(xi(), yi(), zi());
                     return;
                 }
             }
@@ -266,7 +266,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
                 if (attachedSide != null)
                 {
                     Pos pos = toPos().add(attachedSide.getOpposite());
-                    if (pos.isAirBlock(world()))
+                    if (pos.isAirBlock(oldWorld()))
                     {
                         attemptToFall();
                     }
@@ -285,14 +285,14 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
     protected void attemptToFall()
     {
         Pos pos = toPos().sub(0, 1, 0);
-        if (pos.isAirBlock(world()))
+        if (pos.isAirBlock(oldWorld()))
         {
-            EntityMissile missile = new EntityMissile(world());
+            EntityMissile missile = new EntityMissile(oldWorld());
             missile.setPosition(x() + 0.5, y() + 0.5, z() + 0.5);
             missile.setMissile(this.missile);
             missile.rotationYaw = yaw;
             missile.rotationPitch = pitch;
-            toPos().setBlockToAir(world());
+            toPos().setBlockToAir(oldWorld());
         }
         else
         {
@@ -307,7 +307,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
         boxes.add(getCollisionBounds());
         if (block != null)
         {
-            AxisAlignedBB bb = block.getCollisionBoundingBoxFromPool(world(), xi(), yi(), zi());
+            AxisAlignedBB bb = block.getCollisionBoundingBoxFromPool(oldWorld(), xi(), yi(), zi());
             if (bb != null)
             {
                 boxes.add(new Cube(bb).subtract(xi(), yi(), zi()));
@@ -348,7 +348,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
                 if (player.inventory.addItemStackToInventory(stack))
                 {
                     //stack size is only one so no need to do checks
-                    toPos().setBlock(world(), block != null ? block : Blocks.air, block != null ? meta : 0);
+                    toPos().setBlock(oldWorld(), block != null ? block : Blocks.air, block != null ? meta : 0);
                     player.inventoryContainer.detectAndSendChanges();
                 }
             }
@@ -363,13 +363,13 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
         if (missile != null && willHarvest)
         {
             ItemStack stack = missile.toStack();
-            InventoryUtility.dropItemStack(world(), x() + 0.5, y() + 0.5, z() + 0.5, stack, 10, 0);
+            InventoryUtility.dropItemStack(oldWorld(), x() + 0.5, y() + 0.5, z() + 0.5, stack, 10, 0);
         }
         if (block != null)
         {
-            return world().setBlock(xi(), yi(), zi(), block, meta, 3);
+            return oldWorld().setBlock(xi(), yi(), zi(), block, meta, 3);
         }
-        return world().setBlockToAir(xi(), yi(), zi());
+        return oldWorld().setBlockToAir(xi(), yi(), zi());
     }
 
     @Override
@@ -377,9 +377,9 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
     {
         if (isServer() && entity != null && entity.worldObj != null && missile != null && blast == null)
         {
-            if (world().rand.nextFloat() <= 0.3 && missile.getWarhead() != null)
+            if (oldWorld().rand.nextFloat() <= 0.3 && missile.getWarhead() != null)
             {
-                missile.getWarhead().trigger(new TriggerCause.TriggerCauseEntity(entity), world(), x() + 0.5, y() + 0.5, z() + 0.5);
+                missile.getWarhead().trigger(new TriggerCause.TriggerCauseEntity(entity), oldWorld(), x() + 0.5, y() + 0.5, z() + 0.5);
             }
             else
             {
@@ -391,9 +391,9 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
     @Override
     public boolean onPlayerLeftClick(EntityPlayer player)
     {
-        if (world().rand.nextFloat() <= 0.3 && missile.getWarhead() != null && blast == null)
+        if (oldWorld().rand.nextFloat() <= 0.3 && missile.getWarhead() != null && blast == null)
         {
-            missile.getWarhead().trigger(new TriggerCause.TriggerCauseEntity(player), world(), x() + 0.5, y() + 0.5, z() + 0.5);
+            missile.getWarhead().trigger(new TriggerCause.TriggerCauseEntity(player), oldWorld(), x() + 0.5, y() + 0.5, z() + 0.5);
         }
         else
         {
@@ -409,7 +409,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
         //TODO attempt to set off warhead
         if (missile != null && missile.getWarhead() != null && blast == null)
         {
-            missile.getWarhead().trigger(new TriggerCause.TriggerCauseExplosion(ex), world(), x() + 0.5, y() + 0.5, z() + 0.5);
+            missile.getWarhead().trigger(new TriggerCause.TriggerCauseExplosion(ex), oldWorld(), x() + 0.5, y() + 0.5, z() + 0.5);
         }
     }
 
@@ -428,7 +428,10 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
         if (nbt.hasKey("missile"))
         {
             ItemStack stack = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("missile"));
-            missile = stack.getItem() instanceof IMissileItem ? ((IMissileItem) stack.getItem()).toMissile(stack) : null;
+            if (stack != null)
+            {
+                missile = stack.getItem() instanceof IMissileItem ? ((IMissileItem) stack.getItem()).toMissile(stack) : null;
+            }
         }
         yaw = nbt.getFloat("yaw");
         pitch = nbt.getFloat("pitch");

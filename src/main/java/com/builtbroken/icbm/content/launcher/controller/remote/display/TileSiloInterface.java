@@ -75,7 +75,7 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
     public String link(Location loc, short code)
     {
         //Validate location data
-        if (loc.world != world())
+        if (loc.world != oldWorld())
         {
             return "link.error.world.match";
         }
@@ -91,7 +91,7 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
         }
 
         //Compare tile pass code
-        TileEntity tile = pos.getTileEntity(loc.world());
+        TileEntity tile = pos.getTileEntity(loc.oldWorld());
         if (!(tile instanceof TileCommandController))
         {
             return "link.error.tile.invalid";
@@ -133,7 +133,7 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
     @Override
     public boolean openGui(EntityPlayer player, Object currentGui, Object... data)
     {
-        player.openGui(ICBM.INSTANCE, 0, world(), xi(), yi(), zi());
+        player.openGui(ICBM.INSTANCE, 0, oldWorld(), xi(), yi(), zi());
         return true;
     }
 
@@ -190,9 +190,9 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
         }
         if (commandCenter == null && commandCenterPos != null)
         {
-            if (world().blockExists(commandCenterPos.xi(), commandCenterPos.yi(), commandCenterPos.zi()))
+            if (oldWorld().blockExists(commandCenterPos.xi(), commandCenterPos.yi(), commandCenterPos.zi()))
             {
-                TileEntity tile = commandCenterPos.getTileEntity(world());
+                TileEntity tile = commandCenterPos.getTileEntity(oldWorld());
                 if (tile instanceof TileCommandController)
                 {
                     commandCenter = (TileCommandController) tile;
@@ -280,7 +280,7 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
                     writeConnectorSet(controller, packet.data());
                 }
             }
-            Engine.instance.packetHandler.sendToPlayer(packet, (EntityPlayerMP) player);
+            Engine.packetHandler.sendToPlayer(packet, (EntityPlayerMP) player);
         }
     }
 

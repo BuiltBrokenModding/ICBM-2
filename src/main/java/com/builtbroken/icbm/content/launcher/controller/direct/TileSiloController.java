@@ -73,7 +73,7 @@ public class TileSiloController extends TileMachine implements IPostInit, IPacke
             for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
             {
                 Pos pos = toPos().add(dir);
-                ITileNode tile = pos.getTileNode(world());
+                ITileNode tile = pos.getTileNode(oldWorld());
                 if (tile instanceof TileAbstractLauncher)
                 {
                     launcher = (TileAbstractLauncher) tile;

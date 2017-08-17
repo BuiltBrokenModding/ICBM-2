@@ -10,7 +10,7 @@ package com.builtbroken.icbm.content.items.gen;
 
 import com.builtbroken.icbm.content.items.ItemRemoteDetonator;
 import com.builtbroken.mc.framework.item.ItemBase;
-import com.builtbroken.mc.framework.item.logic.ItemNode;
+import com.builtbroken.mc.framework.item.ItemNode;
 
 public class ItemWrapperRemoteDet extends ItemBase
 {

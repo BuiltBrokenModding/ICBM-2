@@ -12,7 +12,7 @@ import com.builtbroken.icbm.content.items.ItemGPSFlag;
 import com.builtbroken.mc.api.IWorldPosition;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
 import com.builtbroken.mc.framework.item.ItemBase;
-import com.builtbroken.mc.framework.item.logic.ItemNode;
+import com.builtbroken.mc.framework.item.ItemNode;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

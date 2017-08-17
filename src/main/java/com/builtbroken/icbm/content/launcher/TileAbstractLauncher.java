@@ -101,7 +101,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     public String link(Location loc, short code)
     {
         //Validate location data
-        if (loc.world != world())
+        if (loc.world != world().unwrap())
         {
             return "link.error.world.match";
         }
@@ -117,7 +117,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         }
 
         //Compare tile pass code
-        TileEntity tile = pos.getTileEntity(loc.world());
+        TileEntity tile = pos.getTileEntity(loc.oldWorld());
         if (tile instanceof IPassCode && ((IPassCode) tile).getCode() != code)
         {
             return "link.error.code.match";
@@ -150,7 +150,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     {
         if ((fofStation == null || fofStation instanceof TileEntity && ((TileEntity) fofStation).isInvalid()) && fofStationPos != null)
         {
-            TileEntity tile = fofStationPos.getTileEntity(world());
+            TileEntity tile = fofStationPos.getTileEntity(world().unwrap());
             if (tile instanceof IFoFProvider)
             {
                 fofStation = (IFoFProvider) tile;
@@ -187,7 +187,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
             //TODO do count down rather than every 1 second
             if (ticks % 20 == 0)
             {
-                if (world().isBlockIndirectlyGettingPowered(xi(), yi(), zi()))
+                if (world().unwrap().isBlockIndirectlyGettingPowered(xi(), yi(), zi()))
                 {
                     if (fireMissile(target))
                     {
@@ -255,7 +255,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
                     {
 
                         //Create and setup missile
-                        EntityMissile entity = new EntityMissile(world());
+                        EntityMissile entity = new EntityMissile(world().unwrap());
                         entity.setMissile(missile);
 
                         ICBM.INSTANCE.logger().info("Firing missile from " + this + ", Missile = " + entity + ", Target = " + target);
@@ -275,7 +275,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
                         entity.sourceOfProjectile = new Pos(this);
 
                         //Spawn and start moving
-                        world().spawnEntityInWorld(entity);
+                        world().unwrap().spawnEntityInWorld(entity);
                         addLaunchReport(entity);
 
                         entity.setIntoMotion();
@@ -291,12 +291,12 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
                     return true;
                 }
                 //No engine can result in warhead detonating due to ignition source shooting up into warhead cavity
-                else if (isServer() && missile.getEngine() == null && world().rand.nextFloat() > 0.9f)
+                else if (isServer() && missile.getEngine() == null && world().unwrap().rand.nextFloat() > 0.9f)
                 {
                     //If the user is stupid enough to not install an engine....
                     if (missile.getWarhead() != null)
                     {
-                        missile.getWarhead().trigger(new TriggerCause.TriggerCauseFire(ForgeDirection.DOWN), world(), xi(), yi(), zi());
+                        missile.getWarhead().trigger(new TriggerCause.TriggerCauseFire(ForgeDirection.DOWN), world().unwrap(), xi(), yi(), zi());
                         getInventory().setInventorySlotContents(0, null);
                     }
                     else
@@ -359,9 +359,9 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         //TODO add more effects
         for (int l = 0; l < 20; ++l)
         {
-            double f = x() + 0.5 + 0.3 * (world().rand.nextFloat() - world().rand.nextFloat());
-            double f1 = y() + 0.1 + 0.5 * (world().rand.nextFloat() - world().rand.nextFloat());
-            double f2 = z() + 0.5 + 0.3 * (world().rand.nextFloat() - world().rand.nextFloat());
+            double f = x() + 0.5 + 0.3 * (world().unwrap().rand.nextFloat() - world().unwrap().rand.nextFloat());
+            double f1 = y() + 0.1 + 0.5 * (world().unwrap().rand.nextFloat() - world().unwrap().rand.nextFloat());
+            double f2 = z() + 0.5 + 0.3 * (world().unwrap().rand.nextFloat() - world().unwrap().rand.nextFloat());
             world().spawnParticle("largesmoke", f, f1, f2, 0.0D, 0.0D, 0.0D);
         }
     }
@@ -449,25 +449,25 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
                             {
                                 if (tileSiloInterface == null || tileSiloInterface.getCommandCenter().getAttachedNetworks().size() <= 0)
                                 {
-                                    Engine.instance.packetHandler.sendToPlayer(getPacketForData(24, "error.data.missing.hz"), (EntityPlayerMP) player);
+                                    Engine.packetHandler.sendToPlayer(getPacketForData(24, "error.data.missing.hz"), (EntityPlayerMP) player);
                                 }
                                 else if (connector.getConnectorGroupName() == null)
                                 {
-                                    Engine.instance.packetHandler.sendToPlayer(getPacketForData(24, "error.data.missing.groupName"), (EntityPlayerMP) player);
+                                    Engine.packetHandler.sendToPlayer(getPacketForData(24, "error.data.missing.groupName"), (EntityPlayerMP) player);
                                 }
                                 else if (getCustomName() == null)
                                 {
-                                    Engine.instance.packetHandler.sendToPlayer(getPacketForData(24, "error.data.missing.siloName"), (EntityPlayerMP) player);
+                                    Engine.packetHandler.sendToPlayer(getPacketForData(24, "error.data.missing.siloName"), (EntityPlayerMP) player);
                                 }
                                 else
                                 {
-                                    Engine.instance.packetHandler.sendToPlayer(getPacketForData(24, "error.data.missing"), (EntityPlayerMP) player);
+                                    Engine.packetHandler.sendToPlayer(getPacketForData(24, "error.data.missing"), (EntityPlayerMP) player);
                                 }
                             }
                         }
                         else if (player instanceof EntityPlayerMP)
                         {
-                            Engine.instance.packetHandler.sendToPlayer(getPacketForData(24, "error.invalid.connection"), (EntityPlayerMP) player);
+                            Engine.packetHandler.sendToPlayer(getPacketForData(24, "error.invalid.connection"), (EntityPlayerMP) player);
                         }
                     }
                 }

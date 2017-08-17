@@ -35,22 +35,22 @@ public class BlastAntimatter extends BlastSimplePath<BlastAntimatter>
     @Override
     public BlockEdit changeBlock(BlockPos location)
     {
-        if (location.getBlock(world) == Blocks.air)
+        if (location.getBlock(oldWorld) == Blocks.air)
         {
             return null;
         }
-        return new BlockEdit(world, location).set(Blocks.air, 0, false, true);
+        return new BlockEdit(oldWorld, location).set(Blocks.air, 0, false, true);
     }
 
     @Override
     public boolean shouldPath(BlockPos location)
     {
-        if (!ICBM.ANTIMATTER_BREAK_UNBREAKABLE && location.getHardness(world) < 0)
+        if (!ICBM.ANTIMATTER_BREAK_UNBREAKABLE && location.getHardness(oldWorld) < 0)
         {
             return false;
         }
         double distance = blockCenter.distance(location.xi() + 0.5, location.yi() + 0.5, location.zi() + 0.5);
-        return distance <= size - 1 ||  distance <= size && world().rand.nextFloat() > 0.7;
+        return distance <= size - 1 ||  distance <= size && oldWorld().rand.nextFloat() > 0.7;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class BlastAntimatter extends BlastSimplePath<BlastAntimatter>
             //TODO ensure that the entity is in line of sight
             //TODO ensure that the entity can be pathed by the explosive
             AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(x - size - 1, y - size - 1, z - size - 1, x + size + 1, y + size + 1, z + size + 1);
-            List list = world.selectEntitiesWithinAABB(Entity.class, bounds, new EntityDistanceSelector(new Pos(x, y, z), size + 1, true));
+            List list = oldWorld.selectEntitiesWithinAABB(Entity.class, bounds, new EntityDistanceSelector(new Pos(x, y, z), size + 1, true));
             if (list != null && !list.isEmpty())
             {
                 damageEntities(list, new DamageSource("antimatter").setExplosion().setDamageBypassesArmor(), 10);
@@ -85,12 +85,12 @@ public class BlastAntimatter extends BlastSimplePath<BlastAntimatter>
     @Override
     public void doStartDisplay()
     {
-        Engine.instance.packetHandler.sendToAllAround(new PacketBlast(this, PacketBlast.BlastPacketType.PRE_BLAST_DISPLAY), this, 400);
+        Engine.packetHandler.sendToAllAround(new PacketBlast(this, PacketBlast.BlastPacketType.PRE_BLAST_DISPLAY), this, 400);
     }
 
     @Override
     public void doEndDisplay()
     {
-        Engine.instance.packetHandler.sendToAllAround(new PacketBlast(this, PacketBlast.BlastPacketType.POST_BLAST_DISPLAY), this, 400);
+        Engine.packetHandler.sendToAllAround(new PacketBlast(this, PacketBlast.BlastPacketType.POST_BLAST_DISPLAY), this, 400);
     }
 }

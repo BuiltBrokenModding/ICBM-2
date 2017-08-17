@@ -10,7 +10,7 @@ package com.builtbroken.icbm.content.display;
 
 import com.builtbroken.icbm.content.display.TileMissile;
 import com.builtbroken.mc.api.tile.node.ITileNode;
-import com.builtbroken.mc.framework.logic.wrapper.TileEntityWrapper;
+import com.builtbroken.mc.seven.framework.logic.TileEntityWrapper;
 
 public class TileEntityWrapperMissile extends TileEntityWrapper
 {

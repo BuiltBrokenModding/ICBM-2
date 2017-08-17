@@ -34,18 +34,18 @@ public class BlastArrows extends Blast<BlastArrows>
             {
                 for (int pitch = 0; pitch < rotations; pitch++)
                 {
-                    EulerAngle rotation = new EulerAngle(yaw * degrees + (world.rand.nextFloat() * 2), pitch * degrees + (world.rand.nextFloat() * 2));
-                    Pos velocity = rotation.toPos().multiply(1 + world.rand.nextFloat());
-                    Pos pos = center.add(rotation.toPos()).addRandom(world.rand, 0.3);
-                    if (pos.isAirBlock(world)) //TODO add proper collision check
+                    EulerAngle rotation = new EulerAngle(yaw * degrees + (oldWorld.rand.nextFloat() * 2), pitch * degrees + (oldWorld.rand.nextFloat() * 2));
+                    Pos velocity = rotation.toPos().multiply(1 + oldWorld.rand.nextFloat());
+                    Pos pos = center.add(rotation.toPos()).addRandom(oldWorld.rand, 0.3);
+                    if (pos.isAirBlock(oldWorld)) //TODO add proper collision check
                     {
-                        EntityArrow arrow = new EntityArrow(world);
+                        EntityArrow arrow = new EntityArrow(oldWorld);
                         arrow.setPosition(pos.x(), pos.y(), pos.z());
 
                         //Random chance for fragment to be on fire
-                        if (world.rand.nextBoolean())
+                        if (oldWorld.rand.nextBoolean())
                         {
-                            arrow.setFire(3 + world.rand.nextInt(60));
+                            arrow.setFire(3 + oldWorld.rand.nextInt(60));
                         }
 
                         //Motion
@@ -53,7 +53,7 @@ public class BlastArrows extends Blast<BlastArrows>
                         arrow.motionY = velocity.y();
                         arrow.motionZ = velocity.z();
 
-                        world.spawnEntityInWorld(arrow);
+                        oldWorld.spawnEntityInWorld(arrow);
                     }
                 }
             }

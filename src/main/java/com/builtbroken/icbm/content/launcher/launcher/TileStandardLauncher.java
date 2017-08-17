@@ -10,14 +10,13 @@ import com.builtbroken.icbm.content.missile.data.missile.Missile;
 import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.icbm.content.missile.entity.EntityMissile;
 import com.builtbroken.mc.api.tile.access.IRotation;
-import com.builtbroken.mc.api.tile.listeners.IActivationListener;
-import com.builtbroken.mc.api.tile.listeners.IBlockStackListener;
-import com.builtbroken.mc.api.tile.listeners.IWrenchListener;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
-import com.builtbroken.mc.codegen.annotations.MultiBlockWrapped;
 import com.builtbroken.mc.codegen.annotations.TileWrapped;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.packet.PacketType;
+import com.builtbroken.mc.framework.block.imp.IActivationListener;
+import com.builtbroken.mc.framework.block.imp.IBlockStackListener;
+import com.builtbroken.mc.framework.block.imp.IWrenchListener;
 import com.builtbroken.mc.framework.multiblock.MultiBlockHelper;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.imp.transform.vector.Pos;
@@ -37,8 +36,7 @@ import net.minecraftforge.common.util.ForgeDirection;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 12/2/2015.
  */
-@TileWrapped(className = "TileWrapperStandardLauncher")
-@MultiBlockWrapped()
+@TileWrapped(className = "TileWrapperStandardLauncher", wrappers = "MultiBlock")
 public class TileStandardLauncher extends TileAbstractLauncher implements IRotation, IWrenchListener, IActivationListener, IBlockStackListener
 {
     /** Is the silo in crafting mode. */
@@ -99,7 +97,7 @@ public class TileStandardLauncher extends TileAbstractLauncher implements IRotat
                 if (buildMissileBlocks)
                 {
                     buildMissileBlocks = false;
-                    MultiBlockHelper.buildMultiBlock(world(), (IMultiTileHost) getHost(), true, true);
+                    MultiBlockHelper.buildMultiBlock(world().unwrap(), (IMultiTileHost) getHost(), true, true);
                 }
                 else if (destroyMissileBlocks)
                 {
@@ -111,7 +109,7 @@ public class TileStandardLauncher extends TileAbstractLauncher implements IRotat
             if (ticks % frameUpdateCheckTick == 0)
             {
                 //Check if broken by counting number of frames
-                int count = LauncherPartListener.getFrameCount(world(), new Pos(this).add(0, 1, 0));
+                int count = LauncherPartListener.getFrameCount(world().unwrap(), new Pos(this).add(0, 1, 0));
                 MissileSize size = LauncherPartListener.getLauncherSize(count);
                 //If we do not have 5 blocks drop the missile and set the block back to CPU
                 if (size != missileSize)
@@ -120,17 +118,17 @@ public class TileStandardLauncher extends TileAbstractLauncher implements IRotat
                     Block blockDrop = InventoryUtility.getBlock("icbm:icbmLauncherParts");
                     if (blockDrop != null)
                     {
-                        world().setBlock(xi(), yi(), zi(), blockDrop);
+                        world().unwrap().setBlock(xi(), yi(), zi(), blockDrop);
                     }
                 }
                 else
                 {
                     //Updates top block meta for older versions of ICBM
-                    int meta = world().getBlockMetadata(xi(), yi() + count, zi());
+                    int meta = world().unwrap().getBlockMetadata(xi(), yi() + count, zi());
                     int dMeta = getMetaForDirection(getDirection());
                     if (meta != dMeta)
                     {
-                        world().setBlockMetadataWithNotify(xi(), yi() + count, zi(), dMeta, 3);
+                        world().unwrap().setBlockMetadataWithNotify(xi(), yi() + count, zi(), dMeta, 3);
                     }
                 }
             }
@@ -456,7 +454,7 @@ public class TileStandardLauncher extends TileAbstractLauncher implements IRotat
             {
                 for (int z = -1; z < 2; z++)
                 {
-                    if (world().rand.nextFloat() < 0.3f)
+                    if (world().unwrap().rand.nextFloat() < 0.3f)
                     {
                         final Location pos = center.add(x, 0, z);
 

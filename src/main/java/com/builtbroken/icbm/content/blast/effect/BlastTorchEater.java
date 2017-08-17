@@ -25,10 +25,10 @@ public class BlastTorchEater extends BlastSimplePath<BlastTorchEater>
     public BlockEdit changeBlock(BlockPos location)
     {
         //TODO maybe make path only air blocks for balance
-        Block block = location.getBlock(world);
+        Block block = location.getBlock(oldWorld);
         if (block == Blocks.torch)
         {
-            return new BlockEdit(world, location).set(Blocks.air, 0, true, true);
+            return new BlockEdit(oldWorld, location).set(Blocks.air, 0, true, true);
         }
         return null;
     }

@@ -36,7 +36,7 @@ public class SiloConnectionData implements ISiloConnectionData, ISave, IByteBufW
     public SiloConnectionData(ILauncher launcher)
     {
         this.launcher = launcher;
-        world = launcher.world();
+        world = launcher.world().unwrap();
         x = (int) Math.floor(launcher.x());
         y = (int) Math.floor(launcher.y());
         z = (int) Math.floor(launcher.z());
@@ -69,11 +69,11 @@ public class SiloConnectionData implements ISiloConnectionData, ISave, IByteBufW
             launcher = null;
         }
         //If tiles is missing update
-        if (world() != null && launcher == null)
+        if (oldWorld() != null && launcher == null)
         {
-            if (world().blockExists(x, y, z)) //Ensure the chunk is loaded
+            if (oldWorld().blockExists(x, y, z)) //Ensure the chunk is loaded
             {
-                TileEntity tile = world().getTileEntity(x, y, z);
+                TileEntity tile = oldWorld().getTileEntity(x, y, z);
                 if (tile instanceof ILauncher)
                 {
                     launcher = (ILauncher) tile;
@@ -109,7 +109,7 @@ public class SiloConnectionData implements ISiloConnectionData, ISave, IByteBufW
     @Override
     public void openGui(EntityPlayer player, Object openingTile, ISiloConnectionPoint connector)
     {
-        if (world() != null && !world().isRemote && getSilo() != null)
+        if (oldWorld() != null && !oldWorld().isRemote && getSilo() != null)
         {
             if (getSilo() instanceof TileAbstractLauncher)
             {
@@ -130,7 +130,7 @@ public class SiloConnectionData implements ISiloConnectionData, ISave, IByteBufW
     }
 
     @Override
-    public World world()
+    public World oldWorld()
     {
         if (world == null)
         {

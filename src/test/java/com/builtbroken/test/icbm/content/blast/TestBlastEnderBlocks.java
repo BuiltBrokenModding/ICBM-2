@@ -2,8 +2,11 @@ package com.builtbroken.test.icbm.content.blast;
 
 import com.builtbroken.icbm.content.blast.effect.BlastEnderBlocks;
 import com.builtbroken.mc.api.edit.IWorldEdit;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
+import com.builtbroken.mc.seven.abstraction.MinecraftWrapper;
+import com.builtbroken.mc.seven.abstraction.world.WorldWrapper;
 import com.builtbroken.mc.testing.junit.AbstractTest;
 import com.builtbroken.mc.testing.junit.VoltzTestRunner;
 import com.builtbroken.mc.testing.junit.world.FakeWorld;
@@ -49,6 +52,9 @@ public class TestBlastEnderBlocks extends AbstractTest
     public void testBlast()
     {
         World world = FakeWorld.newWorld("testBlastEnderBlocks");
+        Engine.minecraft = new MinecraftWrapper();
+        ((MinecraftWrapper)Engine.minecraft).worldToWrapper.put(0, new WorldWrapper(world));
+
         for (int x = -10; x <= 10; x++)
         {
             for (int z = -10; z <= 10; z++)

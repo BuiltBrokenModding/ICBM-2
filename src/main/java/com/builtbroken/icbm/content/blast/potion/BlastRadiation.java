@@ -36,7 +36,7 @@ public class BlastRadiation extends Blast<BlastRadiation>
         if (beforeBlocksPlaced)
         {
             final Pos center = toPos();
-            List<Entity> entityList = world.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(x - size, 0, z - size, x + size, 255, z + size));
+            List<Entity> entityList = oldWorld.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(x - size, 0, z - size, x + size, 255, z + size));
             for (Entity entity : entityList)
             {
                 if (entity instanceof EntityLivingBase)
@@ -46,7 +46,7 @@ public class BlastRadiation extends Blast<BlastRadiation>
                     if (distance < size)
                     {
                         Pos head = pos.add(0, entity.getEyeHeight(), 0);
-                        MovingObjectPosition hit = head.rayTrace(world, center);
+                        MovingObjectPosition hit = head.rayTrace(oldWorld, center);
                         if (hit != null && hit.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK)
                         {
                             if (distance < size * 0.1)

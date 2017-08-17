@@ -25,26 +25,21 @@
     ]
   },
   "craftingGridRecipe": {
-    "type": "sheetmetal",
+    "type": "shaped",
+    "subType": "sheetMetal",
     "output": "block@icbm:icbmLauncherParts",
-    "grid": "RPH,GCR,DPR",
+    "grid": [
+      "RPH",
+      "GCR",
+      "DPR"
+    ],
     "items": {
       "C": "ore@circuitAdvanced",
       "R": "ore@rodIron",
-      "P": "ore@metalSheet",
+      "P": "ore@sheetMetal",
       "H": "tool@hammer",
       "D": "tool@shear",
       "G": "ore@gearIron"
-    }
-  },
-  "craftingGridRecipe:1": {
-    "type": "shaped",
-    "output": "block@icbm:icbmLauncherParts",
-    "grid": "RPR,PCP,RPR",
-    "items": {
-      "C": "ore@circuitAdvanced",
-      "R": "ore@wire",
-      "P": "ore@plateSteel"
     }
   }
 }

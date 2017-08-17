@@ -31,13 +31,13 @@ import com.builtbroken.mc.client.json.imp.IEffectData;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.framework.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.framework.json.imp.IJsonGenObject;
-import com.builtbroken.mc.framework.json.processors.block.JsonBlockListenerProcessor;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.render.fx.FXElectricBolt;
 import com.builtbroken.mc.lib.render.fx.FXElectricBoltSpawner;
 import com.builtbroken.mc.lib.render.fx.FXEnderPortalPartical;
 import com.builtbroken.mc.lib.render.fx.FXSmoke;
 import com.builtbroken.mc.prefab.explosive.ExplosiveHandlerGeneric;
+import com.builtbroken.mc.seven.framework.block.json.JsonBlockListenerProcessor;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -191,7 +191,7 @@ public class ClientProxy extends CommonProxy
                         if (data != null)
                         {
                             data.trigger(
-                                    ((EntityMissile) entity).world(), ((EntityMissile) entity).x(), ((EntityMissile) entity).y(), ((EntityMissile) entity).z(), //TODO move spawn point to rear of missile
+                                    ((EntityMissile) entity).oldWorld(), ((EntityMissile) entity).x(), ((EntityMissile) entity).y(), ((EntityMissile) entity).z(), //TODO move spawn point to rear of missile
                                     vel.x(), vel.y(), vel.z(),
                                     false, nbt);
                         }

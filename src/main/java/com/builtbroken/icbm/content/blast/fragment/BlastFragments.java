@@ -34,7 +34,7 @@ public class BlastFragments extends BlastBasic<BlastFragments>
         if (!beforeBlocksPlaced)
         {
             final Pos center = new Pos(x, y, z);
-            spawnFragments(world, center, (int) size, blastType.fragmentType, blastType.blockMaterial);
+            spawnFragments(oldWorld, center, (int) size, blastType.fragmentType, blastType.blockMaterial);
         }
     }
 
@@ -91,13 +91,13 @@ public class BlastFragments extends BlastBasic<BlastFragments>
     @Override
     public void doStartDisplay()
     {
-        Engine.instance.packetHandler.sendToAllAround(new PacketBlast(this, PacketBlast.BlastPacketType.PRE_BLAST_DISPLAY), this, 400);
+        Engine.packetHandler.sendToAllAround(new PacketBlast(this, PacketBlast.BlastPacketType.PRE_BLAST_DISPLAY), this, 400);
     }
 
     @Override
     public void doEndDisplay()
     {
-        Engine.instance.packetHandler.sendToAllAround(new PacketBlast(this, PacketBlast.BlastPacketType.POST_BLAST_DISPLAY), this, 400);
+        Engine.packetHandler.sendToAllAround(new PacketBlast(this, PacketBlast.BlastPacketType.POST_BLAST_DISPLAY), this, 400);
     }
 }
 

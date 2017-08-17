@@ -11,7 +11,6 @@ import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.api.tile.access.IGuiTile;
 import com.builtbroken.mc.api.tile.access.IRotation;
-import com.builtbroken.mc.codegen.annotations.ExternalInventoryWrapped;
 import com.builtbroken.mc.codegen.annotations.TileWrapped;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketType;
@@ -36,8 +35,7 @@ import java.util.List;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 1/6/2016.
  */
-@TileWrapped(className = "TileWrapperWarheadStation")
-@ExternalInventoryWrapped()
+@TileWrapped(className = "TileWrapperWarheadStation", wrappers = "ExternalInventory")
 public class TileWarheadStation extends TileMachineNode<ExternalInventory> implements IPacketIDReceiver, IGuiTile, IAutomatedCrafter<ExternalInventory>, IRotation
 {
     public static final int WARHEAD_SLOT = 0;
@@ -501,7 +499,7 @@ public class TileWarheadStation extends TileMachineNode<ExternalInventory> imple
                 else if (id == 2)
                 {
                     int guiID = buf.readInt();
-                    player.openGui(ICBM.INSTANCE, guiID, world(), xi(), yi(), zi());
+                    player.openGui(ICBM.INSTANCE, guiID, world().unwrap(), xi(), yi(), zi());
                     return true;
                 }
                 //Gui updated some settings

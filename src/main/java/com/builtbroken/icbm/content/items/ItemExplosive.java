@@ -14,11 +14,11 @@ import com.builtbroken.mc.client.ExplosiveRegistryClient;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.core.registry.implement.IRegistryInit;
+import com.builtbroken.mc.framework.explosive.ExplosiveItemUtility;
+import com.builtbroken.mc.framework.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.lib.helper.recipe.OreNames;
 import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
-import com.builtbroken.mc.framework.explosive.ExplosiveItemUtility;
-import com.builtbroken.mc.framework.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.prefab.items.ItemNBTExplosive;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -150,7 +150,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
                 translation = translation.replace("%1", "" + count);
                 list.add(translation);
 
-                if (Engine.proxy.isShiftHeld())
+                if (Engine.isShiftHeld())
                 {
                     list.add(LanguageUtility.getLocal(getUnlocalizedName() + ".fragment.damage.equation.info"));
 
@@ -172,7 +172,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         }
         else
         {
-            if (Engine.proxy.isShiftHeld())
+            if (Engine.isShiftHeld())
             {
                 //Custom info for biome change
                 if (stack.getItemDamage() == ExplosiveItems.BIOME_CHANGE.ordinal())

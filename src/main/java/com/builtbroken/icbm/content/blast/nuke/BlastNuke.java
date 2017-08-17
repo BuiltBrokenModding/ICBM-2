@@ -35,11 +35,11 @@ public class BlastNuke extends BlastSimplePath<BlastNuke>
     @Override
     public BlockEdit changeBlock(BlockPos location)
     {
-        if (location.isAirBlock(world))
+        if (location.isAirBlock(oldWorld))
         {
             return null;
         }
-        return new BlockEdit(world, location).set(Blocks.air, 0, false, true).setNotificationLevel(2);
+        return new BlockEdit(oldWorld, location).set(Blocks.air, 0, false, true).setNotificationLevel(2);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class BlastNuke extends BlastSimplePath<BlastNuke>
     {
         if (super.shouldPath(location))
         {
-            if (location.getHardness(world) < 0)
+            if (location.getHardness(oldWorld) < 0)
             {
                 return false;
             }
@@ -74,7 +74,7 @@ public class BlastNuke extends BlastSimplePath<BlastNuke>
             //TODO ensure that the entity is in line of sight
             //TODO ensure that the entity can be pathed by the explosive
             AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(x - size - 1, y - size - 1, z - size - 1, x + size + 1, y + size + 1, z + size + 1);
-            List list = world.selectEntitiesWithinAABB(Entity.class, bounds, new EntityDistanceSelector(new Pos(x, y, z), size + 1, true));
+            List list = oldWorld.selectEntitiesWithinAABB(Entity.class, bounds, new EntityDistanceSelector(new Pos(x, y, z), size + 1, true));
             if (list != null && !list.isEmpty())
             {
                 damageEntities(list, new DamageSource("antimatter").setExplosion().setDamageBypassesArmor(), 10);
@@ -109,13 +109,13 @@ public class BlastNuke extends BlastSimplePath<BlastNuke>
     @Override
     protected void postPlace(final IWorldEdit vec)
     {
-        MinecraftForge.EVENT_BUS.post(new BlastEventDestroyBlock.Post(this, BlastEventDestroyBlock.DestructionType.FORCE, world, vec.getBlock(), vec.getBlockMetadata(), (int) vec.x(), (int) vec.y(), (int) vec.z()));
+        MinecraftForge.EVENT_BUS.post(new BlastEventDestroyBlock.Post(this, BlastEventDestroyBlock.DestructionType.FORCE, oldWorld, vec.getBlock(), vec.getBlockMetadata(), (int) vec.x(), (int) vec.y(), (int) vec.z()));
     }
 
     @Override
     protected boolean prePlace(final IWorldEdit vec)
     {
-        BlastEventBlockEdit event = new BlastEventDestroyBlock.Pre(this, BlastEventDestroyBlock.DestructionType.FORCE, world, vec.getBlock(), vec.getBlockMetadata(), (int) vec.x(), (int) vec.y(), (int) vec.z());
+        BlastEventBlockEdit event = new BlastEventDestroyBlock.Pre(this, BlastEventDestroyBlock.DestructionType.FORCE, oldWorld, vec.getBlock(), vec.getBlockMetadata(), (int) vec.x(), (int) vec.y(), (int) vec.z());
 
         boolean result = MinecraftForge.EVENT_BUS.post(event);
         if (vec instanceof IBlastEdit && event instanceof BlastEventBlockReplaced.Pre)

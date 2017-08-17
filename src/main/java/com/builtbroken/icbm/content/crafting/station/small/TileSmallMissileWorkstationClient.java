@@ -4,15 +4,14 @@ import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.client.Assets;
 import com.builtbroken.icbm.content.missile.client.RenderMissile;
 import com.builtbroken.mc.api.items.ISimpleItemRenderer;
-import com.builtbroken.mc.client.SharedAssets;
 import com.builtbroken.mc.client.json.ClientDataHandler;
 import com.builtbroken.mc.client.json.imp.IModelState;
 import com.builtbroken.mc.client.json.imp.IRenderState;
 import com.builtbroken.mc.client.json.render.RenderData;
 import com.builtbroken.mc.core.network.packet.PacketType;
+import com.builtbroken.mc.framework.json.imp.IJsonGenObject;
 import com.builtbroken.mc.imp.transform.region.Cube;
 import com.builtbroken.mc.imp.transform.vector.Pos;
-import com.builtbroken.mc.framework.json.imp.IJsonGenObject;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.client.FMLClientHandler;
@@ -256,8 +255,8 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
         }
         Assets.SMALL_MISSILE_STATION_MODEL2.renderAll();
         GL11.glTranslatef(tableX, 0, 0);
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture(SharedAssets.TOOL_TABLE_TEXTURE);
-        SharedAssets.TOOL_TABLE.renderAll();
+        //FMLClientHandler.instance().getClient().renderEngine.bindTexture(SharedAssets.TOOL_TABLE_TEXTURE);
+        //SharedAssets.TOOL_TABLE.renderAll();
         GL11.glPopMatrix();
 
         //render missile

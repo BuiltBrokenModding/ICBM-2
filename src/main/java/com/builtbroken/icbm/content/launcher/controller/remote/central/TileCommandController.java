@@ -122,7 +122,7 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
                 {
                     if (worldObj.blockExists(pos.xi(), pos.yi(), pos.zi())) //Ensure the chunk is loaded
                     {
-                        TileEntity tile = pos.getTileEntity(world());
+                        TileEntity tile = pos.getTileEntity(oldWorld());
                         if (tile instanceof TileCommandSiloConnector)
                         {
                             siloConnectors.put(pos, (TileCommandSiloConnector) tile);
@@ -194,7 +194,7 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
     public String link(Location loc, short code)
     {
         //Validate location data
-        if (loc.world != world())
+        if (loc.world != oldWorld())
         {
             return "link.error.world.match";
         }
@@ -210,7 +210,7 @@ public class TileCommandController extends TileModuleMachine implements ILinkabl
         }
 
         //Compare tile pass code
-        TileEntity tile = pos.getTileEntity(loc.world());
+        TileEntity tile = pos.getTileEntity(loc.oldWorld());
         if (!(tile instanceof TileCommandSiloConnector))
         {
             return "link.error.tile.invalid";

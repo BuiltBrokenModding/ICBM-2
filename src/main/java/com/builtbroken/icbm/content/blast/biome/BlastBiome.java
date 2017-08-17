@@ -27,7 +27,7 @@ public class BlastBiome extends Blast<BlastBiome>
     @Override
     public void doEffectOther(boolean beforeBlocksPlaced)
     {
-        if (!world.isRemote && !beforeBlocksPlaced)
+        if (!oldWorld.isRemote && !beforeBlocksPlaced)
         {
             int range = (int) size * 10;
 
@@ -37,17 +37,17 @@ public class BlastBiome extends Blast<BlastBiome>
             {
                 for (int z = startZ - range; z <= (startZ + range); z++)
                 {
-                    Chunk chunk = world.getChunkFromBlockCoords(x, z);
+                    Chunk chunk = oldWorld.getChunkFromBlockCoords(x, z);
                     chunk.getBiomeArray()[(x & 15) * 16 + (z & 15)] = (byte)biomeID;
                     chunk.isModified = true;
                 }
             }
 
             Cube cube = new Cube(startX - range, 0, startZ - range, startX + range, 255, startZ + range);
-            for (Chunk chunk : cube.getChunks(world))
+            for (Chunk chunk : cube.getChunks(oldWorld))
             {
                 PacketBiomeData packet = new PacketBiomeData(chunk);
-                Engine.instance.packetHandler.sendToAllAround(packet, new NetworkRegistry.TargetPoint(world.provider.dimensionId, x, y, z, Math.max(range, 100)));
+                Engine.packetHandler.sendToAllAround(packet, new NetworkRegistry.TargetPoint(oldWorld.provider.dimensionId, x, y, z, Math.max(range, 100)));
             }
         }
     }

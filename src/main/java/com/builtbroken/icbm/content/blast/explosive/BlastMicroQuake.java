@@ -27,7 +27,7 @@ public class BlastMicroQuake extends BlastSimplePath<BlastMicroQuake>
     @Override
     public BlockEdit changeBlock(BlockPos location)
     {
-        Block block = location.getBlock(world);
+        Block block = location.getBlock(oldWorld);
         //TODO add gravel and sand version of ores
         //TODO add compatibility for other mods
         //TODO add registry for mods to add blocks to this explosive
@@ -40,24 +40,24 @@ public class BlastMicroQuake extends BlastSimplePath<BlastMicroQuake>
         //TODO increase delay of placement
         //TODO teleport around sand and gravel (in other words throw)
 
-        if (world.rand.nextBoolean())
+        if (oldWorld.rand.nextBoolean())
         {
             if (block == Blocks.stone)
             {
-                return new BlockEdit(world, location).set(Blocks.cobblestone);
+                return new BlockEdit(oldWorld, location).set(Blocks.cobblestone);
             }
             else if (block == Blocks.stonebrick)
             {
                 //TODO set to cracked bricks
-                return new BlockEdit(world, location).set(Blocks.cobblestone);
+                return new BlockEdit(oldWorld, location).set(Blocks.cobblestone);
             }
             else if (block == Blocks.cobblestone)
             {
-                return new BlockEdit(world, location).set(Blocks.gravel);
+                return new BlockEdit(oldWorld, location).set(Blocks.gravel);
             }
             else if (block == Blocks.gravel)
             {
-                return new BlockEdit(world, location).set(Blocks.sand);
+                return new BlockEdit(oldWorld, location).set(Blocks.sand);
             }
         }
         return null;
@@ -73,6 +73,6 @@ public class BlastMicroQuake extends BlastSimplePath<BlastMicroQuake>
     @Override
     public boolean shouldPath(BlockPos location)
     {
-        return !location.isAirBlock(world) && super.shouldPath(location);
+        return !location.isAirBlock(oldWorld) && super.shouldPath(location);
     }
 }

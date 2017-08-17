@@ -57,9 +57,9 @@ public class BlastGravity extends Blast<BlastGravity> implements IBlastTileMissi
             updateBounds();
         }
 
-        if (!world.isRemote)
+        if (!oldWorld.isRemote)
         {
-            List<Entity> list = world.getEntitiesWithinAABB(Entity.class, bounds);
+            List<Entity> list = oldWorld.getEntitiesWithinAABB(Entity.class, bounds);
             for (Entity entity : list)
             {
                 entity.addVelocity(0, 0.1, 0);

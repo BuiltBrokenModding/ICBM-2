@@ -3,14 +3,14 @@ package com.builtbroken.icbm.content.launcher.block;
 import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.content.launcher.launcher.TileStandardLauncher;
 import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
-import com.builtbroken.mc.api.tile.listeners.IBlockListener;
-import com.builtbroken.mc.api.tile.listeners.ITileEventListener;
-import com.builtbroken.mc.api.tile.listeners.ITileEventListenerBuilder;
-import com.builtbroken.mc.api.tile.listeners.IWrenchListener;
+import com.builtbroken.mc.framework.block.imp.IBlockListener;
+import com.builtbroken.mc.framework.block.imp.ITileEventListener;
+import com.builtbroken.mc.framework.block.imp.ITileEventListenerBuilder;
+import com.builtbroken.mc.framework.block.imp.IWrenchListener;
 import com.builtbroken.mc.api.tile.node.ITileNodeHost;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
-import com.builtbroken.mc.framework.block.listeners.TileListener;
+import com.builtbroken.mc.seven.framework.block.listeners.TileListener;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -45,7 +45,7 @@ public class LauncherPartListener extends TileListener implements IWrenchListene
                 {
                     final Pos frameStart = new Pos(xi(), yi() + 1, zi());
                     //Detects all launcher frame blocks above it(up to max)
-                    int frameCount = getFrameCount(world(), frameStart);
+                    int frameCount = getFrameCount(world().unwrap(), frameStart);
 
                     MissileSize missileCount = getLauncherSize(frameCount);
                     //Error if size not found
@@ -59,7 +59,7 @@ public class LauncherPartListener extends TileListener implements IWrenchListene
                     else
                     {
                         //Check if area is clear for missile
-                        if (!isPathClear(world(), frameStart.add(ForgeDirection.getOrientation(side)), frameCount, side))
+                        if (!isPathClear(world().unwrap(), frameStart.add(ForgeDirection.getOrientation(side)), frameCount, side))
                         {
                             //TODO add translation key
                             player.addChatComponentMessage(new ChatComponentText("To prevent issues clear the blocks from the side of the tower that the missile will occupy. micro, small, and standard need 1x1 block space. Medium needs 3x3 block space to be placed."));
@@ -68,7 +68,7 @@ public class LauncherPartListener extends TileListener implements IWrenchListene
 
                         Block launcherBlock = ICBM_API.blockStandardLauncher;
                         //create standard launcher
-                        if (new Pos(this).setBlock(world(), launcherBlock, side))
+                        if (new Pos(this).setBlock(world().unwrap(), launcherBlock, side))
                         {
                             //TODO add translation key
                             player.addChatComponentMessage(new ChatComponentText(LanguageUtility.capitalizeFirst(missileCount.name().toLowerCase()) + " launcher created"));
