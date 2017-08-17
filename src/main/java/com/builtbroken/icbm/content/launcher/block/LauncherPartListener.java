@@ -35,7 +35,7 @@ public class LauncherPartListener extends TileListener implements IWrenchListene
     @Override
     public boolean onPlayerRightClickWrench(EntityPlayer player, int side, float hitX, float hitY, float hitZ)
     {
-        if (oldWorld() != null)
+        if (world() != null)
         {
             int meta = getBlockMeta();
             //Launcher CPU
@@ -45,7 +45,7 @@ public class LauncherPartListener extends TileListener implements IWrenchListene
                 {
                     final Pos frameStart = new Pos(xi(), yi() + 1, zi());
                     //Detects all launcher frame blocks above it(up to max)
-                    int frameCount = getFrameCount(oldWorld(), frameStart);
+                    int frameCount = getFrameCount(world().unwrap(), frameStart);
 
                     MissileSize missileCount = getLauncherSize(frameCount);
                     //Error if size not found
@@ -59,7 +59,7 @@ public class LauncherPartListener extends TileListener implements IWrenchListene
                     else
                     {
                         //Check if area is clear for missile
-                        if (!isPathClear(oldWorld(), frameStart.add(ForgeDirection.getOrientation(side)), frameCount, side))
+                        if (!isPathClear(world().unwrap(), frameStart.add(ForgeDirection.getOrientation(side)), frameCount, side))
                         {
                             //TODO add translation key
                             player.addChatComponentMessage(new ChatComponentText("To prevent issues clear the blocks from the side of the tower that the missile will occupy. micro, small, and standard need 1x1 block space. Medium needs 3x3 block space to be placed."));
@@ -68,7 +68,7 @@ public class LauncherPartListener extends TileListener implements IWrenchListene
 
                         Block launcherBlock = ICBM_API.blockStandardLauncher;
                         //create standard launcher
-                        if (new Pos(this).setBlock(oldWorld(), launcherBlock, side))
+                        if (new Pos(this).setBlock(world().unwrap(), launcherBlock, side))
                         {
                             //TODO add translation key
                             player.addChatComponentMessage(new ChatComponentText(LanguageUtility.capitalizeFirst(missileCount.name().toLowerCase()) + " launcher created"));

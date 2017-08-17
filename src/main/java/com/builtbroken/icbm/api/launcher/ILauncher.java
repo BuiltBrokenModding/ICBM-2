@@ -2,7 +2,7 @@ package com.builtbroken.icbm.api.launcher;
 
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.jlib.data.vector.IPos3D;
-import com.builtbroken.mc.api.IWorldPosition;
+import com.builtbroken.mc.api.abstraction.world.IPosWorld;
 
 /**
  * Applied to tiles that hold missiles for launching
@@ -10,7 +10,7 @@ import com.builtbroken.mc.api.IWorldPosition;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 12/28/2014.
  */
-public interface ILauncher extends IWorldPosition
+public interface ILauncher extends IPosWorld
 {
     /** Called to fire a missile at the pre-set target */
     boolean fireMissile();

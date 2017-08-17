@@ -36,7 +36,7 @@ public class SiloConnectionData implements ISiloConnectionData, ISave, IByteBufW
     public SiloConnectionData(ILauncher launcher)
     {
         this.launcher = launcher;
-        world = launcher.oldWorld();
+        world = launcher.world().unwrap();
         x = (int) Math.floor(launcher.x());
         y = (int) Math.floor(launcher.y());
         z = (int) Math.floor(launcher.z());

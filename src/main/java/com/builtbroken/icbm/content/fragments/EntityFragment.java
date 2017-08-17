@@ -1,7 +1,7 @@
 package com.builtbroken.icbm.content.fragments;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.mc.abstraction.world.IWorld;
+import com.builtbroken.mc.api.abstraction.world.IWorld;
 import com.builtbroken.mc.api.data.EnumProjectileTypes;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.imp.transform.region.Cube;

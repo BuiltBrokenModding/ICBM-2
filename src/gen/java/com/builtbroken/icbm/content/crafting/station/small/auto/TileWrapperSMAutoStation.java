@@ -52,7 +52,7 @@ public class TileWrapperSMAutoStation extends TileEntityWrapper implements IMult
                     {
                         if (listener instanceof IBlockListener)
                         {
-                            ((IBlockListener) listener).inject(oldWorld(), xi(), yi(), zi());
+                            ((IBlockListener) listener).inject(worldObj, xi(), yi(), zi());
                         }
                         if (listener.isValidForTile())
                         {
@@ -84,7 +84,7 @@ public class TileWrapperSMAutoStation extends TileEntityWrapper implements IMult
                         {
                             if (listener instanceof IBlockListener)
                             {
-                                ((IBlockListener) listener).inject(oldWorld(), xi(), yi(), zi());
+                                ((IBlockListener) listener).inject(worldObj, xi(), yi(), zi());
                             }
                             if (listener.isValidForTile())
                             {
@@ -121,7 +121,7 @@ public class TileWrapperSMAutoStation extends TileEntityWrapper implements IMult
                         {
                             if (listener instanceof IBlockListener)
                             {
-                                ((IBlockListener) listener).inject(oldWorld(), xi(), yi(), zi());
+                                ((IBlockListener) listener).inject(worldObj, xi(), yi(), zi());
                             }
                             if (listener.isValidForTile())
                             {
@@ -152,7 +152,7 @@ public class TileWrapperSMAutoStation extends TileEntityWrapper implements IMult
                     {
                         if (listener instanceof IBlockListener)
                         {
-                            ((IBlockListener) listener).inject(oldWorld(), xi(), yi(), zi());
+                            ((IBlockListener) listener).inject(worldObj, xi(), yi(), zi());
                         }
                         if (listener.isValidForTile())
                         {
@@ -185,7 +185,7 @@ public class TileWrapperSMAutoStation extends TileEntityWrapper implements IMult
                     {
                         if (listener instanceof IBlockListener)
                         {
-                            ((IBlockListener) listener).inject(oldWorld(), xi(), yi(), zi());
+                            ((IBlockListener) listener).inject(worldObj, xi(), yi(), zi());
                         }
                         if (listener.isValidForTile())
                         {
@@ -218,7 +218,7 @@ public class TileWrapperSMAutoStation extends TileEntityWrapper implements IMult
                     {
                         if (listener instanceof IBlockListener)
                         {
-                            ((IBlockListener) listener).inject(oldWorld(), xi(), yi(), zi());
+                            ((IBlockListener) listener).inject(worldObj, xi(), yi(), zi());
                         }
                         if (listener.isValidForTile())
                         {

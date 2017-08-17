@@ -101,7 +101,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     public String link(Location loc, short code)
     {
         //Validate location data
-        if (loc.world != oldWorld())
+        if (loc.world != world().unwrap())
         {
             return "link.error.world.match";
         }
@@ -150,7 +150,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     {
         if ((fofStation == null || fofStation instanceof TileEntity && ((TileEntity) fofStation).isInvalid()) && fofStationPos != null)
         {
-            TileEntity tile = fofStationPos.getTileEntity(oldWorld());
+            TileEntity tile = fofStationPos.getTileEntity(world().unwrap());
             if (tile instanceof IFoFProvider)
             {
                 fofStation = (IFoFProvider) tile;
@@ -187,7 +187,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
             //TODO do count down rather than every 1 second
             if (ticks % 20 == 0)
             {
-                if (oldWorld().isBlockIndirectlyGettingPowered(xi(), yi(), zi()))
+                if (world().unwrap().isBlockIndirectlyGettingPowered(xi(), yi(), zi()))
                 {
                     if (fireMissile(target))
                     {
@@ -255,7 +255,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
                     {
 
                         //Create and setup missile
-                        EntityMissile entity = new EntityMissile(oldWorld());
+                        EntityMissile entity = new EntityMissile(world().unwrap());
                         entity.setMissile(missile);
 
                         ICBM.INSTANCE.logger().info("Firing missile from " + this + ", Missile = " + entity + ", Target = " + target);
@@ -275,7 +275,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
                         entity.sourceOfProjectile = new Pos(this);
 
                         //Spawn and start moving
-                        oldWorld().spawnEntityInWorld(entity);
+                        world().unwrap().spawnEntityInWorld(entity);
                         addLaunchReport(entity);
 
                         entity.setIntoMotion();
@@ -291,12 +291,12 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
                     return true;
                 }
                 //No engine can result in warhead detonating due to ignition source shooting up into warhead cavity
-                else if (isServer() && missile.getEngine() == null && oldWorld().rand.nextFloat() > 0.9f)
+                else if (isServer() && missile.getEngine() == null && world().unwrap().rand.nextFloat() > 0.9f)
                 {
                     //If the user is stupid enough to not install an engine....
                     if (missile.getWarhead() != null)
                     {
-                        missile.getWarhead().trigger(new TriggerCause.TriggerCauseFire(ForgeDirection.DOWN), oldWorld(), xi(), yi(), zi());
+                        missile.getWarhead().trigger(new TriggerCause.TriggerCauseFire(ForgeDirection.DOWN), world().unwrap(), xi(), yi(), zi());
                         getInventory().setInventorySlotContents(0, null);
                     }
                     else
@@ -359,10 +359,10 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         //TODO add more effects
         for (int l = 0; l < 20; ++l)
         {
-            double f = x() + 0.5 + 0.3 * (oldWorld().rand.nextFloat() - oldWorld().rand.nextFloat());
-            double f1 = y() + 0.1 + 0.5 * (oldWorld().rand.nextFloat() - oldWorld().rand.nextFloat());
-            double f2 = z() + 0.5 + 0.3 * (oldWorld().rand.nextFloat() - oldWorld().rand.nextFloat());
-            oldWorld().spawnParticle("largesmoke", f, f1, f2, 0.0D, 0.0D, 0.0D);
+            double f = x() + 0.5 + 0.3 * (world().unwrap().rand.nextFloat() - world().unwrap().rand.nextFloat());
+            double f1 = y() + 0.1 + 0.5 * (world().unwrap().rand.nextFloat() - world().unwrap().rand.nextFloat());
+            double f2 = z() + 0.5 + 0.3 * (world().unwrap().rand.nextFloat() - world().unwrap().rand.nextFloat());
+            world().spawnParticle("largesmoke", f, f1, f2, 0.0D, 0.0D, 0.0D);
         }
     }
 

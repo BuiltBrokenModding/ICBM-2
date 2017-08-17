@@ -2,13 +2,12 @@ package com.builtbroken.icbm.content.launcher.silo.standard;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.modules.IMissile;
-import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.icbm.content.launcher.TileAbstractLauncher;
+import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.mc.api.data.ActionResponse;
+import com.builtbroken.mc.codegen.annotations.TileWrapped;
 import com.builtbroken.mc.framework.block.imp.IDestroyedListener;
 import com.builtbroken.mc.framework.block.imp.IPlacementListener;
-import com.builtbroken.mc.codegen.annotations.MultiBlockWrapped;
-import com.builtbroken.mc.codegen.annotations.TileWrapped;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,8 +19,7 @@ import net.minecraftforge.common.util.ForgeDirection;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 2/23/2016.
  */
-@TileWrapped(className = "TileWrapperStandardSilo")
-@MultiBlockWrapped()
+@TileWrapped(className = "TileWrapperStandardSilo", wrappers = "MultiBlock")
 public class TileStandardSilo extends TileAbstractLauncher implements IPlacementListener, IDestroyedListener
 {
     public TileStandardSilo()

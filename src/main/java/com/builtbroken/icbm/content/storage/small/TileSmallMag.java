@@ -2,17 +2,15 @@ package com.builtbroken.icbm.content.storage.small;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.modules.IMissile;
-import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.icbm.content.launcher.TileMissileContainer;
+import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.icbm.content.storage.IMissileMag;
 import com.builtbroken.icbm.content.storage.IMissileMagOutput;
 import com.builtbroken.mc.api.tile.IRotatable;
-import com.builtbroken.mc.framework.block.imp.IDestroyedListener;
 import com.builtbroken.mc.api.tile.node.ITileNode;
 import com.builtbroken.mc.api.tile.node.ITileNodeHost;
-import com.builtbroken.mc.codegen.annotations.ExternalInventoryWrapped;
-import com.builtbroken.mc.codegen.annotations.MultiBlockWrapped;
 import com.builtbroken.mc.codegen.annotations.TileWrapped;
+import com.builtbroken.mc.framework.block.imp.IDestroyedListener;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.prefab.inventory.ExternalInventory;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
@@ -33,9 +31,7 @@ import java.util.List;
  * Small 2 block tall self contained launcher for small missiles.
  * Created by robert on 3/28/2015.
  */
-@TileWrapped(className = "TileEntityWrappedSmallMag")
-@ExternalInventoryWrapped()
-@MultiBlockWrapped()
+@TileWrapped(className = "TileEntityWrappedSmallMag", wrappers = "ExternalInventory;MultiBlock")
 public class TileSmallMag extends TileMissileContainer implements IMissileMag, IDestroyedListener, IRotatable
 {
     protected static final ForgeDirection[] rotations = new ForgeDirection[]{ForgeDirection.NORTH, ForgeDirection.EAST, ForgeDirection.SOUTH, ForgeDirection.WEST};
@@ -206,7 +202,7 @@ public class TileSmallMag extends TileMissileContainer implements IMissileMag, I
     public void readDescPacket(ByteBuf buf)
     {
         super.readDescPacket(buf);
-        oldWorld().markBlockRangeForRenderUpdate(xi(), yi(), zi(), xi(), yi(), zi());
+        world().unwrap().markBlockRangeForRenderUpdate(xi(), yi(), zi(), xi(), yi(), zi());
     }
 
     @Override
@@ -214,7 +210,7 @@ public class TileSmallMag extends TileMissileContainer implements IMissileMag, I
     {
         if (dirCache == null)
         {
-            dirCache = ForgeDirection.getOrientation(oldWorld().getBlockMetadata(xi(), yi(), zi()));
+            dirCache = ForgeDirection.getOrientation(world().unwrap().getBlockMetadata(xi(), yi(), zi()));
         }
         return dirCache;
     }
@@ -226,7 +222,7 @@ public class TileSmallMag extends TileMissileContainer implements IMissileMag, I
         if (meta >= 2 && meta <= 5) //Restrict to side only rotations
         {
             dirCache = null;
-            oldWorld().setBlockMetadataWithNotify(xi(), yi(), zi(), meta, 3);
+            world().unwrap().setBlockMetadataWithNotify(xi(), yi(), zi(), meta, 3);
         }
     }
 }

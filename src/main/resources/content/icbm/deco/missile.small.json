@@ -158,8 +158,14 @@
     "items": {
       "p": "ore@plankWood",
       "l": "ore@logWood",
-      "g": "item@dye#2",
-      "s": "item@dye#7"
+      "g": {
+        "item": "item@dye",
+        "damage": 2
+      },
+      "s": {
+        "item": "item@dye",
+        "damage": 7
+      }
     }
   },
   "multiblock": {
