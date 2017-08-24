@@ -28,7 +28,7 @@ public class TileWrapperStandardSilo extends TileEntityWrapper implements IMulti
 	}
 
 	//============================
-	//==Methods:MultiBlockWrapped
+	//==Methods:MultiBlock
 	//============================
 
 

@@ -1,13 +1,15 @@
 //=======================================================
 //DISCLAIMER: THIS IS A GENERATED CLASS FILE
 //THUS IS PROVIDED 'AS-IS' WITH NO WARRANTY
-//FUNCTIONALITY CAN NOT BE GUARANTIED IN ANY WAY
-//USE AT YOUR OWN RISK
+//FUNCTIONALITY CAN NOT BE GUARANTIED IN ANY WAY 
+//USE AT YOUR OWN RISK 
 //-------------------------------------------------------
 //Built on: Rober
 //=======================================================
 package com.builtbroken.icbm.content.crafting.station.warhead;
 
+import com.builtbroken.icbm.content.crafting.station.warhead.TileWarheadStation;
+import com.builtbroken.mc.api.tile.node.ITileNode;
 import com.builtbroken.mc.api.tile.provider.IInventoryProvider;
 import com.builtbroken.mc.seven.framework.logic.TileEntityWrapper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,7 +25,7 @@ public class TileWrapperWarheadStation extends TileEntityWrapper implements IInv
 	}
 
 	//============================
-	//==Methods:ExternalInventoryWrapped
+	//==Methods:ExternalInventory
 	//============================
 
 
@@ -183,5 +185,5 @@ public class TileWrapperWarheadStation extends TileEntityWrapper implements IInv
         }
         return false;
     }
-
+    
 }

@@ -2,6 +2,7 @@ package com.builtbroken.icbm.content.blast.temp;
 
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
+import com.builtbroken.mc.data.Direction;
 import com.builtbroken.mc.imp.transform.vector.BlockPos;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.lib.data.heat.HeatedBlockRegistry;
@@ -14,7 +15,6 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.List;
@@ -71,13 +71,13 @@ public class BlastEndoThermic extends BlastSimplePath<BlastEndoThermic>
     }
 
     @Override
-    public boolean shouldPathTo(BlockPos last, BlockPos next, EnumFacing dir)
+    public boolean shouldPathTo(BlockPos last, BlockPos next, Direction dir)
     {
         if (super.shouldPathTo(last, next, dir))
         {
             if (last.isAirBlock(oldWorld) && next.isAirBlock(oldWorld))
             {
-                return EnumFacing.UP != dir;
+                return Direction.UP != dir;
             }
             //TODO check if the block has thermal properties
             //TODO if yes then check if it allows heat transfer

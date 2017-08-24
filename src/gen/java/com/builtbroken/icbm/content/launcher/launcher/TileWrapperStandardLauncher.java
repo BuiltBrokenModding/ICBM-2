@@ -28,7 +28,7 @@ public class TileWrapperStandardLauncher extends TileEntityWrapper implements IM
 	}
 
 	//============================
-	//==Methods:MultiBlockWrapped
+	//==Methods:MultiBlock
 	//============================
 
 

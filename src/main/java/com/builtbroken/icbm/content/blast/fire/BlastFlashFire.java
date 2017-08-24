@@ -2,6 +2,7 @@ package com.builtbroken.icbm.content.blast.fire;
 
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
+import com.builtbroken.mc.data.Direction;
 import com.builtbroken.mc.imp.transform.vector.BlockPos;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
@@ -11,7 +12,6 @@ import com.builtbroken.mc.prefab.explosive.blast.BlastSimplePath;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.List;
@@ -44,12 +44,12 @@ public class BlastFlashFire extends BlastSimplePath<BlastFlashFire>
     }
 
     @Override
-    public boolean shouldPathTo(BlockPos last, BlockPos next, EnumFacing dir)
+    public boolean shouldPathTo(BlockPos last, BlockPos next, Direction dir)
     {
         if (super.shouldPathTo(last, next, dir))
         {
             if (last.isReplaceable(oldWorld) && next.isReplaceable(oldWorld))
-                return dir != EnumFacing.UP;
+                return dir != Direction.UP;
             return true;
         }
         return false;
