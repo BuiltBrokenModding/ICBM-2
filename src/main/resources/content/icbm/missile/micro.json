@@ -14,6 +14,23 @@
       "z": 0
     }
   },
+  "craftingGridRecipe": {
+    "type": "shaped",
+    "output": {
+      "item": "item@icbm:missile",
+      "damage": 0
+    },
+    "grid": [
+      "rrf",
+      "rcf",
+      "rrf"
+    ],
+    "items": {
+      "c": "ore@sheetSmallCylinderMetal",
+      "f": "ore@sheetMicroFinMetal",
+      "r": "ore@rodIron"
+    }
+  },
   "render": {
     "contentID": "missile.icbm:microMissile",
     "type": "item",
@@ -85,9 +102,8 @@
     "name": "micro.missile",
     "type": "item"
   },
-  "effect:1":
-  {
-    "key":"missile.icbm:microMissile.engine.trail",
-    "effectID":"rocketTrail"
+  "effect:1": {
+    "key": "missile.icbm:microMissile.engine.trail",
+    "effectID": "rocketTrail"
   }
 }

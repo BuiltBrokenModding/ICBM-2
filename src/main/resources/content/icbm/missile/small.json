@@ -14,6 +14,24 @@
       "z": 0
     }
   },
+  "_comment": "TODO add an error state handler to note the recipe will not work without all of its parts",
+  "craftingGridRecipe": {
+    "type": "shaped",
+    "output": {
+      "item": "item@icbm:missile",
+      "damage": 1
+    },
+    "grid": [
+      " rf",
+      "rcf",
+      " rf"
+    ],
+    "items": {
+      "c": "ore@casingSmallMissile",
+      "f": "ore@sheetSmallFinMetal",
+      "r": "ore@rodIron"
+    }
+  },
   "render": {
     "contentID": "missile.icbm:smallMissile",
     "type": "item",

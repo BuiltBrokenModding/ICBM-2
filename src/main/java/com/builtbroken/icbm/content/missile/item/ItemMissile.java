@@ -6,7 +6,6 @@ import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.api.warhead.IWarheadHandler;
-import com.builtbroken.icbm.content.items.parts.MissileCraftingParts;
 import com.builtbroken.icbm.content.missile.data.ammo.AmmoDataMissile;
 import com.builtbroken.icbm.content.missile.data.casing.MissileCasingData;
 import com.builtbroken.icbm.content.missile.data.missile.Missile;
@@ -29,16 +28,11 @@ import com.builtbroken.mc.api.items.weapons.IItemReloadableWeapon;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.client.ExplosiveRegistryClient;
-import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.References;
-import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
-import com.builtbroken.mc.core.registry.implement.IPostInit;
-import com.builtbroken.mc.framework.item.ItemBase;
-import com.builtbroken.mc.lib.helper.LanguageUtility;
-import com.builtbroken.mc.framework.recipe.item.sheetmetal.RecipeSheetMetal;
 import com.builtbroken.mc.framework.explosive.ExplosiveRegistry;
+import com.builtbroken.mc.framework.item.ItemBase;
 import com.builtbroken.mc.lib.data.item.ItemStackWrapper;
-import cpw.mods.fml.common.registry.GameRegistry;
+import com.builtbroken.mc.lib.helper.LanguageUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -60,7 +54,7 @@ import java.util.List;
  *
  * @author Darkguardsman
  */
-public class ItemMissile extends ItemBase implements IExplosiveItem, IItemAmmo.IItemAmmoFireHandler, IMissileItem, IPostInit, IModularMissileItem, IExplosiveContainerItem
+public class ItemMissile extends ItemBase implements IExplosiveItem, IItemAmmo.IItemAmmoFireHandler, IMissileItem, IModularMissileItem, IExplosiveContainerItem
 {
     @SideOnly(Side.CLIENT)
     IIcon emptyIcon;
@@ -71,23 +65,6 @@ public class ItemMissile extends ItemBase implements IExplosiveItem, IItemAmmo.I
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
         this.setMaxStackSize(1);
-    }
-
-    @Override
-    public void onPostInit()
-    {
-        //TODO move to JSON
-        ItemStack micro_missile_empty = new ItemStack(this, 1, MissileSize.MICRO.ordinal());
-        ItemStack small_missile_empty = new ItemStack(this, 1, MissileSize.SMALL.ordinal());
-        if (Engine.itemSheetMetal != null && Engine.itemSheetMetalTools != null)
-        {
-            GameRegistry.addRecipe(new RecipeSheetMetal(micro_missile_empty, " rf", "rcf", " rf", 'c', ItemSheetMetal.SheetMetal.SMALL_CYLINDER.stack(), 'f', ItemSheetMetal.SheetMetal.FIN_MICRO.stack(), 'r', "rodIron"));
-            GameRegistry.addRecipe(new RecipeSheetMetal(small_missile_empty, "rrf", "rcf", "rrf", 'c', MissileCraftingParts.SMALL_MISSILE_CASE.stack(), 'f', ItemSheetMetal.SheetMetal.FIN_SMALL.stack(), 'r', "rodIron"));
-        }
-        else
-        {
-            //GameRegistry.addShapedRecipe(MissileModuleBuilder.INSTANCE.buildMissile(MissileSize.SMALL, new ItemStack(Blocks.tnt)).toStack(), "ITI", "IAI", "IFI", 'A', Items.arrow, 'I', Items.iron_ingot, 'T', Blocks.tnt, 'F', Blocks.furnace);
-        }
     }
 
     @Override

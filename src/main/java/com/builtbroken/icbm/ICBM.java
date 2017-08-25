@@ -15,8 +15,6 @@ import com.builtbroken.icbm.content.fragments.EntityFragment;
 import com.builtbroken.icbm.content.fragments.FragmentEventHandler;
 import com.builtbroken.icbm.content.items.ItemExplosive;
 import com.builtbroken.icbm.content.items.parts.ItemExplosiveParts;
-import com.builtbroken.icbm.content.items.parts.ItemMissileParts;
-import com.builtbroken.icbm.content.items.parts.MissileCraftingParts;
 import com.builtbroken.icbm.content.launcher.block.LauncherPartListener;
 import com.builtbroken.icbm.content.launcher.block.TileLauncherFrame;
 import com.builtbroken.icbm.content.launcher.controller.direct.TileSiloController;
@@ -42,12 +40,10 @@ import com.builtbroken.icbm.content.rocketlauncher.ItemRocketLauncher;
 import com.builtbroken.icbm.content.warhead.TileWarhead;
 import com.builtbroken.icbm.server.CommandICBM;
 import com.builtbroken.mc.core.Engine;
-import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
 import com.builtbroken.mc.framework.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.framework.json.JsonContentLoader;
 import com.builtbroken.mc.framework.mod.AbstractMod;
 import com.builtbroken.mc.framework.mod.ModCreativeTab;
-import com.builtbroken.mc.framework.recipe.item.sheetmetal.RecipeSheetMetal;
 import com.builtbroken.mc.prefab.entity.type.EntityTypeCheckRegistry;
 import com.builtbroken.mc.prefab.explosive.ExplosiveHandlerGeneric;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
@@ -243,7 +239,6 @@ public final class ICBM extends AbstractMod
         ICBM_API.itemRocketLauncher = manager.newItem("rocketLauncher", ItemRocketLauncher.class);
         ICBM_API.itemEngineModules = manager.newItem("engineModules", ItemEngineModules.class);
         ICBM_API.itemGuidanceModules = manager.newItem("guidanceModules", ItemGuidanceModules.class);
-        ICBM_API.itemMissileParts = manager.newItem("missileParts", ItemMissileParts.class);
         ICBM_API.itemExplosive = manager.newItem("explosiveUnit", ItemExplosive.class);
         ICBM_API.itemExplosivePart = manager.newItem("explosiveUnitParts", ItemExplosiveParts.class);
         ICBM_API.itemTrigger = manager.newItem("icbmTriggers", ItemTriggerModules.class);
@@ -366,21 +361,6 @@ public final class ICBM extends AbstractMod
         {
             //TODO see about ore dictionary for redstone, and gunpowder
             GameRegistry.addRecipe(new ShapedOreRecipe(Blocks.tnt, "@@@", "@R@", "@@@", '@', Items.gunpowder, 'R', Items.redstone));
-        }
-
-        //Sheet metal crafting recipes
-        if (Engine.itemSheetMetal != null && Engine.itemSheetMetalTools != null)
-        {
-            GameRegistry.addRecipe(new RecipeSheetMetal(MissileCraftingParts.SMALL_MISSILE_CASE.stack(),
-                    "CRC",
-                    " H ",
-                    'C', ItemSheetMetal.SheetMetal.CYLINDER.stack(),
-                    'R', ItemSheetMetal.SheetMetal.RIVETS.stack(),
-                    'H', Engine.itemSheetMetalTools.getHammer()));
-        }
-        else
-        {
-            logger().error("In order to craft the missile casing you need to enable sheet metal tools and parts in Voltz Engine");
         }
         super.postInit(event);
     }
