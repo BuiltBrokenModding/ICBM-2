@@ -1,0 +1,50 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "item": {
+    "id": "missileParts",
+    "name": "missileParts",
+    "mod": "icbm",
+    "hasSubTypes": true,
+    "subTypes": [
+      {
+        "id": "casing.missile.small",
+        "name": "smallMissileCasing",
+        "ore": "casingSmallMissile",
+        "index": 0
+      }
+    ]
+  },
+  "craftingGridRecipe": {
+    "type": "shaped",
+    "subType": "sheetmetal",
+    "output": {
+      "item": "item@icbm:missileParts",
+      "damage": 0
+    },
+    "grid": [
+      "CRC",
+      " H "
+    ],
+    "items": {
+      "C": "ore@sheetCylinderMetal",
+      "R": "ore@rivetSheetMetal",
+      "H": "tool@hammer"
+    }
+  },
+  "render": {
+    "contentID": "icbm:missileParts",
+    "type": "item",
+    "states": [
+      {
+        "id": "casing.missile.small",
+        "renderType": "item",
+        "texture": {
+          "domain": "icbm",
+          "name": "casing.missile.small"
+        }
+      }
+    ]
+  }
+}
