@@ -83,7 +83,7 @@
   "texture:1": {
     "key": "icbm:mediumMissileIcon",
     "domain": "icbm",
-    "name": "micro.missile",
+    "name": "standard.medium",
     "type": "item"
   }
 }
