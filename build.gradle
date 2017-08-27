@@ -107,24 +107,3 @@ jacocoTestReport {
         html.enabled = true
     }
 }
-
-task makeChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
-    filePath = "changelog.html"
-    untaggedName = "Current release ${project.version}"
-    fromCommit = startGitRev
-    toRef =  "HEAD"
-    templateContent = """
-{{#tags}}
-<h1> Highly untested and may break world</h1>
-  <h3>{{name}}</h3>
-  <ul>
-    {{#commits}}
-    <li> <a href="https://github.com/BuiltBrokenModding/ICBM/commit/{{hash}}" target=_blank> {{{message}}}</a>
-</li>
-    {{/commits}}
-  </ul>
-{{/tags}}
-"""
-}
-
-tasks.build.dependsOn makeChangelog
