@@ -41,7 +41,7 @@ public final class ICBM_API
     //Items: Parts
     public static Item itemEngineModules;
     public static Item itemGuidanceModules;
-    public static Item itemMissileParts;
+    //public static Item itemMissileParts;
     public static Item itemExplosive;
     public static Item itemExplosivePart;
     public static Item itemTrigger;
