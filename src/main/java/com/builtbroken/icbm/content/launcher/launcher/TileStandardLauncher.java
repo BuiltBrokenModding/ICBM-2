@@ -18,6 +18,7 @@ import com.builtbroken.mc.framework.block.imp.IActivationListener;
 import com.builtbroken.mc.framework.block.imp.IBlockStackListener;
 import com.builtbroken.mc.framework.block.imp.IWrenchListener;
 import com.builtbroken.mc.framework.multiblock.MultiBlockHelper;
+import com.builtbroken.mc.imp.transform.vector.BlockPos;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
@@ -109,7 +110,7 @@ public class TileStandardLauncher extends TileAbstractLauncher implements IRotat
             if (ticks % frameUpdateCheckTick == 0)
             {
                 //Check if broken by counting number of frames
-                int count = LauncherPartListener.getFrameCount(world().unwrap(), new Pos(this).add(0, 1, 0));
+                int count = LauncherPartListener.getFrameCount(world().unwrap(), new BlockPos(this).add(0, 1, 0));
                 MissileSize size = LauncherPartListener.getLauncherSize(count);
                 //If we do not have 5 blocks drop the missile and set the block back to CPU
                 if (size != missileSize)

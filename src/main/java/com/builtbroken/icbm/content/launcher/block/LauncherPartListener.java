@@ -4,11 +4,13 @@ import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.content.launcher.launcher.TileStandardLauncher;
 import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.jlib.data.Colors;
+import com.builtbroken.mc.api.tile.node.ITileNodeHost;
+import com.builtbroken.mc.data.Direction;
 import com.builtbroken.mc.framework.block.imp.IBlockListener;
 import com.builtbroken.mc.framework.block.imp.ITileEventListener;
 import com.builtbroken.mc.framework.block.imp.ITileEventListenerBuilder;
 import com.builtbroken.mc.framework.block.imp.IWrenchListener;
-import com.builtbroken.mc.api.tile.node.ITileNodeHost;
+import com.builtbroken.mc.imp.transform.vector.BlockPos;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.seven.framework.block.listeners.TileListener;
@@ -17,7 +19,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.common.DimensionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,7 @@ public class LauncherPartListener extends TileListener implements IWrenchListene
     @Override
     public boolean onPlayerRightClickWrench(EntityPlayer player, int side, float hitX, float hitY, float hitZ)
     {
+        Direction facingSide = Direction.getOrientation(side);
         if (world() != null)
         {
             int meta = getBlockMeta();
@@ -44,9 +47,14 @@ public class LauncherPartListener extends TileListener implements IWrenchListene
             {
                 if (isServer())
                 {
-                    final Pos frameStart = new Pos(xi(), yi() + 1, zi());
+                    final BlockPos frameStart = new BlockPos(xi(), yi() + 1, zi());
                     //Detects all launcher frame blocks above it(up to max)
                     int frameCount = getFrameCount(world().unwrap(), frameStart);
+
+                    if(world().unwrap() != DimensionManager.getWorld(world().unwrap().provider.dimensionId))
+                    {
+                        System.out.println("error");
+                    }
 
                     MissileSize missileSize = getLauncherSize(frameCount);
                     //Error if size not found
@@ -60,7 +68,7 @@ public class LauncherPartListener extends TileListener implements IWrenchListene
                     else
                     {
                         //Check if area is clear for missile
-                        if (!isPathClear(world().unwrap(), frameStart.add(ForgeDirection.getOrientation(side)), frameCount, side))
+                        if (!isPathClear(world().unwrap(), frameStart.add(facingSide), frameCount, facingSide))
                         {
                             //TODO add translation key
                             player.addChatComponentMessage(new ChatComponentText("To prevent issues clear the blocks from the side of the tower that the missile will " +
@@ -120,10 +128,10 @@ public class LauncherPartListener extends TileListener implements IWrenchListene
         return null;
     }
 
-    public static int getFrameCount(World world, Pos start)
+    public static int getFrameCount(World world, BlockPos start)
     {
         int count = 0;
-        Block block = world.getBlock(start.xi(), start.yi(), start.zi());
+        Block block = start.getBlock(world);
         while (count < 255 && block == ICBM_API.blockLauncherFrame)
         {
             //Increase count
@@ -135,25 +143,25 @@ public class LauncherPartListener extends TileListener implements IWrenchListene
         return count;
     }
 
-    public static boolean isPathClear(World world, Pos start, int height, int side)
+    public static boolean isPathClear(World world, BlockPos start, int height, Direction side)
     {
         for (int i = 0; i < height; i++)
         {
             if (height != MEDIUM_LAUNCHER_HEIGHT)
             {
-                if (!new Pos(start.xi(), start.yi() + i, start.zi()).add(ForgeDirection.getOrientation(side)).isAirBlock(world))
+                if (!new BlockPos(start.xi(), start.yi() + i, start.zi()).add(side).isAirBlock(world))
                 {
                     return false;
                 }
             }
             else
             {
-                start = start.add(ForgeDirection.getOrientation(side));
+                start = start.add(side);
                 for (int x = -1; x < 2; x++)
                 {
                     for (int z = -1; z < 2; z++)
                     {
-                        if (!new Pos(start.xi() + x, start.yi() + i, start.zi() + z).add(ForgeDirection.getOrientation(side)).isAirBlock(world))
+                        if (!new Pos(start.xi() + x, start.yi() + i, start.zi() + z).add(side).isAirBlock(world))
                         {
                             return false;
                         }
