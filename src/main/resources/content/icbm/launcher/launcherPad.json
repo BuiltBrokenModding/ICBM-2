@@ -11,30 +11,39 @@
     "material": "rock",
     "subtypes": [
       {
+        "id":"top",
         "meta": 0
       },
       {
+        "id":"bottom",
         "meta": 1
       },
       {
+        "id":"left",
         "meta": 2
       },
       {
+        "id":"right",
         "meta": 3
       },
       {
+        "id":"bottom.left",
         "meta": 4
       },
       {
+        "id":"bottom.right",
         "meta": 5
       },
       {
+        "id":"top.left",
         "meta": 6
       },
       {
+        "id":"top.right",
         "meta": 7
       },
       {
+        "id":"default",
         "meta": 15
       }
     ]

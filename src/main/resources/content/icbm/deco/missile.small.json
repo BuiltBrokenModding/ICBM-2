@@ -37,12 +37,15 @@
     ],
     "subtypes": [
       {
+        "id":"small",
         "meta": 0
       },
       {
+        "id":"small.red",
         "meta": 1
       },
       {
+        "id":"medium",
         "meta": 2
       }
     ]
