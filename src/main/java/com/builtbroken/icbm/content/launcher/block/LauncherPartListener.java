@@ -3,6 +3,7 @@ package com.builtbroken.icbm.content.launcher.block;
 import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.content.launcher.launcher.TileStandardLauncher;
 import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
+import com.builtbroken.jlib.data.Colors;
 import com.builtbroken.mc.framework.block.imp.IBlockListener;
 import com.builtbroken.mc.framework.block.imp.ITileEventListener;
 import com.builtbroken.mc.framework.block.imp.ITileEventListenerBuilder;
@@ -47,12 +48,12 @@ public class LauncherPartListener extends TileListener implements IWrenchListene
                     //Detects all launcher frame blocks above it(up to max)
                     int frameCount = getFrameCount(world().unwrap(), frameStart);
 
-                    MissileSize missileCount = getLauncherSize(frameCount);
+                    MissileSize missileSize = getLauncherSize(frameCount);
                     //Error if size not found
-                    if (missileCount == null)
+                    if (missileSize == null)
                     {
                         //TODO add translation key
-                        player.addChatComponentMessage(new ChatComponentText("Detected " + frameCount + " blocks, micro requires 1, small 2, standard 5, medium 17"));
+                        player.addChatComponentMessage(new ChatComponentText("Detected " + frameCount + " launcher frame blocks, micro requires 1, small 2, standard 5, medium 17"));  //TODO translate
                         return true;
                     }
                     //Place block and set size
@@ -62,7 +63,8 @@ public class LauncherPartListener extends TileListener implements IWrenchListene
                         if (!isPathClear(world().unwrap(), frameStart.add(ForgeDirection.getOrientation(side)), frameCount, side))
                         {
                             //TODO add translation key
-                            player.addChatComponentMessage(new ChatComponentText("To prevent issues clear the blocks from the side of the tower that the missile will occupy. micro, small, and standard need 1x1 block space. Medium needs 3x3 block space to be placed."));
+                            player.addChatComponentMessage(new ChatComponentText("To prevent issues clear the blocks from the side of the tower that the missile will " +
+                                    "occupy. micro, small, and standard need 1x1 block space. Medium needs 3x3 block space to be placed."));  //TODO translate
                             return true;
                         }
 
@@ -71,17 +73,22 @@ public class LauncherPartListener extends TileListener implements IWrenchListene
                         if (new Pos(this).setBlock(world().unwrap(), launcherBlock, side))
                         {
                             //TODO add translation key
-                            player.addChatComponentMessage(new ChatComponentText(LanguageUtility.capitalizeFirst(missileCount.name().toLowerCase()) + " launcher created"));
+                            player.addChatComponentMessage(new ChatComponentText(LanguageUtility.capitalizeFirst(missileSize.name().toLowerCase()) + " launcher created")); //TODO translate
 
                             TileEntity tile = getTileEntity();
                             if (tile instanceof ITileNodeHost && ((ITileNodeHost) tile).getTileNode() instanceof TileStandardLauncher)
                             {
-                                ((TileStandardLauncher) ((ITileNodeHost) tile).getTileNode()).missileSize = missileCount;
+                                ((TileStandardLauncher) ((ITileNodeHost) tile).getTileNode()).missileSize = missileSize;
+                            }
+                            else
+                            {
+                                player.addChatComponentMessage(new ChatComponentText(Colors.RED.code + "Error: Failed to set missile size for tile, this is a bug.")); //TODO translate
                             }
                         }
                         else
                         {
-                            player.addChatComponentMessage(new ChatComponentText("Unexpected error changing CPU block to standard launcher block."));
+                            player.addChatComponentMessage(new ChatComponentText(Colors.RED.code + "Error: Failed to convert CPU block to standard launcher block. " +
+                                    "Check console for error messages and world for protection plugins preventing action.")); //TODO translate
                         }
                     }
                 }
