@@ -118,6 +118,7 @@ public class TileStandardLauncher extends TileAbstractLauncher implements IRotat
                     Block blockDrop = InventoryUtility.getBlock("icbm:icbmLauncherParts");
                     if (blockDrop != null)
                     {
+                        world().unwrap().setBlockToAir(xi(), yi(), zi());
                         world().unwrap().setBlock(xi(), yi(), zi(), blockDrop);
                     }
                 }
