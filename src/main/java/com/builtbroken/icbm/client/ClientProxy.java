@@ -10,7 +10,6 @@ import com.builtbroken.icbm.client.ec.ECFragment;
 import com.builtbroken.icbm.content.blast.entity.slime.EntitySlimeRain;
 import com.builtbroken.icbm.content.blast.entity.slime.RenderSlimeRain;
 import com.builtbroken.icbm.content.blast.explosive.BlastPathTester;
-import com.builtbroken.icbm.content.crafting.station.small.TileSmallMissileWorkstationClient;
 import com.builtbroken.icbm.content.crafting.station.small.auto.TileSMAutoRenderListener;
 import com.builtbroken.icbm.content.fragments.EntityFragment;
 import com.builtbroken.icbm.content.fragments.RenderFragment;
@@ -79,7 +78,7 @@ public class ClientProxy extends CommonProxy
     public void preInit()
     {
         super.preInit();
-        ICBM_API.blockMissileWorkstation = ICBM.INSTANCE.getManager().newBlock("SmallMissileWorkStation", TileSmallMissileWorkstationClient.class);
+        //ICBM_API.blockMissileWorkstation = ICBM.INSTANCE.getManager().newBlock("SmallMissileWorkStation", TileSmallMissileWorkstationClient.class);
         ICBM_API.blockCommandSiloDisplay = ICBM.INSTANCE.getManager().newBlock("icbmCommandSiloDisplay", TileSiloInterfaceClient.class);
 
         //ICBM.blockStandardLauncher.setCreativeTab(null);
