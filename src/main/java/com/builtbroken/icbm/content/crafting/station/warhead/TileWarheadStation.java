@@ -76,7 +76,7 @@ public class TileWarheadStation extends TileMachineNode<ExternalInventory> imple
         super.update(ticks);
         if (isServer() && ticks % 10 == 0)
         {
-            if (checkForCraft)
+            if (checkForCraft && isAutocrafting)
             {
                 checkForCraft = false;
                 //TODO add crafting timer
