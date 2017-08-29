@@ -212,7 +212,7 @@ public class ItemMissile extends ItemBase implements IExplosiveItem, IItemAmmo.I
 
                         if (missile.data == null)
                         {
-                            System.out.println();
+                            //System.out.println();
                         }
                         //Set warhead
                         missile.setWarhead(warhead);
