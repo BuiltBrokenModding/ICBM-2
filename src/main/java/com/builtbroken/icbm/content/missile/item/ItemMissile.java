@@ -54,7 +54,7 @@ import java.util.List;
  *
  * @author Darkguardsman
  */
-public class ItemMissile extends ItemBase implements IExplosiveItem, IItemAmmo.IItemAmmoFireHandler, IMissileItem, IModularMissileItem, IExplosiveContainerItem
+public class ItemMissile extends ItemBase implements IExplosiveItem, IItemAmmo.IItemAmmoFireHandler, IMissileItem, IModularMissileItem, IExplosiveContainerItem, IModuleItem
 {
     @SideOnly(Side.CLIENT)
     IIcon emptyIcon;
@@ -538,5 +538,11 @@ public class ItemMissile extends ItemBase implements IExplosiveItem, IItemAmmo.I
     public IMissile toMissile(ItemStack stack)
     {
         return new Missile(stack);
+    }
+
+    @Override
+    public IMissile getModule(ItemStack stack)
+    {
+        return toMissile(stack);
     }
 }

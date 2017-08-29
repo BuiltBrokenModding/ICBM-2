@@ -226,13 +226,11 @@ public class TileSMAutoCraft extends TileMachineNode<ExternalInventory> implemen
     {
         final ItemStack insert = stack.copy();
         insert.stackSize = 1;
-
-        IModule module = MissileModuleBuilder.INSTANCE.build(insert);
-        if (module == null && stack.getItem() instanceof IModuleItem)
+        if (stack.getItem() instanceof IModuleItem)
         {
-            module = ((IModuleItem) stack.getItem()).getModule(insert);
+            return ((IModuleItem) stack.getItem()).getModule(insert);
         }
-        return module;
+        return MissileModuleBuilder.INSTANCE.build(insert);
     }
 
     @Override
