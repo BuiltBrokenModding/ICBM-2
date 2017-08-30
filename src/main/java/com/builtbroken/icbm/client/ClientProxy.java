@@ -175,15 +175,21 @@ public class ClientProxy extends CommonProxy
 
                     NBTTagCompound nbt = new NBTTagCompound();
 
-                    NBTTagCompound tag = new NBTTagCompound();
-                    tag.setInteger("color", fireColor.getRGB());
-                    nbt.setTag("fireColor", tag);
+                    if (fireColor != null)
+                    {
+                        NBTTagCompound tag = new NBTTagCompound();
+                        tag.setInteger("color", fireColor.getRGB());
+                        nbt.setTag("fireColor", tag);
+                    }
 
-                    tag = new NBTTagCompound();
-                    tag.setInteger("color", smokeColor.getRGB());
-                    nbt.setTag("smokeColor", tag);
+                    if (smokeColor != null)
+                    {
+                        NBTTagCompound tag = new NBTTagCompound();
+                        tag.setInteger("color", smokeColor.getRGB());
+                        nbt.setTag("smokeColor", tag);
+                    }
 
-                    if(missile instanceof IJsonGenObject)
+                    if (missile instanceof IJsonGenObject)
                     {
                         String contentID = ((IJsonGenObject) missile).getContentID(); //TODO change to use engine content ID
                         IEffectData data = ClientDataHandler.INSTANCE.getEffect(contentID + ".engine.trail");
