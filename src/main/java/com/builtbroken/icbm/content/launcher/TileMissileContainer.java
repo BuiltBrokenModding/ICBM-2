@@ -205,7 +205,7 @@ public class TileMissileContainer extends TileMachineNode<IInventory> implements
     @Override
     public void onInventoryChanged(int slot, ItemStack prev, ItemStack item)
     {
-        if (slot == 0)
+        if (world() != null && slot == 0)
         {
             sendDescPacket();
             if (shouldCacheMissile())
