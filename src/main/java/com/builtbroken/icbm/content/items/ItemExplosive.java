@@ -55,6 +55,8 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
     //  Add loader for explosive item data
     //  Add explosive item registry JSON processor
 
+    @SideOnly(Side.CLIENT)
+    private IIcon[] entitySpawnIcons;
 
     public ItemExplosive()
     {
@@ -228,27 +230,41 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         this.itemIcon = reg.registerIcon(this.getIconString());
         for (ExplosiveItems item : ExplosiveItems.values())
         {
-            if (item != ExplosiveItems.FRAGMENT && item != ExplosiveItems.BIOME_CHANGE)
+            if (item != ExplosiveItems.FRAGMENT && item != ExplosiveItems.BIOME_CHANGE && item != ExplosiveItems.ENTITY_SPAWN)
             {
                 item.icon = reg.registerIcon(ICBM.PREFIX + "explosiveItem." + item.ex_name);
             }
         }
+
+        entitySpawnIcons = new IIcon[3];
+        entitySpawnIcons[0] = reg.registerIcon(ICBM.PREFIX + "explosiveItem.egg.0");
+        entitySpawnIcons[1] = reg.registerIcon(ICBM.PREFIX + "explosiveItem.egg.1");
+        entitySpawnIcons[2] = reg.registerIcon(ICBM.PREFIX + "explosiveItem.egg.2");
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public IIcon getIcon(ItemStack stack, int pass)
     {
-        if (stack.getItemDamage() == ExplosiveItems.FRAGMENT.ordinal())
+        //Entity explosives
+        if (stack.getItemDamage() == ExplosiveItems.ENTITY_SPAWN.ordinal())
+        {
+            return pass >= 0 && pass < entitySpawnIcons.length ? entitySpawnIcons[pass] : itemIcon;
+        }
+        //Fragments only
+        else if (stack.getItemDamage() == ExplosiveItems.FRAGMENT.ordinal())
         {
             if (getExplosive(stack) instanceof IFragmentExplosiveHandler)
             {
                 return ((IFragmentExplosiveHandler) ExplosiveItems.FRAGMENT.getExplosive()).getFragmentIcon(stack, pass);
             }
         }
+        //All items
         else if (stack.getItemDamage() >= 1 && stack.getItemDamage() < ExplosiveItems.values().length && ExplosiveItems.values()[stack.getItemDamage()].icon != null)
         {
             return ExplosiveItems.values()[stack.getItemDamage()].icon;
         }
+        //Backup handling
         else if (getExplosive(stack) instanceof IFragmentExplosiveHandler)
         {
             return ((IFragmentExplosiveHandler) getExplosive(stack)).getFragmentIcon(stack, pass);
@@ -260,10 +276,43 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         return itemIcon;
     }
 
+    @SideOnly(Side.CLIENT)
+    public int getColorFromItemStack(ItemStack stack, int pass)
+    {
+        if (stack.getItemDamage() == ExplosiveItems.ENTITY_SPAWN.ordinal())
+        {
+            IExplosiveHandler handler = getExplosive(stack);
+            if (handler instanceof ExSpawn)
+            {
+                int entityID = ((ExSpawn) handler).getEntityID(stack);
+                if (entityID > -1)
+                {
+                    EntityList.EntityEggInfo info = ExplosiveRegistryClient.getEggInfo(entityID);
+                    if (info != null)
+                    {
+                        if (pass == 1)
+                        {
+                            return info.primaryColor;
+                        }
+                        else if (pass == 2)
+                        {
+                            return info.secondaryColor;
+                        }
+                    }
+                }
+            }
+        }
+        return 16777215;
+    }
+
     @Override
     public int getRenderPasses(int metadata)
     {
-        if (metadata == ExplosiveItems.FRAGMENT.ordinal())
+        if (metadata == ExplosiveItems.ENTITY_SPAWN.ordinal())
+        {
+            return entitySpawnIcons.length;
+        }
+        else if (metadata == ExplosiveItems.FRAGMENT.ordinal())
         {
             if (ExplosiveItems.FRAGMENT.getExplosive() instanceof IFragmentExplosiveHandler)
             {
@@ -422,6 +471,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
     @Override
     public void onRegistered()
     {
+        //Create normal explosive
         for (ExplosiveItems item : ExplosiveItems.values())
         {
             if (item.ex_name != null && item != ExplosiveItems.FRAGMENT && item != ExplosiveItems.BIOME_CHANGE)
@@ -429,12 +479,16 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
                 ExplosiveRegistry.registerExplosiveItem(item.newItem());
             }
         }
+
+        //Create fragment explosives
         for (FragBlastType frag : FragBlastType.values())
         {
             ItemStack stack = ExplosiveItems.FRAGMENT.newItem();
             ExFragment.setFragmentType(stack, frag);
             ExplosiveRegistry.registerExplosiveItem(stack);
         }
+
+        //Create biome explosives
         for (BiomeGenBase base : BiomeGenBase.getBiomeGenArray())
         {
             if (base != null && base.biomeID >= 0)
@@ -445,8 +499,8 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
             }
         }
 
+        //Create egg explosives
         Iterator iterator = EntityList.entityEggs.values().iterator();
-
         while (iterator.hasNext())
         {
             EntityList.EntityEggInfo entityegginfo = (EntityList.EntityEggInfo) iterator.next();
@@ -454,17 +508,6 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
             ExSpawn.setEntityID(stack, entityegginfo.spawnedID);
             ExplosiveRegistry.registerExplosiveItem(stack);
         }
-    }
-
-    @Override
-    public void onClientRegistered()
-    {
-        //TODO add renderer for some of the explosives
-        //For example arrow bundle for fragment
-
-        ExplosiveRegistryClient.registerIcon(ExplosiveItems.ORE_PULLER.newItem(), ICBM.PREFIX + "ex.icon.ore");
-        ExplosiveRegistryClient.registerIcon(ExplosiveItems.MIDAS_ORE.newItem(), ICBM.PREFIX + "ex.icon.ore.midas");
-        ExplosiveRegistryClient.registerIcon(ExplosiveItems.FLASH.newItem(), ICBM.PREFIX + "ex.icon.flash");
     }
 
     @Override

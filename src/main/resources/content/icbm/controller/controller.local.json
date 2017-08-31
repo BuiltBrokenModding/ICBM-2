@@ -150,21 +150,11 @@
   "craftingGridRecipe": {
     "type": "shaped",
     "output": "block@icbm:silocontroller",
-    "grid": "IGI,CGC,ICI",
+    "grid": "III,CGC,III",
     "items": {
-      "I": "ore@ingotIron",
-      "G": "block@chest",
+      "I": "ore@plateIron",
+      "G": "block@minecraft:chest",
       "C": "ore@circuitBasic"
-    }
-  },
-  "craftingGridRecipe": {
-    "type": "shaped",
-    "output": "block@icbm:silocontroller",
-    "grid": "IGI,CGC,ICI",
-    "items": {
-      "I": "ore@ingotIron",
-      "G": "block@chest",
-      "C": "ore@electronicCircuit"
     }
   }
 }

@@ -111,10 +111,9 @@
   },
   "craftingGridRecipe": {
     "type": "shaped",
-    "output": "block@icbm:missileAutoStation",
-    "grid": "PWP,MCM,R R",
+    "output": "block@icbm:icbmSMAuto",
+    "grid": "RRR,MCM,PPP",
     "items": {
-      "W": "block@icbm:SmallMissileWorkStation",
       "P": "ore@plateIron",
       "M": "ore@motorDC",
       "R": "ore@rodIron",

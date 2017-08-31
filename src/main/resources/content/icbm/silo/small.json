@@ -139,7 +139,6 @@
     "name": "small-missile-silo",
     "type": "model"
   },
-
   "craftingGridRecipe": {
     "type": "shaped",
     "output": "block@icbm:smallsilo",

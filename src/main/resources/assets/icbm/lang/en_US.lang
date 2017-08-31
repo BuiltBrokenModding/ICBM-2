@@ -82,6 +82,10 @@ item.icbm:explosiveItem.SlimeRain.name=Royal Slime Jar
 item.icbm:explosiveItem.Gravity.name=Anti-Gravity Device
 item.icbm:explosiveItem.Microwave.name=Microwave Generator
 item.icbm:explosiveItem.EntitySpawn.name=Entity Egg Capsule
+item.icbm:explosiveItem.MidasOre.name=The Midas Touch
+item.icbm:explosiveItem.Flash.name=Flash Charge
+item.icbm:explosiveItem.Radiation.name=Improvised Radiation Dispenser
+item.icbm:explosiveItem.Nuke.name=Improvised Nuke Device
 
 item.icbm:explosiveItem.fragment.arrow.name=Arrow Bundle Charge
 item.icbm:explosiveItem.fragment.cobblestone.name=Cobblestone Frag Charge
@@ -243,6 +247,10 @@ explosive.icbm:SlimeRain.name=Slime Rain
 explosive.icbm:Gravity.name=Anti-Gravity
 explosive.icbm:Microwave.name=Microwave
 explosive.icbm:EntitySpawn.name=Entity Spawn
+explosive.icbm:Nuke.name=Dirty Nuke
+explosive.icbm:EntitySpawn.name=Entity Spawn
+explosive.icbm:Flash.name=Flash
+explosive.icbm:Radiation.name=Radiation
 
 ## Damage
 damage.fragment.cobblestone=%s was stoned to death by cobble fragments

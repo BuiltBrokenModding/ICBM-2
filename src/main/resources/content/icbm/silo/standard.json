@@ -108,6 +108,17 @@
     "domain": "icbm",
     "name": "standardSilo/StandardSilo.obj"
   },
+  "craftingGridRecipe": {
+    "type": "shaped",
+    "output": "block@icbm:standardsilo",
+    "grid": "ISI,ISI,CBC",
+    "items": {
+      "S": "block@icbm:smallsilo",
+      "I": "ore@rodIron",
+      "B": "ore@plateIron",
+      "C": "ore@circuitAdvanced"
+    }
+  },
   "multiblock": {
     "key": "icbm:standardSilo",
     "tiles": [

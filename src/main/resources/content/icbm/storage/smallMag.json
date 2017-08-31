@@ -209,11 +209,11 @@
     "output": "block@icbm:smallMissileMag",
     "grid": "ICI,IMI,GBG",
     "items": {
-      "I": "block@iron_bars",
+      "I": "ore@rodIron",
       "B": "ore@plateIron",
-      "C": "ore@electronicCircuit",
-      "M": "motor",
-      "G": "gearIron"
+      "C": "ore@circuitAdvanced",
+      "M": "ore@motor",
+      "G": "ore@gearIron"
     }
   },
   "multiblock": {
