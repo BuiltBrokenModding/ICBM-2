@@ -11,6 +11,7 @@ import com.builtbroken.icbm.content.blast.explosive.BlastPathTester;
 import com.builtbroken.icbm.content.blast.fragment.ExFragment;
 import com.builtbroken.icbm.content.blast.item.BlockFakeCake;
 import com.builtbroken.icbm.content.cow.EntityGaintCow;
+import com.builtbroken.icbm.content.debug.BlockEntityDisplay;
 import com.builtbroken.icbm.content.debug.BlockExplosiveMarker;
 import com.builtbroken.icbm.content.fragments.EntityFragment;
 import com.builtbroken.icbm.content.fragments.FragmentEventHandler;
@@ -65,6 +66,7 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
+import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.init.Blocks;
@@ -228,6 +230,8 @@ public final class ICBM extends AbstractMod
         if (Engine.runningAsDev)
         {
             ICBM_API.blockExplosiveMarker = manager.newBlock(BlockExplosiveMarker.class, ItemBlockMetadata.class);
+            Block block = manager.newBlock(BlockEntityDisplay.class);
+            manager.registerTileEntity("tileEntityDisplayDebug", block, new BlockEntityDisplay.TileEntityDisplay());
         }
 
         // ITEMS

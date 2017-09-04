@@ -45,7 +45,6 @@ public class BlastFragments extends BlastBasic<BlastFragments>
      * @param center
      * @param size
      * @param type
-     * @param block
      */
     public static void spawnFragments(final World world, final Pos center, int size, FragmentType type, Item item)
     {
@@ -69,7 +68,7 @@ public class BlastFragments extends BlastBasic<BlastFragments>
                         fragment.setPosition(pos.x(), pos.y(), pos.z());
 
                         //Random chance for fragment to be on fire
-                        if (world.rand.nextBoolean())
+                        if (fragment.getFragmentType() == FragmentType.BLOCK && world.rand.nextBoolean())
                         {
                             //TODO introduce better chance for some material types
                             //TODO disable burning on some materials like obsidian

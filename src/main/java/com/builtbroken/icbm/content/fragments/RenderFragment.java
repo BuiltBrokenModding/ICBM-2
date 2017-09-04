@@ -1,15 +1,20 @@
 package com.builtbroken.icbm.content.fragments;
 
+import com.builtbroken.jlib.helpers.MathHelper;
 import com.builtbroken.mc.lib.render.RenderUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
@@ -20,32 +25,88 @@ import org.lwjgl.opengl.GL12;
  * Created by Dark(DarkGuardsman, Robert) on 12/17/2016.
  */
 @SideOnly(Side.CLIENT)
-public class RenderFragment extends Render
+public final class RenderFragment extends Render
 {
     /** Backup texture */
     private static final ResourceLocation arrowTextures = new ResourceLocation("textures/entity/arrow.png");
 
+    private final RenderItem renderItem = new RenderItem()
+    {
+        @Override
+        public boolean shouldBob()
+        {
+            return false;
+        }
+    };
+    private final EntityItem entityItem = new EntityItem(null);
+
     public void doRender(EntityFragment entity, double xx, double yy, double zz, float p_76986_8_, float p_76986_9_)
     {
-        FragmentType type = entity.fragmentType;
+        FragmentType type = entity.getFragmentType();
 
         if (type == FragmentType.BLOCK)
         {
             GL11.glPushMatrix();
             GL11.glTranslated(xx, yy, zz);
-            Block block = Block.getBlockFromItem(entity.fragmentMaterial);
-            RenderUtility.renderCube(entity.renderShape.toAABB(), block == null ? Blocks.stone : block);
+            Block block = entity.getFragmentBlock();
+            RenderUtility.renderCube(entity.getRenderShape().toAABB(), block == null ? Blocks.stone : block);
             GL11.glPopMatrix();
         }
         else if (type == FragmentType.PROJECTILE)
         {
-            this.renderManager.renderEngine.bindTexture(TextureMap.locationItemsTexture);
+            //Get item
+            ItemStack item = entity.getFragmentMaterial() != null ? entity.getFragmentMaterial() : new ItemStack(Items.stick, 1, 0);
 
-            //TODO do render full item in 3D using RenderItem code
-            IIcon icon = entity.fragmentMaterial != null ? entity.fragmentMaterial.getIconFromDamage(0) : Items.stick.getIconFromDamage(0);
+            //Fix missing render manager
+            renderItem.setRenderManager(this.renderManager);
 
-            //TODO change texture based on item
-            doRenderItemLikeArrow(entity, icon, xx, yy, zz, p_76986_8_, p_76986_9_);
+            //Update fake item for rendering
+            entityItem.worldObj = entity.worldObj;
+            entityItem.posX = entity.posX;
+            entityItem.posY = entity.posY;
+            entityItem.posZ = entity.posZ;
+            entityItem.setEntityItemStack(item);
+            entityItem.hoverStart = 0.0F;
+
+            //Calc rotation
+            float yaw = entity.rotationYaw - 90.0F;
+            float pitch = entity.rotationPitch;
+            float roll = 0;
+
+            //Adjustment data per item
+            float pitchAdjust = 0;
+            double xAdjust = 0;
+            double zAdjust = 0;
+
+            //Adjust for sword, TODO move to JSON
+            if (item.getItem() instanceof ItemSword)
+            {
+                //yaw = 0;
+                //Fix rotation
+                pitchAdjust = 135;
+
+                xAdjust = -0.1f;
+
+                roll = -1;
+            }
+
+            //Start
+            GL11.glPushMatrix();
+
+            //Translate
+            GL11.glTranslated(xx, yy, zz);
+
+            //Set rotation values
+            GL11.glRotatef(MathHelper.clampAngleTo360(roll), 1.0F, 0.0F, 0.0F);
+            GL11.glRotatef(MathHelper.clampAngleTo360(yaw), 0.0F, 1.0F, 0.0F);
+            GL11.glRotatef(MathHelper.clampAngleTo360(pitch + pitchAdjust), 0.0F, 0.0F, 1.0F);
+
+
+            //Render item using RenderItem class to save time
+            renderItem.doRender(entityItem, xAdjust, 0, zAdjust, p_76986_8_, p_76986_9_);
+
+            //End
+            GL11.glPopMatrix();
         }
         else if (type == FragmentType.BLAZE)
         {
@@ -69,6 +130,7 @@ public class RenderFragment extends Render
      * @param p_76986_8_ - ? unknown
      * @param p_76986_9_ - ? unknown
      */
+    @Deprecated //Renders like shit, being replaced with MC render calls for better visuals
     public void doRenderItemLikeArrow(EntityFragment entity, IIcon icon, double xx, double yy, double zz, float p_76986_8_, float p_76986_9_)
     {
         GL11.glPushMatrix();

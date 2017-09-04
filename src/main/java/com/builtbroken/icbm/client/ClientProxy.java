@@ -13,6 +13,7 @@ import com.builtbroken.icbm.content.blast.explosive.BlastPathTester;
 import com.builtbroken.icbm.content.cow.EntityGaintCow;
 import com.builtbroken.icbm.content.cow.RenderEntityGaintCow;
 import com.builtbroken.icbm.content.crafting.station.small.auto.TileSMAutoRenderListener;
+import com.builtbroken.icbm.content.debug.BlockEntityDisplay;
 import com.builtbroken.icbm.content.fragments.EntityFragment;
 import com.builtbroken.icbm.content.fragments.RenderFragment;
 import com.builtbroken.icbm.content.launcher.controller.remote.antenna.ItemRendererAntennaFrame;
@@ -93,6 +94,10 @@ public class ClientProxy extends CommonProxy
         super.init();
         SharedAssets.loadResources();
         ClientRegistry.bindTileEntitySpecialRenderer(TileAntennaPart.class, new TESRAntenna());
+        if(Engine.runningAsDev)
+        {
+            ClientRegistry.bindTileEntitySpecialRenderer(BlockEntityDisplay.TileEntityDisplay.class, new BlockEntityDisplay.TESRDisplay());
+        }
         MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ICBM_API.blockAntenna), new ItemRendererAntennaFrame());
         MinecraftForgeClient.registerItemRenderer(ICBM_API.itemRocketLauncher, new RenderRocketLauncher());
 

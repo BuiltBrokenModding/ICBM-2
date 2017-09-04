@@ -8,6 +8,7 @@ import com.builtbroken.mc.imp.transform.region.Cube;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.lib.helper.MathUtility;
 import com.builtbroken.mc.prefab.entity.EntityProjectile;
+import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
@@ -18,6 +19,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
@@ -38,31 +41,31 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
     public static final double GLASS_BREAK_VELOCITY = .1;
 
     /** Type of fragment, controls logic and rendering. */
-    protected FragmentType fragmentType;
+    private FragmentType fragmentType;
     /** Block material, only used for some fragment types. */
-    public Item fragmentMaterial;
+    private ItemStack fragmentMaterial;
     /** Shape of the fragment, only used in rendering and only on some fragment types. */
-    public Cube renderShape;
+    private Cube renderShape;
 
     public EntityFragment(World world)
     {
         super(world);
         setSize(.1f, .1f);
-        renderShape = new Cube(0, 0, 0, 0.05 + MathUtility.rand.nextFloat() * 0.3, 0.05 + MathUtility.rand.nextFloat() * 0.3, 0.05 + MathUtility.rand.nextFloat() * 0.3);
+        setRenderShape(new Cube(0, 0, 0, 0.05 + MathUtility.rand.nextFloat() * 0.3, 0.05 + MathUtility.rand.nextFloat() * 0.3, 0.05 + MathUtility.rand.nextFloat() * 0.3));
         //TODO adjust bounds to render shape
     }
 
     public EntityFragment(World world, FragmentType fragmentType)
     {
         this(world);
-        this.fragmentType = fragmentType;
+        this.setFragmentType(fragmentType);
     }
 
     public EntityFragment(World world, FragmentType fragmentType, Item block)
     {
         this(world);
-        this.fragmentType = fragmentType;
-        this.fragmentMaterial = block;
+        this.setFragmentType(fragmentType);
+        this.setFragmentMaterial(block);
     }
 
     @Override
@@ -96,7 +99,7 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
 
     public boolean isOnFire()
     {
-        return fragmentType != null && fragmentType == FragmentType.BLAZE || isBurning();
+        return getFragmentType() != null && getFragmentType() == FragmentType.BLAZE || isBurning();
     }
 
     @Override
@@ -128,7 +131,7 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
                 }
                 return;
             }
-            else if (inBlockID == Blocks.tnt && fragmentType == FragmentType.BLAZE)
+            else if (inBlockID == Blocks.tnt && getFragmentType() == FragmentType.BLAZE)
             {
                 worldObj.setBlockToAir(xTile, yTile, zTile);
                 EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(worldObj, (double) ((float) xTile + 0.5F), (double) ((float) yTile + 0.5F), (double) ((float) zTile + 0.5F), shootingEntity instanceof EntityLivingBase ? (EntityLivingBase) shootingEntity : null);
@@ -157,7 +160,7 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
                 firePos.setBlock(worldObj, Blocks.fire);
                 worldObj.markBlockForUpdate(firePos.xi(), firePos.yi(), firePos.zi());
             }
-            if (fragmentType == FragmentType.BLAZE)
+            if (getFragmentType() == FragmentType.BLAZE)
             {
                 setDead();
                 return;
@@ -181,7 +184,11 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
     @Override
     protected void onImpactTile()
     {
-        inGroundKillTime = 20 + worldObj.rand.nextInt(100);
+        inGroundKillTime = 20 + worldObj.rand.nextInt(300);
+        if(getFragmentType() != FragmentType.BLOCK)
+        {
+            inGroundKillTime = 20 * 100;
+        }
         //TODO add config to control kill time
         //TODO add config to insta kill on impact
     }
@@ -196,13 +203,13 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
         //TODO implement blood on impact
         if (!(entityHit instanceof EntityFragment))
         {
-            if (fragmentType == null)
+            if (getFragmentType() == null)
             {
                 return;
             }
 
             float damage = 1;
-            if (fragmentType == FragmentType.BLOCK && fragmentMaterial != null)
+            if (getFragmentType() == FragmentType.BLOCK && getFragmentItem() != null)
             {
                 //TODO get mass of block for better calculation
                 //TODO add sharpness of material into calculation (Ex obsidian and metals)
@@ -215,7 +222,7 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
             }
 
             //If entity takes damage add velocity to entity
-            if (entityHit.attackEntityFrom(new DamageFragment(fragmentType.name().toLowerCase(), entityHit, this), damage))
+            if (entityHit.attackEntityFrom(new DamageFragment(getFragmentType().name().toLowerCase(), entityHit, this), damage))
             {
                 if (entityHit instanceof EntityLivingBase)
                 {
@@ -232,16 +239,16 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
 
     public float getDamageForFragment()
     {
-        if (fragmentMaterial != null)
+        if (getFragmentItem() != null)
         {
-            if (fragmentType == FragmentType.BLOCK)
+            if (getFragmentType() == FragmentType.BLOCK)
             {
-                Block block = Block.getBlockFromItem(fragmentMaterial);
+                Block block = Block.getBlockFromItem(getFragmentItem());
                 return block.blockHardness;
             }
-            else if (fragmentMaterial instanceof ItemSword)
+            else if (getFragmentItem() instanceof ItemSword)
             {
-                return ((ItemSword) fragmentMaterial).func_150931_i();
+                return ((ItemSword) getFragmentItem()).func_150931_i();
             }
             //TODO add a registry or something to get damage per item
         }
@@ -252,32 +259,38 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
     public void readEntityFromNBT(NBTTagCompound nbt)
     {
         super.readEntityFromNBT(nbt);
+
+        //Load fragment type
         if (nbt.hasKey("fragmentType"))
         {
             int i = nbt.getInteger("fragmentType");
             if (i > 0 && i < FragmentType.values().length)
             {
-                fragmentType = FragmentType.values()[i];
+                setFragmentType(FragmentType.values()[i]);
             }
         }
 
-        //Legacy code
+        //Legacy code, reads block in for older fragments
         if (nbt.hasKey("blockToMimic"))
         {
-            Block block = Block.getBlockById(nbt.getInteger("blockToMimic"));
-            if (block != null)
-            {
-                fragmentMaterial = Item.getItemFromBlock(block);
-            }
+            setFragmentMaterial(Block.getBlockById(nbt.getInteger("blockToMimic")));
         }
+
+        //Load fragment mimic item
         if (nbt.hasKey("itemToMimic"))
         {
-            String itemRegistryName = nbt.getString("itemToMimic");
-            fragmentMaterial = (Item) Item.itemRegistry.getObject(itemRegistryName);
+            NBTTagCompound itemSave = nbt.getCompoundTag("itemToMimic");
+            ItemStack stack = ItemStack.loadItemStackFromNBT(itemSave);
+            if (stack != null && stack.getItem() != null)
+            {
+                setFragmentMaterial(stack);
+            }
         }
+
+        //Load fragment shape
         if (nbt.hasKey("renderShape"))
         {
-            renderShape = new Cube(nbt.getCompoundTag("renderShape"));
+            setRenderShape(new Cube(nbt.getCompoundTag("renderShape")));
         }
     }
 
@@ -285,47 +298,55 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
     public void writeEntityToNBT(NBTTagCompound nbt)
     {
         super.writeEntityToNBT(nbt);
-        if (fragmentType != null)
+
+        //Save fragment type
+        if (getFragmentType() != null)
         {
-            nbt.setInteger("fragmentType", fragmentType.ordinal());
+            nbt.setInteger("fragmentType", getFragmentType().ordinal());
         }
-        if (fragmentMaterial != null)
+
+        //Save fragment mimic material stack
+        if (getFragmentMaterial() != null)
         {
-            String regName = Item.itemRegistry.getNameForObject(fragmentMaterial);
-            if (regName != null)
-            {
-                nbt.setString("itemToMimic", regName);
-            }
+            nbt.setTag("itemToMimic", getFragmentMaterial().writeToNBT(new NBTTagCompound()));
         }
-        if (renderShape != null)
+
+        //Save fragment shape
+        if (getRenderShape() != null)
         {
-            nbt.setTag("renderShape", renderShape.toNBT());
+            nbt.setTag("renderShape", getRenderShape().toNBT());
         }
     }
 
     @Override
     public void writeSpawnData(ByteBuf buffer)
     {
-        if (fragmentType != null)
+        //Write fragment type
+        if (getFragmentType() != null)
         {
-            buffer.writeByte(fragmentType.ordinal());
+            buffer.writeByte(getFragmentType().ordinal());
         }
         else
         {
             buffer.writeByte(-1);
         }
-        if (fragmentMaterial != null)
-        {
-            buffer.writeInt(Item.getIdFromItem(fragmentMaterial));
-        }
-        else
-        {
-            buffer.writeByte(-1);
-        }
-        if (renderShape != null)
+
+        //Write mimic stack
+        if (getFragmentMaterial() != null)
         {
             buffer.writeBoolean(true);
-            renderShape.writeBytes(buffer);
+            ByteBufUtils.writeTag(buffer, getFragmentMaterial().writeToNBT(new NBTTagCompound()));
+        }
+        else
+        {
+            buffer.writeBoolean(false);
+        }
+
+        //Write fragment shape
+        if (getRenderShape() != null)
+        {
+            buffer.writeBoolean(true);
+            getRenderShape().writeBytes(buffer);
         }
         else
         {
@@ -338,19 +359,23 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
     {
         try
         {
-            byte i = additionalData.readByte();
-            if (i >= 0 && i < FragmentType.values().length)
+            //Load fragment type
+            byte index = additionalData.readByte();
+            if (index >= 0 && index < FragmentType.values().length)
             {
-                fragmentType = FragmentType.values()[i];
+                setFragmentType(FragmentType.values()[index]);
             }
-            int blockID = additionalData.readInt();
-            if (blockID > -1)
-            {
-                fragmentMaterial = (Item) Item.itemRegistry.getObjectById(blockID);
-            }
+
+            //Load mimic stack
             if (additionalData.readBoolean())
             {
-                renderShape = new Cube(additionalData);
+                setFragmentMaterial(ItemStack.loadItemStackFromNBT(ByteBufUtils.readTag(additionalData)));
+            }
+
+            //Load fragment shape
+            if (additionalData.readBoolean())
+            {
+                setRenderShape(new Cube(additionalData));
             }
         }
         catch (Exception e)
@@ -362,12 +387,67 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
     @Override
     public String toString()
     {
-        return "EntityFragment[ dim@" + (worldObj != null && worldObj.provider != null ? worldObj.provider.dimensionId : "null") + " " + posX + "x " + posY + "y " + posZ + "z | " + fragmentType + "]@" + hashCode();
+        return "EntityFragment[ dim@" + (worldObj != null && worldObj.provider != null ? worldObj.provider.dimensionId : "null") + " " + posX + "x " + posY + "y " + posZ + "z | " + getFragmentType() + "]@" + hashCode();
     }
 
     @Override
     public EnumProjectileTypes getProjectileType()
     {
         return EnumProjectileTypes.FRAGMENT;
+    }
+
+    public FragmentType getFragmentType()
+    {
+        return fragmentType;
+    }
+
+    public void setFragmentType(FragmentType fragmentType)
+    {
+        this.fragmentType = fragmentType;
+    }
+
+    public Item getFragmentItem()
+    {
+        return getFragmentMaterial() != null ? getFragmentMaterial().getItem() : null;
+    }
+
+    public Block getFragmentBlock()
+    {
+        Item item = getFragmentItem();
+        if (item instanceof ItemBlock)
+        {
+            return ((ItemBlock) item).field_150939_a;
+        }
+        return null;
+    }
+
+    public ItemStack getFragmentMaterial()
+    {
+        return fragmentMaterial;
+    }
+
+    public void setFragmentMaterial(Item fragmentMaterial)
+    {
+        this.fragmentMaterial = new ItemStack(fragmentMaterial, 1, 0);
+    }
+
+    public void setFragmentMaterial(ItemStack fragmentMaterial)
+    {
+        this.fragmentMaterial = fragmentMaterial;
+    }
+
+    public void setFragmentMaterial(Block fragmentMaterial)
+    {
+        this.fragmentMaterial = new ItemStack(fragmentMaterial, 1, 0);
+    }
+
+    public Cube getRenderShape()
+    {
+        return renderShape;
+    }
+
+    public void setRenderShape(Cube renderShape)
+    {
+        this.renderShape = renderShape;
     }
 }
