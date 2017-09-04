@@ -1,5 +1,6 @@
 package com.builtbroken.icbm.client;
 
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.framework.mod.ModCreativeTab;
 
 import java.util.List;
@@ -53,5 +54,10 @@ public class ICBMCreativeTab extends ModCreativeTab //TODO move to JSON
         add(list, "icbm:icbmTriggers");
         add(list, "icbm:icbmDecorLaunchPad");
         add(list, "icbm:TileMissile");
+
+        if(Engine.runningAsDev)
+        {
+            add(list, "icbm:cowSpawnerItem");
+        }
     }
 }

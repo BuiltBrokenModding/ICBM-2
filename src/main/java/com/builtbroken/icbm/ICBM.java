@@ -10,6 +10,7 @@ import com.builtbroken.icbm.content.blast.entity.slime.EntitySlimeRain;
 import com.builtbroken.icbm.content.blast.explosive.BlastPathTester;
 import com.builtbroken.icbm.content.blast.fragment.ExFragment;
 import com.builtbroken.icbm.content.blast.item.BlockFakeCake;
+import com.builtbroken.icbm.content.cow.EntityGaintCow;
 import com.builtbroken.icbm.content.debug.BlockExplosiveMarker;
 import com.builtbroken.icbm.content.fragments.EntityFragment;
 import com.builtbroken.icbm.content.fragments.FragmentEventHandler;
@@ -314,6 +315,7 @@ public final class ICBM extends AbstractMod
         EntityRegistry.registerModEntity(EntityFragment.class, "ICBMFragment", getConfig().getInt("fragments", "entityIDs", ENTITY_ID_PREFIX + 5, 0, 1000, "Internal mod entity ID to use"), this, 500, 1, true);
         EntityRegistry.registerModEntity(EntityMissileCart.class, "ICBMMissileCart", getConfig().getInt("missile_cart", "entityIDs", ENTITY_ID_PREFIX + 5, 0, 1000, "Internal mod entity ID to use"), this, 500, 1, true);
         EntityRegistry.registerModEntity(EntitySlimeRain.class, "ICBMSlime", getConfig().getInt("slime", "entityIDs", ENTITY_ID_PREFIX + 6, 0, 1000, "Internal mod entity ID to use"), this, 500, 1, true);
+        EntityRegistry.registerModEntity(EntityGaintCow.class, "ICBMGCow", getConfig().getInt("g_cow", "entityIDs", ENTITY_ID_PREFIX + 7, 0, 1000, "Internal mod entity ID to use"), this, 500, 1, true);
 
         if (getConfig().getBoolean("registerEntitiesGlobally", "legacy", false, "Only enable this if there are issues loading older worlds containing entities from this mod."))
         {
