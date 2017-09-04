@@ -23,6 +23,7 @@ import com.builtbroken.mc.prefab.items.ItemNBTExplosive;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityList;
@@ -141,11 +142,15 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
             {
                 translation = LanguageUtility.getLocal(getUnlocalizedName() + ".fragment.info");
                 list.add(translation);
-                if (type.blockMaterial != null)
+                if (type.material != null)
                 {
-                    translation = LanguageUtility.getLocal(getUnlocalizedName() + ".fragment.damage.info");
-                    translation = translation.replace("%1", "" + (type.blockMaterial.blockHardness * BlastFragments.START_VELOCITY));
-                    list.add(translation);
+                    Block block = Block.getBlockFromItem(type.material);
+                    if(block != null)
+                    {
+                        translation = LanguageUtility.getLocal(getUnlocalizedName() + ".fragment.damage.info");
+                        translation = translation.replace("%1", "" + (block.blockHardness * BlastFragments.START_VELOCITY));
+                        list.add(translation);
+                    }
                 }
                 int count = stack.stackSize * (int) ExplosiveItems.FRAGMENT.sizePerUnit;
                 translation = LanguageUtility.getLocal(getUnlocalizedName() + ".fragment.frags.info");

@@ -8,7 +8,7 @@ import com.builtbroken.mc.core.network.packet.callback.PacketBlast;
 import com.builtbroken.mc.imp.transform.rotation.EulerAngle;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.prefab.explosive.blast.BlastBasic;
-import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraft.world.World;
 
 /**
@@ -34,7 +34,7 @@ public class BlastFragments extends BlastBasic<BlastFragments>
         if (!beforeBlocksPlaced)
         {
             final Pos center = new Pos(x, y, z);
-            spawnFragments(oldWorld, center, (int) size, blastType.fragmentType, blastType.blockMaterial);
+            spawnFragments(oldWorld, center, (int) size, blastType.fragmentType, blastType.material);
         }
     }
 
@@ -47,7 +47,7 @@ public class BlastFragments extends BlastBasic<BlastFragments>
      * @param type
      * @param block
      */
-    public static void spawnFragments(final World world, final Pos center, int size, FragmentType type, Block block)
+    public static void spawnFragments(final World world, final Pos center, int size, FragmentType type, Item item)
     {
         //TODO implement version with restricted directions
         //If this is changed update item description so users are not confused
@@ -65,7 +65,7 @@ public class BlastFragments extends BlastBasic<BlastFragments>
                     Pos pos = center.add(rotation.toPos()).addRandom(world.rand, 0.2);
                     if (pos.isAirBlock(world)) //TODO add proper collision check
                     {
-                        EntityFragment fragment = new EntityFragment(world, type, block);
+                        EntityFragment fragment = new EntityFragment(world, type, item);
                         fragment.setPosition(pos.x(), pos.y(), pos.z());
 
                         //Random chance for fragment to be on fire

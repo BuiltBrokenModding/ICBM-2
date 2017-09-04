@@ -17,6 +17,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
@@ -38,7 +40,7 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
     /** Type of fragment, controls logic and rendering. */
     protected FragmentType fragmentType;
     /** Block material, only used for some fragment types. */
-    public Block fragmentMaterial;
+    public Item fragmentMaterial;
     /** Shape of the fragment, only used in rendering and only on some fragment types. */
     public Cube renderShape;
 
@@ -56,7 +58,7 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
         this.fragmentType = fragmentType;
     }
 
-    public EntityFragment(World world, FragmentType fragmentType, Block block)
+    public EntityFragment(World world, FragmentType fragmentType, Item block)
     {
         this(world);
         this.fragmentType = fragmentType;
@@ -204,7 +206,7 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
             {
                 //TODO get mass of block for better calculation
                 //TODO add sharpness of material into calculation (Ex obsidian and metals)
-                damage = fragmentMaterial.blockHardness * velocity;
+                damage = getDamageForFragment() * velocity;
             }
 
             if (isBurning())
@@ -228,6 +230,24 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
         }
     }
 
+    public float getDamageForFragment()
+    {
+        if (fragmentMaterial != null)
+        {
+            if (fragmentType == FragmentType.BLOCK)
+            {
+                Block block = Block.getBlockFromItem(fragmentMaterial);
+                return block.blockHardness;
+            }
+            else if (fragmentMaterial instanceof ItemSword)
+            {
+                return ((ItemSword) fragmentMaterial).func_150931_i();
+            }
+            //TODO add a registry or something to get damage per item
+        }
+        return 1;
+    }
+
     @Override
     public void readEntityFromNBT(NBTTagCompound nbt)
     {
@@ -240,9 +260,20 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
                 fragmentType = FragmentType.values()[i];
             }
         }
+
+        //Legacy code
         if (nbt.hasKey("blockToMimic"))
         {
-            fragmentMaterial = Block.getBlockById(nbt.getInteger("blockToMimic"));
+            Block block = Block.getBlockById(nbt.getInteger("blockToMimic"));
+            if (block != null)
+            {
+                fragmentMaterial = Item.getItemFromBlock(block);
+            }
+        }
+        if (nbt.hasKey("itemToMimic"))
+        {
+            String itemRegistryName = nbt.getString("itemToMimic");
+            fragmentMaterial = (Item) Item.itemRegistry.getObject(itemRegistryName);
         }
         if (nbt.hasKey("renderShape"))
         {
@@ -260,7 +291,11 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
         }
         if (fragmentMaterial != null)
         {
-            nbt.setInteger("blockToMimic", Block.getIdFromBlock(fragmentMaterial));
+            String regName = Item.itemRegistry.getNameForObject(fragmentMaterial);
+            if (regName != null)
+            {
+                nbt.setString("itemToMimic", regName);
+            }
         }
         if (renderShape != null)
         {
@@ -281,7 +316,7 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
         }
         if (fragmentMaterial != null)
         {
-            buffer.writeInt(Block.getIdFromBlock(fragmentMaterial));
+            buffer.writeInt(Item.getIdFromItem(fragmentMaterial));
         }
         else
         {
@@ -309,9 +344,9 @@ public class EntityFragment extends EntityProjectile implements IEntityAdditiona
                 fragmentType = FragmentType.values()[i];
             }
             int blockID = additionalData.readInt();
-            if (i > -1)
+            if (blockID > -1)
             {
-                fragmentMaterial = Block.getBlockById(blockID);
+                fragmentMaterial = (Item) Item.itemRegistry.getObjectById(blockID);
             }
             if (additionalData.readBoolean())
             {
