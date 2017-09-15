@@ -3,14 +3,15 @@ package com.builtbroken.icbm.content.blast.util;
 import com.builtbroken.mc.api.edit.IWorldChangeLayeredAction;
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.core.content.resources.gems.BlockGemOre;
-import com.builtbroken.mc.core.content.resources.ore.BlockOre;
 import com.builtbroken.mc.framework.explosive.blast.Blast;
 import com.builtbroken.mc.imp.transform.vector.BlockPos;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.lib.world.edit.BlockEditMove;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -135,9 +136,28 @@ public class BlastOrePuller extends Blast<BlastOrePuller> implements IWorldChang
             {
                 return null;
             }
-            else if (block instanceof BlockOre || block instanceof net.minecraft.block.BlockOre || block instanceof BlockGemOre || whiteList.contains(block))
+            else if (block instanceof net.minecraft.block.BlockOre || whiteList.contains(block))
             {
                 return new BlockEdit(oldWorld, pos).setAir();
+            }
+            else if (block.getUnlocalizedName().contains("ore")) //TODO replace
+            {
+                List<ItemStack> stacks = block.getDrops(oldWorld, pos.xi(), pos.yi(), pos.zi(), 0, 0);
+                if (stacks != null)
+                {
+                    for (ItemStack stack : stacks)
+                    {
+                        ItemStack result = FurnaceRecipes.smelting().getSmeltingResult(stack);
+                        if (result != null && result.getUnlocalizedName().contains("ingot")) // If it can smelt it is ore
+                        {
+                            //Add to white list to increase speed
+                            whiteList.add(block);
+                            return new BlockEdit(oldWorld, pos).set(Blocks.gold_ore);
+                        }
+                    }
+                }
+                //Auto add to black list to increase speed
+                blackList.add(block);
             }
         }
         return null;

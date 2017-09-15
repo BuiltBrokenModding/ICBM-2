@@ -2,8 +2,6 @@ package com.builtbroken.icbm.content.blast.troll;
 
 import com.builtbroken.mc.api.edit.IWorldEdit;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
-import com.builtbroken.mc.core.content.resources.gems.BlockGemOre;
-import com.builtbroken.mc.core.content.resources.ore.BlockOre;
 import com.builtbroken.mc.imp.transform.vector.BlockPos;
 import com.builtbroken.mc.lib.world.edit.BlockEdit;
 import com.builtbroken.mc.prefab.explosive.blast.BlastSimplePath;
@@ -40,11 +38,11 @@ public class BlastMidasOre extends BlastSimplePath<BlastMidasOre>
         {
             return null;
         }
-        else if (block instanceof BlockOre || block instanceof net.minecraft.block.BlockOre || block instanceof BlockGemOre || whiteList.contains(block))
+        else if (block instanceof net.minecraft.block.BlockOre || whiteList.contains(block))
         {
             return new BlockEdit(oldWorld, location).set(Blocks.gold_ore);
         }
-        else if (block.getUnlocalizedName().contains("ore"))
+        else if (block.getUnlocalizedName().contains("ore")) //TODO replace
         {
             List<ItemStack> stacks = block.getDrops(oldWorld, location.xi(), location.yi(), location.zi(), 0, 0);
             if (stacks != null)
