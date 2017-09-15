@@ -48,22 +48,26 @@ public class MicroMissileRecipe extends RecipeShapelessOre
         //Find warhead and missile stacks
         for (int i = 0; i < var1.getSizeInventory(); i++)
         {
-            ItemStack slot = var1.getStackInSlot(i);
+            final ItemStack slot = var1.getStackInSlot(i);
             if (slot != null)
             {
+                //Find missile stack
                 if (slot.getItem() instanceof IModularMissileItem)
                 {
+                    //Only one missile
                     if (missileStack != null)
                     {
                         return null;
                     }
                     missileStack = slot.copy();
                 }
+                //Find warhead stack
                 else if (slot.getItem() instanceof IModuleItem)
                 {
                     IModule module = ((IModuleItem) slot.getItem()).getModule(slot);
                     if (module instanceof IWarhead)
                     {
+                        //Only one warhead
                         if (warheadStack != null)
                         {
                             return null;
@@ -71,6 +75,7 @@ public class MicroMissileRecipe extends RecipeShapelessOre
                         warheadStack = slot.copy();
                     }
                 }
+                //Anything else is wrong
                 else
                 {
                     return null;

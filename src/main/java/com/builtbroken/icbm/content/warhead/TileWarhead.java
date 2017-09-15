@@ -164,30 +164,15 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
         List<ItemStackWrapper> items = ExplosiveRegistry.getItems(handler);
         if (items != null)
         {
-            //System.out.println("\tFound " + items.size() + " items for recipes");
-
-            for (ItemStackWrapper wrapper : items)
+            for (ItemStackWrapper wrapper : items) //TODO move somewhere else as this is a not a warhead recipe
             {
                 if (wrapper != null && wrapper.itemStack != null)
                 {
-                    //System.out.println("\t" + wrapper.itemStack);
                     ItemStack stack = wrapper.itemStack.copy();
                     stack.stackSize = 1;
 
                     final Warhead micro_warhead = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, stack);
-
-                    WarheadRecipe microWarheadRecipe = new WarheadRecipe(micro_warhead, stack);
-                    recipes.add(microWarheadRecipe);
-                    recipes.add(new MicroMissileRecipe(wrapper.itemStack, new ItemStack(ICBM_API.itemMissile, 1, MissileSize.MICRO.ordinal()), microWarheadRecipe.getRecipeOutput()));
-
-                    //TODO remove when warhead crafting table is added
-                    for (WarheadCasings casing : new WarheadCasings[]{WarheadCasings.EXPLOSIVE_SMALL, WarheadCasings.EXPLOSIVE_STANDARD})
-                    {
-                        for (int i = 2; i <= 9; i++)
-                        {
-                            recipes.add(new WarheadRecipe(MissileModuleBuilder.INSTANCE.buildWarhead(casing, stack.copy()), stack, 2));
-                        }
-                    }
+                    recipes.add(new MicroMissileRecipe(new ItemStack(ICBM_API.itemMissile, 1, MissileSize.MICRO.ordinal()), micro_warhead.toStack()));
                 }
                 else
                 {
@@ -196,7 +181,6 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
             }
         }
     }
-
 
     @Override
     public void onCollide(Entity entity)
