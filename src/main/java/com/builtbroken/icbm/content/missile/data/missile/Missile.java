@@ -361,4 +361,10 @@ public class Missile implements IMissile, IJsonGenObject
     {
         return data.getContentID();
     }
+
+    @Override
+    public String getUniqueID()
+    {
+        return data.getUniqueID();
+    }
 }
