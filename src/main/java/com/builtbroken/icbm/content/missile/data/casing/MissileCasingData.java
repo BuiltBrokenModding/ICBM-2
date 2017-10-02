@@ -34,11 +34,11 @@ public class MissileCasingData extends JsonGenData implements IJsonGenObject, IM
     {
         super(processor);
         this.ID = ID;
-        super.register();
+        super.onCreated();
     }
 
     @Override
-    public void register()
+    public void onCreated()
     {
         if (size >= 0 && size < MissileSize.values().length)
         {
