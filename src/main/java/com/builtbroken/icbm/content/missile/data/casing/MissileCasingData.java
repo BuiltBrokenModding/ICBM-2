@@ -81,7 +81,7 @@ public class MissileCasingData extends JsonGenData implements IJsonGenObject, IM
     }
 
     @Override
-    public String modID()
+    public String getMod()
     {
         return ICBM.DOMAIN;
     }

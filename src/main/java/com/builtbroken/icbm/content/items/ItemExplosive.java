@@ -586,7 +586,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         BIOME_CHANGE("BiomeChange", 1),
         ORE_PULLER("OrePuller", 20),
         SLIME_RAIN("SlimeRain", 5),
-        EMP("Emp", 1),
+        EMP("Emp", 10),
         GRAVITY("Gravity", 5),
         MICROWAVE("Microwave", 5),
         ENTITY_SPAWN("EntitySpawn", 1),
