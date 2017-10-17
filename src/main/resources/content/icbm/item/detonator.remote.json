@@ -1,9 +1,11 @@
-{"item": {
-  "itemClass": "com.builtbroken.icbm.content.items.gen.ItemWrapperRemoteDet",
-  "name": "remoteDetonator",
-  "hasSubTypes": true,
-  "maxStackSize": 1
-},
+{
+  "item": {
+    "itemClass": "com.builtbroken.icbm.content.items.gen.ItemWrapperRemoteDet",
+    "name": "remoteDetonator",
+    "hasSubTypes": true,
+    "maxStackSize": 1,
+    "creativeTab": "icbm"
+  },
   "render": {
     "contentID": "icbm:icbmRemoteDet",
     "type": "item",

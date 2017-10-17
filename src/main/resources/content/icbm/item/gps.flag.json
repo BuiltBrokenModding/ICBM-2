@@ -3,7 +3,8 @@
     "itemClass": "com.builtbroken.icbm.content.items.gen.ItemWrapperGPSFlag",
     "name": "gpsFlag",
     "hasSubTypes": true,
-    "maxStackSize": 1
+    "maxStackSize": 1,
+    "creativeTab": "icbm"
   },
   "render": {
     "contentID": "icbm:gpsFlag",

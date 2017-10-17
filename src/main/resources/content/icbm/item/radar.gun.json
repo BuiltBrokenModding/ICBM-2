@@ -3,6 +3,7 @@
     "itemClass": "com.builtbroken.icbm.content.items.gen.ItemWrapperRadarGun",
     "name": "radarGun",
     "hasSubTypes": true,
+    "creativeTab": "icbm",
     "maxStackSize": 1
   },
   "render": {

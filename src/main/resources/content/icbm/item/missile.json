@@ -3,6 +3,7 @@
     "itemClass": "com.builtbroken.icbm.content.missile.item.ItemMissile",
     "name": "missile",
     "hasSubTypes": true,
-    "maxStackSize": 1
+    "maxStackSize": 1,
+    "creativeTab": "icbm"
   }
 }

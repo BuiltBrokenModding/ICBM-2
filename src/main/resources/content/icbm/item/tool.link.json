@@ -3,6 +3,7 @@
     "itemClass": "com.builtbroken.icbm.content.items.gen.ItemWrapperLinkTool",
     "name": "siloLinker",
     "hasSubTypes": true,
+    "creativeTab": "icbm",
     "maxStackSize": 1
   },
   "render": {
