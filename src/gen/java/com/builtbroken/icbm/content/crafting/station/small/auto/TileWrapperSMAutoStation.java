@@ -71,7 +71,7 @@ public class TileWrapperSMAutoStation extends TileEntityWrapper implements IInve
     {
         if (getInventory() instanceof ISidedInventory)
         {
-            return ((ISidedInventory) getInventory()).canInsertItem(p_102008_1_, p_102008_2_, p_102008_3_);
+            return ((ISidedInventory) getInventory()).canExtractItem(p_102008_1_, p_102008_2_, p_102008_3_);
         }
         return false;
     }

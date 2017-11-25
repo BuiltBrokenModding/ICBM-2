@@ -8,8 +8,8 @@ If this is a problem, use exact build numbers to track changes. As each build lo
 ### Runtime Changes
 Added: icon for medium missile
 Added: missing explosive icons
-Added: fragement for swords
-Added: new fragement renderer
+Added: fragment for swords
+Added: new fragment renderer
 Reworked: Ore puller explosive to improve runtime (scans in rows instead of using a pathfinder)
 Reworked: creative tab handling
 Removed: Grid crafting of warhead + explosive
@@ -18,7 +18,7 @@ Fixed: Recipes
 Fixed: items missing from creative tab
 Fixed: warhead crafter running in automation mode always
 Improved: messages for launcher creation
-Changed: emp size from 1 to 10 (in reflection of VE 10 to 1 change, basicly nothing changed :P)
+Changed: emp size from 1 to 10 (in reflection of VE 10 to 1 change, basically nothing changed :P)
 
 
 //TODO update change log for older versions

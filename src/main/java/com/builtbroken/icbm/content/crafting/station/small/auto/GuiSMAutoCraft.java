@@ -18,7 +18,7 @@ import net.minecraft.util.ResourceLocation;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 10/13/2016.
  */
-public class GuiSMAutoCraft extends GuiContainerBase
+public class GuiSMAutoCraft extends GuiContainerBase<TileSMAutoCraft>
 {
     public static final int CRAFTING_WINDOW_BUTTON_ID = 1;
     public static final int WARHEAD_WINDOW_BUTTON_ID = 2;
@@ -32,8 +32,6 @@ public class GuiSMAutoCraft extends GuiContainerBase
     public static final int GUIDANCE_TOGGLE_BUTTON_ID = 15;
 
     private static final ResourceLocation guiTexture0 = new ResourceLocation(ICBM.DOMAIN, References.GUI_DIRECTORY + "missile.small.workstation.png");
-
-    private final TileSMAutoCraft tile;
 
     private final int id;
 
@@ -53,10 +51,9 @@ public class GuiSMAutoCraft extends GuiContainerBase
     private GuiImageButton engineWindowButton;
     private GuiImageButton autocraftingButton;
 
-    public GuiSMAutoCraft(EntityPlayer player, TileSMAutoCraft tile, int id)
+    public GuiSMAutoCraft(EntityPlayer player, TileSMAutoCraft host, int id)
     {
-        super(new ContainerSMAutoCraft(player, tile, id));
-        this.tile = tile;
+        super(new ContainerSMAutoCraft(player, host, id), host);
         this.id = id;
         if (id == 0)
         {
@@ -96,10 +93,10 @@ public class GuiSMAutoCraft extends GuiContainerBase
                 break;
             case 4:
                 final int left = 105;
-                autoCraftButton = addButton(new GuiButton2(AUTO_CRAFT_TOGGLE_BUTTON_ID, guiLeft + left, guiTop + 20, 20, 20, tile.isAutocrafting ? "[x]" : "[ ]"));
-                requireWarheadButton = addButton(new GuiButton2(WARHEAD_TOGGLE_BUTTON_ID, guiLeft + left, guiTop + 42, 20, 20, tile.requiresWarhead ? "[x]" : "[ ]"));
-                requireGuidanceButton = addButton(new GuiButton2(GUIDANCE_TOGGLE_BUTTON_ID, guiLeft + left, guiTop + 64, 20, 20, tile.requiresGuidance ? "[x]" : "[ ]"));
-                requireEngineButton = addButton(new GuiButton2(ENGINE_TOGGLE_BUTTON_ID, guiLeft + left, guiTop + 86, 20, 20, tile.requiresEngine ? "[x]" : "[ ]"));
+                autoCraftButton = addButton(new GuiButton2(AUTO_CRAFT_TOGGLE_BUTTON_ID, guiLeft + left, guiTop + 20, 20, 20, host.isAutocrafting ? "[x]" : "[ ]"));
+                requireWarheadButton = addButton(new GuiButton2(WARHEAD_TOGGLE_BUTTON_ID, guiLeft + left, guiTop + 42, 20, 20, host.requiresWarhead ? "[x]" : "[ ]"));
+                requireGuidanceButton = addButton(new GuiButton2(GUIDANCE_TOGGLE_BUTTON_ID, guiLeft + left, guiTop + 64, 20, 20, host.requiresGuidance ? "[x]" : "[ ]"));
+                requireEngineButton = addButton(new GuiButton2(ENGINE_TOGGLE_BUTTON_ID, guiLeft + left, guiTop + 86, 20, 20, host.requiresEngine ? "[x]" : "[ ]"));
                 autocraftingButton.disable();
                 break;
         }
@@ -111,7 +108,7 @@ public class GuiSMAutoCraft extends GuiContainerBase
         super.updateScreen();
         if (id == 0)
         {
-            if (tile.canCraft())
+            if (host.canCraft())
             {
                 craftButton.enable();
             }
@@ -140,7 +137,7 @@ public class GuiSMAutoCraft extends GuiContainerBase
         {
             case 0:
                 drawString("Missile Workstation", 50, 7);
-                //drawString("" + tile.explosiveStackSizeRequired, 104, 62); TODO
+                //drawString("" + host.explosiveStackSizeRequired, 104, 62); TODO
                 break;
             case 1:
                 drawString("Warhead Configuration", 33, 7);
@@ -170,35 +167,35 @@ public class GuiSMAutoCraft extends GuiContainerBase
         final int buttonId = button.id;
         if (buttonId == 0)
         {
-            tile.sendCraftingPacket();
+            host.sendCraftingPacket();
         }
         else if (buttonId > 0 && buttonId <= 5 && buttonId - 1 != id)
         {
-            tile.sendPacketToServer(tile.getHost().getPacketForData(2, buttonId - 1));
+            host.sendPacketToServer(host.getHost().getPacketForData(2, buttonId - 1));
         }
         else if (buttonId == AUTO_CRAFT_TOGGLE_BUTTON_ID)
         {
-            tile.isAutocrafting = !tile.isAutocrafting;
-            autoCraftButton.displayString = tile.isAutocrafting ? "[x]" : "[ ]";
-            tile.sendGUIDataUpdate();
+            host.isAutocrafting = !host.isAutocrafting;
+            autoCraftButton.displayString = host.isAutocrafting ? "[x]" : "[ ]";
+            host.sendGUIDataUpdate();
         }
         else if (buttonId == WARHEAD_TOGGLE_BUTTON_ID)
         {
-            tile.requiresWarhead = !tile.requiresWarhead;
-            requireWarheadButton.displayString = tile.requiresWarhead ? "[x]" : "[ ]";
-            tile.sendGUIDataUpdate();
+            host.requiresWarhead = !host.requiresWarhead;
+            requireWarheadButton.displayString = host.requiresWarhead ? "[x]" : "[ ]";
+            host.sendGUIDataUpdate();
         }
         else if (buttonId == GUIDANCE_TOGGLE_BUTTON_ID)
         {
-            tile.requiresGuidance = !tile.requiresGuidance;
-            requireGuidanceButton.displayString = tile.requiresGuidance ? "[x]" : "[ ]";
-            tile.sendGUIDataUpdate();
+            host.requiresGuidance = !host.requiresGuidance;
+            requireGuidanceButton.displayString = host.requiresGuidance ? "[x]" : "[ ]";
+            host.sendGUIDataUpdate();
         }
         else if (buttonId == ENGINE_TOGGLE_BUTTON_ID)
         {
-            tile.requiresEngine = !tile.requiresEngine;
-            requireEngineButton.displayString = tile.requiresEngine ? "[x]" : "[ ]";
-            tile.sendGUIDataUpdate();
+            host.requiresEngine = !host.requiresEngine;
+            requireEngineButton.displayString = host.requiresEngine ? "[x]" : "[ ]";
+            host.sendGUIDataUpdate();
         }
     }
 }

@@ -24,14 +24,12 @@ import net.minecraft.util.ResourceLocation;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 10/13/2016.
  */
-public class GuiWarheadStation extends GuiContainerBase
+public class GuiWarheadStation extends GuiContainerBase<TileWarheadStation>
 {
     private static final ResourceLocation guiTexture0 = new ResourceLocation(ICBM.DOMAIN, References.GUI_DIRECTORY + "warhead.workstation.0.png");
     private static final ResourceLocation guiTexture1 = new ResourceLocation(ICBM.DOMAIN, References.GUI_DIRECTORY + "warhead.workstation.1.png");
     private static final ResourceLocation guiTexture2 = new ResourceLocation(ICBM.DOMAIN, References.GUI_DIRECTORY + "warhead.workstation.2.png");
     private static final ResourceLocation guiTexture3 = new ResourceLocation(ICBM.DOMAIN, References.GUI_DIRECTORY + "warhead.workstation.3.png");
-
-    private final TileWarheadStation tile;
 
     private final int id;
 
@@ -49,10 +47,9 @@ public class GuiWarheadStation extends GuiContainerBase
     private GuiImageButton triggerWindowButton;
     private GuiImageButton autocraftingButton;
 
-    public GuiWarheadStation(EntityPlayer player, TileWarheadStation tile, int id)
+    public GuiWarheadStation(EntityPlayer player, TileWarheadStation host, int id)
     {
-        super(new ContainerWarheadStation(player, tile, id));
-        this.tile = tile;
+        super(new ContainerWarheadStation(player, host, id), host);
         this.id = id;
         switch (id)
         {
@@ -99,9 +96,9 @@ public class GuiWarheadStation extends GuiContainerBase
                 triggerWindowButton.disable();
                 break;
             case 3:
-                autoCraftButton = addButton(new GuiButton2(12, guiLeft + 12, guiTop + 20, 120, 20, tile.isAutocrafting ? "Disable Autocrafting" : "Enable Autocrafting"));
-                requireTriggerButton = addButton(new GuiButton2(13, guiLeft + 105, guiTop + 42, 20, 20, tile.requireTrigger ? "[X]" : "[ ]"));
-                requireExplosiveButton = addButton(new GuiButton2(14, guiLeft + 105, guiTop + 64, 20, 20, tile.requireExplosive ? "[X]" : "[ ]"));
+                autoCraftButton = addButton(new GuiButton2(12, guiLeft + 12, guiTop + 20, 120, 20, host.isAutocrafting ? "Disable Autocrafting" : "Enable Autocrafting"));
+                requireTriggerButton = addButton(new GuiButton2(13, guiLeft + 105, guiTop + 42, 20, 20, host.requireTrigger ? "[X]" : "[ ]"));
+                requireExplosiveButton = addButton(new GuiButton2(14, guiLeft + 105, guiTop + 64, 20, 20, host.requireExplosive ? "[X]" : "[ ]"));
                 autocraftingButton.disable();
                 break;
         }
@@ -113,7 +110,7 @@ public class GuiWarheadStation extends GuiContainerBase
         super.updateScreen();
         if (id == 0)
         {
-            if (tile.canCraft())
+            if (host.canCraft())
             {
                 craftButton.enable();
             }
@@ -143,7 +140,7 @@ public class GuiWarheadStation extends GuiContainerBase
             case 0:
                 drawString("Warhead Workstation", 50, 7);
                 drawString("Explosives to use:", 5, 62);
-                drawString("" + tile.explosiveStackSizeRequired, 104, 62);
+                drawString("" + host.explosiveStackSizeRequired, 104, 62);
                 break;
             case 1:
                 drawString("Explosive Configuration", 33, 7);
@@ -151,13 +148,13 @@ public class GuiWarheadStation extends GuiContainerBase
                 break;
             case 2:
                 drawString("Trigger Configuration", 33, 7);
-                if (tile.getTriggerStack() != null)
+                if (host.getTriggerStack() != null)
                 {
                     drawString("No options for this trigger", 25, 50);
                 }
-                else if (tile.getWarheadStack() != null)
+                else if (host.getWarheadStack() != null)
                 {
-                    ItemStack stack = tile.getWarheadStack();
+                    ItemStack stack = host.getWarheadStack();
                     if (stack.getItem() instanceof IModuleItem)
                     {
                         IModule module = ((IModuleItem) stack.getItem()).getModule(stack);
@@ -210,48 +207,48 @@ public class GuiWarheadStation extends GuiContainerBase
         //Crafting button
         if (buttonId == 0)
         {
-            tile.sendCraftingPacket();
+            host.sendCraftingPacket();
         }
         //Menu tabs
         else if (buttonId > 0 && buttonId < 5 && buttonId - 1 != id)
         {
-            tile.switchTab(buttonId - 1);
+            host.switchTab(buttonId - 1);
         }
         //Explosives increase
         else if (buttonId == 10)
         {
-            if (tile.explosiveStackSizeRequired < 64)
+            if (host.explosiveStackSizeRequired < 64)
             {
-                tile.explosiveStackSizeRequired += 1;
-                tile.sendGUIDataUpdate();
+                host.explosiveStackSizeRequired += 1;
+                host.sendGUIDataUpdate();
             }
         }
         //Explosives decrease
         else if (buttonId == 11)
         {
-            if (tile.explosiveStackSizeRequired > 1)
+            if (host.explosiveStackSizeRequired > 1)
             {
-                tile.explosiveStackSizeRequired -= 1;
-                tile.sendGUIDataUpdate();
+                host.explosiveStackSizeRequired -= 1;
+                host.sendGUIDataUpdate();
             }
         }
         else if (buttonId == 12)
         {
-            tile.isAutocrafting = !tile.isAutocrafting;
-            autoCraftButton.displayString = tile.isAutocrafting ? "Disable Autocrafting" : "Enable Autocrafting";
-            tile.sendGUIDataUpdate();
+            host.isAutocrafting = !host.isAutocrafting;
+            autoCraftButton.displayString = host.isAutocrafting ? "Disable Autocrafting" : "Enable Autocrafting";
+            host.sendGUIDataUpdate();
         }
         else if (buttonId == 13)
         {
-            tile.requireTrigger = !tile.requireTrigger;
-            requireTriggerButton.displayString = tile.requireTrigger ? "[x]" : "[ ]";
-            tile.sendGUIDataUpdate();
+            host.requireTrigger = !host.requireTrigger;
+            requireTriggerButton.displayString = host.requireTrigger ? "[x]" : "[ ]";
+            host.sendGUIDataUpdate();
         }
         else if (buttonId == 14)
         {
-            tile.requireExplosive = !tile.requireExplosive;
-            requireExplosiveButton.displayString = tile.requireExplosive ? "[x]" : "[ ]";
-            tile.sendGUIDataUpdate();
+            host.requireExplosive = !host.requireExplosive;
+            requireExplosiveButton.displayString = host.requireExplosive ? "[x]" : "[ ]";
+            host.sendGUIDataUpdate();
         }
     }
 }
