@@ -49,6 +49,8 @@ import java.util.List;
  */
 public abstract class TileAbstractLauncher extends TileMissileContainer implements INamedLauncher, IPacketIDReceiver, IPassCode, ILinkFeedback, ILinkable, IGuiTile, IMissileMagOutput
 {
+    public static final int PACKET_TARGET = 1; //TODO add other packet IDs
+
     /** Current target location */
     public Pos target = new Pos(0, -1, 0);
 
@@ -74,7 +76,10 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     public void setTarget(Pos target)
     {
         this.target = target;
-        sendPacketToServer(getPacketForData(1, target));
+        if (world().isClient())
+        {
+            sendPacketToServer(getPacketForData(PACKET_TARGET, target));
+        }
     }
 
     @Override
@@ -418,7 +423,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     @Override
     public boolean read(ByteBuf buf, int id, EntityPlayer player, PacketType type)
     {
-        if (id == 1)
+        if (id == PACKET_TARGET)
         {
             this.target = new Pos(buf);
             return true;
