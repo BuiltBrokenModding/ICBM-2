@@ -145,7 +145,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
                 if (type.material != null)
                 {
                     Block block = Block.getBlockFromItem(type.material);
-                    if(block != null)
+                    if (block != null)
                     {
                         translation = LanguageUtility.getLocal(getUnlocalizedName() + ".fragment.damage.info");
                         translation = translation.replace("%1", "" + (block.blockHardness * BlastFragments.START_VELOCITY));
@@ -479,7 +479,10 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         //Create normal explosive
         for (ExplosiveItems item : ExplosiveItems.values())
         {
-            if (item.ex_name != null && item != ExplosiveItems.FRAGMENT && item != ExplosiveItems.BIOME_CHANGE)
+            if (item.ex_name != null
+                    && item != ExplosiveItems.FRAGMENT
+                    && item != ExplosiveItems.BIOME_CHANGE
+                    && item != ExplosiveItems.ENTITY_SPAWN)
             {
                 ExplosiveRegistry.registerExplosiveItem(item.newItem());
             }
@@ -511,7 +514,10 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
             EntityList.EntityEggInfo entityegginfo = (EntityList.EntityEggInfo) iterator.next();
             ItemStack stack = ExplosiveItems.ENTITY_SPAWN.newItem();
             ExSpawn.setEntityID(stack, entityegginfo.spawnedID);
-            ExplosiveRegistry.registerExplosiveItem(stack);
+            if (ExSpawn.getEntityID(stack) > 0)
+            {
+                ExplosiveRegistry.registerExplosiveItem(stack);
+            }
         }
     }
 
@@ -553,7 +559,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
                     {
                         ItemStack stack = new ItemStack(item, 1, ExplosiveItems.ENTITY_SPAWN.ordinal());
                         ExSpawn.setEntityID(stack, entityegginfo.spawnedID);
-                        if (EntityList.getStringFromID(ExSpawn.getEntityID(stack)) != null)
+                        if (ExSpawn.getEntityID(stack) > 0 && EntityList.getStringFromID(ExSpawn.getEntityID(stack)) != null)
                         {
                             list.add(stack);
                         }
