@@ -295,8 +295,13 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
         IExplosiveHandler handler = getExplosive();
         if (handler instanceof IExHandlerTileMissile && ((IExHandlerTileMissile) handler).doesSpawnMissileTile(missile, this))
         {
-            Pos pos = new Pos(hit.hitVec).add(ForgeDirection.getOrientation(sideTile));
-            TileCrashedMissile.placeFromMissile(this, worldObj, pos.xi(), pos.yi(), pos.zi());
+            Pos pos = new Pos(hit.blockX, hit.blockY, hit. blockZ);
+            if(hit.sideHit != 1)
+            {
+                pos = pos.add(ForgeDirection.getOrientation(hit.sideHit));
+            }
+            Pos offset = new Pos(hit.hitVec).sub(new Pos(hit.blockX, hit.blockY, hit. blockZ));
+            TileCrashedMissile.placeFromMissile(this, worldObj, pos.xi(), pos.yi(), pos.zi(), offset);
         }
         else
         {
@@ -388,7 +393,7 @@ public class EntityMissile extends EntityProjectile implements IExplosive, IMiss
                 if (tile)
                 {
                     Pos pos = new Pos(xTile, yTile, zTile).add(ForgeDirection.getOrientation(sideTile));
-                    TileCrashedMissile.placeFromMissile(this, worldObj, pos.xi(), pos.yi(), pos.zi());
+                    TileCrashedMissile.placeFromMissile(this, worldObj, pos.xi(), pos.yi(), pos.zi(), new Pos()); //TODO fix offset
                 }
                 else
                 {

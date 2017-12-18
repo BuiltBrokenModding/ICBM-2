@@ -12,6 +12,7 @@ import com.builtbroken.icbm.content.missile.entity.EntityMissile;
 import com.builtbroken.mc.api.edit.IWorldChangeAction;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
+import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.framework.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.imp.transform.region.Cube;
@@ -136,7 +137,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
      * @param y
      * @param z
      */
-    public static void placeFromMissile(EntityMissile missile, World world, int x, int y, int z)
+    public static void placeFromMissile(EntityMissile missile, World world, int x, int y, int z, Pos posOffset)
     {
         //TODO if block is a fluid place an entity version of this tile instead, fixed fluid renderer
         Block block = world.getBlock(x, y, z);
@@ -164,9 +165,11 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
         if (world.setBlock(x, y, z, ICBM_API.blockCrashMissile))
         {
             ICBM.INSTANCE.logger().info(String.format("Placed missile %d@dim %dx %dy %dz", world.provider.dimensionId, x, y, z));
+
             TileEntity tile = world.getTileEntity(x, y, z);
             if (tile instanceof TileCrashedMissile)
             {
+                ((TileCrashedMissile) tile).posOffset = posOffset;
                 if (blocksToMimic.contains(block))
                 {
                     ((TileCrashedMissile) tile).block = block;
@@ -190,6 +193,10 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
                 ((TileCrashedMissile) tile).cause = new TriggerCause.TriggerCauseEntity(missile);
                 ((TileCrashedMissile) tile).attachedSide = ForgeDirection.getOrientation(missile.sideTile);
             }
+        }
+        else if (Engine.runningAsDev)
+        {
+            ICBM.INSTANCE.logger().error(String.format("TileCrashedMissile#placeFromMissile() Failed to place missile %d@dim %dx %dy %dz", world.provider.dimensionId, x, y, z));
         }
         missile.setDead();
     }
@@ -266,14 +273,14 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
                 if (attachedSide != null)
                 {
                     Pos pos = toPos().add(attachedSide.getOpposite());
-                    if (pos.isAirBlock(oldWorld()))
+                    if (pos.isAirBlock(worldObj))
                     {
-                        attemptToFall();
+                        //attemptToFall();
                     }
                 }
                 else
                 {
-                    attemptToFall();
+                    //attemptToFall();
                 }
             }
         }
@@ -284,8 +291,8 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
      */
     protected void attemptToFall()
     {
-        Pos pos = toPos().sub(0, 1, 0);
-        if (pos.isAirBlock(oldWorld()))
+        Pos pos = new Pos(xCoord, yCoord - 1, zCoord);
+        if (pos.isAirBlock(worldObj))
         {
             EntityMissile missile = new EntityMissile(oldWorld());
             missile.setPosition(x() + 0.5, y() + 0.5, z() + 0.5);
