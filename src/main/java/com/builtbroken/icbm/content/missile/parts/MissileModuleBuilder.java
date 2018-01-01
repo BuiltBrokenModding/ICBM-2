@@ -7,8 +7,7 @@ import com.builtbroken.icbm.content.missile.parts.engine.RocketEngine;
 import com.builtbroken.icbm.content.missile.parts.guidance.Guidance;
 import com.builtbroken.icbm.content.missile.parts.trigger.Trigger;
 import com.builtbroken.icbm.content.missile.parts.trigger.Triggers;
-import com.builtbroken.icbm.content.missile.parts.warhead.Warhead;
-import com.builtbroken.icbm.content.missile.parts.warhead.WarheadCasings;
+import com.builtbroken.icbm.content.missile.parts.warhead.*;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.framework.explosive.ExplosiveRegistry;
@@ -192,26 +191,19 @@ public class MissileModuleBuilder<M extends MissileModule> extends ModuleBuilder
      */
     public Warhead buildWarhead(WarheadCasings size)
     {
-        //TODO replace reflection
-        try
+        //TODO create factory
+        switch (size)
         {
-            return size.warhead_clazz.getConstructor(ItemStack.class).newInstance(new ItemStack(ICBM_API.blockWarhead, 1, size.ordinal()));
-        }
-        catch (InstantiationException e)
-        {
-            e.printStackTrace();
-        }
-        catch (IllegalAccessException e)
-        {
-            e.printStackTrace();
-        }
-        catch (NoSuchMethodException e)
-        {
-            e.printStackTrace();
-        }
-        catch (InvocationTargetException e)
-        {
-            e.printStackTrace();
+            case EXPLOSIVE_MICRO:
+                return new WarheadMicro(new ItemStack(ICBM_API.blockWarhead, 1, size.ordinal()));
+            case EXPLOSIVE_SMALL:
+                return new WarheadSmall(new ItemStack(ICBM_API.blockWarhead, 1, size.ordinal()));
+            case EXPLOSIVE_STANDARD:
+                return new WarheadStandard(new ItemStack(ICBM_API.blockWarhead, 1, size.ordinal()));
+            case EXPLOSIVE_MEDIUM:
+                return new WarheadMedium(new ItemStack(ICBM_API.blockWarhead, 1, size.ordinal()));
+            case EXPLOSIVE_LARGE:
+                return new WarheadLarge(new ItemStack(ICBM_API.blockWarhead, 1, size.ordinal()));
         }
         return null;
     }
