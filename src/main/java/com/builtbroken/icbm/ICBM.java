@@ -16,6 +16,7 @@ import com.builtbroken.icbm.content.debug.BlockExplosiveMarker;
 import com.builtbroken.icbm.content.fragments.EntityFragment;
 import com.builtbroken.icbm.content.fragments.FragmentEventHandler;
 import com.builtbroken.icbm.content.items.ItemExplosive;
+import com.builtbroken.icbm.content.items.RecipeFireworkEx;
 import com.builtbroken.icbm.content.items.parts.ItemExplosiveParts;
 import com.builtbroken.icbm.content.launcher.block.LauncherPartListener;
 import com.builtbroken.icbm.content.launcher.block.TileLauncherFrame;
@@ -34,6 +35,7 @@ import com.builtbroken.icbm.content.missile.parts.guidance.ItemGuidanceModules;
 import com.builtbroken.icbm.content.missile.parts.trigger.ItemTriggerModules;
 import com.builtbroken.icbm.content.missile.parts.trigger.Triggers;
 import com.builtbroken.icbm.content.missile.parts.warhead.WarheadCasings;
+import com.builtbroken.icbm.content.missile.recipes.RecipeMicroMissileEngine;
 import com.builtbroken.icbm.content.missile.tile.TileCrashedMissile;
 import com.builtbroken.icbm.content.missile.tracking.MissileTracker;
 import com.builtbroken.icbm.content.rail.EntityMissileCart;
@@ -76,6 +78,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
@@ -328,6 +331,8 @@ public final class ICBM extends AbstractMod
             EntityRegistry.registerGlobalEntityID(EntitySlimeRain.class, "ICBMSlime", EntityRegistry.findGlobalUniqueEntityId());
         }
         initAPI();
+        RecipeSorter.register("exfirework", RecipeFireworkEx.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
+        RecipeSorter.register("microengine", RecipeMicroMissileEngine.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
         super.init(event);
     }
 
@@ -367,6 +372,7 @@ public final class ICBM extends AbstractMod
             //TODO see about ore dictionary for redstone, and gunpowder
             GameRegistry.addRecipe(new ShapedOreRecipe(Blocks.tnt, "@@@", "@R@", "@@@", '@', Items.gunpowder, 'R', Items.redstone));
         }
+        GameRegistry.addRecipe(new RecipeMicroMissileEngine());
         super.postInit(event);
     }
 

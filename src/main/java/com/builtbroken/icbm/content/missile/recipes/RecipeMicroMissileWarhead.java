@@ -1,10 +1,12 @@
-package com.builtbroken.icbm.content.warhead;
+package com.builtbroken.icbm.content.missile.recipes;
 
 import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.api.crafting.IModularMissileItem;
 import com.builtbroken.icbm.api.missile.IMissileItem;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.api.modules.IWarhead;
+import com.builtbroken.icbm.api.warhead.IWarheadItem;
+import com.builtbroken.icbm.content.items.ItemExplosive;
 import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
 import com.builtbroken.mc.api.modules.IModule;
@@ -18,9 +20,9 @@ import net.minecraft.item.ItemStack;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 11/6/2015.
  */
-public class MicroMissileRecipe extends RecipeShapelessOre
+public class RecipeMicroMissileWarhead extends RecipeShapelessOre
 {
-    public MicroMissileRecipe(Object... recipe)
+    public RecipeMicroMissileWarhead(Object... recipe)
     {
         super(new ItemStack(ICBM_API.itemMissile, 1, MissileSize.MICRO.ordinal()), recipe);
     }
@@ -30,10 +32,25 @@ public class MicroMissileRecipe extends RecipeShapelessOre
     {
         if (!super.itemMatches(target, input, strict))
         {
-            if (target != null && input != null && target.getItem() instanceof IModularMissileItem && input.getItem() instanceof IModularMissileItem)
+            if (target != null && input != null)
             {
-                //Warhead in missile input need to match recipe warhead required
-                return InventoryUtility.stacksMatch(((IModularMissileItem) target.getItem()).getWarhead(target), ((IModularMissileItem) input.getItem()).getWarhead(input));
+                if (target != null && input != null && target.getItem() instanceof IModularMissileItem && input.getItem() instanceof IModularMissileItem)
+                {
+                    //Warhead in missile input need to match recipe warhead required
+                    ItemStack warheadA = ((IModularMissileItem) target.getItem()).getWarhead(target);
+                    ItemStack warheadB = ((IModularMissileItem) input.getItem()).getWarhead(input);
+                    return InventoryUtility.stacksMatch(warheadA, warheadB);
+                }
+                else if (target.getItem() instanceof IWarheadItem && input.getItem() instanceof IWarheadItem)
+                {
+                    ItemStack exA = ((IWarheadItem) target.getItem()).getExplosiveStack(target);
+                    ItemStack exB = ((IWarheadItem) input.getItem()).getExplosiveStack(input);
+                    return InventoryUtility.stacksMatch(exA, exB)
+                            //Fix for firework charge having 4B combinations so can't be mapped correctly
+                            || InventoryUtility.itemsMatch(ICBM_API.itemExplosive, exA, exB)
+                            && exA.getItemDamage() == exB.getItemDamage()
+                            && exA.getItemDamage() == ItemExplosive.ExplosiveItems.FIREWORK.ordinal();
+                }
             }
             return false;
         }

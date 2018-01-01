@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "explosive": {
+    "id": "Firework",
+    "name": "firework",
+    "mod": "icbm",
+    "handler": "com.builtbroken.icbm.content.blast.troll.ExFirework",
+    "powerMultiplier": 1
+  },
+  "render": {
+    "contentID": "icbm:firework",
+    "type": "ex",
+    "states": [
+      {
+        "id": "ex.corner",
+        "renderType": "item",
+        "textureID": "icbm:ex.icon.firework"
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:ex.icon.firework",
+    "domain": "icbm",
+    "name": "ex.icon.firework",
+    "type": "item"
+  }
+}

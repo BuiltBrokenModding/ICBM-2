@@ -6,6 +6,7 @@ import com.builtbroken.icbm.client.ec.ECBiomeChange;
 import com.builtbroken.icbm.content.blast.biome.ExBiomeChange;
 import com.builtbroken.icbm.content.blast.entity.ExSpawn;
 import com.builtbroken.icbm.content.blast.fragment.*;
+import com.builtbroken.icbm.content.blast.troll.ExFirework;
 import com.builtbroken.icbm.content.items.parts.ItemExplosiveParts;
 import com.builtbroken.jlib.data.Colors;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
@@ -38,6 +39,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -94,6 +96,34 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
                 {
                     list.add(translation);
                 }
+            }
+        }
+
+        //Custom info for biome change
+        if (stack.getItemDamage() == ExplosiveItems.FIREWORK.ordinal())
+        {
+            NBTTagCompound exData = getAdditionalExplosiveData(stack);
+            if (exData.hasKey(ExFirework.NBT_KEY))
+            {
+                ItemStack fireworkStack = ItemStack.loadItemStackFromNBT(exData.getCompoundTag(ExFirework.NBT_KEY));
+                if (fireworkStack != null)
+                {
+                    list.add(LanguageUtility.getLocal(getUnlocalizedName() + ".firework"));
+                    List lines = new ArrayList();
+                    fireworkStack.getItem().addInformation(fireworkStack, player, lines, b);
+                    for (Object line : lines)
+                    {
+                        list.add(" " + line);
+                    }
+                }
+                else
+                {
+                    list.add(Colors.RED.code + LanguageUtility.getLocal(getUnlocalizedName() + ".firework.null"));
+                }
+            }
+            else
+            {
+                list.add(Colors.RED.code + LanguageUtility.getLocal(getUnlocalizedName() + ".firework.empty"));
             }
         }
 
@@ -461,6 +491,7 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         {
             newRecipe(ExplosiveItems.EMP, "WRW", "RCR", "WRW", 'C', Items.diamond, 'W', OreNames.WIRE_COPPER, 'R', Items.redstone);
         }
+        GameRegistry.addRecipe(new RecipeFireworkEx());
     }
 
     private void newRecipe(ExplosiveItems item, Object... objects)
@@ -600,7 +631,8 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         FLASH("Flash", 10),
         RADIATION("Radiation", 10),
         MIDAS_ORE("MidasOre", 10),
-        GIFT("Gift", 1);
+        GIFT("Gift", 1),
+        FIREWORK("Firework", 1);
 
         //TODO implement tool tips to hint at usage
 

@@ -18,6 +18,8 @@ public enum WarheadCasings
     EXPLOSIVE_MEDIUM(WarheadMedium.class, 150000, false),
     EXPLOSIVE_LARGE(WarheadLarge.class, 400000, false);
 
+    //TODO create factory methods using lambda expressions to build new warhead objects via WarheadCasings.EXPLOSIVE_MICRO.newWarhead()
+
     public final Class<? extends Warhead> warhead_clazz;
     public final boolean enabled;
 
