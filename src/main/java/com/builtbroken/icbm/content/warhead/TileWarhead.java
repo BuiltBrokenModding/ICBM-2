@@ -4,6 +4,7 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.client.Assets;
+import com.builtbroken.icbm.content.missile.recipes.RecipeMicroMissileWarhead;
 import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
 import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.icbm.content.missile.parts.warhead.Warhead;
@@ -91,7 +92,7 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
     {
         //Register specialized recipe handlers
         RecipeSorter.register(ICBM.PREFIX + "warhead", WarheadRecipe.class, SHAPELESS, "after:minecraft:shaped");
-        RecipeSorter.register(ICBM.PREFIX + "microMissile", MicroMissileRecipe.class, SHAPELESS, "after:minecraft:shaped");
+        RecipeSorter.register(ICBM.PREFIX + "microMissile", RecipeMicroMissileWarhead.class, SHAPELESS, "after:minecraft:shaped");
 
         List<IRecipe> recipes = new ArrayList();
         getRecipes(recipes);
@@ -172,7 +173,7 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
                     stack.stackSize = 1;
 
                     final Warhead micro_warhead = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO, stack);
-                    recipes.add(new MicroMissileRecipe(new ItemStack(ICBM_API.itemMissile, 1, MissileSize.MICRO.ordinal()), micro_warhead.toStack()));
+                    recipes.add(new RecipeMicroMissileWarhead(new ItemStack(ICBM_API.itemMissile, 1, MissileSize.MICRO.ordinal()), micro_warhead.toStack()));
                 }
                 else
                 {
@@ -180,6 +181,8 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
                 }
             }
         }
+
+        recipes.add(new RecipeMicroMissileWarhead(new ItemStack(ICBM_API.itemMissile, 1, MissileSize.MICRO.ordinal()), MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.EXPLOSIVE_MICRO).toStack()));
     }
 
     @Override
