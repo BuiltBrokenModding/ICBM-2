@@ -10,12 +10,16 @@ buildscript {
             name = "sonatype"
             url = "https://oss.sonatype.org/content/repositories/snapshots/"
         }
+        maven {
+             url "https://plugins.gradle.org/m2/"
+       }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
         classpath 'net.saliman:gradle-cobertura-plugin:2.0.0' // cobertura plugin
         classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.4.0'
         classpath 'org.ajoberstar:gradle-git:0.10.1'
+        classpath "org.ajoberstar:grgit:2.1.0"
     }
 }
 
@@ -30,6 +34,7 @@ apply from: 'https://raw.githubusercontent.com/BuiltBrokenModding/BuiltBrokenScr
 apply plugin: 'com.github.kt3k.coveralls'
 apply plugin: 'jacoco'
 apply from: 'https://raw.githubusercontent.com/BuiltBrokenModding/BuiltBrokenScripts/buildScripts/scripts/forge/deps.gradle'
+apply plugin: "org.ajoberstar.grgit"
 
 task copyMethodWithExplicitDependencies{
     mustRunAfter 'clean'
