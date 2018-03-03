@@ -10,6 +10,7 @@ import com.builtbroken.icbm.content.missile.parts.trigger.Triggers;
 import com.builtbroken.icbm.content.missile.parts.warhead.*;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.modules.IModule;
+import com.builtbroken.mc.api.modules.IModuleItem;
 import com.builtbroken.mc.framework.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.lib.data.item.ItemStackWrapper;
 import com.builtbroken.mc.prefab.module.ModuleBuilder;
@@ -23,7 +24,13 @@ import java.util.List;
 /**
  * Created by robert on 12/28/2014.
  */
-public class MissileModuleBuilder<M extends MissileModule> extends ModuleBuilder<M>
+@Deprecated //Need to find a replacement, as this is not going to work for the long term
+//What I want to replace this with is a factory system using lambda expressions HashMap<ID, FactoryMethod>
+//Then maybe move each area to its own registry, apply a registry event like used in 1.12
+//This will allow the registries to be separated from mods more easily
+//Follow this up with an API.class that has references and quick access methods to each registry
+// API { Registry registry;  public IObject getObject(String key) }
+public class MissileModuleBuilder extends ModuleBuilder<IModule>
 {
     public static MissileModuleBuilder INSTANCE = new MissileModuleBuilder();
 
@@ -33,7 +40,7 @@ public class MissileModuleBuilder<M extends MissileModule> extends ModuleBuilder
     public List<String> idToUseWithModuleItem = new ArrayList<String>();
 
 
-    public boolean register(String mod_id, String name, Class<M> clazz, boolean useItem)
+    public boolean register(String mod_id, String name, Class<? extends IModule> clazz, boolean useItem)
     {
         if (this.register(mod_id, name, clazz))
         {
@@ -47,7 +54,7 @@ public class MissileModuleBuilder<M extends MissileModule> extends ModuleBuilder
     }
 
     @Override
-    public boolean register(String mod_id, String name, Class<M> clazz)
+    public boolean register(String mod_id, String name, Class<? extends IModule> clazz)
     {
         if (super.register(mod_id, name, clazz))
         {
@@ -71,7 +78,7 @@ public class MissileModuleBuilder<M extends MissileModule> extends ModuleBuilder
 
     public IWarhead buildWarhead(ItemStack stack)
     {
-        IModule module = super.build(stack);
+        IModule module = build(stack);
         if (module instanceof IWarhead)
         {
             return (IWarhead) module;
@@ -81,7 +88,7 @@ public class MissileModuleBuilder<M extends MissileModule> extends ModuleBuilder
 
     public RocketEngine buildEngine(ItemStack stack)
     {
-        IModule module = super.build(stack);
+        IModule module = build(stack);
         if (module instanceof RocketEngine)
         {
             return (RocketEngine) module;
@@ -91,7 +98,7 @@ public class MissileModuleBuilder<M extends MissileModule> extends ModuleBuilder
 
     public Guidance buildGuidance(ItemStack stack)
     {
-        IModule module = super.build(stack);
+        IModule module = build(stack);
         if (module instanceof Guidance)
         {
             return (Guidance) module;
@@ -101,12 +108,26 @@ public class MissileModuleBuilder<M extends MissileModule> extends ModuleBuilder
 
     public Trigger buildTrigger(ItemStack stack)
     {
-        IModule module = super.build(stack);
+        IModule module = build(stack);
         if (module instanceof Trigger)
         {
             return (Trigger) module;
         }
         return null;
+    }
+
+    @Override
+    public IModule build(ItemStack stack)
+    {
+        if (stack != null && stack.getItem() instanceof IModuleItem)
+        {
+            IModule module = ((IModuleItem) stack.getItem()).getModule(stack);
+            if (module != null)
+            {
+                return module;
+            }
+        }
+        return super.build(stack);
     }
 
     /**
@@ -120,40 +141,19 @@ public class MissileModuleBuilder<M extends MissileModule> extends ModuleBuilder
     @Deprecated
     public Warhead buildWarhead(WarheadCasings size, IExplosiveHandler ex)
     {
-        //TODO replace reflection
-        try
-        {
-            Warhead warhead = size.warhead_clazz.getConstructor(ItemStack.class).newInstance(new ItemStack(ICBM_API.blockWarhead, 1, size.ordinal()));
+        Warhead warhead = buildWarhead(size);
 
-            //Set explosive item, instead of just explosive
-            ItemStack explosive = getExplosiveItem(ex);
-            if (explosive != null)
-            {
-                warhead.setExplosiveStack(explosive);
-            }
-            else
-            {
-                warhead.setExplosive(ex, -1, null);
-            }
-            return warhead;
-        }
-        catch (InstantiationException e)
+        //Set explosive item, instead of just explosive
+        ItemStack explosive = getExplosiveItem(ex);
+        if (explosive != null)
         {
-            e.printStackTrace();
+            warhead.setExplosiveStack(explosive);
         }
-        catch (IllegalAccessException e)
+        else
         {
-            e.printStackTrace();
+            warhead.setExplosive(ex, -1, null);
         }
-        catch (NoSuchMethodException e)
-        {
-            e.printStackTrace();
-        }
-        catch (InvocationTargetException e)
-        {
-            e.printStackTrace();
-        }
-        return null;
+        return warhead;
     }
 
     private ItemStack getExplosiveItem(IExplosiveHandler ex)
