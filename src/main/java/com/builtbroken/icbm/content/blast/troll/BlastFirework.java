@@ -33,7 +33,7 @@ public class BlastFirework extends Blast<BlastFirework>
     {
         if (!beforeBlocksPlaced)
         {
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < size; i++)
             {
                 EntityFireworkRocket entityfireworkrocket = new EntityFireworkRocket(oldWorld, x(), y(), z(), firework);
                 DelayedActionHandler.add(new DelayedSpawn(oldWorld, toPos(), entityfireworkrocket, 5, 1 + MathHelper.rand.nextInt(100)));
