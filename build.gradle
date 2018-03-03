@@ -53,19 +53,11 @@ minecraft {
     replace "required-after:voltzengine", "required-after:voltzengine@[$voltz_engine_version,)"
 }
 
-import org.ajoberstar.grgit.*
-
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 def currentJvm = org.gradle.internal.jvm.Jvm.current()
 //println "Current Java version = " + currentJvm
-
-def gitHash = 'unknown'
-if (new File(projectDir, '.git').exists()) {
-    def repo = Grgit.open(project.file('.'))
-    gitHash = repo.log().find().abbreviatedId
-}
 
 jar {
      manifest.mainAttributes(
