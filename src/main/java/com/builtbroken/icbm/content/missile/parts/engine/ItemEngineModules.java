@@ -2,12 +2,11 @@ package com.builtbroken.icbm.content.missile.parts.engine;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.modules.IRocketEngine;
-import com.builtbroken.mc.prefab.module.ItemAbstractModule;
-import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
 import com.builtbroken.icbm.content.missile.parts.engine.fluid.RocketEngineFluid;
 import com.builtbroken.icbm.content.missile.parts.engine.solid.RocketEngineSolid;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
+import com.builtbroken.mc.prefab.module.ItemAbstractModule;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -16,7 +15,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
@@ -26,7 +24,7 @@ import java.util.List;
  * Item for the modules to be contained in an inventory
  * Created by robert on 12/28/2014.
  */
-public class ItemEngineModules extends ItemAbstractModule implements IPostInit
+public class ItemEngineModules extends ItemAbstractModule<RocketEngine> implements IPostInit
 {
     public ItemEngineModules()
     {
@@ -83,7 +81,7 @@ public class ItemEngineModules extends ItemAbstractModule implements IPostInit
         {
             list.add(engine.newModuleStack());
 
-            RocketEngine e = MissileModuleBuilder.INSTANCE.buildEngine(engine.newModuleStack());
+            RocketEngine e = getModule(engine.newModuleStack());
             e.initFuel();
             list.add(e.toStack());
         }
@@ -123,29 +121,14 @@ public class ItemEngineModules extends ItemAbstractModule implements IPostInit
         }
     }
 
-    @Override
-    public IRocketEngine getModule(ItemStack stack)
+    public Engines getEngineType(ItemStack stack)
     {
-        if (stack != null)
-        {
-            ItemStack insert = stack.copy();
-            insert.stackSize = 1;
-            IRocketEngine engine = MissileModuleBuilder.INSTANCE.buildEngine(insert);
-            if(engine == null)
-            {
-                //Data is invalid TODO see if we can save data if NBT is not null
-                engine = Engines.get(insert).newModule();
-                stack.setTagCompound(engine.save(new NBTTagCompound()));
-                insert.setTagCompound(engine.save(new NBTTagCompound()));
-            }
-            return engine;
-        }
-        return null;
+        return Engines.get(stack);
     }
 
     @Override
-    public IModule newModule(ItemStack stack)
+    public RocketEngine newModule(ItemStack stack)
     {
-        return MissileModuleBuilder.INSTANCE.build(stack);
+        return getEngineType(stack).buildModule(stack);
     }
 }

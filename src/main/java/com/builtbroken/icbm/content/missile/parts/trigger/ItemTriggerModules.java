@@ -1,13 +1,10 @@
 package com.builtbroken.icbm.content.missile.parts.trigger;
 
 import com.builtbroken.icbm.ICBM;
-import com.builtbroken.icbm.api.warhead.ITrigger;
-import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
 import com.builtbroken.icbm.content.missile.parts.trigger.impact.ImpactTrigger;
 import com.builtbroken.jlib.data.Colors;
 import com.builtbroken.jlib.data.science.units.UnitDisplay;
 import com.builtbroken.mc.api.modules.IModule;
-import com.builtbroken.mc.core.registry.implement.IPostInit;
 import com.builtbroken.mc.prefab.module.ItemAbstractModule;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -16,7 +13,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 
 import java.util.List;
@@ -25,18 +21,12 @@ import java.util.List;
  * Item for the modules to be contained in an inventory
  * Created by robert on 12/28/2014.
  */
-public class ItemTriggerModules extends ItemAbstractModule implements IPostInit
+public class ItemTriggerModules extends ItemAbstractModule
 {
     public ItemTriggerModules()
     {
         this.setHasSubtypes(true);
         this.setUnlocalizedName(ICBM.PREFIX + "triggers");
-    }
-
-    @Override
-    public void onPostInit()
-    {
-
     }
 
     @SideOnly(Side.CLIENT)
@@ -80,27 +70,8 @@ public class ItemTriggerModules extends ItemAbstractModule implements IPostInit
     }
 
     @Override
-    public ITrigger getModule(ItemStack stack)
+    public IModule newModule(ItemStack insert)
     {
-        if (stack != null)
-        {
-            ItemStack insert = stack.copy();
-            insert.stackSize = 1;
-            ITrigger trigger = MissileModuleBuilder.INSTANCE.buildTrigger(insert);
-            if (trigger == null)
-            {
-                trigger = Triggers.get(insert).newModule();
-                stack.setTagCompound(trigger.save(new NBTTagCompound()));
-                insert.setTagCompound(trigger.save(new NBTTagCompound()));
-            }
-            return trigger;
-        }
-        return null;
-    }
-
-    @Override
-    public IModule newModule(ItemStack stack)
-    {
-        return MissileModuleBuilder.INSTANCE.build(stack);
+        return Triggers.get(insert).buildModule(insert);
     }
 }

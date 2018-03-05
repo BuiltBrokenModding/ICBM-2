@@ -2,7 +2,6 @@ package com.builtbroken.icbm.content.missile.parts.trigger;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.ICBM_API;
-import com.builtbroken.mc.prefab.module.ModuleBuilder;
 import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
 import com.builtbroken.icbm.content.missile.parts.trigger.impact.ImpactTriggerElectrical;
 import com.builtbroken.icbm.content.missile.parts.trigger.impact.ImpactTriggerMechanical;
@@ -10,8 +9,9 @@ import com.builtbroken.icbm.content.missile.parts.trigger.impact.ImpactTriggerRe
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
+
+import java.util.function.Function;
 
 /**
  * Enum of trigger types that can be installed into the warhead
@@ -21,11 +21,11 @@ public enum Triggers
 {
     //TODO add modifier by missile size
     /** Triggers on impact, can fail to trigger */
-    MECHANICAL_IMPACT("impact.mechanical", ImpactTriggerMechanical.class, 54431.1), //120 pounds
+    MECHANICAL_IMPACT("impact.mechanical", ImpactTriggerMechanical.class, 54431.1, i -> new ImpactTriggerMechanical(i)), //120 pounds
     /** Triggers on impact, less chance to fail */
-    ELECTRICAL_IMPACT("impact.electrical", ImpactTriggerElectrical.class, 27215.5), //60 pounds
+    ELECTRICAL_IMPACT("impact.electrical", ImpactTriggerElectrical.class, 27215.5, i -> new ImpactTriggerElectrical(i)), //60 pounds
     /** Triggers on impact, no fail chance, no safety, no customization, extremely cheap, DANGEROUS TO USE */
-    REDSTONE_IMPACT("impact.redstone", ImpactTriggerRedstone.class, 9071.85);
+    REDSTONE_IMPACT("impact.redstone", ImpactTriggerRedstone.class, 9071.85, i -> new ImpactTriggerRedstone(i));
     /** Triggers after x time, can break when impacts */
     //MECHANICAL_TIMER("timer.mechanical", ImpactTriggerMechanical.class, 6803.89),
     /** Triggers after x time, can be set in ticks */
@@ -49,11 +49,14 @@ public enum Triggers
     @SideOnly(Side.CLIENT)
     public IIcon icon;
 
-    Triggers(String moduleName, Class<? extends Trigger> clazz, double mass)
+    public Function<ItemStack, Trigger> triggerFactory;
+
+    Triggers(String moduleName, Class<? extends Trigger> clazz, double mass, Function<ItemStack, Trigger> triggerFactory)
     {
         this.moduleName = "trigger." + moduleName;
         this.mass = mass;
         this.clazz = clazz;
+        this.triggerFactory = triggerFactory;
     }
 
     public static Triggers get(ItemStack insert)
@@ -72,15 +75,17 @@ public enum Triggers
 
     public ItemStack newModuleStack()
     {
-        ItemStack stack = new ItemStack(ICBM_API.itemTrigger, 1, ordinal());
-        stack.setTagCompound(new NBTTagCompound());
-        stack.getTagCompound().setString(ModuleBuilder.SAVE_ID, "icbm." + moduleName);
-        return stack;
+        return new ItemStack(ICBM_API.itemTrigger, 1, ordinal());
     }
 
     public Trigger newModule()
     {
-        return MissileModuleBuilder.INSTANCE.buildTrigger(newModuleStack());
+        return triggerFactory.apply(newModuleStack());
+    }
+
+    public Trigger buildModule(ItemStack stack)
+    {
+        return triggerFactory.apply(stack);
     }
 
     public static void register()

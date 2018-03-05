@@ -2,10 +2,9 @@ package com.builtbroken.icbm.content.missile.parts.guidance;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.modules.IGuidance;
-import com.builtbroken.mc.prefab.module.ItemAbstractModule;
-import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
 import com.builtbroken.mc.api.modules.IModule;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
+import com.builtbroken.mc.prefab.module.ItemAbstractModule;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -13,7 +12,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 
 import java.util.List;
@@ -22,7 +20,7 @@ import java.util.List;
  * Item for the modules to be contained in an inventory
  * Created by robert on 12/28/2014.
  */
-public class ItemGuidanceModules extends ItemAbstractModule implements IPostInit
+public class ItemGuidanceModules extends ItemAbstractModule<Guidance> implements IPostInit
 {
     public ItemGuidanceModules()
     {
@@ -60,7 +58,9 @@ public class ItemGuidanceModules extends ItemAbstractModule implements IPostInit
         {
             ItemStack stack = engine.newModuleStack();
             if (stack != null)
+            {
                 list.add(stack);
+            }
         }
     }
 
@@ -82,28 +82,8 @@ public class ItemGuidanceModules extends ItemAbstractModule implements IPostInit
     }
 
     @Override
-    public IGuidance getModule(ItemStack stack)
+    public Guidance newModule(ItemStack stack)
     {
-        if (stack != null)
-        {
-            ItemStack insert = stack.copy();
-            insert.stackSize = 1;
-            IGuidance guidance = MissileModuleBuilder.INSTANCE.buildGuidance(insert);
-            if(guidance == null)
-            {
-                //Data is invalid TODO see if we can save data if NBT is not null
-                guidance = GuidanceModules.get(insert).newModule();
-                stack.setTagCompound(guidance.save(new NBTTagCompound()));
-                insert.setTagCompound(guidance.save(new NBTTagCompound()));
-            }
-            return guidance;
-        }
-        return null;
-    }
-
-    @Override
-    public IModule newModule(ItemStack stack)
-    {
-        return MissileModuleBuilder.INSTANCE.build(stack);
+        return GuidanceModules.get(stack).buildModule(stack);
     }
 }

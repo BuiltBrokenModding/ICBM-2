@@ -4,16 +4,15 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.api.warhead.IWarheadHandler;
 import com.builtbroken.icbm.api.warhead.IWarheadItem;
-import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
 import com.builtbroken.icbm.content.missile.parts.warhead.Warhead;
 import com.builtbroken.icbm.content.missile.parts.warhead.WarheadCasings;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
 import com.builtbroken.mc.api.items.explosives.IExplosiveItem;
 import com.builtbroken.mc.client.ExplosiveRegistryClient;
 import com.builtbroken.mc.core.References;
-import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.framework.explosive.ExplosiveItemUtility;
 import com.builtbroken.mc.framework.explosive.ExplosiveRegistry;
+import com.builtbroken.mc.lib.helper.LanguageUtility;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -259,22 +258,7 @@ public class ItemBlockWarhead extends ItemBlock implements IWarheadItem
     @Override
     public IWarhead getModule(ItemStack stack)
     {
-        if (stack != null)
-        {
-            ItemStack insert = stack.copy();
-            insert.stackSize = 1;
-            IWarhead warhead = MissileModuleBuilder.INSTANCE.buildWarhead(insert);
-
-            if (warhead == null)
-            {
-                warhead = MissileModuleBuilder.INSTANCE.buildWarhead(WarheadCasings.fromMeta(insert.getItemDamage()), (ItemStack) null);
-            }
-
-            warhead.save(insert);
-            warhead.save(stack);
-            return warhead;
-        }
-        return null;
+        return WarheadCasings.get(stack).buildModule(stack);
     }
 
     @Override

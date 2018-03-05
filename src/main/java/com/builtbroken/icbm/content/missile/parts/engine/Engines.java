@@ -2,16 +2,16 @@ package com.builtbroken.icbm.content.missile.parts.engine;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.ICBM_API;
-import com.builtbroken.mc.prefab.module.AbstractModule;
-import com.builtbroken.mc.prefab.module.ModuleBuilder;
 import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
 import com.builtbroken.icbm.content.missile.parts.engine.fluid.RocketEngineFuel;
 import com.builtbroken.icbm.content.missile.parts.engine.fluid.RocketEngineOil;
 import com.builtbroken.icbm.content.missile.parts.engine.solid.RocketEngineCoalPowered;
 import com.builtbroken.icbm.content.missile.parts.engine.solid.RocketEngineGunpowder;
+import com.builtbroken.mc.prefab.module.AbstractModule;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
+
+import java.util.function.Function;
 
 /**
  * Enum of engines implemented by ICBM
@@ -21,12 +21,12 @@ public enum Engines
 {
     //https://en.wikipedia.org/wiki/Rocket_propellant
     //Engines
-    CREATIVE_ENGINE("engine.creative", RocketEngineCreative.class, 0),
+    CREATIVE_ENGINE("engine.creative", RocketEngineCreative.class, 0, i -> new RocketEngineCreative(i)),
     //TODO redo coal engine when mass if fully implemented
-    COAL_ENGINE("engine.coal", RocketEngineCoalPowered.class, 500000),
-    OIL_ENGINE("engine.oil", RocketEngineOil.class, 104326),
-    FUEL_ENGINE("engine.fuel", RocketEngineFuel.class, 90326),
-    GUNPOWDER_ENGINE("engine.gunpowder", RocketEngineGunpowder.class, 500);
+    COAL_ENGINE("engine.coal", RocketEngineCoalPowered.class, 500000, i -> new RocketEngineCoalPowered(i)),
+    OIL_ENGINE("engine.oil", RocketEngineOil.class, 104326, i -> new RocketEngineOil(i)),
+    FUEL_ENGINE("engine.fuel", RocketEngineFuel.class, 90326, i -> new RocketEngineFuel(i)),
+    GUNPOWDER_ENGINE("engine.gunpowder", RocketEngineGunpowder.class, 500, i -> new RocketEngineGunpowder(i));
 
     /** Mass of the engine without it's fuel */
     public final double mass;
@@ -36,13 +36,16 @@ public enum Engines
     /** Class of the module */
     protected final Class<? extends AbstractModule> clazz;
 
+    protected Function<ItemStack, RocketEngine> moduleFactory;
+
     protected IIcon icon;
 
-    Engines(String name, Class<? extends AbstractModule> clazz, double mass)
+    Engines(String name, Class<? extends AbstractModule> clazz, double mass, Function<ItemStack, RocketEngine> moduleFactory)
     {
         this.moduleName = name;
         this.clazz = clazz;
         this.mass = mass;
+        this.moduleFactory = moduleFactory;
     }
 
     public static Engines get(ItemStack stack)
@@ -61,15 +64,17 @@ public enum Engines
 
     public ItemStack newModuleStack()
     {
-        ItemStack stack = new ItemStack(ICBM_API.itemEngineModules, 1, ordinal());
-        stack.setTagCompound(new NBTTagCompound());
-        stack.getTagCompound().setString(ModuleBuilder.SAVE_ID, "icbm." + moduleName);
-        return stack;
+        return new ItemStack(ICBM_API.itemEngineModules, 1, ordinal());
     }
 
     public RocketEngine newModule()
     {
-        return MissileModuleBuilder.INSTANCE.buildEngine(newModuleStack());
+        return moduleFactory.apply(newModuleStack());
+    }
+
+    public RocketEngine buildModule(ItemStack stack)
+    {
+        return moduleFactory.apply(stack);
     }
 
     public static void register()

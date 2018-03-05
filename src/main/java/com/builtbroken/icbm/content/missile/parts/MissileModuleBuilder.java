@@ -121,11 +121,11 @@ public class MissileModuleBuilder extends ModuleBuilder<IModule>
     {
         if (stack != null && stack.getItem() instanceof IModuleItem)
         {
-            IModule module = ((IModuleItem) stack.getItem()).getModule(stack);
-            if (module != null)
-            {
-                return module;
-            }
+            //IModule module = ((IModuleItem) stack.getItem()).getModule(stack);
+            //if (module != null)
+            //{
+            //    return module;
+           // }
         }
         return super.build(stack);
     }
