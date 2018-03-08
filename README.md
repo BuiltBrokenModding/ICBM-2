@@ -1,4 +1,4 @@
-##What is ICBM?
+## What is ICBM?
 
 #### NOTE
 
@@ -6,12 +6,12 @@
 
 ICBM is a Minecraft Mod that introduces intercontinental ballistic missiles to Minecraft.
 
-##Who owns ICBM
+## Who owns ICBM
 Originally ICBM was owned mostly by Calclavia with the Sentry guns belonging to DarkGuardsman. After a few event and lack of progress ownership was shifted fully to DarkGuardsman. This was in exchange for majority ownership of Resonant Induction to Calclavia. 
 
 That being said as far as DarkGuardsman is concerned the mod downloads are community property. At any time the mod is no longer supported or updated anyone is welcome to take over. Given that the new maintainer understands who owns the code at the end of the day. 
  
-##license
+## license
 * Free to install
 * Free to modify for personal use
 * Free to contribute to project
@@ -20,7 +20,7 @@ That being said as far as DarkGuardsman is concerned the mod downloads are commu
 
 Read license.md for full lisense
  
-##Warranty
+## Warranty
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -29,22 +29,22 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-##Pull Requests
+## Pull Requests
 Before you submit a pull request you must sign or agree to the Contributor License Agreement(CLA). Submission by default can be considered as agreeing to the CLA and any terms of the project.
 
-##Contributions
+## Contributions
 Before submitting changes sign the CLA or the submittion will not be accepted https://www.clahub.com/agreements/Universal-Electricity/ICBM
 If you do not sign the CLA, summission still counts as accepting the terms of the CLA in some cases. Theses cases are noted, not limited to, as failure to respond to a request to view the CLA, and continued submission of changes after being notified of the CLA.
 https://docs.google.com/document/d/105N6q63OJnzrWjMbydFYFUlHmK6spc8P8da8qkduFRs/edit?usp=sharing
 
 
-###Team
+### Team
 * Darkguardsman     - Owner, Head Developer
 * Dmodoomsirus      - Gradle Tech
 * Dragonlorder      - Asset Developer
 * Graugger          - Asset Developer
 
-##Credits
+## Credits
 If you or someone you know is not listed but should be just message us with the contribution. We will then
 validate the claim and add the missing name(s) to the list. 
 
@@ -92,7 +92,7 @@ validate the claim and add the missing name(s) to the list.
 ## Download Locations
 * http://builtbroken.com/pages/icbm/
 
-##Installing
+## Installing
 * Install Minecraft Forge.
 * Install Voltz Engine
 * Download the mod
