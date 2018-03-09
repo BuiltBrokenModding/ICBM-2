@@ -42,9 +42,9 @@ public class RocketEngineOil extends RocketEngineFluid
     @Override
     public float getMaxDistance(IMissile missile)
     {
-        if (tank.getFluidAmount() > 0)
+        if (getTank().getFluidAmount() > 0)
         {
-            return 2f * tank.getFluidAmount();
+            return 2f * getTank().getFluidAmount();
         }
         return 0f;
     }
@@ -54,7 +54,7 @@ public class RocketEngineOil extends RocketEngineFluid
     {
         if (FluidRegistry.getFluid("oil") != null)
         {
-            tank.fill(new FluidStack(FluidRegistry.getFluid("oil"), tank.getCapacity()), true);
+            getTank().fill(new FluidStack(FluidRegistry.getFluid("oil"), getTank().getCapacity()), true);
         }
     }
 

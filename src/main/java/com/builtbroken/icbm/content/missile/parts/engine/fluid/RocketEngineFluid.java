@@ -17,54 +17,55 @@ import net.minecraftforge.fluids.IFluidTank;
  */
 public class RocketEngineFluid extends RocketEngine implements IFluidTank, IPostInit
 {
-    protected FluidTank tank;
+    private FluidTank _tank;
+    public final int tank_volume;
 
     public RocketEngineFluid(ItemStack item, String name, int volume)
     {
         super(item, name);
-        tank = new FluidTank(volume);
+        this.tank_volume = volume;
     }
 
     @Override
     public FluidStack getFluid()
     {
-        return tank.getFluid();
+        return getTank().getFluid();
     }
 
     @Override
     public int getFluidAmount()
     {
-        return tank.getFluidAmount();
+        return getTank().getFluidAmount();
     }
 
     @Override
     public int getCapacity()
     {
-        return tank.getCapacity();
+        return getTank().getCapacity();
     }
 
     @Override
     public FluidTankInfo getInfo()
     {
-        return tank.getInfo();
+        return getTank().getInfo();
     }
 
     @Override
     public int fill(FluidStack resource, boolean doFill)
     {
-        return tank.fill(resource, doFill);
+        return getTank().fill(resource, doFill);
     }
 
     @Override
     public FluidStack drain(int maxDrain, boolean doDrain)
     {
-        return tank.drain(maxDrain, doDrain);
+        return getTank().drain(maxDrain, doDrain);
     }
 
     @Override
     public boolean generatesFire(IMissileEntity missile, IMissile missileModule)
     {
-        return tank != null && tank.getFluidAmount() > 0;
+        return getTank().getFluidAmount() > 0;
     }
 
     @Override
@@ -72,18 +73,34 @@ public class RocketEngineFluid extends RocketEngine implements IFluidTank, IPost
     {
         if (nbt.hasKey("fuelTank"))
         {
-            tank.readFromNBT(nbt.getCompoundTag("fuelTank"));
+            getTank().readFromNBT(nbt.getCompoundTag("fuelTank"));
         }
     }
 
     @Override
     public NBTTagCompound save(NBTTagCompound nbt)
     {
-        if (tank.getFluidAmount() > 0)
+        if (getTank().getFluidAmount() > 0)
         {
-            nbt.setTag("fuelTank", tank.writeToNBT(new NBTTagCompound()));
+            nbt.setTag("fuelTank", getTank().writeToNBT(new NBTTagCompound()));
         }
         return nbt;
+    }
+
+    /**
+     * Gets the primary fluid tank for the engine
+     * <p>
+     * Will init tank if null
+     *
+     * @return fluid tank
+     */
+    public FluidTank getTank()
+    {
+        if (_tank != null)
+        {
+            _tank = new FluidTank(tank_volume);
+        }
+        return _tank;
     }
 
     @Override
