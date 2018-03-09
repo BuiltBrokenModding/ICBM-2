@@ -1,0 +1,29 @@
+{
+  "author": {
+    "name": "icbm"
+  },
+  "explosive": {
+    "id": "ProxyGlass",
+    "name": "ProxyGlass",
+    "mod": "icbm",
+    "handler": "com.builtbroken.icbm.content.blast.build.ExProxyGlass",
+    "powerMultiplier": 3
+  },
+  "render": {
+    "contentID": "icbm:torcheater",
+    "type": "ex",
+    "states": [
+      {
+        "id": "ex.corner",
+        "renderType": "item",
+        "textureID": "icbm:ex.icon.proxyglass"
+      }
+    ]
+  },
+  "texture": {
+    "key": "icbm:ex.icon.proxyglass",
+    "domain": "icbm",
+    "name": "ex.icon.proxyglass",
+    "type": "item"
+  }
+}
