@@ -16,6 +16,7 @@ import com.builtbroken.test.icbm.content.crafting.TestExplosiveItem;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.nbt.NBTTagCompound;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -79,27 +80,48 @@ public class TestWarhead extends AbstractTileTest<TileWarhead>
     {
         for (WarheadCasings casing : WarheadCasings.values())
         {
+            //Build empty warhead
             Warhead warhead = MissileModuleBuilder.INSTANCE.buildWarhead(casing, (ItemStack) null);
 
             //Test default casing creation & init values
-            assertNotNull(warhead);
-            assertNotNull(warhead.toStack());
-            assertNotNull(warhead.toStack().getItem());
-            assertNull(warhead.getExplosive());
-            assertNull(warhead.explosive);
-            assertTrue(warhead.getAdditionalExplosiveData() == null || warhead.getAdditionalExplosiveData().hasNoTags());
+            assertNotNull("Warhead failed to create", warhead);
+            assertNotNull("Warhead failed to with stack", warhead.toStack());
+            assertNotNull("Warhead was created with invalid stack item", warhead.toStack().getItem());
+            assertNull("Warhead should have generated with no explosive instance", warhead.getExplosive());
+            assertNull("Warhead should have generated with no explosive instance", warhead.explosive);
+            assertTrue("Warhead should have generated with no NBT data",
+                    warhead.getAdditionalExplosiveData() == null || warhead.getAdditionalExplosiveData().hasNoTags());
 
             //Test warhead creation with explosive items
             for (ItemExplosive.ExplosiveItems exItem : ItemExplosive.ExplosiveItems.values())
             {
                 if (exItem.ex_name != null && exItem != ItemExplosive.ExplosiveItems.EMP)
                 {
-                    assertTrue(exItem.ex_name, exItem.getExplosive() != null);
+                    //Check that explosive data exists
+                    assertTrue("Failed to get explosive: " + exItem.ex_name, exItem.getExplosive() != null);
+
+                    //Build warhead
                     warhead = MissileModuleBuilder.INSTANCE.buildWarhead(casing, exItem.newItem());
-                    assertNotNull(warhead);
-                    assertNotNull(warhead.toStack());
-                    assertNotNull(warhead.toStack().getItem());
-                    assertEquals(warhead.getExplosive(), exItem.getExplosive());
+
+                    //Test data
+                    assertNotNull("Warhead failed to create, explosive: " + exItem.ex_name, warhead);
+                    assertNotNull("Warhead failed to create with stack, explosive: " + exItem.ex_name, warhead.toStack());
+                    assertNotNull("Warhead failed to create with stack item, explosive: " + exItem.ex_name, warhead.toStack().getItem());
+                    assertEquals("Warhead failed to create with right explosive instance, explosive: " + exItem.ex_name,
+                            warhead.getExplosive(), exItem.getExplosive());
+
+                    //Test save, we do this per explosive to catch edge cases if explosive data conflicts or fails
+                    NBTTagCompound tag = warhead.save(new NBTTagCompound());
+                    assertNotNull("Warhead failed to save, explosive: " + exItem.ex_name, tag);
+                    assertFalse("Warhead saved empty, explosive: " + exItem.ex_name, tag.hasNoTags());
+                    assertTrue("Warhead doesn't contain exItem, explosive: " + exItem.ex_name, tag.hasKey(Warhead.NBT_EXPLOSIVE_ITEMSTACK));
+
+                    //Test load
+                    warhead = MissileModuleBuilder.INSTANCE.buildWarhead(casing, (ItemStack) null);
+                    warhead.load(tag);
+
+                    assertEquals("Warhead failed to load with right explosive instance, explosive: " + exItem.ex_name,
+                            warhead.getExplosive(), exItem.getExplosive());
                 }
             }
         }
