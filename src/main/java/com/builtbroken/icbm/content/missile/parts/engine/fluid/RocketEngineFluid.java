@@ -96,7 +96,7 @@ public class RocketEngineFluid extends RocketEngine implements IFluidTank, IPost
      */
     public FluidTank getTank()
     {
-        if (_tank != null)
+        if (_tank == null)
         {
             _tank = new FluidTank(tank_volume);
         }
