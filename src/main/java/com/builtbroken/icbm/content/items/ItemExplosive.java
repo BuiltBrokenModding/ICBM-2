@@ -632,7 +632,8 @@ public class ItemExplosive extends ItemNBTExplosive implements IExplosiveItem, I
         RADIATION("Radiation", 10),
         MIDAS_ORE("MidasOre", 10),
         GIFT("Gift", 1),
-        FIREWORK("Firework", 1);
+        FIREWORK("Firework", 1),
+        PROXY_GLASS("ProxyGlass", 20);
 
         //TODO implement tool tips to hint at usage
 

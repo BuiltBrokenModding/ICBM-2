@@ -6,11 +6,11 @@
     "id": "ProxyGlass",
     "name": "ProxyGlass",
     "mod": "icbm",
-    "handler": "com.builtbroken.icbm.content.blast.build.ExProxyGlass",
+    "handler": "com.builtbroken.icbm.content.blast.builder.ExProxyGlass",
     "powerMultiplier": 3
   },
   "render": {
-    "contentID": "icbm:torcheater",
+    "contentID": "icbm:proxyglass",
     "type": "ex",
     "states": [
       {
