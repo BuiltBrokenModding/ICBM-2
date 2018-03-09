@@ -27,10 +27,12 @@ import net.minecraft.world.World;
  */
 public abstract class Warhead extends MissileModule implements IWarhead, ITriggerAccepter, Cloneable
 {
+    public static final String NBT_EXPLOSIVE_ITEMSTACK = "exItem";
+
     /** Explosive item used to ID the explosive handler. */
     public ItemStack explosive;
     /** Logic object used to check if the warhead needs to trigger. */
-    public ITrigger trigger;
+    public ITrigger trigger; ///TODO implement JUnit for save code when trigger's are supported
 
     /** Size of the warhead case. */
     public final WarheadCasings casing;
@@ -67,14 +69,15 @@ public abstract class Warhead extends MissileModule implements IWarhead, ITrigge
      */
     public static ItemStack loadExplosiveItemFromNBT(NBTTagCompound nbt)
     {
-        if (nbt != null && nbt.hasKey("exItem"))
+        if (nbt != null && nbt.hasKey(NBT_EXPLOSIVE_ITEMSTACK))
         {
-            ItemStack explosive = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("exItem"));
-            if (explosive == null)
+            NBTTagCompound explosiveItemSave = nbt.getCompoundTag(NBT_EXPLOSIVE_ITEMSTACK);
+            ItemStack explosiveItemStack = ItemStack.loadItemStackFromNBT(explosiveItemSave);
+            if (explosiveItemStack == null)
             {
                 Engine.error("Failed to load explosive item in warhead");
             }
-            return explosive;
+            return explosiveItemStack;
         }
         return null;
     }
@@ -84,7 +87,7 @@ public abstract class Warhead extends MissileModule implements IWarhead, ITrigge
     {
         if (explosive != null)
         {
-            nbt.setTag("exItem", explosive.writeToNBT(new NBTTagCompound()));
+            nbt.setTag(NBT_EXPLOSIVE_ITEMSTACK, explosive.writeToNBT(new NBTTagCompound()));
         }
         return nbt;
     }

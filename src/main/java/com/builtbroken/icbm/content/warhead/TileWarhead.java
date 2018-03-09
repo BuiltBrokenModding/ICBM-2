@@ -4,12 +4,12 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.api.modules.IWarhead;
 import com.builtbroken.icbm.client.Assets;
-import com.builtbroken.icbm.content.missile.recipes.RecipeMicroMissileWarhead;
-import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
 import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
+import com.builtbroken.icbm.content.missile.parts.MissileModuleBuilder;
 import com.builtbroken.icbm.content.missile.parts.warhead.Warhead;
 import com.builtbroken.icbm.content.missile.parts.warhead.WarheadCasings;
 import com.builtbroken.icbm.content.missile.parts.warhead.WarheadStandard;
+import com.builtbroken.icbm.content.missile.recipes.RecipeMicroMissileWarhead;
 import com.builtbroken.mc.api.event.TriggerCause;
 import com.builtbroken.mc.api.explosive.IExplosive;
 import com.builtbroken.mc.api.explosive.IExplosiveHandler;
@@ -19,17 +19,17 @@ import com.builtbroken.mc.core.content.resources.items.ItemSheetMetal;
 import com.builtbroken.mc.core.content.tool.ItemSheetMetalTools;
 import com.builtbroken.mc.core.network.packet.PacketTile;
 import com.builtbroken.mc.core.registry.implement.IPostInit;
-import com.builtbroken.mc.lib.helper.WrenchUtility;
-import com.builtbroken.mc.lib.helper.recipe.OreNames;
-import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
+import com.builtbroken.mc.framework.explosive.ExplosiveItemUtility;
+import com.builtbroken.mc.framework.explosive.ExplosiveRegistry;
+import com.builtbroken.mc.framework.recipe.item.sheetmetal.RecipeSheetMetal;
 import com.builtbroken.mc.imp.transform.region.Cube;
 import com.builtbroken.mc.imp.transform.vector.Location;
 import com.builtbroken.mc.imp.transform.vector.Pos;
-import com.builtbroken.mc.lib.world.edit.WorldChangeHelper;
-import com.builtbroken.mc.framework.explosive.ExplosiveItemUtility;
-import com.builtbroken.mc.framework.explosive.ExplosiveRegistry;
 import com.builtbroken.mc.lib.data.item.ItemStackWrapper;
-import com.builtbroken.mc.framework.recipe.item.sheetmetal.RecipeSheetMetal;
+import com.builtbroken.mc.lib.helper.WrenchUtility;
+import com.builtbroken.mc.lib.helper.recipe.OreNames;
+import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
+import com.builtbroken.mc.lib.world.edit.WorldChangeHelper;
 import com.builtbroken.mc.prefab.tile.Tile;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -367,10 +367,16 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
     public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
+
+        //Clear prev data
         setWarhead(null);
+
+        //Load warhead from save
         if (nbt.hasKey("itemWarhead"))
         {
-            setWarhead(MissileModuleBuilder.INSTANCE.buildWarhead(ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("itemWarhead"))));
+            NBTTagCompound warheadSave = nbt.getCompoundTag("itemWarhead");
+            ItemStack warheadStack = ItemStack.loadItemStackFromNBT(warheadSave);
+            setWarhead(MissileModuleBuilder.INSTANCE.buildWarhead(warheadStack));
         }
     }
 

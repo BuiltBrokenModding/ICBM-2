@@ -104,10 +104,16 @@ public class ItemLinkTool extends ItemNode implements IPassCodeItem, IItemActiva
                         }
                         else if (tile instanceof ILinkable || tile instanceof ITileNodeHost && ((ITileNodeHost) tile).getTileNode() instanceof ILinkable)
                         {
+                            //Get object that will handle the link
                             ILinkable linkable = tile instanceof ILinkable ? (ILinkable) tile : (ILinkable) ((ITileNodeHost) tile).getTileNode();
+
+                            //Call link on object and get result
                             String result = linkable.link(storedLocation, getCode(stack));
+
+                            //Check if it has a result
                             if (result != null && !result.isEmpty())
                             {
+                                //If result is an error, add to chat TODO move color to translations
                                 if (result.contains("error"))
                                 {
                                     String translation = LanguageUtility.getLocalName(result);

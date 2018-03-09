@@ -258,7 +258,12 @@ public class ItemBlockWarhead extends ItemBlock implements IWarheadItem
     @Override
     public IWarhead getModule(ItemStack stack)
     {
-        return WarheadCasings.get(stack).buildModule(stack);
+        IWarhead warhead = WarheadCasings.get(stack).buildModule(stack);
+        if(warhead != null && stack.getTagCompound() != null)
+        {
+            warhead.load(stack.getTagCompound());
+        }
+        return warhead;
     }
 
     @Override
