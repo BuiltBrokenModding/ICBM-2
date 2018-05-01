@@ -28,5 +28,10 @@
     "key": "icbm:standardMissile",
     "domain": "icbm",
     "name": "missile/Missile_Standard.obj"
+  },
+  "model:6": {
+    "key": "icbm:siloDoorBody3x3",
+    "domain": "icbm",
+    "name": "door/siloDoorBody3x3.obj"
   }
 }

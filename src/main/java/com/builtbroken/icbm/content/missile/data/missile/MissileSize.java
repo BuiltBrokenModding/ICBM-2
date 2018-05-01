@@ -9,6 +9,7 @@ import java.util.HashMap;
  * Enum of missile sizes
  * Created by robert on 12/28/2014.
  */
+@Deprecated //Will be replaced by a data system
 public enum MissileSize
 {
     //https://en.wikipedia.org/wiki/RPG-7
@@ -22,7 +23,7 @@ public enum MissileSize
     /** Size of warhead that can fit into the missile */
     public final WarheadCasings warhead_casing;
     /** How long the missile can stay in air before being collected as trash */
-    public final int maxFlightTimeInTicks;
+    public int maxFlightTimeInTicks;
 
     /** Map of casing data for the missile size */
     public final HashMap<String, MissileCasingData> casingDataMap = new HashMap();

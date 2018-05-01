@@ -1,0 +1,80 @@
+{
+  "render": {
+    "contentID": "icbm:silodoor",
+    "type": "tile",
+    "tileClass": "com.builtbroken.icbm.content.launcher.door.TileWrapperSiloDoor",
+    "states": [
+      {
+        "id": "base",
+        "renderType": "model",
+        "modelID": "icbm:siloDoorBody3x3",
+        "textureID": "icbm:siloDoorBody3x3"
+      },
+      {
+        "id": "item",
+        "renderType": "model",
+        "parent": "base"
+      },
+      {
+        "id": "item.inventory",
+        "renderType": "model",
+        "parent": "item"
+      },
+      {
+        "id": "item.equipped",
+        "renderType": "model",
+        "parent": "base"
+      },
+      {
+        "id": "item.first",
+        "renderType": "model",
+        "parent": "base"
+      },
+      {
+        "id": "item.entity",
+        "renderType": "model",
+        "parent": "base"
+      },
+      {
+        "id": "tile",
+        "renderType": "model",
+        "parent": "base",
+        "offset": {
+          "y": 0
+        }
+      },
+      {
+        "id": "tile.north",
+        "renderType": "model",
+        "parent": "tile",
+        "rotation": {
+          "yaw": 90
+        }
+      },
+      {
+        "id": "tile.south",
+        "renderType": "model",
+        "parent": "tile",
+        "rotation": {
+          "yaw": -90
+        }
+      },
+      {
+        "id": "tile.east",
+        "renderType": "model",
+        "parent": "tile",
+        "rotation": {
+          "yaw": 0
+        }
+      },
+      {
+        "id": "tile.west",
+        "renderType": "model",
+        "parent": "tile",
+        "rotation": {
+          "yaw": -180
+        }
+      }
+    ]
+  }
+}
