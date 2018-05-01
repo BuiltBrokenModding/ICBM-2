@@ -1,6 +1,7 @@
 package com.builtbroken.icbm.content.launcher.door;
 
 import com.builtbroken.icbm.client.Assets;
+import com.builtbroken.jlib.helpers.MathHelper;
 import com.builtbroken.mc.api.tile.node.ITileNodeHost;
 import com.builtbroken.mc.framework.block.imp.IBlockListener;
 import com.builtbroken.mc.framework.block.imp.ITileEventListener;
@@ -37,12 +38,12 @@ public class DoorRenderListener extends TileListener implements IBlockListener, 
         if(tile instanceof ITileNodeHost && ((ITileNodeHost) tile).getTileNode() instanceof TileSiloDoor)
         {
             TileSiloDoor door = (TileSiloDoor) ((ITileNodeHost) tile).getTileNode();
-            render(door);
+            render(door, f);
         }
         GL11.glPopMatrix();
     }
 
-    protected void render(TileSiloDoor door)
+    protected void render(TileSiloDoor door, float f)
     {
         //Rotate to direction
         ForgeDirection rotation = door.getDirection();
@@ -62,11 +63,13 @@ public class DoorRenderListener extends TileListener implements IBlockListener, 
                 break;
         }
 
+        door._prevDoorRotation = MathHelper.lerp(door._prevDoorRotation, door.doorRotation, f);
+
         //Move to hinge
         GL11.glTranslated(1.05, 0, 0);
 
         //Rotate open
-        GL11.glRotatef(-90, 0, 0, 1);
+        GL11.glRotatef(-door._prevDoorRotation, 0, 0, 1);
 
         //Render model
         DOOR_MODEL.renderAll();
