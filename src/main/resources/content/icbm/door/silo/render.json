@@ -18,7 +18,11 @@
       {
         "id": "item.inventory",
         "renderType": "model",
-        "parent": "item"
+        "parent": "item",
+        "offset": {
+          "y": -0.4
+        },
+        "scale": 0.45
       },
       {
         "id": "item.equipped",
