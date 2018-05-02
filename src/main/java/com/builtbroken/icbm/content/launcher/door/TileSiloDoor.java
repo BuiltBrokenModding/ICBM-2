@@ -2,29 +2,43 @@ package com.builtbroken.icbm.content.launcher.door;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.mc.api.tile.IRotatable;
+import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
 import com.builtbroken.mc.codegen.annotations.TileWrapped;
 import com.builtbroken.mc.framework.block.imp.IActivationListener;
+import com.builtbroken.mc.framework.block.imp.IBoundListener;
 import com.builtbroken.mc.framework.logic.TileNode;
+import com.builtbroken.mc.framework.multiblock.MultiBlockHelper;
+import com.builtbroken.mc.imp.transform.region.Cube;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
 /**
+ * Simple door that can open or close to let missiles through
+ *
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 5/1/2018.
  */
 @TileWrapped(className = "TileWrapperSiloDoor", wrappers = "MultiBlock")
-public class TileSiloDoor extends TileNode implements IRotatable, IActivationListener
+public class TileSiloDoor extends TileNode implements IRotatable, IActivationListener, IBoundListener
 {
-    public static float openingSpeed = 0.1f;
+    /** Default speed to open the door */
+    public static float openingSpeed = 0.5f; //TODO config
 
+    /** is the door fully open */
     public boolean isOpen = false;
-    public boolean shouldBeOpen = false;
-    public boolean playerSetOpen = false;
-    public float doorRotation = 0f;
 
+    /** Should the door be open */
+    public boolean shouldBeOpen = false;
+    /** Has the player set the door to stay open */
+    public boolean playerSetOpen = false;
+
+    /** Current rotation progress of the door (0-90) */
+    public float doorRotation = 0f;
+    /** Client cache: previous value of rotation to use for smoother animation */
     public float _prevDoorRotation = 0f;
 
     private ForgeDirection dir_cache;
@@ -93,10 +107,15 @@ public class TileSiloDoor extends TileNode implements IRotatable, IActivationLis
         return false;
     }
 
+    @Override
+    public AxisAlignedBB getCollisionBounds()
+    {
+        return isOpen ? Cube.EMPTY.getAABB() : null;
+    }
+
     public boolean isStructureGettingRedstone()
     {
-        //TODO scan all parts of structure to check for redstone
-        return false;
+        return getHost() instanceof IMultiTileHost ? MultiBlockHelper.getRedstoneLevel((IMultiTileHost) getHost(), true) > 0 : false;
     }
 
     @Override
@@ -121,6 +140,7 @@ public class TileSiloDoor extends TileNode implements IRotatable, IActivationLis
     public void load(NBTTagCompound nbt)
     {
         super.load(nbt);
+        playerSetOpen = nbt.getBoolean("playerSetOpen");
         isOpen = nbt.getBoolean("isOpen");
         shouldBeOpen = nbt.getBoolean("shouldBeOpen");
         doorRotation = nbt.getFloat("doorRotation");
@@ -129,6 +149,7 @@ public class TileSiloDoor extends TileNode implements IRotatable, IActivationLis
     @Override
     public NBTTagCompound save(NBTTagCompound nbt)
     {
+        nbt.setBoolean("playerSetOpen", playerSetOpen);
         nbt.setBoolean("isOpen", isOpen);
         nbt.setBoolean("shouldBeOpen", shouldBeOpen);
         nbt.setFloat("doorRotation", doorRotation);
