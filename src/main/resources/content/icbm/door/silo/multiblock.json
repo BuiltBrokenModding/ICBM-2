@@ -7,56 +7,64 @@
           "x": -1,
           "y": 0,
           "z": -1
-        }
+        },
+        "data": "render=icbm:door.filler;north.west"
       },
       {
         "pos": {
           "x": -1,
           "y": 0,
           "z": 0
-        }
+        },
+        "data": "render=icbm:door.filler;west"
       },
       {
         "pos": {
           "x": -1,
           "y": 0,
           "z": 1
-        }
+        },
+        "data": "render=icbm:door.filler;south.west"
       },
       {
         "pos": {
           "x": 0,
           "y": 0,
           "z": -1
-        }
+        },
+        "data": "render=icbm:door.filler;north"
       },
       {
         "pos": {
           "x": 0,
           "y": 0,
           "z": 1
-        }
+        },
+        "data": "render=icbm:door.filler;south"
       },
       {
         "pos": {
           "x": 1,
           "y": 0,
           "z": -1
-        }
+        },
+        "data": "render=icbm:door.filler;north.east"
       },
       {
         "pos": {
           "x": 1,
           "y": 0,
           "z": 0
-        }
+        },
+        "data": "render=icbm:door.filler;east"
       },
       {
         "pos": {
           "x": 1,
           "y": 0,
           "z": 1
-        }
+        },
+        "data": "render=icbm:door.filler;south.east"
       }
     ]
   }

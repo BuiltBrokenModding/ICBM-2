@@ -1,0 +1,48 @@
+{
+  "render": {
+    "contentID": "icbm:door.filler",
+    "type": "block",
+    "states": [
+      {
+        "id": "north",
+        "renderType": "blockModel",
+        "modelID": "icbm:silo.door.edge.north"
+      },
+      {
+        "id": "south",
+        "renderType": "blockModel",
+        "modelID": "icbm:silo.door.edge.south"
+      },
+      {
+        "id": "east",
+        "renderType": "blockModel",
+        "modelID": "icbm:silo.door.edge.east"
+      },
+      {
+        "id": "west",
+        "renderType": "blockModel",
+        "modelID": "icbm:silo.door.edge.west"
+      },
+      {
+        "id": "north.west",
+        "renderType": "blockModel",
+        "modelID": "icbm:silo.door.corner.nw"
+      },
+      {
+        "id": "north.east",
+        "renderType": "blockModel",
+        "modelID": "icbm:silo.door.corner.ne"
+      },
+      {
+        "id": "south.west",
+        "renderType": "blockModel",
+        "modelID": "icbm:silo.door.corner.sw"
+      },
+      {
+        "id": "north.east",
+        "renderType": "blockModel",
+        "modelID": "icbm:silo.door.corner.se"
+      }
+    ]
+  }
+}

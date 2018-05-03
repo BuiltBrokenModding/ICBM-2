@@ -1,0 +1,18 @@
+{
+  "cubeModel": {
+    "key": "icbm:silo.door.edge.north",
+    "mod": "icbm",
+    "cubes": [
+      {
+        "pos": {
+         "z" : 0
+        },
+        "size": {
+          "x" : 16,
+          "y" : 16,
+          "z" : 2
+        }
+      }
+    ]
+  }
+}

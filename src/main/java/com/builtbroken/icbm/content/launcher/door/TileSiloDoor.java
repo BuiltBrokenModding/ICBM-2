@@ -2,19 +2,25 @@ package com.builtbroken.icbm.content.launcher.door;
 
 import com.builtbroken.icbm.ICBM;
 import com.builtbroken.mc.api.tile.IRotatable;
+import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
 import com.builtbroken.mc.codegen.annotations.TileWrapped;
 import com.builtbroken.mc.framework.block.imp.IActivationListener;
 import com.builtbroken.mc.framework.block.imp.IBoundListener;
 import com.builtbroken.mc.framework.logic.TileNode;
 import com.builtbroken.mc.framework.multiblock.MultiBlockHelper;
+import com.builtbroken.mc.framework.multiblock.TileMulti;
 import com.builtbroken.mc.imp.transform.region.Cube;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import java.util.List;
 
 /**
  * Simple door that can open or close to let missiles through
@@ -52,6 +58,10 @@ public class TileSiloDoor extends TileNode implements IRotatable, IActivationLis
     public void update(long ticks)
     {
         super.update(ticks);
+        if (ticks % 5 == 0)
+        {
+            setFillerBlock(Blocks.grass); //TODO remove after debug
+        }
         doDoorMotion();
         if (isServer() && ticks % 2 == 0)
         {
@@ -66,6 +76,22 @@ public class TileSiloDoor extends TileNode implements IRotatable, IActivationLis
             sendDescPacket();
         }
     }
+
+    protected void setFillerBlock(Block block)
+    {
+        if (getHost() instanceof IMultiTileHost)
+        {
+            List<IMultiTile> multiTileList = MultiBlockHelper.getMultiBlocks((IMultiTileHost) getHost(), true);
+            for (IMultiTile tile : multiTileList)
+            {
+                if (tile instanceof TileMulti)
+                {
+                    ((TileMulti) tile).setBlockToFake(block);
+                }
+            }
+        }
+    }
+
 
     protected void doDoorMotion()
     {
