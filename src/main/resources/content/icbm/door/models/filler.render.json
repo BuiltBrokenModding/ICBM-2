@@ -39,7 +39,7 @@
         "modelID": "icbm:silo.door.corner.sw"
       },
       {
-        "id": "north.east",
+        "id": "south.east",
         "renderType": "blockModel",
         "modelID": "icbm:silo.door.corner.se"
       }

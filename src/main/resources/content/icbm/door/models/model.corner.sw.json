@@ -1,0 +1,28 @@
+{
+  "cubeModel": {
+    "key": "icbm:silo.door.corner.sw",
+    "mod": "icbm",
+    "cubes": [
+      {
+        "pos": {
+         "x" : 0
+        },
+        "size": {
+          "x" : 8,
+          "y" : 16,
+          "z" : 8
+        }
+      },
+      {
+        "pos": {
+          "z" : 8
+        },
+        "size": {
+          "x" : 16,
+          "y" : 16,
+          "z" : 8
+        }
+      }
+    ]
+  }
+}
