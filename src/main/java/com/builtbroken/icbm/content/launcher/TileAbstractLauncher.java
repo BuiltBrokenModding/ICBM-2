@@ -7,6 +7,7 @@ import com.builtbroken.icbm.content.items.ItemRemoteDetonator;
 import com.builtbroken.icbm.content.launcher.controller.local.TileLocalController;
 import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCommandSiloConnector;
 import com.builtbroken.icbm.content.launcher.controller.remote.display.TileSiloInterface;
+import com.builtbroken.icbm.content.launcher.door.TileSiloDoor;
 import com.builtbroken.icbm.content.launcher.gui.ContainerSilo;
 import com.builtbroken.icbm.content.launcher.gui.GuiSiloSettings;
 import com.builtbroken.icbm.content.missile.entity.EntityMissile;
@@ -57,6 +58,9 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     public Pos fofStationPos;
     public IFoFProvider fofStation;
 
+    public Pos siloDoorPos;
+    public TileSiloDoor siloDoor;
+
     /** Security code used to prevent remote linking */
     protected short link_code;
 
@@ -67,6 +71,15 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     protected List<LauncherReport> launcherReports = new ArrayList();
 
     public HashMap<EntityPlayer, Object[]> returnGuiData = new HashMap();
+
+    /** Toggle to fire the missile first chance possible */
+    public boolean fireMissile = true;
+
+    /** Time to wait to close the silo door after firing */
+    public int siloDoorCloseDelay = 200;
+
+    /** Delay to close silo door */
+    public int siloDoorCloseTimer = 0;
 
     public TileAbstractLauncher(String id, String mod)
     {
@@ -145,6 +158,20 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
             }
             return "";
         }
+        else if (tile instanceof ITileNodeHost && ((ITileNodeHost) tile).getTileNode() instanceof TileSiloDoor)
+        {
+            TileSiloDoor door = getSiloDoor();
+            if (door == ((ITileNodeHost) tile).getTileNode())
+            {
+                return "link.error.tile.already.added";
+            }
+            else
+            {
+                siloDoorPos = new Pos(tile);
+                siloDoor = (TileSiloDoor) ((ITileNodeHost) tile).getTileNode();
+            }
+            return "";
+        }
         else
         {
             return "link.error.tile.invalid";
@@ -168,6 +195,25 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         return fofStation;
     }
 
+    public TileSiloDoor getSiloDoor()
+    {
+        if ((siloDoor == null || siloDoor != null && siloDoor.isInvalid()) && siloDoorPos != null)
+        {
+            siloDoor = null;
+
+            TileEntity tile = siloDoorPos.getTileEntity(world().unwrap());
+            if (tile instanceof ITileNodeHost && ((ITileNodeHost) tile).getTileNode() instanceof TileSiloDoor)
+            {
+                siloDoor = (TileSiloDoor) ((ITileNodeHost) tile).getTileNode();
+            }
+            else
+            {
+                siloDoorPos = null;
+            }
+        }
+        return siloDoor;
+    }
+
     @Override
     public void firstTick()
     {
@@ -189,19 +235,36 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
         super.update(ticks);
         if (isServer())
         {
-            //TODO do count down rather than every 1 second
+            if (fireMissile)
+            {
+                //Disable fire check if we can't fire
+                fireMissile = canFireMissile() && hasMissile();
+
+                //If we can still fire a missile, trigger the call until the door is open
+                if (fireMissile)
+                {
+                    fireMissile(target);
+                }
+            }
+
+            if (getSiloDoor() != null)
+            {
+                //Trigger close timer
+                if (siloDoorCloseTimer > 0)
+                {
+                    siloDoorCloseTimer--;
+                }
+
+                //Ask door to open
+                getSiloDoor().forceOpen = fireMissile || siloDoorCloseTimer > 0;
+            }
+
+            //Check redstone //TODO do count down rather than every 1 second
             if (ticks % 20 == 0)
             {
                 if (world().unwrap().isBlockIndirectlyGettingPowered(xi(), yi(), zi()))
                 {
-                    if (fireMissile(target))
-                    {
-                        //TODO confirm missile launch to controllers?
-                    }
-                    else
-                    {
-                        //TODO make error effect or noise?
-                    }
+                    fireMissile = true;
                 }
             }
         }
@@ -241,13 +304,14 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     @Override
     public boolean fireMissile()
     {
-        return fireMissile(target);
+        fireMissile = fireMissile || canFireMissile();
+        return fireMissile;
     }
 
     @Override
     public boolean fireMissile(IPos3D target)
     {
-        if (canFireMissile())
+        if (canFireMissile() && hasMissile() && (getSiloDoor() == null || getSiloDoor().isOpen))
         {
             //We have a missile?
             IMissile missile = getMissile();
@@ -256,6 +320,9 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
                 //Does it have an engine
                 if (missile.canLaunch())
                 {
+                    fireMissile = false;
+                    siloDoorCloseTimer = siloDoorCloseDelay;
+
                     if (isServer())
                     {
 
@@ -549,7 +616,48 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     @Override
     public NBTTagCompound save(NBTTagCompound nbt)
     {
-        super.save(nbt);
+        if (target != null)
+        {
+            nbt.setTag("target", target.toNBT());
+        }
+        if (link_code != 0)
+        {
+            nbt.setShort("link_code", link_code);
+        }
+
+        if (launcherReports != null && launcherReports.size() > 0)
+        {
+            NBTTagList list = new NBTTagList();
+            for (LauncherReport report : launcherReports)
+            {
+                list.appendTag(report.save());
+            }
+            nbt.setTag("launchReports", list);
+        }
+
+        if (fofStationPos != null)
+        {
+            nbt.setTag("fofStationPos", fofStationPos.toNBT());
+        }
+
+        if (siloDoorPos != null)
+        {
+            nbt.setTag("siloDoorPos", siloDoorPos.toNBT());
+        }
+        nbt.setInteger("siloDoorTimer", siloDoorCloseTimer);
+        nbt.setInteger("siloDoorDelay", siloDoorCloseDelay);
+
+        if (customName != null && !customName.isEmpty())
+        {
+            nbt.setString("customName", customName);
+        }
+        return super.save(nbt);
+    }
+
+    @Override
+    public void load(NBTTagCompound nbt)
+    {
+        super.load(nbt);
         if (nbt.hasKey("target"))
         {
             this.target = new Pos(nbt.getCompoundTag("target"));
@@ -580,44 +688,20 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
             fofStationPos = new Pos(nbt.getCompoundTag("fofStationPos"));
         }
 
+        if (nbt.hasKey("siloDoorPos"))
+        {
+            siloDoorPos = new Pos(nbt.getCompoundTag("siloDoorPos"));
+        }
+
+        siloDoorCloseTimer = nbt.getInteger("siloDoorTimer");
+        if (nbt.hasKey("siloDoorDelay"))
+        {
+            siloDoorCloseDelay = nbt.getInteger("siloDoorDelay");
+        }
+
         if (nbt.hasKey("customName"))
         {
             customName = nbt.getString("customName");
-        }
-        return nbt;
-    }
-
-    @Override
-    public void load(NBTTagCompound nbt)
-    {
-        super.load(nbt);
-        if (target != null)
-        {
-            nbt.setTag("target", target.toNBT());
-        }
-        if (link_code != 0)
-        {
-            nbt.setShort("link_code", link_code);
-        }
-
-        if (launcherReports != null && launcherReports.size() > 0)
-        {
-            NBTTagList list = new NBTTagList();
-            for (LauncherReport report : launcherReports)
-            {
-                list.appendTag(report.save());
-            }
-            nbt.setTag("launchReports", list);
-        }
-
-        if (fofStationPos != null)
-        {
-            nbt.setTag("fofStationPos", fofStationPos.toNBT());
-        }
-
-        if (customName != null && !customName.isEmpty())
-        {
-            nbt.setString("customName", customName);
         }
     }
 

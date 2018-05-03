@@ -192,6 +192,11 @@ public class TileMissileContainer extends TileMachineNode<IInventory> implements
         return getMissileItem() != null && getMissileItem().getItem() instanceof IMissileItem ? ((IMissileItem) getMissileItem().getItem()).toMissile(getMissileItem()) : null;
     }
 
+    protected boolean hasMissile()
+    {
+        return getMissileItem() != null && getMissileItem().getItem() instanceof IMissileItem;
+    }
+
     /**
      * Gets the item for the missile
      *

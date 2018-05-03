@@ -43,10 +43,10 @@ public class TileSiloDoor extends TileNode implements IRotatable, IActivationLis
     /** is the door fully open */
     public boolean isOpen = false;
 
-    /** Should the door be open */
-    public boolean shouldBeOpen = false;
-    /** Has the player set the door to stay open */
-    public boolean playerSetOpen = false;
+    /** Should the door be open due to redstone */
+    public boolean openViaRedstone = false;
+    /** Should the door be forced open */
+    public boolean forceOpen = false;
 
     /** Current rotation progress of the door (0-90) */
     public float doorRotation = 0f;
@@ -98,9 +98,9 @@ public class TileSiloDoor extends TileNode implements IRotatable, IActivationLis
         {
             if (ticks % 2 == 0)
             {
-                boolean prev = shouldBeOpen;
-                shouldBeOpen = isStructureGettingRedstone() || playerSetOpen;
-                if (prev != shouldBeOpen)
+                boolean prev = openViaRedstone;
+                openViaRedstone = isStructureGettingRedstone() || forceOpen;
+                if (prev != openViaRedstone)
                 {
                     world().unwrap().playSoundEffect(xi() + 0.5D, yi() + 0.5D, zi() + 0.5D,
                             "tile.piston.out", 0.5F, world().unwrap().rand.nextFloat() * 0.25F + 0.6F);
@@ -172,7 +172,7 @@ public class TileSiloDoor extends TileNode implements IRotatable, IActivationLis
     protected void doDoorMotion()
     {
         float prev = doorRotation;
-        if (shouldBeOpen)
+        if (openViaRedstone)
         {
             if (doorRotation < 90)
             {
@@ -208,7 +208,7 @@ public class TileSiloDoor extends TileNode implements IRotatable, IActivationLis
         {
             if (isServer())
             {
-                playerSetOpen = !playerSetOpen;
+                forceOpen = !forceOpen;
             }
             return true;
         }
@@ -231,7 +231,7 @@ public class TileSiloDoor extends TileNode implements IRotatable, IActivationLis
     {
         super.readDescPacket(buf);
         isOpen = buf.readBoolean();
-        shouldBeOpen = buf.readBoolean();
+        openViaRedstone = buf.readBoolean();
         doorRotation = buf.readFloat();
         size = buf.readInt();
 
@@ -247,7 +247,7 @@ public class TileSiloDoor extends TileNode implements IRotatable, IActivationLis
     {
         super.writeDescPacket(buf);
         buf.writeBoolean(isOpen);
-        buf.writeBoolean(shouldBeOpen);
+        buf.writeBoolean(openViaRedstone);
         buf.writeFloat(doorRotation);
         buf.writeInt(size);
 
@@ -267,9 +267,9 @@ public class TileSiloDoor extends TileNode implements IRotatable, IActivationLis
     public void load(NBTTagCompound nbt)
     {
         super.load(nbt);
-        playerSetOpen = nbt.getBoolean("playerSetOpen");
+        forceOpen = nbt.getBoolean("playerSetOpen");
         isOpen = nbt.getBoolean("isOpen");
-        shouldBeOpen = nbt.getBoolean("shouldBeOpen");
+        openViaRedstone = nbt.getBoolean("shouldBeOpen");
         doorRotation = nbt.getFloat("doorRotation");
 
         for (int i = 0; i < getMimicBlocks().length; i++)
@@ -286,9 +286,9 @@ public class TileSiloDoor extends TileNode implements IRotatable, IActivationLis
     @Override
     public NBTTagCompound save(NBTTagCompound nbt)
     {
-        nbt.setBoolean("playerSetOpen", playerSetOpen);
+        nbt.setBoolean("playerSetOpen", forceOpen);
         nbt.setBoolean("isOpen", isOpen);
-        nbt.setBoolean("shouldBeOpen", shouldBeOpen);
+        nbt.setBoolean("shouldBeOpen", openViaRedstone);
         nbt.setFloat("doorRotation", doorRotation);
 
         for (int i = 0; i < getMimicBlocks().length; i++)
