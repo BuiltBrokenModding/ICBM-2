@@ -71,7 +71,7 @@ public class TileSiloDoor extends TileNode implements IRotatable, IActivationLis
     {
         for (int i = 0; i < getMimicBlocks().length; i++)
         {
-            if (getMimicBlocks()[i] == null)
+            if (getMimicBlocks()[i] == null || !(getMimicBlocks()[i].getItem() instanceof ItemBlock))
             {
                 setFillerBlock(new ItemStack(Blocks.grass), i);
             }
@@ -83,6 +83,16 @@ public class TileSiloDoor extends TileNode implements IRotatable, IActivationLis
     public void update(long ticks)
     {
         super.update(ticks);
+
+        //Ensure mutliblock filler is set, done every tick until a better solution can be found
+        if (ticks % 3 == 0)
+        {
+            for (int i = 0; i < getMimicBlocks().length; i++)
+            {
+                setFillerBlock(i);
+            }
+        }
+
         doDoorMotion();
         if (isServer())
         {
@@ -102,13 +112,6 @@ public class TileSiloDoor extends TileNode implements IRotatable, IActivationLis
             {
                 sendSyncPacket = false;
                 sendDescPacket();
-            }
-        }
-        else if (ticks == 5 || ticks % 20 == 0)
-        {
-            for (int i = 0; i < getMimicBlocks().length; i++)
-            {
-                setFillerBlock(i);
             }
         }
     }
