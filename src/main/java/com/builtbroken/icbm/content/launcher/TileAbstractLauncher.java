@@ -78,12 +78,65 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     /** Time to wait to close the silo door after firing */
     public int siloDoorCloseDelay = 200;
 
-    /** Delay to close silo door */
+    /** Timer for closing the silo door */
     public int siloDoorCloseTimer = 0;
+
+    /** Time to wait between firing missiles */
+    public int missileFireDelay = 40;
+    /** Timer for firing the next missile */
+    public int missileFireTimer = 0;
 
     public TileAbstractLauncher(String id, String mod)
     {
         super(id, mod);
+    }
+
+    @Override
+    public void update(long ticks)
+    {
+        //TODO track location of missiles if enabled
+        //TODO track ETA to target of missiles if enabled
+        super.update(ticks);
+        if (isServer())
+        {
+            if (missileFireTimer > 0)
+            {
+                missileFireTimer--;
+            }
+
+            if (fireMissile)
+            {
+                //Disable fire check if we can't fire
+                fireMissile = canFireMissile() && hasMissile();
+
+                //If we can still fire a missile, trigger the call until the door is open
+                if (fireMissile)
+                {
+                    fireMissile(target);
+                }
+            }
+
+            if (getSiloDoor() != null)
+            {
+                //Trigger close timer
+                if (siloDoorCloseTimer > 0)
+                {
+                    siloDoorCloseTimer--;
+                }
+
+                //Ask door to open
+                getSiloDoor().forceOpen = fireMissile || siloDoorCloseTimer > 0;
+            }
+
+            //Check redstone //TODO do count down rather than every 1 second
+            if (ticks % 20 == 0)
+            {
+                if (world().unwrap().isBlockIndirectlyGettingPowered(xi(), yi(), zi()))
+                {
+                    fireMissile = true;
+                }
+            }
+        }
     }
 
     public void setTarget(Pos target)
@@ -228,49 +281,6 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     }
 
     @Override
-    public void update(long ticks)
-    {
-        //TODO track location of missiles if enabled
-        //TODO track ETA to target of missiles if enabled
-        super.update(ticks);
-        if (isServer())
-        {
-            if (fireMissile)
-            {
-                //Disable fire check if we can't fire
-                fireMissile = canFireMissile() && hasMissile();
-
-                //If we can still fire a missile, trigger the call until the door is open
-                if (fireMissile)
-                {
-                    fireMissile(target);
-                }
-            }
-
-            if (getSiloDoor() != null)
-            {
-                //Trigger close timer
-                if (siloDoorCloseTimer > 0)
-                {
-                    siloDoorCloseTimer--;
-                }
-
-                //Ask door to open
-                getSiloDoor().forceOpen = fireMissile || siloDoorCloseTimer > 0;
-            }
-
-            //Check redstone //TODO do count down rather than every 1 second
-            if (ticks % 20 == 0)
-            {
-                if (world().unwrap().isBlockIndirectlyGettingPowered(xi(), yi(), zi()))
-                {
-                    fireMissile = true;
-                }
-            }
-        }
-    }
-
-    @Override
     public void doCleanupCheck()
     {
         //Cleans up the report list looking for broken reports, temp fix for NULL UUIDs
@@ -298,7 +308,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
      */
     public boolean canFireMissile()
     {
-        return true;
+        return missileFireTimer <= 0;
     }
 
     @Override
@@ -306,6 +316,13 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     {
         fireMissile = fireMissile || canFireMissile();
         return fireMissile;
+    }
+
+    protected void onMissileFired()
+    {
+        fireMissile = false;
+        siloDoorCloseTimer = siloDoorCloseDelay;
+        missileFireTimer = missileFireDelay;
     }
 
     @Override
@@ -320,12 +337,9 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
                 //Does it have an engine
                 if (missile.canLaunch())
                 {
-                    fireMissile = false;
-                    siloDoorCloseTimer = siloDoorCloseDelay;
-
+                    onMissileFired();
                     if (isServer())
                     {
-
                         //Create and setup missile
                         EntityMissile entity = new EntityMissile(world().unwrap());
                         entity.setMissile(missile);
@@ -354,6 +368,8 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
 
                         //Empty inventory slot
                         getInventory().setInventorySlotContents(0, null);
+
+                        //Trigger post fire events
                         onPostMissileFired(target instanceof Pos ? (Pos) target : new Pos(target), entity);
                     }
                     else
