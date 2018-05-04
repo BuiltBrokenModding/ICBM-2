@@ -73,7 +73,7 @@ public abstract class TileAbstractLauncher extends TileMissileContainer implemen
     public HashMap<EntityPlayer, Object[]> returnGuiData = new HashMap();
 
     /** Toggle to fire the missile first chance possible */
-    public boolean fireMissile = true;
+    public boolean fireMissile = false;
 
     /** Time to wait to close the silo door after firing */
     public int siloDoorCloseDelay = 200;
