@@ -13,25 +13,11 @@
       "id": "silodoor",
       "class": "com.builtbroken.icbm.content.launcher.door.TileWrapperSiloDoor"
     },
-    "renderBounds": {
-      "min": {
-        "x": -2,
-        "y": -1,
-        "z": -2
-      },
-      "max": {
-        "x": 2,
-        "y": 2,
-        "z": 2
-      }
-    },
     "listeners": [
       "rotation",
-      {
-        "id": "multiblock",
-        "layoutKey": "icbm:siloDoorBody3x3"
-      },
-      "SiloDoorRenderListener"
+      "multiblock",
+      "icbm:SiloDoorRenderListener",
+      "icbm:SiloDoorBlockStackListener"
     ]
   }
 }

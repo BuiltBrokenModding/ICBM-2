@@ -1,0 +1,11 @@
+{
+  "siloDoor" :
+  {
+    "mod" : "icbm",
+    "id": "starseeker3x3",
+    "doorRender" : "icbm:silodoor.starseeker3x3",
+    "doorLayout" : "icbm:silodoor.starseeker3x3",
+    "blockSize" : 3,
+    "blockHeight" : 2
+  }
+}

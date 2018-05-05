@@ -1,6 +1,6 @@
 {
   "render": {
-    "contentID": "icbm:silodoor",
+    "contentID": "icbm:silodoor.starseeker3x3",
     "type": "tile",
     "tileClass": "com.builtbroken.icbm.content.launcher.door.TileWrapperSiloDoor",
     "states": [
