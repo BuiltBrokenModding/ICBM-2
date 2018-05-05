@@ -276,6 +276,7 @@ public class TileSiloDoor extends TileNode implements IRotatable, IActivationLis
         isOpen = nbt.getBoolean("isOpen");
         openViaRedstone = nbt.getBoolean("shouldBeOpen");
         doorRotation = nbt.getFloat("doorRotation");
+        doorID = nbt.getString("doorID");
 
         for (int i = 0; i < getMimicBlocks().length; i++)
         {
@@ -295,6 +296,7 @@ public class TileSiloDoor extends TileNode implements IRotatable, IActivationLis
         nbt.setBoolean("isOpen", isOpen);
         nbt.setBoolean("shouldBeOpen", openViaRedstone);
         nbt.setFloat("doorRotation", doorRotation);
+        nbt.setString("doorID", doorID);
 
         for (int i = 0; i < getMimicBlocks().length; i++)
         {
