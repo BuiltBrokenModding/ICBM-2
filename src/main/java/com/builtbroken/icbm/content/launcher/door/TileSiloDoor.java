@@ -418,4 +418,10 @@ public class TileSiloDoor extends TileNode implements IRotatable, IActivationLis
     {
         return getDoorData().doorRender;
     }
+
+    @Override
+    public String getMultiBlockLayoutKey()
+    {
+        return getDoorData().doorLayout;
+    }
 }

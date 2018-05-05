@@ -15,7 +15,10 @@
     },
     "listeners": [
       "rotation",
-      "multiblock",
+      {
+        "id": "multiblock",
+        "useItemStack": true
+      },
       "icbm:SiloDoorRenderListener",
       "icbm:SiloDoorBlockStackListener"
     ]
