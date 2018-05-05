@@ -15,6 +15,7 @@ import java.util.HashMap;
 public class DoorData extends JsonGenData
 {
     public static final HashMap<String, DoorData> doorMap = new HashMap();
+
     public static final DoorData NULL_DOOR = new DoorData(null);
 
     @JsonProcessorData(value = "id", required = true)

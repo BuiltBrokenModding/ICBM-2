@@ -1,5 +1,6 @@
-package com.builtbroken.icbm.content.launcher.door;
+package com.builtbroken.icbm.content.launcher.door.listeners;
 
+import com.builtbroken.icbm.content.launcher.door.TileSiloDoor;
 import com.builtbroken.mc.api.tile.node.ITileNode;
 import com.builtbroken.mc.framework.block.imp.IBlockListener;
 import com.builtbroken.mc.framework.block.imp.IRenderBoundsListener;
