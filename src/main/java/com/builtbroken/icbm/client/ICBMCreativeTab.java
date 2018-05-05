@@ -36,6 +36,7 @@ public class ICBMCreativeTab extends ModCreativeTab //TODO move to JSON
         add(list, "icbm:radarGun");
 
         add(list, "icbm:standardsilo");
+        add(list, "icbm:silodoor");
 
         add(list, "icbm:silocontroller");
 
