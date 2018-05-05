@@ -1,9 +1,11 @@
 package com.builtbroken.icbm.content.launcher.door;
 
 import com.builtbroken.icbm.ICBM;
+import com.builtbroken.icbm.content.launcher.door.json.DoorData;
 import com.builtbroken.mc.api.tile.IRotatable;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTile;
 import com.builtbroken.mc.api.tile.multiblock.IMultiTileHost;
+import com.builtbroken.mc.client.json.IJsonRenderStateProvider;
 import com.builtbroken.mc.codegen.annotations.TileWrapped;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.framework.block.imp.IActivationListener;
@@ -16,6 +18,8 @@ import com.builtbroken.mc.imp.transform.region.Cube;
 import com.builtbroken.mc.imp.transform.vector.Pos;
 import com.builtbroken.mc.prefab.inventory.InventoryUtility;
 import cpw.mods.fml.common.network.ByteBufUtils;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -35,7 +39,7 @@ import net.minecraftforge.common.util.ForgeDirection;
  * Created by Dark(DarkGuardsman, Robert) on 5/1/2018.
  */
 @TileWrapped(className = "TileWrapperSiloDoor", wrappers = "MultiBlock")
-public class TileSiloDoor extends TileNode implements IRotatable, IActivationListener, IBoundListener, IMultiBlockNodeListener
+public class TileSiloDoor extends TileNode implements IRotatable, IActivationListener, IBoundListener, IMultiBlockNodeListener, IJsonRenderStateProvider
 {
     /** Default speed to open the door */
     public static float openingSpeed = 0.5f; //TODO config
@@ -55,7 +59,8 @@ public class TileSiloDoor extends TileNode implements IRotatable, IActivationLis
 
     private ForgeDirection dir_cache;
 
-    public int size = 3;
+    public String doorID = "3x3StarSeeker";
+    private DoorData _doorData;
 
     public ItemStack[] mimic_blocks;
 
@@ -148,8 +153,8 @@ public class TileSiloDoor extends TileNode implements IRotatable, IActivationLis
             }
 
             //Update multi-tile
-            int x = index / size - 1;
-            int z = index % size - 1;
+            int x = (index / getDoorSize()) - getBlockArrayOffset();
+            int z = (index % getDoorSize()) - getBlockArrayOffset();
             TileEntity tile = world().unwrap().getTileEntity(xi() + x, yi(), zi() + z);
             if (tile instanceof TileMulti && ((TileMulti) tile).getHost() == getHost())
             {
@@ -163,7 +168,7 @@ public class TileSiloDoor extends TileNode implements IRotatable, IActivationLis
     {
         if (mimic_blocks == null)
         {
-            mimic_blocks = new ItemStack[size * size];
+            mimic_blocks = new ItemStack[getDoorSize() * getDoorSize()];
         }
         return mimic_blocks;
     }
@@ -233,7 +238,7 @@ public class TileSiloDoor extends TileNode implements IRotatable, IActivationLis
         isOpen = buf.readBoolean();
         openViaRedstone = buf.readBoolean();
         doorRotation = buf.readFloat();
-        size = buf.readInt();
+        doorID = ByteBufUtils.readUTF8String(buf);
 
         //Read mimic block array
         for (int i = 0; i < getMimicBlocks().length; i++)
@@ -249,7 +254,7 @@ public class TileSiloDoor extends TileNode implements IRotatable, IActivationLis
         buf.writeBoolean(isOpen);
         buf.writeBoolean(openViaRedstone);
         buf.writeFloat(doorRotation);
-        buf.writeInt(size);
+        ByteBufUtils.writeUTF8String(buf, doorID);
 
         //Write mimic block array
         for (int i = 0; i < getMimicBlocks().length; i++)
@@ -326,7 +331,7 @@ public class TileSiloDoor extends TileNode implements IRotatable, IActivationLis
         if (isServer())
         {
             //Get index from relative position, translate by 1 to remove negative
-            int index = (relativePos.xi() + 1) * size + (relativePos.zi() + 1);
+            int index = getBlockIndex(relativePos.xi(), relativePos.zi());
             if (index >= 0 && index < getMimicBlocks().length)
             {
                 //Update filler block
@@ -342,7 +347,7 @@ public class TileSiloDoor extends TileNode implements IRotatable, IActivationLis
         if (isOwner(player) && player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemBlock)
         {
             //Get index from relative position, translate by 1 to remove negative
-            int index = (relativePos.xi() + 1) * size + (relativePos.zi() + 1);
+            int index = getBlockIndex(relativePos.xi(), relativePos.zi());
             if (index >= 0 && index < getMimicBlocks().length)
             {
                 //Store new filler block, copy to prevent issues
@@ -357,5 +362,60 @@ public class TileSiloDoor extends TileNode implements IRotatable, IActivationLis
             return true;
         }
         return onPlayerActivated(player, side, xHit, yHit, zHit);
+    }
+
+    /**
+     * Gets index from relative position.
+     * relative -> distance from this block as whole numbers
+     *
+     * @param x - relative x position
+     * @param z - relative z position
+     * @return index in the block array
+     */
+    public int getBlockIndex(int x, int z)
+    {
+        return (x + getBlockArrayOffset()) * getDoorSize() + (z) + getBlockArrayOffset();
+    }
+
+    /**
+     * Data that defines properties about the door
+     *
+     * @return door, or null placeholder
+     */
+    public DoorData getDoorData()
+    {
+        if (_doorData == null)
+        {
+            _doorData = DoorData.getDoorData(doorID);
+        }
+        return _doorData;
+    }
+
+    /**
+     * Size (width & depth) of the door in blocks
+     *
+     * @return size
+     */
+    public int getDoorSize()
+    {
+        return getDoorData().blockSize;
+    }
+
+    /**
+     * Gets the offset that needs to be used when converting
+     * relative positions to index or back
+     *
+     * @return offset (if size 3 -> 1, size 5 -> 2)
+     */
+    public int getBlockArrayOffset()
+    {
+        return (getDoorSize() - 1) / 2; //In theory doors should always be odd in value (ex: (3 - 2) / 2 = 1)
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public String getRenderContentID()
+    {
+        return getDoorData().doorRender;
     }
 }
