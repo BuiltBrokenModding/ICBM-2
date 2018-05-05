@@ -59,7 +59,7 @@ public class DoorBlockStackListener extends TileListener implements IBlockStackL
             while (it.hasNext())
             {
                 Object object = it.next();
-                if (!(object instanceof ItemStack) || ((ItemStack) object).stackTagCompound == null)
+                if (!(object instanceof ItemStack) || ((ItemStack) object).getItem() == item && ((ItemStack) object).stackTagCompound == null)
                 {
                     it.remove();
                 }
@@ -68,7 +68,7 @@ public class DoorBlockStackListener extends TileListener implements IBlockStackL
             //Add doors
             for (DoorData doorData : DoorData.doorMap.values())
             {
-                ItemStack stack = new ItemStack(item);
+                ItemStack stack = new ItemStack(block, 1, 0);
                 stack.setTagCompound(new NBTTagCompound());
                 stack.getTagCompound().setString(NBT_DOOR_ID, doorData.getContentID());
                 list.add(stack);
