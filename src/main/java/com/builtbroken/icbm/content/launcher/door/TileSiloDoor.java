@@ -11,7 +11,7 @@ import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.framework.block.imp.IActivationListener;
 import com.builtbroken.mc.framework.block.imp.IBoundListener;
 import com.builtbroken.mc.framework.logic.TileNode;
-import com.builtbroken.mc.framework.multiblock.IMultiBlockNodeListener;
+import com.builtbroken.mc.framework.multiblock.listeners.IMultiBlockNodeListener;
 import com.builtbroken.mc.framework.multiblock.MultiBlockHelper;
 import com.builtbroken.mc.framework.multiblock.TileMulti;
 import com.builtbroken.mc.imp.transform.region.Cube;

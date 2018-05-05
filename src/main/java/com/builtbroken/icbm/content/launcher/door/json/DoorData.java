@@ -7,6 +7,8 @@ import com.builtbroken.mc.framework.json.processors.JsonGenData;
 import java.util.HashMap;
 
 /**
+ * Handles properties of the silo doors
+ *
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 5/4/2018.
  */
@@ -21,8 +23,14 @@ public class DoorData extends JsonGenData
     @JsonProcessorData(value = "doorRender", required = true)
     public String doorRender;
 
+    @JsonProcessorData(value = "doorLayout", required = true)
+    public String doorLayout;
+
     @JsonProcessorData(value = "blockSize", type = "int", required = true)
     public int blockSize = 3;
+
+    @JsonProcessorData(value = "blockHeight", type = "int")
+    public int blockHeight = 1;
 
     public DoorData(IJsonProcessor processor)
     {
@@ -46,6 +54,10 @@ public class DoorData extends JsonGenData
         if (getMod() == null)
         {
             throw new RuntimeException("Missing mod_id for " + this);
+        }
+        if (blockSize % 2 == 0 || blockSize <= 0)
+        {
+            throw new RuntimeException("Silo door size has to be an odd number, greater than zero " + this);
         }
     }
 

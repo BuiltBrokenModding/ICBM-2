@@ -94,7 +94,7 @@ public class DoorRenderListener extends TileListener implements IBlockListener, 
         @Override
         public String getListenerKey()
         {
-            return "SiloDoorRenderListener";
+            return "icbm:SiloDoorRenderListener";
         }
     }
 }

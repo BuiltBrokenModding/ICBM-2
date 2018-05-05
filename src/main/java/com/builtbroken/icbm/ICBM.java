@@ -24,6 +24,8 @@ import com.builtbroken.icbm.content.launcher.controller.direct.TileSiloControlle
 import com.builtbroken.icbm.content.launcher.controller.remote.antenna.BlockAntennaParts;
 import com.builtbroken.icbm.content.launcher.controller.remote.central.TileCommandController;
 import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCommandSiloConnector;
+import com.builtbroken.icbm.content.launcher.door.DoorBlockStackListener;
+import com.builtbroken.icbm.content.launcher.door.DoorBoundListener;
 import com.builtbroken.icbm.content.launcher.door.json.JsonProcessorDoorData;
 import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.icbm.content.missile.entity.EntityMissile;
@@ -167,8 +169,11 @@ public final class ICBM extends AbstractMod
         JsonContentLoader.INSTANCE.add(new MissileJsonProcessor());
         JsonContentLoader.INSTANCE.add(new JsonProcessorDoorData());
 
+
         //Listeners
         JsonBlockListenerProcessor.addBuilder(new LauncherPartListener.Builder());
+        JsonBlockListenerProcessor.addBuilder(new DoorBlockStackListener.Builder());
+        JsonBlockListenerProcessor.addBuilder(new DoorBoundListener.Builder());
     }
 
     @EventHandler
