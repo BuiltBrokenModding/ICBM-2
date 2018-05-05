@@ -117,6 +117,20 @@ public class DoorRenderListener extends TileListener implements IBlockListener, 
         return null;
     }
 
+    @Override
+    public List<String> getRenderContentIDs()
+    {
+        List<String> list = new ArrayList();
+        for (DoorData doorData : DoorData.doorMap.values())
+        {
+            if (doorData.doorRender != null)
+            {
+                list.add(doorData.doorRender);
+            }
+        }
+        return list;
+    }
+
     public static class Builder implements ITileEventListenerBuilder
     {
         @Override
