@@ -34,7 +34,6 @@ public class MissileCasingData extends JsonGenData implements IJsonGenObject, IM
     {
         super(processor);
         this.ID = ID;
-        super.onCreated();
     }
 
     @Override
