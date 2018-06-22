@@ -11,7 +11,7 @@ itemGroup.icbm.explosives=ICBM взрывчатые вещества
 
 ## Missile
 item.icbm:missile.name=Ракета
-item.icbm:missile.empty.name=Коруп ракеты
+item.icbm:missile.empty.name=Корпус ракеты
 
 item.icbm:missile.micro.name=Микроракета
 item.icbm:missile.micro.empty.name=Корпус микроракеты
@@ -20,7 +20,7 @@ item.icbm:missile.small.name=Маленькая ракета
 item.icbm:missile.small.empty.name=Корпус маленькой ракеты
 
 item.icbm:missile.standard.name=Стандартная ракета
-item.icbm:missile.standard.empty.name=Коруп стандартной ракеты
+item.icbm:missile.standard.empty.name=Корпус стандартной ракеты
 
 item.icbm:missile.medium.name=Большая ракета
 item.icbm:missile.medium.empty.name=Корпус большой ракеты
@@ -28,12 +28,11 @@ item.icbm:missile.medium.empty.name=Корпус большой ракеты
 item.icbm:missile.large.name=МБР
 item.icbm:missile.large.empty.name=Корпус МБР
 
-
 ## Items
 item.icbm:siloLinker.name=Чип данных
 item.icbm:siloLinker.info=Используется для связывания машин, Shift+ПКМ для выбора, ПКМ для подтверждения
 item.icbm:gpsFlag.name=GPS чип
-item.icbm:gpsFlag.info=Shift+ПКМ для сохранения, ПКМ для передачи данных в машину, Shift+ПКМ в воздухе чтобы очистить
+item.icbm:gpsFlag.info=Shift+ПКМ для сохранения, ПКМ для передачи данных в машину, Shift+ПКМ в воздухе, чтобы очистить
 
 item.icbm:rocketLauncher.name=Гранатомет
 info.icbm:rocketLauncher.tooltip=Запускает микроракеты
@@ -41,7 +40,7 @@ info.icbm:rocketLauncher.tooltip=Запускает микроракеты
 item.icbm:remoteDetonator.name=Удаленный детонатор
 item.icbm:laserDetonator.name=Лазерный детонатор
 item.icbm:radarGun.name=Радар
-item.icbm:radarGun.info=Shift+ПКМ чтобы очистить, ПКМ для передачи данных в машину, ПКМ в воздухе чтобы сохранить данные, лимит 200 метров
+item.icbm:radarGun.info=Shift+ПКМ, чтобы очистить, ПКМ для передачи данных в машину, ПКМ в воздухе, чтобы сохранить данные, лимит 200 метров
 
 item.icbm:missileRailCart.name=Транспортировочная тележка для ракет
 
@@ -57,7 +56,7 @@ item.icbm:explosivePart.explosiveItem.gunpowder.name=Пороховой заря
 item.icbm:explosivePart.explosiveItem.magic.name=Магический заряд
 item.icbm:explosivePart.powderStick.name=Палка из пороха
 
-##      INFO
+## INFO
 item.icbm:explosivePart.info=Используется для создания взрывчатки
 
 ## Explosive Items
@@ -79,7 +78,7 @@ item.icbm:explosiveItem.Cake.name=Заряд тортиков
 item.icbm:explosiveItem.OrePuller.name=Рудокопательный заряд
 item.icbm:explosiveItem.Emp.name=ЭМИ батарея
 item.icbm:explosiveItem.SlimeRain.name=Заряд слизи
-item.icbm:explosiveItem.Gravity.name=Анти-гравитационное устройство
+item.icbm:explosiveItem.Gravity.name=Антигравитационное устройство
 item.icbm:explosiveItem.Microwave.name=Генератор микроволн
 item.icbm:explosiveItem.EntitySpawn.name=Капсула с яйцом
 item.icbm:explosiveItem.MidasOre.name=Рука Мидаса
@@ -111,14 +110,14 @@ item.icbm:explosiveItem.Regen.info=Регенерирует целые чанк�
 item.icbm:explosiveItem.RegenLocal.info=Регенерирует блоки в области,--Очень ограниченная регенерация,--Не регенерирует руды,--Не регенерирует растения,--Не регенерирует постройки
 item.icbm:explosiveItem.Cake.info=Тортик в коробке
 item.icbm:explosiveItem.OrePuller.info=Телепортирует руды, используя силу странника края
-item.icbm:explosiveItem.Emp.info=Генерирует Электро-магнитный импульс
+item.icbm:explosiveItem.Emp.info=Генерирует Электромагнитный импульс
 item.icbm:explosiveItem.SlimeRain.info=Призывает слизней
 item.icbm:explosiveItem.Gravity.info=Меняет гравитацию в определенной зоне
 item.icbm:explosiveItem.Microwave.info=Превращает воду в пар, поджигает животных, мгновенный эффект, может вызывать лаги, если применяется в больших зонах
 item.icbm:explosiveItem.EntitySpawn.info=Спавнит животных в мире
 
 ## Explosive Items --- Tooltips -- Biome Change
-item.icbm:explosiveItem.BiomeChange.info=Меняет тип биоме
+item.icbm:explosiveItem.BiomeChange.info=Меняет тип биома
 item.icbm:explosiveItem.BiomeChange.id.info=ID биома:
 item.icbm:explosiveItem.BiomeChange.name.info=Название биома:
 
@@ -153,7 +152,7 @@ tile.icbm:cartPowerRail.powered.name=Электрические рельсы д�
 tile.icbm:cartPowerRail.orientation.name=Ориентационные рельсы для ракет
 tile.icbm:cartPowerRail.stop.name=Тупиковые рельсы для ракет
 tile.icbm:cartPowerRail.loader.name=Загрузочные рельсы для ракет
-tile.icbm:cartPowerRail.unloader.name=Разагрузочные рельсы для ракет
+tile.icbm:cartPowerRail.unloader.name=Разгрузочные рельсы для ракет
 tile.icbm:cartPowerRail.extender.name=Расширительные рельсы для ракет
 tile.icbm:cartPowerRail.splitter.name=Разделительные рельсы для ракет
 
@@ -232,10 +231,10 @@ explosive.icbm:TorchEater.name=Факело-пожирательный
 explosive.icbm:EnderBlocks.name=Блоки края
 explosive.icbm:AntiPlant.name=Анти-биологический
 explosive.icbm:PlantLife.name=Биологический
-explosive.icbm:ThaumTaint.name=Taint Goo
-explosive.icbm:ThaumTaintBottle.name=Bottled Taint
-explosive.icbm:ThaumNode.name=Node Dispenser
-explosive.icbm:ThaumJar.name=Node Trapper
+explosive.icbm:ThaumTaint.name=Порча
+explosive.icbm:ThaumTaintBottle.name=Порча в бутылке
+explosive.icbm:ThaumNode.name=Раздатчик узлов
+explosive.icbm:ThaumJar.name=Захватчик узлов
 explosive.icbm:MicroQuake.name=Микросейсмический
 explosive.icbm:Regen.name=Регенерационный
 explosive.icbm:RegenLocal.name=Ограниченный регенерационный
@@ -243,8 +242,8 @@ explosive.icbm:cake.name=Тортики
 explosive.icbm:biomeChange.name=Смена биома
 explosive.icbm:OrePuller.name=Рудокопательный
 explosive.icbm:Emp.name=Универсальный ЭМИ
-explosive.icbm:SlimeRain.name=Слизевый
-explosive.icbm:Gravity.name=Анти-гравитационный
+explosive.icbm:SlimeRain.name=Слизневый
+explosive.icbm:Gravity.name=Антигравитационный
 explosive.icbm:Microwave.name=Микроволновый
 explosive.icbm:EntitySpawn.name=Яйцо с мобом
 explosive.icbm:Nuke.name=Ядерный
@@ -261,7 +260,6 @@ explosive.icbm:SimplePathTest2.name=Path Test
 explosive.icbm:SimplePathTest3.name=Path Test
 explosive.icbm:SimplePathTest10.name=Path Test
 explosive.icbm:SimplePathTest20.name=Path Test
-
 
 ## Warhead
 tile.icbm:warhead.name=Боеголовка
@@ -310,7 +308,7 @@ trigger.icbm:gps.name=Местоположение
 trigger.icbm:time.name=Таймер
 
 ## Engine Modules
-module.icbm:engine.creative.name=Анти-гравитационный двигатель
+module.icbm:engine.creative.name=Антигравитационный двигатель
 module.icbm:engine.coal.name=Паровой двигатель
 module.icbm:engine.oil.name=Нефтяной двигатель
 module.icbm:engine.fuel.name=Обычный ускоритель
@@ -338,16 +336,16 @@ gui.fof.message.missing.perm=error:Доступ запрещен
 gui.fof.message.removed.ids=Убрано %s мобов
 
 ## Thaumcraft Support
-tc.research_category.ICBM=Thaumium Desolation
-thaumcraft.research.TaintWarhead.name=Taint Warhead
-thaumcraft.research.TaintWarhead.page.1=While playing with taint you have noticed that using a few aspect it can be contained inside of a warhead.
-thaumcraft.research.TaintWarhead.text=Let the fun begin
-thaumcraft.research.BottledTaintWarhead.name=Taint Warhead
-thaumcraft.research.BottledTaintWarhead.page.1=Spreading taint is no easy job and too slow with just goo. With the recent discovery of how to bottle taint the process is quicker. Still its a bit of a risk throwing these bottles yourself. Instead its a very simple task to shove a few bottles into a warhead.
-thaumcraft.research.BottledTaintWarhead.text=It only gets better
-thaumcraft.research.JarWarhead.name=Node Trapping Warhead
-thaumcraft.research.JarWarhead.page.1=It can be a pain to jar nodes, especially when they keep eating the glass. With this in mind a jar was mounted to the end of a missile.
-thaumcraft.research.JarWarhead.text=I have a jar of dirt
-thaumcraft.research.JarWarhead.name=Node Dispenser Warhead
-thaumcraft.research.JarWarhead.page.1=Missiles are useful to complete long range task. With this in mind the thought occurred to release nodes with missiles.
-thaumcraft.research.JarWarhead.text=Hungry Nodes
+tc.research_category.ICBM=Таумиевое опустошение
+thaumcraft.research.TaintWarhead.name=Боеголовка с порчей
+thaumcraft.research.TaintWarhead.page.1=Когда вы игрались с порчей вы поняли, что сможете содержать её в боеголовке, используя определенные аспекты
+thaumcraft.research.TaintWarhead.text=Да начнется веселье!
+thaumcraft.research.BottledTaintWarhead.name=Боеголовка с банкой порчи
+thaumcraft.research.BottledTaintWarhead.page.1=Распространение порчи это непростая задача и обычная порча распространяется слишком медленно. С помощью недавнего открытия бутылирования порчи процесс стал быстрее. Но упаковывать эти бутыльки в боеголовки всяко лучше, чем бросать самому.
+thaumcraft.research.BottledTaintWarhead.text=Становится только лучше!
+thaumcraft.research.JarWarhead.name=Боеголовка захвата узлов
+thaumcraft.research.JarWarhead.page.1=Иногда пихать узлы в банки слишком сложно, особенно когда узлы пожирают стекло. Теперь вы можете прикрепить банку к концу боеголовки и жить станет проще.
+thaumcraft.research.JarWarhead.text=У меня есть банка земли
+thaumcraft.research.JarWarhead.name=Боеголовка с узлами
+thaumcraft.research.JarWarhead.page.1=Ракеты хороши для выполнения заданий на большой дистанции. Учитывая это у вас появилась мысль выпускать узлы с помощью ракет.
+thaumcraft.research.JarWarhead.text=Голодные узлы
