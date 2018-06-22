@@ -1,47 +1,353 @@
 ## Russian language file
 itemGroup.ICBM=ICBM
+itemGroup.icbm.missiles=ICBM ракеты
+itemGroup.icbm.missiles.micro=ICBM микроракеты
+itemGroup.icbm.missiles.small=ICBM маленькие ракеты
+itemGroup.icbm.missiles.standard=ICBM стандартные ракеты
+itemGroup.icbm.missiles.medium=ICBM средние ракеты
+itemGroup.icbm.missiles.large=ICBM большие ракеты
+itemGroup.icbm.warheads=ICBM боеголовки
+itemGroup.icbm.explosives=ICBM взрывчатые вещества
 
 ## Missile
-item.icbm:missile.name=Реактивный снаряд
-item.icbm:missile.empty.name=Корпус реактивного снаряда
+item.icbm:missile.name=Ракета
+item.icbm:missile.empty.name=Коруп ракеты
 
-item.icbm:missile.micro.name=Ракета
-item.icbm:missile.micro.empty.name=Корпус ракеты
+item.icbm:missile.micro.name=Микроракета
+item.icbm:missile.micro.empty.name=Корпус микроракеты
 
-item.icbm:missile.small.name=Малый реактивный снаряд
-item.icbm:missile.small.empty.name=Корпус малого реактивного снаряда
+item.icbm:missile.small.name=Маленькая ракета
+item.icbm:missile.small.empty.name=Корпус маленькой ракеты
 
-item.icbm:missile.standard.name=Реактивный снаряд
-item.icbm:missile.standard.empty.name=Корпус реактивного снаряда
+item.icbm:missile.standard.name=Стандартная ракета
+item.icbm:missile.standard.empty.name=Коруп стандартной ракеты
 
-item.icbm:missile.medium.name=Большой реактивный снаряд
-item.icbm:missile.medium.empty.name=Корпус большого реактивного снаряда
+item.icbm:missile.medium.name=Большая ракета
+item.icbm:missile.medium.empty.name=Корпус большой ракеты
 
-item.icbm:missile.large.name=ICBM
-item.icbm:missile.large.empty.name=Корпус ICBM
+item.icbm:missile.large.name=МБР
+item.icbm:missile.large.empty.name=Корпус МБР
+
+
+## Items
+item.icbm:siloLinker.name=Чип данных
+item.icbm:siloLinker.info=Используется для связывания машин, Shift+ПКМ для выбора, ПКМ для подтверждения
+item.icbm:gpsFlag.name=GPS чип
+item.icbm:gpsFlag.info=Shift+ПКМ для сохранения, ПКМ для передачи данных в машину, Shift+ПКМ в воздухе чтобы очистить
+
+item.icbm:rocketLauncher.name=Гранатомет
+info.icbm:rocketLauncher.tooltip=Запускает микроракеты
+
+item.icbm:remoteDetonator.name=Удаленный детонатор
+item.icbm:laserDetonator.name=Лазерный детонатор
+item.icbm:radarGun.name=Радар
+item.icbm:radarGun.info=Shift+ПКМ чтобы очистить, ПКМ для передачи данных в машину, ПКМ в воздухе чтобы сохранить данные, лимит 200 метров
+
+item.icbm:missileRailCart.name=Транспортировочная тележка для ракет
+
+## Parts
+item.icbm:missileParts.name=Часть ракеты
+item.icbm:missileParts.smallMissileCasing.name=Скин для маленькой ракеты
+
+## Explosive Crafting Parts
+item.icbm:explosivePart.name=Взрывчатое вещество
+item.icbm:explosivePart.arrowTube.name=Труба для стрел
+item.icbm:explosivePart.arrowBundle.name=Связка стрел
+item.icbm:explosivePart.explosiveItem.gunpowder.name=Пороховой заряд
+item.icbm:explosivePart.explosiveItem.magic.name=Магический заряд
+item.icbm:explosivePart.powderStick.name=Палка из пороха
+
+##      INFO
+item.icbm:explosivePart.info=Используется для создания взрывчатки
+
+## Explosive Items
+item.icbm:explosiveItem.name=Взрывчатка
+item.icbm:explosiveItem.Fragment.name=Фрагментационный заряд
+item.icbm:explosiveItem.ExoThermic.name=Экзотермический заряд
+item.icbm:explosiveItem.EndoThermic.name=Эндотермический заряд
+item.icbm:explosiveItem.FireBomb.name=Зажигательный заряд
+item.icbm:explosiveItem.FlashFire.name=Фрагментационный зажигательный заряд
+item.icbm:explosiveItem.TorchEater.name=Факело-пожирательный заряд
+item.icbm:explosiveItem.EnderBlocks.name=Заряд блоков края
+item.icbm:explosiveItem.Antimatter.name=Заряд из антиматерии
+item.icbm:explosiveItem.AntiPlant.name=Анти-биологический заряд
+item.icbm:explosiveItem.PlantLife.name=Биологический заряд
+item.icbm:explosiveItem.Regen.name=Регенерационный заряд
+item.icbm:explosiveItem.RegenLocal.name=Ограниченный регенерационный заряд
+item.icbm:explosiveItem.BiomeChange.name=Заряд смены биома
+item.icbm:explosiveItem.Cake.name=Заряд тортиков
+item.icbm:explosiveItem.OrePuller.name=Рудокопательный заряд
+item.icbm:explosiveItem.Emp.name=ЭМИ батарея
+item.icbm:explosiveItem.SlimeRain.name=Заряд слизи
+item.icbm:explosiveItem.Gravity.name=Анти-гравитационное устройство
+item.icbm:explosiveItem.Microwave.name=Генератор микроволн
+item.icbm:explosiveItem.EntitySpawn.name=Капсула с яйцом
+item.icbm:explosiveItem.MidasOre.name=Рука Мидаса
+item.icbm:explosiveItem.Flash.name=Светошумовой заряд
+item.icbm:explosiveItem.Radiation.name=Импровизированное радиоактивное устройство
+item.icbm:explosiveItem.Nuke.name=Импровизированное ядерное устройство
+
+item.icbm:explosiveItem.fragment.arrow.name=Заряд из стрел
+item.icbm:explosiveItem.fragment.cobblestone.name=Фрагментационный заряд из булыжника
+item.icbm:explosiveItem.fragment.wood.name=Фрагментационный заряд из дерева
+item.icbm:explosiveItem.fragment.blaze.name=Ифритовый фрагментационный заряд
+
+## Explosive Items --- Tooltips
+item.icbm:explosiveItem.info=Вставьте во взрывчатое устройство
+item.icbm:explosiveItem.WIP.info=!!!Работа ведется!!!
+item.icbm:explosiveItem.warning.WIP.info=!!!Используйте только на свой риск!!!
+item.icbm:explosiveItem.warning.breaksBlocks.info=!!Ломает блоки!!
+
+item.icbm:explosiveItem.ExoThermic.info=Высвобождает тепловую энергию, расплавляет камень в лаву
+item.icbm:explosiveItem.EndoThermic.info=Забирает тепловую энергию, преобразует воду в снег и лед
+item.icbm:explosiveItem.FireBomb.info=Создает один блок огня
+item.icbm:explosiveItem.FlashFire.info=Распространяет огонь по площади
+item.icbm:explosiveItem.TorchEater.info=Использует магию, чтобы убрать факелы
+item.icbm:explosiveItem.EnderBlocks.info=Телепортирует блоки, используя силу странника края
+item.icbm:explosiveItem.Antimatter.info=Преобразует блоки в чистую энергию, игнорирует твердость, уничтожает все в центре, создает вторичную взрывную волну
+item.icbm:explosiveItem.AntiPlant.info=Использует магию для уничтожения растений
+item.icbm:explosiveItem.PlantLife.info=Лечит землю и восстанавливает растения
+item.icbm:explosiveItem.Regen.info=Регенерирует целые чанки
+item.icbm:explosiveItem.RegenLocal.info=Регенерирует блоки в области,--Очень ограниченная регенерация,--Не регенерирует руды,--Не регенерирует растения,--Не регенерирует постройки
+item.icbm:explosiveItem.Cake.info=Тортик в коробке
+item.icbm:explosiveItem.OrePuller.info=Телепортирует руды, используя силу странника края
+item.icbm:explosiveItem.Emp.info=Генерирует Электро-магнитный импульс
+item.icbm:explosiveItem.SlimeRain.info=Призывает слизней
+item.icbm:explosiveItem.Gravity.info=Меняет гравитацию в определенной зоне
+item.icbm:explosiveItem.Microwave.info=Превращает воду в пар, поджигает животных, мгновенный эффект, может вызывать лаги, если применяется в больших зонах
+item.icbm:explosiveItem.EntitySpawn.info=Спавнит животных в мире
+
+## Explosive Items --- Tooltips -- Biome Change
+item.icbm:explosiveItem.BiomeChange.info=Меняет тип биоме
+item.icbm:explosiveItem.BiomeChange.id.info=ID биома:
+item.icbm:explosiveItem.BiomeChange.name.info=Название биома:
+
+## Explosive Items --- Tooltips -- Fragments
+item.icbm:explosiveItem.fragment.arrow.info=Генерирует %1 стрел за 1 взрывчатку
+item.icbm:explosiveItem.fragment.blaze.info=Генерирует %1 огненных шаров за 1 взрывчатку
+item.icbm:explosiveItem.fragment.info=Генерирует фрагменты блоков
+item.icbm:explosiveItem.fragment.damage.info=Урон = %1
+item.icbm:explosiveItem.fragment.frags.info=Фрагментов = %1
+item.icbm:explosiveItem.fragment.damage.equation.info=f(Урон) = твердость блока * скорость
+item.icbm:explosiveItem.fragment.velocity.equation.info= f(Скорость) = %1 + ГСЧ(0.0 to 1.0)
+item.icbm:explosiveItem.fragment.frags.equation.info=f(n Фрагментов) = (кол-во взрывчатки * %1)^2
+
+## Explosive Items --- Tooltips -- Extra
+item.icbm:explosiveItem.explosive.name.info=Взрывчатка: %1
+item.icbm:explosiveItem.explosive.size.info=Размер: %1
+
+## Tiles
+tile.icbm:TileMissile.0.name=Деревянный ракетный дисплей
+tile.icbm:TileMissile.1.name=Маленький деревянный ракетный дисплей
+
+tile.icbm:warheadStation.name=Станция боеголовок
+tile.icbm:missileDisplay.name=Дисплей ракет
+
+tile.icbm:smallMissileMag.name=Погреб маленьких ракет
+tile.icbm:smallMissileMag.info=Хранит маленькие ракеты и позволяет автоматическую загрузку
+
+tile.icbm:icbmMissileRail.name=Транспортировочные рельсы для ракет
+
+tile.icbm:cartPowerRail.rotation.name=Поворотные рельсы для ракет
+tile.icbm:cartPowerRail.powered.name=Электрические рельсы для ракет
+tile.icbm:cartPowerRail.orientation.name=Ориентационные рельсы для ракет
+tile.icbm:cartPowerRail.stop.name=Тупиковые рельсы для ракет
+tile.icbm:cartPowerRail.loader.name=Загрузочные рельсы для ракет
+tile.icbm:cartPowerRail.unloader.name=Разагрузочные рельсы для ракет
+tile.icbm:cartPowerRail.extender.name=Расширительные рельсы для ракет
+tile.icbm:cartPowerRail.splitter.name=Разделительные рельсы для ракет
+
+tile.icbm:antennaParts.name=Часть антенны
+tile.icbm:antennaParts.0.name=Часть антенны
+tile.icbm:antennaParts.1.name=Стержень антенны
+tile.icbm:antennaParts.2.name=Контроллер антенны
+tile.icbm:antennaParts.3.name=Перекрестие антенны
+tile.icbm:antennaParts.4.name=Паз антенны
+tile.icbm:antennaParts.5.name=Наконечник антенны
+tile.icbm:antennaParts.6.name=Рука антенны
+tile.icbm:antennaParts.7.name=Рука антенны
+tile.icbm:antennaParts.8.name=Часть антенны
+
+tile.icbm:smallLauncher.name=Портативная пусковая установка
+tile.icbm:portableLauncher.container.name=Портативная пусковая установка
+tile.icbm:portableLauncher.container.invalidtarget=Некорректное расположение цели
+tile.icbm:portableLauncher.container.invaliddistance=Дистанция до цели должна быть в пределах 20 и 200
+
+tile.icbm:missileController.name=Контроллер запуска
+
+tile.icbm:standardlauncher.name=Стандартная пусковая установка
+
+tile.icbm:smallsilo.name=Маленькая ракетная шахта
+tile.icbm:smallsilo.info=3 блока в высоту, загружает маленькие ракеты
+tile.icbm:smallSilo.container.name=Экран небольшой ракетной шахты
+
+tile.icbm:siloController.name=Компьютер управления ракетной шахтой
+tile.icbm:siloController.info=Управляет ракетной шахтой напрямую, ставится рядом с шахтой, использует красный камень для запуска ракеты, поддерживает Open Computers, если установлены
+tile.icbm:siloController.container.name=Компьютер управления ракетной шахтой
+tile.icbm:siloController.msg.redstone.enabled=Поддержка красного камня включена
+tile.icbm:siloController.msg.redstone.disabled=Поддержка красного камня выключена
+
+tile.icbm:standardsilo.name=Ракетная шахта
+tile.icbm:standardsilo.info=7 блоков в высоту, загружает ракеты
+tile.icbm:standardsilo.container.name=Экран ракетной шахты
+
+tile.icbm:missileworkstation.name=Ракетная мастерская
+
+tile.icbm:decorLaunchPad.name=Пусковая площадка
+tile.icbm:decorLaunchPad.0.name=Северная грань
+tile.icbm:decorLaunchPad.1.name=Южная грань
+tile.icbm:decorLaunchPad.2.name=Западная грань
+tile.icbm:decorLaunchPad.3.name=Восточная грань
+tile.icbm:decorLaunchPad.4.name=Ю-З грань
+tile.icbm:decorLaunchPad.5.name=Ю-В грань
+tile.icbm:decorLaunchPad.6.name=С-З грань
+tile.icbm:decorLaunchPad.7.name=С-В грань
+tile.icbm:decorLaunchPad.8.name=Центр
+
+tile.icbm:launcherPart.name=Часть пусковой установки
+tile.icbm:launcherPart.0.name=Компьютер пусковой установки
+
+tile.icbm:launcherFrame.name=Каркас пусковой установки
+
+tile.icbm:commandController.name=Контроллер ракетной шахты
+tile.icbm:commandSiloDisplay.name=Дисплей ракетной шахты
+tile.icbm:siloWirelessDataPoint.name=Беспроводной вход ракетной шахты
+
+tile.icbm:warheadStation.name=Мастерская боеголовок
+tile.icbm:missileStation.name=Ракетный сборочный стол
+tile.icbm:missileAutoStation.name=Ракетная станция
+tile.icbm:missileWorkstation.name=Ракетная мастерская
 
 ## Explosives
-explosive.icbm:tnt.name=Динамит
-explosive.icbm:snowmen.name=Пускай пойдёт снег!
+explosive.error.null_ex.name=Пусто
+explosive.icbm:tnt.name=TNT
+explosive.icbm:snowmen.name=Да будет снег!
+explosive.icbm:EndoThermic.name=Экзотермический
+explosive.icbm:ExoThermic.name=Эндотермический
+explosive.icbm:Fragment.name=Фрагментационный
+explosive.icbm:Antimatter.name=Антиматерия
+explosive.icbm:FireBomb.name=Зажигательный
+explosive.icbm:FlashFire.name=Фрагментационно-зажигательный
+explosive.icbm:TorchEater.name=Факело-пожирательный
+explosive.icbm:EnderBlocks.name=Блоки края
+explosive.icbm:AntiPlant.name=Анти-биологический
+explosive.icbm:PlantLife.name=Биологический
+explosive.icbm:ThaumTaint.name=Taint Goo
+explosive.icbm:ThaumTaintBottle.name=Bottled Taint
+explosive.icbm:ThaumNode.name=Node Dispenser
+explosive.icbm:ThaumJar.name=Node Trapper
+explosive.icbm:MicroQuake.name=Микросейсмический
+explosive.icbm:Regen.name=Регенерационный
+explosive.icbm:RegenLocal.name=Ограниченный регенерационный
+explosive.icbm:cake.name=Тортики
+explosive.icbm:biomeChange.name=Смена биома
+explosive.icbm:OrePuller.name=Рудокопательный
+explosive.icbm:Emp.name=Универсальный ЭМИ
+explosive.icbm:SlimeRain.name=Слизевый
+explosive.icbm:Gravity.name=Анти-гравитационный
+explosive.icbm:Microwave.name=Микроволновый
+explosive.icbm:EntitySpawn.name=Яйцо с мобом
+explosive.icbm:Nuke.name=Ядерный
+explosive.icbm:Flash.name=Светошумовой
+explosive.icbm:Radiation.name=Радиоактивный
 
-## Launcher
-item.icbm:rocketLauncher.name=Ручной гранатомёт
-info.icbm:rocketlauncher.tooltip=Запускает малые реактивные снаряды
+## Damage
+damage.fragment.cobblestone=%s был зашиблен кусками камней
+damage.fragment.wood=%s был заколот до смерти занозами
+
+## Dev only Explosives, Optional to translate
+explosive.icbm:SimplePathTest1.name=Path Test
+explosive.icbm:SimplePathTest2.name=Path Test
+explosive.icbm:SimplePathTest3.name=Path Test
+explosive.icbm:SimplePathTest10.name=Path Test
+explosive.icbm:SimplePathTest20.name=Path Test
+
 
 ## Warhead
-tile.icbm:warhead.name=Заряженная боеголовка
-tile.icbm:warhead.casing.name=Корпус боеголовки
+tile.icbm:warhead.name=Боеголовка
+tile.icbm:warhead.micro.name=Микробоеголовка
+tile.icbm:warhead.small.name=Маленькая боеголовка
+tile.icbm:warhead.standard.name=Обычная боеголовка
 
 ## Info
 info.icbm:engine.name=Двигатель
 info.icbm:warhead.name=Боеголовка
-info.icbm:guidance.name=Руководство
-info.icbm:trigger.name=Спусковой механизм
+info.icbm:guidance.name=Управление
+info.icbm:trigger.name=Триггер
+info.icbm:missileStation.placement.blocked.name=Установка запрещена
+
+## Controller GUI
+tile.icbm:smallSiloController.container.name=Пусковая установка
+gui.icbm:controller.launcherName.name=Своё название
+gui.icbm:controller.target.name=Местоположение цели
+
+## Controller GUI error messages
+gui.icbm:controller.links.none=Нет привязанных пусковых шахт
+gui.icbm:controller.links.none.hint=Попробуйте использовать чип данных
+gui.icbm:controller.invalid.input.name=Неверный ввод
+
+## Controller GUI buttons
+gui.icbm:controller.silo.name=Пусковая шахта
+gui.icbm:controller.launcher.name=Пусковая установка
+gui.icbm:controller.fire.name=Запуск
+gui.icbm:controller.update.name=Обновить
+gui.icbm:controller.back.name=Назад
+
+container.TileController.name=Контроллер запуска
+
+gui.icbm:workstation.assemble.name=Собрать
+gui.icbm:workstation.assemble.width=50
+
+gui.icbm:workstation.disassemble.name=Разобрать
+gui.icbm:workstation.disassemble.width=70
+
+gui.icbm:workstation.mode.name=Режим
+gui.icbm:workstation.mode.width=50
 
 ## Triggers
 trigger.icbm:impact.name=Воздействие
-trigger.icbm:gps.name=Расположение
+trigger.icbm:gps.name=Местоположение
 trigger.icbm:time.name=Таймер
 
-## Modules
-module.icbm:engine.creative.name=Пустотный двигатель
+## Engine Modules
+module.icbm:engine.creative.name=Анти-гравитационный двигатель
+module.icbm:engine.coal.name=Паровой двигатель
+module.icbm:engine.oil.name=Нефтяной двигатель
+module.icbm:engine.fuel.name=Обычный ускоритель
+module.icbm:engine.gunpowder.name=Хороший ускоритель
+
+## Guidance Modules
+module.icbm:guidance.gears.wood.name=Деревянные навигационные часы
+module.icbm:guidance.gears.stone.name=Каменные навигационные часы
+module.icbm:guidance.gears.iron.name=Железные навигационные часы
+module.icbm:guidance.gears.diamond.name=Алмазные навигационные часы
+module.icbm:guidance.chip.1.name=Простой навигационный чип
+module.icbm:guidance.chip.2.name=Навигационный чип
+module.icbm:guidance.chip.3.name=Улучшенный навигационный чип
+
+## Trigger Modules
+module.icbm:trigger.impact.mechanical.name=Сенсор механического воздействия
+module.icbm:trigger.impact.electrical.name=Сенсор электрического воздействия
+module.icbm:trigger.impact.redstone.name=Сенсор воздействия красного камня
+
+## FoF station GUI
+gui.fof.message.default=Используйте диалог, чтобы выбрать ID
+gui.fof.message.confirm=Действие завершено
+gui.fof.message.wip=error:Еще не введено
+gui.fof.message.missing.perm=error:Доступ запрещен
+gui.fof.message.removed.ids=Убрано %s мобов
+
+## Thaumcraft Support
+tc.research_category.ICBM=Thaumium Desolation
+thaumcraft.research.TaintWarhead.name=Taint Warhead
+thaumcraft.research.TaintWarhead.page.1=While playing with taint you have noticed that using a few aspect it can be contained inside of a warhead.
+thaumcraft.research.TaintWarhead.text=Let the fun begin
+thaumcraft.research.BottledTaintWarhead.name=Taint Warhead
+thaumcraft.research.BottledTaintWarhead.page.1=Spreading taint is no easy job and too slow with just goo. With the recent discovery of how to bottle taint the process is quicker. Still its a bit of a risk throwing these bottles yourself. Instead its a very simple task to shove a few bottles into a warhead.
+thaumcraft.research.BottledTaintWarhead.text=It only gets better
+thaumcraft.research.JarWarhead.name=Node Trapping Warhead
+thaumcraft.research.JarWarhead.page.1=It can be a pain to jar nodes, especially when they keep eating the glass. With this in mind a jar was mounted to the end of a missile.
+thaumcraft.research.JarWarhead.text=I have a jar of dirt
+thaumcraft.research.JarWarhead.name=Node Dispenser Warhead
+thaumcraft.research.JarWarhead.page.1=Missiles are useful to complete long range task. With this in mind the thought occurred to release nodes with missiles.
+thaumcraft.research.JarWarhead.text=Hungry Nodes
