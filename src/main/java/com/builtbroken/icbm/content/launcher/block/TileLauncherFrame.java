@@ -86,7 +86,7 @@ public class TileLauncherFrame extends TileMachine implements ISimpleItemRendere
     }
 
     @SideOnly(Side.CLIENT)
-    public void renderDynamic(Pos pos, float frame, int pass)
+    public void renderDynamic(Pos pos, float deltaFrame, int pass)
     {
         GL11.glPushMatrix();
         GL11.glScalef(1f, 1f, 1f);

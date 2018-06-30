@@ -94,9 +94,9 @@ public class TileSmallMissileWorkstationClient extends TileSmallMissileWorkstati
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void renderDynamic(Pos pos, float frame, int pass)
+    public void renderDynamic(Pos pos, float deltaFrame, int pass)
     {
-        renderDynamic(pos, new Pos(1, 0, 2), connectedBlockSide, getDirection(), getMissile(), frame, pass);
+        renderDynamic(pos, new Pos(1, 0, 2), connectedBlockSide, getDirection(), getMissile(), deltaFrame, pass);
     }
 
     @SideOnly(Side.CLIENT)

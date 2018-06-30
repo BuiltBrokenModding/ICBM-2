@@ -19,6 +19,8 @@ import com.builtbroken.mc.testing.junit.VoltzTestRunner;
 import com.builtbroken.mc.testing.junit.world.FakeWorld;
 import com.builtbroken.mc.testing.tile.AbstractTileTest;
 import cpw.mods.fml.common.registry.GameRegistry;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
@@ -525,7 +527,10 @@ public class TestSmallMissileStation extends AbstractTileTest<TileSmallMissileWo
             receiver.setWorldObj(world);
 
             //Create and encode packet
+            ByteBuf byteBuf = Unpooled.buffer();
             PacketTile packet = sender.getDescPacket();
+            packet.encodeInto(null, byteBuf);
+            packet.decodeInto(null, byteBuf);
 
             packet.handle(player, receiver);
             assertTrue(receiver.getFacing() == ForgeDirection.EAST);

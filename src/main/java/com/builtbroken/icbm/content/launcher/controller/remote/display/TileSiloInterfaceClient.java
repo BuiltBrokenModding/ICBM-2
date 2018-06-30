@@ -214,7 +214,7 @@ public class TileSiloInterfaceClient extends TileSiloInterface implements ISimpl
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void renderDynamic(Pos pos, float frame, int pass)
+    public void renderDynamic(Pos pos, float deltaFrame, int pass)
     {
         //Render launcher
         GL11.glPushMatrix();

@@ -3,6 +3,7 @@ package com.builtbroken.icbm.content.cow;
 import com.builtbroken.icbm.api.modules.IMissile;
 import com.builtbroken.icbm.content.missile.data.missile.MissileSize;
 import com.builtbroken.icbm.content.missile.item.ItemMissile;
+import com.builtbroken.jlib.data.network.IByteBufWriter;
 import com.builtbroken.mc.core.Engine;
 import com.builtbroken.mc.core.network.IPacketIDReceiver;
 import com.builtbroken.mc.core.network.packet.PacketEntity;
@@ -27,7 +28,7 @@ import net.minecraft.world.World;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 9/1/2017.
  */
-public class EntityGaintCow extends EntityCreature implements IPacketIDReceiver, IEntityAdditionalSpawnData
+public class EntityGaintCow extends EntityCreature implements IPacketIDReceiver, IEntityAdditionalSpawnData, IByteBufWriter
 {
     private final EntityAIControlledByPlayer aiControlledByPlayer;
 
@@ -244,8 +245,7 @@ public class EntityGaintCow extends EntityCreature implements IPacketIDReceiver,
 
     protected void syncDataToClient()
     {
-        PacketEntity packetEntity = new PacketEntity(this);
-        writeSpawnData(packetEntity.data());
+        PacketEntity packetEntity = new PacketEntity(this).add(this);
         Engine.packetHandler.sendToAllAround(packetEntity, worldObj, posX, posY, posZ, 100);
     }
 
@@ -259,5 +259,12 @@ public class EntityGaintCow extends EntityCreature implements IPacketIDReceiver,
     public void readSpawnData(ByteBuf additionalData)
     {
         //TODO sync missile
+    }
+
+    @Override
+    public ByteBuf writeBytes(ByteBuf buf)
+    {
+        writeSpawnData(buf);
+        return buf;
     }
 }

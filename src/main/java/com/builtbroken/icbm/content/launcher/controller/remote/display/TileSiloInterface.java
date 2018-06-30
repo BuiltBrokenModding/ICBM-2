@@ -4,9 +4,9 @@ import com.builtbroken.icbm.ICBM;
 import com.builtbroken.icbm.api.ICBM_API;
 import com.builtbroken.icbm.api.controller.ISiloConnectionData;
 import com.builtbroken.icbm.api.launcher.ILauncher;
+import com.builtbroken.icbm.content.launcher.controller.SiloConnectionData;
 import com.builtbroken.icbm.content.launcher.controller.local.TileLocalController;
 import com.builtbroken.icbm.content.launcher.controller.remote.central.TileCommandController;
-import com.builtbroken.icbm.content.launcher.controller.SiloConnectionData;
 import com.builtbroken.icbm.content.launcher.controller.remote.connector.TileCommandSiloConnector;
 import com.builtbroken.mc.api.items.tools.IWorldPosItem;
 import com.builtbroken.mc.api.map.radio.wireless.IWirelessNetwork;
@@ -28,7 +28,6 @@ import com.builtbroken.mc.lib.helper.recipe.UniversalRecipe;
 import com.builtbroken.mc.prefab.gui.ContainerDummy;
 import com.builtbroken.mc.prefab.tile.Tile;
 import com.builtbroken.mc.prefab.tile.TileMachine;
-import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -274,39 +273,39 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
                 }
 
                 //Write data
-                packet.data().writeInt(controllers.size());
+                packet.add(controllers.size());
                 for (TileCommandController controller : controllers)
                 {
-                    writeConnectorSet(controller, packet.data());
+                    writeConnectorSet(controller, packet);
                 }
             }
             Engine.packetHandler.sendToPlayer(packet, (EntityPlayerMP) player);
         }
     }
 
-    protected void writeConnectorSet(TileCommandController controller, ByteBuf data)
+    protected void writeConnectorSet(TileCommandController controller, PacketTile packet)
     {
-        ByteBufUtils.writeUTF8String(data, controller.getControllerDisplayName() == null ? "--" : controller.getControllerDisplayName());
-        data.writeInt(controller.siloConnectors != null ? controller.siloConnectors.entrySet().size() : 0);
+        packet.add(controller.getControllerDisplayName() == null ? "--" : controller.getControllerDisplayName());
+        packet.add(controller.siloConnectors != null ? controller.siloConnectors.entrySet().size() : 0);
         for (Map.Entry<Pos, TileCommandSiloConnector> entry : controller.siloConnectors.entrySet())
         {
-            writeCommandSiloConnector(entry, data);
+            writeCommandSiloConnector(entry, packet);
         }
     }
 
-    protected void writeCommandSiloConnector(Map.Entry<Pos, TileCommandSiloConnector> entry, ByteBuf data)
+    protected void writeCommandSiloConnector(Map.Entry<Pos, TileCommandSiloConnector> entry, PacketTile packet)
     {
         //Write location data so it can be pulled
-        data.writeInt(entry.getKey().xi());
-        data.writeInt(entry.getKey().yi());
-        data.writeInt(entry.getKey().zi());
+        packet.add(entry.getKey().xi());
+        packet.add(entry.getKey().yi());
+        packet.add(entry.getKey().zi());
         if (entry.getValue() != null)
         {
             List<ISiloConnectionData> list = entry.getValue().getSiloConnectionData();
             if (list != null && list.size() > 0)
             {
                 //Write size of data list
-                data.writeInt(list.size());
+                packet.add(list.size());
 
                 //Convert data to NBT as this is the easiest way to load it
                 NBTTagCompound save = new NBTTagCompound();
@@ -316,16 +315,16 @@ public class TileSiloInterface extends TileMachine implements ILinkable, IGuiTil
                     tagList.appendTag(siloData.save(new NBTTagCompound()));
                 }
                 save.setTag("data", tagList);
-                ByteBufUtils.writeTag(data, save);
+                packet.add(save);
             }
             else
             {
-                data.writeInt(0); //Empty connection
+                packet.add(0); //Empty connection
             }
         }
         else
         {
-            data.writeInt(-1); //No connection
+            packet.add(-1); //No connection
         }
     }
 

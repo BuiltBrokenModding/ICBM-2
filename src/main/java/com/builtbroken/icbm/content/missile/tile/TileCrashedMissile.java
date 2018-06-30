@@ -516,7 +516,7 @@ public class TileCrashedMissile extends TileEnt implements IPacketIDReceiver, IT
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void renderDynamic(Pos pos, float frame, int pass)
+    public void renderDynamic(Pos pos, float deltaFrame, int pass)
     {
         GL11.glPushMatrix();
         if (missile != null)

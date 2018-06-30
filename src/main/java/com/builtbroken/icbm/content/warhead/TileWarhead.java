@@ -476,7 +476,7 @@ public class TileWarhead extends Tile implements IExplosive, IRemovable.ISneakPi
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void renderDynamic(Pos position, float frame, int pass)
+    public void renderDynamic(Pos position, float deltaFrame, int pass)
     {
         GL11.glPushMatrix();
         GL11.glTranslatef(position.xf() + 0.5f, position.yf() - 2.5f, position.zf() + 0.5f);
